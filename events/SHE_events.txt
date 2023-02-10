@@ -1,0 +1,149 @@
+add_namespace = SHE_event
+
+country_event = {
+	id = SHE_event.1
+	title = SHE_event.1.t
+	desc = SHE_event.1.desc
+	picture = GFX_report_event_ast_parliament_house
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = SHE_event.1.a
+		set_country_flag = kivotos_appeasement
+		custom_effect_tooltip = kivotos_appeasement_tt
+	}
+	option = { 
+		name = SHE_event.1.b
+		set_country_flag = kivotos_hardline
+		custom_effect_tooltip = kivotos_hardline_tt
+	}
+}
+country_event = {
+	id = SHE_event.2
+	title = SHE_event.2.t
+	desc = SHE_event.2.desc
+	picture = GFX_report_event_she_cou_integration
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = SHE_event.2.a
+		ai_chance = {
+			base = 30
+			modifier = {
+				add = -20
+				GER = { has_army_size = { size < 5 } }
+			}
+			modifier = {
+				add = -5
+				GER = { has_army_size = { size < 1 } }
+			}
+			modifier = {
+				add = 100
+				GER = { has_army_size = { size > 4 } }
+			}
+			modifier = {
+				add = 20
+				is_in_faction_with = GER
+			}
+		}
+		7 = {
+			if = {
+				limit = { is_owned_by = COU }
+				add_core_of = SHE
+			}
+		}
+		35 = {
+			if = {
+				limit = { is_owned_by = COU }
+				add_core_of = SHE
+			}
+		}
+		6 = {
+			if = {
+				limit = { is_owned_by = COU }
+				add_core_of = SHE
+			}
+		}
+		29 = {
+			if = {
+				limit = { is_owned_by = COU }
+				add_core_of = SHE
+			}
+		}
+		SHE = {
+			country_event = { hours = 2 id = SHE_event.3 }
+		}
+	}
+	option = { 
+		name = SHE_event.2.b
+		ai_chance = {
+			base = 10
+			modifier = {
+				GER = { has_army_size = { size > 5 } }
+				factor = 0.5
+			}
+			modifier = {
+				add = 20
+				GER = { has_army_size = { size < 3 } }
+			}
+			modifier = {
+				factor = 2
+				is_in_faction = yes
+				NOT = { is_in_faction_with = SHE }
+			}
+			modifier = {
+				any_other_country = {
+					has_guaranteed = COU
+				}
+				factor = 5 #i've got friends
+			}
+			modifier = {
+				any_other_country = {
+					is_major = yes
+					has_guaranteed = COU
+				}
+				factor = 5 #i've got big friends
+			}
+		}
+		SHE = {
+			country_event = { hours = 2 id = SHE_event.4 }
+		}
+	}
+}
+country_event = {
+	id = SHE_event.3
+	title = SHE_event.3.t
+	desc = SHE_event.3.desc
+	picture = GFX_report_event_she_cou_integration
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = SHE_event.3.a
+		annex_country = { target = COU transfer_troops = yes }
+		news_event = { hours = 6 id = BA_news.2 }
+	}
+}
+country_event = {
+	id = SHE_event.4
+	title = SHE_event.4.t
+	desc = SHE_event.4.desc
+	picture = GFX_report_event_she_cou_integration
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = SHE_event.4.a
+		add_state_claim = 7
+		add_state_claim = 35
+		add_state_claim = 6
+		add_state_claim = 29
+		create_wargoal = {
+			type = take_state_focus
+			target = COU
+			generator = { 7 35 6 29 }
+		}
+	}
+}
