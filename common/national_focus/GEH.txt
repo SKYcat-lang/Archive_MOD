@@ -1,0 +1,566 @@
+### search_filters = {FOCUS_FILTER_POLITICAL}
+### search_filters = {FOCUS_FILTER_RESEARCH}
+### search_filters = {FOCUS_FILTER_INDUSTRY}
+### search_filters = {FOCUS_FILTER_STABILITY}
+### search_filters = {FOCUS_FILTER_WAR_SUPPORT}
+### search_filters = {FOCUS_FILTER_MANPOWER}
+### search_filters = {FOCUS_FILTER_ANNEXATION}
+
+focus_tree = {
+	id = Gehenna_focus
+	
+	country = {
+		factor = 0
+		
+		modifier = {
+			add = 10
+			tag = GEH
+		}
+	}
+	
+	default = no
+
+#여파로부터의 회복
+	focus = {
+		id = GEH_recovery_from_the_aftermach
+		icon = GFX_goal_generic_construct_civilian
+		x = 6
+		y = 0
+		cost = 10
+		
+		ai_will_do = {
+			factor = 9
+		}
+
+		available = {
+			OR = {
+				has_completed_focus = GEH_establish_governance
+				has_completed_focus = GEH_establish_new_government
+				has_completed_focus = GEH_end_of_civil_war
+			}
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_tech_bonus = {
+				name = GEH_recovery_from_the_aftermach
+				bonus = 2.0
+				uses = 1
+				category = industry
+			}
+			add_timed_ideas = {
+				idea = GEH_recovery_aftermach
+				days = 180
+			}
+			IF = {
+				limit = {
+					any_owned_state = {
+						is_controlled_by = ROOT 
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+				}
+				random_owned_controlled_state = {
+					limit = {
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			ELSE = {
+				random_owned_controlled_state = {
+					limit = {
+						# industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+
+
+#게헨나 연구 개발 계획
+	focus = {
+		id = GEH_research_plan
+		icon = GFX_focus_research2
+		prerequisite = { focus = GEH_recovery_from_the_aftermach }
+		mutually_exclusive = { focus = GEH_industrail_focus }
+		x = 4
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 12
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_tech_bonus = {
+				name = GEH_Industry_research_plan
+				bonus = 1.0
+				uses = 2
+				category = industry
+			}
+			add_timed_ideas = {
+				idea = GEH_research_plan_1
+				days = 210
+			}
+		}
+		
+	}
+
+#추가 연구 슬롯 1
+		focus = {
+		id = GEH_extra_tech_slot_1
+		icon = GFX_focus_research
+		prerequisite = { focus = GEH_research_plan }
+		x = 3
+		y = 2
+		cost = 10
+		ai_will_do = {
+			factor = 9
+		}
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+#중공업 중점
+	focus = {
+		id = GEH_industrail_focus
+		icon = GFX_goal_generic_construct_civ_factory
+		dynamic = yes
+		prerequisite = { focus = GEH_recovery_from_the_aftermach }
+		mutually_exclusive = { focus = GEH_research_plan }
+		x = 8
+		y = 1
+		relative_position_id = GEH_recovery_from_aftermach
+		cost = 10
+		ai_will_do = {
+			factor = 9
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			IF = {
+				limit = {
+					any_owned_state = {
+						is_controlled_by = ROOT 
+						arms_factory > 0
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+				}
+				random_owned_controlled_state = {
+					limit = {
+						arms_factory > 0
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			ELSE = {
+				random_owned_controlled_state = {
+					limit = {
+						# arms_factory > 0
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			IF = {
+				limit = {
+					any_owned_state = {
+						is_controlled_by = ROOT 
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+				}
+				random_owned_controlled_state = {
+					limit = {
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			ELSE = {
+				random_owned_controlled_state = {
+					limit = {
+						# industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			
+		}
+	}
+
+#자원 확보 노력-고무
+	focus = {
+		id = GEH_effort_for_resources_rubber
+		icon = GFX_focus_generic_rubber
+		prerequisite = { focus = GEH_industrail_focus focus = GEH_research_plan }
+		x = 5
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 4
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+	
+        	modify_building_resources = {
+        	   building = synthetic_refinery
+        	   resource = rubber
+        	   amount = 2
+        	}
+		}
+	}
+
+#자원 확보 노력-석유
+	focus = {
+		id = GEH_effort_for_resources_oil
+		icon = GFX_goal_generic_oil_refinery
+		prerequisite = { focus = GEH_industrail_focus focus = GEH_research_plan }
+		x = 7
+		y = 2
+		cost = 5
+		ai_will_do = {
+			factor = 4
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+	
+        	modify_building_resources = {
+        	   building = synthetic_refinery
+        	   resource = oil
+        	   amount = 2
+        	}
+		}
+	}
+#자원 활용
+	focus = {
+		id = GEH_use_resource
+		icon = GFX_goal_generic_production2
+		dynamic = yes
+		prerequisite = { focus = GEH_effort_for_resources_rubber }
+		prerequisite = { focus = GEH_effort_for_resources_oil }
+		x = 6
+		y = 3
+		relative_position_id = GEH_recovery_from_aftermach
+		cost = 10
+		ai_will_do = {
+			factor = 8
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			IF = {
+				limit = {
+					any_owned_state = {
+						is_controlled_by = ROOT 
+						arms_factory > 0
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+				}
+				random_owned_controlled_state = {
+					limit = {
+						arms_factory > 0
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			ELSE = {
+				random_owned_controlled_state = {
+					limit = {
+						# arms_factory > 0
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+
+
+
+#경제 발전
+		focus = {
+		id = GEH_economic_develop
+		icon = GFX_focus_generic_industry_1
+		prerequisite = { focus = GEH_industrail_focus }
+		x = 9
+		y = 2
+		cost = 10
+		ai_will_do = {
+			factor = 6
+		}
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+				add_timed_ideas = {
+				idea = GEH_economic_develop_1  #경제 발전 : 소비재 -5%
+				days = 280
+			}
+		}
+	}
+
+
+#현 상황 파악
+	focus = {
+		id = GEH_present_situation
+		icon = GFX_goal_generic_more_territorial_claims
+
+		x = 22
+		y = 0
+
+	cost = 5
+	ai_will_do = {
+		factor = 30
+	}
+	search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			country_event = { id = gehenna.1 }
+			swap_ideas = {
+				remove_idea = GEH_great_horn
+				add_idea = GEH_great_horn_1
+			}
+			
+		}
+	
+	}
+
+#국방군과의 협상
+	focus = {
+		id = GEH_nego_with_wehrmacht
+		icon = GFX_goal_generic_major_alliance
+
+		x = 15
+		y = 1
+
+		prerequisite = { focus = GEH_present_situation }
+		mutually_exclusive = { focus = GEH_never_nego }
+	
+	cost = 5
+	ai_will_do = {
+		factor = 30
+	}
+	search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			country_event = { id = gehenna.2 } #협상 디시전 개방 /정치력 소모해 협상 가능
+		}
+	}
+
+#협상은 없다(내전 강제)
+	focus = {
+		id = GEH_never_nego
+		icon = GFX_focus_ger_oppose_hitler
+
+		x = 29
+		y = 1
+
+		prerequisite = { focus = GEH_present_situation }
+		mutually_exclusive = { focus = GEH_nego_with_wehrmacht }
+	
+	cost = 5
+	ai_will_do = {
+		factor = 30
+	}
+	search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 200
+		}
+	}
+
+#협상 지속 (만마전 루트)
+	focus = {
+		id = GEH_nego_continue
+		icon = GFX_goal_generic_intelligence_exchange
+
+		x = 13
+		y = 2
+
+		prerequisite = { focus = GEH_nego_with_wehrmacht }
+		mutually_exclusive = { focus = GEH_dark_nego }
+	
+	cost = 5
+	ai_will_do = {
+		factor = 30
+	}
+	search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			country_event = { id = gehenna.3 } #안정도 정치력 양자택일
+		}
+	}
+
+#암약 (선도부 루트 - 내전 회피(확률))
+	focus = {
+		id = GEH_dark_nego
+		icon = GFX_goal_generic_dangerous_deal
+
+		x = 17
+		y = 2
+
+		prerequisite = { focus = GEH_nego_with_wehrmacht }
+		mutually_exclusive = { focus = GEH_nego_continue }
+	
+	cost = 5
+	ai_will_do = {
+		factor = 30
+	}
+	search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_timed_ideas = {
+				idea = GEH_increased_prefect_activity #선도 활동 증가 (주간 안정도 + 비동맹 지지율 +0.01)
+				days = 360
+			}
+			set_party_name = { ideology = neutrality long_name = GEH_prefect_party name = GEH_prefect_party }
+		}
+	}
+
+#협상 타결
+	focus = {
+		id = GEH_nego_settlement
+		icon = GFX_goal_molotov_ribbentrop_pact
+		x = 15
+		y = 3
+
+	prerequisite = { focus = GEH_dark_nego focus = GEH_nego_continue }
+	
+	available = {
+		IF = {
+			limit = { has_completed_focus = GEH_nego_continue }
+			fascism > 0.8
+		}
+		ELSE IF = {
+			limit = { has_completed_focus = GEH_dark_nego }
+			neutrality > 0.6
+		}
+	}
+
+	cost = 10
+	ai_will_do = {
+		factor = 30
+	}
+	search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			IF = {
+				country_event = { id = gehenna.4 } 
+				swap_ideas = {
+					remove_idea = GEH_great_horn_1
+					add_idea = GEH_great_horn_2
+				}
+			}
+			ELSE IF = {
+				limit = { has_completed_focus = GEH_dark_nego }
+				IF = {
+					limit = { fascism > 15 }
+					country_event = { id = gehenna.5 } #내전
+				}
+				ELSE = {
+					country_event = { id = gehenna.6 } #쿠데타(정권교체-내전X)
+				}
+
+			}
+			
+		}
+	
+	}
+
+}
+
+
+
