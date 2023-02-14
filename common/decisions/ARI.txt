@@ -1,0 +1,71 @@
+ARI_combat_training_decisions = {
+    ARI_combat_training_decisions = {
+
+		icon = generic_prepare_civil_war
+
+		available = {
+			has_army_experience > 99
+		}
+
+		cost = 0
+		ai_will_do = {
+			factor = 500
+		}
+		days_remove = 180
+
+		visible = {
+            NOT = {
+                has_idea = ARI_combat_training_4
+            }
+        }
+		add_effect = {
+			if = {
+				limit = { has_idea = ARI_combat_training_1 }
+				swap_ideas = {
+					remove_idea = ARI_combat_training_1
+					add_idea = ARI_combat_training_2
+				}
+			}
+			else_if = {
+				limit = { has_idea = ARI_combat_training_2 }
+				swap_ideas = {
+					remove_idea = ARI_combat_training_2
+					add_idea = ARI_combat_training_3
+				}
+			}
+			else_if = {
+				limit = { has_idea = ARI_combat_training_3 }
+				swap_ideas = {
+					remove_idea = ARI_combat_training_3
+					add_idea = ARI_combat_training_4
+				}
+			}
+		}
+		complete_effect = {
+			army_experience = -100						
+		}		
+	}
+
+	ARI_lessons_of_war = {
+		icon = generic_army_support
+		available = {
+			has_army_experience > 199
+			has_idea = has_idea = ARI_combat_training_4
+		}
+
+		cost = 0
+		ai_will_do = {
+			factor = 10
+		}
+		fire_only_once = yes
+
+		visible = {
+			has_idea = ARI_combat_training_4
+		}
+
+		complete_effect = {
+			army_experience = -200
+            add_ideas = ARI_lessons_of_war
+		}		
+	}
+}
