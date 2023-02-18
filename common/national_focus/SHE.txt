@@ -14,8 +14,8 @@ focus_tree = {
 	focus = {
 		id = SHE_italriaseonjegonggyeog
 		icon = GFX_focus_attack_italy
-		x = 11
-		y = 12
+		x = 7
+		y = 13
 		cost = 10
 		search_filters = {
 			
@@ -30,7 +30,7 @@ focus_tree = {
 	focus = {
 		id = SHE_seupeinseonjegonggyeog
 		icon = GFX_focus_generic_attack_nationalist_spain_focus
-		x = 9
+		x = 8
 		y = 12
 		cost = 10
 		search_filters = {
@@ -47,7 +47,7 @@ focus_tree = {
 	focus = {
 		id = SHE_seupeingaeib
 		icon = GFX_focus_generic_befriend_republican_spain_focus
-		x = 7
+		x = 10
 		y = 12
 		cost = 10
 		search_filters = {
@@ -64,7 +64,7 @@ focus_tree = {
 	focus = {
 		id = SHE_poleutugalgwajeobchog
 		icon = GFX_focus_generic_befriend_portugal
-		x = 8
+		x = 9
 		y = 13
 		cost = 10
 		search_filters = {
@@ -82,7 +82,7 @@ focus_tree = {
 		icon = GFX_goal_generic_construct_mil_factory
 		x = 16
 		y = 5
-		cost = 5
+		cost = 10
 		search_filters = {
 			
 						FOCUS_FILTER_INDUSTRY
@@ -125,7 +125,7 @@ focus_tree = {
 		icon = GFX_goal_generic_improve_relations
 		x = 6
 		y = 4
-		cost = 5
+		cost = 10
 		search_filters = {
 			
 						FOCUS_FILTER_STABILITY
@@ -201,7 +201,7 @@ focus_tree = {
 
 	focus = {
 		id = SHE_jeogseongseryeogjusi
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_defence
 		x = 12
 		y = 9
 		cost = 5
@@ -210,7 +210,7 @@ focus_tree = {
 						FOCUS_FILTER_WAR_SUPPORT
 					
 		}
-		prerequisite = { focus = SHE_hanayikibotoseu  } prerequisite = { focus = SHE_yeonhabhyeonsilhwa  }
+		prerequisite = { focus = SHE_yeonhabhyeonsilhwa focus = SHE_hanayikibotoseu  }
 	}
 
 	#자가 학습
@@ -285,26 +285,32 @@ focus_tree = {
 
 	focus = {
 		id = SHE_jeonjaenggyehoeg
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_position_armies
 		x = 16
 		y = 9
-		cost = 5
+		cost = 10
 		search_filters = {
 			
 						FOCUS_FILTER_WAR_SUPPORT
 					
 		}
 		prerequisite = { focus = SHE_hanayikibotoseu  }
+		completion_reward = {
+			add_timed_idea = {
+				idea = SHE_war_plan
+				days = 1440
+			}
+		}
 	}
 
 	#총학생회 통제권 인수
 
 	focus = {
 		id = SHE_conghagsaenghoetongjegweoninsu
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_territory_or_war
 		x = 12
 		y = 4
-		cost = 5
+		cost = 10
 		search_filters = {
 			
 						FOCUS_FILTER_WAR_SUPPORT
@@ -326,7 +332,7 @@ focus_tree = {
 		icon = GFX_focus_generic_energy
 		x = 12
 		y = 5
-		cost = 5
+		cost = 10
 		search_filters = {
 			
 						FOCUS_FILTER_STABILITY
@@ -353,6 +359,41 @@ focus_tree = {
 		}
 		prerequisite = { focus = SHE_conghagsaenghoetongjegweoninsu  }
 		prerequisite = { focus = SHE_hyeonjiingwayijeobcog  }
+		completion_reward = {
+			if ={
+				limit = {
+					NOT = {
+
+					}
+				}
+				reverse_add_opinion_modifier = {
+    				target = MIL
+    				modifier = medium_increase
+				}
+			}
+			if ={
+				limit = {
+					NOT = {
+
+					}
+				}
+				reverse_add_opinion_modifier = {
+    				target = GEH
+    				modifier = medium_increase
+				}
+			}
+			if ={
+				limit = {
+					NOT = {
+
+					}
+				}
+				reverse_add_opinion_modifier = {
+    				target = TRM
+    				modifier = medium_increase
+				}
+			}
+		}
 	}
 
 	#현지의 이념
@@ -362,7 +403,7 @@ focus_tree = {
 		icon = GFX_goal_generic_propaganda
 		x = 6
 		y = 6
-		cost = 5
+		cost = 10
 		search_filters = {
 			
 						FOCUS_FILTER_POLITICAL
@@ -370,6 +411,7 @@ focus_tree = {
 		}
 		prerequisite = { focus = SHE_kibotoseuyeonhab  }
 		completion_reward = {
+			add_political_power = 150
 			add_popularity = {
    				ideology = fascism
     			popularity = 0.1
@@ -426,6 +468,22 @@ focus_tree = {
 				idea = internationalism
 				days = 720
 			}
+			set_politics = {
+				ruling_party = communism
+    			elections_allowed = no
+    			election_frequency = 48
+    			long_name = SHE_new_communism_party_long
+    			name = SHE_new_communism_party
+			}
+			set_cosmetic_tag = SHE_COM
+			custom_effect_tooltip = SHE_political_advisor_communist_unlock_tt
+			hidden_effect = {
+				add_trait = {
+     				character = SHE_Arona
+     				slot = political_advisor
+     				trait = communist_revolutionary
+				}
+			}
 		}
 	}
 
@@ -434,15 +492,111 @@ focus_tree = {
 	focus = {
 		id = SHE_hyeogmyeongsuchul
 		icon = GFX_focus_focus_fra_revolution_utmost
-		x = 4
-		y = 8
+		x = 1
+		y = 9
 		cost = 5
 		search_filters = {
 			
 						FOCUS_FILTER_POLITICAL
 					
 		}
-		prerequisite = { focus = SHE_kibotoseusahoejuyiyeonhab  }
+		prerequisite = { focus = SHE_gwonlibojang  }
+		completion_reward = {
+			add_named_threat = {
+    			threat = 5
+    			name = SHE_hyeogmyeongsuchul
+			}
+		}
+	}
+
+	#키보토스 혁명
+
+	focus = {
+		id = SHE_kibotoseuhyeogmyeong
+		icon = GFX_focus_ger_great_red_menace
+		x = 1
+		y = 10
+		cost = 10
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		prerequisite = { focus = SHE_hyeogmyeongsuchul  }
+	}
+
+	#연방 초대
+
+	focus = {
+		id = SHE_yeonbangchodae
+		icon = GFX_focus_SOV_proclaim_soviet_hegemony
+		x = 2
+		y = 11
+		cost = 10
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		prerequisite = { focus = SHE_kibotoseuyeonbang  }
+		prerequisite = { focus = SHE_kibotoseuhyeogmyeong  }
+	}
+
+	#모든 제국의 종말
+
+	focus = {
+		id = SHE_modeunjeguguijongmal
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		x = 0
+		y = 11
+		cost = 10
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		prerequisite = { focus = SHE_kibotoseuhyeogmyeong  }
+	}
+
+	#자본주의 타격
+
+	focus = {
+		id = SHE_jabonjuuitagyeog
+		icon = GFX_focus_spa_the_war_of_vengeance
+		x = 1
+		y = 12
+		cost = 10
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		prerequisite = { focus = SHE_modeunjeguguijongmal focus = SHE_yeonbangchodae }
+		completion_reward = {
+			create_wargoal = { type = annex_everything target = USA }
+			add_named_threat = {
+    			threat = 15
+    			name = SHE_jabonjuuitagyeog
+			}
+		}
+	}
+
+	#세계혁명
+
+	focus = {
+		id = SHE_segyehyeogmyeong
+		icon = GFX_focus_spr_anarchism_knows_no_borders
+		x = 1
+		y = 15
+		cost = 20
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		prerequisite = { focus = SHE_jabonjuuitagyeog }
+		completion_reward = {
+		}
 	}
 
 	#권리 보장
@@ -451,16 +605,31 @@ focus_tree = {
 		id = SHE_gwonlibojang
 		icon = GFX_focus_por_workers_of_iberia
 		x = 3
-		y = 9
+		y = 8
 		cost = 5
 		search_filters = {
 			
 						FOCUS_FILTER_POLITICAL
 					
 		}
-		prerequisite = { focus = SHE_hyeogmyeongsuchul  }
+		prerequisite = { focus = SHE_kibotoseusahoejuyiyeonhab  }
 		mutually_exclusive = { focus = SHE_wanbyeoghanbunbae  }
-	}
+		completion_reward = {
+			add_stability = 0.10
+			if = {
+				limit = {
+					SOV = {
+						has_government = communism
+					}
+				}
+				reverse_add_opinion_modifier = {
+    				target = SOV
+    				modifier = HUN_stubborn_fools
+				}
+			}
+			add_ideas = SHE_guaranteed_rights
+		}
+	} 
 
 	#자유 평등 박애
 
@@ -468,7 +637,7 @@ focus_tree = {
 		id = SHE_jayupyeongdeungbagae
 		icon = GFX_focus_focus_fra_liberte_egalite_solidarite
 		x = 3
-		y = 10
+		y = 9
 		cost = 5
 		search_filters = {
 			
@@ -476,6 +645,10 @@ focus_tree = {
 					
 		}
 		prerequisite = { focus = SHE_gwonlibojang  }
+		completion_reward = {
+			add_stability = 0.10
+			add_ideas = SHE_our_definition
+		}
 	}
 
 	#완벽한 분배
@@ -484,15 +657,28 @@ focus_tree = {
 		id = SHE_wanbyeoghanbunbae
 		icon = GFX_goal_generic_war_with_comintern
 		x = 5
-		y = 9
+		y = 8
 		cost = 5
 		search_filters = {
 			
 						FOCUS_FILTER_POLITICAL
 					
 		}
-		prerequisite = { focus = SHE_hyeogmyeongsuchul  }
-		mutually_exclusive = { focus = SHE_gwonlibojang  }
+		prerequisite = { focus = SHE_kibotoseusahoejuyiyeonhab  }
+		mutually_exclusive = { focus = SHE_gwonlibojang focus = SHE_yeonhabhyeonsilhwa  }
+		completion_reward = {
+			custom_effect_tooltip = SHE_wanbyeoghanbunbae_tt
+			add_ideas = SHE_perfect_distribution
+			add_trait = {
+				character = SHE_Arona 
+     			ideology = leninism
+				trait = SHE_optimization_algorithm
+			}
+			add_named_threat = {
+    			threat = 2
+    			name = SHE_wanbyeoghanbunbae
+			}
+		}
 	}
 
 	#반혁명 말살
@@ -501,6 +687,51 @@ focus_tree = {
 		id = SHE_banhyeogmyeongmalsal
 		icon = GFX_focus_SOV_the_last_purge
 		x = 5
+		y = 9
+		cost = 5
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		prerequisite = { focus = SHE_wanbyeoghanbunbae  }
+		completion_reward = {
+			custom_effect_tooltip = SHE_banhyeogmyeongmalsal_tt
+			hidden_effect = {
+				add_popularity = {
+   					ideology = communism
+    				popularity = 1
+				}
+				set_party_name = {
+					ideology = democratic
+    				long_name = SHE_del_democratic_party_long
+    				name = SHE_del_democratic_party
+				}
+				set_party_name = {
+					ideology = fascism
+    				long_name = SHE_del_fascism_party_long
+    				name = SHE_del_fascism_party
+				}
+				set_party_name = {
+					ideology = neutrality
+    				long_name = SHE_del_neutrality_party_long
+    				name = SHE_del_neutrality_party
+				}
+				SHE_Arona = {
+					set_portraits = {
+						civilian = { large = GFX_portrait_she_Arona_communism_large }
+					}
+				}
+			}
+		}
+	}
+
+	#키보토스 연방
+
+	focus = {
+		id = SHE_kibotoseuyeonbang
+		icon = GFX_focus_ETH_callout_to_the_world
+		x = 4
 		y = 10
 		cost = 10
 		search_filters = {
@@ -508,7 +739,73 @@ focus_tree = {
 						FOCUS_FILTER_POLITICAL
 					
 		}
-		prerequisite = { focus = SHE_wanbyeoghanbunbae  }
+		prerequisite = { focus = SHE_banhyeogmyeongmalsal focus = SHE_jayupyeongdeungbagae  }
+		mutually_exclusive = { focus = SHE_yurokibotoseuyeonhab  }
+		completion_reward = {
+			custom_effect_tooltip = SHE_kibotoseuyeonbang_tt
+			hidden_effect = {
+				add_popularity = {
+   					ideology = communism
+    				popularity = 1
+				}
+			}
+			add_named_threat = {
+    			threat = 10
+    			name = SHE_kibotoseuyeonbang
+			}
+		}
+	}
+
+	#세계 통제
+
+	focus = {
+		id = SHE_segyetongje
+		icon = GFX_focus_communist_arona
+		x = 5
+		y = 11
+		cost = 10
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		prerequisite = { focus = SHE_kibotoseuyeonbang }
+		prerequisite = { focus = SHE_banhyeogmyeongmalsal }
+		completion_reward = {
+			hidden_effect = {
+				remove_ideas = SHE_perfect_distribution
+				add_dynamic_modifier = {
+					modifier = SHE_world_control
+				}
+			}
+			custom_effect_tooltip = SHE_segyetongje_tt
+			add_named_threat = {
+    			threat = 2
+    			name = SHE_segyetongje
+			}
+		}
+	}
+
+	#키보토스 재정복 전쟁
+
+	focus = {
+		id = SHE_kibotoseujaejeongbogjeonjaeng
+		icon = GFX_goal_generic_major_war
+		x = 4
+		y = 12
+		cost = 10
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		prerequisite = { focus = SHE_segyetongje }
+		completion_reward = {
+			add_named_threat = {
+    			threat = 2
+    			name = SHE_kibotoseujaejeongbogjeonjaeng
+			}
+		}
 	}
 
 	#키보토스 민주주의
@@ -531,9 +828,20 @@ focus_tree = {
    				ideology = democratic
     			popularity = 0.1
 			}
-			add_timed_idea = {
-				idea = internationalism
-				days = 720
+			set_politics = {
+				ruling_party = democratic
+    			elections_allowed = yes
+    			election_frequency = 48
+    			long_name = SHE_new_democratic_party_long
+    			name = SHE_new_democratic_party
+			}
+			custom_effect_tooltip = SHE_political_advisor_democratic_unlock_tt
+			hidden_effect = {
+				add_trait = {
+     				character = SHE_Arona
+     				slot = political_advisor
+     				trait = democratic_reformer
+				}
 			}
 		}
 	}
@@ -558,7 +866,7 @@ focus_tree = {
 
 	focus = {
 		id = SHE_yeonhabhyeonsilhwa
-		icon = GFX_goal_unknown
+		icon = GFX_goal_anschluss
 		x = 8
 		y = 8
 		cost = 10
@@ -571,7 +879,7 @@ focus_tree = {
 		focus = SHE_kibotoseuminjujuyi
 		focus = SHE_kibotoseusahoejuyiyeonhab 
 		}prerequisite = { focus = SHE_hagweongantongsinboggu  }
-		mutually_exclusive = { focus = SHE_hanayikibotoseu  }
+		mutually_exclusive = { focus = SHE_hanayikibotoseu focus = SHE_wanbyeoghanbunbae  }
 	}
 
 	#오토마톤 양산
@@ -729,7 +1037,7 @@ focus_tree = {
 		completion_reward = {
 			add_trait = {
 				character = SHE_Arona 
-				slot = country_leader
+     			ideology = aicontrol
 				trait = SHE_great_victor
 			}
 			add_stability = 0.20
@@ -743,7 +1051,7 @@ focus_tree = {
 		icon = GFX_goal_SHE_Kivotos_focus
 		x = 17
 		y = 14
-		cost = 10
+		cost = 20
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
@@ -914,7 +1222,7 @@ focus_tree = {
 
 	focus = {
 		id = SHE_hanayikibotoseu
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_alliance
 		x = 16
 		y = 8
 		cost = 10
@@ -926,6 +1234,20 @@ focus_tree = {
 		prerequisite = { focus = SHE_hagweongantongsinboggu  }
 		prerequisite = { focus = SHE_bbareunjaemujang  }
 		mutually_exclusive = { focus = SHE_yeonhabhyeonsilhwa  }
+		completion_reward = {
+			custom_effect_tooltip = SHE_political_advisor_prince_of_terror_unlock_tt
+			hidden_effect = {
+				add_trait = {
+     				character = SHE_Arona
+     				slot = political_advisor
+     				trait = prince_of_terror
+				}
+			}
+			add_named_threat = {
+    			threat = 20
+    			name = SHE_hanayikibotoseu
+			}
+		}
 	}
 
 	#빠른 재무장
@@ -952,7 +1274,7 @@ focus_tree = {
 
 	focus = {
 		id = SHE_seonjegonggyeog
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_occupy_states_ongoing_war
 		x = 13
 		y = 10
 		cost = 10
@@ -969,7 +1291,7 @@ focus_tree = {
 
 	focus = {
 		id = SHE_samdaehagweonmunje
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_forceful_treaty
 		x = 18
 		y = 10
 		cost = 10
@@ -980,13 +1302,16 @@ focus_tree = {
 		}
 		prerequisite = { focus = SHE_jeonjaenggyehoeg  }
 		prerequisite = { focus = SHE_srtbyeonghab  }
+		completion_reward = {
+			add_war_support = 0.10
+		}
 	}
 
 	#밀레니엄 복속 요구
 
 	focus = {
 		id = SHE_milrenieombogsogyogu
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_occupy_states_ongoing_war
 		x = 18
 		y = 12
 		cost = 10
@@ -1002,7 +1327,7 @@ focus_tree = {
 
 	focus = {
 		id = SHE_bulgeungyeoulseonjegonggyeog
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_occupy_states_ongoing_war
 		x = 14
 		y = 12
 		cost = 10
@@ -1012,13 +1337,16 @@ focus_tree = {
 					
 		}
 		prerequisite = { focus = SHE_jeonjaenggyehoeg  }
+		completion_reward = {
+			create_wargoal = { type = annex_everything target = RED }
+		}
 	}
 
 	#게헨나 공격
 
 	focus = {
 		id = SHE_gehennagonggyeog
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_occupy_states_ongoing_war
 		x = 20
 		y = 11
 		cost = 10
@@ -1028,13 +1356,16 @@ focus_tree = {
 					
 		}
 		prerequisite = { focus = SHE_samdaehagweonmunje  }
+		completion_reward = {
+			create_wargoal = { type = annex_everything target = GEH }
+		}
 	}
 
 	#최후 통첩
 
 	focus = {
 		id = SHE_coehutongceob
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_occupy_states_ongoing_war
 		x = 16
 		y = 12
 		cost = 10
@@ -1050,7 +1381,7 @@ focus_tree = {
 
 	focus = {
 		id = SHE_teurinitigonggyeog
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_occupy_states_ongoing_war
 		x = 20
 		y = 12
 		cost = 10
@@ -1060,13 +1391,16 @@ focus_tree = {
 					
 		}
 		prerequisite = { focus = SHE_gehennagonggyeog  }
+		completion_reward = {
+			create_wargoal = { type = annex_everything target = TRM }
+		}
 	}
 
 	#SRT 병합
 
 	focus = {
 		id = SHE_srtbyeonghab
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_military_deal
 		x = 19
 		y = 9
 		cost = 10
@@ -1082,10 +1416,10 @@ focus_tree = {
 
 	focus = {
 		id = SHE_balkiritonghab
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_military_deal
 		x = 11
 		y = 6
-		cost = 5
+		cost = 10
 		search_filters = {
 			
 						FOCUS_FILTER_ANNEXATION
@@ -1098,7 +1432,7 @@ focus_tree = {
 
 	focus = {
 		id = SHE_yurokibotoseugyeongjeyeonhab
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_national_unity
 		x = 8
 		y = 9
 		cost = 10
@@ -1114,8 +1448,8 @@ focus_tree = {
 
 	focus = {
 		id = SHE_habdonggunsahunryeon
-		icon = GFX_goal_unknown
-		x = 9
+		icon = GFX_goal_generic_position_armies
+		x = 8
 		y = 11
 		cost = 5
 		search_filters = {
@@ -1141,14 +1475,15 @@ focus_tree = {
 		}
 		prerequisite = { focus = SHE_jeogseongseryeogjusi  }
 		prerequisite = { focus = SHE_yurokibotoseugyeongjeyeonhab  }
+		mutually_exclusive = { focus = SHE_yurokibotoseuyeonhab  }
 	}
 
 	#연합의 확장
 
 	focus = {
 		id = SHE_yeonhabyihwagjang
-		icon = GFX_goal_unknown
-		x = 7
+		icon = GFX_goal_generic_intelligence_exchange
+		x = 10
 		y = 11
 		cost = 10
 		search_filters = {
@@ -1164,7 +1499,7 @@ focus_tree = {
 	focus = {
 		id = SHE_balkanguggacodae
 		icon = GFX_goal_generic_major_alliance
-		x = 3
+		x = 12
 		y = 12
 		cost = 10
 		search_filters = {
@@ -1180,8 +1515,8 @@ focus_tree = {
 	focus = {
 		id = SHE_dongyureobguggacodae
 		icon = GFX_goal_generic_major_alliance
-		x = 5
-		y = 12
+		x = 11
+		y = 13
 		cost = 5
 		search_filters = {
 			
@@ -1189,6 +1524,12 @@ focus_tree = {
 					
 		}
 		prerequisite = { focus = SHE_yeonhabyihwagjang  }
+		completion_reward = {
+			add_named_threat = {
+    			threat = 2
+    			name = SHE_dongyureobguggacodae
+			}
+		}
 	}
 
 	#반소비에트 연합
@@ -1196,8 +1537,8 @@ focus_tree = {
 	focus = {
 		id = SHE_bansobieteuyeonhab
 		icon = GFX_goal_anti_comintern_pact
-		x = 4
-		y = 13
+		x = 11
+		y = 14
 		cost = 5
 		search_filters = {
 			
@@ -1213,8 +1554,8 @@ focus_tree = {
 	focus = {
 		id = SHE_soryeoncodae
 		icon = GFX_focus_chi_mission_to_the_soviet_union
-		x = 6
-		y = 13
+		x = 13
+		y = 14
 		cost = 5
 		search_filters = {
 			
