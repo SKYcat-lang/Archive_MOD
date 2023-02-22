@@ -303,6 +303,137 @@ focus_tree = {
 		}
 	}
 
+	#샬레 전시 경제
+
+	focus = {
+		id = SHE_syallejeonsigyeongje
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 24
+		y = 10
+		cost = 10
+		search_filters = {
+			
+						FOCUS_FILTER_INDUSTRY
+					
+		}
+		prerequisite = { focus = SHE_jeonjaenggyehoeg  }
+		completion_reward = {
+		}
+	}
+
+	#총동원령
+
+	focus = {
+		id = SHE_chongdongwonlyeong
+		icon = GFX_goal_generic_attack_allies
+		x = 26
+		y = 11
+		cost = 10
+		search_filters = {
+			
+						FOCUS_FILTER_INDUSTRY
+					
+		}
+		prerequisite = { focus = SHE_syallejeonsigyeongje  }
+		completion_reward = {
+		}
+	}
+
+	#인공지능 통제
+
+	focus = {
+		id = SHE_ingongjineungtongje
+		icon = GFX_goal_generic_secret_weapon
+		x = 26
+		y = 12
+		cost = 10
+		search_filters = {
+						FOCUS_FILTER_POLITICAL
+						FOCUS_FILTER_STABILITY
+						FOCUS_FILTER_WAR_SUPPORT
+					
+		}
+		prerequisite = { focus = SHE_chongdongwonlyeong  }
+		completion_reward = {
+		}
+	}
+
+	#점령지 관리
+
+	focus = {
+		id = SHE_jeomlyeongjigwanli
+		icon = GFX_goal_generic_more_territorial_claims
+		x = 23
+		y = 11
+		cost = 10
+		search_filters = {
+			
+						FOCUS_FILTER_WAR_SUPPORT
+					
+		}
+		prerequisite = { focus = SHE_syallejeonsigyeongje  }
+		completion_reward = {
+		}
+	}
+
+	#학생 경찰대
+
+	focus = {
+		id = SHE_hagsaenggyeongchaldae
+		icon = GFX_goal_generic_special_forces
+		x = 22
+		y = 12
+		cost = 10
+		search_filters = {
+			
+						FOCUS_FILTER_MANPOWER
+					
+		}
+		prerequisite = { focus = SHE_jeomlyeongjigwanli  }
+		mutually_exclusive = { focus = SHE_hyeonjijachi  }
+		completion_reward = {
+		}
+	}
+
+	#현지 자치
+
+	focus = {
+		id = SHE_hyeonjijachi
+		icon = GFX_goal_tripartite_pact
+		x = 24
+		y = 12
+		cost = 10
+		search_filters = {
+			
+						FOCUS_FILTER_MANPOWER
+					
+		}
+		prerequisite = { focus = SHE_jeomlyeongjigwanli  }
+		mutually_exclusive = { focus = SHE_hagsaenggyeongchaldae  }
+		completion_reward = {
+		}
+	}
+
+	#철권 통치
+
+	focus = {
+		id = SHE_cheolgwontongchi
+		icon = GFX_goal_demand_sudetenland
+		x = 24
+		y = 13
+		cost = 10
+		search_filters = {
+						FOCUS_FILTER_POLITICAL
+						FOCUS_FILTER_STABILITY
+						FOCUS_FILTER_WAR_SUPPORT
+					
+		}
+		prerequisite = { focus = SHE_hagsaenggyeongchaldae focus = SHE_hyeonjijachi  }
+		prerequisite = { focus = SHE_ingongjineungtongje  }
+		completion_reward = {
+		}
+	}
+
 	#총학생회 통제권 인수
 
 	focus = {
@@ -556,6 +687,33 @@ focus_tree = {
 					
 		}
 		prerequisite = { focus = SHE_segyetongje focus = SHE_yeonbangchodae }
+		completion_reward = {
+			add_to_variable = { SHE_world_control_consumer_goods_factor = -0.025 }
+			add_to_variable = { SHE_world_control_production_speed_buildings_factor = 0.025 }
+			custom_effect_tooltip = SHE_yeonbangsaneobhwa_tt
+			custom_effect_tooltip = SHE_yeonbangsaneobhwa_danger_tt
+			
+			every_state = {
+				limit = {
+					is_owned_and_controlled_by = SHE
+					OR = {
+						has_state_category = megalopolis
+						state_strategic_value > 150
+					}
+					free_building_slots = {
+    					building = industrial_complex
+    					size > 1
+   						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
 	}
 
 	#총력전
@@ -842,6 +1000,7 @@ focus_tree = {
 		search_filters = {
 			
 						FOCUS_FILTER_POLITICAL
+						FOCUS_FILTER_MANPOWER
 					
 		}
 		prerequisite = { focus = SHE_gwonlibojang  }
@@ -1001,6 +1160,7 @@ focus_tree = {
 		}
 		prerequisite = { focus = SHE_segyetongje }
 		completion_reward = {
+			custom_effect_tooltip = SHE_kibotoseujaejeongbogjeonjaeng_tt
 			add_named_threat = {
     			threat = 2
     			name = SHE_kibotoseujaejeongbogjeonjaeng
@@ -1277,9 +1437,9 @@ focus_tree = {
 	focus = {
 		id = SHE_kibotoseu
 		icon = GFX_goal_SHE_Kivotos_focus
-		x = 17
+		x = 20
 		y = 14
-		cost = 20
+		cost = 10
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
@@ -1421,6 +1581,7 @@ focus_tree = {
 		}
 
 		prerequisite = { focus = SHE_tongileulhyanghae  } 
+		prerequisite = { focus = SHE_cheolgwontongchi  }
 		completion_reward = {
 			custom_effect_tooltip = SHE_Kivotos_complete_tt
 			hidden_effect = {
@@ -1672,7 +1833,7 @@ focus_tree = {
 		cost = 10
 		search_filters = {
 			
-						FOCUS_FILTER_USA_CONGRESS
+						FOCUS_FILTER_POLITICAL
 					
 		}
 		prerequisite = { focus = SHE_yeonhabhyeonsilhwa  }
@@ -1704,7 +1865,7 @@ focus_tree = {
 		cost = 10
 		search_filters = {
 			
-						FOCUS_FILTER_USA_CONGRESS
+						FOCUS_FILTER_POLITICAL
 					
 		}
 		prerequisite = { focus = SHE_jeogseongseryeogjusi  }
