@@ -275,3 +275,207 @@ SHE_restoration_war = {
 
 	}
 }
+SHE_kv_revolution = {
+	SHE_rallying_communists = {
+		priority = 5
+
+		icon = generic_political_rally
+
+		target_trigger = {
+			FROM = {
+				exists = yes
+				NOT = { is_in_faction_with = ROOT }
+				NOT = { tag = ROOT }
+				OR = {
+					TAG = COU
+					TAG = SHE
+					TAG = ARI
+					TAG = RED
+					TAG = MIL
+					TAG = GEH
+					TAG = TRM
+					TAG = SRT
+					TAG = KSP
+					TAG = ABY
+					TAG = HYA
+					TAG = SHA
+					TAG = BAC
+					TAG = SUH
+					TAG = INK
+				}
+				has_capitulated = no
+				NOT = { has_government = communism }
+			}
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 5
+				FROM = {
+					communism > 0.4
+				}
+			}
+		}
+
+		allowed = {
+			original_tag = SHE
+		}
+
+		available = {
+			NOT = { has_war_with = FROM }
+			FROM = {
+				NOT = { has_government = communism }
+			}
+		}
+
+		visible = {
+			country_exists = FROM
+			NOT = { has_war_with = FROM }
+			FROM = {
+				NOT = { is_in_faction_with = ROOT }
+				has_capitulated = no
+				NOT = { has_government = communism }
+				any_controlled_state = {
+					is_in_home_area = yes
+					any_neighbor_state = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+			FROM = {
+				communism < 0.1
+			}
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		days_remove = 120
+
+		complete_effect = {
+			FROM = {
+				if = { #If country has banned communism, then add the weakened version of the NS
+					limit = {
+						has_country_flag = banned_communism_flag
+					}
+					add_timed_idea = {
+						idea = SHE_revolutionary_unrest_weakened
+						days = 730
+					}
+				}
+				else = {
+					add_timed_idea = {
+						idea = SHE_revolutionary_unrest
+						days = 360
+					}
+				}
+			}
+		}
+	}
+	SHE_ignite_revolutionary_uprisings = {
+		priority = 5
+
+		icon = GFX_decision_generic_prepare_civil_war
+
+		target_trigger = {
+			FROM = {
+				exists = yes
+				NOT = { is_in_faction_with = ROOT }
+				NOT = { tag = ROOT }
+				OR = {
+					TAG = COU
+					TAG = SHE
+					TAG = ARI
+					TAG = RED
+					TAG = MIL
+					TAG = GEH
+					TAG = TRM
+					TAG = SRT
+					TAG = KSP
+					TAG = ABY
+					TAG = HYA
+					TAG = SHA
+					TAG = BAC
+					TAG = SUH
+					TAG = INK
+				}
+				has_capitulated = no
+				NOT = { has_government = communism }
+			}
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 5
+				FROM = {
+					communism > 0.4
+				}
+			}
+		}
+
+		allowed = {
+			original_tag = SHE
+		}
+
+		available = {
+			NOT = { has_war_with = FROM }
+			FROM = {
+				NOT = { has_government = communism }
+			}
+			FROM = {
+				communism > 0.07
+			}
+		}
+
+		visible = {
+			country_exists = FROM
+			NOT = { has_war_with = FROM }
+			FROM = {
+				NOT = { is_in_faction_with = ROOT }
+				has_capitulated = no
+				NOT = { has_government = communism }
+				any_controlled_state = {
+					is_in_home_area = yes
+					any_neighbor_state = {
+						is_controlled_by = ROOT
+					}
+				}
+			}
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		days_remove = 120
+
+		complete_effect = {
+			FROM = {
+				add_timed_idea = {
+					idea = SHE_revolutionary_unrest_max
+					days = 120
+				}
+			}
+			hidden_effect = {
+				FROM = {
+					add_ai_strategy = {
+						type = prepare_for_war
+						id = ROOT
+						value = 100
+					}
+				}
+			}
+		}
+
+		remove_effect = {
+			create_wargoal = {
+				type = topple_government
+				target = FROM
+				expire = 90
+			}
+		}
+	}
+}
