@@ -25,7 +25,7 @@ focus_tree = {
 	focus = {
 		id = GEH_recovery_from_the_aftermach
 		icon = GFX_goal_generic_construct_civilian
-		x = 6
+		x = 52
 		y = 0
 		cost = 10
 		
@@ -37,7 +37,7 @@ focus_tree = {
 			OR = {
 				has_completed_focus = GEH_establish_governance
 				has_completed_focus = GEH_establish_new_government
-				has_completed_focus = GEH_end_of_civil_war
+				has_completed_focus = GEH_end_of_geh_civil_war
 			}
 		}
 
@@ -291,6 +291,31 @@ focus_tree = {
 		}
 	}
 
+#전자기계공학 연구
+	focus = {
+		id = GEH_research_elec_engineering
+		icon = GFX_goal_generic_radar
+		prerequisite = { focus = GEH_extra_tech_slot_1 }
+
+		relative_position_id = GEH_extra_tech_slot_1
+		x = -1
+		y = 1
+		cost = 10
+		ai_will_do = {
+			factor = 12
+		}
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_tech_bonus = {
+				name = GEH_Industry_research_plan
+				bonus = 1.0
+				uses = 2
+				category = electronics
+			}
+		}
+		
+	}
+
 #자원 확보 노력-고무
 	focus = {
 		id = GEH_effort_for_resources_rubber
@@ -440,7 +465,7 @@ focus_tree = {
 		id = GEH_present_situation
 		icon = GFX_goal_generic_more_territorial_claims
 
-		x = 29
+		x = 16
 		y = 0
 
 		cost = 5
@@ -466,7 +491,7 @@ focus_tree = {
 		icon = GFX_goal_generic_major_alliance
 
 		relative_position_id = GEH_present_situation
-		x = -12
+		x = -10
 		y = 1
 
 		prerequisite = { focus = GEH_present_situation }
@@ -730,7 +755,7 @@ focus_tree = {
 		icon = GFX_focus_generic_self_management
 
 		relative_position_id = GEH_look_situaition
-		x = -4
+		x = -6
 		y = 1
 
 		prerequisite = { focus = GEH_look_situaition }	
@@ -751,13 +776,13 @@ focus_tree = {
 		icon = GFX_goal_generic_neutrality_focus
 
 		relative_position_id = GEH_look_situaition
-		x = 4
+		x = 6
 		y = 1
 
 		prerequisite = { focus = GEH_look_situaition }	
 		cost = 5
 		ai_will_do = {
-		factor = 30
+		factor = 12
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -766,6 +791,88 @@ focus_tree = {
 		}
 	}
 
+#한발 먼저 다가서기
+	focus = {
+		id = GEH_one_step_closer
+		icon = GFX_goal_generic_intelligence_exchange
+
+		relative_position_id = GEH_look_outward
+		x = -4
+		y = 1
+
+		available = {
+			NOT = {
+				has_government = fascism
+			}
+		}
+
+		prerequisite = { focus = GEH_look_outward }
+		mutually_exclusive = { focus = GEH_clear_method }	
+		cost = 5
+		ai_will_do = {
+		factor = 12
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 120
+		}
+	}
+
+#깔끔하고 확실한 방법
+	focus = {
+		id = GEH_clear_method
+		icon = GFX_goal_generic_military_sphere
+
+		relative_position_id = GEH_look_outward
+		x = 4
+		y = 1
+
+		available = {
+			NOT = {
+				has_government = democratic
+			}
+		}
+
+		prerequisite = { focus = GEH_look_outward }
+		mutually_exclusive = { focus = GEH_one_step_closer }	
+		cost = 5
+		ai_will_do = {
+		factor = 12
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_ideas = GEH_a_clear_method #(전쟁 정당화 긴장도 제한 완화)
+		}
+	}
+
+	focus = {
+		id = GEH_attak_focus
+		icon = GFX_goal_generic_military_sphere
+
+		relative_position_id = GEH_clear_method
+		x = -2
+		y = 1
+
+		available = {
+			NOT = {
+				has_government = democratic
+			}
+		}
+
+		prerequisite = { focus = GEH_clear_method }
+		mutually_exclusive = { focus = GEH_defense_focus }	
+		cost = 10
+		ai_will_do = {
+		factor = 12
+		}
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_ideas = GEH_a_clear_method #(전쟁 정당화 긴장도 제한 완화)
+		}
+	}
 
 
 	
@@ -775,7 +882,7 @@ focus_tree = {
 		icon = GFX_focus_ger_oppose_hitler
 
 		relative_position_id = GEH_present_situation
-		x = 12
+		x = 10
 		y = 1
 
 		prerequisite = { focus = GEH_present_situation }
@@ -823,10 +930,9 @@ focus_tree = {
 		icon = GFX_focus_eng_concessions_to_the_trade_unions
 
 		relative_position_id = GEH_war_clouds
-		x = -8
+		x = 0
 		y = 1
 
-		mutually_exclusive = { focus = GEH_new_ger }
 		prerequisite = { focus = GEH_war_clouds }
 
 		cost = 10
@@ -885,6 +991,10 @@ focus_tree = {
 
 		completion_reward = {
 			add_popularity = { ideology = communism popularity = 0.2 }
+			add_stability = -0.1
+			add_war_support = 0.1
+			add_ideas = GEH_anarchist_society_1 #안정도 -0.01(매주)
+			set_country_flag = GEH_anarch #게헨나 아나키
 		}
 	}
 
@@ -961,13 +1071,153 @@ focus_tree = {
 		}
 	}
 
+
+#체제 논의
+	focus = {
+		id = GEH_system_discussion
+
+		prerequisite = { focus = GEH_end_of_geh_civil_war }
+		
+		icon = GFX_goal_generic_intelligence_exchange
+
+		available = { has_completed_focus = GEH_hot_spring_develop_route }
+
+		x = -3
+		y = 1
+		offset = {
+			x = -3
+			y = 1
+			trigger = {
+				OR = {
+					has_completed_focus = GEH_gourmet_research_route
+					has_completed_focus = GEH_hina_route
+				}
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+			}
+		}
+		relative_position_id = GEH_end_of_geh_civil_war
+		
+
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = GEH_anarchist_society_1
+				add_idea = GEH_anarchist_society_2
+			}
+		}
+	}
+
+#건설 장비 탈취
+	focus = {
+		id = GEH_appropriate_the_means_of_production
+
+		prerequisite = { focus = GEH_system_discussion }
+		
+		icon = GFX_focus_generic_support_the_left_right
+
+		x = 0
+		y = 1
+
+		relative_position_id = GEH_system_discussion
+		
+
+		cost = 10
+
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_ideas = GEH_hijacked_heavy_equip
+		}
+	}
+
+#온천 개발 착수
+	focus = {
+		id = GEH_autogestion
+		available = {
+		}
+		bypass = {
+		}
+		prerequisite = { focus = GEH_appropriate_the_means_of_production }
+		
+		icon = GFX_goal_generic_production
+		x = -1
+		y = 1
+		relative_position_id = GEH_appropriate_the_means_of_production
+		cost = 10
+
+		available_if_capitulated = yes
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = GEH_anarchist_society_2
+				}
+				swap_ideas = {
+					remove_idea = GEH_anarchist_society_2
+					add_idea = GEH_anarchist_society_3
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = GEH_anarchist_society_5
+				}
+				swap_ideas = {
+					remove_idea = GEH_anarchist_society_5
+					add_idea = GEH_anarchist_society_6
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = GEH_anarchist_society_8
+				}
+				swap_ideas = {
+					remove_idea = GEH_anarchist_society_8
+					add_idea = GEH_anarchist_society_9
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = GEH_anarchist_society_11
+				}
+				swap_ideas = {
+					remove_idea = GEH_anarchist_society_11
+					add_idea = GEH_anarchist_society_12
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = GEH_anarchist_society_13
+				}
+				swap_ideas = {
+					remove_idea = GEH_anarchist_society_13
+					add_idea = GEH_anarchist_society_14
+				}
+			}
+			else = {
+				effect_tooltip = {
+					swap_ideas = {
+						remove_idea = GEH_anarchist_society_2
+						add_idea = GEH_anarchist_society_3
+					}
+				}
+			}
+		}
+	}
+
+
 #시야를 넓히다
 	focus = {
 		id = GEH_broaden_ones_horizons
 		icon = GFX_goal_generic_military_deal
 
 		relative_position_id = GEH_end_of_geh_civil_war
-		x = -8
+		x = -6
 		y = 1
 
 		prerequisite = { focus = GEH_end_of_geh_civil_war }
@@ -986,385 +1236,4 @@ focus_tree = {
 		}
 	}
 	
-
-#신독일로
-	focus = {
-		id = GEH_new_ger
-		icon = GFX_focus_generic_strike_at_democracy1
-
-		relative_position_id = GEH_war_clouds
-		x = 8
-		y = 1
-
-		prerequisite = { focus = GEH_war_clouds }
-		mutually_exclusive = { focus = GEH_student_community }
-
-		cost = 10
-		ai_will_do = {
-		factor = 30
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-
-		completion_reward = {
-
-		}
-	}
-
-#독일의 재수립
-	focus = {
-		id = GEH_secure_the_new_state
-		icon = GFX_focus_generic_support_the_left_right
-		prerequisite = { focus = GEH_new_ger }
-		available = {
-			is_subject = no
-			has_war = no
-			has_civil_war = no
-		}
-		x = 0
-		y = 1
-		relative_position_id = GEH_new_ger
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
-		completion_reward = {
-			add_stability = 0.1
-			add_political_power = 120
-			add_timed_idea = {
-				idea = GEH_new_ger_gov
-				days = 720
-			}
-		}
-	}
-
-#신독일의 정치
-focus = {
-	id = GEH_new_ger_political
-	icon = GFX_focus_generic_self_management
-
-	relative_position_id = GEH_secure_the_new_state
-	x = -4
-	y = 1
-
-	prerequisite = { focus = GEH_secure_the_new_state }
-
-	cost = 10
-	ai_will_do = {
-	factor = 15
-	}
-	search_filters = { FOCUS_FILTER_POLITICAL }
-
-	completion_reward = {
-		add_political_power = 120
-	}
-
 }
-
-#카이저라이히의 부활
-	focus = {
-		id = GEH_revive_the_kaiserreich
-		icon = GFX_focus_ger_revive_kaiserreich
-		prerequisite = { focus = GEH_new_ger_political }
-		mutually_exclusive = { focus = GEH_reestablish_free_elections }
-		mutually_exclusive = { focus = GEH_new_nazi }
-		available = {
-			is_subject = no
-		}
-		x = 0
-		y = 1
-		relative_position_id = GEH_new_ger_political
-		cost = 10
-		ai_will_do = {
-			factor = 3
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		completion_reward = {
-			add_ideas = GER_revive_the_kaiserreich
-			custom_effect_tooltip = GER_revive_the_kaiserreich_tt
-			hidden_effect = { set_cosmetic_tag = GER_german_empire }
-			set_party_name = { ideology = neutrality long_name = GER_neutrality_party_kaiserreich_long name = GER_neutrality_party_kaiserreich }
-			set_rule = { can_send_volunteers = yes }
-			add_named_threat = { threat = 5 name = GEH_revive_the_kaiserreich }
-		}
-	}
-
-#프로이센 혈통
-	focus = {
-		id = GEH_return_of_the_kaiser
-		icon = GFX_focus_ger_return_of_the_kaiser
-		prerequisite = { focus = GEH_revive_the_kaiserreich }
-		mutually_exclusive = { focus = GEH_great_ger }
-		available = {
-			is_subject = no
-			neutrality > 0.4
-			has_country_leader = { ruling_only = yes character = GER_august_von_mackensen }
-		}
-		bypass = {
-			has_country_flag = GER_mackensen_dead
-			NOT = { has_government = democratic }
-		}
-		x = -1
-		y = 1
-		relative_position_id = GEH_revive_the_kaiserreich
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-		
-		completion_reward = {
-			add_named_threat = { threat = 5 name = GEH_return_of_the_kaiser }
-			country_event = { id = gehenna.9 }
-		}
-	}
-
-	#대독일의 야망
-	focus = {
-		id = GEH_great_ger
-		icon = GFX_focus_ger_return_of_the_kaiser
-		prerequisite = { focus = GEH_revive_the_kaiserreich }
-		mutually_exclusive = { focus = GEH_return_of_the_kasier }
-		available = {
-			is_subject = no
-			neutrality > 0.4
-			has_country_leader = { ruling_only = yes character = GER_august_von_mackensen }
-		}
-		bypass = {
-			has_country_flag = GER_mackensen_dead
-			NOT = { has_government = democratic }
-		}
-		x = 1
-		y = 1
-		relative_position_id = GEH_revive_the_kaiserreich
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-		
-		completion_reward = {
-			add_named_threat = { threat = 5 name = GEH_return_of_the_kaiser }
-			country_event = { id = gehenna.13 }
-		}
-	}
-
-	#국가사회주의 복원
-	focus = {
-		id = GEH_new_nazi
-		icon = GFX_focus_ger_reichskommisariats
-
-		prerequisite = { focus = GEH_new_ger_political }
-		mutually_exclusive = { focus = GEH_revive_the_kaiserreich }
-		mutually_exclusive = { focus = GEH_reestablish_free_elections }
-
-		x = 4
-		y = 1
-		relative_position_id = GEH_new_ger_political
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		completion_reward = {
-			add_timed_idea = {
-				idea = GEH_new_nazism
-				days = 720
-			}
-			set_party_name = { ideology = fascism long_name = GEH_nazi_party_long name = GEH_nazi_party }
-			add_named_threat = { threat = 10 name = GEH_new_nazi }
-			country_event = { id = gehenna.12 }
-		}
-	}
-
-#지지 활용
-	focus = {
-		id = GEH_use_support
-		icon = GFX_goal_generic_propaganda
-		prerequisite = { focus = GEH_new_nazi }
-
-		x = 0
-		y = 1
-		relative_position_id = GEH_new_nazi
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		completion_reward = {
-			country_event = { gehenna.11 } #지지는 공고하다(파시지지 +10%)
-		}
-	}
-
-#자유국가의 재건
-	focus = {
-		id = GEH_reestablish_free_elections
-		icon = GFX_goal_support_democracy
-		prerequisite = { focus = GEH_new_ger_political }
-		mutually_exclusive = { focus = GEH_revive_the_kaiserreich }
-		mutually_exclusive = { focus = GEH_new_nazi }
-
-		x = -4
-		y = 1
-		relative_position_id = GEH_new_ger_political
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		completion_reward = {
-			add_timed_idea = {
-				idea = GER_reestablish_free_elections
-				days = 720
-			}
-			set_party_name = { ideology = neutrality long_name = GER_neutrality_party_kaiserreich_long name = GER_neutrality_party_kaiserreich }
-		}
-	}
-
-#자유 선거
-	focus = {
-		id = GEH_free_elect
-		icon = GFX_goal_generic_propaganda
-		prerequisite = { focus = GEH_reestablish_free_elections }
-
-		x = 0
-		y = 1
-		relative_position_id = GEH_reestablish_free_elections
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		completion_reward = {
-			country_event = { gehenna.10 } #선거
-		}
-	}
-	
-
-
-#국가 재건
-	focus = {
-		id = GEH_rebuild_the_nation
-		icon = GFX_goal_generic_construction2
-		prerequisite = { focus = GEH_secure_the_new_state }
-
-		x = 4
-		y = 1
-		relative_position_id = GEH_secure_the_new_state
-		cost = 10
-		ai_will_do = {
-			factor = 9
-		}
-		search_filters = { FOCUS_FILTER_INDUSTRY }
-		completion_reward = {
-			add_timed_idea = { idea = GER_rebuild_the_nation days = 365 }
-			add_ideas = GER_national_revitalization
-		}
-	}
-
-#자원병 모집
-	focus = {
-		id = GEH_fan_the_german_militarism
-		icon = GFX_focus_generic_military_mission
-		prerequisite = { focus = GEH_rebuild_the_nation }
-
-		x = -1
-		y = 1
-		relative_position_id = GEH_rebuild_the_nation
-		cost = 5
-		ai_will_do = {
-			factor = 8
-		}
-		search_filters = { FOCUS_FILTER_MANPOWER }
-		completion_reward = {
-			if = {
-				limit = {
-					NOT = {
-						has_idea = GER_national_revitalization
-						has_idea = GER_national_revitalization3
-					}
-				}
-				effect_tooltip = {
-					swap_ideas = {
-						remove_idea = GER_national_revitalization
-						add_idea = GER_national_revitalization2
-					}
-				}
-			}
-			if = {
-				limit = {
-					has_idea = GER_national_revitalization
-				}
-				swap_ideas = {
-					remove_idea =GER_national_revitalization
-					add_idea = GER_national_revitalization2
-				}
-			}
-			if = {
-				limit = {
-					has_idea = GER_national_revitalization3
-				}
-				swap_ideas = {
-					remove_idea = GER_national_revitalization3
-					add_idea = GER_national_revitalization4
-				}
-			}
-		}
-	}
-
-	#재건 가속
-	focus = {
-		id = GEH_a_new_and_better_germany
-		icon = GFX_goal_generic_construction
-		prerequisite = { focus = GEH_rebuild_the_nation }
-		available = {
-		}
-		x = 1
-		y = 1
-		relative_position_id = GEH_rebuild_the_nation
-		cost = 5
-		ai_will_do = {
-			factor = 8
-		}
-		search_filters = { FOCUS_FILTER_INDUSTRY }
-		completion_reward = {
-			if = {
-				limit = {
-					NOT = {
-						has_idea = GER_national_revitalization
-						has_idea = GER_national_revitalization2
-					}
-				}
-				effect_tooltip = {
-					swap_ideas = {
-						remove_idea = GER_national_revitalization
-						add_idea = GER_national_revitalization3
-					}
-				}
-			}
-			if = {
-				limit = {
-					has_idea = GER_national_revitalization
-				}
-				swap_ideas = {
-					remove_idea = GER_national_revitalization
-					add_idea = GER_national_revitalization3
-				}
-			}
-			if = {
-				limit = {
-					has_idea = GER_national_revitalization2
-				}
-				swap_ideas = {
-					remove_idea = GER_national_revitalization2
-					add_idea = GER_national_revitalization4
-				}
-			}
-		}
-	}
-
-
-
-	
-}
-
-
-
