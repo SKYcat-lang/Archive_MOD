@@ -1,0 +1,64 @@
+﻿###########################
+# Nuclear Bomb Events
+###########################
+
+add_namespace = BA_nuke
+
+news_event = {
+	id = BA_nuke.0
+	title = BA_nuke.0.t
+	desc = BA_nuke.0.d
+	picture = GFX_news_event_nuke
+
+	is_triggered_only = yes
+
+	fire_only_once = no
+
+	trigger = {
+		FROM.FROM = {
+			OR = {
+				state = 36
+				state = 7
+			}
+			is_owned_by = SHE
+		}
+	}
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					SHE = {
+						has_idea = SHE_nuke_attack_3
+					}
+				}
+			}
+			SHE = {
+				add_timed_idea = {
+					idea = SHE_nuke_attack_3
+					days = 70
+				}
+			}
+		}
+	}
+	option = {
+		name = BA_nuke.0.a
+		trigger = {
+			NOT = {
+				OR = {
+					owns_state = 36
+					owns_state = 7
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = BA_nuke.0.b
+		trigger = {
+			OR = {
+				owns_state = 36
+				owns_state = 7
+			}
+		}
+	}
+}
