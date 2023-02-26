@@ -12,5 +12,5 @@ dependencies={
 }
 picture="thumbnail.png"
 name="Blue Archive MOD"
-supported_version="1.12.9"
+supported_version="1.12.*"
 remote_file_id="2927583473"
