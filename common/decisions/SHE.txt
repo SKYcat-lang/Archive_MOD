@@ -1,3 +1,346 @@
+SHE_Ai_manipulation = {
+	SHE_Ai_manipulation_max = {
+		visible = {
+			debug = yes
+		}
+		complete_effect = {
+			set_variable = { SHE_Ai_manipulation_democratic_var = 100 } #-> 자율 OS 영향력 변수
+			set_variable = { SHE_Ai_manipulation_communism_var = 100 } #-> 분배 체제 영향력 변수
+			set_variable = { SHE_Ai_manipulation_fascism_var = 100 } #-> 통제 중추 영향력 변수
+			clr_country_flag = SHE_not_ai
+		}
+	}
+	SHE_Ai_manipulation_kill_ai = {
+		icon = GFX_decision_generic_brainwash
+
+		days_mission_timeout = 50
+		selectable_mission = no
+		priority = 2
+   		activation = {
+			always = yes
+    	}
+    	available = {
+        	has_war = yes
+    	}
+    	cancel_trigger = {
+    	}
+		visible = {
+		}
+		
+		timeout_effect = {
+			activate_mission = SHE_Ai_manipulation_kill_ai
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_government = democratic
+							check_variable = {
+    							var = SHE_Ai_manipulation_democratic_var
+    							value = 0
+    							compare = less_than_or_equals
+							}
+						}
+					}
+				}
+				custom_effect_tooltip = SHE_Ai_manipulation_democratic_del
+				add_to_variable = { SHE_Ai_manipulation_democratic_var = -5 }
+			}
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_government = communism
+							check_variable = {
+    							var = SHE_Ai_manipulation_communism_var
+    							value = 0
+    							compare = less_than_or_equals
+							}
+						}
+					}
+				}
+				custom_effect_tooltip = SHE_Ai_manipulation_communism_del
+				add_to_variable = { SHE_Ai_manipulation_communism_var = -5 }
+			}
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_government = fascism
+							check_variable = {
+    							var = SHE_Ai_manipulation_fascism_var
+    							value = 0
+    							compare = less_than_or_equals
+							}
+						}
+					}
+				}
+				custom_effect_tooltip = SHE_Ai_manipulation_fascism_del
+				add_to_variable = { SHE_Ai_manipulation_fascism_var = -5 }
+			}
+			if = {
+				limit = {
+					has_completed_focus = SHE_banhyeogmyeongmalsal
+				}
+				custom_effect_tooltip = SHE_Ai_manipulation_communism_del_add
+				add_to_variable = { SHE_Ai_manipulation_communism_var = 1 }
+			}
+		}
+	}
+	SHE_Ai_manipulation_democratic = {
+		icon = GFX_decision_category_generic_democracy
+		cost = 25
+		priority = 1
+		visible = {
+			NOT = {
+				has_country_flag = SHE_cut_ai_democratic
+			}
+		}
+	
+		modifier = {
+		}
+	
+		days_remove = 25
+		
+		complete_effect = {
+			custom_effect_tooltip = SHE_Ai_manipulation_democracy_add_tt
+			add_to_variable = { SHE_Ai_manipulation_democratic_var = 10 }
+		}
+	}
+	SHE_Ai_manipulation_communism = {
+		icon = GFX_decision_category_generic_communism
+		cost = 25
+		priority = 1
+		visible = {
+			NOT = {
+				has_country_flag = SHE_cut_ai_communism
+			}
+		}
+	
+		modifier = {
+		}
+	
+		days_remove = 25
+		
+		complete_effect = {
+			custom_effect_tooltip = SHE_Ai_manipulation_communism_add_tt
+			add_to_variable = { SHE_Ai_manipulation_communism_var = 10 }
+		}
+	}
+	SHE_Ai_manipulation_fascism = {
+		icon = GFX_decision_category_generic_fascism
+		cost = 25
+		priority = 1
+		visible = {
+			NOT = {
+				has_country_flag = SHE_cut_ai_fascism
+			}
+		}
+	
+		modifier = {
+		}
+	
+		days_remove = 25
+		
+		complete_effect = {
+			custom_effect_tooltip = SHE_Ai_manipulation_fascism_add_tt
+			add_to_variable = { SHE_Ai_manipulation_fascism_var = 10 }
+		}
+	}
+	SHE_Ai_manipulation_democratic_1 = {
+		icon = GFX_decision_generic_research
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SHE_Ai_manipulation_democratic_15
+				check_variable = {
+    				var = SHE_Ai_manipulation_democratic_var
+    				value = 15
+    				compare = greater_than_or_equals
+				}
+			}
+		}
+
+		cost = 25
+	
+		days_remove = 70
+		days_re_enable = 140
+		
+		modifier = {
+			research_speed_factor = 0.05
+		}
+		
+		complete_effect = {
+			custom_effect_tooltip = SHE_Ai_manipulation_democratic_15_tt
+			add_to_variable = { SHE_Ai_manipulation_democratic_var = -15 }
+		}
+	}
+	SHE_Ai_manipulation_democratic_2 = {
+		icon = GFX_decision_generic_fundraising
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SHE_Ai_manipulation_democratic_30
+				check_variable = {
+    				var = SHE_Ai_manipulation_democratic_var
+    				value = 30
+    				compare = greater_than_or_equals
+				}
+			}
+		}
+		visible = {
+			check_variable = {
+    			var = SHE_Ai_manipulation_democratic_var
+    			value = 15
+    			compare = greater_than_or_equals
+			}
+		}
+
+		cost = 50
+	
+		days_remove = 140
+		days_re_enable = 280
+		
+		modifier = {
+			consumer_goods_factor = 0.05
+		}
+		complete_effect = {
+			custom_effect_tooltip = SHE_Ai_manipulation_democratic_30_tt
+			add_to_variable = { SHE_Ai_manipulation_democratic_var = -30 }
+			add_offsite_building = { type = arms_factory level = 3 }
+			add_offsite_building = { type = industrial_complex level = 5 }
+		}
+		remove_effect = {
+			add_offsite_building = { type = arms_factory level = -3 }
+			add_offsite_building = { type = industrial_complex level = -5 }
+		}
+	}
+	SHE_Ai_manipulation_communism_1 = {
+		icon = GFX_decision_generic_independence
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SHE_Ai_manipulation_communism_15
+				check_variable = {
+    				var = SHE_Ai_manipulation_communism_var
+    				value = 15
+    				compare = greater_than_or_equals
+				}
+			}
+		}
+
+		cost = 25
+	
+		days_remove = 70
+		days_re_enable = 140
+		
+		modifier = {
+			consumer_goods_factor = -0.05
+		}
+		complete_effect = {
+			custom_effect_tooltip = SHE_Ai_manipulation_communism_15_tt
+			add_stability = -0.05
+			add_to_variable = { SHE_Ai_manipulation_communism_var = -15 }
+		}
+	}
+	SHE_Ai_manipulation_communism_2 = {
+		icon = GFX_decision_generic_industry
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SHE_Ai_manipulation_communism_30
+				check_variable = {
+    				var = SHE_Ai_manipulation_communism_var
+    				value = 30
+    				compare = greater_than_or_equals
+				}
+			}
+		}
+		visible = {
+			check_variable = {
+    			var = SHE_Ai_manipulation_communism_var
+    			value = 15
+    			compare = greater_than_or_equals
+			}
+		}
+
+		cost = 50
+	
+		days_remove = 140
+		days_re_enable = 280
+		
+		modifier = {
+			industrial_capacity_factory = -0.2
+			consumer_goods_factor = 0.04
+			stability_weekly = 0.01
+		}
+		complete_effect = {
+			custom_effect_tooltip = SHE_Ai_manipulation_communism_30_tt
+			add_to_variable = { SHE_Ai_manipulation_communism_var = -30 }
+		}
+	}
+	SHE_Ai_manipulation_fascism_1 = {
+		icon = GFX_decision_generic_assassination
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SHE_Ai_manipulation_fascism_15
+				check_variable = {
+    				var = SHE_Ai_manipulation_fascism_var
+    				value = 15
+    				compare = greater_than_or_equals
+				}
+			}
+		}
+
+		cost = 25
+	
+		days_remove = 70
+		days_re_enable = 140
+		
+		modifier = {
+			industrial_capacity_factory = 0.05
+		}
+		complete_effect = {
+			add_stability = -0.05
+			add_war_support = 0.05
+			custom_effect_tooltip = SHE_Ai_manipulation_fascism_15_tt
+			add_to_variable = { SHE_Ai_manipulation_fascism_var = -15 }
+		}
+	}
+	SHE_Ai_manipulation_fascism_2 = {
+		icon = GFX_decision_eng_propaganda_campaigns
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = SHE_Ai_manipulation_fascism_30
+				check_variable = {
+    				var = SHE_Ai_manipulation_fascism_var
+    				value = 30
+    				compare = greater_than_or_equals
+				}
+			}
+		}
+		visible = {
+			check_variable = {
+    			var = SHE_Ai_manipulation_fascism_var
+    			value = 15
+    			compare = greater_than_or_equals
+			}
+		}
+
+		cost = 50
+	
+		days_remove = 140
+		days_re_enable = 280
+		
+		modifier = {
+			war_support_weekly_factor = 0.001
+			Weekly_casualties_war_support = 0.05
+			Weekly_casualties_war_support = 0.05
+			Weekly_convoys_war_support = 0.05
+			Weekly_bombing_war_support = 0.05
+		}
+		complete_effect = {
+			add_war_support = 0.05
+			custom_effect_tooltip = SHE_Ai_manipulation_fascism_30_tt
+			add_to_variable = { SHE_Ai_manipulation_fascism_var = -30 }
+		}
+	}
+}
 SHE_student_council_absorption = {
 	SHE_student_council_absorption_7 = {
 		icon = GFX_decision_generic_break_treaty
