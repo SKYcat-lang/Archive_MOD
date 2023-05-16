@@ -1022,37 +1022,40 @@ focus_tree = {
 		prerequisite = { focus = SHE_modeunjeguguijongmal }
 		prerequisite = { focus = SHE_yeonbangchodae }
 		completion_reward = {
-			every_country = {
-				limit = {
-					OR = {
-						has_government = democratic
+			custom_effect_tooltip = SHE_jabonjuuitagyeog_tt
+			hidden_effect = {
+				every_country = {
+					limit = {
+						OR = {
+							has_government = democratic
+						}
+					}
+					SHE = {
+						send_embargo = PREV
 					}
 				}
-				SHE = {
-					send_embargo = PREV
+				every_country = {
+					limit = {
+						is_major = yes
+						has_government = democratic
+					}
+					SHE = {
+						create_wargoal = { type = annex_everything target = PREV }
+					}
 				}
-			}
-			every_country = {
-				limit = {
-					is_major = yes
-					has_government = democratic
+				add_named_threat = {
+    				threat = 20
+    				name = SHE_jabonjuuitagyeog
 				}
-				SHE = {
-					create_wargoal = { type = annex_everything target = PREV }
-				}
-			}
-			add_named_threat = {
-    			threat = 20
-    			name = SHE_jabonjuuitagyeog
 			}
 		}
 	}
 
-	#신대륙의 협력자
+	#혁명의 이상
 
 	focus = {
-		id = SHE_sindaelyuguihyeoblyeogja
-		icon = GFX_focus_por_latin_american_communism
+		id = SHE_hyeogmyeonguiisang
+		icon = GFX_focus_spr_masters_of_our_own_fate
 		x = 0
 		y = 13
 		cost = 10
@@ -1062,15 +1065,22 @@ focus_tree = {
 					
 		}
 		prerequisite = { focus = SHE_jabonjuuitagyeog }
+		mutually_exclusive = { focus = SHE_yeonbanghyeoblyeog  }
 		completion_reward = {
+			add_timed_idea = {
+				idea = SHE_socialism_on_the_move	
+				days = 720
+			}
+			create_wargoal = { type = annex_everything target = SOV }
+			
 		}
 	}
 
-	#태양 떨구기
+	#연방 협력
 
 	focus = {
-		id = SHE_taeyangtteolgugi
-		icon = GFX_goal_generic_attack_allies
+		id = SHE_yeonbanghyeoblyeog
+		icon = GFX_focus_chi_mission_to_the_soviet_union
 		x = 2
 		y = 13
 		cost = 10
@@ -1080,31 +1090,13 @@ focus_tree = {
 					
 		}
 		prerequisite = { focus = SHE_jabonjuuitagyeog }
+		mutually_exclusive = { focus = SHE_hyeogmyeonguiisang  }
 		completion_reward = {
-			every_country = {
-				limit = {
-					OR = {
-						original_tag = JAP
-						original_tag = MAN
-						original_tag = CHI
-						original_tag = GXC
-						original_tag = YUN
-						original_tag = XSM
-						original_tag = SHX
-						original_tag = SIK
-						original_tag = PRC
-					}
-					NOT = {
-						OR = {
-							has_government = democratic
-							has_government = communism
-						}
-					}
-				}
-				SHE = {
-					create_wargoal = { type = annex_everything target = PREV }
-				}
+			SOV = {
+				country_event = generic.2 hours = 6  
+				add_ideas = SHE_federal_cooperation
 			}
+			add_ideas = SHE_federal_cooperation
 		}
 	}
 
@@ -1113,7 +1105,7 @@ focus_tree = {
 	focus = {
 		id = SHE_segyehyeogmyeong
 		icon = GFX_focus_spr_anarchism_knows_no_borders
-		x = 1
+		x = 3
 		y = 14
 		cost = 20
 		search_filters = {
@@ -1121,8 +1113,8 @@ focus_tree = {
 						FOCUS_FILTER_POLITICAL
 					
 		}
-		prerequisite = { focus = SHE_sindaelyuguihyeoblyeogja }
-		prerequisite = { focus = SHE_taeyangtteolgugi }
+		prerequisite = { focus = SHE_hyeogmyeonguiisang focus = SHE_yeonbanghyeoblyeog }
+		prerequisite = { focus = SHE_yeonbangsaneobhwa }
 		completion_reward = {
 		}
 	}
@@ -1140,7 +1132,7 @@ focus_tree = {
 						FOCUS_FILTER_POLITICAL
 					
 		}
-		prerequisite = { focus = SHE_segyehyeogmyeong }
+		prerequisite = { focus = SHE_hyeogmyeonguiisang focus = SHE_yeonbanghyeoblyeog }
 		completion_reward = {
 		}
 	}
