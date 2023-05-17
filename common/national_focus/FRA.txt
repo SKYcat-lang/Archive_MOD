@@ -36,6 +36,8 @@ focus_tree = {
 			
 		}
     }
+	#산업중점
+
 	focus = { #산업화 준비
         id = FRA_focus_ind
 		cost = 5
@@ -147,6 +149,393 @@ focus_tree = {
 			custom_effect_tooltip = FRA_focus_5_tt
 		}
     }
+	focus = { #농업 증진
+        id = FRA_focus_6
+		cost = 4.4
+		x = 2
+		y = 4
+		prerequisite = {
+			focus = FRA_focus_3
+		}
+		prerequisite = {
+			focus = FRA_focus_4
+		}
+		prerequisite = {
+			focus = FRA_focus_5
+		}
+		completion_reward = {
+			add_stability = 0.1
+			add_political_power = 150
+			country_event = {
+				id = FRA_prov_event.6
+				days = 3
+			}
+		}
+    }
+	focus = { #민간 산업 육성
+        id = FRA_focus_7
+		cost = 4.4
+		x = -2
+		y = 5
+		prerequisite = {
+			focus = FRA_focus_6
+		}
+		
+		completion_reward = {
+			461 = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 4
+				}
+				add_extra_state_shared_building_slots = 4
+			}
+		}
+    }
+	focus = { #군수 공장 확충
+        id = FRA_focus_9
+		cost = 4.4
+		x = 2
+		y = 5
+		prerequisite = {
+			focus = FRA_focus_6
+		}
+		completion_reward = {
+			459 = {
+				add_building_construction = {
+					type = arms_factory
+					level = 4
+				}
+				add_extra_state_shared_building_slots = 4
+			}
+		}
+    }
+	focus = { #조선소 확충
+        id = FRA_focus_10
+		cost = 4.4
+		x = 6
+		y = 5
+		prerequisite = {
+			focus = FRA_focus_6
+		}
+		completion_reward = {
+			460 = {
+				add_building_construction = {
+					type = dockyard
+					level = 4
+				}
+				add_extra_state_shared_building_slots = 4
+			}
+		}
+    }
+	focus = { #연구시설설립
+        id = FRA_focus_8
+		cost = 4.4
+		x = 0
+		y = 6
+		prerequisite = {
+			focus = FRA_focus_6
+		}
+		prerequisite = {
+			focus = FRA_focus_7
+		}
+		prerequisite = {
+			focus = FRA_focus_9
+		}
+		completion_reward = {
+			add_research_slot = 1
+			country_event = {
+				id = FRA_prov_event.7
+				days = 3
+			}
+		}
+    }
+	focus = { #도시화
+        id = FRA_focus_11
+		cost = 4.4
+		x = 4
+		y = 6
+		prerequisite = {
+			focus = FRA_focus_6
+		}
+		prerequisite = {
+			focus = FRA_focus_10
+		}
+		prerequisite = {
+			focus = FRA_focus_9
+		}
+		completion_reward = {
+			add_victory_points = {
+				province = 12051
+				value = 27
+			}
+			add_victory_points = {
+				province = 7081
+				value = 14
+			}
+			add_victory_points = {
+				province = 12034
+				value = 9
+			}
+			add_victory_points = {
+				province = 7132
+				value = 25
+			}
+			add_victory_points = {
+				province = 7069
+				value = 30
+			}
+			add_victory_points = {
+				province = 4108
+				value = 9
+			}
+			every_state = {
+				limit = {
+					OR = {
+						state = 459
+						state = 460
+						state = 461
+					}
+				}
+				add_state_modifier = {
+					modifier = {local_manpower = 0.3}
+				}
+			}
+			459 = {
+				set_state_category = large_city
+			}
+		}
+    }
+	focus = { #지중해를 바라보며
+        id = FRA_focus_12
+		cost = 4.4
+		x = 2
+		y = 7
+		prerequisite = {
+			focus = FRA_focus_8
+		}
+		prerequisite = {
+			focus = FRA_focus_11
+		}
+		prerequisite = {
+			focus = FRA_focus_9
+		}
+		completion_reward = {
+			every_state = {
+				limit = {
+					is_owned_by = FRA
+					is_on_continent = africa
+				}
+				add_core_of = FRA
+			}
+		}
+    }
+
+	#군사중점
+	focus = { #전쟁 대비
+        id = FRA_focus_arm_1
+		cost = 2
+		x = 18
+		y = 1
+		prerequisite = {
+			focus = FRA_focus.1
+		}
+		available = {
+			has_completed_focus = FRA_focus_6
+		}
+		completion_reward = {
+			add_political_power = 100
+		}
+    }
+	focus = { #검증된 방법
+        id = FRA_focus_arm_2
+		cost = 2
+		x = 16
+		y = 2
+		prerequisite = {
+			focus = FRA_focus_arm_1
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_arm_3
+		}
+		completion_reward = {
+			army_experience = 50
+			add_tech_bonus = {
+				category = cat_grand_battle_plan
+				uses = 2
+				bonus = 0.5
+			}
+		}
+    }
+	
+	focus = { #더 나은 방법
+        id = FRA_focus_arm_3
+		cost = 2
+		x = 20
+		y = 2
+		prerequisite = {
+			focus = FRA_focus_arm_1
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_arm_2
+		}
+		completion_reward = {
+			army_experience = 50
+			add_tech_bonus = {
+				category = cat_superior_firepower
+				uses = 2
+				bonus = 0.5
+			}
+		}
+    }
+	focus = { #보병 장비 연구
+        id = FRA_focus_arm_4
+		cost = 3
+		x = 16
+		y = 3
+		prerequisite = {
+			focus = FRA_focus_arm_2
+		}
+		completion_reward = {
+			army_experience = 10
+			add_tech_bonus = {
+				category = infantry_weapons
+				uses = 2
+				bonus = 0.5
+			}
+		}
+    }
+	focus = { #포병 장비 연구
+		id = FRA_focus_arm_5
+		cost = 3
+		x = 20
+		y = 3
+		prerequisite = {
+			focus = FRA_focus_arm_3
+		}	
+		completion_reward = {
+			army_experience = 10
+			add_tech_bonus = {
+				category = artillery
+				uses = 2
+				bonus = 0.5
+			}
+		}
+	}
+	focus = { #주둔지 관리
+		id = FRA_focus_arm_6
+		cost = 3
+		x = 18
+		y = 4
+		prerequisite = {
+			focus = FRA_focus_arm_5
+			focus = FRA_focus_arm_4
+		}
+		completion_reward = {
+			army_experience = 10
+			set_technology = {
+				tech_military_police = 1
+			}
+		}	
+	}
+	focus = { #공군 재규합
+		id = FRA_focus_arm_7
+		cost = 3
+		x = 16
+		y = 5
+		prerequisite = {
+			focus = FRA_focus_arm_6
+		}
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = CAS_equipment
+				amount = 200
+			}
+			air_experience = 10
+		}	
+	}
+	focus = { #해군 재규합
+		id = FRA_focus_arm_8
+		cost = 3
+		x = 20
+		y = 5
+		prerequisite = {
+			focus = FRA_focus_arm_6
+		}
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = ship_hull_light
+				amount = 20
+			}
+			add_equipment_to_stockpile = {
+				type = convoy
+				amount = 200
+			}
+			navy_experience = 10
+		}
+	}
+	focus = { #비행기 제조공장 확대
+		id = FRA_focus_arm_9
+		cost = 4
+		x = 16
+		y = 6
+		prerequisite = {
+			focus = FRA_focus_arm_7
+		}
+		completion_reward = {
+			459 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+				}
+				add_extra_state_shared_building_slots = 4
+			}
+		}
+	}
+	focus = { #조선소 확충
+		id = FRA_focus_arm_10
+		cost = 4
+		x = 20
+		y = 6
+		prerequisite = {
+			focus = FRA_focus_arm_8
+		}
+		completion_reward = {
+			459 = {
+				add_building_construction = {
+					type = naval_base
+					level = 1
+				}
+				add_building_construction = {
+					type = dockyard
+					level = 3
+				}
+				add_extra_state_shared_building_slots = 4
+			}
+		}
+	}
+	focus = { #다시 고향으로
+		id = FRA_focus_arm_11
+		cost = 4.4
+		x = 18
+		y = 7
+		prerequisite = {
+			focus = FRA_focus_arm_10
+		}
+		prerequisite = {
+			focus = FRA_focus_arm_9
+		}
+		completion_reward = {
+			declare_war_on = {
+				target = MIL
+				type = annex_everything
+			}
+		}
+	}
+
 	focus = { #런던 다리가 무너지다
         id = FRA_focus_london_bridge
 		cost = 2
@@ -172,5 +561,5 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 100
 		}
-    }
+	}
 }
