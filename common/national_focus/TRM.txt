@@ -221,6 +221,7 @@
 		}
 		available = {
 		has_country_flag = TRM_NIGHT_OF_THE_KNIFE_10
+		always = no
 		}
 		x = 18
 		y = 5
@@ -238,6 +239,7 @@
 		}
 		available = {
 		has_country_flag = TRM_NIGHT_OF_THE_KNIFE_10
+		always = no
 		}
 		x = 20
 		y = 5
@@ -357,22 +359,18 @@
 		completion_reward = {
 			set_cosmetic_tag = TRINITY_REICH
 			custom_effect_tooltip = steel_reich_tt
+			hidden_effect = {
 			news_event = { id = BA_news.3 days = 3 }
-			hidden_effect = {
-			swap_ideas = {
-			remove_idea = TRM_great_depression
-			add_idea = TRM_steel_reich 
-			}
-			swap_ideas = {
-				remove_idea = TRM_troll_mika_2
-				add_idea = TRM_empire_of_mika
-			}
-			}
-			hidden_effect = {
 				add_country_leader_trait = TRN_mika_trait_1
 				add_country_leader_trait = TRN_mika_trait_2
-				
+			swap_ideas = {
+				remove_idea = TRM_great_depression
+				add_idea = TRM_steel_reich 
 			}
+				remove_ideas = TRM_troll_mika_2
+			add_ideas = TRN_Inefficient_bureaucracy
+			}
+			
 		}
 	}
 	focus = {
@@ -509,33 +507,34 @@
 	focus = {
 		id = TRM_newfocus_33 #라디오의 침묵
 		icon = GFX_goal_radio_silence
-		cost = 6.0
+		cost = 7.0
 		prerequisite = {
 			focus = TRM_newfocus_21
 		}
 		x = 21
 		y = 6
-		can
 		select_effect = {
 		hidden_effect = {
 		swap_ideas = {
 			remove_idea = TRM_safe_trinity
 			add_idea = TRM_un_safe_trinity
 		}
-		country_event = { id = TRM_event.10 days = 1 }
-		country_event = { id = TRM_event.17 days = 5 }
-		country_event = { id = TRM_event.20 days = 10 }
-		country_event = { id = TRM_event.8 days = 13}
-		country_event = { id = TRM_event.18 days = 15 }
-		country_event = { id = TRM_event.21 days = 20 }
-		country_event = { id = TRM_event.9 days = 25}
-		country_event = { id = TRM_event.22 days = 30 }
-		country_event = { id = TRM_event.23 days = 40 }
-		country_event = { id = TRM_event.16 days = 44 }
+		country_event = { id = TRM_event.10 days = 1 } # 라디오의 침묵
+		country_event = { id = TRM_event.17 days = 5 } # 첫날
+		country_event = { id = TRM_event.20 days = 10 } #남자의 죽음
+		country_event = { id = TRM_event.8 days = 13} # 거리에서
+		country_event = { id = TRM_event.18 days = 15 } # 닿지 않는 연락
+		country_event = { id = TRM_event.21 days = 20 } # 고약한 냄새
+		country_event = { id = TRM_event.9 days = 25} # 거짓된 보고
+		country_event = { id = TRM_event.22 days = 30 } # 혈흔
+		country_event = { id = TRM_event.23 days = 40 } # 수상한 낌새
+		
 		}
 		}
 		completion_reward = {
 		custom_effect_tooltip = night_knife_tt
+		set_country_flag = TRM_NIGHT_OF_THE_KNIFE_7
+		country_event = { id = TRM_event.16 } # 미카의 집권
 		}
 		
 
@@ -672,6 +671,10 @@
 		completion_reward = {
 			create_wargoal = {
 				target = MIL
+				type = annex_everything
+			}
+			create_wargoal = {
+				target = SRT
 				type = annex_everything
 			}
 		}
@@ -825,7 +828,6 @@
 		y = 10
 		completion_reward = {
 			custom_effect_tooltip = gehenna_war_plan
-			set_country_flag = gehenna_war_plan
 		}
 	}
 	focus = {
@@ -937,18 +939,7 @@
 		y = 16
 		completion_reward = {
 			custom_effect_tooltip = TRINITY_after_war_2_tt
-			set_province_name = {
-                    id = 6469
-                    name = "에센"
-                }
-				set_province_name = {
-                    id = 6488
-                    name = "프랑크푸르트"
-                }
-				set_province_name = {
-                    id = 692
-                    name = "뮌헨"
-                }
+			country_event = { id = TRM_event.27 days = 1}
 		}
 	}
 	focus = {
@@ -1010,30 +1001,34 @@
 			add_state_core = 58
 		 	
 		}
-	}focus = {
+	}
+	focus = {
 		id = TRN_sanup_focus_one
 		icon = GFX_goal_generic_destruction_civil_war
-		cost = 10.00
+		cost = 6
 		available = {
 			has_country_flag = TRINITY_WON_THE_GEHENNA
 			has_completed_focus = TRM_after_war
 		}
-		x = 40
-		y = 5
+		x = 37
+		y = 2
+		completion_reward = {
+			add_timed_idea = { idea = GER_rebuild_the_nation days = 100 }
+		}
 
 	}
 	focus = {
 		id = TRN_dokli_sanup_jaegun
 		icon = GFX_goal_generic_construction
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_sanup_focus_one
 		}
-		x = 39
-		y = 6
+		x = 37
+		y = 3
 		completion_reward = {
 			add_tech_bonus = {
-				name = USA_rebuild_americas_industry
+				name = TRN_rebuild_americas_industry
 				bonus = 1
 				uses = 2
 				category = industry
@@ -1044,13 +1039,40 @@
 	focus = {
 		id = TRN_saup_bojoglod
 		icon = GFX_goal_generic_positive_trade_relations
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_dokli_sanup_jaegun
 		}
-		x = 38
-		y = 7
+		x = 36
+		y = 4
 		completion_reward = {
+			if = {
+				limit = {
+					has_idea = GER_national_revitalization
+				}
+				swap_ideas = { 
+					remove_idea = GER_national_revitalization 
+					add_idea = GER_national_revitalization2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = GER_national_revitalization2
+				}
+				swap_ideas = { 
+					remove_idea = GER_national_revitalization2
+					add_idea = GER_national_revitalization3
+				}
+			}
+			if = {
+				limit = {
+					has_idea = GER_national_revitalization3
+				}
+				swap_ideas = { 
+					remove_idea = GER_national_revitalization3
+					add_idea = GER_national_revitalization4
+				}
+			}
 			random_owned_controlled_state = {
 				limit = {
 						OR = {
@@ -1099,117 +1121,180 @@
 	focus = {
 		id = TRN_doklisanupyi_him
 		icon = GFX_goal_unknown
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_saup_bojoglod
 		}
-		x = 38
-		y = 9
+		x = 36
+		y = 6
 		completion_reward = {
-			
+		add_ideas = TRN_deutchland_industry_power
 		}
 
 	}
 	focus = {
 		id = TRN_gwanryuje_jaijungbee
 		icon = GFX_goal_unknown
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_doklisanupyi_him
 		}
-		x = 36
-		y = 10
+		x = 34
+		y = 7
+		completion_reward = {
+		swap_ideas = {
+			remove_idea = TRN_Inefficient_bureaucracy
+			add_idea = TRN_Inefficient_bureaucracy_2
+		}	
+		}
 
 	}
 	focus = {
 		id = TRN_gunsu_sangsan_bub
 		icon = GFX_goal_unknown
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_gwanryuje_jaijungbee
 		}
-		x = 35
-		y = 11
-
+		x = 33
+		y = 8
+		completion_reward = {
+			if = {
+				limit = { has_idea = TRN_Inefficient_bureaucracy_2 }
+				swap_ideas = {
+					remove_idea = TRN_Inefficient_bureaucracy_2
+					add_idea = TRN_Inefficient_bureaucracy_3
+				}
+			}
+			if = {
+				limit = { has_idea = TRN_Inefficient_bureaucracy_4 }
+				swap_ideas = {
+					remove_idea = TRN_Inefficient_bureaucracy_4
+					add_idea = TRN_Inefficient_bureaucracy_5
+				}
+			}
+			}
 	}
 	focus = {
 		id = TRN_gyungje_hyu_ul_bub
 		icon = GFX_goal_unknown
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_gwanryuje_jaijungbee
 		}
-		x = 37
-		y = 11
+		x = 35
+		y = 8
+		completion_reward = {
+			if = {
+				limit = { has_idea = TRN_Inefficient_bureaucracy_2 }
+				swap_ideas = {
+					remove_idea = TRN_Inefficient_bureaucracy_2
+					add_idea = TRN_Inefficient_bureaucracy_4
+				}
+			}
+			if = {
+				limit = { has_idea = TRN_Inefficient_bureaucracy_3 }
+				swap_ideas = {
+					remove_idea = TRN_Inefficient_bureaucracy_3
+					add_idea = TRN_Inefficient_bureaucracy_5
+				}
+			}
+			
+		
+		}
 
 	}
 	focus = {
 		id = TRN_gunsa_sanup_jaijungbee
 		icon = GFX_goal_unknown
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_doklisanupyi_him
 		}
-		x = 38
-		y = 10
+		mutually_exclusive = {
+			focus = TRN_mingan_sanup_jaijungbee
+		}
+		x = 36
+		y = 7
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = TRN_deutchland_industry_power
+				add_idea = TRN_deutchland_industry_power_amry
+			}
+		}
 
 	}
 	focus = {
 		id = TRN_nodongjohap_unmyung
 		icon = GFX_goal_GBR_fate_of_unions
-		cost = 10.00
+		cost = 0.5
 		prerequisite = {
 			focus = TRN_dokli_sanup_jaegun
 		}
-		x = 39
-		y = 8
+		x = 37
+		y = 5
+		completion_reward = {
+			country_event = { id = TRM_event.38 days = 3}
+		}
 
 	}
 	focus = {
 		id = TRN_mingan_sanup_jaijungbee
 		icon = GFX_goal_unknown
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_doklisanupyi_him
 		}
-		x = 40
-		y = 10
+		mutually_exclusive = {
+			focus = TRN_gunsa_sanup_jaijungbee
+		}
+		x = 38
+		y = 7
+		completion_reward = {
+			swap_ideas = {
+				add_idea = TRN_deutchland_industry_power_industrial
+				remove_idea = TRN_deutchland_industry_power
+			}
+		}
 
 	}
 	focus = {
 		id = TRN_yungu_e_tuja
 		icon = GFX_goal_unknown
-		cost = 10.00
+		cost = 4.3
 		prerequisite = {
 			focus = TRN_gunsa_sanup_jaijungbee
-		}
-		prerequisite = {
 			focus = TRN_mingan_sanup_jaijungbee
 		}
-		x = 39
-		y = 11
+		x = 37
+		y = 8
+		completion_reward = {
+			add_research_slot = 1
+		}
 
 	}
 	focus = {
 		id = TRN_banyukja_jaephan
 		icon = GFX_goal_DOM_The_Trial
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_dokli_sanup_jaegun
 		}
-		x = 40
-		y = 7
-
+		x = 38
+		y = 4
+		completion_reward = {
+			custom_effect_tooltip = TRN_banyukja_jaephan_tt
+		}
 	}
 	focus = {
 		id = TRN_dokli_chuldo_jaegun
 		icon = GFX_goal_generic_railway_construction
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_sanup_focus_one
 		}
-		x = 41
-		y = 6
+		x = 39
+		y = 3
 		completion_reward = {
 			random_owned_controlled_state = {
 				limit = {
@@ -1272,26 +1357,83 @@
 	focus = {
 		id = TRN_doromang_jaegun
 		icon = GFX_goal_generic_road_construction
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_dokli_chuldo_jaegun
 		}
-		x = 41
-		y = 8
+		x = 39
+		y = 5
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_mainland_america = yes
+					free_building_slots = { building = infrastructure size > 0 }
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_mainland_america = yes
+					free_building_slots = { building = infrastructure size > 0 }
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_mainland_america = yes
+					free_building_slots = { building = infrastructure size > 0 }
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_mainland_america = yes
+					free_building_slots = { building = infrastructure size > 0 }
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_mainland_america = yes
+					free_building_slots = { building = infrastructure size > 0 }
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
 
 	}
 	focus = {
 		id = TRN_nongup_jaegun
 		icon = GFX_goal_AUS_agriculture
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_sanup_focus_one
 		}
-		x = 43
-		y = 6
+		x = 41
+		y = 3
 		completion_reward = {
 			add_tech_bonus = {
-				name = USA_rebuild_agriculture
+				name = TRN_rebuild_agriculture
 				bonus = 1
 				uses = 2
 				category = industry
@@ -1302,43 +1444,65 @@
 	focus = {
 		id = TRN_gokchang_zidae
 		icon = GFX_goal_generic_agriculture
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_nongup_jaegun
 		}
-		x = 42
-		y = 7
+		x = 40
+		y = 4
+		completion_reward = {
+			add_ideas = TRN_grain_council
+		}
 
 	}
 	focus = {
 		id = TRN_nongup_vojoglod
 		icon = GFX_goal_agrarian_reform
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_gokchang_zidae
 		}
 		prerequisite = {
 			focus = TRN_doromang_jaegun
 		}
-		x = 42
-		y = 9
-
+		available = {
+			has_political_power > 200
+		}
+		x = 40
+		y = 6
+		completion_reward = {
+			add_political_power = -200
+			swap_ideas = {
+			remove_idea = TRN_grain_council
+			add_idea = TRN_grain_council_2
+			}
+		}
 	}
+
+	
 	focus = {
 		id = TRN_junruckhwa_gyehek
 		icon = GFX_goal_Schelle
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_nongup_jaegun
 		}
-		x = 44
-		y = 7
+		x = 42
+		y = 4
+		completion_reward = {
+			add_tech_bonus = {
+				name = TRN_electrification
+				bonus = 1
+				uses = 2
+				category = electronics
+			}
+		}
 
 	}
 	focus = {
 		id = TRN_jaegun_wanryu
 		icon = GFX_focus_mex_privatisation
-		cost = 10.00
+		cost = 6
 		prerequisite = {
 			focus = TRN_gyungje_hyu_ul_bub
 		}
@@ -1346,8 +1510,10 @@
 			focus = TRN_gunsu_sangsan_bub
 			focus = TRN_yungu_e_tuja
 		}
-		x = 37
-		y = 12
-
+		x = 35
+		y = 9
+		completion_reward = {
+			add_ideas = TRN_industrial_boom
+		}
 	}
 }
