@@ -195,6 +195,9 @@
 		y = 3
 		completion_reward = {
 		country_event = { id = TRM_event.6 }
+		hidden_effect = {
+			retire_character = TRN_tpdldk
+		}
 		}
 
 	}
@@ -222,6 +225,9 @@
 		available = {
 		has_country_flag = TRM_NIGHT_OF_THE_KNIFE_10
 		}
+		allow_branch = {
+            has_completed_focus = TRM_newfocus_22
+		}
 		x = 17
 		y = 5
 		completion_reward = {
@@ -239,6 +245,9 @@
 		available = {
 		has_country_flag = TRM_NIGHT_OF_THE_KNIFE_10
 		}
+		allow_branch = {
+            has_completed_focus = TRM_newfocus_23
+		}
 		x = 19
 		y = 5
 		completion_reward = {
@@ -249,13 +258,19 @@
 	focus = {
 		id = TRM_newfocus_26 #법 개정
 		icon = GFX_focus_generic_military_academy
-		cost = 6.00
+		cost = 1.50
 		prerequisite = {
 			focus = TRM_newfocus_33
 		}
 		available = {
 		has_country_flag = TRM_NIGHT_OF_THE_KNIFE_7
 		}
+		allow_branch = {
+			or ={
+      		has_completed_focus = TRM_newfocus_33
+			}
+		}
+    	
 		x = 20
 		y = 6
 		completion_reward = {
@@ -270,6 +285,9 @@
 		cost = 1.50
 		prerequisite = {
 			focus = TRM_newfocus_21
+		}
+		allow_branch = {
+            has_completed_focus = TRM_newfocus_24
 		}
 		available = {
 		has_country_flag = TRM_NIGHT_OF_THE_KNIFE_7
@@ -287,6 +305,9 @@
 		cost = 1.50
 		prerequisite = {
 			focus = TRM_newfocus_21
+		}
+		allow_branch = {
+            has_completed_focus = TRM_newfocus_25
 		}
 		available = {
 		has_country_flag = TRM_NIGHT_OF_THE_KNIFE_7
@@ -307,6 +328,9 @@
 		}
 		available = {
 		has_country_flag = TRM_NIGHT_OF_THE_KNIFE_7
+		}
+		allow_branch = {
+      		has_completed_focus = TRM_newfocus_33
 		}
 		x = 22
 		y = 6
@@ -500,6 +524,9 @@
 		}
 		x = 21
 		y = 5
+		complete_tooltip = {
+			custom_effect_tooltip = night_knife_end_tt
+		}
 		select_effect = {
 		hidden_effect = {
 		swap_ideas = {
@@ -525,6 +552,7 @@
 		set_country_flag = TRM_NIGHT_OF_THE_KNIFE_7
 		hidden_effect = {
 		country_event = { id = TRM_event.16 } # 미카의 집권
+		retire_character = TRN_skrltk
 		}
 		}
 		
@@ -550,11 +578,13 @@
 	focus = {
 		id = TRM_arius_annex #아리우스 노빠구 선전포고
 		icon = GFX_goal_anschluss
+		will_lead_to_war_with  = ARI
 		cost = 1.50
 		prerequisite = {
 			focus = TRM_eden_fact_crusher
-		}
-		available = { 
+		} 
+		available = {
+        country_exists = ARI
 		}
 		
 		x = 21
@@ -726,16 +756,16 @@
 			has_war = NO
 			custom_trigger_tooltip = {
    			tooltip = TRM_Last_Focus_trigger_tt
-			controls_state = 16
-			controls_state = 4
-			controls_state = 9
-			controls_state = 909
-			controls_state = 37
-			controls_state = 7
-			controls_state = 36
-			controls_state = 34
-			controls_state = 8
-			controls_state = 126
+			state = 55 # 게헨나 중앙구
+			state = 7 # D.U
+			state = 36 # D.U 샬레
+			state = 37 # 체리노그라드
+			state = 16 # 밀레니엄 타워
+			state = 14 # SRT 특수학원
+			state = 4 # 산해경
+			state = 909 # 아비도스
+			state = 9 # 음양부
+			state = 85 # 아리우스 분교
   		 	}
 		}
 		prerequisite = {
@@ -757,6 +787,7 @@
 		y = 22
 		completion_reward = {
 			custom_effect_tooltip = trm_last_focus_tt
+			news_event = { id = BA_news.9 days = 3 }
 			hidden_effect = {
 				TRM_endsieg_effect = yes
 			}
@@ -778,7 +809,6 @@
 				can_declare_war_on_same_ideology = yes
 				can_declare_war_without_wargoal_when_in_war = yes
 			}
-			news_event = { id = BA_news.9 days = 3 }
 		}
 	}
 	focus = {
@@ -835,20 +865,38 @@
 			
 		}
 		completion_reward = {
-			68 = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {	
 					type = arms_factory
-					level = 2
+					level = 1
 					instant_build = yes
 				}
 				set_state_flag = TRN_state_flag
 			}
-			63 = {
-				add_extra_state_shared_building_slots = 2
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = arms_factory
-					level = 2
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = TRN_state_flag
+			}
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
 					instant_build = yes
 				}
 				set_state_flag = TRN_state_flag
@@ -868,7 +916,7 @@
 		y = 11
 		cost = 6
 		completion_reward = {
-			add_ideas = TRN_mobilisation
+			add_ideas = TRN_wareconomy
 		}
 	}
 	focus = {
@@ -999,6 +1047,9 @@
 		prerequisite = {
 			focus = TRM_typhoon
 		}
+		allow_branch = {
+			has_country_flag = TRINITY_WON_THE_GEHENNA
+		}
 		x = 21
 		y = 16
 		completion_reward = {
@@ -1087,6 +1138,9 @@
 		available = {
 			has_country_flag = TRINITY_WON_THE_GEHENNA
 			has_completed_focus = TRM_after_war
+		}
+		allow_branch = {
+      		has_completed_focus = TRM_after_war
 		}
 		x = 37
 		y = 2
