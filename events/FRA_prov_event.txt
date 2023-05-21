@@ -741,9 +741,6 @@ country_event = { #경제적 협력 요청
 				days = 1
 			}
 		}
-		add_to_variable = {
-			FRA_demand_economy = 1
-		}
 	}
 	option = {
 		ai_chance = {
@@ -755,9 +752,6 @@ country_event = { #경제적 협력 요청
 				id = FRA_prov_event.19
 				days = 1
 			}
-		}
-		add_to_variable = {
-			FRA_demand_economy = 1
 		}
 	}
 }
@@ -775,6 +769,9 @@ country_event = { #경제적 협력 거절
 			id = FRA_prov_event.12
 			days = 1
 		}
+		add_to_variable = {
+			FRA_demand_economy = 1
+		}
 	}
 }
 country_event = { #경제적 협력 수락
@@ -791,6 +788,9 @@ country_event = { #경제적 협력 수락
 		country_event = {
 			id = FRA_prov_event.12
 			days = 1
+		}
+		add_to_variable = {
+			FRA_demand_economy = 1
 		}
 	}
 }
@@ -810,9 +810,6 @@ country_event = { #영국에게 전후 처리 협상
 			country = FRA
 			relation = non_aggression_pact
 		}
-		add_to_variable = {
-			FRA_demand_after_war = 10
-		}
 		FRA = {
 			country_event = {
 				id = FRA_prov_event.22
@@ -826,9 +823,6 @@ country_event = { #영국에게 전후 처리 협상
 			factor = 10
 		}
 		name = FRA_prov_event.20.b
-		add_to_variable = {
-			FRA_demand_after_war = 1
-		}
 		FRA = {
 			country_event = {
 				id = FRA_prov_event.23
@@ -851,6 +845,9 @@ country_event = { #전후 처리 수락
 			id = FRA_prov_event.12
 			days = 1
 		}
+		add_to_variable = {
+			FRA_demand_after_war = 1
+		}
 	}
 }
 country_event = { #전후 처리 거절
@@ -867,6 +864,9 @@ country_event = { #전후 처리 거절
 			id = FRA_prov_event.12
 			days = 1
 		}
+		add_to_variable = {
+			FRA_demand_after_war = 1
+		}
 	}
 }
 country_event = { #협상국
@@ -880,6 +880,12 @@ country_event = { #협상국
 		ai_chance = {
 			factor = 1
 		}
+		FRA = {
+			country_event = {
+				id = FRA_prov_Event.25
+				days = 1
+			}
+		}
 		name = FRA_prov_event.24.a
 		dismantle_faction = yes
 		FRA = {
@@ -892,6 +898,12 @@ country_event = { #협상국
 			factor = 1
 		}
 		name = FRA_prov_event.24.b
+		FRA = {
+			country_event = {
+				id = FRA_prov_Event.26
+				days = 1
+			}
+		}
 	}
 }
 country_event = { #협상국 수락
@@ -909,7 +921,13 @@ country_event = { #협상국 수락
 		}
 		country_event = {
 			id = fra_prov_event.12
-			days = !
+			days = 1
+		}
+		hidden_effect = {
+			complete_national_focus = FRA_focus_london_4
+			ENG = {
+				add_ideas = FRA_ENG_faction
+			}
 		}
 	}
 }
@@ -928,7 +946,7 @@ country_event = { #협상국 거절
 		}
 		country_event = {
 			id = fra_prov_event.12
-			days = !
+			days = 1
 		}
 	}
 }
@@ -948,5 +966,42 @@ country_event = { #영-불 중앙아프리카 분쟁
 			type = take_claimed_state
 		}
 		activate_decision = FRA_midaf_occupation
+	}
+}
+
+country_event = { #저항 강화
+	id = FRA_prov_event.28
+	title = FRA_prov_event.28.t
+	desc = FRA_prov_event.28.d
+	fire_only_once = yes
+	trigger = {
+		neutrality < 0.5
+	}
+	hidden = no
+	option = {
+		name = FRA_prov_event.28.a
+		hidden_effect = {
+			complete_national_focus = FRA_focus_resist_1
+		}
+		every_state = {
+			limit = {
+				is_owned_by = FRA
+			}
+			add_resistance = 5
+		}
+	}
+}
+country_event = { #아프리카 냠냠
+	id = FRA_prov_event.29
+	title = FRA_prov_event.29.t
+	desc = FRA_prov_event.29.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	hidden = no
+	option = {
+		name = FRA_prov_event.29.a
+		transfer_state = 699
+		transfer_state = 783
+		add_war_support = 0.1
 	}
 }
