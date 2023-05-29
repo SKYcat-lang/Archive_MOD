@@ -1,8 +1,8 @@
-version="0.2.4"
+version="0.2.5"
 tags={
 	"Gameplay"
 	"Graphics"
-	"Events" 
+	"Events"
 	"Historical"
 	"Ideologies"
 	"Military"
