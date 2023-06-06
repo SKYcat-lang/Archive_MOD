@@ -296,6 +296,7 @@
 		y = 7
 		completion_reward = {
 			set_cosmetic_tag = TRINITY_REICH
+			add_ideas = TRM_steel_reich_debuff
 			custom_effect_tooltip = steel_reich_tt
 			hidden_effect = {
 			news_event = { id = BA_news.3 days = 3 }
@@ -425,9 +426,17 @@
 		x = 17
 		y = 21
 		completion_reward = {
-		create_wargoal = {
+			if = {
+				limit = { has_country_flag = HEU_PUPPET_TRN }
+				annex_country = {
+				target = HEU
+				}
+			}
+			else = {
+			create_wargoal = {
 				target = HEU
 				type = annex_everything
+			}
 			}
 		}
 	}
@@ -858,6 +867,9 @@
 		completion_reward = {
 			custom_effect_tooltip = GEH_after_war_tt
 			country_event = { id = TRM_event.35 }
+			hidden_effect = {
+				country_event = { id = TRM_event.48 days = 3 }
+			}
 		}
 		
 	}
@@ -894,8 +906,19 @@
 			add_threat = 5
 			news_event = { id = BA_news.7 }
 			hidden_effect = {
+				if = {
+					limit = { has_country_flag = HEU_PUPPET_TRN }
 				annex_country = {
-				target = TR1
+					target = TR1
+				}
+				annex_country = {
+					target = HEU
+					}
+				}
+				else = {
+					annex_country = {
+						target = TR1
+					}
 				}
 			}
 		}
@@ -1222,6 +1245,7 @@
 		completion_reward = {
 			country_event = { id = TRN_after_war_event.13 days = 1 }
 			add_research_slot = 1
+			add_ideas = TRN_research_buff
 		}
 
 	}
@@ -1317,8 +1341,8 @@
 		x = 39
 		y = 5
 		completion_reward = {
+			country_event = { id = TRN_after_war_event.4 days = 1 }
 			random_owned_controlled_state = {
-			country_event = { id = TRN_after_war_event.3 days = 1 }
 				limit = {
 					is_mainland_america = yes
 					free_building_slots = { building = infrastructure size > 0 }
@@ -1468,7 +1492,7 @@
 			focus = TRN_yungu_e_tuja
 		}
 		x = 35
-		y = 10
+		y = 9
 		completion_reward = {
 			country_event = { id = TRN_after_war_event.16 days = 1 }
 			add_ideas = TRN_industrial_boom
