@@ -1,4 +1,5 @@
-version="0.2.5"
+name="Blue Archive MOD"
+replace_path="gfx/loadingscreens"
 tags={
 	"Gameplay"
 	"Graphics"
@@ -10,7 +11,8 @@ tags={
 dependencies={
 	"Korean Language"
 }
+version="0.2.5"
 picture="thumbnail.png"
-name="Blue Archive MOD"
 supported_version="1.12.*"
+path="C:/Users/USER-PC/Documents/Paradox Interactive/Hearts of Iron IV/mod/Archive_MOD"
 remote_file_id="2927583473"
