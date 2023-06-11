@@ -1,0 +1,169 @@
+focus_tree = {
+    id = ENG_british_warning
+    country = {
+		factor = 0
+		modifier = {
+			add = 20
+			tag = ENG
+		}
+	}
+	default = no
+	focus = {
+		id = ENG_british_civil_war
+		icon = GFX_goal_unknown
+		cost = 01.00
+		x = 14
+		y = 0
+		completion_reward = {
+            add_war_support = 100
+            country_event = { id = ENG_british_warning_event.1 }
+		}
+
+	}
+	focus = {
+		id = ENG_Emergency_conscription
+		icon = GFX_goal_unknown
+		cost = 01.00
+		prerequisite = {
+			focus = ENG_british_civil_war
+		}
+		x = 13
+		y = 1
+		completion_reward = {
+			add_manpower = 100000
+		}
+
+	}
+	focus = {
+		id = ENG_securing_supplies
+		icon = GFX_goal_unknown
+		cost = 01.00
+		prerequisite = {
+			focus = ENG_Emergency_conscription
+		}
+		x = 12
+		y = 2
+		completion_reward = {
+			add_equipment_to_stockpile = {
+                type = infantry_equipment
+                amount = 2000
+            }
+            add_equipment_to_stockpile = {
+                type = artillery_equipment
+                amount = 1000
+            }
+            add_equipment_to_stockpile = {
+                type = support_equipment
+                amount = 3000
+            }
+		}
+
+	}
+	focus = {
+		id = ENG_Find_a_solution
+		icon = GFX_goal_unknown
+		cost = 01.00
+		prerequisite = {
+			focus = ENG_british_civil_war
+		}
+		x = 15
+		y = 1
+		completion_reward = {
+			country_event = { id = ENG_british_warning_event.2 }
+		}
+
+	}
+	focus = {
+		id = ENG_get_help
+		icon = GFX_goal_unknown
+		cost = 01.00
+		prerequisite = {
+			focus = ENG_Emergency_conscription
+		}
+		prerequisite = {
+			focus = ENG_Find_a_solution
+		}
+		x = 14
+		y = 2
+		completion_reward = {
+			country_event = { id = ENG_british_warning_event.3 days = 7 }
+		}
+
+	}
+	focus = {
+		id = ENG_vitory_or
+		icon = GFX_goal_unknown
+		cost = 01.00
+		prerequisite = {
+			focus = ENG_get_help
+		}
+		prerequisite = {
+			focus = ENG_securing_supplies
+		}
+		mutually_exclusive = {
+			focus = ENG_death
+		}
+        available = { 
+            has_global_flag = ENG_win_global_flag
+        }
+		x = 13
+		y = 3
+		completion_reward = {
+			add_stability = 1
+		}
+
+	}
+	focus = {
+		id = ENG_Investigating_the_gentiles
+		icon = GFX_goal_unknown
+		cost = 01.00
+		prerequisite = {
+			focus = ENG_Find_a_solution
+		}
+		x = 16
+		y = 2
+		completion_reward = {
+            country_event = { id = ENG_british_warning_event.4 }
+            hidden_effect = { KAI = { add_timed_idea = { idea = KAI_BONUS_TO_ENG days = 30 } } }
+		}
+
+	}
+	focus = {
+		id = ENG_death
+		icon = GFX_goal_unknown
+		cost = 01.00
+		prerequisite = {
+			focus = ENG_Investigating_the_gentiles
+		}
+		prerequisite = {
+			focus = ENG_get_help
+		}
+		mutually_exclusive = {
+			focus = ENG_vitory_or
+		}
+        available = {
+            has_global_flag = ENG_lose_global_flag
+        }
+		x = 15
+		y = 3
+		completion_reward = {
+			add_stability = -1
+		}
+
+	}
+	focus = {
+		id = ENG_The_Last_of_Britain
+		icon = GFX_goal_unknown
+		cost = 01.00
+		prerequisite = {
+			focus = ENG_vitory_or
+			focus = ENG_death
+		}
+		x = 14
+		y = 4
+		completion_reward = {
+			load_focus_tree = british_focus
+		}
+
+	}
+}
