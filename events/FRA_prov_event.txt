@@ -87,7 +87,7 @@ country_event = {
 	desc = FRA_prov_event.3.d
 	fire_only_once = yes
 	trigger = {
-		has_stability < 0.08
+		has_stability < 0.20
 		has_idea = FRA_emergency_mobil
 		tag = FRA
 	}
@@ -932,16 +932,12 @@ country_event = {
 			}
 		}
 		name = FRA_prov_event.24.a
-		leave_faction = yes
-		dismantle_faction = yes
 		hidden_effect = {
 			ENG = {
 				add_ideas = FRA_ENG_faction
+				dismantle_faction = yes
+				
 			}
-		}
-		FRA = {
-			create_faction = fac_entente
-			add_to_faction = ENG
 		}
 	}
 	option = {
@@ -977,6 +973,14 @@ country_event = {
 			days = 1
 		}
 		hidden_effect = {
+			create_faction = fac_entente
+			FRA = {
+				create_faction = fac_entente
+			}
+			FRA = {
+				add_to_faction = Eng
+			}
+
 			complete_national_focus = FRA_focus_london_4
 		}
 	}
@@ -1224,57 +1228,13 @@ country_event = { #스페인 내전 끝
 	fire_only_once = yes
 	trigger = {
 		OR = {
-			AND = {
-				has_global_flag = spanish_civil_war
-				NOT = {
-					has_global_flag = scw_over
-				}
-				NOT = {
-					has_dlc = "La Resistance"
-				}
-				SPR = {
-					has_civil_war = no
-				}
-				any_other_country = {
-					original_tag = SPR
-					NOT = {
-						has_government = fascism
-					}
-				}
-				all_country = {
-					OR = {
-						NOT = {
-							original_tag = SPR
-						}
-						NOT = {
-							has_government = fascism
-						}
-					}
-				}
+			has_global_flag = scw_over
+			if = { 
+				limit = { NOT = { has_global_flag = spanish_civil_war } }
+				NOT = { country_exists = SPR }
 			}
-			AND = {
-				has_global_flag = spanish_civil_war
-				NOT = {
-					has_global_flag = scw_over
-				}
-				NOT = {
-					has_dlc = "La Resistance"
-				}
-				SPR = {
-					has_civil_war = no
-				}
-				any_other_country = {
-					original_tag = SPR
-					has_government = fascism
-				}
-				all_country = {
-					OR = {
-						NOT = {
-							original_tag = SPR
-						}
-						has_government = fascism
-					}
-				}
+			else = {
+				NOT = { country_exists = SPD }
 			}
 		}
 	}
@@ -1284,5 +1244,57 @@ country_event = { #스페인 내전 끝
 		hidden_effect = {
 			complete_national_focus = FRA_focus_spain_4
 		}
+	}
+}
+country_event = { #노동자 인터내셔널
+	id = FRA_prov_event.37
+	title = FRA_prov_event.37.t
+	desc = FRA_prov_event.37.d
+	fire_only_once = yes
+	trigger = {
+		has_idea = leon_blum
+	}
+	hidden = no
+	option = {
+		name = FRA_prov_event.37.a
+		add_popularity = {
+			ideology = communism
+			popularity = 0.01
+		}
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.01
+		}
+		add_ideas = FRA_popular_front
+	}
+}
+news_event = { #본토 수복
+	id = FRA_prov_event.38
+	title = FRA_prov_event.38.t
+	desc = FRA_prov_event.38.d
+	fire_only_once = yes
+	trigger = {
+		16 = {
+			is_owned_by = FRA
+		}
+		FRA = {
+			has_war = no
+		}
+	}
+	hidden = no
+	option = {
+		name = FRA_prov_event.38.a
+		trigger = {
+			NOT = {
+				tag = FRA
+			}
+		}
+	}
+	option = {
+		name = FRA_prov_event.38.a
+		trigger = {
+			tag = FRA
+		}
+		country_event = super.7
 	}
 }

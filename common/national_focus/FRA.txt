@@ -402,7 +402,7 @@ focus_tree = {
 				has_completed_focus = FRA_focus_resist_1
 			}
 			custom_trigger_tooltip = {
-				tooltip = FRA_focus_12_tt
+				tooltip = FRA_focus_12_tt_tri
 				NOT = {
 					check_variable = {
 						FRA_alz > 0
@@ -679,6 +679,7 @@ focus_tree = {
 			set_technology = {
 				basic_submarine = 1
 				basic_ship_hull_light = 1
+				basic_battery = 1
 			}
 			add_equipment_to_stockpile = {
 				type = ship_hull_light
@@ -910,7 +911,14 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_political_power = 50
-			create_faction = fac_entente
+			if = {
+				limit = {
+					FRA = {
+						is_in_faction = no
+					}
+				}
+				create_faction = fac_entente
+			}	
 		}
 	}
 	focus = {
@@ -919,6 +927,25 @@ focus_tree = {
 		cost = 2
 		x = 3
 		y = 11
+		available = {
+			NOT = {
+				OR = {
+					check_variable = {
+						FRA_demand_colony = 1
+					}
+					check_variable = {
+						FRA_demand_economy = 1
+					}
+					check_variable = {
+						FRA_demand_after_war = 1
+					}
+					check_variable = {
+						FRA_demand_entente = 1
+					}
+				}
+			}
+			
+		}
 		prerequisite = {
 			focus = FRA_focus_london_0
 			focus = FRA_focus_london_2
@@ -988,10 +1015,13 @@ focus_tree = {
 			focus = FRA_focus_spain_1
 		}
 		completion_reward = {
-			add_opinion_modifier = {
-				target = SPA
-				modifier = FRA_help_civ
+			SPR = {
+				add_opinion_modifier = {
+					target = FRA
+					modifier = FRA_help_civ
+				}
 			}
+			
 			add_timed_idea = {
 				idea = FRA_spciv
 				days = 300
@@ -1011,10 +1041,13 @@ focus_tree = {
 			focus = FRA_focus_spain_1
 		}
 		completion_reward = {
-			add_opinion_modifier = {
-				target = SPR
-				modifier = FRA_help_civ
+			D01 = {
+				add_opinion_modifier = {
+					target = FRA
+					modifier = FRA_help_civ
+				}
 			}
+			
 			add_timed_idea = {
 				idea = FRA_spciv
 				days = 300
@@ -1225,9 +1258,15 @@ focus_tree = {
 			focus = FRA_focus_resistance_7
 		}
 		completion_reward = {
-			country_event = {
-				id = fra_prov_event.34
-				days = 3
+			MIL = {
+				country_event = {
+					id = fra_prov_event.34
+					days = 3
+				}
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
 			}
 		}
 	}
@@ -1252,6 +1291,8 @@ focus_tree = {
 			focus = FRA_focus_arm_11
 		}
 		completion_reward = {
+			add_stability = 0.3
+			add_war_support = 0.3
 			declare_war_on = {
 				target = MIL
 				type = annex_everything
