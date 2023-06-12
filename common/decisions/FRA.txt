@@ -582,12 +582,296 @@ FRA_war_dec = {
 			clear_variable = FRA_war_eng
 		}
 	}
-}
-FRA_resistance_dec = {
-	FRA_support_res_1 = {
-		target_root_trigger = {
-			has_completed_focus = FRA_focus_resistance_1
+	FRA_across_mid = {
+		icon = GFX_decision_generic_ignite_civil_war
+		cost = 100
+		days_remove = 20
+		available = {
+			has_war_with = MIL
 		}
-		target_array = every_state 
+		remove_effect = {
+			add_timed_idea = {
+				idea = FRA_landing
+				days = 200
+			}
+		}
+		fire_only_once = yes
+		visible = {
+			has_completed_focus = FRA_focus_resistance_5
+		}
+	}
+	FRA_fight_with_MIL_1 = {
+		visible = {
+			has_completed_focus = FRA_focus_resistance_5
+		}
+		icon = GFX_decision_generic_prepare_civil_war
+		available = {
+			has_war_with = MIL
+			OR = {
+				851 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+				21 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+				22 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+				31 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+			}
+		}
+		days_remove = 20
+		cost = 100
+		remove_effect = {
+			add_ideas = {
+				FRA_fight_MIL
+			}
+			set_variable = {
+				FRA_war = 1
+			}
+		}
+		fire_only_once = yes
+	}
+	FRA_fight_with_MIL_2 = {
+		icon = GFX_decision_generic_prepare_civil_war
+		allowed = {
+			check_variable = {
+				FRA_war = 1
+			}
+		}
+		visible = {
+			check_variable = {
+				FRA_war = 1
+			}
+			has_completed_focus = FRA_focus_resistance_5
+		}
+		available = {
+			
+			has_war_with = MIL
+			
+			OR = {
+				851 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+				21 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+				22 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+				31 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+			}
+		}
+		days_remove = 20
+		cost = 200
+		remove_effect = {
+			swap_ideas = {
+				remove_idea = FRA_fight_MIL
+				add_idea = FRA_fight_MIL_1
+			}
+			add_to_variable = {
+				FRA_war = 1
+			}
+		}
+		fire_only_once = yes
+	}
+	FRA_fight_with_MIL_3 = {
+		icon = GFX_decision_generic_prepare_civil_war
+		fire_only_once = yes
+		allowed = {
+			check_variable = {
+				FRA_war = 2
+			}
+		}
+		visible = {
+			check_variable = {
+				FRA_war = 2
+			}
+			has_completed_focus = FRA_focus_resistance_5
+		}
+		available = {
+			has_war_with = MIL
+			
+			OR = {
+				851 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+				21 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+				22 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+				31 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+			}
+		}
+		days_remove = 20
+		cost = 300
+		remove_effect = {
+			swap_ideas = {
+				remove_idea = FRA_fight_MIL_1
+				add_idea = FRA_fight_MIL_2
+			}
+			add_to_variable = {
+				FRA_war = 1
+			}
+		}
+	}
+	FRA_fight_with_MIL_4 = {
+		allowed = {
+			check_variable = {
+				FRA_war = 3
+			}
+		}
+		visible = {
+			check_variable = {
+				FRA_war = 3
+			}
+			has_completed_focus = FRA_focus_resistance_5
+		}
+		icon = GFX_decision_generic_prepare_civil_war
+		available = {
+			has_war_with = MIL
+			OR = {
+				851 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+				21 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+				22 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+				31 = {
+					is_controlled_by_ROOT_or_ally = yes
+				}
+			}
+		}
+		days_remove = 20
+		cost = 400
+		remove_effect = {
+			swap_ideas = {
+				remove_idea = FRA_fight_MIL_2
+				add_idea = FRA_fight_MIL_3
+			}
+			clear_variable = fra_war
+		}
+	}
+	FRA_lib_bor = {
+		visible = {
+			has_completed_focus = FRA_focus_resistance_5
+			NOT = {
+				check_variable = {
+					FRA_lib = 1
+				}
+			}
+		}
+		icon = GFX_decision_generic_nationalism
+		available = {
+			
+			has_war_with = MIL
+			19 = {
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+		days_remove = 5
+		cost = 10
+		remove_effect = {
+			set_capital = {
+				state = 19
+			}
+			set_variable = {
+				FRA_lib = 1
+			}
+			transfer_state = 19
+			news_event = FRA_prov_event.39
+		}
+	}
+	FRA_lib_mar = {
+		visible = {
+			has_completed_focus = FRA_focus_resistance_5
+			NOT = {
+				check_variable = {
+					FRA_lib = 1
+				}
+			}
+		}
+		icon = GFX_decision_generic_nationalism
+		available = {
+			
+			has_war_with = MIL
+			21 = {
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+		days_remove = 5
+		cost = 10
+		remove_effect = {
+			set_capital = {
+				state = 21
+			}
+			set_variable = {
+				FRA_lib = 1
+			}
+			transfer_state = 21
+			news_event = FRA_prov_event.40
+		}
+	}
+	FRA_lib_vic = {
+		icon = GFX_decision_generic_nationalism
+		visible = {
+			check_variable = {
+				FRA_lib = 1
+			}
+			has_completed_focus = FRA_focus_resistance_5
+		}
+		available = {
+			has_war_with = MIL
+			26 = {
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+		days_remove = 5
+		cost = 10
+		remove_effect = {
+			set_capital = {
+				state = 26
+			}
+			transfer_state = 26
+			news_event = FRA_prov_event.41
+			clear_variable = FRA_lib
+		}
+	}
+	FRA_total_lib = {
+		icon = GFX_decision_hol_war_on_pacifism
+		visible = {
+			26 = {
+				is_capital = yes
+			}
+			has_completed_focus = FRA_focus_resistance_5
+		}
+		available = {
+			NOT = {
+				has_war_with = MIL
+			}
+			16 = {
+				is_owned_and_controlled_by = FRA
+			}
+		}
+		complete_effect = {
+			news_event = FRA_prov_event.38
+			set_capital = {
+				state = 16
+			}
+			remove_ideas = FRA_emergency_mobil
+			clear_variable = FRA_dec
+		}
+		
 	}
 }
