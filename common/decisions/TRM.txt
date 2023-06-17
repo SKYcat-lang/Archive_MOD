@@ -25,40 +25,27 @@ TRN_country_collapse_decisions = {
 	}
 }
 TRM_library_committee_decisions = {
-	read_book = {
+	no_remove_library_committee_club = {
 		picture = GFX_decisions_ui_icon
 		allowed = {
 		}
 		available = {
-			is_ai = no
-			NOT = {
-			has_country_flag = reading_book
-			has_country_flag = writing_book
-			}
+			always = no
 		}
 
 		visible = {
 		}
-		cost = 30
-		days_remove = 120
 		ai_will_do = {
 			factor = 0
 		}
 		
 		fire_only_once = no
-
-
+		
 		modifier = {
 		}
 		complete_effect = {
-			set_country_flag = reading_book
-			add_ideas = TRM_library_committee
 		}
-		
-
 		remove_effect = {
-			clr_country_flag = reading_book
-			remove_ideas = TRM_library_committee
         }
 	}
 	writing_book = {
@@ -67,39 +54,73 @@ TRM_library_committee_decisions = {
 		}
 		available = {
 			is_ai = no
-			NOT = {
-			has_country_flag = writing_book
-			has_country_flag = reading_book
-			}
 		}
 
 		visible = {
 		}
 		cost = 30
-		days_remove = 120
+		days_re_enable = 15
+		ai_will_do = {
+			factor = 0
+		}
+		
+		fire_only_once = no
+		
+		modifier = {
+		}
+		complete_effect = {
+		}
+		remove_effect = {
+        }
+	}
+	writing_book_2 = {
+		picture = GFX_decisions_ui_icon
+		allowed = {
+		}
+		available = {
+			is_ai = no
+		}
+
+		visible = {
+		}
+		cost = 30
+		days_re_enable = 15
 		ai_will_do = {
 			factor = 0
 		}
 		
 		fire_only_once = no
 
-
 		modifier = {
 		}
 		complete_effect = {
-			set_country_flag = writing_book
-			add_ideas = TRM_library_committee
+		}
+		remove_effect = {
+        }
+	}
+}
+TRM_after_school_sweets_club = {
+	no_remove_sweets_club = {
+		picture = GFX_decisions_ui_icon
+		allowed = {
+		}
+		available = {
+			always = no
+		}
+		visible = {
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		modifier = {
+		}
+		complete_effect = {
 		}
 		
 
 		remove_effect = {
-			clr_country_flag = writing_book
-			remove_ideas = TRM_library_committee
         }
 	}
-	
-}
-TRM_after_school_sweets_club = {
 	make_cake = {
 		picture = GFX_decisions_ui_icon
 		allowed = {
@@ -122,11 +143,10 @@ TRM_after_school_sweets_club = {
 		}
 		
 		fire_only_once = no
+		days_re_enable = 15
 
 
 		modifier = {
-			stability_weekly = 0.003
-			industrial_capacity_factory = -0.025
 		}
 		complete_effect = {
 			set_country_flag = make_cake
@@ -160,11 +180,9 @@ TRM_after_school_sweets_club = {
 		}
 		
 		fire_only_once = no
-
+		days_re_enable = 15
 
 		modifier = {
-			stability_weekly = 0.003
-			industrial_capacity_factory = -0.025
 		}
 		complete_effect = {
 			set_country_flag = make_icecream
@@ -612,7 +630,6 @@ TRM_kivotos_core_states = {
 			every_state = {
 				limit = {
 					is_core_of = sha
-					is_controlled_by = trm
 				}
 				add_core_of = TRM
 			}
@@ -658,7 +675,6 @@ TRM_kivotos_core_states = {
 					is_core_of = MIL
 					is_core_of = SRT
 					}
-					is_controlled_by = TRM
 				}
 				add_core_of = TRM
 			}
@@ -702,8 +718,6 @@ TRM_kivotos_core_states = {
 					is_core_of = COU
 					is_core_of = KSP
 					}
-					
-					is_controlled_by = TRM
 				}
 				add_core_of = TRM
 			}
@@ -860,6 +874,96 @@ TRN_country_name_change = {
 
 }
 TRN_world_punitive_expedition = {
+	TRN_punitive_expedition_decision_ITA = {
+		allowed = {
+		}
+		available = {
+			ITA = {
+				exists = yes
+			}
+		}
+		
+
+		visible = {
+			ITA = {
+				exists = yes
+			}
+		}
+		
+		fire_only_once = yes
+
+
+		modifier = {
+
+		}
+		complete_effect = {
+			country_event = { id = TRM_event.50 }
+		}
+	}
+	TRN_punitive_expedition_decision_ITA_slipae = {
+		icon = GFX_decision_generic_operation
+		cost = 50
+   		activation = {
+			always = no
+    	}
+    	available = {
+			controls_state = 2
+    	} 
+		visible = {
+			ITA = {
+				exists = yes
+			}
+		}
+		highlight_states = {
+ 		highlight_state_targets = { state = 2 } 
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = yes
+		days_mission_timeout = 200
+		complete_effect = {
+			add_war_support = 0.05
+		}
+    	timeout_effect = {
+			add_war_support = -0.20
+		} 
+	}
+	TRN_ita_puppet = {
+		icon = GFX_decision_generic_operation
+		cost = 50
+   		activation = {
+			always = no
+    	}
+    	available = {
+			ITA = {
+				exists = no
+			}
+    	} 
+		visible = {
+			ITA = {
+				exists = yes
+			}
+		}
+		highlight_states = {
+ 		highlight_state_targets = { state = 2 }
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		fire_only_once = yes
+		days_mission_timeout = 3
+		complete_effect = {
+		}
+    	timeout_effect = {
+			TRM = {
+				puppet = ITA
+			}
+			ITA = {
+				set_cosmetic_tag = ITA_TRN_PUPPET
+			}
+		} 
+	}
 	TRN_punitive_expedition_decision_SOV = {
 		allowed = {
 		}
@@ -1086,6 +1190,122 @@ TRN_world_punitive_expedition = {
     	timeout_effect = {
 			add_war_support = -0.20
 		} 
+	}
+
+}
+TRN_reichskommissariat_decision = {
+	TRN_FRA_reichskommissariat_decision = {
+		icon = ger_reichskommissariats
+		allowed = {
+		}
+		available = {
+		}
+		visible = {
+		}
+
+		fire_only_once = yes
+
+		modifier = {
+
+		}
+		complete_effect = {
+			TRM = {
+				puppet = OCC
+			}
+			OCC = {
+				set_cosmetic_tag = OCC_TRN_PUPPET
+				transfer_state = 31
+				transfer_state = 22
+				transfer_state = 21
+				transfer_state = 851
+				transfer_state = 32
+				transfer_state = 20
+				transfer_state = 26
+				transfer_state = 33
+				transfer_state = 25
+				transfer_state = 19
+				transfer_state = 806
+			}
+		}
+	}
+	TRN_YUG_reichskommissariat_decision = {
+		icon = ger_reichskommissariats
+		allowed = {
+		}
+		available = {
+		}
+		visible = {
+		}
+
+		fire_only_once = yes
+
+		modifier = {
+
+		}
+		complete_effect = {
+			TRM = {
+				puppet = CRO
+				puppet = SER
+				puppet = HUN
+				puppet = SLO
+				puppet = ROM
+				puppet = BUR
+				transfer_state = 102
+			}
+			ROM = {
+				set_cosmetic_tag = ROM_TRN_PUPPET
+				transfer_state = 764
+				transfer_state = 834
+				transfer_state = 82
+				transfer_state = 83
+				transfer_state = 84
+				transfer_state = 81
+				transfer_state = 46
+				transfer_state = 77
+				transfer_state = 79
+				transfer_state = 80
+				transfer_state = 78
+				transfer_state = 766
+				transfer_state = 834
+			}
+			HUN = {
+				set_cosmetic_tag = HUN_TRN_PUPPET
+				transfer_state = 45
+				transfer_state = 76
+				transfer_state = 154
+				transfer_state = 155
+				transfer_state = 43
+				transfer_state = 73
+				transfer_state = 664
+			}
+			SLO = {
+				set_cosmetic_tag = SLO_TRN_PUPPET
+				transfer_state = 71
+				transfer_state = 70
+			}
+			CRO = {
+				set_cosmetic_tag = CRO_TRN_PUPPET
+				transfer_state = 104
+				transfer_state = 109
+				transfer_state = 804
+			}
+			SER = {
+				set_cosmetic_tag = SER_TRN_PUPPET
+				transfer_state = 108
+				transfer_state = 107
+			}
+			BUR = {
+				set_cosmetic_tag = BUR_TRN_PUPPET
+				transfer_state = 212
+				transfer_state = 48
+				transfer_state = 801
+				transfer_state = 211
+				transfer_state = 184
+				transfer_state = 803
+				transfer_state = 731
+				transfer_state = 106
+			}
+		}
 	}
 
 }
