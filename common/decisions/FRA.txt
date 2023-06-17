@@ -529,28 +529,26 @@ FRA_war_dec = {
 			check_variable = {
 				FRA_war_eng = 1
 			}
-			
-		}
-		activation = {
-			check_variable = {
-				FRA_war_eng = 1
-			}
-			660 = {
-				is_controlled_by = FRA
-			}
 			has_completed_focus = FRA_focus_london_2
 		}
+		
 		available = {
 			check_variable = {
 				FRA_war_eng = 1
+			}
+		}
+		remove_trigger = {
+			660 = {
+				is_controlled_by = FRA
 			}
 		}
 		visible = {
 			check_variable = {
 				FRA_war_eng = 1
 			}
+			has_completed_focus = FRA_focus_london_2
 		}
-		is_good = no
+		is_good = yes
 		days_mission_timeout = 300
 		remove_effect = {
 			transfer_state = 777
@@ -771,6 +769,82 @@ FRA_war_dec = {
 			clear_variable = fra_war
 		}
 	}
+	FRA_village_sab = {
+		visible = {
+			has_completed_focus = FRA_focus_resistance_5
+			has_war_with = MIL
+		}
+		icon = GFX_decision_SWI_consolidate_council_power
+		available = {
+			has_war_with = MIL
+		}
+		fire_only_once = yes
+		cost = 100
+		days_remove = 15
+		remove_effect = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 23
+						state = 25
+						state = 33
+					}
+				}
+				remove_core_of = MIL
+				add_resistance = 30
+				
+			}
+			22 = {
+				add_dynamic_modifier = {
+					modifier = FRA_vil_res
+				}
+			}
+		}
+	}
+	FRA_resistance_dec = {
+		visible = {
+			has_completed_focus = FRA_focus_resistance_5
+			NOT = {
+				check_variable = {
+					FRA_lib = 1
+				}
+			}
+			FRA = {
+				OR = {
+					16 = {
+						is_capital = no
+					}
+					21 = {
+						is_capital = no
+					}
+					26 = {
+						is_capital = no
+					}
+					19 = {
+						is_capital = no
+					}
+				}
+				
+			}
+		}
+		icon = GFX_decision_generic_military
+		available = {
+			has_war_with = MIL
+		}
+		days_remove = 25
+		cost = 100
+		remove_effect = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.02
+			}
+			hidden_effect = {
+				load_oob = FRA_resis
+			}
+		}
+		
+		fire_only_once = yes
+	}
 	FRA_lib_bor = {
 		visible = {
 			has_completed_focus = FRA_focus_resistance_5
@@ -926,8 +1000,16 @@ FRA_war_dec = {
 			}
 			remove_ideas = FRA_emergency_mobil
 			clear_variable = FRA_dec
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.3
+			}
+			set_party_name = {
+				ideology = fascism
+				long_name = FRA_fascism_party_new
+				name = FRA_fascism_party_new
+			}
 			hidden_effect = {
-				complete_national_focus = FRA_focus_war_5
 			}
 		}
 		
