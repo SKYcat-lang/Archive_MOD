@@ -295,11 +295,7 @@ TRN_arius_squad_smash_decision = {
 		allowed = {
 		}
     	available = {
-			or = {
-			has_country_flag = TRN_arius_squad_smash_success
-			has_country_flag = TRN_abandon_operations_flag
-			}
-			
+			always = no
     	} 
 		
 
@@ -318,14 +314,43 @@ TRN_arius_squad_smash_decision = {
 			
 		}
 	}
-
-	TRN_abandon_operations = {
+	TRN_switch_roe = {
 		available = {
-
+			has_country_flag = TRN_arius_squad_smash_decision_visible
 		}
 
 		visible = {
+			has_country_flag = TRN_arius_squad_smash_decision_visible
+		}
 
+		cost = 5
+
+		ai_will_do = {
+			factor = 0
+		}
+
+		fire_only_once = no
+
+		complete_effect = {
+			custom_effect_tooltip = TRN_switch_roe_tt
+			hidden_effect = {
+				country_event = {
+					id = TRN_opposition.100
+				}
+			}
+		}
+	}
+	TRN_abandon_operations = {
+		available = {
+			has_country_flag = TRN_arius_squad_smash_decision_visible
+			custom_trigger_tooltip = {
+				tooltip = TRN_abandon_operations_condition_tt
+						has_country_flag = TRN_arius_squad_smash_success
+			}
+		}
+
+		visible = {
+			has_country_flag = TRN_arius_squad_smash_decision_visible
 		}
 
 		cost = 50
@@ -337,19 +362,23 @@ TRN_arius_squad_smash_decision = {
 		fire_only_once = no
 
 		complete_effect = {
-			custom_effect_tooltip = KOM_abandon_operations_tt
+			custom_effect_tooltip = TRN_abandon_operations_tt
 			hidden_effect = {
 				country_event = {
-					id = TRM_event.56
+					id = komi_opposition.200
 				}
 			}
 		}
 	}
-	KOM_hunt_for_stalina = {
+	TRN_hunt_for_saori = {
 
 		available = { }
 
 		visible = {
+			has_country_flag = TRN_arius_squad_smash_decision_visible
+			NOT = {
+				has_country_flag = TRN_saori_Active
+			}
 		}
 
 		days_remove = 15
@@ -363,7 +392,7 @@ TRN_arius_squad_smash_decision = {
 		fire_only_once = yes
 
 		remove_effect = {
-			custom_effect_tooltip = KOM_hunt_for_stalina_tt
+			custom_effect_tooltip = TRN_hunt_for_saori_tt
 			hidden_effect = {
 				random_list = {
 					70 = {
@@ -376,6 +405,112 @@ TRN_arius_squad_smash_decision = {
 						country_event = {
 							id = komi_opposition.11
 							days = 1
+						}
+					}
+				}
+			}
+		}
+	}
+	TRN_launch_operation_against_saori = {
+
+		available = { }
+
+		visible = {
+			has_country_flag = TRN_saori_Active # KOM_Stalina_Active
+			has_country_flag = TRN_arius_squad_smash_decision_visible
+		}
+
+		days_remove = 15
+
+		custom_cost_trigger = { command_power > 19.99 }
+		custom_cost_text = decision_cost_20_cp
+
+		ai_will_do = {
+			factor = 200
+		}
+
+		fire_only_once = yes
+
+		complete_effect = {
+			hidden_effect = {
+				add_command_power = -20
+			}
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = KOM_launch_operation_against_stalina_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						has_country_flag = KOM_Kill_Opposition
+					}
+					random_list = {
+						90 = {
+							country_event = {
+								id = komi_opposition.21
+								days = 1
+							}
+						}
+						5 = {
+							country_event = {
+								id = komi_opposition.31
+								days = 1
+							}
+						}
+						5 = {
+							country_event = {
+								id = komi_opposition.11
+								days = 1
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_country_flag = KOM_Arrest_Opposition
+					}
+					random_list = {
+						90 = {
+							country_event = {
+								id = komi_opposition.31
+								days = 1
+							}
+						}
+						5 = {
+							country_event = {
+								id = komi_opposition.21
+								days = 1
+							}
+						}
+						5 = {
+							country_event = {
+								id = komi_opposition.11
+								days = 1
+							}
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_country_flag = KOM_Exile_Opposition
+					}
+					random_list = {
+						90 = {
+							country_event = {
+								id = komi_opposition.11
+								days = 1
+							}
+						}
+						5 = {
+							country_event = {
+								id = komi_opposition.31
+								days = 1
+							}
+						}
+						5 = {
+							country_event = {
+								id = komi_opposition.21
+								days = 1
 							}
 						}
 					}
@@ -383,6 +518,7 @@ TRN_arius_squad_smash_decision = {
 			}
 		}
 	}
+}
 TRM_war_plan_decisions = {
 	this_is_fake = {
 		icon = generic_tank 
