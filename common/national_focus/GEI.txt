@@ -1,6 +1,6 @@
 focus_tree = {
 	id = GEI_focus_tree
-	continuous_focus_position = { x = 2100 y = 800 } 
+	continuous_focus_position = { x = 4000 y = 200 } 
 #	shared_focus = BA_new_world_technology
 	country = {
 		factor = 0
@@ -16,7 +16,7 @@ focus_tree = {
 		icon = GFX_focus_attack_britain
 		x = 11
 		y = 1
-		cost = 10
+		cost = 5
 		prerequisite = { focus = GEI_jaejeongbi }
 		search_filters = {
 			
@@ -24,7 +24,20 @@ focus_tree = {
 					
 		}
 		completion_reward = {
-			add_ideas = GEI_intervene_in_uk
+			add_timed_idea = {
+				idea = GEI_intervene_in_uk
+				days = 365
+			}
+			add_opinion_modifier = {
+				target = KAI
+				modifier = GEI_KAI_sup
+			}
+			KAI = {
+				add_opinion_modifier = {
+					target = GEI
+					modifier = GEI_KAI_sup
+				}
+			}
 		}
 	}
 	#긴급 철수
@@ -33,10 +46,11 @@ focus_tree = {
 		icon = GFX_focus_eng_decolonization
 		x = 12
 		y = 2
-		cost = 10
+		cost = 2
 		prerequisite = { focus = GEI_yeongguggaeib }
 		available = {
 			has_war = no
+            has_global_flag = ENG_win_global_flag
 		}
 		search_filters = {
 			
@@ -77,7 +91,65 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			add_political_power = 50
 			remove_ideas = BA_exiles_of_the_future
+		}
+	}
+	#의견 충돌
+	focus = {
+		id = GEI_uigyeonchungdol
+		icon = GFX_focus_generic_improve_the_administration
+		x = 10
+		y = 3
+		cost = 10
+		prerequisite = { focus = GEI_hyeonsangpaag }
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+			add_stability = -0.05
+			country_event = { id = GEI_event.1 }
+		}
+	}
+	#베아트리체의 승리
+	focus = {
+		id = GEI_beateulicheuiseungli
+		icon = GFX_focus_generic_improve_the_administration
+		x = 4
+		y = 4
+		cost = 10
+		prerequisite = { focus = GEI_uigyeonchungdol }
+		available = {
+			has_country_flag = GEI_Beatrice
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+	#신비 직조
+	focus = {
+		id = GEI_sinbijigjo
+		icon = GFX_focus_generic_improve_the_administration
+		x = 4
+		y = 5
+		cost = 10
+		prerequisite = { focus = GEI_beateulicheuiseungli }
+		available = {
+			has_country_flag = GEI_Beatrice
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+			remove_ideas = GEI_lack_of_mystery
 		}
 	}
 }
