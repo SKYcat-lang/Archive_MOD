@@ -11,7 +11,7 @@ tags={
 dependencies={
 	"Korean Language"
 }
-version="0.3.0"
+version="0.3.1"
 picture="thumbnail.png"
 supported_version="1.12.*"
 path="C:/Users/USER-PC/Documents/Paradox Interactive/Hearts of Iron IV/mod/Archive_MOD"
