@@ -26,6 +26,8 @@ country_event = {
 	option = { 
 		name = GEI_event.2.a
 		set_country_flag = GEI_Secure_Royal_Blood
+		clr_country_flag = GEI_Fail_Royal_Blood
+		
 		ARI = {
 			set_country_flag = Jomae_Saori_GEI
 			set_country_flag = Hakari_Atsuko_GEI
@@ -36,6 +38,7 @@ country_event = {
 	option = { 
 		name = GEI_event.2.b
 		set_country_flag = GEI_Secure_Royal_Blood
+		clr_country_flag = GEI_Fail_Royal_Blood
 		ARI = {
 			set_country_flag = Jomae_Saori_GEI
 			set_country_flag = Hakari_Atsuko_GEI
@@ -55,6 +58,7 @@ country_event = {
 	option = { 
 		name = GEI_event.3.a
 		set_country_flag = GEI_Secure_Royal_Blood
+		clr_country_flag = GEI_Fail_Royal_Blood
 		ARI = {
 			set_country_flag = Jomae_Saori_GEI
 			set_country_flag = Hakari_Atsuko_GEI
@@ -74,6 +78,7 @@ country_event = {
 	option = { 
 		name = GEI_event.4.a
 		set_country_flag = GEI_Fail_Royal_Blood
+		clr_country_flag = GEI_Secure_Royal_Blood
 		custom_effect_tooltip = GEI_loyeolbeulleodeuhwagbo_tt
 	}
 }
@@ -88,6 +93,7 @@ country_event = {
 	option = { 
 		name = GEI_event.5.a
 		set_country_flag = GEI_Secure_Royal_Blood
+		clr_country_flag = GEI_Fail_Royal_Blood
 		ARI = {
 			set_country_flag = Jomae_Saori_GEI
 			set_country_flag = Hakari_Atsuko_GEI
@@ -109,6 +115,8 @@ country_event = {
 		add_to_variable = { GEI_Secure_Royal_Blood_Search_back_var = 10 } #-> 수색 반대
 		add_to_variable = { GEI_Secure_Royal_Blood_Battle_var = 5 } #-> 교전
 		add_to_variable = { GEI_Secure_Royal_Blood_Battle_back_var = -5 } #-> 교전 반대
+		add_to_variable = { GEI_Secure_Royal_Blood_help_var = 1 } #-> 교전 반대
+		
 		name = GEI_event.6.a
 	}
 }
@@ -118,8 +126,27 @@ country_event = {
 	desc = GEI_event.7.desc
 	picture = GFX_report_event_ast_parliament_house
 	
-    is_triggered_only = yes
-	
+    is_triggered_only = no
+
+	trigger = {
+		has_country_flag = GEI_Fail_Royal_Blood
+	}
+	mean_time_to_happen = {
+		days = 100
+		modifier = {
+			factor = 2       # Amount of days is multiplied by 20% for POL.
+			check_variable = {
+				GEI_Secure_Royal_Blood_Search_var > 49
+			}
+		}
+		modifier = {
+			factor = 0.2      # Amount of days is multiplied by 20% for POL.
+			check_variable = {
+				GEI_Secure_Royal_Blood_Search_var < 50
+			}
+		}
+	}
+
 	option = { 
 		add_to_variable = { GEI_Secure_Royal_Blood_Search_var = 20 } #-> 수색
 		add_to_variable = { GEI_Secure_Royal_Blood_Search_back_var = -20 } #-> 수색 반대
@@ -132,13 +159,48 @@ country_event = {
 	desc = GEI_event.8.desc
 	picture = GFX_report_event_ast_parliament_house
 	
-    is_triggered_only = yes
+    is_triggered_only = no
+
+	trigger = {
+		check_variable = {
+			GEI_Secure_Royal_Blood_help_var > 2
+		}
+	}
+	mean_time_to_happen = {
+		days = 150
+		modifier = {
+			factor = 2       # Amount of days is multiplied by 20% for POL.
+			check_variable = {
+				GEI_Secure_Royal_Blood_Battle_var > 29
+			}
+		}
+		modifier = {
+			factor = 0.2      # Amount of days is multiplied by 20% for POL.
+			check_variable = {
+				GEI_Secure_Royal_Blood_Battle_var < 30
+			}
+		}
+	}
 	
 	option = { 
 		name = GEI_event.8.a
+		clr_country_flag = GEI_Fail_Royal_Blood
 		set_country_flag = GEI_Secure_Royal_Blood
 		ARI = {
 			set_country_flag = Hakari_Atsuko_GEI
 		}
+	}
+}
+country_event = {
+	id = GEI_event.9
+	title = GEI_event.9.t
+	desc = GEI_event.9.desc
+	picture = GFX_report_event_ast_parliament_house
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEI_event.9.a
+		clr_country_flag = GEI_Secure_Royal_Blood_decision_search_run_flag
 	}
 }
