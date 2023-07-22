@@ -56,9 +56,9 @@ focus_tree = {
 
 		completion_reward = {
 			add_war_support = 0.05
-			army_experience = 50
-			navy_experience = 50
-			air_experience = 50
+			army_experience = 20
+			navy_experience = 20
+			air_experience = 20
 		}
 	}
 	focus = { #벤리야
@@ -118,15 +118,12 @@ focus_tree = {
 				random_list = { 
 					10 = { 
 						add_manpower = 50000
-						army_experience = 50
 					} 
 					10 = { 
 						add_manpower = 20000
-						army_experience = 20
 					} 
 					10 = { 
 						add_manpower = 10000
-						army_experience = 10
 					} 
 				}
 			}
@@ -342,7 +339,7 @@ focus_tree = {
 			8 = {
 				add_building_construction = {
 					type = infrastructure
-					level = 2
+					level = 1
 					instant_build = yes
 				}
 				add_building_construction = {
@@ -411,7 +408,7 @@ focus_tree = {
 		y = 17
 
 	}
-	focus = {
+	focus = { #키보토스 신기술
 		id = HEU_newfocus_22
 		icon = GFX_focus_research
 		cost = 10.00
@@ -421,9 +418,14 @@ focus_tree = {
 		prerequisite = {
 			focus = HEU_newfocus_30
 		}
+		available = {
+			num_of_factories > 20
+		}
 		x = 11
 		y = 9
-
+		completion_reward = {
+			add_research_slot = 1
+		}
 	}
 	focus = { #게헨나에 맞서라!
 		id = HEU_newfocus_23
@@ -459,7 +461,7 @@ focus_tree = {
 		y = 18
 
 	}
-	focus = {
+	focus = { #경공업 사업 확충
 		id = HEU_newfocus_28
 		icon = GFX_goal_generic_construct_civ_factory
 		cost = 10.00
@@ -468,7 +470,24 @@ focus_tree = {
 		}
 		x = 10
 		y = 8
-
+		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
 	}
 	focus = {
 		id = HEU_newfocus_29
@@ -484,27 +503,56 @@ focus_tree = {
 		y = 18
 
 	}
-	focus = {
+	focus = { #중공업 사업 확충
 		id = HEU_newfocus_30
 		icon = GFX_goal_generic_construct_mil_factory
 		cost = 10.00
 		prerequisite = {
 			focus = HEU_newfocus_31
-		}
+		} 
 		x = 12
 		y = 8
 
-	}
-	focus = {
+		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	} 
+	focus = { #기반시설 재정비
 		id = HEU_newfocus_31
 		icon = GFX_goal_generic_construct_infrastructure
-		cost = 10.00
+		cost = 6.00
 		prerequisite = {
 			focus = HEU_newfocus_16
 		}
+		available = {
+			has_full_control_of_state = 8
+		}
 		x = 11
 		y = 7
-
+		completion_reward = {
+			8 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
 	}
 	focus = { #연합학원 선언
 		id = HEU_newfocus_32
@@ -553,28 +601,91 @@ focus_tree = {
 		x = 3
 		y = 7
 		completion_reward = {
-			add_manpower = 67692
-			add_equipment_to_stockpile = {
-                type = infantry_equipment
-                amount = 1200
-            }
-			add_equipment_to_stockpile = {
-                type = kivotos_infantry_equipment
-                amount = 400
-            }
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				8 = {
+					add_building_construction = {
+						type = bunker
+						level = 2
+						instant_build = yes
+						province = 6583
+					}
+					add_building_construction = {
+						type = anti_air_building
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
 		}
-
 	}
-	focus = {
+	focus = { #현지인 사단 확대
 		id = HEU_newfocus_36
 		icon = GFX_focus_generic_manpower
 		cost = 10.00
 		prerequisite = {
 			focus = HEU_newfocus_35
 		}
+		available = {
+			has_full_control_of_state = 8
+		}
 		x = 1
 		y = 8
-
+		completion_reward = {
+			custom_effect_tooltip = HEU_focus_tooltip_3
+			hidden_effect = {
+				division_template = {
+					name = "룩셈부르크인 사단"
+					priority = 1
+					division_names_group = BA_INF_01
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+					}
+				}
+				random_owned_controlled_state = {
+					prioritize = { 8 }
+					create_unit = {
+						division = "name = \"룩셈부르크인 사단\" division_template = \"룩셈부르크인 사단\" start_experience_factor = 0.3" 
+						owner = HEU
+					}
+					create_unit = {
+						division = "name = \"룩셈부르크인 사단\" division_template = \"룩셈부르크인 사단\" start_experience_factor = 0.3" 
+						owner = HEU
+					}
+					create_unit = {
+						division = "name = \"룩셈부르크인 사단\" division_template = \"룩셈부르크인 사단\" start_experience_factor = 0.3" 
+						owner = HEU
+					}
+					create_unit = {
+						division = "name = \"룩셈부르크인 사단\" division_template = \"룩셈부르크인 사단\" start_experience_factor = 0.3" 
+						owner = HEU
+					}
+					create_unit = {
+						division = "name = \"룩셈부르크인 사단\" division_template = \"룩셈부르크인 사단\" start_experience_factor = 0.3" 
+						owner = HEU
+					}
+					create_unit = {
+						division = "name = \"룩셈부르크인 사단\" division_template = \"룩셈부르크인 사단\" start_experience_factor = 0.3" 
+						owner = HEU
+					}
+					create_unit = {
+						division = "name = \"룩셈부르크인 사단\" division_template = \"룩셈부르크인 사단\" start_experience_factor = 0.3" 
+						owner = HEU
+					}
+					create_unit = {
+						division = "name = \"룩셈부르크인 사단\" division_template = \"룩셈부르크인 사단\" start_experience_factor = 0.3" 
+						owner = HEU
+					}
+				}	
+			}
+		}
 	}
 	focus = { #이오리 습격
 		id = HEU_newfocus_37
@@ -588,7 +699,7 @@ focus_tree = {
 		y = 12
 
 	}
-	focus = {
+	focus = { #무기 확보
 		id = HEU_newfocus_38
 		icon = GFX_goal_generic_small_arms
 		cost = 10.00
@@ -597,34 +708,67 @@ focus_tree = {
 		}
 		x = 5
 		y = 8
-
+		completion_reward = {
+			add_equipment_to_stockpile = {
+                type = infantry_equipment
+                amount = 1000
+            }
+			add_equipment_to_stockpile = {
+                type = kivotos_infantry_equipment
+                amount = 300
+            }
+            add_equipment_to_stockpile = {
+                type = artillery_equipment
+                amount = 100
+            }
+            add_equipment_to_stockpile = {
+                type = support_equipment
+                amount = 150
+            }
+		}
 	}
-	focus = {
+	focus = { #장교단 개편
 		id = HEU_newfocus_39
 		icon = GFX_focus_generic_military_mission
-		cost = 10.00
+		cost = 8.00
 		prerequisite = {
 			focus = HEU_newfocus_36
 		}
 		x = 1
 		y = 9
-
+		completion_reward = {
+			add_war_support = 0.05
+			add_command_power = 100
+			army_experience = 20
+			navy_experience = 20
+			air_experience = 20
+		}
 	}
-	focus = {
+	focus = { #총동원령 선포
 		id = HEU_newfocus_40
 		icon = GFX_goal_generic_political_pressure
-		cost = 10.00
+		cost = 8.00
 		prerequisite = {
 			focus = HEU_newfocus_38
 		}
 		x = 5
 		y = 9
-
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = war_economy
+				}
+				add_political_power = 150
+			}
+			else = {
+				add_ideas = war_economy
+			}
+		}
 	}
-	focus = {
+	focus = { #마지노선을 보다
 		id = HEU_newfocus_41
 		icon = GFX_goal_generic_defence
-		cost = 10.00
+		cost = 5.00
 		prerequisite = {
 			focus = HEU_newfocus_39
 		}
@@ -636,9 +780,11 @@ focus_tree = {
 		}
 		x = 2
 		y = 10
-
+		completion_reward = {
+			add_ideas = CZE_fortification_focus
+		}
 	}
-	focus = {
+	focus = { #새로운 파훼법
 		id = HEU_newfocus_42
 		icon = GFX_goal_generic_major_war
 		cost = 10.00
@@ -653,34 +799,83 @@ focus_tree = {
 		}
 		x = 4
 		y = 10
-
+		completion_reward = {
+			add_tech_bonus = {
+				name = armor_bonus
+				bonus = 1.0
+				uses = 1
+				category = armor
+			}
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
 	}
-	focus = {
+	focus = { #제1차 국토 요새화
 		id = HEU_newfocus_43
 		icon = GFX_goal_generic_construct_military
 		cost = 10.00
 		prerequisite = {
 			focus = HEU_newfocus_41
 		}
+		available = {
+			has_full_control_of_state = 8
+		}
 		x = 1
 		y = 11
-
+		completion_reward = {
+			army_experience = 10
+			8 = {
+				add_building_construction = {
+					type = bunker
+					level = 4
+					instant_build = yes
+					province = 6583
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
 	}
-	focus = {
+	focus = { #제2차 국토 요새화
 		id = HEU_newfocus_44
 		icon = GFX_goal_generic_fortify_city
 		cost = 10.00
 		prerequisite = {
 			focus = HEU_newfocus_43
 		}
+		available = {
+			has_full_control_of_state = 8
+		}
 		x = 1
 		y = 13
-
+		completion_reward = {
+			army_experience = 10
+			8 = {
+				add_building_construction = {
+					type = bunker
+					level = 4
+					instant_build = yes
+					province = 6583
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
 	}
-	focus = {
+	focus = { #최후의 보루
 		id = HEU_newfocus_45
 		icon = GFX_goal_generic_attack_allies
-		cost = 10.00
+		cost = 15.00
 		prerequisite = {
 			focus = HEU_newfocus_44
 		}
@@ -689,9 +884,65 @@ focus_tree = {
 		}
 		x = 2
 		y = 14
-
+		completion_reward = {
+			add_timed_idea = {
+				idea = HEU_choehuui_bolu
+				days = 540
+			}
+			custom_effect_tooltip = HEU_focus_tooltip_4
+			hidden_effect = {
+				division_template = {
+					name = "룩셈부르크 방어대"
+					priority = 2
+					division_names_group = BA_INF_01
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+						infantry = { x = 0 y = 3 }
+						infantry = { x = 0 y = 4 }
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+						infantry = { x = 1 y = 2 }
+						infantry = { x = 1 y = 3 }
+						infantry = { x = 1 y = 4 }
+						infantry = { x = 2 y = 0 }
+						infantry = { x = 2 y = 1 }
+						infantry = { x = 2 y = 2 }
+						infantry = { x = 2 y = 3 }
+						infantry = { x = 2 y = 4 }
+						infantry = { x = 3 y = 0 }
+						infantry = { x = 3 y = 1 }
+						infantry = { x = 3 y = 2 }
+						infantry = { x = 3 y = 3 }
+						infantry = { x = 3 y = 4 }
+						infantry = { x = 3 y = 0 }
+						infantry = { x = 4 y = 1 }
+						infantry = { x = 4 y = 2 }
+						infantry = { x = 4 y = 3 }
+						infantry = { x = 4 y = 4 }
+					}
+					support = {
+						engineer = { x = 0 y = 0 }
+						artillery = { x = 0 y = 1 }
+					}
+				}
+				create_unit = {
+					division = "name = \"룩셈부르크 방어대\" division_template = \"룩셈부르크 방어대\" start_experience_factor = 0.7" 
+					owner = HEU
+				}
+				create_unit = {
+					division = "name = \"룩셈부르크 방어대\" division_template = \"룩셈부르크 방어대\" start_experience_factor = 0.7" 
+					owner = HEU
+				}
+				create_unit = {
+					division = "name = \"룩셈부르크 방어대\" division_template = \"룩셈부르크 방어대\" start_experience_factor = 0.7" 
+					owner = HEU
+				}
+			}
+		}
 	}
-	focus = {
+	focus = { #대규모 방위산업체
 		id = HEU_newfocus_46
 		icon = GFX_focus_generic_license_production
 		cost = 10.00
@@ -700,9 +951,18 @@ focus_tree = {
 		}
 		x = 5
 		y = 11
-
+		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
 	}
-	focus = {
+	focus = { #기동보병 확대
 		id = HEU_newfocus_47
 		icon = GFX_goal_generic_cavalry
 		cost = 10.00
@@ -711,12 +971,25 @@ focus_tree = {
 		}
 		x = 5
 		y = 13
-
+		completion_reward = {
+			add_tech_bonus = {
+				name = armor_bonus
+				bonus = 1.0
+				uses = 1 
+				category = cat_mechanized_equipment
+			}
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
+		}
 	}
-	focus = {
+	focus = { #전격전
 		id = HEU_newfocus_48
 		icon = GFX_goal_generic_army_tanks
-		cost = 10.00
+		cost = 15.00
 		prerequisite = {
 			focus = HEU_newfocus_47
 		}
@@ -725,7 +998,46 @@ focus_tree = {
 		}
 		x = 4
 		y = 14
-
+		completion_reward = {
+			add_timed_idea = {
+				idea = HEU_jeongyeogjeon
+				days = 540
+			}
+			custom_effect_tooltip = HEU_focus_tooltip_5
+			hidden_effect = {
+				division_template = {
+					name = "룩셈부르크 전차대"
+					priority = 2
+					division_names_group = BA_INF_01
+					regiments = {
+						light_armor = { x = 0 y = 0 }
+						light_armor = { x = 0 y = 1 }
+						light_armor = { x = 0 y = 2 }
+						light_armor = { x = 0 y = 3 }
+						light_armor = { x = 0 y = 4 }
+						light_armor = { x = 1 y = 0 }
+						light_armor = { x = 1 y = 1 }
+						light_armor = { x = 1 y = 2 }
+						motorized = { x = 2 y = 0 }
+						motorized = { x = 2 y = 1 }
+						motorized = { x = 2 y = 2 }
+						motorized = { x = 2 y = 3 }
+						motorized = { x = 2 y = 4 }
+						motorized = { x = 3 y = 0 }
+						motorized = { x = 3 y = 1 }
+					}
+					support = {
+						mot_recon = { x = 0 y = 0 }
+						engineer = { x = 0 y = 1 }
+						artillery = { x = 0 y = 2 }
+					}
+				}
+				create_unit = {
+					division = "name = \"룩셈부르크 전차대\" division_template = \"룩셈부르크 전차대\" start_experience_factor = 1.0" 
+					owner = HEU
+				}
+			}
+		}
 	}
 	focus = {
 		id = HEU_newfocus_49
@@ -761,18 +1073,30 @@ focus_tree = {
 		y = 16
 
 	}
-	focus = {
+	focus = { #룩셈부르크 강철 채굴
 		id = HEU_newfocus_52
 		icon = GFX_focus_generic_steel
 		cost = 10.00
 		prerequisite = {
 			focus = HEU_newfocus_22
 		}
+		available = {
+			has_full_control_of_state = 8
+		}
 		x = 12
 		y = 10
-
+		completion_reward = {
+			add_resource = {
+				type = steel
+				amount = 25
+				state = 8
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+			}
+		}
 	}
-	focus = {
+	focus = { #농경지 활용
 		id = HEU_newfocus_53
 		icon = GFX_goal_generic_construction2
 		cost = 10.00
@@ -781,20 +1105,34 @@ focus_tree = {
 		}
 		x = 10
 		y = 10
+		completion_reward = {
+			add_offsite_building = { type = industrial_complex level = 1 }
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+			}
+		}
 
 	}
-	focus = {
+	focus = { #수출 장려
 		id = HEU_newfocus_54
 		icon = GFX_goal_generic_positive_trade_relations
 		cost = 10.00
 		prerequisite = {
 			focus = HEU_newfocus_56
 		}
+		available = {
+			any_owned_state = {
+				is_coastal = yes
+			}
+		}
 		x = 9
 		y = 13
-
+		completion_reward = {
+			add_ideas = free_trade	
+			add_offsite_building = { type = industrial_complex level = 3 }	
+		}
 	}
-	focus = {
+	focus = { #저지대의 아우토반
 		id = HEU_newfocus_55
 		icon = GFX_goal_generic_army_motorized
 		cost = 10.00
@@ -804,11 +1142,58 @@ focus_tree = {
 		prerequisite = {
 			focus = HEU_newfocus_53
 		}
+		available = {
+			has_full_control_of_state = 8
+			has_full_control_of_state = 34
+			has_full_control_of_state = 6
+			has_full_control_of_state = 35
+			has_full_control_of_state = 7
+		}
 		x = 11
 		y = 12
+		completion_reward = {
+			custom_effect_tooltip = HEU_focus_tooltip_6
+			hidden_effect = {
+				8 = {
+					set_building_level = {
+						type = infrastructure
+						level = 5
+						instant_build = yes
+					}
+				}
+				34 = {
+					set_building_level = {
+						type = infrastructure
+						level = 5
+						instant_build = yes
+					}
+				}
+				6 = {
+					set_building_level = {
+						type = infrastructure
+						level = 5
+						instant_build = yes
+					}
+				}
+				35 = {
+					set_building_level = {
+						type = infrastructure
+						level = 5
+						instant_build = yes
+					}
+				}
+				7 = {
+					set_building_level = {
+						type = infrastructure
+						level = 5
+						instant_build = yes
+					}
+				}
+			}
+		}
 
 	}
-	focus = {
+	focus = { #민간산업 개발
 		id = HEU_newfocus_56
 		icon = GFX_goal_generic_construct_civ_factory
 		cost = 10.00
@@ -818,11 +1203,47 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = HEU_newfocus_57
 		}
+		available = {
+			has_completed_focus = HEU_newfocus_55
+		}
 		x = 9
 		y = 11
-
+		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
 	}
-	focus = {
+	focus = { #군수산업 개발
 		id = HEU_newfocus_57
 		icon = GFX_goal_generic_construct_mil_factory
 		cost = 10.00
@@ -832,22 +1253,85 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = HEU_newfocus_56
 		}
+		available = {
+			has_completed_focus = HEU_newfocus_55
+		}
 		x = 13
 		y = 11
-
+		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
 	}
-	focus = {
+	focus = { #조선업 확대
 		id = HEU_newfocus_58
 		icon = GFX_goal_generic_construct_naval_dockyard
 		cost = 10.00
 		prerequisite = {
 			focus = HEU_newfocus_57
 		}
+		available = {
+			any_owned_state = {
+				is_coastal = yes
+			}
+		}
 		x = 13
 		y = 13
-
+		completion_reward = {
+			random_owned_state = {
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
 	}
-	focus = {
+	focus = { #기술 혁신
 		id = HEU_newfocus_59
 		icon = GFX_goal_tfv_generic_tech_sharing
 		cost = 10.00
@@ -857,20 +1341,36 @@ focus_tree = {
 		prerequisite = {
 			focus = HEU_newfocus_54
 		}
+		available = {
+			num_of_factories > 50
+		}
 		x = 11
 		y = 14
 
+		completion_reward = {
+			add_research_slot = 1
+		}
 	}
-	focus = {
+	focus = { #악마의 무기
 		id = HEU_newfocus_60
 		icon = GFX_focus_rocketry
-		cost = 10.00
+		cost = 30.00
 		prerequisite = {
 			focus = HEU_newfocus_59
 		}
+		available = {
+			num_of_factories > 100
+		}
 		x = 11
 		y = 15
-
+		completion_reward = {
+			add_tech_bonus = {
+				ahead_reduction = 2
+				bonus = 1.5
+				uses = 3
+				category = rocketry	
+			}
+		}
 	}
 	focus = {
 		id = HEU_newfocus_61
