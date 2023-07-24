@@ -100,7 +100,7 @@ country_event = { # 국방군과 협상 - 학생 상해사건
 		add_stability = 0.1
 	}
 }
-country_event = { # 국방군과 협상 -  성공!
+country_event = { # 학생들의 관심 - 이럴때만 관심가지는 우리 게헨나 학생들
 	id = GEH_event.7
 	title = GEH_event.7.t
 	desc = GEH_event.7.desc
@@ -110,10 +110,70 @@ country_event = { # 국방군과 협상 -  성공!
 	
 	option = { 
 		name = GEH_event.7.a
-		add_stability = 0.05
-		add_popularity = {
-			ideology = neutrality
-			popularity = -0.15
+
+				if = {
+					limit = {
+						not = { has_template = "Halo Infantry War" }
+					}
+					add_to_variable = { ROOT.halo_infantry_cap = 3 }
+					
+					division_template = {
+					name = "Halo War Brigade"		
+					division_names_group = GEI_INF_01
+					is_locked = yes
+					force_allow_recruiting = yes
+						division_cap = 12
+						regiments = {
+							halo_infantry = { x = 0 y = 0 }
+							halo_infantry = { x = 0 y = 1 }
+							halo_infantry = { x = 0 y = 2 }
+							halo_infantry = { x = 0 y = 3 }
+							halo_infantry = { x = 1 y = 0 }
+							halo_infantry = { x = 1 y = 1 }
+							halo_infantry = { x = 1 y = 2 }
+							halo_infantry = { x = 1 y = 3 }
+						}
+						support = {
+							engineer = { x = 0 y = 0 }
+						}
+					}
+				}
+
+		add_stability = -0.05
+		add_war_support = 0.2
+		capital_scope = {
+			create_unit = {
+				division = "name = \"1. Halo War Brigade\" division_template = \"Halo War Brigade\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"2. Halo War Brigade\" division_template = \"Halo War Brigade\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"3. Halo War Brigade\" division_template = \"Halo War Brigade\" start_experience_factor = 0.1 start_equipment_factor = 0.7" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"4. Halo War Brigade\" division_template = \"Halo War Brigade\" start_experience_factor = 0.1 start_equipment_factor = 0.7" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"5. Halo War Brigade\" division_template = \"Halo War Brigade\" start_experience_factor = 0.1 start_equipment_factor = 0.5" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"6. Halo War Brigade\" division_template = \"Halo War Brigade\" start_experience_factor = 0.1 start_equipment_factor = 0.5" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"75. Halo War Brigade\" division_template = \"Halo War Brigade\" start_experience_factor = 0.1 start_equipment_factor = 0.3" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"8. Halo War Brigade\" division_template = \"Halo War Brigade\" start_experience_factor = 0.1 start_equipment_factor = 0.3" 
+				owner = ROOT
+			}
 		}
 	}
 }
@@ -134,6 +194,7 @@ country_event = { # 국방군과 협상 -  히나가 협상안 거부 함
 		add_war_support = 0.05
 		add_stability = -0.01
 		set_country_flag = HINA_DISAGREE
+		country_event = { id = GEH_event.14 days = 4}
 	}
 }
 country_event = { # 선도 이벤트 
@@ -388,7 +449,41 @@ country_event = { # 쿠 데 타 좋 았 어
 	
 	option = { 
 		name = GEH_event.15.a
+
+		start_civil_war = {
+			ideology = fascism
+			size = 0.1
+			army_ratio = 0.65
+			states = {
+				52 53 54
+			}
+			keep_unit_leaders_trigger = {
+				#has_trait = my_trait_name
+			}
+			keep_all_characters = yes
+			keep_political_party_members = yes
+			PREV = {  # Original country
+				GEH_akzhxh = { # Character
+					set_nationality = PREV.PREV
+					# Transfers to breakaway
+				}
+				GEH_dlfhgk = { # Character
+					set_nationality = PREV.PREV
+					# Transfers to breakaway
+				}
+				GEH_dlqnzl = { # Character
+					set_nationality = PREV.PREV
+					# Transfers to breakaway
+				}
+			}
+			promote_character = GEH_akzhxh
+			country_event = { id = GEH_event.7 hours = 4 }
+			add_ideas = GEH_individualism
+		}
+
 		hidden_effect = {
+			country_event = { id = GEH_event.7 hours = 4 }
+			add_ideas = GEH_individualism
 			load_focus_tree = GEH_hina_focustree
 			set_politics = {
 				ruling_party = neutrality
@@ -474,7 +569,7 @@ country_event = { # 동아리 이슈
 country_event = { # 협상의 끝
 	id = GEH_event.20
 	title = GEH_event.20.t
-	desc = GEH_event.20desc
+	desc = GEH_event.20.desc
 	picture = GFX_event_none_picture
 	
     is_triggered_only = yes
@@ -482,5 +577,59 @@ country_event = { # 협상의 끝
 	option = { 
 		name = GEH_event.20.a
 		add_stability = 0.05
+	}
+}
+country_event = { # 선도부의 쿠데타
+	id = GEH_event.21
+	title = GEH_event.21.t
+	desc = GEH_event.21.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEH_event.21.a
+
+		start_civil_war = {
+			ideology = neutrality
+			size = 0.1
+			army_ratio = 0.65
+			states = {
+				55 54 60
+			}
+			keep_unit_leaders_trigger = {
+				#has_trait = my_trait_name
+			}
+			keep_all_characters = yes
+			keep_political_party_members = yes
+			PREV = {  # Original country
+				GEH_hina = { # Character
+					set_nationality = PREV.PREV
+					# Transfers to breakaway
+				}
+				GEH_dkzh = { # Character
+					set_nationality = PREV.PREV
+					# Transfers to breakaway
+				}
+				GEH_dldhfl = { # Character
+					set_nationality = PREV.PREV
+					# Transfers to breakaway
+				}
+				GEH_chinatsu = { # Character
+					set_nationality = PREV.PREV
+					# Transfers to breakaway
+				}
+			}
+			promote_character = GEH_hina
+			country_event = { id = GEH_event.7 hours = 4 }
+			add_ideas = GEH_individualism
+		}
+
+		hidden_effect = {
+			country_event = { id = GEH_event.7 hours = 4 }
+			add_ideas = GEH_individualism
+			load_focus_tree = no
+		}
+		news_event = { id = BA_news.16 days = 3 }
 	}
 }
