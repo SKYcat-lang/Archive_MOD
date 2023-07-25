@@ -656,6 +656,7 @@ country_event = {
 	
 	option = { #
 		name = TRM_event.35.a
+		unlock_decision_category_tooltip = TRN_after_war_decisions
 		TRM_won_the_gehenna_effect = yes
 			
 	}
@@ -1107,6 +1108,24 @@ country_event = {
 	option = { #
 		name = TRM_event.60.a
 		add_manpower = -2
+	}
+}
+country_event = { 
+	id = TRM_event.61
+	title = TRM_event.61.t
+	desc = TRM_event.61.desc
+	picture = GFX_event_none_picture
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = { #
+		name = TRM_event.61.a
+		create_wargoal = {
+			target = HEU
+			type = annex_everything
+		}
+		set_country_flag = TRN_attack_heu_in_event
 	}
 }
 add_namespace = TRN_opposition
@@ -1645,14 +1664,45 @@ country_event = {
 	}
 	option = { #
 		name = TRM_event.1000.c
-		ENG_lose_effect = yes
+		GEH = {
+			declare_war_on = {
+				target = FROM.from.from
+				type = annex_everything
+			}
+
+		}
 	}
 	option = { #
 		name = TRM_event.1000.d
-		complete_national_focus = TRM_newfocus_33
-		complete_national_focus = TRM_newfocus_21
-		complete_national_focus = TRM_newfocus_22
-		complete_national_focus = TRM_newfocus_23
+		TR1 = {
+			every_state = {
+				limit = {
+					is_core_of = GEH
+					NOT	= { 
+						state = 59
+						state = 58
+					}
+				}
+				transfer_state_to = TR1
+				add_core_of = TR1
+			}
+			every_state = {
+				limit = {
+					is_core_of = HEU
+					country_exists = HEU
+				}
+				transfer_state_to = HEU
+			}
+
+	add_popularity = {
+		ideology = fascism
+		popularity = 0.99
+	}
+	add_ideas = GEH_slave_of_the_trm
+	set_cosmetic_tag = trm_puppet_geh
+	load_focus_tree = GEH_lose_focus_tree
+
+	}
 	}
 }
 country_event = { 
