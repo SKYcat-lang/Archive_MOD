@@ -491,7 +491,7 @@ country_event = { # 쿠 데 타 좋 았 어
 
 		hidden_effect = {
 
-			country_event = { id = GEH_event.16 days = 300 } #1년 후 국방군이 침공함
+			country_event = { id = GEH_event.16 days = 150 } #반년 후 국방군이 침공함
 
 			set_cosmetic_tag = GEH_hina_cosmetic
 			country_event = { id = GEH_event.7 hours = 4 }
@@ -529,14 +529,20 @@ country_event = { # 국방군과 전쟁
 	
 	option = { 
 		name = GEH_event.16.a
-		every_country = {
-			limit = {
-				original_tag = GEH
-			}
-			BAY = {
-				declare_war_on = {
-					target = PREV
-					type = annex_everything
+		country_event = { id = GEH_event.22 days = 2 }
+		BAY = {
+			every_country = {
+				limit = {
+					OR = {
+						original_tag = GEH
+						tag = GEH
+					}
+				}
+				PREV = {
+					declare_war_on = {
+						target = PREV
+						type = annex_everything
+					}
 				}
 			}
 		}
@@ -582,7 +588,7 @@ country_event = { # 동아리 이슈
 		add_stability = 0.05
 	}
 }
-country_event = { # 국방군을 막아라!
+country_event = { # 협상 끝
 	id = GEH_event.20
 	title = GEH_event.20.t
 	desc = GEH_event.20.desc
@@ -593,19 +599,6 @@ country_event = { # 국방군을 막아라!
 	option = { 
 		name = GEH_event.20.a
 		add_stability = 0.05
-		create_faction = GEH_Federation
-		GEH = {
-			every_country = {
-				limit = {
-					has_country_flag = GEH_civil_war_country
-				}
-				PREV = {
-					remove_civil_war_target = PREV
-					add_to_faction = PREV
-				}
-				white_peace = GEH
-			}
-		}
 	}
 }
 country_event = { # 선도부의 쿠데타
@@ -663,7 +656,7 @@ country_event = { # 선도부의 쿠데타
 
 		hidden_effect = {
 
-			country_event = { id = GEH_event.16 days = 300 } #1년 후 국방군이 침공함
+			country_event = { id = GEH_event.16 days = 150 } #반년 후 국방군이 침공함
 
 			set_cosmetic_tag = GEH_Makoto_cosmetic
 			country_event = { id = GEH_event.7 hours = 4 }
@@ -671,5 +664,31 @@ country_event = { # 선도부의 쿠데타
 			load_focus_tree = no
 		}
 		news_event = { id = BA_news.16 days = 3 }
+	}
+}
+country_event = { # 국방군을 막아라!
+	id = GEH_event.22
+	title = GEH_event.22.t
+	desc = GEH_event.22.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEH_event.22.a
+		add_stability = -0.10
+		create_faction = GEH_Federation
+		GEH = {
+			every_country = {
+				limit = {
+					has_country_flag = GEH_civil_war_country
+				}
+				PREV = {
+					remove_civil_war_target = PREV
+					add_to_faction = PREV
+				}
+				white_peace = GEH
+			}
+		}
 	}
 }
