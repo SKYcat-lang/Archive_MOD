@@ -485,6 +485,7 @@ country_event = { # 쿠 데 타 좋 았 어
 			add_ideas = GEH_individualism
 			set_cosmetic_tag = GEH_Makoto_cosmetic
 			set_country_flag = GEH_civil_war_country
+			load_focus_tree = GEH_makoto_focustree
 		}
 		
 		load_focus_tree = GEH_hina_focustree
@@ -619,7 +620,7 @@ country_event = { # 선도부의 쿠데타
 		start_civil_war = {
 			ideology = neutrality
 			size = 0.1
-			army_ratio = 0.65
+			army_ratio = 0.5
 			states = {
 				55 54 60
 			}
@@ -651,6 +652,7 @@ country_event = { # 선도부의 쿠데타
 			add_ideas = GEH_individualism
 			set_cosmetic_tag = GEH_hina_cosmetic
 			set_country_flag = GEH_civil_war_country
+			load_focus_tree = GEH_hina_focustree
 		}
 		
 		load_focus_tree = GEH_makoto_focustree
@@ -677,5 +679,47 @@ country_event = { # 국방군을 막아라!
 	
 	option = { 
 		name = GEH_event.22.a
+		add_stability = -0.10
+		create_faction = GEH_Federation
+		GEH = {
+			every_country = {
+				limit = {
+					has_country_flag = GEH_civil_war_country
+				}
+				PREV = {
+					remove_civil_war_target = PREV
+					add_to_faction = PREV
+				}
+				white_peace = GEH
+			}
+		}
+	}
+}
+country_event = { # 내전 재개
+	id = GEH_event.23
+	title = GEH_event.23.t
+	desc = GEH_event.23.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEH_event.23.a
+		add_stability = 0.05
+		create_faction = GEH_Federation
+		GEH = {
+			dismantle_faction = yes
+			every_country = {
+				limit = {
+					has_country_flag = GEH_civil_war_country
+				}
+				PREV = {
+					declare_war_on = {
+						target = PREV
+						type = annex_everything
+					}
+				}
+			}
+		}
 	}
 }
