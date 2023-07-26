@@ -32,11 +32,9 @@ country_event = {
 				limit = {
 					NOT = {
 						OR = {
-							has_completed_focus = fra_focus_war_1
-							FRA = {
-								16 = {
-									is_capital = yes
-								}
+							has_completed_focus = FRA_focus_resistance_1
+							16 = {
+								is_controlled_by_ROOT_or_ally = yes
 							}
 						}	
 					}
@@ -67,10 +65,8 @@ country_event = {
 					NOT = {
 						OR = {
 							has_completed_focus = FRA_focus_resistance_1
-							FRA = {
-								16 = {
-									is_capital = yes
-								}
+							16 = {
+								is_controlled_by_ROOT_or_ally = yes
 							}
 						}
 					}
@@ -983,6 +979,33 @@ country_event = {
 		set_variable = {
 			FRA_war_eng = 1
 		}
+		
+		activate_mission = FRA_midaf_occupation
+		hidden_effect = {
+			news_event = FRA_prov_event.53
+		}
+	}
+	option = {
+		name = FRA_prov_event.27.b
+		add_war_support = 0.1
+		start_border_war = {
+			change_state_after_war = yes
+			attacker = {
+				state = 779
+				num_provinces = 2
+				on_win = fra_prov_event.49
+				on_lose = fra_prov_event.50
+			}
+			defender = { 
+				state = 274
+				num_provinces = 3
+				on_win = fra_prov_event.51
+				on_lose = fra_prov_event.52
+			}
+		}
+		hidden_effect = {
+			news_event = FRA_prov_event.53
+		}
 	}
 }
 
@@ -1097,8 +1120,8 @@ country_event = {
 				}
 				1 = {
 					damage_building = {
-						type = arms_factory
 						damage = 1
+						type = arms_factory
 					}
 				}
 				1 = {
@@ -1571,5 +1594,61 @@ country_event = { #비행기 파괴
 				amount = -100
 			}
 		}
+	}
+}
+country_event = { #프랑스 - 국경분쟁 승리
+	id = FRA_prov_event.49
+	title = FRA_prov_event.49.t
+	desc = FRA_prov_event.49.d
+	is_triggered_only = yes
+	option = { 
+		name = FRA_prov_event.49.a
+		ROOT = {
+			transfer_state = 274
+			transfer_state = 777
+			transfer_state = 776
+			transfer_state = 558
+			transfer_state = 902
+		}
+	}
+}
+country_event = { #프랑스 - 국경분쟁 패배
+	id = FRA_prov_event.50
+	title = FRA_prov_event.50.t
+	desc = FRA_prov_event.50.d
+	is_triggered_only = yes
+	option = { 
+		name = FRA_prov_event.50.a
+		add_war_support = -0.1
+	}
+}
+country_event = { #영국 - 국경분쟁 승리
+	id = FRA_prov_event.51
+	title = FRA_prov_event.51.t
+	desc = FRA_prov_event.51.d
+	is_triggered_only = yes
+	option = { 
+		name = FRA_prov_event.51.a
+		add_war_support = 0.1
+	}
+}
+country_event = { #영국 - 국경분쟁 패배
+	id = FRA_prov_event.52
+	title = FRA_prov_event.52.t
+	desc = FRA_prov_event.52.d
+	is_triggered_only = yes
+	option = { 
+		name = FRA_prov_event.52.a
+		add_war_support = -0.1
+	}
+}
+news_event = { #영국 - 프랑스 분쟁
+	id = FRA_prov_event.53
+	title = FRA_prov_event.53.t
+	desc = FRA_prov_event.53.d
+	is_triggered_only = yes
+	major = yes
+	option = { 
+		name = FRA_prov_event.53.a
 	}
 }
