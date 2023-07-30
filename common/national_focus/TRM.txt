@@ -252,6 +252,9 @@
 		prerequisite = {
 			focus = TRM_newfocus_4
 		}
+		mutually_exclusive = {
+			focus = TRN_nagisa_gyehek
+		}
 		available = {
 			has_completed_focus = TRN_yurijono_seia
 		}
@@ -462,6 +465,20 @@
 		}
 	}
 	focus = {
+		id = TMR_support_with_germany #독일인과 접촉
+		icon = GFX_focus_chi_mission_to_germany
+		cost = 8.00
+		prerequisite = {
+			focus = TRM_eden_fact_crusher
+		}
+		x = 25
+		y = 10
+		completion_reward = {
+			custom_effect_tooltip = support_germans_people
+			set_country_flag = support_germans_people_flag
+		}
+	}
+	focus = {
 		id = TRM_newfocus_14 #장군진 포섭
 		icon = GFX_goal_general_embrace
 		cost = 4.3
@@ -550,6 +567,61 @@
 			}
 		}
 
+	}
+	
+	focus = {
+		id = TRM_after_war #전후 처리
+		icon = GFX_goal_after_war
+		cost = 0.20
+		available = {
+			has_country_flag = TRINITY_WON_THE_GEHENNA
+		}
+		x = 21
+		y = 19
+		completion_reward = {
+			country_event = { id = TRM_event.35 }
+		}
+	}
+
+	focus = {
+		id = TRM_germany_union
+		icon = GFX_goal_tmr_united_germay
+		cost = 8.00
+		prerequisite = {
+			focus = TRM_anti_gehenna_focus_3
+		}
+		prerequisite = {
+			focus = TRM_anti_gehenna_focus_1
+		}
+		prerequisite = {
+			focus = TRM_anti_gehenna_focus_2
+		}
+		relative_position_id = TRM_after_war
+		x = 0
+		y = 3
+		completion_reward = {
+			add_threat = 5
+			news_event = { id = BA_news.7 }
+			hidden_effect = {
+				country_event = { id = TRM_event.36 days = 3 }
+				if = {
+					limit = { has_country_flag = HEU_PUPPET_TRN }
+				annex_country = {
+					target = TR1
+					transfer_troops = yes
+				}
+				annex_country = {
+					target = HEU
+					}
+				}
+				else = {
+					annex_country = {
+						target = TR1
+						transfer_troops = yes
+					}
+				}
+			}
+		}
 	}
 	focus = {
 		id = TRM_redwinter_attack
@@ -817,7 +889,7 @@
 			set_rule = {
 				can_declare_war_without_wargoal_when_in_war = yes
 			}
-			country_event = { id = BA_news.12 days 3 }
+			country_event = { id = BA_news.12 days = 3 }
 			set_country_flag = reichskommissariat_on
 		}
 	}
@@ -934,7 +1006,7 @@
 	focus = {
 		id = TRN_totar_war_focus # 총동원령
 		available = {
-			has_war_support = 0.6
+			has_war_support > 0.6
 			has_war = yes
 		}		
 		prerequisite = { focus = TRN_prepare_for_the_inevitable }
@@ -1083,20 +1155,6 @@
 		}
 	}
 	focus = {
-		id = TMR_support_with_germany #독일인과 접촉
-		icon = GFX_focus_chi_mission_to_germany
-		cost = 8.00
-		prerequisite = {
-			focus = TRM_eden_fact_crusher
-		}
-		x = 25
-		y = 10
-		completion_reward = {
-			custom_effect_tooltip = support_germans_people
-			set_country_flag = support_germans_people_flag
-		}
-	}
-	focus = {
 		id = TRN_find_gehenna_betrayer # 독일인과 접촉
 		icon = GFX_focus_usa_reestablish_the_gold_standard
 		cost = 8.00
@@ -1183,20 +1241,6 @@
 			country_event = { id =TRM_event.63 }
 		}
 	}
-	
-	focus = {
-		id = TRM_after_war #전후 처리
-		icon = GFX_goal_after_war
-		cost = 0.20
-		available = {
-			has_country_flag = TRINITY_WON_THE_GEHENNA
-		}
-		x = 21
-		y = 19
-		completion_reward = {
-			country_event = { id = TRM_event.35 }
-		}
-	}
 	focus = {
 		id = TRM_anti_gehenna_focus_2 #게헨나 격하운동
 		icon = GFX_goal_hmmngshinso_broken
@@ -1210,46 +1254,6 @@
 		completion_reward = {
 			custom_effect_tooltip = TRINITY_after_war_2_tt
 			country_event = { id = TRM_event.27 }
-		}
-	}
-	focus = {
-		id = TRM_germany_union
-		icon = GFX_goal_tmr_united_germay
-		cost = 8.00
-		prerequisite = {
-			focus = TRM_anti_gehenna_focus_3
-		}
-		prerequisite = {
-			focus = TRM_anti_gehenna_focus_1
-		}
-		prerequisite = {
-			focus = TRM_anti_gehenna_focus_2
-		}
-		relative_position_id = TRM_after_war
-		x = 0
-		y = 3
-		completion_reward = {
-			add_threat = 5
-			news_event = { id = BA_news.7 }
-			hidden_effect = {
-				country_event = { id = TRM_event.36 days = 3 }
-				if = {
-					limit = { has_country_flag = HEU_PUPPET_TRN }
-				annex_country = {
-					target = TR1
-					transfer_troops = yes
-				}
-				annex_country = {
-					target = HEU
-					}
-				}
-				else = {
-					annex_country = {
-						target = TR1
-						transfer_troops = yes
-					}
-				}
-			}
 		}
 	}
 	focus = {
@@ -1979,7 +1983,6 @@
 				limit = {
 					is_core_of = ROOT
 					is_in_home_area = yes
-					is_valid_state_for_development = yes
 					free_building_slots = { building = infrastructure size > 0 include_locked = yes }
 				}
 				add_extra_state_shared_building_slots = 2
@@ -1993,7 +1996,6 @@
 				limit = {
 					is_core_of = ROOT
 					is_in_home_area = yes
-					is_valid_state_for_development = yes
 					free_building_slots = { building = infrastructure size > 0 include_locked = yes }
 				}
 				add_extra_state_shared_building_slots = 2
@@ -2038,8 +2040,7 @@
 					is_claimed_by = owner
 				}
 				free_building_slots = { building = industrial_complex size > 0 include_locked = yes }
-				is_valid_state_for_development = yes
-				prefer_home_area_states_unless_filled = yes
+				is_in_home_area = yes
 			}
 			add_extra_state_shared_building_slots = 1
 			add_building_construction = {
@@ -2164,8 +2165,7 @@
 					is_claimed_by = owner
 				}
 				free_building_slots = { building = arms_factory size > 0 include_locked = yes }
-				is_valid_state_for_development = yes
-				prefer_home_area_states_unless_filled = yes
+				is_in_home_area = yes
 			}
 			add_extra_state_shared_building_slots = 1
 			add_building_construction = {
@@ -2181,8 +2181,7 @@
 					is_claimed_by = owner
 				}
 				free_building_slots = { building = arms_factory size > 0 include_locked = yes }
-				is_valid_state_for_development = yes
-				prefer_home_area_states_unless_filled = yes
+				is_in_home_area = yes
 			}
 			add_extra_state_shared_building_slots = 1
 			add_building_construction = {
@@ -2198,8 +2197,7 @@
 					is_claimed_by = owner
 				}
 				free_building_slots = { building = arms_factory size > 0 include_locked = yes }
-				is_valid_state_for_development = yes
-				prefer_home_area_states_unless_filled = yes
+				is_in_home_area = yes
 			}
 			add_extra_state_shared_building_slots = 1
 			add_building_construction = {
