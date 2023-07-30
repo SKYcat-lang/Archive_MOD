@@ -1026,7 +1026,15 @@ country_event = {
 		name = FRA_prov_event.28.a
 		hidden_effect = {
 			complete_national_focus = FRA_focus_resist_1
+			country_event = {
+				id = FRA_prov_event.61
+				days = 5
+			}
 		}
+		459 = {
+			set_demilitarized_zone = yes
+		}
+		add_ideas = FRA_resist_strike
 		every_state = {
 			limit = {
 				is_owned_by = FRA
@@ -1316,6 +1324,7 @@ news_event = { #보르도 해방
 	desc = FRA_prov_event.40.d
 	fire_only_once = yes
 	is_triggered_only = yes
+	picture = GFX_event_BA_fra_news_bor
 	major = yes
 	hidden = no
 	option = {
@@ -1479,7 +1488,10 @@ news_event = { #프랑스에서의 끔찍한 동원
 	trigger = {
 		tag = FRA
 		has_idea = FRA_emergency_mobil
-		date > 1937.5.15
+		date > 1937.4.15
+		FRA_military_conference = {
+			is_country_leader = yes
+		}
 	}
 	option = {
 		trigger = {
@@ -1662,6 +1674,12 @@ country_event = { #라틴협상국
 		dismantle_faction = yes
 		create_faction = ratine_entent
 		add_to_faction = FRA
+		FRA = {
+			country_event = {
+				id = FRA_prov_event.60
+				days = 1
+			}
+		}
 	}
 	option = { 
 		name = FRA_prov_event.54.b
@@ -1707,6 +1725,12 @@ country_event = { #코민테른
 		ai_chance = {
 			base = 100
 		}
+		FRA = {
+			country_event = {
+				id = FRA_prov_event.60
+				days = 1
+			}
+		}
 	}
 	option = { 
 		name = FRA_prov_event.56.b
@@ -1730,6 +1754,12 @@ country_event = { #베오그라드
 		add_to_faction = FRA
 		ai_chance = {
 			base = 100
+		}
+		FRA = {
+			country_event = {
+				id = FRA_prov_event.60
+				days = 1
+			}
 		}
 	}
 	option = { 
@@ -1799,5 +1829,175 @@ country_event = { #포르투갈 협력
 				days = 1
 			}
 		}
+	}
+}
+country_event = { #협력 요청 수락
+	id = FRA_prov_event.60
+	title = FRA_prov_event.60.t
+	desc = FRA_prov_event.60.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.60.a
+		add_war_support = 0.03
+	}
+}
+
+country_event = { #저항에 대한 대처
+	id = FRA_prov_event.61
+	title = FRA_prov_event.61.t
+	desc = FRA_prov_event.61.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.61.a
+		add_political_power = -100
+		hidden_effect = {
+			
+		}
+	}
+	option = { 
+		name = FRA_prov_event.61.b
+		add_war_support = -0.3
+		hidden_effect = {
+			country_event = {
+				id = FRA_prov_event.62
+				days = 5
+			}
+			country_event = {
+				id = FRA_prov_event.63
+				days = 15
+			}
+		}
+	}
+}
+country_event = { #쿠데타!
+	id = FRA_prov_event.62
+	title = FRA_prov_event.62.t
+	desc = FRA_prov_event.62.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.62.a
+		add_stability = -0.05
+		retire_country_leader = yes
+		hidden_effect = {
+			complete_national_focus = FRA_focus_resist_3
+			news_event = {
+				id = FRA_prov_event.65
+				days = 5
+			}
+		}
+	}
+	option = { 
+		name = FRA_prov_event.62.b
+		add_war_support = -0.05
+		hidden_effect = {
+			country_event = {
+				id = FRA_prov_event.67
+				days = 10
+			}
+		}
+	}
+}
+country_event = { #요구 수용
+	id = FRA_prov_event.63
+	title = FRA_prov_event.63.t
+	desc = FRA_prov_event.63.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.63.a
+		add_stability = 0.05
+		swap_ideas = {
+			remove_idea = FRA_resist_strike
+			add_idea = FRA_resist_request
+		}
+		459 = {
+			set_demilitarized_zone = no
+		}
+		hidden_effect = {
+			complete_national_focus = FRA_focus_resist_2
+		}
+	}
+}
+country_event = { #앙리 하의 선거
+	id = FRA_prov_event.64
+	title = FRA_prov_event.64.t
+	desc = FRA_prov_event.64.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.64.a
+		remove_ideas = FRA_pierre
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.1
+		}
+	}
+}
+news_event= { #프랑스 쿠데타 뉴스
+	id = FRA_prov_event.65
+	title = FRA_prov_event.65.t
+	desc = FRA_prov_event.65.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	major = yes
+	option = { 
+		name = FRA_prov_event.65.a
+		trigger = {
+			tag = FRA
+		}
+	}
+	option = { 
+		name = FRA_prov_event.65.b
+		trigger = {
+			NOT = {
+				tag = FRA
+			}
+			
+		}
+	}
+}
+country_event = { #페텡에 압박
+	id = FRA_prov_event.66
+	title = FRA_prov_event.66.t
+	desc = FRA_prov_event.66.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.66.a
+		set_politics = {
+			ruling_party = democratic
+			elections_allowed = no
+		}
+		remove_ideas = fra_pierre
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.3
+		}
+	}
+}
+country_event = { #아프리카 인민해방전선
+	id = FRA_prov_event.67
+	title = FRA_prov_event.67.t
+	desc = FRA_prov_event.67.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.67.a
+		set_politics = {
+			ruling_party = communism
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = communism
+			popularity = 0.5
+		}
+		459 = {
+			set_demilitarized_zone = no
+		}
+		kill_country_leader = FRA_military_conference
+		set_cosmetic_tag = FRA_africa
 	}
 }
