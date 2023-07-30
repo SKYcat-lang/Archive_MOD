@@ -1,5 +1,6 @@
 name="Blue Archive MOD"
 replace_path="gfx/loadingscreens"
+replace_path="common/national_focus/FRA.txt"
 tags={
 	"Gameplay"
 	"Graphics"
