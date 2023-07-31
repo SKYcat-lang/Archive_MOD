@@ -2079,7 +2079,7 @@ focus_tree = {
 		x = 25
 		y = 0
 
-		cost = 10
+		cost = 5
 		ai_will_do = {
 			factor = 7
 		}
@@ -2117,7 +2117,7 @@ focus_tree = {
 					}
 				}
 			}
-			add_political_power = 120
+			add_political_power = 50
 		}
 	}
 
@@ -2137,8 +2137,8 @@ focus_tree = {
 		
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
-
-			load_oob = "BAY_1936_air_bba"
+			
+			custom_effect_tooltip = BAY_air_innovation_tt
 			
 			air_experience = 25
 
@@ -2150,6 +2150,9 @@ focus_tree = {
 			}
 
 			hidden_effect = {
+
+				load_oob = "BAY_1936_air_bba"
+
 				add_advisor_role = {
 					character = GER_ritter_von_greim
 					
@@ -2384,7 +2387,7 @@ focus_tree = {
 		x = -2
 		y = 1
 		prerequisite = { focus = BAY_government }
-		cost = 10
+		cost = 5
 		ai_will_do = {
 			factor = 1
 		}
@@ -2393,6 +2396,10 @@ focus_tree = {
 		available_if_capitulated = yes
 		search_filters = { FOCUS_FILTER_RESEARCH }
 		completion_reward = {
+			add_timed_idea = {
+				idea = BAY_counter_tactics
+				days = 720
+			}
 			# Balance research bonus for 2 techs under land_doctrine
 			
 			army_experience = 10
@@ -2465,7 +2472,7 @@ focus_tree = {
 			army_experience = 20
 			add_doctrine_cost_reduction = {
 				name = land_doc_bonus
-				cost_reduction = 0.5
+				cost_reduction = 0.1
 				uses = 2
 				category = land_doctrine
 			}
@@ -2476,7 +2483,7 @@ focus_tree = {
 					}
 				}
 				add_tech_bonus = {
-					bonus = 1.0
+					bonus = 0.5
 					uses = 1
 					name = mech_army_bonus
 					technology = basic_medium_tank
@@ -2487,7 +2494,7 @@ focus_tree = {
 			}
 			else = {
 				add_tech_bonus = {
-					bonus = 1.0
+					bonus = 0.5
 					uses = 1
 					name = mech_army_bonus
 					technology = basic_medium_tank_chassis
@@ -2565,7 +2572,7 @@ focus_tree = {
 		x = 2
 		y = 1
 		relative_position_id = BAY_government
-		cost = 10
+		cost = 5
 		ai_will_do = {
 			factor = 1
 		}
@@ -2573,6 +2580,11 @@ focus_tree = {
 		completion_reward = {
 			add_stability = 0.1
 			add_political_power = 120
+			add_power_balance_value = {
+				id = BAY_power_balance
+				value = -0.05
+				tooltip_side = BAY_army_side
+			}
 		}
 	}
 
@@ -2580,26 +2592,56 @@ focus_tree = {
 		id = BAY_retrun_nazi
 		icon = GFX_focus_ger_reichskommisariats
 		prerequisite = { focus = BAY_army_innovation_2 }
+		mutually_exclusive = { focus = BAY_order_discipline }
 		available = {
 			is_subject = no
 		}
-		x = 5
+		x = 4
 		y = 1
 		relative_position_id = BAY_army_innovation_2
 		cost = 10
 		ai_will_do = {
 			factor = 1
 		}
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
 			add_stability = -0.1
 			add_war_support = 0.05
-			add_ideas = BAY_Walter_von_Reichenau
+			add_ideas = BAY_Walter_von_Reichenau_political_advisor
 			add_popularity = { ideology = fascism popularity = 0.2 }
 			add_power_balance_value = {
 				id = BAY_power_balance
 				value = 0.1
 				tooltip_side = BAY_nazi_side
+			}
+		}
+	}
+
+	focus = {
+		id = BAY_order_discipline
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = { focus = BAY_army_innovation_2 }
+		mutually_exclusive = { focus = BAY_retrun_nazi }
+		available = {
+			is_subject = no
+		}
+		x = -4
+		y = 1
+		relative_position_id = BAY_army_innovation_2
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_stability = -0.05
+			add_war_support = -0.05
+			add_ideas = hans_oster_political_advisor
+			add_popularity = { ideology = fascism popularity = 0.05}
+			add_power_balance_value = {
+				id = BAY_power_balance
+				value = -0.05
+				tooltip_side = BAY_army_side
 			}
 		}
 	}
