@@ -2081,16 +2081,11 @@ focus_tree = {
 
 		cost = 5
 		ai_will_do = {
-			factor = 7
+			factor = 10
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-			set_power_balance = {
-				id = BAY_power_balance
-				left_side = BAY_army_side # will keep the last set side if not specified
-				right_side = BAY_nazi_side # will keep the last set side if not specified
-				set_default = yes # whether or not to reset the power balance to the initial value, default = no
-			}
+			country_event = { id= BAY_event.1 hours = 6 }
 			hidden_effect = { #offset from fascist reasons on 00_on_actions
 				add_ai_strategy = {
 				   type = alliance
@@ -2130,7 +2125,7 @@ focus_tree = {
 		y = 2
 		cost = 10
 		ai_will_do = {
-			factor = 1
+			factor = 20
 		}
 
 		available_if_capitulated = yes
@@ -2389,7 +2384,7 @@ focus_tree = {
 		prerequisite = { focus = BAY_government }
 		cost = 5
 		ai_will_do = {
-			factor = 1
+			factor = 10
 		}
 		relative_position_id = BAY_government
 
@@ -2574,7 +2569,7 @@ focus_tree = {
 		relative_position_id = BAY_government
 		cost = 5
 		ai_will_do = {
-			factor = 1
+			factor = 10
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 		completion_reward = {
@@ -2601,7 +2596,11 @@ focus_tree = {
 		relative_position_id = BAY_army_innovation_2
 		cost = 10
 		ai_will_do = {
-			factor = 1
+			factor = 5
+			modifier = {
+				factor = 0
+				has_war_with = yes
+			}
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
@@ -2630,7 +2629,11 @@ focus_tree = {
 		relative_position_id = BAY_army_innovation_2
 		cost = 10
 		ai_will_do = {
-			factor = 1
+			factor = 5
+			modifier = {
+				factor = 0
+				has_war_with = yes
+			}
 		}
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
@@ -2642,6 +2645,128 @@ focus_tree = {
 				id = BAY_power_balance
 				value = -0.05
 				tooltip_side = BAY_army_side
+			}
+		}
+	}
+
+	focus = {
+		id = BAY_national_reconstruction
+		icon = GFX_goal_generic_construction2
+		prerequisite = { focus = BAY_army_innovation_2 }
+		available = {
+			is_subject = no
+		}
+		x = 0
+		y = 2
+		relative_position_id = BAY_army_innovation_2
+		cost = 10
+		ai_will_do = {
+			factor = 9
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_timed_idea = { idea = GER_rebuild_the_nation days = 365 }
+			add_ideas = GER_national_revitalization
+		}
+	}
+
+	focus = {
+		id = BAY_fan_the_prussian_militarism
+		icon = GFX_focus_generic_military_mission
+		prerequisite = { focus = BAY_national_reconstruction }
+		available = {
+		}
+		x = -1
+		y = 1
+		relative_position_id = BAY_national_reconstruction
+		cost = 5
+		ai_will_do = {
+			factor = 8
+		}
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						has_idea = GER_national_revitalization
+						has_idea = GER_national_revitalization3
+					}
+				}
+				effect_tooltip = {
+					swap_ideas = {
+						remove_idea = GER_national_revitalization
+						add_idea = GER_national_revitalization2
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_idea = GER_national_revitalization
+				}
+				swap_ideas = {
+					remove_idea =GER_national_revitalization
+					add_idea = GER_national_revitalization2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = GER_national_revitalization3
+				}
+				swap_ideas = {
+					remove_idea = GER_national_revitalization3
+					add_idea = GER_national_revitalization4
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = BAY_a_new_and_better_germany
+		icon = GFX_goal_generic_construction
+		text = GER_a_new_and_better_germany
+		prerequisite = { focus = BAY_national_reconstruction }
+		available = {
+		}
+		x = 1
+		y = 1
+		relative_position_id = BAY_national_reconstruction
+		cost = 5
+		ai_will_do = {
+			factor = 8
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						has_idea = GER_national_revitalization
+						has_idea = GER_national_revitalization2
+					}
+				}
+				effect_tooltip = {
+					swap_ideas = {
+						remove_idea = GER_national_revitalization
+						add_idea = GER_national_revitalization3
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_idea = GER_national_revitalization
+				}
+				swap_ideas = {
+					remove_idea = GER_national_revitalization
+					add_idea = GER_national_revitalization3
+				}
+			}
+			if = {
+				limit = {
+					has_idea = GER_national_revitalization2
+				}
+				swap_ideas = {
+					remove_idea = GER_national_revitalization2
+					add_idea = GER_national_revitalization4
+				}
 			}
 		}
 	}
