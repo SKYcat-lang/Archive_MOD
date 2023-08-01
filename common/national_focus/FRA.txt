@@ -1321,7 +1321,646 @@ focus_tree = {
 			always = no
 		}
 		completion_reward = {
-			add_political_power = 100
+			add_ideas = FRA_disjointed_government
+		}
+	}
+	focus = { #의회 해산
+		id = FRA_focus_koup_1
+		cost = 2.9
+		x = 24
+		y = 4
+		prerequisite = {
+			focus = FRA_focus_koup_0
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.1
+			}
+			set_party_name = {
+				ideology = democratic
+				long_name = fra_democratic_party_no
+				name = fra_democratic_party_no
+			}
+			add_stability = -0.05
+			add_political_power = -100
+		}
+	}
+	focus = { #신헌법
+		id = FRA_focus_koup_2
+		cost = 2.9
+		x = 24
+		y = 5
+		prerequisite = {
+			focus = FRA_focus_koup_1
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.1
+			}
+		}
+	}
+	focus = { #공산주의 금지
+		id = FRA_focus_koup_3
+		cost = 2.9
+		x = 24
+		y = 6
+		prerequisite = {
+			focus = FRA_focus_koup_2
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = -0.15
+			}
+			add_political_power = -100
+		}
+	}
+	focus = {
+		
+		id = FRA_repeal_the_law_of_exile
+		icon = GFX_focus_renounce_the_treaty_of_trianon
+		x = 0
+		y = 1
+		
+		prerequisite = {
+			focus = FRA_focus_koup_3
+		}
+		relative_position_id = FRA_focus_koup_3
+		cost = 4.6
+
+		ai_will_do = {
+			factor = 1
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_political_power = 120
+			remove_ideas = { FRA_disjointed_government }
+		}
+	}
+	focus = {
+		id = FRA_orleanist_restoration
+		icon = GFX_focus_focus_fra_orleans_restoration
+		x = -3
+		y = 1
+		
+		prerequisite = {
+			focus = FRA_repeal_the_law_of_exile
+		}
+		mutually_exclusive = { 
+			focus = FRA_the_legitimate_heir
+			focus = FRA_proclaim_the_third_empire
+		}
+		relative_position_id = FRA_repeal_the_law_of_exile
+		cost = 2.9
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			is_subject = no
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					date < 1940.8.25
+				}
+				create_country_leader = {
+					name = "장 3세"
+					picture = GFX_portrait_fra_jean_duke_of_guise
+					expire = "1965.1.1"
+					ideology = moderatism
+					traits = {
+						duke_of_orleans
+					}
+				}
+			}
+			else = {
+				create_country_leader = {
+					name = "앙리 6세"
+					desc = "POLITICS_ÉDOUARD_DALADIER_DESC"
+					picture = GFX_portrait_fra_henry_count_of_paris
+					expire = "1965.1.1"
+					ideology = moderatism
+					traits = {
+						count_of_paris
+					}
+				}
+			}
+			hidden_effect = {
+				news_event = { id = lar_news.8 days = 3 random_days = 5 }
+			}
+			clr_country_flag = FRA_emergency_flag
+			custom_effect_tooltip = FRA_focus_resist_11_tt	
+		}
+	}
+	focus = {
+		id = FRA_guarantee_the_constitution
+		icon = GFX_goal_generic_military_sphere
+		x = -1
+		y = 1
+		
+		prerequisite = {
+			focus = FRA_orleanist_restoration
+		}
+		relative_position_id = FRA_orleanist_restoration
+		cost = 2.9
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			is_subject = no
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.1
+		}
+	}
+	focus = {
+		id = FRA_the_first_citizen_of_the_state
+		icon = GFX_focus_generic_military_mission
+		x = 1
+		y = 1
+		
+		prerequisite = {
+			focus = FRA_orleanist_restoration
+		}
+		relative_position_id = FRA_orleanist_restoration
+		cost = 2.9
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			is_subject = no
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_country_leader_trait = constitutional_monarch
+		}
+	}
+	focus = {
+		id = FRA_counter_action
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		x = 1
+		y = 1
+		
+		prerequisite = {
+			focus = FRA_guarantee_the_constitution
+			focus = FRA_the_first_citizen_of_the_state
+		}
+		relative_position_id = FRA_guarantee_the_constitution
+		cost = 2.9
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			is_subject = no
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			add_timed_idea = { idea = FRA_counter_action days = 730 }
+		}
+	}
+	focus = {
+		id = FRA_slum_clearing
+		icon = GFX_goal_generic_construction
+		x = 0
+		y = 1
+		
+		prerequisite = {
+			focus = FRA_counter_action
+		}
+		relative_position_id = FRA_counter_action
+		cost = 2.9
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			every_owned_state = {
+				limit = { 
+					is_on_continent = africa
+				}
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+	focus = {
+		id = FRA_public_welfare
+		icon = GFX_goal_generic_consumer_goods
+		x = 0
+		y = 1
+		
+		prerequisite = {
+			focus = FRA_slum_clearing
+		}
+		relative_position_id = FRA_slum_clearing
+		cost = 2.9
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.1
+		}
+	}
+	focus = {
+		id = FRA_the_legitimate_heir
+		icon = GFX_focus_rom_royal_dictatorship
+		x = 0
+		y = 1
+		
+		prerequisite = {
+			focus = FRA_repeal_the_law_of_exile
+		}
+		mutually_exclusive = {
+			focus = FRA_orleanist_restoration
+			focus = FRA_proclaim_the_third_empire
+		}
+		relative_position_id = FRA_repeal_the_law_of_exile
+		cost = 2.9
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			is_subject = no
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			if = {
+				limit = {
+					date < 1941.2.21 #TODO_GABRIEL: coordinate with Drikus for death events
+				}
+				create_country_leader = {
+					name = "알폰스 1세"
+					picture = GFX_portrait_SPA_alfonso_xiii
+					expire = "1965.1.1"
+					ideology = despotism
+					traits = {
+						
+					}
+				}
+			}
+			else = {
+				create_country_leader = {
+					name = "자크 2세"
+					picture = GFX_portrait_fra_infante_jaime
+					expire = "1965.1.1"
+					ideology = despotism
+					traits = {
+						
+					}
+				}
+			}
+			hidden_effect = {
+				news_event = { id = lar_news.8 days = 3 random_days = 5 }
+			}
+			clr_country_flag = FRA_emergency_flag
+
+			custom_effect_tooltip = FRA_focus_resist_11_tt	
+		}
+	}
+	focus = {
+		id = FRA_secure_the_crown_of_spain
+		icon = GFX_goal_generic_position_armies
+		x = 0
+		y = 1
+		
+		prerequisite = {
+			focus = FRA_the_legitimate_heir
+		}
+		relative_position_id = FRA_the_legitimate_heir
+		cost = 2.9
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				factor = 0
+				is_subject_of = SPB
+			}
+		}
+
+		available = {
+			is_subject = no
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = SPB
+				}
+				set_rule = { can_create_factions = yes }
+				create_faction = FRA_legitimist_faction
+				SPB = { country_event = generic.5 }
+			}
+			else = {
+				41 = {
+					OWNER = {
+						ROOT = {
+							create_wargoal = {
+								type = annex_everything
+								target = PREV
+								expire = 0
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = FRA_unite_the_crowns
+		icon = GFX_goal_generic_demand_territory
+		x = -1
+		y = 1
+		
+		prerequisite = {
+			focus = FRA_secure_the_crown_of_spain
+		}
+		mutually_exclusive = { focus = FRA_two_countries_two_crowns }
+		relative_position_id = FRA_secure_the_crown_of_spain
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			if = {
+				limit = {
+					country_exists = SPB
+				}
+				SPB = {
+					NOT = { has_war_with = SPA }
+					NOT = { has_war_with = SPC }
+					NOT = { has_war_with = SPD }
+					OR = {
+						is_in_faction = no
+						is_in_faction_with = ROOT
+					}
+					NOT = {
+						has_war_with = ROOT
+					}
+				}
+			}
+			else = {
+				any_state = {
+					is_core_of = SPB
+					is_controlled_by = ROOT
+				}
+			}
+			is_subject = no
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = SPB
+				}
+				annex_country = { target = SPB transfer_troops = yes }
+			}
+			every_state = {
+				limit = {
+					is_core_of = SPB
+				}
+				add_core_of = ROOT
+			}
+			add_stability = -0.1
+			set_cosmetic_tag = FRANCO_SPAIN
+		}
+	}
+	focus = {
+		id = FRA_two_countries_two_crowns
+		icon = GFX_goal_tripartite_pact
+		x = 1
+		y = 1
+		
+		prerequisite = {
+			focus = FRA_secure_the_crown_of_spain
+		}
+		mutually_exclusive = { focus = FRA_unite_the_crowns }
+		relative_position_id = FRA_secure_the_crown_of_spain
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			is_subject = no
+			country_exists = SPB
+			SPB = {
+				OR = {
+					is_in_faction = no
+					is_in_faction_with = ROOT
+				}
+				NOT = {
+					has_war_with = ROOT
+				}
+			}
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			if = {
+				limit = {
+					is_in_faction = no
+				}
+				set_rule = { can_create_factions = yes }
+				create_faction = FRA_legitimist_faction
+			}
+			if = {
+				limit = {
+					SPB = { is_in_faction = no }
+				}
+				add_to_faction = SPB
+			}
+			add_stability = 0.1
+			add_to_tech_sharing_group = FRA_legitimist_tech_sharing
+			SPB = { add_to_tech_sharing_group = FRA_legitimist_tech_sharing }
+		}
+	}
+
+	focus = {
+		id = FRA_proclaim_the_third_empire
+		icon = GFX_focus_focus_fra_third_empire
+		x = 3
+		y = 1
+		
+		prerequisite = {
+			focus = FRA_repeal_the_law_of_exile
+		}
+		mutually_exclusive = {
+			focus = FRA_orleanist_restoration
+			focus = FRA_the_legitimate_heir
+		}
+		relative_position_id = FRA_repeal_the_law_of_exile
+		cost = 2.9
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			is_subject = no
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			create_country_leader = {
+				name = "나폴레옹 6세"
+				picture = GFX_portraits_fra_napoleon_vi
+				expire = "1965.1.1"
+				ideology = despotism
+				traits = {
+					
+				}
+			}
+			hidden_effect = {
+				news_event = { id = lar_news.8 days = 3 random_days = 5 }
+			}
+			set_cosmetic_tag = FRA_THIRD_EMPIRE
+			clr_country_flag = FRA_emergency_flag
+			custom_effect_tooltip = FRA_focus_resist_11_tt	
+		}
+	}
+	focus = {
+		id = FRA_je_suis_la_deluge
+		icon = GFX_focus_fra_le_deluge
+		x = 0
+		y = 1
+		
+		prerequisite = {
+			focus = FRA_proclaim_the_third_empire
+		}
+		relative_position_id = FRA_proclaim_the_third_empire
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			
+		}
+		
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+			add_ideas = { FRA_la_deluge }
 		}
 	}
 	focus = { #원수 축출
@@ -2430,8 +3069,8 @@ focus_tree = {
 		icon = GFX_goal_fra_retake
 		id = FRA_focus_war_1
 		cost = 1
-		x = 27
-		y = 10
+		x = 5
+		y = 13
 		available = {
 			always = no
 		}
@@ -2452,11 +3091,12 @@ focus_tree = {
 		}
 	}
 	focus = { #남부 탈환
+		
 		icon = GFX_goal_fra_south
 		id = FRA_focus_war_2
 		cost = 2
-		x = 27
-		y = 11
+		x = 5
+		y = 14
 		available = {
 			FRA = {
 				22 = {
@@ -2491,8 +3131,8 @@ focus_tree = {
 		icon = GFX_goal_fra_west
 		id = FRA_focus_war_3
 		cost = 2
-		x = 25
-		y = 11
+		x = 3
+		y = 14
 		available = {
 			FRA = {
 				23 = {
@@ -2527,8 +3167,8 @@ focus_tree = {
 		icon = GFX_goal_fra_east
 		id = FRA_focus_war_4
 		cost = 2
-		x = 29
-		y = 11
+		x = 7
+		y = 14
 		available = {
 			FRA = {
 				27 = {
@@ -2564,8 +3204,8 @@ focus_tree = {
 		id = FRA_focus_war_5
 		icon = GFX_goal_fra_vic
 		cost = 4
-		x = 27
-		y = 12
+		x = 5
+		y = 15
 		available = {
 			16 = {
 				is_owned_by = FRA
