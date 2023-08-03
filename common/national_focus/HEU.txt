@@ -157,7 +157,10 @@ focus_tree = {
 					amount = 1600
 				}
 				GEM ={
-					add_ideas = HEU_hengsinso_ui_jiwon
+					add_timed_idea = {
+						idea = HEU_hengsinso_ui_jiwon
+						days = 360
+					}
 				}
 				send_equipment = {
 					equipment = infantry_equipment
@@ -223,6 +226,7 @@ focus_tree = {
 		}
 		x = 4
 		y = 4
+		will_lead_to_war_with = GEH
 		available = {
 		}
 		completion_reward = {
@@ -232,8 +236,11 @@ focus_tree = {
 					type = infantry_equipment
 					amount = 1600
 				}
-				GEH = {
-					add_ideas = HEU_hengsinso_ui_jiwon
+				GEH ={
+					add_timed_idea = {
+						idea = HEU_hengsinso_ui_jiwon
+						days = 360
+					}
 				}
 				send_equipment = {
 					equipment = infantry_equipment
@@ -274,6 +281,7 @@ focus_tree = {
 		}
 		x = 1
 		y = 7
+		will_lead_to_war_with = GEM
 		available = {
 			has_completed_focus = HEU_newfocus_9
 		}
@@ -372,8 +380,8 @@ focus_tree = {
 	}
 	focus = { #전시 대책
 		id = HEU_newfocus_47
-		icon = GFX_goal_unknown
-		cost = 10.00
+		icon = GFX_goal_generic_more_territorial_claims
+		cost = 5.00
 		prerequisite = {
 			focus = HEU_newfocus_20
 		}
@@ -382,51 +390,73 @@ focus_tree = {
 		available = {
 		}
 		completion_reward = {
+			add_political_power = 100
+			add_war_support = 0.05
+			hidden_effect = {
+				set_rule = {
+					can_use_kamikaze_pilots = yes
+				}
+			}
+			custom_effect_tooltip = kamikaze_focus_tooltip
 		}
 
 	}
-	focus = {
+	focus = { #룩셈부르크 동원
 		id = HEU_newfocus_48
-		icon = GFX_goal_unknown
-		cost = 10.00
+		icon = GFX_goal_generic_secret_weapon
+		cost = 8.00
 		prerequisite = {
 			focus = HEU_newfocus_47
 		}
 		x = 3
 		y = 12
 		available = {
+			has_full_control_of_state = 8
 		}
 		completion_reward = {
+			add_stability = -0.05
+			add_offsite_building = { type = arms_factory level = 2 }
+			add_manpower = 219255
 		}
 
 	}
-	focus = {
+	focus = { #바이에른 동원
 		id = HEU_newfocus_49
-		icon = GFX_goal_unknown
-		cost = 10.00
+		icon = GFX_goal_generic_secret_weapon
+		cost = 8.00
 		prerequisite = {
 			focus = HEU_newfocus_48
 		}
 		x = 3
 		y = 13
 		available = {
+			has_full_control_of_state = 52
+			has_full_control_of_state = 53
 		}
 		completion_reward = {
+			add_stability = -0.05
+			add_offsite_building = { type = arms_factory level = 2 }
+			add_manpower = 206500
 		}
 
 	}
 	focus = {
 		id = HEU_newfocus_50
-		icon = GFX_goal_unknown
-		cost = 10.00
+		icon = GFX_goal_generic_secret_weapon
+		cost = 8.00
 		prerequisite = {
 			focus = HEU_newfocus_49
 		}
 		x = 3
 		y = 14
 		available = {
+			has_full_control_of_state = 50
+			has_full_control_of_state = 920
 		}
 		completion_reward = {
+			add_stability = -0.05
+			add_offsite_building = { type = arms_factory level = 2 }
+			add_manpower = 302448
 		}
 
 	}
@@ -530,7 +560,7 @@ focus_tree = {
 	}
 	focus = { #진정한 적 직시
 		id = HEU_newfocus_22
-		icon = GFX_goal_unknown
+		icon = GFX_focus_generic_conspiracy
 		cost = 10.00
 		prerequisite = {
 			focus = HEU_newfocus_20
@@ -1424,9 +1454,9 @@ focus_tree = {
 		}
 
 	}
-	focus = {
+	focus = { #거짓된 천사들
 		id = HEU_newfocus_45
-		icon = GFX_goal_unknown
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
 		cost = 10.00
 		prerequisite = {
 			focus = HEU_newfocus_22
@@ -1439,16 +1469,21 @@ focus_tree = {
 		}
 		x = 4
 		y = 15
+		will_lead_to_war_with = TRM
 		available = {
 		}
 		completion_reward = {
+			declare_war_on = {
+				target = TRM
+				type = annex_everything
+			}
 		}
 
 	}
-	focus = {
+	focus = { #장교단 개혁
 		id = HEU_newfocus_46
-		icon = GFX_goal_unknown
-		cost = 10.00
+		icon = GFX_focus_generic_military_academy
+		cost = 8.00
 		prerequisite = {
 			focus = HEU_newfocus_51
 		}
@@ -1457,13 +1492,14 @@ focus_tree = {
 		available = {
 		}
 		completion_reward = {
+			add_ideas = HEU_jang_kyo_dan
 		}
 
 	}
-	focus = {
+	focus = { #긴급총동원령
 		id = HEU_newfocus_51
-		icon = GFX_goal_unknown
-		cost = 10.00
+		icon = GFX_goal_demand_sudetenland
+		cost = 8.00
 		prerequisite = {
 			focus = HEU_newfocus_47
 		}
@@ -1472,13 +1508,24 @@ focus_tree = {
 		available = {
 		}
 		completion_reward = {
+			if = {
+				limit = {
+					has_idea = tot_economic_mobilisation
+				}
+				add_political_power = 150
+				add_war_support = 0.10
+			}
+			else = {
+				add_ideas = tot_economic_mobilisation
+			}
+			add_ideas = HEU_gingup_chong_dong_won
 		}
 
 	}
-	focus = {
+	focus = { #청소년 군사조직
 		id = HEU_newfocus_52
-		icon = GFX_goal_unknown
-		cost = 10.00
+		icon = GFX_goal_generic_army_doctrines
+		cost = 8.00
 		prerequisite = {
 			focus = HEU_newfocus_46
 		}
@@ -1487,6 +1534,8 @@ focus_tree = {
 		available = {
 		}
 		completion_reward = {
+			add_ideas = HEU_aru_yougante
+			add_war_support = -0.05
 		}
 
 	}
@@ -1556,7 +1605,7 @@ focus_tree = {
 		}
 
 	}
-	focus = {
+	focus = { #독일 통일 선언
 		id = HEU_newfocus_57
 		icon = GFX_goal_HEU_dusgkqgkrdnjstjsdjs
 		cost = 10.00
@@ -1569,14 +1618,18 @@ focus_tree = {
 		x = 4
 		y = 17
 		available = {
+			TRM = { exists = no }
+			GEH = { exists = no }
+			GEM = { exists = no }
 		}
 		completion_reward = {
+			
 		}
 
 	}
-	focus = {
+	focus = { #하나된 게헨나
 		id = HEU_newfocus_58
-		icon = GFX_goal_unknown
+		icon = GFX_goal_molotov_ribbentrop_pact
 		cost = 10.00
 		prerequisite = {
 			focus = HEU_newfocus_45
@@ -1584,8 +1637,11 @@ focus_tree = {
 		x = 3
 		y = 16
 		available = {
+			TRM = { exists = no }
 		}
 		completion_reward = {
+			GEH = { country_event = HEU_event.11 }
+			GEM = { country_event = HEU_event.11 }
 		}
 
 	}
