@@ -1,0 +1,75 @@
+add_namespace = GEN_event
+
+
+country_event = { #수상한 함선 나포
+	id = GEN_event.1
+	title = GEN_event.1.t
+	desc = GEN_event.1.desc
+	picture = GFX_event_none_picture
+	
+	fire_only_once = yes
+	
+	trigger = {
+		original_tag = GEN
+	}
+	mean_time_to_happen = {
+		days = 20
+	}
+	
+	option = { 
+		name = GEN_event.1.a
+		add_stability = -0.05
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = 500
+			producer = GER
+		}
+		country_event = { id = GEN_event.2 hours = 12 }
+		custom_effect_tooltip = GEN_get_halo_infantry_tt
+		hidden_effect = {
+			if = {
+				limit = {
+					not = { has_template = "Halo Infantry Division" }
+				}
+				
+				division_template = {
+				name = "Halo Infantry Division"		
+				division_names_group = GER_INF_01
+				is_locked = yes
+				force_allow_recruiting = yes
+					division_cap = 12
+					regiments = {
+						halo_infantry = { x = 0 y = 0 }
+						halo_infantry = { x = 0 y = 1 }
+						halo_infantry = { x = 0 y = 2 }
+						halo_infantry = { x = 1 y = 0 }
+						halo_infantry = { x = 1 y = 1 }
+						halo_infantry = { x = 1 y = 2 }
+					}
+					support = {
+						engineer = { x = 0 y = 0 }
+					}
+				}
+			}
+			add_to_variable = { ROOT.halo_infantry_cap = 6 }
+			set_division_template_cap = {
+				division_template = "Halo Infantry Division"
+				division_cap = ROOT.halo_infantry_cap
+			}
+		}
+	}
+}
+country_event = { #재활용
+	id = GEN_event.2
+	title = GEN_event.2.t
+	desc = GEN_event.2.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEN_event.2.a
+		add_stability = 0.05
+		add_war_support = 0.15
+	}
+}
