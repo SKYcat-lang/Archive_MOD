@@ -1264,9 +1264,7 @@ FRA_prepare_war = {
 			MIL = {
 				exists = yes
 			}
-			NOT = {
-				has_idea = FRA_halo_research
-			}
+			
 		}
 		icon = GFX_decision_unknown
 		days_remove = 100
@@ -1277,7 +1275,14 @@ FRA_prepare_war = {
 
 				}
 				10 = {
-					add_ideas = FRA_halo_research
+					every_unit_leader = {
+						add_trait = {
+							trait = FRA_halo_research_trait
+						}
+					}
+					set_variable = {
+						fra_halo_var = 0
+					}
 				}
 			}
 			add_to_variable = {
@@ -1496,6 +1501,40 @@ FRA_political_wigi = {
 		timeout_effect = {
 			hidden_effect = {
 				complete_national_focus = FRA_focus_koup_0
+			}
+		}
+		fire_only_once = yes
+	}
+	FRA_rebuild_dec = {
+		icon = GFX_decision_revolt
+		allowed = {
+			original_tag = FRA
+		}
+		visible = {
+		}
+		is_good = no
+		days_mission_timeout = 350
+		available = {
+			has_completed_focus =  FRA_focus_win_10
+		}
+		complete_effect = {
+			add_ideas = civilian_economy
+		}
+		timeout_effect = {
+			if = {
+				limit = {
+					has_government = communism
+				}
+				start_civil_war = {
+					ideology = democratic
+					size = 0.8
+				}
+			}
+			else = {
+				start_civil_war = {
+					ideology = communism
+					size = 0.8
+				}
 			}
 		}
 		fire_only_once = yes
