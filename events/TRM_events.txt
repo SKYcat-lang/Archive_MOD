@@ -258,6 +258,7 @@ country_event = { #게헨나 항복 이벤트
 	option = {
 		name = TRM_event.15.a
 		news_event = { id = BA_news.5 days = 3}
+		set_country_flag = TRINITY_WON_THE_GEHENNA
 	}
 }
 country_event = { #미카 집권 이벤트 (진짜 중요!!)
@@ -565,42 +566,41 @@ country_event = {
 	is_triggered_only = yes
 	
 	option = { #
-		name = TRM_event.34.a
-		declare_war_on = {
-			target = GEH
-			type = annex_everything
+		name = TRM_event.34.a 
+		55 = {
+			owner = { 
+				TRM = {
+						declare_war_on = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+			}
 		}
 		news_event = { id = BA_news.4 }
-		hidden_effect = {
-		GEH = {
-			if = {
-				limit = {
-					TRM = { is_ai = no }
-				}
-			add_timed_idea = {
-				idea = GEH_AI_WAR_BONUS_IDEA
-				days = 365
-				}
-			}
-		}
-		GEH = {
-			if = {
-				limit = {
-					TRM = { is_ai = yes }
-				}
-			add_timed_idea = {
-				idea = GEH_AI_WAR_BONUS_IDEA_WEAK
-				days = 365
-				}
-			}
-		}
 			TRM = {
 				country_event = { id = TRM_event.41 days = 7}
 			}
+		if = {
+			limit = {
+				TRM = { is_ai = no}
+			}
+			every_country = {
+				limit = { 
+					GEH_country_tag = yes
+				}
+				add_ideas = GEH_AI_WAR_BONUS_IDEA
+			}
 		}
-		
+		if = {
+			limit = {
+				TAG = HEU
+			}
+			remove_ideas = GEH_AI_WAR_BONUS_IDEA
+		}
+		}
 	}
-}
+
 country_event = { 
 	id = TRM_event.35
 	title = TRM_event.35.t
@@ -950,8 +950,7 @@ country_event = {
 				target = ITA
 				type = annex_everything
 			}
-		activate_mission = TRN_punitive_expedition_decision_ITA_slipae
-	}
+		}
 }
 country_event = { 
 	id = TRM_event.53
@@ -964,7 +963,7 @@ country_event = {
 	
 	option = { #
 		name = TRM_event.53.a
-			activate_mission = TRN_ita_puppet
+		
 	}
 }
 country_event = { 

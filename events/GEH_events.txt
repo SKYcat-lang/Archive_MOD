@@ -52,6 +52,9 @@ country_event = { # 국방군 문제
 		51 ={
 			set_demilitarized_zone	= yes
 		}
+		921 ={
+			set_demilitarized_zone	= yes
+		}
 		add_stability = -0.05
 	}
 }
@@ -143,11 +146,11 @@ country_event = { # 학생들의 관심 - 이럴때만 관심가지는 우리 �
 		add_war_support = 0.2
 		capital_scope = {
 			create_unit = {
-				division = "name = \"1. Halo War Brigade\" division_template = \"Halo War Brigade\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+				division = "name = \"1. Halo War Brigade\" division_template = \"Halo War Brigade\" start_experience_factor = 0.1" 
 				owner = ROOT
 			}
 			create_unit = {
-				division = "name = \"2. Halo War Brigade\" division_template = \"Halo War Brigade\" start_experience_factor = 0.1 start_equipment_factor = 1" 
+				division = "name = \"2. Halo War Brigade\" division_template = \"Halo War Brigade\" start_experience_factor = 0.1" 
 				owner = ROOT
 			}
 			create_unit = {
@@ -412,6 +415,9 @@ country_event = { # 국방군 문제
 			51 ={
 				set_demilitarized_zone	= no
 			}
+			921 ={
+				set_demilitarized_zone	= no
+			}
 
 			GER = {
 				every_character = {
@@ -478,6 +484,8 @@ country_event = { # 국방군 문제
 							is_character = GER_paul_hausser
 							is_character = GER_konstantin_von_neurath
 							is_character = GER_walter_kruger
+							
+							is_character = GER_carl_friedrich_goerdeler
 
 							#제외
 				#해군		is_character = GER_alfred_saalwachter
@@ -525,11 +533,13 @@ country_event = { # 국방군 문제
 				transfer_state = 58
 				transfer_state = 57
 				transfer_state = 51
+				transfer_state = 921
 				add_state_core = 56
 				add_state_core = 59
 				add_state_core = 58
 				add_state_core = 57
 				add_state_core = 51
+				add_state_core = 921
 				add_popularity = {
 					ideology = neutrality
 					popularity = 1
@@ -543,7 +553,7 @@ country_event = { # 국방군 문제
 					character = GER_gerd_von_rundstedt
 					promote_leader = yes
 					country_leader = {
-						ideology = despotism
+						ideology = emergency_military_government
 						expire = "1965.1.1.1"
 						traits = { war_industrialist }
 					}
@@ -688,49 +698,245 @@ country_event = { # 쿠 데 타 좋 았 어
 	option = { 
 		name = GEH_event.15.a
 
+		every_state = {
+			limit = {
+				OR = {
+					is_owned_by = GEH
+					is_owned_by = GEM
+				}
+			}
+			damage_units = {
+				state = THIS 
+				limit = { tag = GEH } 
+				damage = 0.5
+				org_damage = 0.4
+				str_damage = 0.7
+				ratio = yes
+				army = yes
+			}
+		}
 		HEU = {
 			country_event = { id = HEU_event.8 days = 5 }
 		}
+		every_state = {
+			limit = {
+				is_core_of = GEH
+			}
+			add_core_of = GEM
+		}
+		GEM = {
+			transfer_state = 52
+			transfer_state = 53
+			transfer_state = 54
+			add_popularity = {
+				ideology = fascism
+				popularity = 1
+			}
+			set_politics = {
+				ruling_party = fascism
+			}
+			GEH = {
+				every_character = {
+					limit = { 
+						OR = {
+							is_character = GEH_akzhxh
+							is_character = GEH_dlfhgk
+							is_character = GEH_dlqnzl
 
-		start_civil_war = {
-			ideology = fascism
-			size = 0.1
-			army_ratio = 0.65
-			states = {
-				52 53 54
-			}
-			keep_unit_leaders_trigger = {
-				#has_trait = my_trait_name
-			}
-			keep_all_characters = yes
-			keep_political_party_members = yes
-			PREV = {  # Original country
-				GEH_akzhxh = { # Character
-					set_nationality = PREV.PREV
-					# Transfers to breakaway
-				}
-				GEH_dlfhgk = { # Character
-					set_nationality = PREV.PREV
-					# Transfers to breakaway
-				}
-				GEH_dlqnzl = { # Character
-					set_nationality = PREV.PREV
-					# Transfers to breakaway
+							#미식연구회
+							is_character = GEH_gkfnsk
+							is_character = GEH_wnszh
+							is_character = pig
+							is_character = GEH_dkzkfl
+						}
+					}
+					set_nationality = GEM
 				}
 			}
 			promote_character = GEH_akzhxh
 			country_event = { id = GEH_event.7 hours = 4 }
 			add_ideas = GEH_individualism
+			
 			set_cosmetic_tag = GEH_Makoto_cosmetic
+
 			set_country_flag = GEH_civil_war_country
+			
 			load_focus_tree = GEH_makoto_focustree
+			
+			add_advisor_role = {
+				character = GEH_dlfhgk
+				
+				advisor={
+					slot = political_advisor
+					idea_token = GEH_dlfhgk1
+					traits = {
+						captain_of_industry 
+					}
+					ai_will_do = {
+						factor = 24.000
+					}
+				}
+			}
+			add_advisor_role = {
+				character = GEH_dlfhgk
+				advisor={
+					cost = 200
+					slot = theorist
+					idea_token = GEH_dlfhgk2
+					ledger = army
+					traits = {
+						blitzkrieg_theorist
+					}
+					ai_will_do = {
+						factor = 24.000
+					}
+				}
+			}
+			add_advisor_role = {
+				character = GEH_dlfhgk
+				advisor={
+					slot = high_command
+					idea_token = GEH_dlfhgk3
+					ledger = army
+					traits = {
+						army_armored_3
+					}
+					cost = 200
+					ai_will_do = {
+						factor = 8.000
+					}
+				}
+			}
+			add_advisor_role = {
+				character = GEH_dlqnzl
+
+				advisor={
+					slot = political_advisor
+					idea_token = GEH_dlqnzl
+					traits = {
+						fascist_demagogue propaganda_expert 
+					}
+					ai_will_do = {
+						factor = 24.000
+					}
+				}
+			}
+			add_advisor_role = {
+				character = GEH_wnszh
+
+				advisor={
+					slot = army_chief
+					idea_token = GEH_wnszh
+					traits = {
+						army_chief_morale_2
+					}
+					cost = 100
+					ai_will_do = {
+						factor = 1.000
+					}
+				}
+			}
+			add_advisor_role = {
+				character = pig
+
+				advisor={
+					slot = navy_chief
+					idea_token = pig
+					traits = {
+						navy_chief_commerce_raiding_1
+					}
+					cost = 200
+					ai_will_do = {
+						factor = 0.100
+					}
+				}
+			}
+			add_advisor_role = {
+				character = GEH_dlqnzl
+
+				advisor={	
+					slot = high_command
+					idea_token = GEH_dkzkfl
+					traits = {
+						army_logistics_2
+					}
+					cost = 150
+					ai_will_do = {
+						factor = 1.000
+					}
+				}
+			}
+			set_capital = {
+				state = 52
+			}
+			capital_scope = {
+				create_unit = {
+					division = "name = \"1. 만마전 친위대\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.7" 
+					owner = GEM
+				}
+				create_unit = {
+					division = "name = \"2. 만마전 친위대\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.7" 
+					owner = GEM
+				}
+				create_unit = {
+					division = "name = \"3. 만마전 친위대\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.7" 
+					owner = GEM
+				}
+				create_unit = {
+					division = "name = \"4. 만마전 친위대\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.7" 
+					owner = GEM
+				}
+			}
+
 		}
-		
+		GEH = {
+			if = {
+				limit ={
+					fascism > 0.5
+				}
+				GEM = {
+					capital_scope = {
+						create_unit = {
+							division = "name = \"1. 만마전 특수군\" division_template = \"Halo Infantry Division\" start_experience_factor = 1" 
+							owner = GEM
+						}
+						create_unit = {
+							division = "name = \"2. 만마전 특수군\" division_template = \"Halo Infantry Division\" start_experience_factor = 1" 
+							owner = GEM
+						}
+					}
+				}
+			}
+			else = {
+				GEH = {
+					capital_scope = {
+						create_unit = {
+							division = "name = \"1. 선도부 특수군\" division_template = \"Halo Infantry Division\" start_experience_factor = 1" 
+							owner = GEH
+						}
+						create_unit = {
+							division = "name = \"2. 선도부 특수군\" division_template = \"Halo Infantry Division\" start_experience_factor = 1" 
+							owner = GEH
+						}
+					}
+				}
+
+			}
+		}
+		send_equipment_fraction = {
+			value = 0.5
+			target = GEM
+		}
+		declare_war_on = {
+			target = GEM
+			type = annex_everything
+		}
+		add_civil_war_target = GEM
+		set_cosmetic_tag = GEH_hina_cosmetic
 		load_focus_tree = GEH_hina_focustree
 
 		hidden_effect = {
 
-			set_cosmetic_tag = GEH_hina_cosmetic
 			country_event = { id = GEH_event.7 hours = 4 }
 			add_ideas = GEH_individualism
 			set_politics = {
@@ -745,7 +951,6 @@ country_event = { # 쿠 데 타 좋 았 어
 			remove_ideas = GEH_great_horn_1
 			remove_ideas = GEH_great_horn_2
 			remove_ideas = GEH_great_horn
-			load_focus_tree = GEH_hina_focustree
 		}
 		add_popularity = {
 			ideology = neutrality
@@ -766,23 +971,7 @@ country_event = { # 국방군과 전쟁
 	
 	option = { 
 		name = GEH_event.16.a
-		country_event = { id = GEH_event.22 days = 15 }
-		BAY = {
-			every_country = {
-				limit = {
-					OR = {
-						original_tag = GEH
-						tag = GEH
-					}
-				}
-				PREV = {
-					declare_war_on = {
-						target = PREV
-						type = annex_everything
-					}
-				}
-			}
-		}
+		country_event = { id = GEH_event.22 days = 35 }
 	}
 }
 country_event = { # 만마전의 끝
@@ -850,56 +1039,241 @@ country_event = { # 선도부의 쿠데타
 	option = { 
 		name = GEH_event.21.a
 
+		damage_units = {
+			limit = {
+				tag = GEH
+			}
+			damage = 0.5
+			org_damage = 0.4
+			str_damage = 0.7
+			ratio = yes
+			army = yes
+			navy = yes
+		}
+
 		HEU = {
 			country_event = { id = HEU_event.8 days = 5 }
 		}
-		start_civil_war = {
-			ideology = neutrality
-			size = 0.1
-			army_ratio = 0.5
-			states = {
-				55 54 60
+		every_state = {
+			limit = {
+				is_core_of = GEH
 			}
-			keep_unit_leaders_trigger = {
-				#has_trait = my_trait_name
+			add_core_of = GEM
+		}
+		GEM = {
+			transfer_state = 920
+			transfer_state = 50
+			transfer_state = 52
+			transfer_state = 53
+			add_popularity = {
+				ideology = fascism
+				popularity = 1
 			}
-			keep_all_characters = yes
-			keep_political_party_members = yes
-			PREV = {  # Original country
-				GEH_hina = { # Character
-					set_nationality = PREV.PREV
-					# Transfers to breakaway
-				}
-				GEH_dkzh = { # Character
-					set_nationality = PREV.PREV
-					# Transfers to breakaway
-				}
-				GEH_dldhfl = { # Character
-					set_nationality = PREV.PREV
-					# Transfers to breakaway
-				}
-				GEH_chinatsu = { # Character
-					set_nationality = PREV.PREV
-					# Transfers to breakaway
+			set_politics = {
+				ruling_party = fascism
+			}
+			GEH = {
+				every_character = {
+					limit = { 
+						OR = {
+							is_character = GEH_akzhxh
+							is_character = GEH_dlfhgk
+							is_character = GEH_dlqnzl
+
+							#미식연구회
+							is_character = GEH_gkfnsk
+							is_character = GEH_wnszh
+							is_character = pig
+							is_character = GEH_dkzkfl
+						}
+					}
+					set_nationality = GEM
 				}
 			}
-			promote_character = GEH_hina
+			promote_character = GEH_akzhxh
 			country_event = { id = GEH_event.7 hours = 4 }
 			add_ideas = GEH_individualism
-			set_cosmetic_tag = GEH_hina_cosmetic
+			
+			set_cosmetic_tag = GEH_Makoto_cosmetic
+
 			set_country_flag = GEH_civil_war_country
-			load_focus_tree = GEH_hina_focustree
+			
+			load_focus_tree = GEH_makoto_focustree
+			
+			add_advisor_role = {
+				character = GEH_dlfhgk
+				
+						advisor={
+					slot = political_advisor
+					idea_token = GEH_dlfhgk1
+					traits = {
+						captain_of_industry 
+					}
+					ai_will_do = {
+						factor = 24.000
+					}
+				}
+			}
+			add_advisor_role = {
+				character = GEH_dlfhgk
+				advisor={
+					cost = 200
+					slot = theorist
+					idea_token = GEH_dlfhgk2
+					ledger = army
+					traits = {
+						blitzkrieg_theorist
+					}
+				}
+			}
+			add_advisor_role = {
+				character = GEH_dlfhgk
+				advisor={
+					slot = high_command
+					idea_token = GEH_dlfhgk3
+					ledger = army
+					traits = {
+						army_armored_3
+					}
+					cost = 200
+					ai_will_do = {
+						factor = 8.000
+					}
+				}
+			}
+			add_advisor_role = {
+				character = GEH_dlqnzl
+
+				advisor={
+					slot = political_advisor
+					idea_token = GEH_dlqnzl
+					traits = {
+						fascist_demagogue propaganda_expert 
+					}
+					ai_will_do = {
+						factor = 24.000
+					}
+				}
+			}
+			add_advisor_role = {
+				character = GEH_wnszh
+
+				advisor={
+					slot = army_chief
+					idea_token = GEH_wnszh
+					traits = {
+						army_chief_morale_2
+					}
+					cost = 100
+					ai_will_do = {
+						factor = 1.000
+					}
+				}
+			}
+			add_advisor_role = {
+				character = pig
+
+				advisor={
+					slot = navy_chief
+					idea_token = pig
+					traits = {
+						navy_chief_commerce_raiding_1
+					}
+					cost = 200
+					ai_will_do = {
+						factor = 0.100
+					}
+				}
+			}
+			add_advisor_role = {
+				character = GEH_dlqnzl
+
+				advisor={	
+					slot = high_command
+					idea_token = GEH_dkzkfl
+					traits = {
+						army_logistics_2
+					}
+					cost = 150
+					ai_will_do = {
+						factor = 1.000
+					}
+				}
+			}
+			set_capital = {
+				state = 52
+			}
+			capital_scope = {
+				create_unit = {
+					division = "name = \"1. 만마전 친위대\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.7" 
+					owner = GEM
+				}
+				create_unit = {
+					division = "name = \"2. 만마전 친위대\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.7" 
+					owner = GEM
+				}
+				create_unit = {
+					division = "name = \"3. 만마전 친위대\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.7" 
+					owner = GEM
+				}
+				create_unit = {
+					division = "name = \"4. 만마전 친위대\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.7" 
+					owner = GEM
+				}
+				create_unit = {
+					division = "name = \"5. 만마전 친위대\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.7" 
+					owner = GEM
+				}
+				create_unit = {
+					division = "name = \"1. 마코토의 군단\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.3" 
+					owner = GEM
+				}
+				create_unit = {
+					division = "name = \"2. 마코토의 군단\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.3" 
+					owner = GEM
+				}
+				create_unit = {
+					division = "name = \"3. 마코토의 군단\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.3" 
+					owner = GEM
+				}
+			}
+			change_tag_from = ROOT
 		}
+		send_equipment_fraction = {
+			value = 0.6
+			target = GEM
+		}
+		declare_war_on = {
+			target = GEM
+			type = annex_everything
+		}
+		add_civil_war_target = GEM
 		
-		load_focus_tree = GEH_makoto_focustree
+		set_cosmetic_tag = GEH_hina_cosmetic
+		load_focus_tree = GEH_hina_focustree
 
 		hidden_effect = {
 
-			set_cosmetic_tag = GEH_Makoto_cosmetic
 			country_event = { id = GEH_event.7 hours = 4 }
 			add_ideas = GEH_individualism
-			load_focus_tree = no
+			set_politics = {
+				ruling_party = neutrality
+				last_election = "1936.2.6"
+				election_frequency = 48
+				elections_allowed = no
+			}
+			add_ideas = GEH_dldhfl_idea
+			add_ideas = GEH_dkzh_idea
+			add_ideas = GEH_chinatsu_idea
+			remove_ideas = GEH_great_horn_1
+			remove_ideas = GEH_great_horn_2
+			remove_ideas = GEH_great_horn
 		}
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.1
+		}
+		set_country_flag = HINA_IS_LEADER
 		news_event = { id = BA_news.16 days = 3 }
 	}
 }
@@ -916,16 +1290,9 @@ country_event = { # 국방군을 막아라!
 		add_stability = -0.10
 		create_faction = GEH_Federation
 		GEH = {
-			every_country = {
-				limit = {
-					has_country_flag = GEH_civil_war_country
-				}
-				PREV = {
-					remove_civil_war_target = PREV
-					add_to_faction = PREV
-				}
-				white_peace = GEH
-			}
+			remove_civil_war_target = GEM
+			add_to_faction = GEM
+			white_peace = GEM
 		}
 	}
 }
@@ -942,17 +1309,13 @@ country_event = { # 내전 재개
 		add_stability = 0.05
 		GEH = {
 			dismantle_faction = yes
-			every_country = {
-				limit = {
-					has_country_flag = GEH_civil_war_country
-				}
-				PREV = {
-					declare_war_on = {
-						target = PREV
-						type = annex_everything
-					}
-				}
+		}
+		GEM = {
+			declare_war_on = {
+				target = GEH
+				type = annex_everything
 			}
+			add_civil_war_target = GEH
 		}
 	}
 }
@@ -986,5 +1349,18 @@ country_event = { # 협력
 			remove_idea = GEH_anarchist_society_2
 			add_idea = GEH_anarchist_society_5
 		}
+	}
+}
+country_event = { # 협력
+	id = GEH_event.255
+	title = GEH_event.255.t
+	desc = GEH_event.255.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEH_event.255.a
+		remove_ideas = GEH_AI_WAR_BONUS_IDEA
 	}
 }

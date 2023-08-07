@@ -1,0 +1,468 @@
+focus_tree = {
+	id = GEI_The_Colour_Focus_tree
+	continuous_focus_position = { x = 4000 y = 200 } 
+#	shared_focus = BA_new_world_technology
+	country = {
+		factor = 0
+		
+		modifier = {
+			add = 2
+			tag = GEI
+		}
+	}
+	#침입
+	focus = {
+		id = COLOUR_invasion
+		icon = GFX_unknown
+		x = 10
+		y = 0
+		cost = 5
+		ai_will_do = {
+			base = 1
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+			add_stability = 1
+			add_war_support = 1
+			country_event = { id=GEI_event.16 hours = 6 }
+			add_named_threat = {
+				threat = 2
+				name = COLOUR_invasion
+			}
+		}
+	}
+	#보라색 빛
+	focus = {
+		id = COLOUR_purple_light
+		icon = GFX_unknown
+		x = 1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			base = 1
+		}
+		prerequisite = { focus = COLOUR_invasion }
+		relative_position_id = COLOUR_invasion
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+			add_ideas = GEI_the_colour_idea
+		}
+	}
+	#파동 방출
+	focus = {
+		id = COLOUR_wave_emission
+		icon = GFX_unknown
+		x = -1
+		y = 1
+		cost = 5
+		ai_will_do = {
+			base = 1
+		}
+		prerequisite = { focus = COLOUR_invasion }
+		relative_position_id = COLOUR_invasion
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+			every_country = {
+				limit = {
+					NOT = {
+						tag = GEI
+					}
+				}
+				add_stability = -0.10
+				add_war_support = -0.10
+			}
+			add_named_threat = {
+				threat = 30
+				name = COLOUR_wave_emission
+			}
+			news_event = { id = BA_news.18 hours = 4 }
+		}
+	}
+	#침공 개시
+	focus = {
+		id = COLOUR_invasion_begins
+		icon = GFX_unknown
+		x = 0
+		y = 2
+		cost = 5
+		ai_will_do = {
+			base = 1
+		}
+		prerequisite = { focus = COLOUR_wave_emission }
+		prerequisite = { focus = COLOUR_purple_light }
+		relative_position_id = COLOUR_invasion
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+			custom_effect_tooltip = COLOUR_invasion_begins_tt
+		}
+	}
+	#의지의 실현
+	focus = {
+		id = COLOUR_realization_of_will
+		icon = GFX_unknown
+		x = -5
+		y = 1
+		cost = 5
+		ai_will_do = {
+			base = 1
+		}
+		prerequisite = { focus = COLOUR_invasion_begins }
+		relative_position_id = COLOUR_invasion_begins
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+	#색채의 향도자
+	focus = {
+		id = COLOUR_director_of_color
+		icon = GFX_unknown
+		x = -2
+		y = 1
+		cost = 10
+		ai_will_do = {
+			base = 1
+		}
+		prerequisite = { focus = COLOUR_realization_of_will }
+		mutually_exclusive = { focus = COLOUR_reality_erosion }
+		relative_position_id = COLOUR_realization_of_will
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+	#현실 침식
+	focus = {
+		id = COLOUR_reality_erosion
+		icon = GFX_unknown
+		x = 2
+		y = 1
+		cost = 10
+		ai_will_do = {
+			base = 1
+		}
+		prerequisite = { focus = COLOUR_realization_of_will }
+		mutually_exclusive = { focus = COLOUR_director_of_color }
+		relative_position_id = COLOUR_realization_of_will
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+	#공격
+	focus = {
+		id = COLOUR_attack
+		icon = GFX_unknown
+		x = 6
+		y = 1
+		cost = 5
+		ai_will_do = {
+			base = 1
+		}
+		prerequisite = { focus = COLOUR_invasion_begins }
+		relative_position_id = COLOUR_invasion_begins
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+	#브리튼 제도 청소
+	focus = {
+		id = COLOUR_cleaning_british_islands
+		icon = GFX_unknown
+		x = -4
+		y = 1
+		cost = 10
+		ai_will_do = {
+			base = 1
+		}
+		prerequisite = { focus = COLOUR_attack }
+		relative_position_id = COLOUR_attack
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+			custom_effect_tooltip = COLOUR_cleaning_british_islands_tt
+			create_wargoal = { type = annex_everything target = IRE }
+			if = {
+				limit = {
+					126 = {
+						is_owned_and_controlled_by = ENG
+					}
+				}
+				create_wargoal = { type = annex_everything target = ENG }
+			}
+		}
+	}
+	#카이저 폐쇄
+	focus = {
+		id = COLOUR_kaiser_closed
+		icon = GFX_unknown
+		x = 0
+		y = 1
+		cost = 10
+		ai_will_do = {
+			base = 1
+		}
+		bypass = {
+			KAI = {
+				exists = no
+			}
+		}
+		prerequisite = { focus = COLOUR_cleaning_british_islands }
+		relative_position_id = COLOUR_cleaning_british_islands
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+			create_wargoal = { type = annex_everything target = KAI }
+		}
+	}
+	#미국 중점
+	focus = {
+		id = COLOUR_usa_focus
+		icon = GFX_unknown
+		x = -1
+		y = 1
+		cost = 10
+		ai_will_do = {
+			base = 1
+		}
+		bypass = {
+			USA = {
+				exists = no
+			}
+		}
+		available = {
+			has_completed_focus = COLOUR_kaiser_closed
+		}
+		prerequisite = { focus = COLOUR_attack }
+		relative_position_id = COLOUR_attack
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+	#차원 관문 확대
+	focus = {
+		id = COLOUR_dimensional_gate_expansion
+		icon = GFX_unknown
+		x = 0
+		y = 1
+		cost = 10
+		ai_will_do = {
+			base = 1
+		}
+		bypass = {
+			USA = {
+				exists = no
+			}
+		}
+		prerequisite = { focus = COLOUR_usa_focus }
+		relative_position_id = COLOUR_usa_focus
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+	#최후의 공세
+	focus = {
+		id = COLOUR_usa_final_offensive
+		icon = GFX_unknown
+		x = -1
+		y = 1
+		cost = 10
+		ai_will_do = {
+			base = 1
+		}
+		available = {
+			USA = {
+				exists = yes
+			}
+		}
+		prerequisite = { focus = COLOUR_dimensional_gate_expansion }
+		relative_position_id = COLOUR_dimensional_gate_expansion
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+	#미국 추방
+	focus = {
+		id = COLOUR_usa_deportation
+		icon = GFX_unknown
+		x = 0
+		y = 2
+		cost = 10
+		ai_will_do = {
+			base = 1
+		}
+		bypass = {
+			USA = {
+				exists = no
+			}
+		}
+		prerequisite = { focus = COLOUR_dimensional_gate_expansion }
+		relative_position_id = COLOUR_dimensional_gate_expansion
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+	#아메리카 진공
+	focus = {
+		id = COLOUR_america_vacuum
+		icon = GFX_unknown
+		x = 0
+		y = 1
+		cost = 10
+		ai_will_do = {
+			base = 1
+		}
+		bypass = {
+			USA = {
+				exists = no
+			}
+		}
+		prerequisite = { focus = COLOUR_usa_deportation }
+		relative_position_id = COLOUR_usa_deportation
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+	#키보토스 공격 진행
+	focus = {
+		id = COLOUR_eu_attack_in_progress
+		icon = GFX_unknown
+		x = 4
+		y = 1
+		cost = 10
+		ai_will_do = {
+			base = 1
+		}
+		available = {
+			has_completed_focus = COLOUR_usa_deportation
+		}
+		prerequisite = { focus = COLOUR_attack }
+		relative_position_id = COLOUR_attack
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+	#거점 : 샬레 
+	focus = {
+		id = COLOUR_DU_attack
+		icon = GFX_unknown
+		x = 2
+		y = 1
+		cost = 10
+		ai_will_do = {
+			base = 1
+		}
+		prerequisite = { focus = COLOUR_eu_attack_in_progress }
+		mutually_exclusive = { focus = COLOUR_MIL_attack focus = COLOUR_RED_attack }
+		relative_position_id = COLOUR_eu_attack_in_progress
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+	#거점 : 붉은겨울
+	focus = {
+		id = COLOUR_RED_attack
+		icon = GFX_unknown
+		x = 0
+		y = 1
+		cost = 10
+		ai_will_do = {
+			base = 1
+		}
+		prerequisite = { focus = COLOUR_eu_attack_in_progress }
+		mutually_exclusive = { focus = COLOUR_MIL_attack focus = COLOUR_DU_attack }
+		relative_position_id = COLOUR_eu_attack_in_progress
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+	#거점 : 밀레니엄
+	focus = {
+		id = COLOUR_MIL_attack
+		icon = GFX_unknown
+		x = -2
+		y = 1
+		cost = 10
+		ai_will_do = {
+			base = 1
+		}
+		prerequisite = { focus = COLOUR_eu_attack_in_progress }
+		mutually_exclusive = { focus = COLOUR_RED_attack focus = COLOUR_DU_attack }
+		relative_position_id = COLOUR_eu_attack_in_progress
+		search_filters = {
+			
+						FOCUS_FILTER_ANNEXATION
+					
+		}
+		completion_reward = {
+		}
+	}
+
+}

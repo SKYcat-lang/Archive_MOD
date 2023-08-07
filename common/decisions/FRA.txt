@@ -38,11 +38,11 @@ FRA_industrialize = {
 		}
 		cost = 10
 	}
-	FRA_press_propaganda = {
+	FRA_press_propaganda_neu = {
 		ai_will_do = {
             base = 5
             modifier = {
-                has_stability < 0.3
+                neutrality < 0.3
                 factor = 100
             }
         }
@@ -54,9 +54,68 @@ FRA_industrialize = {
 			check_variable = {
 				FRA_dec > 0
 			}
+			has_government = neutrality
 		}
 		modifier = {
 			neutrality_drift = 0.6
+		}
+		complete_effect = {
+			add_to_variable = {
+				FRA_propaganda = 5
+			}
+		}
+		days_remove = 50
+		cost = var:FRA_propaganda
+	}
+	FRA_press_propaganda_dem = {
+		ai_will_do = {
+            base = 5
+            modifier = {
+                democratic < 0.3
+                factor = 100
+            }
+        }
+		icon = GFX_decision_eng_trade_unions_support
+		allowed = {
+			original_tag = FRA
+		}
+		visible = {
+			check_variable = {
+				FRA_dec > 0
+			}
+			has_government = democratic
+		}
+		modifier = {
+			democratic_drift = 0.6
+		}
+		complete_effect = {
+			add_to_variable = {
+				FRA_propaganda = 5
+			}
+		}
+		days_remove = 50
+		cost = var:FRA_propaganda
+	}
+	FRA_press_propaganda_com = {
+		ai_will_do = {
+            base = 5
+            modifier = {
+                communism < 0.3
+                factor = 100
+            }
+        }
+		icon = GFX_decision_eng_trade_unions_support
+		allowed = {
+			original_tag = FRA
+		}
+		visible = {
+			check_variable = {
+				FRA_dec > 0
+			}
+			has_government = communism
+		}
+		modifier = {
+			communism_drift = 0.6
 		}
 		complete_effect = {
 			add_to_variable = {
@@ -519,6 +578,7 @@ FRA_urbanization = {
 			}
 		}
 		cost = 150
+		
 	}
 	FRA_waf_core = {
 		ai_will_do = {
@@ -563,6 +623,36 @@ FRA_urbanization = {
 			clear_variable = FRA_waf
 		}
 		cost = 150
+	}
+	FRA_africa_agri = { #대규모 개간
+		cost = 100
+		days_remove = 200
+		modifier = {
+			production_speed_infrastructure_factor = 0.1
+		}
+		visible = {
+			has_completed_focus = FRA_focus_6
+		}
+		icon = GFX_decision_POL_looming_peasants_strike
+		fire_only_once = yes
+		ai_will_do = {
+			base = 10
+		}
+	}
+	FRA_support_bour = { #자본가 정착 지원
+		icon = GFX_decision_bul_privileges_zveno
+		cost = 100
+		days_remove = 200
+		modifier = {
+			production_speed_industrial_complex_factor = 0.1
+		}
+		visible = {
+			has_completed_focus = FRA_focus_6.5
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			base = 10
+		}
 	}
 }
 
@@ -639,6 +729,9 @@ FRA_war_dec = {
 		visible = {
 			has_completed_focus = FRA_focus_resistance_5
 		}
+		ai_will_do = {
+			factor = 10
+		}
 	}
 	FRA_fight_with_MIL_1 = {
 		visible = {
@@ -648,19 +741,9 @@ FRA_war_dec = {
 		icon = GFX_decision_generic_prepare_civil_war
 		available = {
 			has_war_with = MIL
-			OR = {
-				851 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-				21 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-				22 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-				31 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
+			any_core_state = {
+				is_on_continent = europe
+				is_controlled_by_ROOT_or_ally = yes
 			}
 		}
 		days_remove = 20
@@ -674,6 +757,9 @@ FRA_war_dec = {
 			}
 		}
 		fire_only_once = yes
+		ai_will_do = {
+			factor = 100
+		}
 	}
 	FRA_fight_with_MIL_2 = {
 		icon = GFX_decision_generic_prepare_civil_war
@@ -689,20 +775,9 @@ FRA_war_dec = {
 		available = {
 			
 			has_war_with = MIL
-			
-			OR = {
-				851 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-				21 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-				22 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-				31 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
+			any_core_state = {
+				is_on_continent = europe
+				is_controlled_by_ROOT_or_ally = yes
 			}
 		}
 		days_remove = 20
@@ -717,6 +792,9 @@ FRA_war_dec = {
 			}
 		}
 		fire_only_once = yes
+		ai_will_do = {
+			factor = 100
+		}
 	}
 	FRA_fight_with_MIL_3 = {
 		icon = GFX_decision_generic_prepare_civil_war
@@ -732,20 +810,9 @@ FRA_war_dec = {
 		}
 		available = {
 			has_war_with = MIL
-			
-			OR = {
-				851 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-				21 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-				22 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-				31 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
+			any_core_state = {
+				is_on_continent = europe
+				is_controlled_by_ROOT_or_ally = yes
 			}
 		}
 		days_remove = 20
@@ -758,6 +825,9 @@ FRA_war_dec = {
 			add_to_variable = {
 				FRA_war = 1
 			}
+		}
+		ai_will_do = {
+			factor = 100
 		}
 	}
 	FRA_fight_with_MIL_4 = {
@@ -773,19 +843,9 @@ FRA_war_dec = {
 		icon = GFX_decision_generic_prepare_civil_war
 		available = {
 			has_war_with = MIL
-			OR = {
-				851 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-				21 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-				22 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
-				31 = {
-					is_controlled_by_ROOT_or_ally = yes
-				}
+			any_core_state = {
+				is_on_continent = europe
+				is_controlled_by_ROOT_or_ally = yes
 			}
 		}
 		days_remove = 20
@@ -797,6 +857,9 @@ FRA_war_dec = {
 				add_idea = FRA_fight_MIL_3
 			}
 			clear_variable = fra_war
+		}
+		ai_will_do = {
+			factor = 100
 		}
 	}
 	FRA_village_sab = {
@@ -812,33 +875,20 @@ FRA_war_dec = {
 		cost = 100
 		days_remove = 15
 		remove_effect = {
-			every_state = {
-				limit = {
-					OR = {
-						state = 23
-						state = 25
-						state = 33
-					}
-				}
-				remove_core_of = MIL
-				add_resistance = 30
-				
-			}
-			22 = {
-				add_dynamic_modifier = {
-					modifier = FRA_vil_res
+			MIL = {
+				add_timed_idea = {
+					idea = FRA_village_sab_idea
+					days = 300
 				}
 			}
+		}
+		ai_will_do = {
+			factor = 10
 		}
 	}
 	FRA_resistance_dec = {
 		visible = {
 			has_completed_focus = FRA_focus_resistance_5
-			NOT = {
-				check_variable = {
-					FRA_lib = 1
-				}
-			}
 			FRA = {
 				OR = {
 					16 = {
@@ -875,6 +925,9 @@ FRA_war_dec = {
 		}
 		
 		fire_only_once = yes
+		ai_will_do = {
+			factor = 10
+		}
 	}
 	FRA_lib_bor = {
 		visible = {
@@ -912,7 +965,6 @@ FRA_war_dec = {
 			}
 		}
 		days_remove = 5
-		cost = 10
 		remove_effect = {
 			set_capital = {
 				state = 19
@@ -929,6 +981,9 @@ FRA_war_dec = {
 			news_event = FRA_prov_event.40
 		}
 		fire_only_once = yes
+		ai_will_do = {
+			factor = 100
+		}
 	}
 	FRA_lib_mar = {
 		fire_only_once = yes
@@ -966,7 +1021,6 @@ FRA_war_dec = {
 			}
 		}
 		days_remove = 5
-		cost = 10
 		remove_effect = {
 			set_capital = {
 				state = 21
@@ -980,6 +1034,9 @@ FRA_war_dec = {
 				}
 			}
 			news_event = FRA_prov_event.39
+		}
+		ai_will_do = {
+			factor = 100
 		}
 	}
 	FRA_lib_vic = {
@@ -1008,7 +1065,6 @@ FRA_war_dec = {
 			}
 		}
 		days_remove = 5
-		cost = 10
 		remove_effect = {
 			set_capital = {
 				state = 24
@@ -1019,7 +1075,10 @@ FRA_war_dec = {
 				}
 			}
 			news_event = FRA_prov_event.41
-			clear_variable = FRA_lib
+			
+		}
+		ai_will_do = {
+			factor = 100
 		}
 	}
 	FRA_total_lib = {
@@ -1056,6 +1115,10 @@ FRA_war_dec = {
 			}
 			hidden_effect = {
 			}
+			clear_variable = FRA_lib
+		}
+		ai_will_do = {
+			factor = 100
 		}
 		
 	}
@@ -1152,6 +1215,9 @@ FRA_prepare_war = {
 				fra_cap = 15
 			}
 		}
+		ai_will_do = {
+			factor = 100
+		}
 	}
 	FRA_sabotage_dec = {
 		visible = {
@@ -1218,6 +1284,9 @@ FRA_prepare_war = {
 				fra_halo = 10
 			}
 		}
+		ai_will_do = {
+			factor = 10
+		}
 	}
 }
 FRA_ally = { #세력 찾기
@@ -1252,6 +1321,9 @@ FRA_ally = { #세력 찾기
 				}
 			}
 		}
+		ai_will_do = {
+			factor = 10
+		}
 	}
 	FRA_ally_comintern = { #코민테른 가입
 		icon = GFX_decision_eng_trade_unions_support
@@ -1283,6 +1355,9 @@ FRA_ally = { #세력 찾기
 					days = 1
 				}
 			}
+		}
+		ai_will_do = {
+			factor = 10
 		}
 	}
 	FRA_ally_beograd = { #베오그라드 협정
@@ -1317,6 +1392,9 @@ FRA_ally = { #세력 찾기
 					days = 1
 				}
 			}
+		}
+		ai_will_do = {
+			factor = 10
 		}
 	}
 	FRA_ally_spain = { #스페인의 협력

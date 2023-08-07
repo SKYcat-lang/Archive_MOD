@@ -3,7 +3,7 @@ focus_tree = {
 	country = {
 		factor = 0
 		modifier = {
-			add = -100
+			add = -1000
 			tag = FRA
 		}
 	}
@@ -11,73 +11,240 @@ focus_tree = {
 		x = 6000
 		y = 1500
 	}
-	focus = { #페텡의 유산
-		id = FRA_focus_win_1
-		cost = 1.4
+	focus = { #귀환	
+		id = FRA_focus_win_0
+		cost = 4.8
 		x = 10
 		y = 0
+		available = {
+			has_war = no
+		}
 		completion_reward = {
-			if = {
-				limit = {
-					FRA_military_conference = {
-						is_country_leader = yes
-					}
-				}
-				swap_ruler_traits = {
-					remove = FRA_war_hero
-					add = FRA_war_hero_1
-				}
-				swap_ruler_traits = {
-					remove = FRA_leader
-					add = FRA_leader_1
-				}
-				add_trait = {
-					trait = FRA_winner
-					character = FRA_military_conference
+			add_stability = 0.1
+		}
+	}
+	focus = { #프랑스 재건
+		id = FRA_focus_win_1
+		cost = 4.6
+		x = 10
+		y = 1
+		prerequisite = {
+			focus = FRA_focus_win_0
+		}
+		available = {
+			has_war = no
+		}
+		completion_reward = {
+			add_stability = 0.1
+		}
+	}
+	focus = { #비상사태 해제
+		id = FRA_focus_win_2
+		cost = 4.4
+		x = 10
+		y = 2
+		prerequisite = {
+			focus = FRA_focus_win_1
+		}
+		available = {
+			has_war = no
+		}
+		completion_reward = {
+			add_ideas = export_focus
+			add_ideas = FRA_recon_economy
+		}
+	}
+	focus = { #학생 체포
+		id = FRA_focus_win_3
+		cost = 4.4
+		x = 7
+		y = 3
+		prerequisite = {
+			focus = FRA_focus_win_2
+		}
+		available = {
+			has_war = no
+		}
+		completion_reward = {
+			add_political_power = -100
+			hidden_effect = {
+				country_event = {
+					id = FRA_prov_event.72
+					days = 5
 				}
 			}
 		}
 	}
-	focus = { #학생에 대한 처우
-		id = FRA_focus_win_2
-		cost = 4.2
-		prerequisite = {
-			focus = FRA_focus_win_1
-		}
-		x = 9
-		y = 1
-		completion_reward = {
-			
-		}
-	}
-	focus = { #학원 잔재 청산
-		id = FRA_focus_win_3
-		cost = 4.2
-		prerequisite = {
-			focus = FRA_focus_win_1
-		}
-		x = 11
-		y = 1
-		completion_reward = {
-			
-		}
-	}
-	focus = { #안정
+	focus = { #건물 재건
 		id = FRA_focus_win_4
-		cost = 4.2
-		x = 10
-		y = 2
+		cost = 4.4
+		x = 9
+		y = 3
 		prerequisite = {
 			focus = FRA_focus_win_2
 		}
+		available = {
+			has_war = no
+		}
+		completion_reward = {
+			add_timed_idea = {
+				idea = FRA_rebuild
+				days = 200
+			}
+		}
+	}
+	focus = { #피난민 구제
+		id = FRA_focus_win_5
+		cost = 4.4
+		x = 11
+		y = 3
+		prerequisite = {
+			focus = FRA_focus_win_2
+		}
+		available = {
+			has_war = no
+		}
+		completion_reward = {
+			add_manpower = 20000
+			add_stability = 0.05
+		}
+	}
+	focus = { #망명자 복귀
+		id = FRA_focus_win_6
+		cost = 4.4
+		x = 13
+		y = 3
+		prerequisite = {
+			focus = FRA_focus_win_2
+		}
+		available = {
+			has_war = no
+		}
+		completion_reward = {
+			every_core_state = {
+				limit = {
+					is_owned_by = ROOT
+					is_on_continent = europe
+				}
+				add_manpower = 1000
+			}
+			459 = {
+				add_manpower = -10000
+			}
+			460 = {
+				add_manpower = -10000
+			}
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.05
+			}
+		}
+	}
+	focus = { #자본 이전
+		id = FRA_focus_win_7
+		cost = 4.4
+		x = 8
+		y = 4
 		prerequisite = {
 			focus = FRA_focus_win_3
 		}
+		prerequisite = {
+			focus = FRA_focus_win_4
+		}
+		available = {
+			has_war = no
+		}
 		completion_reward = {
-			set_cosmetic_tag = FRA_win_tag
+			every_core_state = {
+				limit = {
+					is_owned_by = FRA
+					is_on_continent = europe
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			459 = {
+				remove_building = {
+					type = industrial_complex
+					level = -10
+				}
+			}
+			460 = {
+				remove_building = {
+					type = industrial_complex
+					level = -10
+				}
+			}
+			
+		}
+	}
+	focus = { #훈장 수여
+		id = FRA_focus_win_8
+		cost = 4.4
+		x = 10
+		y = 4
+		prerequisite = {
+			focus = FRA_focus_win_4
+		}
+		prerequisite = {
+			focus = FRA_focus_win_5
+		}
+		available = {
+			has_war = no
+		}
+		completion_reward = {
+			add_war_support = 0.1
+		}
+	}
+	focus = { #에펠탑 재건축
+		id = FRA_focus_win_9
+		cost = 4.4
+		x = 12
+		y = 4
+		prerequisite = {
+			focus = FRA_focus_win_5
+		}
+		prerequisite = {
+			focus = FRA_focus_win_6
+		}
+		available = {
+			has_war = no
+		}
+		completion_reward = {
 			country_event = {
-				id = FRA_prov_event.42
-				days = 2
+				id = FRA_prov_event.73
+				days = 4
+			}
+		}
+	}
+	focus = { #미수복 영토 재확인
+		id = FRA_focus_win_10
+		cost = 4.4
+		x = 10
+		y = 5
+		prerequisite = {
+			focus = FRA_focus_win_8
+		}
+		prerequisite = {
+			focus = FRA_focus_win_9
+		}
+		prerequisite = {
+			focus = FRA_focus_win_7
+		}
+		available = {
+			has_war = no
+		}
+		completion_reward = {
+			every_core_state = {
+				limit = {
+					NOT = {
+						is_owned_by = FRA
+					}
+					is_on_continent = europe
+				}
+				add_claim_by = FRA
 			}
 		}
 	}
