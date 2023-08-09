@@ -3,7 +3,7 @@ focus_tree = {
 	country = {
 		factor = 0
 		modifier = {
-			add = -1000
+			add = 1000
 			tag = FRA
 		}
 	}
@@ -138,6 +138,25 @@ focus_tree = {
 				ideology = var:current_party_ideology_group
 				popularity = 0.05
 			}
+			if = {
+				limit = {
+					OR = {
+						NOT = {
+							has_government = communism
+							has_idea = FRA_alg_civil
+							has_idea = FRA_ally_int
+						}
+					}
+				}
+				every_core_state = {
+					limit = {
+						NOT = {
+							is_on_continent = europe
+						}
+					}
+					remove_core_of = FRA
+				}
+			}
 		}
 	}
 	focus = { #자본 이전
@@ -168,13 +187,21 @@ focus_tree = {
 			459 = {
 				remove_building = {
 					type = industrial_complex
-					level = -10
+					level = -6
+				}
+				remove_building = {
+					type = arms_factory
+					level = -6
 				}
 			}
 			460 = {
 				remove_building = {
 					type = industrial_complex
-					level = -10
+					level = -6
+				}
+				remove_building = {
+					type = arms_factory
+					level = -6
 				}
 			}
 			
@@ -219,7 +246,7 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { #미수복 영토 재확인
+	focus = { #결정
 		id = FRA_focus_win_10
 		cost = 4.4
 		x = 10
@@ -237,14 +264,16 @@ focus_tree = {
 			has_war = no
 		}
 		completion_reward = {
-			every_core_state = {
+			if = {
 				limit = {
-					NOT = {
-						is_owned_by = FRA
+					FRA_military_conference = {
+						is_country_leader = yes
 					}
-					is_on_continent = europe
 				}
-				add_claim_by = FRA
+				country_event = {
+					id = FRA_prov_event.75
+					days = 3
+				}
 			}
 		}
 	}
@@ -351,6 +380,14 @@ focus_tree = {
 		cost = 5
 		x = 2
 		y = 1
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = FRA_focus_tech_1_tt
+				check_variable = {
+					FRA_student = 1
+				}
+			}
+		}
 		prerequisite = {
 			focus = FRA_focus_tech_0
 		}

@@ -97,7 +97,7 @@ country_event = {
 }
 
 country_event = {
-	#붕괴
+	#붕괴ㅌ
 	id = FRA_prov_event.3
 	title = FRA_prov_event.3.t
 	desc = FRA_prov_event.3.d
@@ -111,24 +111,30 @@ country_event = {
 	option = {
 		name = FRA_prov_event.3.a
 		custom_effect_tooltip = FRA_prov_event.3.a_tt
+		delete_unit = {
+			template = "Division d'Infanterie"
+			disband = yes
+		}
 		hidden_effect = {
 			FRA = {
-				release = mor
-				release = alg
-				release = mrt
-				release = wes
-				release = mli
-				release = car
-				release = ngr
-				release = cha
-				release = sen
+				release = MOR
+				release = ALG
+				release = MRT
+				release = WES
+				release = MLI
+				release = CAR
+				release = NGR
+				release = CHA
+				release = SEN
 				release = IVO
+				release = VOL
+				release = GNA
 			}
-			CAN = {
-				transfer_state = 780
+			MRT = {
+				transfer_state = 782
 			}
-			CAR = {
-				transfer_state = 778
+			ITA = {
+				transfer_state = 775
 			}
 			country_event = {
 				days = 3
@@ -162,6 +168,16 @@ country_event = {
 				retire_country_leader = yes
 				set_cosmetic_tag = IVO_fra
 			}
+			if = {
+				limit = {
+					FRA = {
+						is_in_faction_with = CAN
+					}
+				}
+				CAN = {
+					add_to_faction = IVO
+				}
+			}
 		}
 	}
 	option = { #드골과 함께 신나는 자유프랑스
@@ -180,6 +196,16 @@ country_event = {
 				retire_country_leader = yes
 				set_cosmetic_tag = IVO_fra
 				change_tag_from = FRA
+			}
+			if = {
+				limit = {
+					FRA = {
+						is_in_faction_with = CAN
+					}
+				}
+				CAN = {
+					add_to_faction = IVO
+				}
 			}
 		}
 	}
@@ -2058,7 +2084,7 @@ country_event = { #학생체포
 		name = FRA_prov_event.72.b
 		add_political_power = -300
 		set_variable = {
-			FRA_student = 0
+			FRA_student = 1
 		}
 	}
 }
@@ -2113,5 +2139,52 @@ country_event = { #에펠탑 완성
 		name = FRA_prov_event.74.a
 		add_political_power = 10
 		add_war_support = 0.01
+	}
+}
+country_event = { #페텡의 결정
+	id = FRA_prov_event.75
+	title = FRA_prov_event.75.t
+	desc = FRA_prov_event.75.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.75.a
+		set_party_name = {
+			ideology = neutrality
+			long_name = FRA_party_rebuild
+			name = FRA_party_rebuild
+		}
+		swap_ruler_traits = {
+			remove = FRA_leader
+			add = FRA_leader_1
+		}
+		swap_ruler_traits = {
+			remove = FRA_war_hero
+			add = FRA_war_hero_1
+		}
+		set_politics = {
+			ruling_party = neutrality
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.3
+		}
+	}
+	option = {
+		name = FRA_prov_event.75.b
+		set_politics = {
+			ruling_party = democratic
+			elections_allowed = yes
+		}
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.5
+		}
+		set_party_name = {
+			ideology = neutrality
+			long_name = FRA_party_mil
+			name = FRA_party_mil
+		}
 	}
 }
