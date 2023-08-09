@@ -4,19 +4,20 @@ country_event = {
 	id = ABY_event.1
 	title = ABY_event.1.t
 	desc = ABY_event.1.desc
+	picture = GFX_ABY_event_1
 	
 	fire_only_once = yes	
     is_triggered_only = yes
 	
 	option = { 
 		name = ABY_event.1.a
-        add_political_power = 50
 	}
 }
 country_event = {
 	id = ABY_event.2
 	title = ABY_event.2.t
 	desc = ABY_event.2.desc
+	picture = GFX_ABY_event_2
 	
 	fire_only_once = yes	
     is_triggered_only = yes
@@ -24,21 +25,24 @@ country_event = {
 	option = { 
 		name = ABY_event.2.a
 	}
-    option = { 
-		name = ABY_event.2.b
-	}
 }
 country_event = {
 	id = ABY_event.3
 	title = ABY_event.3.t
 	desc = ABY_event.3.desc
 	
-	fire_only_once = yes	
-    is_triggered_only = yes
-	
-	option = { 
+	is_triggered_only = yes
+
+	option = { #수락
+		ai_chance = { factor = 100 }
 		name = ABY_event.3.a
-		add_political_power = 50
+		ABY = { country_event = { id = ABY_event.4 hours = 6 } }
+		
+	}
+	option = { #거절
+		ai_chance = { factor = 0 }
+		name = ABY_event.3.b
+		ABY = { country_event = { id = ABY_event.5 hours = 6 } }
 	}
 }
 country_event = {
@@ -48,15 +52,14 @@ country_event = {
 	
 	is_triggered_only = yes
 
-	option = { #수락
+	option = {
 		name = ABY_event.4.a
-		custom_effect_tooltip =  GAME_OVER_TT
-		ABY = { country_event = { id = ABY_event.5 hours = 6 } }
-		
-	}
-	option = { #거절
-		name = ABY_event.4.b
-		ABY = { country_event = { id = ABY_event.6 hours = 6 } }
+		custom_effect_tooltip = ABY_first_focus_tt_7
+		hidden_effect = {
+			set_rule = { can_create_factions = yes }
+			create_faction = ABY_HYA_create
+			add_to_faction = HYA
+		}
 	}
 }
 country_event = {
@@ -68,6 +71,563 @@ country_event = {
 
 	option = {
 		name = ABY_event.5.a
+		custom_effect_tooltip = ABY_first_focus_tt_8
+		hidden_effect = {
+			unlock_national_focus = ABY_I_newfocus_47
+			uncomplete_national_focus = {
+  				focus = ABY_I_newfocus_46
+  				uncomplete_children = yes
+  				refund_political_power = no
+			}
+		}
+	}
+}
+
+###################### 수행부 합병 이벤트 ######################
+
+country_event = {
+	id = ABY_event.6
+	title = ABY_event.6.t
+	desc = ABY_event.6.desc
+	
+	is_triggered_only = yes
+
+	option = { #합병의 길로
+		ai_chance = { factor = 100 }
+		name = ABY_event.6.a
+		SUH = { country_event = { id = ABY_event.7 hours = 6 } }
+		
+	}
+	option = { #그들의 자유를
+		ai_chance = { factor = 0 }
+		name = ABY_event.6.b
+		ABY = { country_event = { id = ABY_event.11 hours = 6 } }
+	}
+}
+country_event = {
+	id = ABY_event.7
+	title = ABY_event.7.t
+	desc = ABY_event.7.desc
+	
+	is_triggered_only = yes
+
+	option = { #수락
+		ai_chance = { factor = 100 }
+		name = ABY_event.7.a
+		custom_effect_tooltip =  GAME_OVER_TT
+		HYA = { country_event = { id = ABY_event.8 hours = 6 } }
+		
+	}
+	option = { #거절
+		ai_chance = { factor = 0 }
+		name = ABY_event.7.b
+		OVERLORD = { set_autonomy = { target = ROOT autonomy_state = autonomy_free } }
+		leave_faction = yes
+		HYA = { country_event = { id = ABY_event.9 hours = 6 } }
+	}
+}
+country_event = {
+	id = ABY_event.8
+	title = ABY_event.8.t
+	desc = ABY_event.8.desc
+	
+	is_triggered_only = yes
+
+	option = { #합병
+		name = ABY_event.8.a
+		SUH = {
+			every_unit_leader = {
+				set_nationality = HYA
+			}
+		}
+		set_country_flag = ABY_HYA_SUH_annex_yes
+		annex_country = { target = SUH transfer_troops = yes }
+		ABY = { country_event = { id = ABY_event.13 hours = 6 } }
+	}
+}
+country_event = {
+	id = ABY_event.9
+	title = ABY_event.9.t
+	desc = ABY_event.9.desc
+	
+	is_triggered_only = yes
+
+	trigger = {
+		not = {
+			has_country_flag = ABY_HYA_SUH_annex_yes
+		}
+	}
+
+	option = { #전쟁
+		name = ABY_event.9.a
+		create_wargoal = {
+			type = annex_everything
+			target = SUH
+		}
+		ABY = { country_event = { id = ABY_event.10 hours = 6 } }
+	}
+}
+country_event = {
+	id = ABY_event.10
+	title = ABY_event.10.t
+	desc = ABY_event.10.desc
+	
+	is_triggered_only = yes
+
+	trigger = {
+		not = {
+			has_country_flag = ABY_HYA_SUH_annex_yes
+		}
+	}
+
+	option = { #전쟁
+		name = ABY_event.10.a
+		create_wargoal = {
+			type = annex_everything
+			target = SUH
+		}
+	}
+}
+country_event = {
+	id = ABY_event.11
+	title = ABY_event.11.t
+	desc = ABY_event.11.desc
+	
+	is_triggered_only = yes
+
+	option = { #거부
+		name = ABY_event.11.a
+		clr_character_flag = ABY_HYA_annex
+	}
+}
+country_event = {
+	id = ABY_event.12
+	title = ABY_event.12.t
+	desc = ABY_event.12.desc
+	
+	is_triggered_only = yes
+
+	trigger = {
+		not = {
+			has_country_flag = ABY_HYA_SUH_annex_yes
+		}
+	}
+
+	option = { #장군 합류
+		name = ABY_event.12.a
+		SUH = {
+			every_unit_leader = {
+				set_nationality = HYA
+			}
+		}
+		hidden_effect = {
+			ABY = { country_event = { id = ABY_event.13 hours = 6 } }
+		}
+	}
+}
+country_event = {
+	id = ABY_event.13
+	title = ABY_event.13.t
+	desc = ABY_event.13.desc
+	
+	is_triggered_only = yes
+
+	option = { #합병 소식
+		name = ABY_event.13.a
+		clr_character_flag = ABY_HYA_annex
+	}
+}
+
+###################### 마츠리 합병 이벤트 ######################
+
+country_event = {
+	id = ABY_event.14
+	title = ABY_event.14.t
+	desc = ABY_event.14.desc
+	
+	is_triggered_only = yes
+
+	option = { #합병의 길로
+		ai_chance = { factor = 100 }
+		name = ABY_event.14.a
+		BAC = { country_event = { id = ABY_event.15 hours = 6 } }
+		
+	}
+	option = { #그들의 자유를
+		ai_chance = { factor = 0 }
+		name = ABY_event.14.b
+		ABY = { country_event = { id = ABY_event.19 hours = 6 } }
+	}
+}
+country_event = {
+	id = ABY_event.15
+	title = ABY_event.15.t
+	desc = ABY_event.15.desc
+	
+	is_triggered_only = yes
+
+	option = { #수락
+		ai_chance = { factor = 100 }
+		name = ABY_event.15.a
+		custom_effect_tooltip =  GAME_OVER_TT
+		HYA = { country_event = { id = ABY_event.16 hours = 6 } }
+		
+	}
+	option = { #거절
+		ai_chance = { factor = 0 }
+		name = ABY_event.15.b
+		OVERLORD = { set_autonomy = { target = ROOT autonomy_state = autonomy_free } }
+		leave_faction = yes
+		HYA = { country_event = { id = ABY_event.17 hours = 6 } }
+	}
+}
+country_event = {
+	id = ABY_event.16
+	title = ABY_event.16.t
+	desc = ABY_event.16.desc
+	
+	is_triggered_only = yes
+
+	option = { #합병
+		name = ABY_event.16.a
+		BAC = {
+			every_unit_leader = {
+				set_nationality = HYA
+			}
+		}
+		set_country_flag = ABY_HYA_BAC_annex_yes
+		annex_country = { target = BAC transfer_troops = yes }
+		ABY = { country_event = { id = ABY_event.21 hours = 6 } }
+	}
+}
+country_event = {
+	id = ABY_event.17
+	title = ABY_event.17.t
+	desc = ABY_event.17.desc
+	
+	is_triggered_only = yes
+
+	trigger = {
+		not = {
+			has_country_flag = ABY_HYA_BAC_annex_yes
+		}
+	}
+
+	option = { #전쟁
+		name = ABY_event.17.a
+		create_wargoal = {
+			type = annex_everything
+			target = BAC
+		}
+		ABY = { country_event = { id = ABY_event.18 hours = 6 } }
+	}
+}
+country_event = {
+	id = ABY_event.18
+	title = ABY_event.18.t
+	desc = ABY_event.18.desc
+	
+	is_triggered_only = yes
+
+	trigger = {
+		not = {
+			has_country_flag = ABY_HYA_BAC_annex_yes
+		}
+	}
+
+	option = { #전쟁
+		name = ABY_event.18.a
+		create_wargoal = {
+			type = annex_everything
+			target = BAC
+		}
+	}
+}
+country_event = {
+	id = ABY_event.19
+	title = ABY_event.19.t
+	desc = ABY_event.19.desc
+	
+	is_triggered_only = yes
+
+	option = { #거부
+		name = ABY_event.19.a
+		clr_character_flag = ABY_HYA_annex
+	}
+}
+country_event = {
+	id = ABY_event.20
+	title = ABY_event.20.t
+	desc = ABY_event.20.desc
+	
+	is_triggered_only = yes
+
+	trigger = {
+		not = {
+			has_country_flag = ABY_HYA_BAC_annex_yes
+		}
+	}
+
+	option = { #장군 합류
+		name = ABY_event.20.a
+		BAC = {
+			every_unit_leader = {
+				set_nationality = HYA
+			}
+		}
+		hidden_effect = {
+			ABY = { country_event = { id = ABY_event.21 hours = 6 } }
+		}
+	}
+}
+country_event = {
+	id = ABY_event.21
+	title = ABY_event.21.t
+	desc = ABY_event.21.desc
+	
+	is_triggered_only = yes
+
+	option = { #합병 소식
+		name = ABY_event.21.a
+		clr_character_flag = ABY_HYA_annex
+	}
+}
+
+###################### 연구부 합병 이벤트 ######################
+
+country_event = {
+	id = ABY_event.22
+	title = ABY_event.22.t
+	desc = ABY_event.22.desc
+	
+	is_triggered_only = yes
+
+	option = { #합병의 길로
+		ai_chance = { factor = 100 }
+		name = ABY_event.22.a
+		INK = { country_event = { id = ABY_event.23 hours = 6 } }
+		
+	}
+	option = { #그들의 자유를
+		ai_chance = { factor = 0 }
+		name = ABY_event.22.b
+		ABY = { country_event = { id = ABY_event.27 hours = 6 } }
+	}
+}
+country_event = {
+	id = ABY_event.23
+	title = ABY_event.23.t
+	desc = ABY_event.23.desc
+	
+	is_triggered_only = yes
+
+	option = { #수락
+		ai_chance = { factor = 100 }
+		name = ABY_event.23.a
+		custom_effect_tooltip =  GAME_OVER_TT
+		HYA = { country_event = { id = ABY_event.24 hours = 6 } }
+		
+	}
+	option = { #거절
+		ai_chance = { factor = 0 }
+		name = ABY_event.23.b
+		OVERLORD = { set_autonomy = { target = ROOT autonomy_state = autonomy_free } }
+		leave_faction = yes
+		HYA = { country_event = { id = ABY_event.25 hours = 6 } }
+	}
+}
+country_event = {
+	id = ABY_event.24
+	title = ABY_event.24.t
+	desc = ABY_event.24.desc
+	
+	is_triggered_only = yes
+
+	option = { #합병
+		name = ABY_event.24.a
+		INK = {
+			every_unit_leader = {
+				set_nationality = HYA
+			}
+		}
+		set_country_flag = ABY_HYA_INK_annex_yes
+		annex_country = { target = INK transfer_troops = yes }
+		ABY = { country_event = { id = ABY_event.29 hours = 6 } }
+	}
+}
+country_event = {
+	id = ABY_event.25
+	title = ABY_event.25.t
+	desc = ABY_event.25.desc
+	
+	is_triggered_only = yes
+
+	trigger = {
+		not = {
+			has_country_flag = ABY_HYA_INK_annex_yes
+		}
+	}
+
+	option = { #전쟁
+		name = ABY_event.25.a
+		create_wargoal = {
+			type = annex_everything
+			target = INK
+		}
+		ABY = { country_event = { id = ABY_event.26 hours = 6 } }
+	}
+}
+country_event = {
+	id = ABY_event.26
+	title = ABY_event.26.t
+	desc = ABY_event.26.desc
+	
+	is_triggered_only = yes
+
+	trigger = {
+		not = {
+			has_country_flag = ABY_HYA_INK_annex_yes
+		}
+	}
+
+	option = { #전쟁
+		name = ABY_event.26.a
+		create_wargoal = {
+			type = annex_everything
+			target = INK
+		}
+	}
+}
+country_event = {
+	id = ABY_event.27
+	title = ABY_event.27.t
+	desc = ABY_event.27.desc
+	
+	is_triggered_only = yes
+
+	option = { #거부
+		name = ABY_event.27.a
+		clr_character_flag = ABY_HYA_annex
+	}
+}
+country_event = {
+	id = ABY_event.28
+	title = ABY_event.28.t
+	desc = ABY_event.28.desc
+	
+	is_triggered_only = yes
+
+	trigger = {
+		not = {
+			has_country_flag = ABY_HYA_INK_annex_yes
+		}
+	}
+
+	option = { #장군 합류
+		name = ABY_event.28.a
+		INK = {
+			every_unit_leader = {
+				set_nationality = HYA
+			}
+		}
+		hidden_effect = {
+			ABY = { country_event = { id = ABY_event.29 hours = 6 } }
+		}
+	}
+}
+country_event = {
+	id = ABY_event.29
+	title = ABY_event.29.t
+	desc = ABY_event.29.desc
+	
+	is_triggered_only = yes
+
+	option = { #합병 소식
+		name = ABY_event.29.a
+		clr_character_flag = ABY_HYA_annex
+	}
+}
+country_event = {
+	id = ABY_event.30
+	title = ABY_event.30.t
+	desc = ABY_event.30.desc
+	
+	is_triggered_only = yes
+
+	option = { #수락
+		name = ABY_event.30.a
+		custom_effect_tooltip =  GAME_OVER_TT
+		ABY = { country_event = { id = ABY_event.31 hours = 6 } }
+		
+	}
+	option = { #거절
+		name = ABY_event.30.b
+		ABY = { country_event = { id = ABY_event.32 hours = 6 } }
+	}
+}
+country_event = {
+	id = ABY_event.31
+	title = ABY_event.31.t
+	desc = ABY_event.31.desc
+	
+	is_triggered_only = yes
+
+	option = {
+		name = ABY_event.31.a
+		SHA = {
+			every_unit_leader = {
+				set_nationality = ABY
+			}
+		}
+		annex_country = { target = SHA transfer_troops = yes }
+		ABY = { set_country_flag = SHA_annexed_peacefully }
+	}
+}
+country_event = {
+	id = ABY_event.32
+	title = ABY_event.32.t
+	desc = ABY_event.32.desc
+	
+	is_triggered_only = yes
+
+	option = {
+		name = ABY_event.32.a
+		create_wargoal = {
+			type = annex_everything
+			target = SHA
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+country_event = {
+	id = ABY_event.4
+	title = ABY_event.4.t
+	desc = ABY_event.4.desc
+	
+	is_triggered_only = yes
+
+	option = {
+		name = ABY_event.4.a
 		HYA = {
 			every_unit_leader = {
 				set_nationality = ABY
@@ -95,20 +655,29 @@ country_event = {
 	}
 }
 country_event = {
-	id = ABY_event.6
-	title = ABY_event.6.t
-	desc = ABY_event.6.desc
+	id = ABY_event.5
+	title = ABY_event.5.t
+	desc = ABY_event.5.desc
 	
 	is_triggered_only = yes
 
 	option = {
-		name = ABY_event.6.a
+		name = ABY_event.5.a
 		create_wargoal = {
 			type = annex_everything
 			target = HYA
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
 country_event = {
 	id = ABY_event.7
 	title = ABY_event.7.t
@@ -308,13 +877,13 @@ country_event = {
 
 	option = { #수락
 		name = ABY_event.18.a
-		ai_chance = { factor = 10 }
+		ai_chance = { factor = 70 }
 		custom_effect_tooltip =  GAME_OVER_TT
 		ABY = { country_event = { id = ABY_event.19 hours = 6 } }
 		
 	}
 	option = { #거절
-		ai_chance = { factor = 90 }
+		ai_chance = { factor = 30 }
 		name = ABY_event.18.b
 		ABY = { country_event = { id = ABY_event.20 hours = 6 } }
 	}
