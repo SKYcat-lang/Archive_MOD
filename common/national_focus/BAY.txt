@@ -1581,39 +1581,6 @@ focus_tree = {
 		x = -4
 		y = 1
 		relative_position_id = BAY_army_innovation_2
-		cost = 10
-		ai_will_do = {
-			factor = 5
-			modifier = {
-				factor = 0
-				has_war = yes
-			}
-		}
-		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
-		completion_reward = {
-			add_stability = -0.05
-			add_war_support = -0.05
-			add_ideas = hans_oster_political_advisor
-			add_popularity = { ideology = fascism popularity = 0.05}
-			add_power_balance_value = {
-				id = BAY_power_balance
-				value = -0.05
-				tooltip_side = BAY_army_side
-			}
-		}
-	}
-
-	focus = {
-		id = BAY_order_discipline
-		icon = GFX_goal_generic_army_doctrines
-		prerequisite = { focus = BAY_army_innovation_2 }
-		mutually_exclusive = { focus = BAY_retrun_nazi }
-		available = {
-			is_subject = no
-		}
-		x = -4
-		y = 1
-		relative_position_id = BAY_army_innovation_2
 		cost = 5
 		ai_will_do = {
 			factor = 10
@@ -1759,6 +1726,7 @@ focus_tree = {
 		icon = GFX_goal_generic_territory_or_war
 		prerequisite = { focus = BAY_fan_the_prussian_militarism }
 		prerequisite = { focus = BAY_a_new_and_better_germany }
+		prerequisite = { focus = BAY_forced_mobilization focus = BAY_resocialization_enforcement }
 		available = {
 		}
 		x = 0
@@ -1793,7 +1761,7 @@ focus_tree = {
 		ai_will_do = {
 			factor = 8
 		}
-		search_filters = { FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
 			add_ideas = BAY_paramilitary_organization
 			add_power_balance_value = {
@@ -1817,8 +1785,9 @@ focus_tree = {
 		ai_will_do = {
 			factor = 8
 		}
-		search_filters = { FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
+			add_political_power = 50
 			add_power_balance_value = {
 				id = BAY_power_balance
 				value = -0.10
@@ -1841,7 +1810,7 @@ focus_tree = {
 		ai_will_do = {
 			factor = 8
 		}
-		search_filters = { FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_STABILITY }
 		completion_reward = {
 			add_stability = -0.10
 			hidden_effect = {
@@ -1902,7 +1871,7 @@ focus_tree = {
 		ai_will_do = {
 			factor = 8
 		}
-		search_filters = { FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_MANPOWER }
 		completion_reward = {
 			add_ideas = BAY_paramilitary_organization
 			add_power_balance_value = {
@@ -1926,8 +1895,9 @@ focus_tree = {
 		ai_will_do = {
 			factor = 8
 		}
-		search_filters = { FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
+			add_political_power = 50
 			add_power_balance_value = {
 				id = BAY_power_balance
 				value = 0.15
@@ -1938,7 +1908,7 @@ focus_tree = {
 
 	focus = { #재사회화 집행
 		id = BAY_resocialization_enforcement
-		icon = GFX_goal_demand_sudetenland
+		icon = GFX_goal_generic_military_deal
 		prerequisite = { focus = BAY_nazi_regrouping }
 		prerequisite = { focus = BAY_ideological_fanaticism }
 		available = {
@@ -1950,7 +1920,7 @@ focus_tree = {
 		ai_will_do = {
 			factor = 8
 		}
-		search_filters = { FOCUS_FILTER_INDUSTRY }
+		search_filters = { FOCUS_FILTER_MANPOWER FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
 			add_stability = 0.05
 			add_war_support = 0.10
@@ -1995,6 +1965,31 @@ focus_tree = {
 					division = "name = \"2. Halo Penal Corps\" division_template = \"Halo Infantry Brigade\" start_experience_factor = 0.3 start_equipment_factor = 1" 
 					owner = ROOT
 				}
+			}
+		}
+	}
+
+	focus = { #흥신소에 최후통첩
+		id = BAY_Ultimatum_to_HEU
+		icon = GFX_goal_demand_sudetenland
+		prerequisite = { focus = BAY_germany_restoration }
+		available = {
+			NOT = {
+				country_exists = GEH
+				country_exists = GEM
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id = BAY_germany_restoration
+		cost = 10
+		ai_will_do = {
+			factor = 8
+		}
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			HEU = {
+				country_event = { id = BAY_event.4 hours = 6 }
 			}
 		}
 	}
