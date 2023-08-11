@@ -3,7 +3,7 @@ focus_tree = {
 	country = {
 		factor = 0
 		modifier = {
-			add = -1000
+			add = 1000
 			tag = FRA
 		}
 	}
@@ -179,9 +179,17 @@ focus_tree = {
 					is_owned_by = FRA
 					is_on_continent = europe
 				}
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
+				10 = {
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+					}
+				}
+				10 = {
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+					}
 				}
 			}
 			459 = {
@@ -299,7 +307,7 @@ focus_tree = {
 	focus = { #유화책
 		id = FRA_focus_win_12
 		cost = 5
-		x = 6
+		x = 4
 		y = 7
 		mutually_exclusive = {
 			focus = FRA_focus_win_13
@@ -311,7 +319,22 @@ focus_tree = {
 			focus = FRA_focus_win_11
 		}
 		completion_reward = {
-			
+			every_country = {
+				limit = {
+					is_ally_with = FRA
+					NOT = {
+						tag = FRA
+						is_puppet_of = FRA
+					}
+					
+				}
+				add_timed_idea = {
+					idea = FRA_thanks
+					days = 150
+				}
+			}
+			dismantle_faction = yes
+			leave_faction = yes
 		}
 	}
 	focus = { #대프랑스의 길
@@ -335,7 +358,7 @@ focus_tree = {
 	focus = { #구질서 복구
 		id = FRA_focus_win_14
 		cost = 5
-		x = 14
+		x = 16
 		y = 7
 		prerequisite = {
 			focus = FRA_focus_win_11
@@ -348,6 +371,177 @@ focus_tree = {
 		}
 		completion_reward = {
 			
+		}
+	}
+	focus = { #SRT에 자치 제안
+		id = FRA_focus_concil_0
+		cost = 5
+		x = 0
+		y = 1
+		bypass = {
+			NOT = {
+				SRT = {
+					owns_state = 14
+				}
+			}
+		}
+		relative_position_id = FRA_focus_win_12
+		prerequisite = {
+			focus = FRA_focus_win_12
+		}
+		completion_reward = {
+			SRT = {
+				country_event = FRA_prov_event.86
+			}
+		}
+	}
+	focus = { #북부 영토 반환 요구
+		id = FRA_focus_concil_1
+		cost = 5
+		x = -2
+		y = 1
+		relative_position_id = FRA_focus_concil_0
+		prerequisite = {
+			focus = FRA_focus_concil_0
+		}
+		completion_reward = {
+			every_country = {
+				limit = {
+					OR = {
+						owns_state = 29
+						owns_state = 912
+					}
+				}
+				country_event = FRA_prov_event.89
+			}
+		}
+	}
+	focus = { #일본압박
+		id = FRA_focus_concil_2
+		cost = 5
+		x = 2
+		y = 1
+		relative_position_id = FRA_focus_concil_0
+		prerequisite = {
+			focus = FRA_focus_concil_0
+		}
+		completion_reward = {
+			JAP = {
+				country_event = {
+					id = FRA_prov_event.92
+					days = 1
+				}
+			}
+		}
+	}
+	focus = { #반파시즘 대오
+		id = FRA_focus_concil_3
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = FRA_focus_concil_0
+		prerequisite = {
+			focus = FRA_focus_concil_0
+		}
+		completion_reward = {
+			create_faction = fac_FRA_antifa
+			hidden_effect = {
+				every_country = {
+					limit = {
+						has_government = fascism
+					}
+					every_country = {
+						limit = {
+							NOT = {
+								has_government = fascism
+							}
+							is_neighbor_of = PREV
+						}
+						country_event = {
+							id = FRA_prov_event.95
+							days = 2
+						}
+					}
+				}
+			}
+			custom_effect_tooltip = FRA_focus_concil_3_tt
+		}
+	}
+	focus = { #	
+		id = FRA_focus_concil_4
+		cost = 5
+		x = 0
+		y = 2
+		relative_position_id = FRA_focus_concil_0
+		prerequisite = {
+			focus = FRA_focus_concil_3
+		}
+		available = {
+			ITA = {
+				OR = {
+					has_government = fascism
+					has_government = neutrality
+				}
+			}
+		}
+		completion_reward = {
+			create_wargoal = {
+				target = ITA
+				type = topple_government
+			}
+		}
+	}
+	focus = { #중앙 파시스트 분쇄
+		id = FRA_focus_concil_5
+		cost = 5
+		x = 2
+		y = 2
+		relative_position_id = FRA_focus_concil_0
+		prerequisite = {
+			focus = FRA_focus_concil_3
+		}
+		available = {
+			any_other_country = {
+				owns_state = 55
+				has_government = fascism
+			}
+		}
+		completion_reward = {
+			every_country = {
+				limit = {
+					owns_state = 55
+				}
+				FRA = {
+					create_wargoal = {
+						target = PREV
+						type = topple_government
+					}
+				}
+			}
+		}
+	}
+	focus = { #서부 파시스트 분쇄
+		id = FRA_focus_concil_6
+		cost = 5
+		x = -2
+		y = 2
+		available = {
+			SPR = {
+				OR = {
+					has_government = fascism
+					has_government = neutrality
+				}
+			}
+		}
+		relative_position_id = FRA_focus_concil_0
+		prerequisite = {
+			focus = FRA_focus_concil_3
+		}
+		completion_reward = {
+			create_wargoal = {
+				target = SPR
+				type = topple_government
+			}
 		}
 	}
 	focus = { #이계 탐구
