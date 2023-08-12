@@ -76,23 +76,23 @@ technologies = {
 	}
 	kivotos_halo_upgrade  = {
 		halo_infantry = {
-			max_organisation = 10
-			hardness = 0.5
+			max_organisation = 5
+			hardness = 0.30
 		}
 
 		path = {
 			leads_to_tech = kivotos_halo_recon 
 			research_cost_coeff = 1
 		}
+
+		path = {
+			leads_to_tech = kivotos_halo_upgrade_1 
+			research_cost_coeff = 1
+		}
 		
 		
 		ai_will_do = {
-			factor = 40
-						
-			modifier = {
-				factor = 20
-				date > "1937.1.1"
-			}
+			factor = 50
 		}
 		
 		research_cost = 1.5
@@ -108,11 +108,133 @@ technologies = {
 			mystic_engineering
 		}
 	}
+	kivotos_halo_upgrade_1  = {
+		halo_infantry = {
+			max_organisation = 5
+			hardness = 0.15
+		}
+
+		path = {
+			leads_to_tech = kivotos_halo_heavy_infantry 
+			research_cost_coeff = 1
+		}
+
+		path = {
+			leads_to_tech = kivotos_halo_light_infantry
+			research_cost_coeff = 1
+		}
+		
+		
+		ai_will_do = {
+			factor = 40
+						
+			modifier = {
+				factor = 20
+				date > "1938.1.1"
+			}
+		}
+		
+		research_cost = 1.5
+		
+		start_year = 1938
+
+		folder = {
+			name = mystic_engineering_folder
+			position = { x = 0 y = 7 }
+		}
+		
+		categories = {
+			mystic_engineering
+		}
+	}
+	kivotos_halo_heavy_infantry  = {
+
+		XOR = { kivotos_halo_heavy_infantry }
+
+		halo_infantry = {
+			supply_consumption = 0.10
+			combat_width = 1.5
+			soft_attack = 0.30
+			hard_attack = 0.30
+			breakthrough = 0.15
+		}
+		
+		
+		ai_will_do = {
+			factor = 40
+						
+			modifier = {
+				factor = 20
+				date > "1940.1.1"
+			}
+		}
+		
+		research_cost = 1.5
+		
+		start_year = 1940
+
+		folder = {
+			name = mystic_engineering_folder
+			position = { x = 1 y = 11 }
+		}
+		
+		categories = {
+			mystic_engineering
+		}
+	}
+	kivotos_halo_light_infantry  = {
+
+		XOR = { kivotos_halo_heavy_infantry }
+
+		halo_infantry = {
+			max_organisation = 10
+		}
+		
+		
+		on_research_complete = {
+			custom_effect_tooltip = kivotos_halo_max_upgrade_tt
+			hidden_effect = {
+				add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+				set_division_template_cap = {
+					division_template = "Halo Infantry Division"
+					division_cap = ROOT.halo_infantry_cap
+				}
+			}
+		}
+		
+		ai_will_do = {
+			factor = 40
+						
+			modifier = {
+				factor = 20
+				date > "1940.1.1"
+			}
+		}
+		
+		research_cost = 1.5
+		
+		start_year = 1940
+
+		folder = {
+			name = mystic_engineering_folder
+			position = { x = -1 y = 11 }
+		}
+		
+		categories = {
+			mystic_engineering
+		}
+		show_effect_as_desc = yes
+	}
 	kivotos_halo_max_upgrade  = {
 		
 		
 		ai_will_do = {
 			factor = 50
+		}
+
+		path = {
+			leads_to_tech = kivotos_halo_max_upgrade_1 
+			research_cost_coeff = 1
 		}
 		
 		on_research_complete = {
@@ -140,6 +262,38 @@ technologies = {
 		
 		show_effect_as_desc = yes
 	}
+	kivotos_halo_max_upgrade_1  = {
+		
+		
+		ai_will_do = {
+			factor = 50
+		}
+		
+		on_research_complete = {
+			custom_effect_tooltip = kivotos_halo_max_upgrade_tt
+			hidden_effect = {
+				add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+				set_division_template_cap = {
+					division_template = "Halo Infantry Division"
+					division_cap = ROOT.halo_infantry_cap
+				}
+			}
+		}
+		research_cost = 5
+		
+		start_year = 1938
+
+		folder = {
+			name = mystic_engineering_folder
+			position = { x = -2 y = 7 }
+		}
+		
+		categories = {
+			mystic_engineering
+		}
+		
+		show_effect_as_desc = yes
+	}
 	kivotos_halo_recon  = {
 		enable_subunits = {
 			halo_recon
@@ -157,11 +311,11 @@ technologies = {
 		
 		research_cost = 1.5
 		
-		start_year = 1936
+		start_year = 1937
 
 		folder = {
 			name = mystic_engineering_folder
-			position = { x = -2 y = 3 }
+			position = { x = 1 y = 5 }
 		}
 		
 		categories = {
