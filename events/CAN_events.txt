@@ -91,3 +91,216 @@ country_event = { #서인도 연방
 		}
 	}
 }
+country_event = { #수에즈 위기
+	id = can.5
+	title = can.5.t
+	desc = can.5.d
+	fire_only_once = yes
+	hidden = no
+	trigger = {
+		tag = CAN
+		has_global_flag = ENG_lose_global_flag
+		EGY = {
+			exists = yes
+		}
+		date > 1937.9.1
+		CAN = {
+			has_war = no
+		}
+	}
+	option = { #ㅇㅋ..
+		name = can.5.c 
+		EGY = {
+			country_event = {
+				id = can.6
+				days = 3
+			}
+		}
+	}
+	option = { #줄 건데 군통권 좀
+		name = can.5.a
+		EGY = {
+			country_event = {
+				id = can.7
+				days = 3
+			}
+		}
+	}
+	option = { #족가
+		name = can.5.b
+		EGY = {
+			country_event = {
+				id = can.10
+				days = 3
+			}
+		}
+	}
+}
+country_event = { #영국의 수락
+	id = can.6
+	title = can.6.t
+	desc = can.6.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = { #좋다!
+		name = can.6.a
+		transfer_state = 446
+	}
+}
+country_event = { #군통권달래
+	id = can.7
+	title = can.7.t
+	desc = can.7.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = { #그 정도야
+		name = can.7.a
+		transfer_state = 446
+		give_military_access = ENG
+		ENG = {
+			diplomatic_relation = {
+				country = ENG
+				relation = docking_rights
+			}
+		}
+		ai_chance = {
+			base = 30
+		}
+		ENG = {
+			country_event = can.8
+		}
+	}
+	option = { #전쟁 ㄱㄱ
+		name = can.7.b
+		declare_war_on = {
+			target = CAN
+			type = take_core_state
+		}
+		ENG = {
+			country_event = can.9
+		}
+		hidden_effect = {
+			news_event = {
+				id = can.11
+				days = 5
+			}
+			EGY = {
+				create_faction = fac_arab
+				add_to_faction = PAL
+				add_to_faction = SAU
+				add_to_faction = IRQ
+				add_to_faction = SYR
+				add_to_faction = JOR
+				add_to_faction = YEM
+				add_to_faction = OMA
+			}
+			every_country = {
+				limit = {
+					is_in_faction_with = EGY
+				}
+				add_ideas = {
+					CAN_arab
+				}
+			}
+		}
+	}
+}
+country_event = { #군통권 줬대
+	id = can.8
+	title = can.8.t
+	desc = can.8.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = { #아이좋아요
+		name = can.8.a
+		add_political_power = 10
+	}
+}
+country_event = { #이집트의 거절
+	id = can.9
+	title = can.9.t
+	desc = can.9.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = { #아시바
+		name = can.9.a
+		add_political_power = -10
+	}
+}
+country_event = { #영국이족갓다
+	id = can.10
+	title = can.10.t
+	desc = can.10.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = { #함뜨던가
+		name = can.10.a
+		add_political_power = -10
+		declare_war_on = {
+			target = CAN
+			type = take_core_state
+		}
+		hidden_effect = {
+			news_event = {
+				id = can.11
+				days = 5
+			}
+			EGY = {
+				create_faction = fac_arab
+				add_to_faction = PAL
+				add_to_faction = SAU
+				add_to_faction = IRQ
+				add_to_faction = SYR
+				add_to_faction = JOR
+				add_to_faction = YEM
+				add_to_faction = OMA
+			}
+			every_country = {
+				limit = {
+					is_in_faction_with = EGY
+				}
+				add_ideas = {
+					CAN_arab
+				}
+			}
+		}
+	}
+}
+news_event = { #중동전쟁
+	id = can.11
+	title = can.11.t
+	desc = can.11.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	major = yes
+	picture = GFX_event_BA_news_mideas
+	option = {
+		name = can.11.a
+		trigger = {
+			tag = ENG
+		}
+	}
+	option = {
+		trigger = {
+			is_in_faction_with = EGY
+		}
+		name = can.11.b
+	}
+	option = {
+		name = can.11.c
+		trigger = {
+			NOT = {
+				OR = {
+					is_in_faction_with = EGY
+					tag = ENG
+				}
+			}
+		}
+	}
+}
