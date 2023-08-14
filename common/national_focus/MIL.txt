@@ -8,46 +8,6 @@ focus_tree = {
 		}
 	}
 	default = no
-	focus = { #혼란 속에서 
-		id = MIL_new_focus_1
-		icon = GFX_goal_unknown
-		cost = 1.00
-		x = 8
-		y = 0
-		completion_reward = {
-			country_event = {
-				id = MIL.event.1
-			}
-			add_stability = 0.05
-		}
-	}
-
-	focus = { #코유키 회유
-		id = MIL_new_focus_2
-		icon = GFX_koyuki
-		cost = 1.00
-		prerequisite = {
-			focus = MIL_SEMINA
-		}
-		x = 8
-		y = 2
-		completion_reward = {
-			random_list = {
-				1 = {
-					country_event = {
-						id = MIL.event.3
-					}
-				}
-				1 = {
-					country_event = {
-						id = MIL.event.4
-					}
-				}
-			}
-		}
-	}		
-		
-	
 	focus = { # 세미나 호출
 		id = MIL_SEMINA
 		icon = GFX_MIL_semina_hochul
@@ -56,73 +16,97 @@ focus_tree = {
 			focus = MIL_new_focus_1
 		}
 		x = 8
-		y = 1
+		y = 0
 		completion_reward = {
 			country_event = {
-				id = MIL.event.2
+				id = MIL_event.1
 			}
 			add_ideas = MIL_SEMINA_CALL
 		}	
 	}
-
-	focus = {
-		id = MIL_new_focus_3
-		icon = GFX_MIL_school_sangtae
-		cost = 2.00
-		prerequisite = {
-			focus = MIL_new_focus_2
-		}
-		x = 6
-		y = 3
-
+	focus = { # 밀레니엄 타워 전력 공급
+		id = MIL_tower_recovery
+		icon = unknown
+		cost = 5.00
+		prerequisite = { focus = MIL_SEMINA }
+		x = -2
+		y = 1
+		relative_position_id = MIL_SEMINA
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = MIL_network_cut
+				add_idea = MIL_emergency_power
+			}
+		}	
 	}
-	focus = {
-		id = MIL_new_focus_4
-		icon = GFX_MIL_citizen
-		cost = 2.00
-		prerequisite = {
-			focus = MIL_new_focus_2
-		}
-		x = 8
-		y = 3
+	focus = { # 통신망 복구
+		id = MIL_network_recovery
+		icon = unknown
+		cost = 5.00
+		prerequisite = { focus = MIL_tower_recovery }
+		x = 0
+		y = 2
+		relative_position_id = MIL_tower_recovery
+		completion_reward = {
+			remove_ideas = MIL_emergency_power
+		}	
+	}
+	focus = { # 저항 해결
+		id = MIL_resistance_resolution
+		icon = unknown
+		cost = 3.00
+		prerequisite = { focus = MIL_SEMINA }
+		x = -6
+		y = 1
+		relative_position_id = MIL_SEMINA
+		completion_reward = {
+			country_event = {
+				id = MIL_event.2
+			}
+
+		}	
+	}
 		
-	}
-	focus = {
-		id = MIL_new_focus_5
-		icon = GFX_MIL_kivotos_situation
+	focus = { # 동부 저항 해결
+		id = MIL_east_resistance_resolution
+		icon = unknown
 		cost = 2.00
-		prerequisite = {
-			focus = MIL_new_focus_2
-		}
-		x = 10
-		y = 3
-
+		prerequisite = { focus = MIL_resistance_resolution }
+		x = -1
+		y = 1
+		relative_position_id = MIL_resistance_resolution
+		completion_reward = {
+			19 = { set_demilitarized_zone = no }
+			31 = { set_demilitarized_zone = no }
+			806 = { set_demilitarized_zone = no }
+		}	
 	}
-	focus = {
-		id = MIL_new_focus_6
-		icon = GFX_MIL_semina_finish
+		
+	focus = { # 남부 저항 해결
+		id = MIL_South_resistance_resolution
+		icon = unknown
 		cost = 2.00
-		prerequisite = {
-			focus = MIL_new_focus_3
-		}
-		prerequisite = {
-			focus = MIL_new_focus_4
-		}
-		prerequisite = {
-			focus = MIL_new_focus_5
-		}
-		x = 8
-		y = 4
-
+		prerequisite = { focus = MIL_resistance_resolution }
+		x = 1
+		y = 1
+		relative_position_id = MIL_resistance_resolution
+		completion_reward = {
+			17 = { set_demilitarized_zone = no }
+			18 = { set_demilitarized_zone = no }
+			27 = { set_demilitarized_zone = no }
+		}	
 	}
-	focus = {
-		id = MIL_new_focus_7
-		icon = GFX_MIL_ARIS_kill
-		cost = 1.00
-		prerequisite = {
-			focus = MIL_new_focus_6
-		}
-		x = 8
-		y = 5
+		
+	focus = { # 프랑스인 문제
+		id = MIL_french_problem
+		icon = unknown
+		cost = 2.00
+		prerequisite = { focus = MIL_South_resistance_resolution }
+		prerequisite = { focus = MIL_east_resistance_resolution }
+		x = 0
+		y = 2
+		relative_position_id = MIL_resistance_resolution
+		completion_reward = {
+		}	
 	}
 }
