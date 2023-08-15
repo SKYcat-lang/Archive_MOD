@@ -1,0 +1,141 @@
+focus_tree = {
+	id = ARI
+	continuous_focus_position = { x = 0 y = 0 } 
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = ARI
+		}
+	}
+	default = no
+	focus = { #헛되고 헛된 곳에서
+		id = ARI_F0
+		icon = GFX_goal_generic_demand_territory
+		cost = 5.00
+		x = 8
+		y = 0
+		prerequisite = {
+		}
+		available = {
+		}
+		completion_reward = {
+			add_political_power = 120
+		}
+	}
+	focus = { #좌익과의 교섭
+		id = ARI_F1
+		icon = GFX_goal_support_communism
+		cost = 10.00
+		x = 6
+		y = 1
+		prerequisite = {
+			focus = ARI_F0
+		}
+		mutually_exclusive = {
+			focus = ARI_F2
+		}
+		available = {
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.20
+			}
+			add_timed_idea = {
+				idea = internationalism
+				days = 720
+			}
+		}
+	}
+	focus = { #현상유지
+		id = ARI_F2
+		icon = GFX_goal_support_democracy
+		cost = 10.00
+		x = 10
+		y = 1
+		prerequisite = {
+			focus = ARI_F0
+		}
+		mutually_exclusive = {
+			focus = ARI_F1
+		}
+		available = {
+			always = no
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #소련과의 협력
+		id = ARI_F3
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		cost = 10.00
+		x = 5
+		y = 2
+		prerequisite = {
+			focus = ARI_F1
+		}
+		mutually_exclusive = {
+			focus = ARI_F4
+		}
+		available = {
+			communism > 0.25
+			SOV_comintern_joinable = yes 
+			is_in_faction = no
+			NOT = {
+				any_other_country = {
+					is_in_faction_with = SOV
+					has_war_with = ARI
+				}
+			}
+		}
+		completion_reward = {
+			SOV = {
+				add_opinion_modifier = {
+					target = ARI
+					modifier = HEU_ABY_good
+				}	
+			}
+			add_opinion_modifier = {
+				target = SOV
+				modifier = HEU_ABY_good
+			}	
+			SOV = {
+				country_event = { id = generic.2 hours = 4 }
+			}
+			set_politics = {
+				ruling_party = communism
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
+		}
+	}
+	focus = { #독자노선
+		id = ARI_F4
+		icon = GFX_focus_attack_soviet
+		cost = 10.00
+		x = 7
+		y = 2
+		prerequisite = {
+			focus = ARI_F1
+		}
+		mutually_exclusive = {
+			focus = ARI_F3
+		}
+		available = {
+			communism > 0.15
+		}
+		completion_reward = {
+			set_politics = {
+				ruling_party = communism
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.20
+			}
+		}
+	}
+
+} 
