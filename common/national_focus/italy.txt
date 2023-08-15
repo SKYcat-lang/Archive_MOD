@@ -14718,14 +14718,13 @@ focus_tree = {
 		id = ITA_foreign_affairs_2
 		icon = GFX_goal_ITA_egypt_attack
 		cost = 2
-		x = -3
+		x = -2
 		y = 1
 		available = {
 			446 = {
 				NOT = {
 					is_owned_and_controlled_by = ITA
 				}
-				
 			}
 			is_subject = no
 			451 = { 
@@ -14974,11 +14973,11 @@ focus_tree = {
 	focus = {
 		id = ITA_albanian_occupation
 		icon = GFX_goal_generic_more_territorial_claims
-		prerequisite = { focus = ITA_potential_allies_in_the_balkans focus = ITA_balkan_ambition }
+		prerequisite = { focus = ITA_italy_first }
 
-		x = -12
+		x = -10
 		y = 1
-		relative_position_id = ITA_potential_allies_in_the_balkans
+		relative_position_id = ITA_italy_first
 		cost = 5
 		available = {
 		}
@@ -15177,7 +15176,7 @@ focus_tree = {
 		prerequisite = { focus = ITA_support_albanian_irredentism }
 
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = ITA_support_albanian_irredentism
 		cost = 5
 		available = {
@@ -15232,11 +15231,10 @@ focus_tree = {
 		id = ITA_SHA_invasion
 		icon = GFX_goal_SHA_war
 		
-		mutually_exclusive = { focus = ITA_GER_resercher focus = ITA_italy_first }
-		prerequisite = { focus = ITA_potential_allies_in_the_balkans focus = ITA_balkan_ambition }
-		x = -10
-		y = 1
-		relative_position_id = ITA_potential_allies_in_the_balkans
+		prerequisite = { focus = ITA_albanian_occupation }
+		x = 1
+		y = 2
+		relative_position_id = ITA_albanian_occupation
 		cost = 5
 		bypass = {
 			NOT = { country_exists = SHA }
@@ -15263,156 +15261,7 @@ focus_tree = {
 	}
 
 
-	focus = {
-		id = ITA_negotiate_italian_claims
-		icon = GFX_goal_generic_position_armies
-		prerequisite = { focus = ITA_SHA_invasion }
-
-		x = 0
-		y = 1
-		relative_position_id = ITA_SHA_invasion
-		cost = 10
-		available = { 
-			NOT = {
-				has_war_with = ENG
-				has_war_with = FRA
-			}
-		}
-
-		bypass = {
-			OR = {
-				ENG = {
-					OR = {
-						country_exists = no
-						is_subject = yes
-					}
-				}
-				FRA = {
-					OR = {
-						country_exists = no
-						is_subject = yes
-					}
-				}
-				AND = {
-					custom_trigger_tooltip = {
-						tooltip = ITA_ENG_must_control_necessary_states_tt
-						ENG = {
-							NOT = {
-								controls_state = 269 
-								controls_state = 903
-								controls_state = 906
-								controls_state = 116 
-							}
-						}
-					}
-					custom_trigger_tooltip = {
-						tooltip = ITA_FRA_must_control_necessary_states_tt
-						FRA = {
-							NOT = {
-								controls_state = 268
-								controls_state = 458
-								controls_state = 665
-							}
-						}
-					}
-				}
-			}
-		}
-
-		search_filters = {FOCUS_FILTER_ANNEXATION}
-
-		completion_reward = {
-			if = { #Send this event if ETH is hosted by ENG and ITA is at war with ETH
-				limit = { #UK or an ally is hosting exiled Ethiopia
-					ITA_hosting_exiled_ethiopia = yes
-					ROOT = {
-						has_war_with = ETH
-					}
-				}
-				ENG = {
-					country_event = { id = BBA_italy_interaction_events.50 hours = 1 }
-				}
-			}
-			else_if = { #Send this event if ITA isn't at war with ETH or ETH isn't hosted by ENG
-				limit = {
-					ENG = {
-						controls_state = 269
-						controls_state = 903	
-					}
-				}
-				ENG = {
-					country_event = { id = BBA_italy_interaction_events.31 hours = 1 }
-				}
-			}
-			else_if = { #If Britain didn't have the necessary state(s), send this event
-				limit = {
-					FRA = {
-						controls_state = 268
-					}
-				}
-				FRA = {
-					country_event = {
-					    id = BBA_italy_interaction_events.32
-					    days = 3
-					    random = 6
-					}
-				}
-			}
-			else_if = { #If France didn't have the necessary state(s), send this event
-				limit = {
-					ENG = {
-						controls_state = 906
-					}
-				}
-				ENG = {
-					country_event = {
-					    id = BBA_italy_interaction_events.33
-					    days = 3
-					    random = 6
-					}
-				}
-			}
-			else_if = { #If Britain didn't have the necessary state(s), send this event
-				limit = {
-					FRA = {
-						controls_state = 458
-						controls_state = 665
-					}
-				}
-				FRA = {
-					country_event = {
-					    id = BBA_italy_interaction_events.34
-					    days = 3
-					    random = 6
-					}
-				}
-			}
-			else_if = { #If France didn't have the necessary state(s), send this event
-				limit = {
-					ENG = {
-						controls_state = 116
-					}
-				}
-				ENG = {
-					country_event = {
-					    id = BBA_italy_interaction_events.35
-					    days = 3
-					    random = 6
-					}
-				}
-			}
-			else = { #If Britain didn't have the necessary state(s), send this event
-				FRA = {
-					country_event = { #Balkan claims event
-					    id = BBA_italy_interaction_events.36
-					    days = 3
-					    random = 6
-					}
-				}
-			}
-		}
-	}
-
+	
 	focus = {
 		id = ITA_ratify_the_stresa_front
 		icon = GFX_focus_focus_fra_ratify_stresa
@@ -15487,87 +15336,13 @@ focus_tree = {
 	}
 
 	focus = {
-		id = ITA_joint_military_programs
-		icon = GFX_focus_prc_infiltration
-		prerequisite = { focus = ITA_ratify_the_stresa_front }
-
-		x = -2
-		y = 1
-		relative_position_id = ITA_ratify_the_stresa_front
-		cost = 5
-		available = {
-			OR = {
-				is_in_faction_with = ENG
-				is_in_faction_with = FRA
-			}
-		}
-
-		search_filters = {FOCUS_FILTER_ARMY_XP FOCUS_FILTER_AIR_XP FOCUS_FILTER_NAVY_XP FOCUS_FILTER_RESEARCH}
-
-		completion_reward = {
-			if = {
-				limit = {
-					is_in_faction_with = ENG
-					is_in_faction_with = FRA
-				}
-				army_experience = 30
-				navy_experience = 30
-				air_experience = 30
-				add_tech_bonus = {
-					name = ITA_joint_military_programs
-					bonus = 0.5
-					uses = 2
-					category = ship_modules_tech
-				}
-				add_tech_bonus = {
-					name = ITA_joint_military_programs
-					bonus = 0.5
-					uses = 2
-					category = light_air
-				}
-				add_tech_bonus = {
-					name = ITA_joint_military_programs
-					bonus = 0.5
-					uses = 2
-					category = cat_medium_armor
-				}
-				custom_effect_tooltip = ITA_joint_military_programs_two_allies_tt
-			}
-			else = {
-				army_experience = 15
-				navy_experience = 15
-				air_experience = 15
-				add_tech_bonus = {
-					name = ITA_joint_military_programs
-					bonus = 0.5
-					uses = 1
-					category = ship_modules_tech
-				}
-				add_tech_bonus = {
-					name = ITA_joint_military_programs
-					bonus = 0.5
-					uses = 1
-					category = light_air
-				}
-				add_tech_bonus = {
-					name = ITA_joint_military_programs
-					bonus = 0.5
-					uses = 1
-					category = cat_medium_armor
-				}
-				custom_effect_tooltip = ITA_joint_military_programs_one_ally_tt
-			}
-		}
-	}
-
-	focus = {
 		id = ITA_italys_destiny
 		icon = GFX_focus_generic_balkans_focus
-		prerequisite = { focus = ITA_ratify_the_stresa_front }
+		prerequisite = { focus = ITA_foreign_affairs_2 focus = ITA_demand_ticino }
 
-		x = 0
+		x = 1
 		y = 1
-		relative_position_id = ITA_ratify_the_stresa_front
+		relative_position_id = ITA_foreign_affairs_2
 		cost = 10
 		available = {
 		}
@@ -15596,51 +15371,11 @@ focus_tree = {
 	}
 
 	focus = {
-		id = ITA_the_eastern_threat
-		icon = GFX_focus_ger_strike_at_the_source
-		prerequisite = { focus = ITA_italys_destiny }
-
-		x = 0
-		y = 1
-		relative_position_id = ITA_italys_destiny
-		cost = 10
-		available = {
-			any_country = {
-				original_tag = TRM
-				exists = yes
-				NOT = { is_in_faction_with = ROOT }
-				NOT = { has_non_aggression_pact_with = ROOT }
-				NOT = { is_guaranteed_by = ROOT }
-			}
-		}
-
-		search_filters = {}
-
-		completion_reward = {
-			custom_effect_tooltip = ITA_the_eastern_threat_claims_tt
-			every_state = {
-				limit = {
-					is_owned_by = TRM
-				}
-				hidden_effect ={
-					ROOT = { add_state_claim = PREV }
-				}
-				custom_effect_tooltip = generic_ROOT_gains_claim_tt
-			}
-			add_timed_idea = {
-				idea = ITA_the_eastern_threat_ns
-				days = 365
-			}
-		}
-	}
-
-	focus = {
 		id = ITA_GER_resercher
 		icon = GFX_goal_support_fascism
-		prerequisite = { focus = ITA_potential_allies_in_the_balkans focus = ITA_balkan_ambition }
-		mutually_exclusive = { focus = ITA_SHA_invasion focus = ITA_italy_first }
+		prerequisite = { focus = ITA_italy_first }
 		x = -4
-		y = 1
+		y = 2
 		relative_position_id = ITA_potential_allies_in_the_balkans
 		cost = 5
 
@@ -15799,8 +15534,7 @@ focus_tree = {
 		id = ITA_italy_first
 		icon = GFX_focus_generic_italy_first
 		prerequisite = { focus = ITA_potential_allies_in_the_balkans focus = ITA_balkan_ambition }
-		mutually_exclusive = { focus = ITA_SHA_invasion focus = ITA_GER_resercher }
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = ITA_potential_allies_in_the_balkans
 		cost = 10
@@ -15882,7 +15616,7 @@ focus_tree = {
 	focus = {
 		id = ITA_befriend_japan
 		icon = GFX_focus_chi_collaboration_with_the_japanese
-		prerequisite = { focus = ITA_GER_resercher focus = ITA_italy_first }
+		prerequisite = { focus = ITA_italian_irredentism }
 
 		x = 1
 		y = 1
@@ -15918,11 +15652,11 @@ focus_tree = {
 	focus = {
 		id = ITA_italian_irredentism
 		icon = GFX_focus_ITA_italian_irredentism
-		prerequisite = { focus = ITA_GER_resercher focus = ITA_italy_first }
+		prerequisite = { focus = ITA_italy_first }
 
-		x = 3
+		x = 0
 		y = 1
-		relative_position_id = ITA_GER_resercher
+		relative_position_id = ITA_italy_first
 		cost = 10
 		available = {
 			is_subject = no
@@ -16000,7 +15734,7 @@ focus_tree = {
 		mutually_exclusive = { focus = ITA_request_control_of_french_territories }
 
 		x = -1
-		y = 1
+		y = 2
 		relative_position_id = ITA_italian_irredentism
 		cost = 10
 
@@ -16071,7 +15805,7 @@ focus_tree = {
 			focus = ITA_request_control_of_french_territories 
 		}
 
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = ITA_war_with_france
 		cost = 10
@@ -16171,7 +15905,7 @@ focus_tree = {
 		icon = GFX_focus_generic_attack_greece
 		prerequisite = { focus = ITA_italian_irredentism }
 		mutually_exclusive = { focus = ITA_befriend_greece }
-		x = 0
+		x = 1
 		y = 2
 		relative_position_id = ITA_italian_irredentism
 		cost = 5
@@ -16222,7 +15956,7 @@ focus_tree = {
 		icon = GFX_focus_generic_befriend_greece
 		prerequisite = { focus = ITA_italy_first }
 		mutually_exclusive = { focus = ITA_war_with_greece }
-		x = 1
+		x = 3
 		y = 3
 		relative_position_id = ITA_italy_first
 		cost = 10
