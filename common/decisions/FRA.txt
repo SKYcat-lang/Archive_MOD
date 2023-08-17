@@ -658,6 +658,60 @@ FRA_urbanization = {
 }
 
 FRA_war_dec = {
+	FRA_division = { #프랑스 분단
+		icon = GFX_decision_generic_tank
+		allowed = {
+			original_tag = FRA
+		}
+		activation = {
+			always = no
+		}
+		available = {
+			FRA = {
+				NOT = {
+					has_war_with = MIL
+				}		
+			}
+		}
+		is_good = no
+		days_mission_timeout = 360
+		complete_effect = {
+			add_political_power = 30
+		}
+		timeout_effect = {
+			white_peace = MIL
+			every_country = {
+				limit = {
+					is_ally_with = MIL
+					is_faction_leader = yes
+				}
+				FRA = {
+					white_peace = PREV
+				}
+			}
+			FRA = {
+				every_core_state = {
+					limit = {
+						is_controlled_by_ROOT_or_ally = yes
+						is_on_continent = europe
+					}
+					transfer_state_to = FRA
+				}
+			}
+			hidden_effect = {
+				news_event = {
+					id = BA_news.20
+					days = 5
+				}
+				FRA = {
+					set_capital = {
+						state = 21
+					}
+				}
+			}
+		}
+		fire_only_once = yes
+	}
 	FRA_midaf_occupation = {
 		icon = GFX_decision_generic_tank
 		allowed = {
