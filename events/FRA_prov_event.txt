@@ -1390,15 +1390,23 @@ news_event = { #보르도 해방
 			}
 		}
 		name = FRA_prov_event.39.a
-		every_state = {
+		if = {
 			limit = {
-				is_owned_by = MIL
-				NOT = {
-					is_core_of = MIL
-				}
-				is_core_of = FRA
+				tag = MIL
 			}
-			add_resistance = 5
+			every_state = {
+				limit = {
+					is_owned_by = MIL
+					NOT = {
+						is_core_of = MIL
+					}
+					is_core_of = FRA
+				}
+				add_resistance = 5
+			}
+		}
+		else = {
+			add_ideas = FRA_resistance_affect
 		}
 	}
 	option = {
@@ -1431,22 +1439,23 @@ news_event = { #비시 해방
 			}
 		}
 		name = FRA_prov_event.41.a
-		every_state = {
+		if = {
 			limit = {
-				is_owned_by = MIL
-				NOT = {
-					is_core_of = MIL
+				tag = MIL
+			}
+			every_state = {
+				limit = {
+					is_owned_by = MIL
+					NOT = {
+						is_core_of = MIL
+					}
+					is_core_of = FRA
 				}
-				is_core_of = FRA
+				add_resistance = 5
 			}
-			damage_building = {
-				type = infrastructure
-				damage = 0.2
-			}
-			damage_building = {
-				type = arms_factory
-				damage = 0.2
-			}
+		}
+		else = {
+			add_ideas = FRA_resistance_affect
 		}
 	}
 	option = {
@@ -2736,12 +2745,230 @@ country_event = { #거절
 	is_triggered_only = yes
 	fire_only_once = yes
 	option = { #ㅇㅋ
-		name = FRA_prov_event.97.a
+		name = FRA_prov_event.98.a
 		FRA = {
 			declare_war_on = {
 				target = TUR
 				type = puppet_wargoal_focus
 			}
 		}
+	}
+}
+country_event = { #분단 - 군사 쿠데타
+	id = FRA_prov_event.99
+	title = FRA_prov_event.99.t
+	desc = FRA_prov_event.99.d
+	trigger = {
+		tag = FRA
+		has_country_flag = FRA_division_flag
+	}
+	mean_time_to_happen = {
+		days = 15
+	}
+	fire_only_once = yes
+	option = { #ㅇㅋ
+		name = FRA_prov_event.99.a
+		if = {
+			limit = {
+				NOT = {
+					has_government = neutrality
+				}
+			}
+			set_politics = {
+				ruling_party = neutrality
+			}
+		}
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.1
+		}
+		add_timed_idea = {
+			idea = FRA_military_power
+			days = 300
+		}
+	}
+}
+country_event = { #레지스탕스 봉기
+	id = FRA_prov_event.100
+	title = FRA_prov_event.100.t
+	desc = FRA_prov_event.100.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.100.a
+		start_civil_war = {
+			ideology = communism
+			size = 0.35
+			states = {
+				19
+				21
+				851
+			}
+		}
+		random_other_country = {
+			limit = {
+				original_tag = FRA
+			}
+			set_cosmetic_tag = FRA_uprise
+		}
+	}
+}
+country_event = { #학생 처리
+	id = FRA_prov_event.101
+	title = FRA_prov_event.101.t
+	desc = FRA_prov_event.101.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { #사형
+		name = FRA_prov_event.101.a
+		add_stability = 0.02
+		MIL = {
+			add_opinion_modifier = {
+				target = FRA
+				modifier = FRA_kill
+			}
+		}
+	}
+	option = { #감금
+		name = FRA_prov_event.101.b
+		add_stability = 0.01
+		MIL = {
+			add_opinion_modifier = {
+				target = FRA
+				modifier = FRA_prison
+			}
+		}
+	}
+}
+country_event = { #프랑스의 해상봉쇄
+	id = FRA_prov_event.102
+	title = FRA_prov_event.102.t
+	desc = FRA_prov_event.102.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { #사형
+		name = FRA_prov_event.102.a
+		add_stability = -0.03
+		add_ideas = FRA_naval_block
+	}
+}
+country_event = { #국경분쟁 승리
+	id = FRA_prov_event.103
+	title = FRA_prov_event.103.t
+	desc = FRA_prov_event.103.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.103.a
+		add_war_support = 0.03
+	}
+}
+country_event = { #국경분쟁 패배
+	id = FRA_prov_event.104
+	title = FRA_prov_event.104.t
+	desc = FRA_prov_event.104.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.104.a
+		add_war_support = -0.03
+	}
+}
+country_event = { #차가운 밤 - 온건파 승리
+	id = FRA_prov_event.105
+	title = FRA_prov_event.105.t
+	desc = FRA_prov_event.105.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.105.a
+		add_stability = 0.05
+	}
+}
+country_event = { #차가운 밤 - 급진파 승리
+	id = FRA_prov_event.106
+	title = FRA_prov_event.106.t
+	desc = FRA_prov_event.106.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.106.a
+		add_war_support = 0.05
+		retire_country_leader = yes
+	}
+}
+country_event = { #비시 회담
+	id = FRA_prov_event.107
+	title = FRA_prov_event.107.t
+	desc = FRA_prov_event.107.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { 
+		name = FRA_prov_event.107.a
+		add_political_power = 10
+		MIL = {
+			country_event = FRA_prov_event.108
+		}
+	}
+}
+country_event = { #밀레니엄이 받는 비시회담
+	id = FRA_prov_event.108
+	title = FRA_prov_event.108.t
+	desc = FRA_prov_event.108.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { #ㅇㅋ
+		name = FRA_prov_event.108.a
+		if = {
+			limit = {
+				has_idea = FRA_naval_block
+			}
+			remove_ideas = FRA_naval_block
+		}
+		FRA = {
+			country_event = {
+				id = FRA_prov_event.109
+				days = 3
+			}
+		}
+	}
+	option = { #족가
+		name = FRA_prov_event.108.b
+		FRA = {
+			country_event = {
+				id = FRA_prov_event.110
+				days = 3
+			}
+		}
+	}
+}
+country_event = { #밀레니엄의 수락
+	id = FRA_prov_event.109
+	title = FRA_prov_event.109.t
+	desc = FRA_prov_event.109.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = FRA_prov_event.109.a
+		add_political_power = 10
+		add_stability = 0.1
+		diplomatic_relation = {
+			country = MIL
+			relation = non_aggression_pact
+		}
+		hidden_effect = {
+			complete_national_focus = FRA_focus_win_0
+		}
+	}
+}
+country_event = { #밀레니엄의 거절
+	id = FRA_prov_event.110
+	title = FRA_prov_event.110.t
+	desc = FRA_prov_event.110.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = FRA_prov_event.110.a
+		add_political_power = -100
 	}
 }

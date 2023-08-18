@@ -3,7 +3,7 @@ focus_tree = {
 	country = {
 		factor = 0
 		modifier = {
-			add = -1000
+			add = 1000
 			tag = FRA
 		}
 	}
@@ -17,7 +17,9 @@ focus_tree = {
 		x = 10
 		y = 0
 		available = {
-			has_war = no
+			NOT = {
+				has_country_flag = FRA_division_flag
+			}
 		}
 		completion_reward = {
 			add_stability = 0.1
@@ -31,9 +33,6 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_win_0
 		}
-		available = {
-			has_war = no
-		}
 		completion_reward = {
 			add_stability = 0.1
 		}
@@ -45,9 +44,6 @@ focus_tree = {
 		y = 2
 		prerequisite = {
 			focus = FRA_focus_win_1
-		}
-		available = {
-			has_war = no
 		}
 		completion_reward = {
 			add_ideas = export_focus
@@ -61,9 +57,6 @@ focus_tree = {
 		y = 3
 		prerequisite = {
 			focus = FRA_focus_win_2
-		}
-		available = {
-			has_war = no
 		}
 		completion_reward = {
 			add_political_power = -100
@@ -83,9 +76,6 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_win_2
 		}
-		available = {
-			has_war = no
-		}
 		completion_reward = {
 			add_timed_idea = {
 				idea = FRA_rebuild
@@ -101,9 +91,6 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_win_2
 		}
-		available = {
-			has_war = no
-		}
 		completion_reward = {
 			add_manpower = 20000
 			add_stability = 0.05
@@ -116,9 +103,6 @@ focus_tree = {
 		y = 3
 		prerequisite = {
 			focus = FRA_focus_win_2
-		}
-		available = {
-			has_war = no
 		}
 		completion_reward = {
 			every_core_state = {
@@ -169,9 +153,6 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = FRA_focus_win_4
-		}
-		available = {
-			has_war = no
 		}
 		completion_reward = {
 			every_core_state = {
@@ -228,9 +209,6 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_win_5
 		}
-		available = {
-			has_war = no
-		}
 		completion_reward = {
 			add_war_support = 0.1
 		}
@@ -245,9 +223,6 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = FRA_focus_win_6
-		}
-		available = {
-			has_war = no
 		}
 		completion_reward = {
 			country_event = {
@@ -269,9 +244,6 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = FRA_focus_win_7
-		}
-		available = {
-			has_war = no
 		}
 		completion_reward = {
 			if = {
@@ -1420,6 +1392,662 @@ focus_tree = {
 		relative_position_id = FRA_focus_tech_0
 		completion_reward = {
 			add_ideas = FRA_research_robot
+		}
+	}
+	focus = { #상황을 인정하다
+		id = FRA_focus_div_0
+		cost = 4.5
+		x = 35
+		y = 0
+		available = {
+			has_country_flag = FRA_division_flag
+		}
+		completion_reward = {
+			set_power_balance = {
+				id = FRA_div_power_balance
+				left_side = FRA_dpb_default_left_side
+				right_side = FRA_dpb_default_right_side
+				set_value = -0.1
+			}
+			add_ideas = FRA_pessimism
+		}
+	}
+	focus = { #망명자 임시 귀환
+		id = FRA_focus_div_1
+		cost = 4.5
+		x = -4
+		y = 1
+		prerequisite = {
+			focus = FRA_focus_div_0
+		}
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.05
+			}
+			every_core_state = {
+				limit = {
+					is_owned_by = ROOT
+					is_on_continent = europe
+				}
+				add_manpower = 2000
+			}
+			459 = {
+				add_manpower = -10000
+			}
+			460 = {
+				add_manpower = -10000
+			}
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = -0.05
+			}
+		}
+	}
+	focus = { #평화 선언
+		id = FRA_focus_div_2
+		cost = 4.5
+		x = -2
+		y = 1
+		prerequisite = {
+			focus = FRA_focus_div_0
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_div_11
+		}
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_stability = 0.08
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = -0.05
+			}
+		}
+	}
+	focus = { #보복주의 선전
+		id = FRA_focus_div_11
+		cost = 4.5
+		x = 2
+		y = 1
+		prerequisite = {
+			focus = FRA_focus_div_0
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_div_2
+		}
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_war_support = 0.05
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = 0.05
+			}
+		}
+	}
+	focus = { #학생 처리
+		id = FRA_focus_div_12
+		cost = 4.5
+		x = 4
+		y = 1
+		prerequisite = {
+			focus = FRA_focus_div_0
+		}
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_war_support = 0.05
+			add_political_power = 30
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = 0.05
+			}
+			country_event = {
+				id = FRA_prov_event.101
+				days = 3
+			}
+		}
+	}
+	focus = { #의회정치 수용
+		id = FRA_focus_div_5
+		cost = 4.5
+		x = -4
+		y = 2
+		
+		mutually_exclusive = {
+			focus = FRA_focus_div_16
+		}
+		prerequisite = {
+			focus = FRA_focus_div_1
+		}
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = -0.05
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.03
+			}
+		}
+	}
+	focus = { #의회 무력화
+		id = FRA_focus_div_16
+		cost = 4.5
+		x = -1
+		y = 2
+		mutually_exclusive = {
+			focus = FRA_focus_div_5
+		}
+		prerequisite = {
+			focus = FRA_focus_div_0
+		}
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = 0.05
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.03
+			}
+			remove_ideas = FRA_pierre
+		}
+	}
+	focus = { #도시개발
+		id = FRA_focus_div_3
+		cost = 4.5
+		x = -6
+		y = 2
+		prerequisite = {
+			focus = FRA_focus_div_1
+		}
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = -0.02
+			}
+			21 = {
+				BA_increase_state_category_by_one_level = yes
+			}
+			22 = {
+				BA_increase_state_category_by_one_level = yes
+			}
+			851 = {
+				BA_increase_state_category_by_one_level = yes
+			}
+			31 = {
+				BA_increase_state_category_by_one_level = yes
+			}
+		}
+	}
+	focus = { #동원 완화
+		id = FRA_focus_div_4
+		cost = 4.5
+		x = 1
+		y = 2
+		prerequisite = {
+			focus = FRA_focus_div_0
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_div_14
+		}
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = -0.02
+			}
+			add_ideas = war_economy
+		}
+	}
+	focus = { #동원 강화
+		id = FRA_focus_div_14
+		cost = 4.5
+		x = 3
+		y = 2
+		prerequisite = {
+			focus = FRA_focus_div_0
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_div_4
+		}
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = 0.02
+			}
+			every_owned_state = {
+				add_manpower = -200
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+	}
+	focus = { #온정주의적 복지
+		id = FRA_focus_div_6
+		cost = 4.5
+		x = -2
+		y = 3
+		prerequisite = {
+			focus = FRA_focus_div_2
+		}
+		
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = -0.06
+			}
+			add_political_power = -30
+			add_stability = 0.1
+		}
+	}
+	focus = { #자본 재생산
+		id = FRA_focus_div_7
+		cost = 4.5
+		x = -5
+		y = 3
+		prerequisite = {
+			focus = FRA_focus_div_3
+			focus = FRA_focus_div_2
+		}
+		
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = -0.03
+			}
+			every_core_state = {
+				limit = {
+					is_owned_by = FRA
+					is_on_continent = europe
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
+	}
+	focus = { #자본 재생산
+		id = FRA_focus_div_8
+		cost = 4.5
+		x = 0
+		y = 3
+		prerequisite = {
+			focus = FRA_focus_div_0
+		}
+		
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = -0.03
+			}
+			add_ideas = FRA_colony_economic_block
+		}
+	}
+	focus = { #아프리카 자치구
+		id = FRA_focus_div_9
+		cost = 4.5
+		x = -4
+		y = 4
+		prerequisite = {
+			focus = FRA_focus_div_5
+		}
+		
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = -0.03
+			}
+			custom_effect_tooltip = FRA_focus_resist_10_tt
+			hidden_effect = {
+				MRT = {
+					every_state = {
+						limit = {
+							is_owned_by = fra
+							is_on_continent = africa
+							NOT = {
+								state = 459
+								state = 460
+								state = 513
+								state = 514
+							}
+						}
+						transfer_state_to=MRT
+						add_core_of = MRT
+					}
+					create_country_leader = {
+						name = FRA_borough
+						ideology = liberalism
+						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+						expire = "1965.1.1"
+					}
+					set_variable = { collaboration_formed_by = ROOT }
+				}
+				
+				MAD = {
+					transfer_state = 543
+					transfer_state = 706
+					transfer_state = 708
+					create_country_leader = {
+						name = FRA_borough
+						ideology = liberalism
+						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+						expire = "1965.1.1"
+					}
+					set_variable = { collaboration_formed_by = ROOT }
+				}
+				MOR = {
+					transfer_state = 461
+					transfer_state = 462
+					create_country_leader = {
+						name = FRA_borough
+						ideology = liberalism
+						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+						expire = "1965.1.1"
+					}
+					set_variable = { collaboration_formed_by = ROOT }
+				}
+				FRA = {
+					set_autonomy = {
+						target = MOR
+						autonomy_state = autonomy_collaboration_government
+					}
+					set_autonomy = {
+						target = MRT
+						autonomy_state = autonomy_collaboration_government
+					}
+					set_autonomy = {
+						target = MAD
+						autonomy_state = autonomy_collaboration_government
+					}
+				}
+				MRT = {
+					set_cosmetic_tag = MRT_FRA
+					set_politics = {
+						ruling_party = democratic
+						elections_allowed = no
+					}
+					set_popularities = {
+						democratic = 100
+					}
+					
+				}
+				MOR = {
+					set_cosmetic_tag = MOR_FRA
+					set_politics = {
+						ruling_party = democratic
+						elections_allowed = no
+					}
+					set_popularities = {
+						democratic = 100
+					}
+					
+				}
+				MAD = {
+					set_cosmetic_tag = MAD_FRA
+					set_politics = {
+						ruling_party = democratic
+						elections_allowed = no
+					}
+					set_popularities = {
+						democratic = 100
+					}
+					
+				}
+			}
+		}
+	}
+	focus = { #레지스탕스 분쇄
+		id = FRA_focus_div_13
+		cost = 4.5
+		x = 2
+		y = 3
+		prerequisite = {
+			focus = FRA_focus_div_11
+		}
+		
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = 0.06
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = -0.03
+			}
+			hidden_effect = {
+				country_event = {
+					id = FRA_prov_event.100
+					days = 10
+				}
+			}
+		}
+	}
+	focus = { #해상봉쇄
+		id = FRA_focus_div_15
+		cost = 4.5
+		x = 2
+		y = 3
+		prerequisite = {
+			focus = FRA_focus_div_11
+		}
+		
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = 0.04
+			}
+			MIL = {
+				country_event = FRA_prov_event.102
+			}
+		}
+	}
+	focus = { #군 예산 확대
+		id = FRA_focus_div_17
+		cost = 4.5
+		x = 4
+		y = 3
+		prerequisite = {
+			focus = FRA_focus_div_11
+		}
+		
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = 0.02
+			}
+			add_political_power = -50
+			army_experience = 30
+			navy_experience = 30
+			air_experience = 30
+			add_command_power = 30
+		}
+	}
+	focus = { #외교적 도발
+		id = FRA_focus_div_18
+		cost = 4.5
+		x = -1
+		y = 4
+		prerequisite = {
+			focus = FRA_focus_div_5
+			focus = FRA_focus_div_16
+		}
+		
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = 0.02
+			}
+			add_political_power = 60
+		}
+	}
+	focus = { #국경 도발
+		id = FRA_focus_div_20
+		cost = 4.5
+		x = 5
+		y = 2
+		prerequisite = {
+			focus = FRA_focus_div_12
+		}
+		
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = 0.03
+			}
+			start_border_war = {
+				
+				change_state_after_war = no
+				attacker = {
+					state = 20
+					num_provinces = 2
+					on_win = FRA_prov_event.103
+					on_lose = FRA_prov_event.104
+				}
+				defender = { 
+					state = 27
+					num_provinces = 3
+					on_win = FRA_prov_event.103
+					on_lose = FRA_prov_event.104
+				}
+			}
+		}
+	}
+	focus = { #공장 전환
+		id = FRA_focus_div_21
+		cost = 4.5
+		x = 3
+		y = 4
+		prerequisite = {
+			focus = FRA_focus_div_14
+		}
+		
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = 0.03
+			}
+			add_political_power = -20
+			every_core_state = {
+				limit = {
+					is_owned_by = FRA
+					is_on_continent = europe
+				}
+				
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+				}
+			}
+		}
+	}
+	focus = { #차가운 밤
+		id = FRA_focus_div_23
+		cost = 4.5
+		x = 0
+		y = 5
+		prerequisite = {
+			focus = FRA_focus_div_8
+		}
+		
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			add_political_power = 30
+			if = {
+				limit = {
+					OR = {
+						is_power_balance_in_range = {
+							id = FRA_div_power_balance
+							range = FRA_dpb_lit_l_range
+						}
+						is_power_balance_in_range = {
+							id = FRA_div_power_balance
+							range = FRA_left_side_range
+						}
+					}
+				}
+				country_event = {
+					id = FRA_prov_event.105
+					days = 3
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						is_power_balance_in_range = {
+							id = FRA_div_power_balance
+							range = FRA_dpb_lit_r_range
+						}
+						is_power_balance_in_range = {
+							id = FRA_div_power_balance
+							range = FRA_right_side_range
+						}
+					}
+				}
+				country_event = {
+					id = FRA_prov_event.106
+					days = 3
+				}
+			}
+			remove_power_balance = {
+				id = FRA_div_power_balance
+			}
+		}
+	}
+	focus = { #비시 회담
+		id = FRA_focus_div_10
+		cost = 4.5
+		x = -2
+		y = 6
+		prerequisite = {
+			focus = FRA_focus_div_23
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_div_22
+		}
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			country_event = {
+				id = FRA_prov_event.107
+				days = 3
+			}
+		}
+	}
+	focus = { #두 번째 공세
+		id = FRA_focus_div_22
+		cost = 4.5
+		x = 2
+		y = 6
+		prerequisite = {
+			focus = FRA_focus_div_23
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_div_10
+		}
+		relative_position_id = FRA_focus_div_0
+		completion_reward = {
+			create_wargoal = {
+				target = MIL
+				type = annex_everything
+			}
 		}
 	}
 }
