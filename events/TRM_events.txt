@@ -867,8 +867,10 @@ country_event = {
 			base = 0
 			modifier = {
 				add = -100
-				TRN = {
-					has_country_leader = TRN_alzk
+				TRM = {
+					has_country_leader = {
+						character = TRN_alzk
+					}
 				}
 			}
 		}
@@ -1751,13 +1753,13 @@ country_event = {
 		clr_country_flag = DEBUG_FALG
 	}
 	option = { #
-	name = TRM_event.350.b
-	add_to_variable = { ROOT.halo_infantry_cap = 6 }
-	set_division_template_cap = {
-		division_template = "Halo Infantry Division"
-		division_cap = ROOT.halo_infantry_cap
+		name = TRM_event.350.b
+		add_to_variable = { ROOT.halo_infantry_cap = 6 }
+		set_division_template_cap = {
+			division_template = "Halo Infantry Division"
+			division_cap = ROOT.halo_infantry_cap
+		}
 	}
-}
 }
 country_event = { 
 	id = TRM_event.29
@@ -1775,6 +1777,22 @@ country_event = {
 	option = { #
 		name = TRM_event.29.a
 		set_country_flag = TRN_country_collapse_yes
+		mark_focus_tree_layout_dirty = yes
+		complete_national_focus = TRM_newfocus_DIE
+
+		every_state = {
+			limit = {
+				is_owned_by = TRM
+			}
+
+			damage_units = {
+				state = THIS
+				org_damage = 0.5
+				str_damage = 0.7
+				ratio = yes
+				army = yes
+			}
+		}
 		hidden_effect = {
 			country_event = { id = TRM_event.352 days = 3 }
 		}
@@ -1790,20 +1808,6 @@ country_event = {
 	
 	option = { #
 		name = TRM_event.351.a
-		ZZZ = {
-			change_tag_from = TRM
-		}
-		ZZZ = {
-			annex_country = {
-				target = TRM
-				transfer_troops = NO
-			}
-		}
-		ZZZ = {
-			hidden_effect = {
-				country_event = { id = TRM_event.356 days = 2}
-			}
-		}
 	}
 }
 country_event = { 
@@ -1816,9 +1820,13 @@ country_event = {
 	
 	option = { #
 		name = TRM_event.352.a
-		ZZZ = {
-			transfer_state = 64
-		}
+		61 = { set_demilitarized_zone = yes }
+		62 = { set_demilitarized_zone = yes }
+		64 = { set_demilitarized_zone = yes }
+		188 = { set_demilitarized_zone = yes }
+		763 = { set_demilitarized_zone = yes }
+		5 = { set_demilitarized_zone = yes }
+		807 = { set_demilitarized_zone = yes }
 		retire_character = TRN_alzk 
 		retire_character = TRN_tpdldk
 		retire_character = TRN_skrltk
@@ -1837,22 +1845,10 @@ country_event = {
 	
 	option = { #
 		name = TRM_event.353.a
-		GEH = {
-			transfer_state = 60
-		}
-		country_event={id=TRM_event.354 days=5}
-	}
-}
-country_event = { 
-	id = TRM_event.354
-	title = TRM_event.354.t
-	desc = TRM_event.354.desc
-	picture = GFX_event_redemption
-	fire_only_once = yes 
-	is_triggered_only = yes
-	
-	option = { #
-		name = TRM_event.354.a
+		188 = { set_demilitarized_zone = no }
+		763 = { set_demilitarized_zone = no }
+		5 = { set_demilitarized_zone = no }
+		807 = { set_demilitarized_zone = no }
 		ARI = {
 			transfer_state = 807
 			transfer_state = 5
@@ -1869,6 +1865,21 @@ country_event = {
 	}
 }
 country_event = { 
+	id = TRM_event.354
+	title = TRM_event.354.t
+	desc = TRM_event.354.desc
+	picture = GFX_event_redemption
+	fire_only_once = yes 
+	is_triggered_only = yes
+	
+	option = { #
+		name = TRM_event.354.a
+		64 = { set_demilitarized_zone = no }
+		set_cosmetic_tag = TRM_Sisterhood
+		country_event={id=TRM_event.356 days=5}
+	}
+}
+country_event = { 
 	id = TRM_event.355
 	title = TRM_event.355.t
 	desc = TRM_event.355.desc
@@ -1879,13 +1890,15 @@ country_event = {
 	option = { #
 		name = TRM_event.355.a
 		hidden_effect = {
+			61 = { set_demilitarized_zone = no }
+			62 = { set_demilitarized_zone = no }
 			SIL = {
 				transfer_state = 86
-			}
-			MEK = {
-				transfer_state = 61
+				transfer_state = 66
+				transfer_state = 67
 			}
 			SAX = {
+				transfer_state = 61
 				transfer_state = 65
 			}
 			SIL = {
@@ -1895,15 +1908,6 @@ country_event = {
 				}
 				set_popularities = {
 					fascism = 100
-				}
-			}
-			MEK = {
-				set_cosmetic_tag = MEK_spd
-				set_politics = {
-					ruling_party = democratic
-				}
-				set_popularities = {
-					democratic = 100
 				}
 			}
 			SAX = {
@@ -1925,13 +1929,12 @@ country_event = {
 					is_core_of = GER
 				}
 				add_core_of = SIL
-				add_core_of = MEK
 				add_core_of = SAX
 			}
 			
 			
 		}
-		country_event={id=TRM_event.351 days=10}
+		country_event={id=TRM_event.354 days=5}
 	}
 }
 country_event = { # "서로 싸워라"
@@ -1944,22 +1947,37 @@ country_event = { # "서로 싸워라"
 	
 	option = { #
 		name = TRM_event.355.a
-		SAX = {
-			change_tag_from = ZZZ
+		SIL = {
+			declare_war_on = {
+				target = SAX
+				type = annex_everything
+			}
+			declare_war_on = {
+				target = TRM
+				type = annex_everything
+			}
 		}
 		SAX = {
 			declare_war_on = {
-				target = ZZZ
+				target = TRM
 				type = annex_everything
 			}
-			declare_war_on = {
-				target = MEK
-				type = annex_everything
-			}
-			declare_war_on = {
-				target = SIL
-				type = annex_everything
-			}
+		}
+	}
+}
+country_event = { # 구호기사단 탈주
+	id = TRM_event.357 
+	title = TRM_event.357.t
+	desc = TRM_event.357.desc
+	picture = GFX_event_redemption
+	fire_only_once = yes 
+	is_triggered_only = yes
+	
+	option = { #
+		name = TRM_event.357.a
+		TRC = {
+			transfer_state = 63
+			transfer_state = 68
 		}
 	}
 }
