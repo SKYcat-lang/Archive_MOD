@@ -20,8 +20,10 @@ focus_tree = {
 		completion_reward = {
 			country_event = {
 				id = MIL_event.1
+				hours = 6
 			}
-			add_ideas = MIL_SEMINA_CALL
+			custom_effect_tooltip = MIL_semina_idea_start_tt
+			add_to_variable = { MIL_semina_idea_stability_factor = 0.10 }
 		}	
 	}
 	focus = { # 밀레니엄 타워 전력 공급
@@ -37,6 +39,7 @@ focus_tree = {
 				remove_idea = MIL_network_cut
 				add_idea = MIL_emergency_power
 			}
+			
 		}	
 	}
 	focus = { # 통신망 복구
@@ -361,10 +364,15 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_the_economy
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = MIL_Millennium_Science_School_idea
-				add_idea = MIL_Millennium_Science_School_Economic_idea
-			}
+			custom_effect_tooltip = MIL_semina_idea_economy_tt
+			add_to_variable = { MIL_semina_idea_political_power_factor = 0.05 }
+			add_to_variable = { MIL_semina_idea_consumer_goods_factor = -0.05 }
+			add_to_variable = { MIL_semina_idea_research_speed_factor = -0.05 }
+
+			add_to_variable = { MIL_semina_idea_political_advisor_cost_factor = -0.15 }
+			add_to_variable = { MIL_semina_idea_economy_cost_factor = -0.15 }
+			add_to_variable = { MIL_semina_idea_mobilization_laws_cost_factor = -0.15 }
+			add_to_variable = { MIL_semina_idea_trade_laws_cost_factor = -0.15 }
 		}	
 	}
 		
@@ -419,6 +427,14 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
+			set_party_name = {
+				ideology = democratic
+				long_name = MIL_democratic_economy_party_long
+			}
+			set_party_name = {
+				ideology = communism
+				long_name = MIL_communism_economy_party_long
+			}
 		}	
 	}
 		
@@ -432,6 +448,24 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_economic_plan
 		completion_reward = {
+			add_popularity = {
+   				ideology = communism
+    			popularity = 0.2
+			}
+			every_character = {
+				limit = {
+					has_ideology_group = democratic
+				}
+				add_country_leader_role = {
+					character = ROOT
+					promote_leader = yes
+					country_leader = {
+						ideology = marxism
+						expire = "1965.1.1.1"
+						traits = { b_tpalskchdwo economic_reformer }
+					}
+				}
+			}
 		}	
 	}
 		
@@ -444,6 +478,14 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_soviet_model
 		completion_reward = {
+			add_popularity = {
+   				ideology = communism
+    			popularity = 0.10
+			}
+			add_timed_idea = {
+				idea = MIL_wealth_redistribution
+				days = 365
+			}
 		}	
 	}
 		
@@ -456,6 +498,100 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_soviet_model
 		completion_reward = {
+			add_popularity = {
+   				ideology = communism
+    			popularity = 0.05
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
 		}	
 	}
 		
@@ -467,11 +603,24 @@ focus_tree = {
 		prerequisite = { focus = MIL_redistribution_wealth }
 		x = 0
 		y = 2
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MIL_communism_trigger_tt		
+				communism > 0.4
+			}
+		}
 		relative_position_id = MIL_soviet_model
 		completion_reward = {
 			swap_ideas = {
 				remove_idea = MIL_destroy_french_market_idea
 				add_idea = MIL_destroy_french_market_left_idea
+			}
+			set_politics = {
+				ruling_party = communism
+    			elections_allowed = no
+    			election_frequency = 48
+    			long_name = MIL_communism_economy_2_party_long
+    			name = MIL_communism_economy_2_party
 			}
 		}	
 	}
@@ -485,6 +634,14 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_communist_society
 		completion_reward = {
+			custom_effect_tooltip = MIL_semina_idea_expanding_seminar_tt
+			add_to_variable = { MIL_semina_idea_stability_factor = 0.05 }
+			add_to_variable = { MIL_semina_idea_political_power_factor = 0.05 }
+
+			add_to_variable = { MIL_semina_idea_political_advisor_cost_factor = -0.20 }
+			add_to_variable = { MIL_semina_idea_economy_cost_factor = -0.20 }
+			add_to_variable = { MIL_semina_idea_mobilization_laws_cost_factor = -0.20 }
+			add_to_variable = { MIL_semina_idea_trade_laws_cost_factor = -0.20 }
 		}	
 	}
 		
