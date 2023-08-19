@@ -22,6 +22,11 @@
 		mutually_exclusive = {
 			focus = TRM_newfocus_DIE
 		}
+		allow_branch = {
+			NOT = {
+				has_completed_focus = TRM_coup_detat
+			}
+		}
 		ai_will_do = {
 			factor = 30
 			modifier = {
@@ -70,7 +75,7 @@
 
 	}
 	focus = { 
-		id = TRM_newfocus_DIE #위기 인식
+		id = TRM_newfocus_DIE #우린 망했어
 		icon = GFX_goal_tmr_first_focus
 		cost = 1.00
 		allow_branch = {
@@ -85,6 +90,14 @@
 		ai_will_do = {
 			factor = 0
 		}
+		
+		offset = {
+			x = -11
+			y = 0
+			trigger = {
+				has_completed_focus = TRM_coup_detat
+			}
+		}
 		x = 24
 		y = 0
 		completion_reward = {
@@ -92,6 +105,32 @@
 				TRM_great_fuck_end
 			}
 
+		}
+
+	}
+	focus = { 
+		id = TRM_coup_detat #시스터후드의 쿠데타
+		icon = GFX_goal_tmr_first_focus
+		cost = 1.00
+		prerequisite = {
+			focus = TRM_newfocus_DIE
+		}
+		relative_position_id = TRM_newfocus_DIE
+		cancelable = no
+		ai_will_do = {
+			factor = 100
+		}
+		x = 0
+		y = 1
+		completion_reward = {
+			hidden_effect = { #collapse focus tree
+				load_focus_tree = {
+					tree = TRM_focus_tree
+					keep_completed = yes
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
+			country_event = { id = TRM_event.354 }
 		}
 
 	}
