@@ -242,7 +242,7 @@ focus_tree = {
 	focus = { #자동화 경제
 		id = MIL_automation_economy
 		icon = unknown
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_the_economy }
 		mutually_exclusive = { focus = MIL_direct_economic_control  }
 		available = {
@@ -366,13 +366,17 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = MIL_semina_idea_economy_tt
 			add_to_variable = { MIL_semina_idea_political_power_factor = 0.05 }
-			add_to_variable = { MIL_semina_idea_consumer_goods_factor = -0.05 }
 			add_to_variable = { MIL_semina_idea_research_speed_factor = -0.05 }
 
 			add_to_variable = { MIL_semina_idea_political_advisor_cost_factor = -0.15 }
 			add_to_variable = { MIL_semina_idea_economy_cost_factor = -0.15 }
 			add_to_variable = { MIL_semina_idea_mobilization_laws_cost_factor = -0.15 }
 			add_to_variable = { MIL_semina_idea_trade_laws_cost_factor = -0.15 }
+			add_trait = {
+				character = MIL_Noa
+				slot = political_advisor
+				trait = economic_reformer
+		   	}
 		}	
 	}
 		
@@ -462,7 +466,7 @@ focus_tree = {
 					country_leader = {
 						ideology = marxism
 						expire = "1965.1.1.1"
-						traits = { b_tpalskchdwo economic_reformer }
+						traits = { b_tpalskchdwo }
 					}
 				}
 			}
@@ -598,7 +602,7 @@ focus_tree = {
 	focus = { #공산주의 사회
 		id = MIL_communist_society
 		icon = unknown
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_give_orders_to_workshop }
 		prerequisite = { focus = MIL_redistribution_wealth }
 		x = 0
@@ -684,20 +688,80 @@ focus_tree = {
 	focus = { #재벌에 명령
 		id = MIL_command_to_chaebol
 		icon = unknown
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_economic_plan }
 		mutually_exclusive = { focus = MIL_soviet_model  }
 		x = 1
 		y = 1
 		relative_position_id = MIL_economic_plan
 		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
 		}	
 	}
 		
 	focus = { #중앙 집권 경제
 		id = MIL_centralized_economy
 		icon = unknown
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_command_to_chaebol }
 		x = 0
 		y = 2
@@ -720,6 +784,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_direct_economic_control
 		completion_reward = {
+			add_stability = 0.10
 		}	
 	}
 		
@@ -732,6 +797,10 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_market_flexibility
 		completion_reward = {
+			add_timed_idea = {
+				idea = MIL_capitalist_conciliation_idea
+				days = 365
+			}
 		}	
 	}
 		
@@ -744,6 +813,96 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_capitalist_conciliation
 		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
 		}	
 	}
 		
@@ -756,6 +915,17 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_market_subordination
 		completion_reward = {
+			add_ideas = MIL_ministry_economic_development
+			remove_trait = {
+				character = MIL_Noa
+				slot = political_advisor
+				trait = economic_reformer
+			}
+			add_trait = {
+				character = MIL_Noa
+				slot = political_advisor
+				trait = MIL_economist_noa
+		   	}
 		}	
 	}
 		
@@ -774,24 +944,122 @@ focus_tree = {
 	focus = { #대도시 투자
 		id = MIL_city_investment
 		icon = unknown
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_backing_capitalist }
 		x = 3
 		y = 1
 		relative_position_id = MIL_backing_capitalist
 		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 16 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 15 19 21 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 15 19 21 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
 		}	
 	}
 		
 	focus = { #시설 현대화
 		id = MIL_facility_modernization
 		icon = unknown
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_city_investment }
 		x = 0
 		y = 1
 		relative_position_id = MIL_city_investment
 		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 3
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 3
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 4
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 4
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 4
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
 		}	
 	}
 		
@@ -804,6 +1072,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_backing_capitalist
 		completion_reward = {
+			add_ideas = MIL_expansion_of_financial_industry_idea
 		}	
 	}
 		
@@ -816,19 +1085,23 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_expansion_of_financial_industry
 		completion_reward = {
+			add_ideas = MIL_cryptocurrency_idea
 		}	
 	}
 		
 	focus = { #밀레니엄 경제
 		id = MIL_millennium_economy
 		icon = unknown
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_cryptocurrency }
 		prerequisite = { focus = MIL_facility_modernization }
 		x = 1
 		y = 3
 		relative_position_id = MIL_backing_capitalist
 		completion_reward = {
+			remove_ideas = MIL_expansion_of_financial_industry_idea
+			remove_ideas = MIL_cryptocurrency_idea
+			add_ideas = MIL_ministry_economic_idea
 		}	
 	}
 		
