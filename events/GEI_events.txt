@@ -301,6 +301,17 @@ country_event = {
 		load_focus_tree = GEI_The_Colour_Focus_tree
 		set_cosmetic_tag = GEI_The_Colour
 
+		leave_faction = yes
+
+		set_rule = {
+			desc = TAG_my_rule_description
+			can_join_factions = no
+		}
+		set_rule = {
+			desc = TAG_my_rule_description
+			can_occupy_non_war = yes
+		}
+
 		#clr_country_flag = The_Colour_country_flag
 		set_country_flag = The_Colour_country_flag
 
@@ -376,5 +387,112 @@ country_event = {
 			id = 12674
 			name = COLOUR_home
 		}
+	}
+}
+country_event = {
+	id = GEI_event.17
+	title = GEI_event.17.t
+	desc = GEI_event.17.desc
+	picture = GFX_report_event_ast_parliament_house
+	
+    is_triggered_only = yes
+	
+	immediate = { 
+		every_country = {
+			limit = {
+				is_ally_with = ROOT
+			}
+			add_to_war = {
+				targeted_alliance = PREV
+				enemy = FROM 
+				hostility_reason = asked_to_join
+			}
+		}
+		add_timed_idea = {
+			idea = GEI_light_shining_on_me
+			days = 70
+		}
+		if = {
+			limit = {
+				NOT = {
+					GEI = {
+						has_template = "The Color Infantry" 
+					}
+				}
+			}
+			GEI = {
+				division_template = {
+					name = "The Color Infantry"		
+					division_names_group = GEI_INF_01
+					is_locked = yes
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+					}
+				}
+			}
+		}
+		random_state = {
+			limit = {
+				is_controlled_by = ROOT
+				is_capital = no
+				is_in_home_area = yes
+			}
+			create_unit = {
+				division = "division_template = \"The Color Infantry\" start_experience_factor = 0.1 start_equipment_factor = 0.6" 
+				owner = GEI
+				allow_spawning_on_enemy_provs = yes
+			}
+			create_unit = {
+				division = "division_template = \"The Color Infantry\" start_experience_factor = 0.1 start_equipment_factor = 0.6" 
+				owner = GEI
+				allow_spawning_on_enemy_provs = yes
+			}
+			create_unit = {
+				division = "division_template = \"The Color Infantry\" start_experience_factor = 0.1 start_equipment_factor = 0.6" 
+				owner = GEI
+				allow_spawning_on_enemy_provs = yes
+			}
+		}
+		random_state = {
+			limit = {
+				is_controlled_by = ROOT
+				is_in_home_area = yes
+			}
+			create_unit = {
+				division = "division_template = \"The Color Infantry\" start_experience_factor = 0.1 start_equipment_factor = 0.3" 
+				owner = GEI
+				allow_spawning_on_enemy_provs = yes
+			}
+		}
+		random_state = {
+			limit = {
+				is_controlled_by = ROOT
+				is_in_home_area = yes
+			}
+			create_unit = {
+				division = "division_template = \"The Color Infantry\" start_experience_factor = 0.1 start_equipment_factor = 0.3" 
+				owner = GEI
+				allow_spawning_on_enemy_provs = yes
+			}
+		}
+	}
+	option = {
+		add_stability = -0.05
+		name = GEI_event.17.a
+	}
+}
+country_event = {
+	id = GEI_event.18
+	title = GEI_event.18.t
+	desc = GEI_event.18.desc
+	picture = GFX_report_event_ast_parliament_house
+	
+    is_triggered_only = yes
+
+	option = {
+		name = GEI_event.18.a
 	}
 }
