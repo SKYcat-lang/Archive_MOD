@@ -1157,6 +1157,139 @@ FRA_war_dec = {
 }
 
 FRA_prepare_war = {
+	MIL_res_capital = {
+		allowed = {
+			original_tag = MIL
+		}
+		activation = {
+			always = no
+		}
+		available = {
+			NOT = {
+				has_country_flag = MIL_res_avail_flag
+			}
+		}
+		is_good = no
+		days_mission_timeout = 40
+		complete_effect = {
+		}
+		timeout_effect = {
+			ROOT = {
+				random_owned_state ={
+					limit = {
+						is_core_of = MIL
+						industrial_complex > 0
+					}
+					remove_building = {
+						type = industrial_complex
+						level = 1
+					}
+				}
+				clr_country_flag = MIL_res_avail_flag
+			}
+			FRA = {
+				random_owned_state = {
+					limit = {
+						is_core_of = FRA
+					}
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+					}
+				}
+			}
+			hidden_effect = {
+				FRA = {
+					country_event = FRA_pro.2
+				}
+			}
+		}
+		fire_only_once = yes
+		icon = GFX_decision_generic_ignite_civil_war
+	}
+	MIL_res_dis = { #방해
+		priority = -20
+		visible = {
+			has_country_flag = MIL_res_avail_flag
+			original_tag = MIL
+		}
+		cost = MIL_res_cost
+		complete_effect = {
+			add_to_variable = {
+				MIL_res_cost = 5
+			}
+			clr_country_flag = MIL_res_avail_flag
+		}
+	}
+	MIL_res_sabo = {
+		allowed = {
+			original_tag = MIL
+		}
+		activation = {
+			always = no
+		}
+		available = {
+			NOT = {
+				has_country_flag = MIL_res_avail_flag
+			}
+		}
+		is_good = no
+		days_mission_timeout = 25
+		complete_effect = {
+		}
+		timeout_effect = {
+			ROOT = {
+				every_owned_state = {
+					limit = {
+						is_core_of = MIL
+						arms_factory > 0
+					}
+					damage_building = {
+						type = arms_factory
+						damage = 0.3
+					}
+				}
+				clr_country_flag = MIL_res_avail_flag
+			}
+			hidden_effect = {
+				FRA = {
+					country_event = FRA_pro.2
+				}
+			}
+		}
+		fire_only_once = yes
+		icon = GFX_decision_generic_ignite_civil_war
+	}
+	MIL_res_propaganda = {
+		priority = 200
+		allowed = {
+			original_tag = MIL
+		}
+		activation = {
+			always = no
+		}
+		available = {
+			NOT = {
+				has_country_flag = MIL_res_avail_flag
+			}
+		}
+		is_good = no
+		days_mission_timeout = 15
+		complete_effect = {
+		}
+		timeout_effect = {
+			add_stability = -0.12
+			add_war_support = -0.12
+			clr_country_flag = MIL_res_avail_flag
+			hidden_effect = {
+				FRA = {
+					country_event = FRA_pro.2
+				}
+			}
+		}
+		fire_only_once = yes
+		icon = GFX_decision_eng_propaganda_campaigns
+	}
 	MIL_res_mission_res_strong = {
 		priority = 200
 		allowed = {
@@ -1267,54 +1400,6 @@ FRA_prepare_war = {
 		}
 		days_re_enable = 30
 	}
-	FRA_rob = {
-		visible = {
-			original_tag = FRA
-		}
-		icon = GFX_decision_ger_military_buildup
-		visible = {
-			16 = {
-				NOT = {
-					is_owned_and_controlled_by = FRA
-				}
-			}
-			FRA = {
-				has_war = no
-			}
-			MIL = {
-				exists = yes
-			}
-		}
-		cost = fra_wepon
-		days_remove = 15
-		remove_effect = {
-			hidden_effect = {
-				random_list = {
-					10 = {
-						country_event = {
-							id = fra_prov_event.46
-							days = 3
-						}
-					}
-					10 = {
-						country_event = {
-							id = fra_prov_event.47
-							days = 3
-						}
-					}
-					10 = {
-						country_event = {
-							id = fra_prov_event.48
-							days = 3
-						}
-					}
-				}
-				add_to_variable = {
-					fra_wepon = 10
-				}
-			}
-		}
-	}
 	FRA_capital = {
 		visible = {
 			original_tag = FRA
@@ -1340,34 +1425,19 @@ FRA_prepare_war = {
 					has_idea = MIL_Resistance_3
 				}
 			}
+			MIL = {
+				NOT = {
+					has_country_flag = MIL_res_avail_flag
+				}
+			}
 		}
 
 		days_remove = 30
 		cost = fra_cap
 		remove_effect = {
 			MIL = {
-				random_state = {
-					limit = {
-						is_owned_by = MIL
-						industrial_complex > 0
-					}
-					remove_building = {
-						type = industrial_complex
-						level = 1
-					}
-				}
-			}
-			random_state = {
-				limit = {
-					is_owned_by = FRA
-				}
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-				}
-			}
-			add_to_variable = {
-				fra_cap = 5
+				set_country_flag = MIL_res_avail_flag
+				activate_mission = MIL_res_capital
 			}
 		}
 		ai_will_do = {
@@ -1378,6 +1448,14 @@ FRA_prepare_war = {
 		visible = {
 			original_tag = FRA
 		}
+		available = {
+			MIL = {
+				NOT = {
+					has_country_flag = MIL_res_avail_flag
+				}
+			}
+		}
+		cost = 30
 		priority = 10
 		visible = {
 			16 = {
@@ -1390,22 +1468,45 @@ FRA_prepare_war = {
 			}
 			MIL = {
 				exists = yes
+				NOT = {
+					has_country_flag = MIL_res_avail_flag
+				}
 			}
 		}
 		icon = GFX_decision_generic_civil_support
 		days_remove = 30
 		remove_effect = {
 			MIL = {
-				random_state = {
-					limit = {
-						is_owned_by = MIL
-					}
-					damage_building = {
-						type = arms_factory
-						damage = 0.2
-					}
+				set_country_flag = MIL_res_avail_flag
+				activate_mission = MIL_res_sabo
+			}
+		}
+	}
+	
+	FRA_large_propaganda = { #광범위 선전
+		visible = {
+			original_tag = FRA
+			has_completed_focus = FRA_focus_resistance_7
+			
+		}
+		available = {
+			MIL = {
+				NOT = {
+					has_country_flag = MIL_res_avail_flag
 				}
 			}
+		}
+		cost = 50
+		fire_only_once = yes
+		days_remove = 20
+		remove_effect = {
+			MIL = {
+				set_country_flag = MIL_res_avail_flag
+				activate_mission = MIL_res_propaganda
+			}
+		}
+		ai_will_do = {
+			base = 10
 		}
 	}
 	FRA_res_expand_15 = { #레지스탕스 확장
@@ -1438,6 +1539,9 @@ FRA_prepare_war = {
 				add_resistance = 10
 			}
 		}
+		ai_will_do = {
+			base = 10
+		}
 		on_map_mode = map_only
 		icon = GFX_decision_revolt
 	}
@@ -1447,6 +1551,9 @@ FRA_prepare_war = {
 			highlight_state_targets = {
 				state = 851
 			}
+		}
+		ai_will_do = {
+			base = 10
 		}
 		cost = 15
 		on_map_mode = map_only
@@ -1481,6 +1588,9 @@ FRA_prepare_war = {
 				state = 21
 			}
 		}
+		ai_will_do = {
+			base = 10
+		}
 		cost = 15
 		on_map_mode = map_only
 		visible = {
@@ -1513,6 +1623,9 @@ FRA_prepare_war = {
 				state = 23
 			}
 		}
+		ai_will_do = {
+			base = 10
+		}
 		cost = 15
 		on_map_mode = map_only
 		visible = {
@@ -1540,6 +1653,9 @@ FRA_prepare_war = {
 		icon = GFX_decision_revolt
 	}
 	FRA_res_expand_19 = { #레지스탕스 확장
+		ai_will_do = {
+			base = 10
+		}
 		priority = -10
 		highlight_states = {
 			highlight_state_targets = {
@@ -1625,6 +1741,170 @@ FRA_prepare_war = {
 		ai_will_do = {
 			factor = 10
 		}
+	}
+	MIL_res_expand_15 = { #레지스탕스 소탕
+		priority = -10
+		highlight_states = {
+			highlight_state_targets = {
+				state = 15
+			}
+		}
+		ai_will_do = {
+			base = 10
+		}
+		cost = 15
+		visible = {
+			15 = {
+				NOT = {
+					is_core_of = MIL
+				}
+			}
+			has_country_flag = FRA_res_expand_flag
+		}
+		days_remove = 50
+		complete_effect = {
+			set_country_flag = FRA_res_expand_flag
+		}
+		remove_effect = {
+			clr_country_flag = FRA_res_expand_flag
+			15 = {
+				add_core_of = MIL
+			}
+		}
+		on_map_mode = map_only
+		icon = GFX_decision_generic_prepare_civil_war
+	}
+	MIL_res_expand_851 = { #레지스탕스 확장
+		priority = -10
+		highlight_states = {
+			highlight_state_targets = {
+				state = 851
+			}
+		}
+		ai_will_do = {
+			base = 10
+		}
+		cost = 15
+		on_map_mode = map_only
+		visible = {
+			NOT = {851 = {
+				is_core_of = MIL
+			}}
+			NOT = {
+				has_country_flag = FRA_res_expand_flag
+			}
+		}
+		complete_effect = {
+			set_country_flag = FRA_res_expand_flag
+		}
+		days_remove = 50
+		remove_effect = {
+			clr_country_flag = FRA_res_expand_flag
+			851 = {
+				add_core_of = MIL
+			}
+		}
+		icon = GFX_decision_generic_prepare_civil_war
+	}
+	MIL_res_expand_21 = { #레지스탕스 확장
+		priority = -10
+		highlight_states = {
+			highlight_state_targets = {
+				state = 21
+			}
+		}
+		ai_will_do = {
+			base = 10
+		}
+		cost = 15
+		on_map_mode = map_only
+		visible = {
+			NOT={21 = {
+				is_core_of = MIL
+			}}
+			NOT = {
+				has_country_flag = FRA_res_expand_flag
+			}
+		}
+		complete_effect = {
+			set_country_flag = FRA_res_expand_flag
+		}
+		days_remove = 50
+		remove_effect = {
+			clr_country_flag = FRA_res_expand_flag
+			21 = {
+				add_core_of = MIL
+				
+			}
+		}
+		icon = GFX_decision_generic_prepare_civil_war
+	}
+	MIL_res_expand_23 = { #레지스탕스 확장
+		priority = -10
+		highlight_states = {
+			highlight_state_targets = {
+				state = 23
+			}
+		}
+		ai_will_do = {
+			base = 10
+		}
+		cost = 15
+		on_map_mode = map_only
+		visible = {
+			
+			NOT={23 = {
+				is_core_of = MIL
+			}}
+			NOT = {
+				has_country_flag = FRA_res_expand_flag
+			}
+		}
+		complete_effect = {
+			set_country_flag = FRA_res_expand_flag
+		}
+		days_remove = 50
+		remove_effect = {
+			clr_country_flag = FRA_res_expand_flag
+			23 = {
+				add_core_of = MIL
+			}
+		}
+		icon = GFX_decision_generic_prepare_civil_war
+	}
+	MIL_res_expand_19 = { #레지스탕스 확장
+		priority = -10
+		highlight_states = {
+			highlight_state_targets = {
+				state = 19
+			}
+		}
+		ai_will_do = {
+			base = 10
+		}
+		cost = 15
+		on_map_mode = map_only
+		visible = {
+			
+			NOT={19 = {
+				is_core_of = MIL
+			}}
+			NOT = {
+				has_country_flag = FRA_res_expand_flag
+			}
+		}
+		complete_effect = {
+			set_country_flag = FRA_res_expand_flag
+		}
+		days_remove = 50
+		remove_effect = {
+			clr_country_flag = FRA_res_expand_flag
+			19 = {
+				add_core_of = MIL
+			}
+		}
+		
+		icon = GFX_decision_generic_prepare_civil_war
 	}
 }
 
@@ -2749,6 +3029,13 @@ FRA_propaganda = {
 				}
 			}
 		}
+		ai_will_do = {
+			base = 1
+			modifier = {
+				has_war = yes
+				factor = 50
+			}
+		}
 	}
 	FRA_propaganda_3 = {
 		complete_effect = {
@@ -2785,6 +3072,9 @@ FRA_propaganda = {
 		}
 	}
 	FRA_propaganda_4 = {
+		ai_will_do = {
+			base = 10
+		}
 		complete_effect = {
 			set_country_flag = FRA_propaganda_4_flag
 			hidden_effect = {
@@ -2798,8 +3088,8 @@ FRA_propaganda = {
 		days_remove = 120
 		cost = 15
 		modifier = {
-			compliance_growth = 30
-			resistance_growth = -30
+			compliance_growth = 0.30
+			resistance_growth = -0.30
 		}
 		available = {
 			custom_trigger_tooltip = {
@@ -2899,6 +3189,9 @@ FRA_propaganda = {
 					days = 120
 				}
 			}
+		}
+		ai_will_do = {
+			base = 10
 		}
 		available = {
 			custom_trigger_tooltip = {
