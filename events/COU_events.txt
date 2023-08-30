@@ -69,8 +69,53 @@ country_event = { #샬레에 연락
 
 	option = {
 		name = COU_event.3.a
+		ai_chance = { base = 0 } #컨텐츠 나오기 전까지 제로 유지
+		36 = {
+			if = {
+				limit = { is_owned_by = SHE }
+				add_core_of = COU
+			}
+		}
+		COU = {
+			country_event = { hours = 2 id = COU_event.3000 }
+		}
 	}
+	option = {
+		name = COU_event.3.b
+		COU = {
+			country_event = { hours = 2 id = COU_event.3001 }
+		}
+	}
+}
 
+country_event = { #샬레에 연락 - 합병
+	id = COU_event.3000
+	title = COU_event.3000.t
+	desc = COU_event.3000.desc
+	#picture =
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = COU_event.3000.a
+		annex_country = { target = SHE transfer_troops = yes }
+		unlock_national_focus = COU_she_annex
+	}
+}
+
+country_event = { #샬레에 연락 - 거부
+	id = COU_event.3001
+	title = COU_event.3001.t
+	desc = COU_event.3001.desc
+	#picture =
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = COU_event.3001.a
+	}
 }
 
 country_event = { #영토 통합
@@ -84,6 +129,11 @@ country_event = { #영토 통합
 
 	option = {
 		name = COU_event.4.a
+		create_wargoal = {
+			type = take_state_focus
+			target = SHE
+			generator = { 36 }
+		}
 	}
 }
 
