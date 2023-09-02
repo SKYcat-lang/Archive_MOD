@@ -998,8 +998,11 @@ focus_tree = {
 		}
 	
 		completion_reward = {	
-			set_cosmetic_tag = HUN_GREATER
+			set_cosmetic_tag = BA_HUN_BIG
 			add_stability = 0.1
+			set_rule = {
+				can_create_factions = yes
+			}
 			hidden_effect = {
 				news_event = { id = news.299 }
 			}
@@ -1138,11 +1141,14 @@ focus_tree = {
 		}
 	
 		completion_reward = {
-			add_stability = 0.15
-			add_war_support = 0.15
+			add_stability = 0.10
+			add_war_support = 0.10
 			add_popularity = {
 				ideology = fascism
-				popularity = 1.00
+				popularity = 0.50
+			}
+			set_rule = {
+				can_use_kamikaze_pilots = yes	
 			}
 		}
 	}
@@ -1389,8 +1395,7 @@ focus_tree = {
 		}
 	
 		completion_reward = {
-			set_cosmetic_tag = HUN_EMPIRE
-			hidden_effect = { AUS = { set_cosmetic_tag = AUS_NOT_WHITE } }
+			set_cosmetic_tag = BA_HUN_OHHUNG
 			hidden_effect = {
 				news_event = { id = news.295 }
 				set_province_name = {
@@ -4058,7 +4063,7 @@ focus_tree = {
 				target = SOV
 				type = annex_everything
 			}
-			set_war_support = 1
+			set_war_support = 0.80
 		}
 	}
 	focus = {
@@ -5181,7 +5186,7 @@ focus_tree = {
 	focus = {
 		id = BA_HUN_industrial_revitalization
 		icon = GFX_goal_generic_construction
-		x = 23
+		x = 24
 		y = 0
 
 		cost = 5
@@ -6064,7 +6069,7 @@ focus_tree = {
 	focus = {
 		id = BA_HUN_secret_rearmament
 		icon = GFX_focus_secret_rearmament
-		x = 34
+		x = 35
 		y = 0
 
 		cost = 10
@@ -6226,6 +6231,72 @@ focus_tree = {
 			}
 
 			custom_effect_tooltip = HUN_bled_agreement_custom_effect_tooltip
+		}
+	}
+
+	focus = {
+		id = BA_HUN_focus_halo
+		icon = GFX_focus_ETH_freedom_at_gunpoint
+		prerequisite = { focus = BA_HUN_bled_agreement }
+		#mutually_exclusive = { focus = BA_HUN_focus_ }
+		x = 35
+		y = 3	
+		#relative_position_id = 
+	
+		cost = 10
+	
+		ai_will_do = {
+			factor = 1
+		}
+	
+		available = {
+			OR = {
+				AND = {
+					has_government = communism
+					RED = {
+						exists = yes
+						has_government = communism
+					}
+					has_opinion = {
+						target = RED
+						value > 74
+					}
+				}
+				AND = {
+					has_government = fascism
+					ITA = {
+						exists = yes
+						has_government = fascism
+						has_completed_focus = ITA_halo_reserch
+					}
+					has_opinion = {
+						target = ITA
+						value > 74
+					}
+				}
+				AND = {
+					OR = {
+						date > 1939.01.01
+						threat > 0.5
+					}
+				}
+			}
+		}
+			
+		bypass = {
+	
+		}
+	
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+	
+		complete_tooltip = {
+	
+		}
+	
+		completion_reward = {
+			remove_ideas = BA_HUN_halo_bujuk
 		}
 	}
 
