@@ -85,15 +85,20 @@ focus_tree = {
 					
 		}
 		completion_reward = {
-			add_advisor_role = {
-				character = COU_KAYA
-				
-				advisor = {
-					slot = army_chief
-					cost = 100
-					idea_token = COU_KAYA
-					traits = {
-						army_chief_maneuver_2
+			if = {
+				limit = {
+					has_character = COU_KAYA
+				}
+				add_advisor_role = {
+					character = COU_KAYA
+					
+					advisor = {
+						slot = army_chief
+						cost = 100
+						idea_token = COU_KAYA
+						traits = {
+							army_chief_maneuver_2
+						}
 					}
 				}
 			}
@@ -116,15 +121,20 @@ focus_tree = {
 					
 		}
 		completion_reward = {
-			add_advisor_role = {
-				character = COU_AYUMU
-				advisor = {
-					slot = political_advisor
-					idea_token = AYUMU_political_advisor
-					traits = {
-						COU_AYUMU_SET1 
+			if = {
+				limit = {
+					has_character = COU_AYUMU
+				}
+				add_advisor_role = {
+					character = COU_AYUMU
+					advisor = {
+						slot = political_advisor
+						idea_token = AYUMU_political_advisor
+						traits = {
+							COU_AYUMU_SET1 
+						}
+						cost = 150
 					}
-					cost = 150
 				}
 			}
 		}
@@ -146,30 +156,35 @@ focus_tree = {
 					
 		}
 		completion_reward = {
-			add_advisor_role = {
-				character = COU_MOMOKA
-				
-				
-				advisor = {
-					slot = political_advisor
-					idea_token = MOMOKA_political_advisor
-					traits = {
-						COU_MOMOKA_SET1 
-					}
-					cost = 150
+			if = {
+				limit = {
+					has_character = COU_MOMOKA
 				}
-			}
-			add_advisor_role = {
-				character = COU_MOMOKA
-				
-				
-				advisor = {
-					slot = high_command
-					idea_token = MOMOKA_high_command
-					traits = {
-						army_CombinedArms_2 
+				add_advisor_role = {
+					character = COU_MOMOKA
+					
+					
+					advisor = {
+						slot = political_advisor
+						idea_token = MOMOKA_political_advisor
+						traits = {
+							COU_MOMOKA_SET1 
+						}
+						cost = 150
 					}
-					cost = 150
+				}
+				add_advisor_role = {
+					character = COU_MOMOKA
+					
+					
+					advisor = {
+						slot = high_command
+						idea_token = MOMOKA_high_command
+						traits = {
+							army_CombinedArms_2 
+						}
+						cost = 150
+					}
 				}
 			}
 		}
@@ -191,15 +206,20 @@ focus_tree = {
 					
 		}
 		completion_reward = {
-			add_advisor_role = {
-				character = COU_AOI
-				advisor = {
-					slot = high_command
-					idea_token = AOI_political_advisor
-					traits = {
-						army_logistics_2 
+			if = {
+				limit = {
+					has_character = COU_AOI
+				}
+				add_advisor_role = {
+					character = COU_AOI
+					advisor = {
+						slot = high_command
+						idea_token = AOI_political_advisor
+						traits = {
+							army_logistics_2 
+						}
+						cost = 150
 					}
-					cost = 150
 				}
 			}
 		}
@@ -1949,6 +1969,11 @@ focus_tree = {
 		relative_position_id = SHE_kibotoseuminjujuyi
 		prerequisite = { focus = SHE_kibotoseuminjujuyi }
 		completion_reward = {
+			add_political_power = 50
+			add_timed_idea = {
+				idea = SHE_democratic_power
+				days = 365
+			}
 		}
 	}
 
@@ -1982,6 +2007,15 @@ focus_tree = {
 			remove_country_leader_role = {
 				character = SHE_Arona
 				ideology = fascism_aicontrol
+			}
+			if = {
+				limit = {
+					has_idea = SHE_democratic_power
+				}
+				swap_ideas = {
+					remove_idea = SHE_democratic_power
+					add_idea = SHE_cut_democratic_power
+				}
 			}
 		}
 	}
@@ -2029,6 +2063,7 @@ focus_tree = {
    				ideology = fascism
     			popularity = 0.1
 			}
+			custom_effect_tooltip = SHE_deception_tt
 		}
 	}
 
@@ -2049,6 +2084,10 @@ focus_tree = {
 		prerequisite = { focus = SHE_analog_method }
 		prerequisite = { focus = SHE_deception }
 		completion_reward = {
+			reverse_add_opinion_modifier = {
+				target = SRT
+				modifier = SHE_help_from_SRT_modifier
+			}
 			add_popularity = {
    				ideology = fascism
     			popularity = 0.2
@@ -2069,9 +2108,21 @@ focus_tree = {
 						FOCUS_FILTER_POLITICAL
 					
 		}
+		available = {
+			fascism > 0.4
+		}
 		relative_position_id = SHE_help_from_SRT
 		prerequisite = { focus = SHE_help_from_SRT }
 		completion_reward = {
+			every_country = {
+				limit = {
+					is_ally_with = ROOT
+					NOT = {
+						tag = ROOT
+					}
+				}
+				country_event = { id = SHE_event.16 }
+			}
 			add_popularity = {
 				ideology = fascism
 				popularity = 1.0
@@ -2119,6 +2170,7 @@ focus_tree = {
 		prerequisite = { focus = SHE_transfer_of_power }
 		mutually_exclusive = { focus = SHE_enforce_defenseoffice }
 		completion_reward = {
+			add_political_power = 200
 		}
 	}
 
@@ -2148,15 +2200,20 @@ focus_tree = {
 					ideology = socialism
 				}
 			}
-            add_country_leader_role = {
-                promote_leader = yes
-				character = COU_RIN
-                country_leader = {
-                    ideology = socialism
-                    expire = "1965.1.1.1"
-                    traits = { }
-                }
-            }
+			if = {
+				limit = {
+					has_character = COU_RIN
+				}
+				add_country_leader_role = {
+					promote_leader = yes
+					character = COU_RIN
+					country_leader = {
+						ideology = socialism
+						expire = "1965.1.1.1"
+						traits = { SHE_new_dictator }
+					}
+				}
+			}
 		}
 	}
 
@@ -2186,15 +2243,20 @@ focus_tree = {
 					ideology = socialism
 				}
 			}
-            add_country_leader_role = {
-                promote_leader = yes
-				character = COU_AOI
-                country_leader = {
-                    ideology = socialism
-                    expire = "1965.1.1.1"
-                    traits = { }
-                }
-            }
+			if = {
+				limit = {
+					has_character = COU_AOI
+				}
+				add_country_leader_role = {
+					promote_leader = yes
+					character = COU_AOI
+					country_leader = {
+						ideology = socialism
+						expire = "1965.1.1.1"
+						traits = { SHE_new_dictator }
+					}
+				}
+			}
 		}
 	}
 
@@ -2741,12 +2803,16 @@ focus_tree = {
 			GEH = {
 				exists = no
 			}
+			GEM = {
+				exists = no
+			}
 		}
 		prerequisite = { focus = SHE_samdaehagweonmunje  }
 		prerequisite = { focus = SHE_syallejeonsigyeongje  }
 		available = { has_army_manpower = { size > 299999 } }
 		completion_reward = {
 			create_wargoal = { type = annex_everything target = GEH }
+			create_wargoal = { type = annex_everything target = GEM }
 		}
 	}
 
