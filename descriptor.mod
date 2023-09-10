@@ -16,7 +16,7 @@ tags={
 dependencies={
 	"Korean Language"
 }
-user_dir = "BlueArchive"
+user_dir="BlueArchive"
 version="0.5.0"
 picture="thumbnail.png"
 supported_version="1.12.*"
