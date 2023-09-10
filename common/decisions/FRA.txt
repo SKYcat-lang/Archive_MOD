@@ -1175,780 +1175,271 @@ FRA_war_dec = {
 }
 
 FRA_prepare_war = {
-	MIL_res_capital = {
-		allowed = {
-			original_tag = MIL
-		}
-		activation = {
-			always = no
-		}
-		available = {
-			NOT = {
-				has_country_flag = MIL_res_avail_flag
-			}
-		}
-		is_good = no
-		days_mission_timeout = 40
-		complete_effect = {
-		}
-		timeout_effect = {
-			ROOT = {
-				random_owned_state ={
-					limit = {
-						is_core_of = MIL
-						industrial_complex > 0
-					}
-					remove_building = {
-						type = industrial_complex
-						level = 1
-					}
-				}
-				clr_country_flag = MIL_res_avail_flag
-			}
-			FRA = {
-				random_owned_state = {
-					limit = {
-						is_core_of = FRA
-					}
-					add_building_construction = {
-						type = industrial_complex
-						level = 1
-					}
-				}
-			}
-			hidden_effect = {
-				FRA = {
-					country_event = FRA_pro.2
-				}
-			}
-		}
-		fire_only_once = yes
-		icon = GFX_decision_generic_ignite_civil_war
-	}
-	MIL_res_dis = { #방해
-		priority = -20
-		visible = {
-			has_country_flag = MIL_res_avail_flag
-			original_tag = MIL
-		}
-		ai_will_do = {
-			base = 0
-			modifier = {
-				add = 10
-				check_variable = {
-					var = var:political_power
-					value = MIL_res_cost
-					compare = greater_than_or_equals
-				}
-			}
-		}
-		cost = MIL_res_cost
-		complete_effect = {
-			add_to_variable = {
-				MIL_res_cost = 5
-			}
-			clr_country_flag = MIL_res_avail_flag
-			hidden_effect = {
-				FRA = {
-					country_event = FRA_pro.3
-				}
-			}
-		}
-	}
-	MIL_res_sabo = {
-		allowed = {
-			original_tag = MIL
-		}
-		activation = {
-			always = no
-		}
-		available = {
-			NOT = {
-				has_country_flag = MIL_res_avail_flag
-			}
-		}
-		is_good = no
-		days_mission_timeout = 25
-		complete_effect = {
-		}
-		timeout_effect = {
-			ROOT = {
-				every_owned_state = {
-					limit = {
-						is_core_of = MIL
-						arms_factory > 0
-					}
-					damage_building = {
-						type = arms_factory
-						damage = 0.3
-					}
-				}
-				clr_country_flag = MIL_res_avail_flag
-			}
-			hidden_effect = {
-				FRA = {
-					country_event = FRA_pro.2
-				}
-			}
-		}
-		fire_only_once = yes
-		icon = GFX_decision_generic_ignite_civil_war
-	}
-	MIL_res_propaganda = {
-		priority = 200
-		allowed = {
-			original_tag = MIL
-		}
-		activation = {
-			always = no
-		}
-		available = {
-			NOT = {
-				has_country_flag = MIL_res_avail_flag
-			}
-		}
-		is_good = no
-		days_mission_timeout = 15
-		complete_effect = {
-		}
-		timeout_effect = {
-			add_stability = -0.12
-			add_war_support = -0.12
-			clr_country_flag = MIL_res_avail_flag
-			hidden_effect = {
-				FRA = {
-					country_event = FRA_pro.2
-				}
-			}
-		}
-		fire_only_once = yes
-		icon = GFX_decision_eng_propaganda_campaigns
-	}
-	MIL_res_mission_res_strong = {
-
-		priority = 200
-		allowed = {
-			original_tag = MIL
-		}
-		activation = {
-			always = no
-		}
-		available = {
-			always = no
-		}
-		is_good = no
-		days_mission_timeout = 20
-		complete_effect = {
-		}
-		timeout_effect = {
-			if = {
-				limit = {
-					has_idea = MIL_Resistance_2
-				}
-				swap_ideas = {
-					remove_idea = MIL_Resistance_2
-					add_idea = MIL_Resistance_3
-				}
-			}
-			if = {
-				limit = {
-					has_idea = MIL_Resistance_1
-				}
-				swap_ideas = {
-					remove_idea = MIL_Resistance_1
-					add_idea = MIL_Resistance_2
-				}
-			}
-		}
-		fire_only_once = yes
-		icon = GFX_decision_generic_ignite_civil_war
-	}
-	MIL_make_res_weak = {
-		priority = 100
-		visible = {
-			original_tag = MIL
-		}
-		ai_will_do = {
-			base = 10
-		}
-		days_remove = 50
-		days_re_enable = 30
-		remove_effect = {
-			if = {
-				limit = {
-					has_idea = MIL_Resistance_2
-				}
-				swap_ideas = {
-					remove_idea = MIL_Resistance_2
-					add_idea = MIL_Resistance_1
-				}
-			}
-			if = {
-				limit = {
-					has_idea = MIL_Resistance_3
-				}
-				swap_ideas = {
-					remove_idea = MIL_Resistance_3
-					add_idea = MIL_Resistance_2
-				}
-			}
-		}
-		cost = MIL_res
-		available = {
-			OR = {
-				has_idea = MIL_Resistance_3
-				has_idea = MIL_Resistance_2
-			}
-		}
-		complete_effect = {
-			add_to_variable = {
-				MIL_res = 10
-			}
-		}
-		icon = GFX_decision_oppression
-	}
-	FRA_make_res_strong = {
-		priority = 100
-		cost = FRA_res
-		icon = GFX_decision_SWI_consolidate_council_power
-		available = {
-			MIL = {
-				OR = {
-					has_idea = MIL_resistance_2
-					has_idea = MIL_resistance_1
-				}
-			}
-		}
-		visible = {
-			original_tag = FRA
-		}
-		complete_effect = {
-			add_to_variable = {
-				FRA_res = 10
-			}
-			hidden_effect = {
-				MIL = {
-					activate_mission = MIL_res_mission_res_strong
-				}
-			}
-		}
-		days_remove = 50
-		remove_effect = {
-			custom_effect_tooltip = FRA_make_res_strong_tt
-		}
-		ai_will_do = {
-			base = 10
-		}
-		days_re_enable = 30
-	}
-	FRA_capital = {
-		visible = {
-			original_tag = FRA
-		}
-		icon = GFX_decision_generic_factory
-		visible = {
-			16 = {
-				NOT = {
-					is_owned_and_controlled_by = FRA
-				}
-			}
-			FRA = {
-				has_war = no
-			}
-			MIL = {
-				exists = yes
-			}
-		}
-		available = {
-			MIL = {
-				OR = {
-					has_idea = MIL_Resistance_2
-					has_idea = MIL_Resistance_3
-				}
-			}
-			MIL = {
-				NOT = {
-					has_country_flag = MIL_res_avail_flag
-				}
-			}
-		}
-
-		cost = fra_cap
-		complete_effect = {
-			MIL = {
-				set_country_flag = MIL_res_avail_flag
-				activate_mission = MIL_res_capital
-			}
-		}
-		ai_will_do = {
-			factor = 100
-		}
-	}
-	FRA_sabotage_dec = {
-		available = {
-			MIL = {
-				NOT = {
-					has_country_flag = MIL_res_avail_flag
-				}
-			}
-		}
-		cost = 30
-		priority = 10
-		visible = {
-			original_tag = FRA
-			16 = {
-				NOT = {
-					is_owned_and_controlled_by = FRA
-				}
-			}
-			FRA = {
-				has_war = no
-			}
-			MIL = {
-				exists = yes
-				
-			}
-		}
+	FRA_res_n = {
 		icon = GFX_decision_generic_civil_support
-		days_remove = 30
-		remove_effect = {
-			MIL = {
-				set_country_flag = MIL_res_avail_flag
-				activate_mission = MIL_res_sabo
+
+		ai_will_do = {
+			base = 15
+			modifier = {
+				factor = 10
+				has_political_power > 155
 			}
 		}
-	}
-	
-	FRA_large_propaganda = { #광범위 선전
-		visible = {
+
+		allowed = {
 			original_tag = FRA
-			has_completed_focus = FRA_focus_resistance_7
-			
 		}
+
 		available = {
+			custom_trigger_tooltip = {
+				tooltip = MIL_res_1_tt
+			}
 			MIL = {
-				NOT = {
-					has_country_flag = MIL_res_avail_flag
-				}
-			}
-		}
-		cost = 50
-		fire_only_once = yes
-		days_remove = 20
-		remove_effect = {
-			MIL = {
-				set_country_flag = MIL_res_avail_flag
-				activate_mission = MIL_res_propaganda
-			}
-		}
-		ai_will_do = {
-			base = 10
-		}
-	}
-	FRA_res_expand_15 = { #레지스탕스 확장
-		priority = -10
-		highlight_states = {
-			highlight_state_targets = {
-				state = 15
-			}
-		}
-		cost = 15
-		visible = {
-			
-			original_tag = FRA
-			15 = {
-				is_core_of = MIL
-			}
-			NOT = {
-				has_country_flag = FRA_res_expand_flag
-			}
-			has_completed_focus = FRA_focus_resistance_2
-		}
-		complete_effect = {
-			set_country_flag = FRA_res_expand_flag
-		}
-		days_remove = 50
-		remove_effect = {
-			clr_country_flag = FRA_res_expand_flag
-			15 = {
-				remove_core_of = MIL
-				start_resistance = yes
-				add_resistance = 10
-			}
-		}
-		ai_will_do = {
-			base = 10
-		}
-		on_map_mode = map_only
-		icon = GFX_decision_revolt
-	}
-	FRA_res_expand_851 = { #레지스탕스 확장
-		priority = -10
-		highlight_states = {
-			highlight_state_targets = {
-				state = 851
-			}
-		}
-		ai_will_do = {
-			base = 10
-		}
-		cost = 15
-		on_map_mode = map_only
-		visible = {
-			
-			original_tag = FRA
-			851 = {
-				is_core_of = MIL
-			}
-			NOT = {
-				has_country_flag = FRA_res_expand_flag
-			}
-			has_completed_focus = FRA_focus_resistance_2
-		}
-		complete_effect = {
-			set_country_flag = FRA_res_expand_flag
-		}
-		days_remove = 50
-		remove_effect = {
-			clr_country_flag = FRA_res_expand_flag
-			851 = {
-				remove_core_of = MIL
-				start_resistance = yes
-				add_resistance = 10
-			}
-		}
-		icon = GFX_decision_revolt
-	}
-	FRA_res_expand_21 = { #레지스탕스 확장
-		priority = -10
-		highlight_states = {
-			highlight_state_targets = {
-				state = 21
-			}
-		}
-		ai_will_do = {
-			base = 10
-		}
-		cost = 15
-		on_map_mode = map_only
-		visible = {
-			
-			original_tag = FRA
-			21 = {
-				is_core_of = MIL
-			}
-			NOT = {
-				has_country_flag = FRA_res_expand_flag
-			}
-			has_completed_focus = FRA_focus_resistance_2
-		}
-		complete_effect = {
-			set_country_flag = FRA_res_expand_flag
-		}
-		days_remove = 50
-		remove_effect = {
-			clr_country_flag = FRA_res_expand_flag
-			21 = {
-				remove_core_of = MIL
-				start_resistance = yes
-				add_resistance = 10
-			}
-		}
-		icon = GFX_decision_revolt
-	}
-	FRA_res_expand_23 = { #레지스탕스 확장
-		priority = -10
-		highlight_states = {
-			highlight_state_targets = {
-				state = 23
-			}
-		}
-		ai_will_do = {
-			base = 10
-		}
-		cost = 15
-		on_map_mode = map_only
-		visible = {
-			
-			original_tag = FRA
-			23 = {
-				is_core_of = MIL
-			}
-			NOT = {
-				has_country_flag = FRA_res_expand_flag
-			}
-			has_completed_focus = FRA_focus_resistance_2
-		}
-		complete_effect = {
-			set_country_flag = FRA_res_expand_flag
-		}
-		days_remove = 50
-		remove_effect = {
-			clr_country_flag = FRA_res_expand_flag
-			23 = {
-				remove_core_of = MIL
-				start_resistance = yes
-				add_resistance = 10
-			}
-		}
-		icon = GFX_decision_revolt
-	}
-	FRA_res_expand_19 = { #레지스탕스 확장
-		ai_will_do = {
-			base = 10
-		}
-		priority = -10
-		highlight_states = {
-			highlight_state_targets = {
-				state = 19
-			}
-		}
-		cost = 15
-		on_map_mode = map_only
-		visible = {
-			original_tag = FRA
-			19 = {
-				is_core_of = MIL
-			}
-			NOT = {
-				has_country_flag = FRA_res_expand_flag
-			}
-			has_completed_focus = FRA_focus_resistance_2
-		}
-		complete_effect = {
-			set_country_flag = FRA_res_expand_flag
-		}
-		days_remove = 50
-		remove_effect = {
-			clr_country_flag = FRA_res_expand_flag
-			19 = {
-				remove_core_of = MIL
-				start_resistance = yes
-				add_resistance = 10
-			}
-		}
-		
-		icon = GFX_decision_revolt
-	}
-	FRA_research_halo = {
-		visible = {
-			original_tag = FRA
-		}
-		available = {
-			MIL = {
-				has_idea = MIL_Resistance_3
-			}
-		}
-		visible = {
-			16 = {
-				NOT = {
-					is_owned_and_controlled_by = FRA
-				}
-			}
-			FRA = {
 				has_war = no
 			}
-			MIL = {
-				exists = yes
-			}
 			NOT = {
-				check_variable = {
-					FRA_halo_var = 1
-				}
+				has_global_flag = MIL_res_n_stop_flag
 			}
+			has_completed_focus = FRA_focus_resistance_1
 		}
-		icon = GFX_decision_generic_intelligence_operation
-		days_remove = 100
-		cost = fra_halo
-		remove_effect = {
-			random_list = {
-				10 = {
-				}
-				10 = {
-					every_army_leader = {
-						add_trait = {
-							trait = FRA_halo_research_trait
-						}
-					}
-					set_variable = {
-						fra_halo_var = 1
-					}
-				}
-			}
+
+		visible = {
+			check_variable = { global.BA_resistance_n_var = 2 }
+		}
+
+		days_remove = 35
+
+		cost = FRA_res_capital_n_var
+
+		modifier = {
+			political_power_factor = -0.25
+		}
+
+		complete_effect = {
 			add_to_variable = {
-				fra_halo = 10
+				FRA_res_capital_n_var = 5
 			}
-		}
-		ai_will_do = {
-			factor = 10
-		}
-	}
-	MIL_res_expand_15 = { #레지스탕스 소탕
-		priority = -10
-		highlight_states = {
-			highlight_state_targets = {
-				state = 15
-			}
-		}
-		ai_will_do = {
-			base = 10
-		}
-		cost = 15
-		visible = {
-			15 = {
-				NOT = {
-					is_core_of = MIL
-				}
-			}
-			original_tag = MIL
-			has_country_flag = FRA_res_expand_flag
-		}
-		days_remove = 50
-		complete_effect = {
-			set_country_flag = FRA_res_expand_flag
 		}
 		remove_effect = {
-			clr_country_flag = FRA_res_expand_flag
-			15 = {
-				add_core_of = MIL
-			}
+			785 = { set_demilitarized_zone = yes }
+			15 = { set_demilitarized_zone = yes }
+			30 = { set_demilitarized_zone = yes }
+			24 = { set_demilitarized_zone = yes }
+			16 = { set_demilitarized_zone = yes }
+			set_variable = { global.BA_resistance_n_var = 3 }
 		}
-		on_map_mode = map_only
-		icon = GFX_decision_generic_prepare_civil_war
 	}
-	MIL_res_expand_851 = { #레지스탕스 확장
-		priority = -10
-		highlight_states = {
-			highlight_state_targets = {
-				state = 851
+	FRA_res_e = {
+		icon = GFX_decision_generic_civil_support
+
+		ai_will_do = {
+			base = 15
+			modifier = {
+				factor = 10
+				has_political_power > 155
 			}
 		}
-		ai_will_do = {
-			base = 10
+
+		allowed = {
+			original_tag = FRA
 		}
-		cost = 15
-		on_map_mode = map_only
-		visible = {
-			NOT = {851 = {
-				is_core_of = MIL
-			}}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MIL_res_1_tt
+			}
+			MIL = {
+				has_war = no
+			}
 			NOT = {
-				has_country_flag = FRA_res_expand_flag
+				has_global_flag = MIL_res_e_stop_flag
 			}
-			original_tag = MIL
+			has_completed_focus = FRA_focus_resistance_1
 		}
-		complete_effect = {
-			set_country_flag = FRA_res_expand_flag
-		}
-		days_remove = 50
-		remove_effect = {
-			clr_country_flag = FRA_res_expand_flag
-			851 = {
-				add_core_of = MIL
-			}
-		}
-		icon = GFX_decision_generic_prepare_civil_war
-	}
-	MIL_res_expand_21 = { #레지스탕스 확장
-		priority = -10
-		highlight_states = {
-			highlight_state_targets = {
-				state = 21
-			}
-		}
-		ai_will_do = {
-			base = 10
-		}
-		cost = 15
-		on_map_mode = map_only
+
 		visible = {
-			NOT={21 = {
-				is_core_of = MIL
-			}}
-			original_tag = MIL
-			NOT = {
-				has_country_flag = FRA_res_expand_flag
-			}
+			check_variable = { global.BA_resistance_e_var = 2 }
 		}
+
+		days_remove = 35
+
+		cost = FRA_res_capital_e_var
+
+		modifier = {
+			political_power_factor = -0.25
+		}
+
 		complete_effect = {
-			set_country_flag = FRA_res_expand_flag
-		}
-		days_remove = 50
-		remove_effect = {
-			clr_country_flag = FRA_res_expand_flag
-			21 = {
-				add_core_of = MIL
-				
+			add_to_variable = {
+				FRA_res_capital_e_var = 5
 			}
 		}
-		icon = GFX_decision_generic_prepare_civil_war
+		remove_effect = {
+			17 = { set_demilitarized_zone = yes }
+			18 = { set_demilitarized_zone = yes }
+			27 = { set_demilitarized_zone = yes }
+			set_variable = { global.BA_resistance_e_var = 3 }
+		}
 	}
-	MIL_res_expand_23 = { #레지스탕스 확장
-		priority = -10
-		highlight_states = {
-			highlight_state_targets = {
-				state = 23
-			}
-		}
+	FRA_res_w = {
+		icon = GFX_decision_generic_civil_support
+
 		ai_will_do = {
-			base = 10
+			base = 15
+			modifier = {
+				factor = 10
+				has_political_power > 155
+			}
 		}
-		cost = 15
-		on_map_mode = map_only
-		visible = {
-			original_tag = MIL
-			NOT={23 = {
-				is_core_of = MIL
-			}}
+
+		allowed = {
+			original_tag = FRA
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MIL_res_1_tt
+			}
+			MIL = {
+				has_war = no
+			}
 			NOT = {
-				has_country_flag = FRA_res_expand_flag
+				has_global_flag = MIL_res_w_stop_flag
 			}
+			has_completed_focus = FRA_focus_resistance_1
 		}
+
+		visible = {
+			check_variable = { global.BA_resistance_w_var = 2 }
+		}
+
+		days_remove = 35
+
+		cost = FRA_res_capital_w_var
+
+		modifier = {
+			political_power_factor = -0.25
+		}
+
 		complete_effect = {
-			set_country_flag = FRA_res_expand_flag
-		}
-		days_remove = 50
-		remove_effect = {
-			clr_country_flag = FRA_res_expand_flag
-			23 = {
-				add_core_of = MIL
+			add_to_variable = {
+				MIL_res_capital_w_var = 10
 			}
 		}
-		icon = GFX_decision_generic_prepare_civil_war
+		remove_effect = {
+			23 = { set_demilitarized_zone = yes }
+			33 = { set_demilitarized_zone = yes }
+			25 = { set_demilitarized_zone = yes }
+			set_variable = { global.BA_resistance_w_var = 3 }
+		}
 	}
-	MIL_res_expand_19 = { #레지스탕스 확장
-		priority = -10
-		highlight_states = {
-			highlight_state_targets = {
-				state = 19
-			}
-		}
+	FRA_res_se = {
+		icon = GFX_decision_generic_civil_support
+
 		ai_will_do = {
-			base = 10
+			base = 15
+			modifier = {
+				factor = 10
+				has_political_power > 155
+			}
 		}
-		cost = 15
-		on_map_mode = map_only
-		visible = {
-			original_tag = MIL
-			NOT={19 = {
-				is_core_of = MIL
-			}}
+
+		allowed = {
+			original_tag = FRA
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MIL_res_1_tt
+			}
+			MIL = {
+				has_war = no
+			}
 			NOT = {
-				has_country_flag = FRA_res_expand_flag
+				has_global_flag = MIL_res_se_stop_flag
 			}
+			has_completed_focus = FRA_focus_resistance_1
 		}
+
+		visible = {
+			check_variable = { global.BA_resistance_se_var = 2 }
+		}
+
+		days_remove = 35
+
+		cost = FRA_res_capital_se_var
+
+		modifier = {
+			political_power_factor = -0.25
+		}
+
 		complete_effect = {
-			set_country_flag = FRA_res_expand_flag
-		}
-		days_remove = 50
-		remove_effect = {
-			clr_country_flag = FRA_res_expand_flag
-			19 = {
-				add_core_of = MIL
+			add_to_variable = {
+				FRA_res_capital_se_var = 5
 			}
 		}
-		
-		icon = GFX_decision_generic_prepare_civil_war
+		remove_effect = {
+			26 = { set_demilitarized_zone = yes }
+			20 = { set_demilitarized_zone = yes }
+			22 = { set_demilitarized_zone = yes }
+			32 = { set_demilitarized_zone = yes }
+			21 = { set_demilitarized_zone = yes }
+			913 = { set_demilitarized_zone = yes }
+			851 = { set_demilitarized_zone = yes }
+			set_variable = { global.BA_resistance_se_var = 3 }
+		}
+	}
+	FRA_res_sw = {
+		icon = GFX_decision_generic_civil_support
+
+		ai_will_do = {
+			base = 35
+			modifier = {
+				factor = 10
+				has_political_power > 155
+			}
+		}
+
+		allowed = {
+			original_tag = FRA
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MIL_res_1_tt
+			}
+			MIL = {
+				has_war = no
+			}
+			NOT = {
+				has_global_flag = MIL_res_sw_stop_flag
+			}
+			has_completed_focus = FRA_focus_resistance_1
+		}
+
+		visible = {
+			check_variable = { global.BA_resistance_sw_var = 2 }
+		}
+
+		days_remove = 35
+
+		cost = FRA_res_capital_sw_var
+
+		modifier = {
+			political_power_factor = -0.25
+		}
+
+		complete_effect = {
+			add_to_variable = {
+				FRA_res_capital_sw_var = 5
+			}
+		}
+		remove_effect = {
+			19 = { set_demilitarized_zone = yes }
+			31 = { set_demilitarized_zone = yes }
+			806 = { set_demilitarized_zone = yes }
+			set_variable = { global.BA_resistance_sw_var = 3 }
+		}
 	}
 }
 
