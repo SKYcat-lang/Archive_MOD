@@ -5,15 +5,14 @@ country_event = { #왕립해군과 육군의 귀환
 	desc = can.1.d
 	is_triggered_only = yes
 	fire_only_once = yes
-	hidden = no
+	hidden = yes
 	option = {
 		hidden_effect = {
 			country_event = {
 				id = can.3
-				days = 10
+				days = 1
 			}
-			load_oob = CAN_col
-			load_oob = CAN_col_nav
+			
 		}
 		
 	}
@@ -333,6 +332,125 @@ news_event = { #중동전쟁
 				set_global_flag = BA_Super_Event_Visible
 				set_global_flag = sup_BA_superevent_Middle_Asia_war
 				sound_effect = "BA_PaintItBlack"
+			}
+		}
+	}
+}
+country_event = { #서늘한 영토
+	id = can.12
+	title = can.12.t
+	desc = can.12.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = {
+		name = can.12.a
+		every_owned_state = {
+			limit = {
+				is_core_of = CAN
+			}
+			add_manpower = 100
+		}
+		every_owned_state = {
+			limit = {
+				infrastructure > 2
+				is_core_of = CAN
+			}
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+			}
+		}
+		add_political_power = 100
+		add_stability = -0.3
+		set_technology = {
+			electronic_mechanical_engineering = 1
+			mechanical_computing = 1
+		}
+	}
+}
+country_event = { #망명정부 승인
+	id = can.13
+	title = can.13.t
+	desc = can.13.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = { #승인하자
+		name = can.13.a
+		add_political_power = 50
+		add_stability = 0.05
+		add_war_support = -0.05
+	}
+	option = { #그없
+		name = can.13.b
+		add_political_power = 150
+		add_war_support = 0.05
+		custom_effect_tooltip = can.13.b_tt
+		set_politics = {
+			ruling_party = democratic
+		}
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.6
+		}
+		hidden_effect = {
+			country_event = {
+				id = can.14
+				days = 10
+			}
+		}
+	}
+}
+country_event = { #캐나다 내전
+	id = can.14
+	title = can.14.t
+	desc = can.14.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = { #불청객들을 쫓아내자!
+		name = can.14.a
+		retire_ideology_leader = neutrality
+		start_civil_war = {
+			ideology = neutrality
+			states = {
+				465 464 468 331 332
+			}
+		}
+		random_other_country = {
+			limit = {
+				original_tag = CAN
+			}
+			hidden_effect = {
+				load_oob = CAN_col
+				load_oob = CAN_col_nav
+				set_cosmetic_tag = CAN_restore
+				recruit_character = ENG_edward_ellington
+				retire_country_leader = yes
+			}
+		}
+	}
+	option = { #국왕폐하만세!
+		name = can.14.b
+		retire_ideology_leader = neutrality
+		start_civil_war = {
+			ideology = neutrality
+			states = {
+				465 464 468 331 332
+			}
+		}
+		random_other_country = {
+			limit = {
+				original_tag = CAN
+			}
+			hidden_effect = {
+				load_oob = CAN_col
+				load_oob = CAN_col_nav
+				set_cosmetic_tag = CAN_restore
+				recruit_character = ENG_edward_ellington
+				retire_country_leader = yes
+				change_tag_from = CAN
 			}
 		}
 	}
