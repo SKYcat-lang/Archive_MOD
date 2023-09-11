@@ -41,6 +41,7 @@
 			add_political_power = 120
 			add_stability = -0.2
 			hidden_effect = {
+				set_country_flag = TRM_bunggoehajima
 				country_event = { id = TRM_event.1 }
 				swap_ideas = {
 					remove_idea = TRM_safe_trinity
@@ -162,11 +163,6 @@
 		}
 		completion_reward = {
 			add_stability = -0.15
-			add_days_mission_timeout = {
-                mission = TRN_country_collapse
-                days = 21
-            }
-			
 		}
 		x = 11
 		y = 1
@@ -193,10 +189,6 @@
 		y = 1
 		completion_reward = {
 			add_stability = -0.15
-		add_days_mission_timeout = {
-                mission = TRN_country_collapse
-                days = 21
-            }
 		}
 
 	}
@@ -207,6 +199,13 @@
 		available = {
 			has_country_flag = TRN_Yurizono_Seia_dead
 		}
+		offset = {
+			x = -2
+			y = -1
+			trigger = {
+					has_completed_focus = TRN_nagisa_gyehek
+			}
+		} 
 		ai_will_do = {
 			factor = 30
 			modifier = {
@@ -255,8 +254,9 @@
 		completion_reward = {
 			custom_effect_tooltip = TRM_TURIJONO_SEIA_TT
 		}
-		x = 13
-		y = 5
+		x = 0
+		y = 1
+		relative_position_id = TRN_yurijono_seia
 
 	}
 	focus = {
@@ -283,7 +283,6 @@
 			add_stability = 0.05
 			hidden_effect = {
 				country_event = { id = TRM_event.59 days = 7 } 
-				set_country_flag = TRM_bunggoehajima
 			}
 		}
 
@@ -293,6 +292,7 @@
 		# icon = GFX_goal_tmr_cooperation_nazi_focus
 		icon = GFX_goal_steel_reich
 		cost = 5.80
+		cancelable = no
 		ai_will_do = {
 			base = 100
 		}
@@ -304,6 +304,11 @@
 		}
 		available = {
 			has_completed_focus = TRN_yurijono_seia
+		}
+		allow_branch = {
+			NOT = {
+				has_completed_focus = TRN_nagisa_gyehek
+			}
 		} 
 		x = 21
 		y = 3
@@ -312,6 +317,13 @@
 		hidden_effect = {
 			retire_character = TRN_tpdldk
 		}
+        hidden_effect = { 
+            load_focus_tree = {
+                tree = TRM_focus_tree
+                keep_completed = yes
+            }
+            mark_focus_tree_layout_dirty = yes
+        }
 		}
 
 	}
@@ -319,6 +331,7 @@
 		id = TRM_newfocus_21 #희생양
 		icon = GFX_goal_TRN_nagisa_chain
 		cost = 1.50
+		cancelable = no
 		prerequisite = {
 			focus = TRM_newfocus_7
 		}
@@ -490,6 +503,7 @@
 		id = TRM_newfocus_27 #강철의 라이히
 		icon = GFX_goal_TRN_TRM_newfocus_7
 		cost = 1.50
+		cancelable = no
 		prerequisite = {
 			focus = TRM_newfocus_26
 		}
@@ -607,6 +621,11 @@
 		}
 		available = {
         country_exists = ARI
+		TRM = {
+			any_neighbor_country = {
+				tag = ARI
+			}
+		}
 		}
 		bypass = {
 			NOT = { 
@@ -632,6 +651,11 @@
 		available = {
 			has_country_flag = TRINITY_WON_THE_GEHENNA
 		}
+		allow_branch = {
+			NOT = {
+				has_completed_focus = TRN_nagisa_gyehek
+			}
+		} 
 		x = 21
 		y = 19
 		completion_reward = {
@@ -1388,8 +1412,8 @@
 		}
 	}
 	focus = {
-		id = TRN_muchabyeol_jingbyeong  # 군사 훈련
-		icon = GFX_focus_generic_license_production
+		id = TRN_muchabyeol_jingbyeong  # 무차별 징병
+		icon = GFX_focus_ITA_banda_carita
 		available = {
 
 		}		
@@ -1399,8 +1423,7 @@
 		y = 15
 		cost = 5.00
 		completion_reward = {
-			army_experience = 100
-			air_experience = 100
+			add_ideas = TRM_mucahbyueol_jingbyeong
 		}
 	}
 	focus = {
@@ -1691,6 +1714,11 @@
 		select_effect = {
             country_event = { id = TRN_after_war_event.1 days = 1 }
         }
+		allow_branch = {
+			NOT = {
+				has_completed_focus = TRN_nagisa_gyehek
+			}
+		} 
 		x = 37
 		y = 2
 		completion_reward = {
@@ -2212,7 +2240,7 @@
 		id = TRN_nagisa_gyehek
 		icon = GFX_goal_TRN_nagisa_gyehek
 		cost = 8.00
-
+		cancelable = no
 		prerequisite = {
 			focus = TRM_newfocus_4
 		}
@@ -2223,6 +2251,18 @@
 			has_country_flag = GAEBALJUNG
 				has_completed_focus = TRN_yurijono_seia
 		}
+		allow_branch = {
+			NOT = {
+				has_completed_focus = TRM_newfocus_7
+			}
+		}
+		offset = {
+			x = 10
+			y = 0
+			trigger = {
+					has_completed_focus = TRN_nagisa_gyehek
+			}
+		} 
 		x = 5
 		y = 3
 		completion_reward = {
@@ -2241,6 +2281,13 @@
 					traits = {  }
 				}
 				promote_leader = yes
+			}
+			hidden_effect = { 
+				load_focus_tree = {
+					tree = TRM_focus_tree
+					keep_completed = yes
+				}
+				mark_focus_tree_layout_dirty = yes
 			}
 		}
 	}
