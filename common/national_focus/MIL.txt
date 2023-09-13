@@ -202,6 +202,11 @@ focus_tree = {
 					add_idea = MIL_Resistance_0
 				}
 			}
+			unlock_decision_tooltip = MIL_res_n
+			unlock_decision_tooltip = MIL_res_w
+			unlock_decision_tooltip = MIL_res_e
+			unlock_decision_tooltip = MIL_res_se
+			unlock_decision_tooltip = MIL_res_sw
 		}	
 	}
 		
@@ -398,6 +403,10 @@ focus_tree = {
 				value = -0.05
 				tooltip_side = MIL_Rio_side
 			}
+			add_timed_idea = {
+				idea = MIL_forced_labor_idea
+				days = 180
+			}
 		}	
 	}
 		
@@ -415,6 +424,7 @@ focus_tree = {
 				value = -0.25
 				tooltip_side = MIL_Rio_side
 			}
+			add_ideas = MIL_bodyguard_idea
 		}	
 	}
 		
@@ -583,6 +593,7 @@ focus_tree = {
 		y = 2
 		relative_position_id = MIL_Rio_school
 		completion_reward = {
+			remove_ideas = MIL_CnC_is_hero
 		}	
 	}
 		
@@ -715,10 +726,10 @@ focus_tree = {
 		id = MIL_millennium_science_school
 		icon = unknown
 		cost = 10.00
-		prerequisite = { focus = MIL_rebuilt_school1 focus = MIL_rebuilt_school2 }
+		prerequisite = { focus = MIL_intensified_disagreements }
 		x = 18
 		y = 1
-		relative_position_id = MIL_rebuilt_school1
+		relative_position_id = MIL_intensified_disagreements
 		completion_reward = {
 		}	
 	}
@@ -726,7 +737,7 @@ focus_tree = {
 	focus = { # 바로 밑의 혼란
 		id = MIL_chaos_just_below
 		icon = GFX_focus_BUL_condemn_macedonian_organizations
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_millennium_science_school }
 		x = -2
 		y = 1
@@ -738,7 +749,7 @@ focus_tree = {
 	focus = { # 난민 문제
 		id = MIL_refugee_problem
 		icon = GFX_focus_spr_war_of_independence
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_chaos_just_below }
 		x = 0
 		y = 1
@@ -750,7 +761,7 @@ focus_tree = {
 	focus = { # 스페인 내전 개입
 		id = MIL_intervention_civil_war
 		icon = GFX_focus_intervention_spain_republic
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_refugee_problem }
 		mutually_exclusive = { focus = MIL_border_wall }
 		x = -1
@@ -763,7 +774,7 @@ focus_tree = {
 	focus = { # 국경 장벽
 		id = MIL_border_wall
 		icon = GFX_focus_generic_coastal_fort
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_refugee_problem }
 		mutually_exclusive = { focus = MIL_intervention_civil_war }
 		x = 1
@@ -892,10 +903,10 @@ focus_tree = {
 		id = MIL_domestic_administration
 		icon = GFX_focus_generic_self_management
 		cost = 5.00
-		prerequisite = { focus = MIL_rebuilt_school1 focus = MIL_rebuilt_school2 }
+		prerequisite = { focus = MIL_intensified_disagreements }
 		x = 12
 		y = 1
-		relative_position_id = MIL_rebuilt_school1
+		relative_position_id = MIL_intensified_disagreements
 		completion_reward = {
 			add_political_power = 80
 			add_stability = 0.05
@@ -911,6 +922,10 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_domestic_administration
 		completion_reward = {
+			custom_effect_tooltip = MIL_resistance_suppression_tt
+			add_to_variable = {
+				MIL_res_destroy_var = 10
+			}
 		}	
 	}
 
@@ -960,6 +975,10 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_promoting_civil_division
 		completion_reward = {
+			custom_effect_tooltip = MIL_mutual_surveillance_system_tt
+			add_to_variable = {
+				MIL_res_days_var = -10
+			}
 		}	
 	}
 
@@ -1073,12 +1092,25 @@ focus_tree = {
 		}	
 	}
 		
+	focus = { # 요새도시 에리두
+		id = MIL_the_fortress_city_of_Eridu
+		icon = GFX_goal_generic_fortify_city
+		cost = 10.00
+		prerequisite = { focus = MIL_millennium_science_school }
+		x = 10
+		y = 1
+		relative_position_id = MIL_millennium_science_school
+		completion_reward = {
+			custom_effect_tooltip = MIL_the_fortress_city_of_Eridu_tt
+		}	
+	}
+		
 	focus = { # 선제 개입
 		id = MIL_preemptive_intervention_1
 		icon = GFX_goal_generic_occupy_states_ongoing_war
 		cost = 10.00
 		prerequisite = { focus = MIL_millennium_science_school }
-		x = 10
+		x = 15
 		y = 1
 		relative_position_id = MIL_millennium_science_school
 		completion_reward = {
@@ -2229,7 +2261,7 @@ focus_tree = {
 
 	focus = { # 여왕의 날
 		id = MIL_queens_day
-		icon = unknown
+		icon = GFX_goal_MIL_day_of_queen
 		cost = 10.00
 		prerequisite = { focus = MIL_lightsword_supernova }
 		prerequisite = { focus = MIL_restart }
@@ -2249,7 +2281,7 @@ focus_tree = {
 
 	focus = { # 빛의 검 이용
 		id = MIL_use_lightsword
-		icon = unknown
+		icon = GFX_goal_MIL_use_light_sword
 		cost = 10.00
 		prerequisite = { focus = MIL_queens_day }
 		x = -3
@@ -2313,6 +2345,51 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_upgrade_AL_1S
 		completion_reward = {
+		}
+	}
+
+	focus = { # 재사회화
+		id = MIL_re_social
+		icon = unknown
+		cost = 5.00
+		prerequisite = { focus = MIL_ship_of_ATRAHASIS }
+		mutually_exclusive = { focus = MIL_iron_robots }
+		x = 2
+		y = 1
+		relative_position_id = MIL_ship_of_ATRAHASIS
+		completion_reward = {
+		}
+	}	
+
+	focus = { # 강철 기계
+		id = MIL_iron_robots
+		icon = unknown
+		cost = 5.00
+		prerequisite = { focus = MIL_ship_of_ATRAHASIS }
+		mutually_exclusive = { focus = MIL_re_social }
+		x = 6
+		y = 1
+		relative_position_id = MIL_ship_of_ATRAHASIS
+		completion_reward = {
+		}
+	}
+
+	focus = { # 레지스탕스 분쇄
+		id = MIL_kill_resistance
+		icon = unknown
+		cost = 10.00
+		prerequisite = { focus = MIL_re_social focus = MIL_iron_robots}
+		x = 2
+		y = 1
+		relative_position_id = MIL_re_social
+		completion_reward = {
+			remove_ideas = MIL_Resistance_1
+			remove_ideas = MIL_Resistance_2
+			remove_ideas = MIL_Resistance_3
+			country_event = {
+				id = MIL_event.15
+				hours = 6
+			}
 		}
 	}
 
@@ -2504,7 +2581,7 @@ focus_tree = {
 
 	focus = { # 방어수단
 		id = MIL_protect_weapon
-		icon = unknown
+		icon = GFX_goal_MIL_defense_weapon
 		cost = 5.00
 		prerequisite = { focus = MIL_how_use_lightsword }
 		x = -1
@@ -2517,7 +2594,7 @@ focus_tree = {
 
 	focus = { # 공격수단
 		id = MIL_attack_weapon
-		icon = unknown
+		icon = GFX_goal_MIL_attack_weapon
 		cost = 5.00
 		prerequisite = { focus = MIL_protect_weapon }
 		x = 0
@@ -2766,78 +2843,6 @@ focus_tree = {
 		y = 3
 		relative_position_id = MIL_take_schools
 		completion_reward = {
-		}
-	}
-
-
-	# 군사중점
-	focus = { # 군대 소집
-		id = MIL_hey_armys
-		icon = unknown
-		cost = 10.00
-		prerequisite = { focus = MIL_queens_day }
-		x = -12
-		y = 1
-		relative_position_id = MIL_queens_day
-		completion_reward = {
-			army_experience = 30
-			navy_experience = 15
-			air_experience = 15
-		}
-	}
-
-	focus = { # 키보토스 폭격
-		id = MIL_B_O_O_M
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_hey_armys }
-		x = 0
-		y = 2
-		relative_position_id = MIL_hey_armys
-		completion_reward = {
-		}
-	}
-
-	focus = { # 총기 집중
-		id = MIL_i_love_guns
-		icon = unknown
-		cost = 10.00
-		prerequisite = { focus = MIL_hey_armys }
-		mutually_exclusive = { focus = MIL_i_love_tanks }
-		x = 2
-		y = 1
-		relative_position_id = MIL_hey_armys
-		completion_reward = {
-			add_tech_bonus = {
-				bonus = 1.5
-				uses = 2
-				category = infantry_weapons
-			}
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = 100000
-				producer = MIL
-			}
-		}
-	}
-
-	focus = { # 새로운 무기
-		id = MIL_i_love_tanks
-		icon = unknown
-		cost = 10.00
-		prerequisite = { focus = MIL_hey_armys }
-		mutually_exclusive = { focus = MIL_i_love_guns }
-		x = -2
-		y = 1
-		relative_position_id = MIL_hey_armys
-		completion_reward = {
-			add_tech_bonus = {
-				bonus = 1.5
-				uses = 3
-				category = cat_light_armor 
-				category = cat_medium_armor 
-				category = cat_heavy_armor
-			}
 		}
 	}
 

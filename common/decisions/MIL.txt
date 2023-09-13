@@ -557,17 +557,24 @@ MIL_focused_research = {
 		cost = 25
 
 		modifier = {
+			custom_modifier_tooltip = MIL_resistance_15_tt
 			political_power_factor = -0.15
 			party_popularity_stability_factor = 0.10
 			stability_weekly_factor = 0.01
 		}
 
 		complete_effect = {
+			add_to_variable = {
+				MIL_res_destroy_var = 15
+			}
 			set_variable = { MIL_new_focused_research = 15 }
 			MIL_pick_focused_research_slot_effect = yes
 		}
 
 		remove_effect = {
+			add_to_variable = {
+				MIL_res_destroy_var = -10
+			}
 			set_variable = { MIL_focused_research_to_remove = 15 }
 			MIL_reset_focused_research_slot_effect = yes
 		}
@@ -621,8 +628,12 @@ MIL_focused_research = {
 FRA_prepare_war = {
 	MIL_res_all_debug = {
 		priority = 100
+		visible = {
+			is_debug = yes
+		}
 		complete_effect = {
 			clr_global_flag = MIL_res_destroy_flag
+			set_variable = { MIL_res_days_var = 70 } # 레지스탕스 필요 시간
 			785 = { set_demilitarized_zone = yes }
 			15 = { set_demilitarized_zone = yes }
 			30 = { set_demilitarized_zone = yes }
@@ -654,6 +665,9 @@ FRA_prepare_war = {
 	}
 	MIL_res_all_cut_debug = {
 		priority = 99
+		visible = {
+			is_debug = yes
+		}
 		complete_effect = {
 			clr_global_flag = MIL_res_destroy_flag
 			785 = { set_demilitarized_zone = no }
@@ -687,6 +701,9 @@ FRA_prepare_war = {
 	}
 	MIL_res_fuck_debug = {
 		priority = 98
+		visible = {
+			is_debug = yes
+		}
 		complete_effect = {
 			clr_country_flag = MIL_killing_fields
 			set_variable = { global.BA_resistance_n_var = 1 }
@@ -736,7 +753,7 @@ FRA_prepare_war = {
 			}
 		}
 		is_good = yes
-		days_mission_timeout = 25
+		days_mission_timeout = MIL_res_destroy_var
 		selectable_mission = yes
 
 		cost = MIL_res_destroy_n_var
@@ -818,7 +835,7 @@ FRA_prepare_war = {
 			}
 		}
 		is_good = yes
-		days_mission_timeout = 25
+		days_mission_timeout = MIL_res_destroy_var
 		selectable_mission = yes
 
 		cost = MIL_res_destroy_e_var
@@ -900,7 +917,7 @@ FRA_prepare_war = {
 			}
 		}
 		is_good = yes
-		days_mission_timeout = 25
+		days_mission_timeout = MIL_res_destroy_var
 		selectable_mission = yes
 
 		cost = MIL_res_destroy_w_var
@@ -982,7 +999,7 @@ FRA_prepare_war = {
 			}
 		}
 		is_good = yes
-		days_mission_timeout = 25
+		days_mission_timeout = MIL_res_destroy_var
 		selectable_mission = yes
 
 		cost = MIL_res_destroy_se_var
@@ -1064,7 +1081,7 @@ FRA_prepare_war = {
 			}
 		}
 		is_good = yes
-		days_mission_timeout = 25
+		days_mission_timeout = MIL_res_destroy_var
 		selectable_mission = yes
 
 		cost = MIL_res_destroy_sw_var
@@ -1128,7 +1145,7 @@ FRA_prepare_war = {
 			check_variable = { global.BA_resistance_n_var = 3 }
 		}
 
-		days_remove = 70
+		days_remove = MIL_res_days_var
 
 		cost = MIL_res_capital_n_var
 
@@ -1204,7 +1221,7 @@ FRA_prepare_war = {
 			check_variable = { global.BA_resistance_e_var = 3 }
 		}
 
-		days_remove = 70
+		days_remove = MIL_res_days_var
 
 		cost = MIL_res_capital_e_var
 
@@ -1279,7 +1296,7 @@ FRA_prepare_war = {
 			check_variable = { global.BA_resistance_w_var = 3 }
 		}
 
-		days_remove = 70
+		days_remove = MIL_res_days_var
 
 		cost = MIL_res_capital_w_var
 
@@ -1354,7 +1371,7 @@ FRA_prepare_war = {
 			check_variable = { global.BA_resistance_se_var = 3 }
 		}
 
-		days_remove = 70
+		days_remove = MIL_res_days_var
 
 		cost = MIL_res_capital_se_var
 
@@ -1433,7 +1450,7 @@ FRA_prepare_war = {
 			check_variable = { global.BA_resistance_sw_var = 3 }
 		}
 
-		days_remove = 70
+		days_remove = MIL_res_days_var
 
 		cost = MIL_res_capital_sw_var
 
@@ -1487,208 +1504,6 @@ FRA_prepare_war = {
 			set_variable = { global.BA_resistance_sw_var = 2 }
 		}
 	}
-	MIL_reskill_all_n = {
-		icon = GFX_decision_ger_military_buildup
-
-		ai_will_do = {
-			base = 10000
-		}
-
-		allowed = {
-			original_tag = MIL
-		}
-
-		available = {
-			NOT = {
-				has_country_flag = killing_stop_flag
-				has_country_flag = MIL_killing_fields
-			}
-		}
-
-		visible = {
-			has_completed_focus = MIL_all_kill
-			NOT = {
-				check_variable = { global.BA_resistance_n_var = 1 }
-			}
-		}
-
-		days_remove = 210
-
-		cost = 150
-
-		modifier = {
-			civilian_factory_use = 5
-			monthly_population = -0.5
-		}
-
-		complete_effect = {
-			add_manpower = -25000
-			hidden_effect = {
-				news_event = { id = BA_news.22 hours = 24 }
-			}
-			set_country_flag = MIL_killing_fields
-			785 = { set_demilitarized_zone = no }
-			15 = { set_demilitarized_zone = no }
-			30 = { set_demilitarized_zone = no }
-			24 = { set_demilitarized_zone = no }
-			16 = { set_demilitarized_zone = no }
-			set_variable = { global.BA_resistance_n_var = 1 }
-		}
-
-		remove_effect = {
-		}
-	}
-	MIL_reskill_all_e = {
-		icon = GFX_decision_ger_military_buildup
-
-		ai_will_do = {
-			base = 10000
-		}
-
-		allowed = {
-			original_tag = MIL
-		}
-
-		available = {
-			NOT = {
-				has_country_flag = killing_stop_flag
-				has_country_flag = MIL_killing_fields
-			}
-		}
-
-		visible = {
-			has_completed_focus = MIL_all_kill
-			NOT = {
-				check_variable = { global.BA_resistance_e_var = 1 }
-			}
-		}
-
-		days_remove = 210
-
-		cost = 150
-
-		modifier = {
-			civilian_factory_use = 5
-			monthly_population = -0.5
-		}
-
-		complete_effect = {
-			add_manpower = -25000
-			hidden_effect = {
-				news_event = { id = BA_news.22 hours = 24 }
-			}
-			set_country_flag = MIL_killing_fields
-			17 = { set_demilitarized_zone = no }
-			18 = { set_demilitarized_zone = no }
-			27 = { set_demilitarized_zone = no }
-			set_variable = { global.BA_resistance_e_var = 1 }
-		}
-
-		remove_effect = {
-		}
-	}
-	MIL_reskill_all_w = {
-		icon = GFX_decision_ger_military_buildup
-
-		ai_will_do = {
-			base = 10000
-		}
-
-		allowed = {
-			original_tag = MIL
-		}
-
-		available = {
-			NOT = {
-				has_country_flag = killing_stop_flag
-				has_country_flag = MIL_killing_fields
-			}
-		}
-
-		visible = {
-			has_completed_focus = MIL_all_kill
-			NOT = {
-				check_variable = { global.BA_resistance_w_var = 1 }
-			}
-		}
-
-		days_remove = 210
-
-		cost = 150
-
-		modifier = {
-			civilian_factory_use = 5
-			monthly_population = -0.5
-		}
-
-		complete_effect = {
-			add_manpower = -25000
-			hidden_effect = {
-				news_event = { id = BA_news.22 hours = 24 }
-			}
-			set_country_flag = MIL_killing_fields
-			23 = { set_demilitarized_zone = no }
-			33 = { set_demilitarized_zone = no }
-			25 = { set_demilitarized_zone = no }
-			set_variable = { global.BA_resistance_w_var = 1 }
-		}
-
-		remove_effect = {
-		}
-	}
-	MIL_reskill_all_se = {
-		icon = GFX_decision_ger_military_buildup
-
-		ai_will_do = {
-			base = 10000
-		}
-
-		allowed = {
-			original_tag = MIL
-		}
-
-		available = {
-			NOT = {
-				has_country_flag = killing_stop_flag
-				has_country_flag = MIL_killing_fields
-			}
-		}
-
-		visible = {
-			has_completed_focus = MIL_all_kill
-			NOT = {
-				check_variable = { global.BA_resistance_se_var = 1 }
-			}
-		}
-
-		days_remove = 210
-
-		cost = 150
-
-		modifier = {
-			civilian_factory_use = 5
-			monthly_population = -0.5
-		}
-
-		complete_effect = {
-			add_manpower = -25000
-			hidden_effect = {
-				news_event = { id = BA_news.22 hours = 24 }
-			}
-			set_country_flag = MIL_killing_fields
-			26 = { set_demilitarized_zone = no }
-			20 = { set_demilitarized_zone = no }
-			22 = { set_demilitarized_zone = no }
-			32 = { set_demilitarized_zone = no }
-			21 = { set_demilitarized_zone = no }
-			913 = { set_demilitarized_zone = no }
-			851 = { set_demilitarized_zone = no }
-			set_variable = { global.BA_resistance_se_var = 1 }
-		}
-
-		remove_effect = {
-		}
-	}
 	MIL_reskill_all_sw = {
 		icon = GFX_decision_ger_military_buildup
 
@@ -1708,6 +1523,7 @@ FRA_prepare_war = {
 		}
 
 		visible = {
+			always = no #일단 막아
 			has_completed_focus = MIL_all_kill
 			NOT = {
 				check_variable = { global.BA_resistance_sw_var = 1 }

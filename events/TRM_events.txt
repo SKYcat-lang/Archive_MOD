@@ -649,26 +649,28 @@ country_event = {
 		name = TRM_event.34.a 
 		every_country = {
 			limit = {
-				owns_state = 58
-				owns_state = 59
-				owns_state = 56
-				owns_state = 57
-				owns_state = 51
-				owns_state = 921
-				owns_state = 922
-				owns_state = 55
-				owns_state = 50
-				owns_state = 52
-				owns_state = 53
-				owns_state = 54
+				OR = {
+					controls_state  = 58
+					controls_state = 59
+					controls_state = 56
+					controls_state = 57
+					controls_state = 51
+					controls_state = 921
+					controls_state = 55
+					controls_state = 50
+					controls_state = 52
+					controls_state = 53
+					controls_state = 54
+				}
 			}
-			save_event_target_as = GEHENNA_COUTRY
+			ROOT = {
+				declare_war_on = {
+					target = PREV
+					type = annex_everything
+				}
+			}
 		}
 		ROOT = {
-			declare_war_on = {
-				target = event_target:GEHENNA_COUTRY
-				type = annex_everything
-			}
 			hidden_effect = {
 				add_timed_idea = {
 					idea = TRN_AI_WAR_BONUS_IDEA
@@ -1911,21 +1913,23 @@ country_event = {
 	title = TRM_event.29.t
 	desc = TRM_event.29.desc
 	picture = GFX_event_none_picture
+	immediate = {
+		hidden_effect = {
+			set_country_flag = TRN_country_collapse_yes
+			mark_focus_tree_layout_dirty = yes
+			complete_national_focus = TRM_newfocus_DIE
+		}
+	}
 	
 	is_triggered_only = yes
 	fire_only_once = yes
 	
 	option = { #
 		name = TRM_event.29.a
-		set_country_flag = TRN_country_collapse_yes
-		mark_focus_tree_layout_dirty = yes
-		complete_national_focus = TRM_newfocus_DIE
-
 		every_state = {
 			limit = {
 				is_owned_by = TRM
 			}
-
 			damage_units = {
 				state = THIS
 				org_damage = 0.5
