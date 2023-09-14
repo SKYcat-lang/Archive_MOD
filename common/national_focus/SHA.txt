@@ -1,6 +1,6 @@
 focus_tree = {
 	id = SHA
-	continuous_focus_position = { x = 100 y = 2000 } 
+	continuous_focus_position = { x = 100 y = 2500 } 
 	shared_focus = BA_new_world_technology
 	country = {
 		factor = 0
@@ -26,8 +26,9 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_stability = 0.10
-			add_war_support = 0.10
+			add_political_power = 75
+			add_stability = 0.05
+			add_war_support = 0.05
 		}
 	}
 	focus = { #키사키 루트
@@ -759,18 +760,182 @@ focus_tree = {
 		available = {
 		}   
 		bypass = {
+			has_full_control_of_state = 39
+			has_full_control_of_state = 850
 		}
 
 		completion_reward = {
 			add_state_core = 39
 			add_state_core = 850
+			if = {
+				limit = {
+					ITA = {
+						controls_state = 39
+						controls_state = 850
+					}
+				}
+				create_wargoal = {
+					target = ITA
+					type = annex_everything
+				}
+			}
+			else_if = {
+				limit = {
+					any_country = {
+						owns_state = 39
+						owns_state = 850
+					}
+				}
+				random_country = {
+					limit = {
+						owns_state = 39
+					}
+					SHA = {
+						create_wargoal = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
+			}
+			else = {
+				random_country = {
+					limit = {
+						owns_state = 39
+					}
+					SHA = {
+						create_wargoal = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
+				random_country = {
+					limit = {
+						owns_state = 850
+					}
+					SHA = {
+						create_wargoal = {
+							target = PREV
+							type = annex_everything
+						}
+					}
+				}
+			}
+
+		}
+	}
+	focus = { #
+		relative_position_id = SHA_focus_2
+		id = SHA_focus_30
+		icon = GFX_focus_attack_switzerland
+		prerequisite = { focus = SHA_focus_29 }
+		mutually_exclusive = { focus = SHA_focus_31 }
+		x = -1
+		y = 12
+		cost = 10
+		available = {
+		}   
+		bypass = {
+		}
+
+		completion_reward = {
+			add_war_support = 0.05
 			create_wargoal = {
-				target = ITA
+				target = SWI
 				type = annex_everything
+			}
+			add_state_claim = 151
+			add_state_claim = 846
+		}
+	}
+	focus = { #
+		relative_position_id = SHA_focus_2
+		id = SHA_focus_31
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = SHA_focus_29 }
+		mutually_exclusive = { focus = SHA_focus_30 }
+		x = 1
+		y = 12
+		cost = 10
+		available = {
+		}   
+		bypass = {
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 1.0
+				uses = 1
+				category = mountaineers_tech
 			}
 		}
 	}
-	
+	focus = { #
+		relative_position_id = SHA_focus_2
+		id = SHA_focus_32
+		icon = GFX_focus_ITA_italian_irredentism
+		prerequisite = { focus = SHA_focus_30 }
+		#mutually_exclusive = { focus = SHA_focus_ }
+		x = -2
+		y = 13
+		cost = 10
+		available = {
+		}   
+		bypass = {
+		}
+
+		completion_reward = {
+			add_state_core = 151
+			add_state_core = 846
+			add_state_core = 159
+			add_state_core = 160
+		}
+	}
+	focus = { #
+		relative_position_id = SHA_focus_2
+		id = SHA_focus_33
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		prerequisite = { focus = SHA_focus_30 }
+		#mutually_exclusive = { focus = SHA_focus_ }
+		x = 0
+		y = 13
+		cost = 10
+		available = {
+		}   
+		bypass = {
+		}
+
+		completion_reward = {
+			add_state_core = 102
+			add_state_core = 853
+			add_state_core = 736
+			add_state_core = 852
+		}
+	}
+	focus = { #
+		relative_position_id = SHA_focus_2
+		id = SHA_focus_34
+		icon = GFX_focus_man_claim_the_mandate_of_heaven
+		prerequisite = { focus = SHA_focus_32 }
+		prerequisite = { focus = SHA_focus_33 }
+		#mutually_exclusive = { focus = SHA_focus_ }
+		x = -1
+		y = 14
+		cost = 10
+		available = {
+		}   
+		bypass = {
+		}
+
+		completion_reward = {
+			add_war_support = 0.10
+			every_state = {
+				limit = { is_core_of = CHI }
+				add_claim_by = ROOT
+			}
+		}
+	}
 
 
 
