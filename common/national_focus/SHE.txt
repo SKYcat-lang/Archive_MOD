@@ -1247,6 +1247,13 @@ focus_tree = {
 		}
 		prerequisite = { focus = SHE_chonglyeogjeon }
 		completion_reward = {
+			army_experience = 25
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.75
+				uses = 2
+				category = cat_grand_battle_plan
+			}
 		}
 	}
 
@@ -1320,6 +1327,45 @@ focus_tree = {
 		}
 		prerequisite = { focus = SHE_janggijeogsaneobgyehoeg focus = SHE_dangijeogsaneobgyehoeg }
 		completion_reward = {
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 1.0
+				uses = 1
+				category = industry
+			}
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {	
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {	
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			if = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = SHE_world_control
+					}
+				}
+				custom_effect_tooltip = SHE_chogyehoegjuui_tt
+				add_to_variable = { SHE_world_control_production_factory_efficiency_gain_factor = 0.05 }
+				add_to_variable = { SHE_world_control_production_factory_max_efficiency_factor = 0.05 }
+				add_to_variable = { SHE_world_control_production_lack_of_resource_penalty_factor = -0.10 }
+			}
 		}
 	}
 
@@ -1401,25 +1447,6 @@ focus_tree = {
 		cost = 5
 		search_filters = {
 			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		prerequisite = { focus = SHE_yeonbangsaneobhwa }
-		mutually_exclusive = { focus = SHE_dangijeogsaneobgyehoeg  }
-		completion_reward = {
-		}
-	}
-
-	#장기적 산업 계획
-
-	focus = {
-		id = SHE_janggijeogsaneobgyehoeg
-		icon = GFX_focus_SOV_the_comecon
-		x = 5
-		y = 13
-		cost = 5
-		search_filters = {
-			
 					FOCUS_FILTER_INDUSTRY
 					
 		}
@@ -1448,7 +1475,7 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = industrial_bonus
-				bonus = 0.4
+				bonus = 0.75
 				uses = 3
 				category = industry
 			}
@@ -1852,6 +1879,17 @@ focus_tree = {
 		prerequisite = { focus = SHE_nodongjagwonlyeogganghwa }
 		prerequisite = { focus = SHE_chogyehoegjuui }
 		completion_reward = {
+			add_advisor_role = {
+				character = SHE_central_labor_union
+				advisor = {
+					slot = political_advisor
+					idea_token = SHE_central_labor_union_political_advisor
+					traits = {
+						SHE_central_labor_union_traits
+					}
+					cost = 150
+				}
+			}
 		}
 	}
 
@@ -1924,6 +1962,12 @@ focus_tree = {
 		}
 		prerequisite = { focus = SHE_hyeogmyeonguiisang }
 		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.3
+				uses = 2
+				category = land_doctrine
+			}
 		}
 	}
 
@@ -2201,6 +2245,10 @@ focus_tree = {
 			set_variable = { SHE_world_control_production_speed_buildings_factor = 0.05 } #변수 초기화
 			set_variable = { SHE_world_control_stability_factor = 0 } #변수 초기화
 			set_variable = { SHE_world_control_war_support_factor = 0 } #변수 초기화
+			set_variable = { SHE_world_control_production_factory_efficiency_gain_factor = 0 } #생산 효율 증가
+			set_variable = { SHE_world_control_production_factory_max_efficiency_factor = 0 } #생산 효율 한도
+			set_variable = { SHE_world_control_production_factory_start_efficiency_factor = 0 } #시작 생산 효율
+			set_variable = { SHE_world_control_production_lack_of_resource_penalty_factor = 0 } #자원부족 패널티
 			add_trait = {
 				character = SHE_Arona 
      			ideology = leninism
@@ -2255,7 +2303,7 @@ focus_tree = {
 						FOCUS_FILTER_ANNEXATION
 					
 		}
-		available = { has_army_manpower = { size > 499999 } }
+		available = { has_army_manpower = { size > 349999 } }
 		prerequisite = { focus = SHE_segyetongje }
 		prerequisite = { focus = SHE_jeogseongseryeogjusi }
 		completion_reward = {
