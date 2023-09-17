@@ -224,7 +224,7 @@ focus_tree = {
 		y = 4
 		relative_position_id = MIL_SEMINA
 		completion_reward = {
-				add_ideas = MIL_Millennium_Science_School_idea
+			add_ideas = MIL_Millennium_Science_School_idea
 			if = {
 				limit = {
 					has_country_flag = MIL_event2_Rio_flag
@@ -1117,12 +1117,106 @@ focus_tree = {
 		}	
 	}
 		
+	focus = { # 과학과 연구의 학원
+		id = MIL_academy_of_science_and_research
+		icon = GFX_MIL_Science_ctiy
+		cost = 10.00
+		prerequisite = { focus = MIL_millennium_science_school }
+		x = 9
+		y = 1
+		relative_position_id = MIL_millennium_science_school
+		completion_reward = {
+			add_research_slot = 1
+		}	
+	}
+		
+	focus = { # 타워 네트워크 복원
+		id = MIL_tower_network_restoration
+		icon = GFX_focus_research
+		cost = 10.00
+		prerequisite = { focus = MIL_academy_of_science_and_research }
+		x = -1
+		y = 1
+		relative_position_id = MIL_academy_of_science_and_research
+		completion_reward = {
+		}	
+	}
+		
+	focus = { # 자유로운 지식의 공유
+		id = MIL_free_knowledge_sharing
+		icon = GFX_goal_generic_scientific_exchange
+		cost = 10.00
+		prerequisite = { focus = MIL_tower_network_restoration }
+		x = 0
+		y = 1
+		relative_position_id = MIL_tower_network_restoration
+		completion_reward = {
+		}	
+	}
+		
+	focus = { # 미래의 지성인
+		id = MIL_future_intellectuals
+		icon = GFX_focus_research
+		cost = 5.00
+		prerequisite = { focus = MIL_academy_of_science_and_research }
+		x = 2
+		y = 1
+		relative_position_id = MIL_academy_of_science_and_research
+		completion_reward = {
+		}	
+	}
+		
+	focus = { # 보편적 교육
+		id = MIL_universal_education
+		icon = GFX_goal_generic_improve_relations
+		cost = 10.00
+		prerequisite = { focus = MIL_future_intellectuals }
+		mutually_exclusive = { focus = MIL_talent_selection_system }
+		x = -1
+		y = 1
+		relative_position_id = MIL_future_intellectuals
+		completion_reward = {
+		}	
+	}
+		
+	focus = { # 인재 선발 시스템
+		id = MIL_talent_selection_system
+		icon = GFX_focus_generic_self_management
+		cost = 10.00
+		prerequisite = { focus = MIL_future_intellectuals }
+		mutually_exclusive = { focus = MIL_universal_education }
+		x = 1
+		y = 1
+		relative_position_id = MIL_future_intellectuals
+		completion_reward = {
+		}	
+	}
+		
+	focus = { # 과학 집중 투자
+		id = MIL_science_focused_investment
+		icon = GFX_focus_research2
+		cost = 10.00
+		available = {
+			NOT = {
+				has_completed_focus = MIL_preemptive_intervention_1
+			}
+		}
+		prerequisite = { focus = MIL_universal_education focus = MIL_talent_selection_system }
+		prerequisite = { focus = MIL_free_knowledge_sharing }
+		x = 0
+		y = 3
+		relative_position_id = MIL_academy_of_science_and_research
+		completion_reward = {
+			add_research_slot = 1
+		}	
+	}
+		
 	focus = { # 요새도시 에리두
 		id = MIL_the_fortress_city_of_Eridu
 		icon = GFX_goal_generic_fortify_city
 		cost = 10.00
 		prerequisite = { focus = MIL_millennium_science_school }
-		x = 10
+		x = 15
 		y = 1
 		relative_position_id = MIL_millennium_science_school
 		completion_reward = {
@@ -1135,14 +1229,22 @@ focus_tree = {
 		icon = GFX_goal_generic_occupy_states_ongoing_war
 		cost = 10.00
 		prerequisite = { focus = MIL_millennium_science_school }
-		x = 15
+		available = {
+			NOT = {
+				has_completed_focus = MIL_science_focused_investment
+			}
+		}
+		x = 20
 		y = 1
 		relative_position_id = MIL_millennium_science_school
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = MIL_neutrality_idea
-				add_idea = MIL_interventionism_idea
+			hidden_effect = {
+				swap_ideas = {
+					remove_idea = MIL_neutrality_idea
+					add_idea = MIL_interventionism_idea
+				}
 			}
+			custom_effect_tooltip = MIL_preemptive_intervention_1_tt
 		}	
 	}
 		
