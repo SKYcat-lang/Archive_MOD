@@ -1139,6 +1139,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_academy_of_science_and_research
 		completion_reward = {
+			add_ideas = MIL_internet_1
 		}	
 	}
 		
@@ -1151,6 +1152,10 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_tower_network_restoration
 		completion_reward = {
+			swap_ideas = {
+				remove_idea = MIL_internet_1
+				add_idea = MIL_internet_2
+			}
 		}	
 	}
 		
@@ -1208,6 +1213,35 @@ focus_tree = {
 		relative_position_id = MIL_academy_of_science_and_research
 		completion_reward = {
 			add_research_slot = 1
+		}	
+	}
+		
+	focus = { # 우주를 향해
+		id = MIL_go_to_the_space
+		icon = GFX_focus_rocketry
+		cost = 10.00
+		available = {
+			NOT = {
+				has_completed_focus = MIL_preemptive_intervention_1
+			}
+		}
+		prerequisite = { focus = MIL_science_focused_investment }
+		x = 0
+		y = 1
+		relative_position_id = MIL_science_focused_investment
+		completion_reward = {
+			add_tech_bonus = {
+				name = GER_rocketry_focus
+				bonus = 1.0
+				uses = 2
+				category = rocketry
+			}
+			add_tech_bonus = {
+				name = GER_rocketry_focus
+				bonus = 1.0
+				uses = 2
+				category = jet_technology
+			}
 		}	
 	}
 		
@@ -2531,7 +2565,7 @@ focus_tree = {
 	focus = { # 레지스탕스 분쇄
 		id = MIL_kill_resistance
 		icon = unknown
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_re_social focus = MIL_iron_robots}
 		x = 2
 		y = 1
@@ -2543,13 +2577,13 @@ focus_tree = {
 				}	
 				remove_ideas = MIL_Resistance_1
 			}
-			else if = {
+			if = {
 				limit = {
 					has_idea = MIL_Resistance_2
 				}
 				remove_ideas = MIL_Resistance_2
 			}
-			else if = {
+			if = {
 				limit = {
 					has_idea = MIL_Resistance_3
 				}
@@ -2567,7 +2601,7 @@ focus_tree = {
 	focus = { # 아프리카로의 여정
 		id = MIL_travel_africa
 		icon = unknown
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_kill_resistance }
 		available = {
 			has_war_with = FRA
@@ -2576,7 +2610,10 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_kill_resistance
 		completion_reward = {
-			add_ideas = MIL_travel_africa_idea
+			add_timed_idea = {
+				idea = MIL_travel_africa_idea
+				days = 180
+			}	
 			add_doctrine_cost_reduction = {
 				cost_reduction = 0.5
 				uses = 2
@@ -2587,6 +2624,26 @@ focus_tree = {
 			air_experience = 5
 		}
 	}
+
+	focus = { # 프랑스 완전점령
+		id = MIL_theres_nofrance
+		icon = unknown
+		cost = 10.00
+		prerequisite = { focus = MIL_travel_africa }
+		available = {
+			NOT = {
+				has_war_with = FRA
+				has_idea = MIL_travel_africa_idea
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id = MIL_travel_africa
+		completion_reward = {
+
+		}
+	}
+
 
 	focus = { # 로봇 생산
 		id = MIL_make_robots
@@ -2654,80 +2711,6 @@ focus_tree = {
 				id = MIL_event.12
 				hours = 6
 			}
-		}
-	}
-
-	focus = { # 안녕, 아리스
-		id = MIL_new_ego
-		icon = unknown
-		cost = 10.00
-		prerequisite = { focus = MIL_queens_dance }
-		mutually_exclusive = { focus = MIL_people_destoyed }
-		x = -3
-		y = 1
-		relative_position_id = MIL_queens_dance
-		completion_reward = {
-		}
-	}
-
-	focus = { # 대량 학살의 정지
-		id = MIL_a_hero
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_new_ego }
-		x = 1
-		y = 1
-		relative_position_id = MIL_new_ego
-		completion_reward = {
-		}
-	}
-
-	focus = { # 아리스, 기동!
-		id = MIL_wake_up_ARIS
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_new_ego }
-		x = -1
-		y = 1
-		relative_position_id = MIL_new_ego
-		completion_reward = {
-		}
-	}
-
-	focus = { # 빛과 함께
-		id = MIL_light_with_you
-		icon = unknown
-		cost = 10.00
-		prerequisite = { focus = MIL_wake_up_ARIS }
-		prerequisite = { focus = MIL_a_hero }
-		x = 0
-		y = 2
-		relative_position_id = MIL_new_ego
-		completion_reward = {
-		}
-	}
-
-	focus = { # 속죄
-		id = MIL_light_live_in_you
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_light_with_you }
-		x = 0
-		y = 2
-		relative_position_id = MIL_light_with_you
-		completion_reward = {
-		}
-	}
-
-	focus = { # 새로운 미래를 향해
-		id = MIL_helping_hero
-		icon = unknown
-		cost = 10.00
-		prerequisite = { focus = MIL_wake_up_ARIS }
-		x = -1
-		y = 1
-		relative_position_id = MIL_light_with_you
-		completion_reward = {
 		}
 	}
 
@@ -2830,18 +2813,6 @@ focus_tree = {
 		}
 	}
 
-	focus = { # 홀로 남은 여왕
-		id = MIL_Last_people_queen
-		icon = unknown
-		cost = 10.00
-		prerequisite = { focus = MIL_all_kill }
-		x = 0
-		y = 1
-		relative_position_id = MIL_all_kill
-		completion_reward = {
-		}
-	}
-
 	focus = { # 어둠과 공허
 		id = MIL_darkness_and_nothing
 		icon = unknown
@@ -2850,6 +2821,18 @@ focus_tree = {
 		x = 0
 		y = 1
 		relative_position_id = MIL_claer_world
+		completion_reward = {
+		}
+	}
+
+	focus = { # 홀로 남은 여왕
+		id = MIL_Last_people_queen
+		icon = unknown
+		cost = 10.00
+		prerequisite = { focus = MIL_all_kill }
+		x = 0
+		y = 1
+		relative_position_id = MIL_all_kill
 		completion_reward = {
 		}
 	}
@@ -3043,5 +3026,80 @@ focus_tree = {
 		completion_reward = {
 		}
 	}
+
+	focus = { # 안녕, 아리스
+		id = MIL_new_ego
+		icon = unknown
+		cost = 10.00
+		prerequisite = { focus = MIL_queens_dance }
+		mutually_exclusive = { focus = MIL_people_destoyed }
+		x = -3
+		y = 1
+		relative_position_id = MIL_queens_dance
+		completion_reward = {
+		}
+	}
+
+	focus = { # 대량 학살의 정지
+		id = MIL_a_hero
+		icon = unknown
+		cost = 5.00
+		prerequisite = { focus = MIL_new_ego }
+		x = 1
+		y = 1
+		relative_position_id = MIL_new_ego
+		completion_reward = {
+		}
+	}
+
+	focus = { # 아리스, 기동!
+		id = MIL_wake_up_ARIS
+		icon = unknown
+		cost = 5.00
+		prerequisite = { focus = MIL_new_ego }
+		x = -1
+		y = 1
+		relative_position_id = MIL_new_ego
+		completion_reward = {
+		}
+	}
+
+	focus = { # 빛과 함께
+		id = MIL_light_with_you
+		icon = unknown
+		cost = 10.00
+		prerequisite = { focus = MIL_wake_up_ARIS }
+		prerequisite = { focus = MIL_a_hero }
+		x = 0
+		y = 2
+		relative_position_id = MIL_new_ego
+		completion_reward = {
+		}
+	}
+
+	focus = { # 속죄
+		id = MIL_light_live_in_you
+		icon = unknown
+		cost = 5.00
+		prerequisite = { focus = MIL_light_with_you }
+		x = 0
+		y = 2
+		relative_position_id = MIL_light_with_you
+		completion_reward = {
+		}
+	}
+
+	focus = { # 새로운 미래를 향해
+		id = MIL_helping_hero
+		icon = unknown
+		cost = 10.00
+		prerequisite = { focus = MIL_wake_up_ARIS }
+		x = -1
+		y = 1
+		relative_position_id = MIL_light_with_you
+		completion_reward = {
+		}
+	}
+
 
 }		
