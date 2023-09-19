@@ -278,13 +278,13 @@ GEH_nego_wehrmacht_decisions = {
 	}
 }
 GEH_hina_sundobu_upgrade_plan_categories = {
-
-}
-GEH_war_defence_category = {
 	GEH_this_is_fake = {
-		icon = generic_tank 
+		icon = GFX_decision_generic_army_support 
 		available = {
 			always = NO
+		}
+		allowed = {
+			
 		}
 
 		ai_will_do = {
@@ -298,4 +298,106 @@ GEH_war_defence_category = {
 			custom_effect_tooltip = GEH_this_is_fake_tt
 		}
 	}
+}
+GEH_war_defence_category = {
+	GEH_bukgu_bangeo = {
+			icon = GFX_decision_generic_form_nation
+			available = {
+				ROOT = {
+					controls_state = 58
+				}
+				has_war_with = TRM
+				NOT = {
+					has_country_flag = defense_in_GEHENNA_NORTHE
+				}
+			}
+			fire_only_once = no
+			days_re_enable = 140
+			ai_will_do = {
+				base = 1000
+			}
+			highlight_states = {
+				highlight_state_targets = {
+						state = 58
+				}
+			}
+			visible = {
+
+			}
+			days_remove = 70
+			complete_effect = {
+				set_country_flag = defense_in_GEHENNA_NORTHE
+				every_state = {
+					limit = {
+						OR = {
+						state = 59
+						state = 58
+						}
+					}
+					add_dynamic_modifier = {
+						modifier = GEH_defend_states
+					}
+				}
+			}
+			remove_effect = {
+				set_country_flag = defense_in_GEHENNA_NORTHE
+				remove_dynamic_modifier = {
+					modifier = GEH_defend_states
+				}
+			}
+		}
+		GEH_bukgu_gongse = {
+				icon = GFX_decision_generic_nationalism
+				available = {
+					ROOT = {
+						NOT = {
+							controls_state = 58
+						}
+					}
+					has_war_with = TRM
+					TRM = {
+						OR = {
+							controls_state = 58
+							controls_state = 59 
+						}
+					}
+					NOT = {
+						has_country_flag = attack_in_GEHENNA_NORTHE
+					}
+				}
+				highlight_states = {
+					highlight_state_targets = {
+							state = 59
+					}
+				}
+				fire_only_once = no
+				days_re_enable = 120
+				ai_will_do = {
+					base = 1000
+				}
+				visible = {
+	
+				}
+				days_remove = 30
+				complete_effect = {
+					set_country_flag = attack_in_GEHENNA_NORTHE
+					every_state = {
+						limit = {
+							OR = {
+							state = 59
+							state = 58
+							}
+						}
+						add_dynamic_modifier = {
+							modifier = GEH_attack_states
+						}
+					}
+				}
+				remove_effect = {
+					set_country_flag = attack_in_GEHENNA_NORTHE
+					remove_dynamic_modifier = {
+						modifier = GEH_attack_states
+					}
+				}
+			}
 }
