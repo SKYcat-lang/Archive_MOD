@@ -1606,6 +1606,12 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = MIL_the_economy }
 		mutually_exclusive = { focus = MIL_automation_economy  }
+		available = {
+			OR = {
+				has_completed_focus = MIL_rebuilt_school1
+				has_completed_focus = MIL_rebuilt_school2
+			}
+		}
 		x = -4
 		y = 1
 		relative_position_id = MIL_the_economy
@@ -1666,11 +1672,23 @@ focus_tree = {
     			popularity = 0.2
 			}
 			add_ideas = MIL_economy_of_control
-			add_trait = {
-				character = MIL_dbdnzk
-				slot = political_advisor
-				trait = MIL_head_of_experimental_economy
-		   	}
+			if = {
+				limit = {
+					has_completed_focus = MIL_rebuilt_school1
+				}
+				add_trait = {
+					character = MIL_chihiro
+					slot = political_advisor
+					trait = MIL_head_of_experimental_economy
+				}
+			}
+			else = {
+				add_trait = {
+					character = MIL_dbdnzk
+					slot = political_advisor
+					trait = MIL_head_of_experimental_economy
+				}
+			}
 		}	
 	}
 		
@@ -1757,27 +1775,44 @@ focus_tree = {
 			}
 			every_character = {
 				limit = {
-					has_ideology_group = democratic
+					is_country_leader = yes
 				}
 				add_country_leader_role = {
 					promote_leader = yes
 					country_leader = {
 						ideology = marxism
 						expire = "1965.1.1.1"
-						traits = { b_tpalskchdwo }
+						traits = { MIL_supreme_leader }
 					}
 				}
 			}
-			remove_trait = {
-				character = MIL_dbdnzk
-				slot = political_advisor
-				trait = MIL_head_of_experimental_economy
+			if = {
+				limit = {
+					has_completed_focus = MIL_rebuilt_school1
+				}
+				remove_trait = {
+					character = MIL_chihiro
+					slot = political_advisor
+					trait = MIL_head_of_experimental_economy
+				}
+				add_trait = {
+					character = MIL_chihiro
+					slot = political_advisor
+					trait = MIL_economist_yuuka
+				}
 			}
-			add_trait = {
-				character = MIL_dbdnzk
-				slot = political_advisor
-				trait = MIL_economist_yuuka
-		   	}
+			else = {
+				remove_trait = {
+					character = MIL_dbdnzk
+					slot = political_advisor
+					trait = MIL_head_of_experimental_economy
+				}
+				add_trait = {
+					character = MIL_dbdnzk
+					slot = political_advisor
+					trait = MIL_economist_yuuka
+				}
+			}
 		}	
 	}
 		
@@ -2085,11 +2120,23 @@ focus_tree = {
 		relative_position_id = MIL_direct_economic_control
 		completion_reward = {
 			add_stability = 0.10
-			add_trait = {
-				character = MIL_Noa
-				slot = political_advisor
-				trait = economic_reformer
-		   	}
+			if = {
+				limit = {
+					has_completed_focus = MIL_rebuilt_school1
+				}
+				add_trait = {
+					character = MIL_gkfp
+					slot = political_advisor
+					trait = economic_reformer
+				}
+			}
+			else = {
+				add_trait = {
+					character = MIL_Noa
+					slot = political_advisor
+					trait = economic_reformer
+				}
+			}
 		}	
 	}
 		
@@ -2221,16 +2268,33 @@ focus_tree = {
 		relative_position_id = MIL_market_subordination
 		completion_reward = {
 			add_ideas = MIL_ministry_economic_development
-			remove_trait = {
-				character = MIL_Noa
-				slot = political_advisor
-				trait = economic_reformer
+			if = {
+				limit = {
+					has_completed_focus = MIL_rebuilt_school1
+				}
+				remove_trait = {
+					character = MIL_gkfp
+					slot = political_advisor
+					trait = economic_reformer
+				   }
+				add_trait = {
+					character = MIL_gkfp
+					slot = political_advisor
+					trait = MIL_economist_noa
+				}
 			}
-			add_trait = {
-				character = MIL_Noa
-				slot = political_advisor
-				trait = MIL_economist_noa
-		   	}
+			else = {
+				remove_trait = {
+					character = MIL_Noa
+					slot = political_advisor
+					trait = economic_reformer
+				}
+				add_trait = {
+					character = MIL_Noa
+					slot = political_advisor
+					trait = MIL_economist_noa
+				}
+			}
 		}	
 	}
 		
