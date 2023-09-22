@@ -633,6 +633,7 @@ FRA_prepare_war = {
 		}
 		complete_effect = {
 			clr_global_flag = MIL_res_destroy_flag
+			clr_global_flag = MIL_res_army_flag
 			set_variable = { MIL_res_days_var = 70 } # 레지스탕스 필요 시간
 			785 = { set_demilitarized_zone = yes }
 			15 = { set_demilitarized_zone = yes }
@@ -711,6 +712,78 @@ FRA_prepare_war = {
 			set_variable = { global.BA_resistance_w_var = 1 }
 			set_variable = { global.BA_resistance_sw_var = 1 }
 			set_variable = { global.BA_resistance_se_var = 1 }
+		}
+	}
+	MIL_res_army = {
+		
+		priority = 10
+		icon = GFX_decision_generic_prepare_civil_war
+		activation = {
+			original_tag = MIL
+			MIL = {
+				has_war = yes
+				NOT = {
+					has_completed_focus = MIL_rule
+				}
+			}
+			OR = {
+				check_variable = { global.BA_resistance_n_var = 3 }
+				check_variable = { global.BA_resistance_w_var = 3 }
+				check_variable = { global.BA_resistance_e_var = 3 }
+				check_variable = { global.BA_resistance_se_var = 3 }
+				check_variable = { global.BA_resistance_sw_var = 3 }
+			}
+			NOT = {
+				has_global_flag = MIL_res_destroy_flag
+				has_global_flag = MIL_res_army_flag
+			}
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MIL_res_army_tt
+				OR = {
+					check_variable = { global.BA_resistance_n_var = 1 }
+					check_variable = { global.BA_resistance_n_var = 2 }
+				}
+				OR = {
+					check_variable = { global.BA_resistance_w_var = 1 }
+					check_variable = { global.BA_resistance_w_var = 2 }
+				}
+				OR = {
+					check_variable = { global.BA_resistance_e_var = 1 }
+					check_variable = { global.BA_resistance_e_var = 2 }
+				}
+				OR = {
+					check_variable = { global.BA_resistance_se_var = 1 }
+					check_variable = { global.BA_resistance_se_var = 2 }
+				}
+				OR = {
+					check_variable = { global.BA_resistance_sw_var = 1 }
+					check_variable = { global.BA_resistance_sw_var = 2 }
+				}
+			}
+		}
+		is_good = no
+		days_mission_timeout = MIL_res_destroy_var
+
+		timeout_effect = {
+			set_global_flag = {
+				flag = MIL_res_army_flag
+				days = 10
+				value = 1
+			}
+			set_global_flag = {
+				flag = MIL_res_destroy_flag
+				days = 20
+				value = 1
+			}
+			random_country = {
+				limit = {
+					has_war_with = MIL
+				}
+				country_event = { id = MIL_event.17 hours = 4 }
+			}
 		}
 	}
 	MIL_res_n_destroy = {
