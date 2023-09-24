@@ -264,12 +264,6 @@ focus_tree = {
 			focus = FRA_focus_6.5
 		}
 		completion_reward = {
-			16 = {
-				remove_building = {
-					type = industrial_complex
-					level = 5
-				}
-			}
 			461 = {
 				add_extra_state_shared_building_slots = 4
 				add_building_construction = {
@@ -297,12 +291,6 @@ focus_tree = {
 			focus = FRA_focus_6.5
 		}
 		completion_reward = {
-			16 = {
-				remove_building = {
-					type = arms_factory
-					level = 5
-				}
-			}
 			459 = {
 				add_extra_state_shared_building_slots = 4
 				add_building_construction = {
@@ -325,6 +313,9 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = FRA_focus_6
+		}
+		prerequisite = {
+			focus = FRA_focus_6.5
 		}
 		completion_reward = {
 			add_resource = {
@@ -365,12 +356,6 @@ focus_tree = {
 			focus = FRA_focus_6.5
 		}
 		completion_reward = {
-			851 = {
-				remove_building = {
-					type = dockyard
-					level = 5
-				}
-			}
 			460 = {
 				add_extra_state_shared_building_slots = 4
 				add_building_construction = {
@@ -3054,11 +3039,12 @@ focus_tree = {
 			focus = FRA_focus_resistance_1
 		}
 		completion_reward = {
-			unlock_decision_tooltip = FRA_res_expand_15
-			unlock_decision_tooltip = FRA_res_expand_19
-			unlock_decision_tooltip = FRA_res_expand_21
-			unlock_decision_tooltip = FRA_res_expand_23
-			unlock_decision_tooltip = FRA_res_expand_851
+			21 = {
+				remove_core_of = MIL
+			}
+			MIL = {
+				unlock_decision_tooltip = MIL_res_clear_mar
+			}
 		}
 	}
 	focus = { #거점 확대
@@ -3072,8 +3058,18 @@ focus_tree = {
 		}
 		completion_reward = {
 			MIL = {
-				add_political_power = -100
+				random_core_state = {
+					limit = {
+						is_core_of = FRA
+					}
+					remove_core_of = MIL
+				}
+				
 			}
+			MIL = {
+				unlock_decision_tooltip = MIL_res_clear_1
+			}
+			
 		}
 	}
 	focus = { #재정 지원
@@ -3086,7 +3082,10 @@ focus_tree = {
 			focus = FRA_focus_resistance_2
 		}
 		completion_reward = {
-			add_political_power = -100
+			add_political_power = -50
+			MIL = {
+				add_political_power = -100
+			}
 		}
 	}
 	focus = { #레지스탕스 강화
@@ -3103,6 +3102,12 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_political_power = 30
+			add_to_variable = {
+				MIL_res_days_var = 5
+			}
+			MIL = {
+				custom_effect_tooltip = FRA_focus_resistance_6_tt
+			}
 		}
 	}
 	focus = { #광범위 선전
@@ -3118,8 +3123,9 @@ focus_tree = {
 			focus = FRA_focus_resistance_3
 		}
 		completion_reward = {
-			add_political_power = 30
-			unlock_decision_tooltip = FRA_large_propaganda
+			MIL = {
+				country_event = FRA_prov_event.31
+			}
 		}
 	}
 	focus = { #총파업
@@ -3138,7 +3144,27 @@ focus_tree = {
 			focus = FRA_focus_resistance_6
 		}
 		completion_reward = {
-			add_political_power = 30
+			MIL = {
+				every_core_state = {
+					random_list = {
+						1 = {
+							damage_building = {
+								type = industrial_complex
+								damage = 0.3
+							}
+						}
+						1 = {
+							damage_building = {
+								type = arms_factory
+								damage = 0.3
+							}
+						}
+						2 = {
+			
+						}
+					}
+				}
+			}
 		}
 	}
 	focus = { #해방군 조직
@@ -3153,19 +3179,9 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 100
 			add_manpower = 10000
-			459 = {
-				create_unit = {
-					division = "name = \"resistance\" division_template = \"Division d'Infanterie\" start_experience_factor = 1"
-					owner = FRA
-				}
-				create_unit = {
-					division = "name = \"resistance\" division_template = \"Division d'Infanterie\" start_experience_factor = 1"
-					owner = FRA
-				}
-				create_unit = {
-					division = "name = \"resistance\" division_template = \"Division d'Infanterie\" start_experience_factor = 1"
-					owner = FRA
-				}
+			add_timed_idea = {
+				idea = FRA_lib_army
+				days = 300
 			}
 		}
 	}
