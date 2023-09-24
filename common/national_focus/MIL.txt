@@ -322,6 +322,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_Himari_intensified
 		completion_reward = {
+			MIL_Resistance_idea_down = yes
 			add_power_balance_value = {
 				id = MIL_power_balance
 				value = 0.10
@@ -523,6 +524,9 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_rebuilt_school2
 		completion_reward = {
+			remove_power_balance = {
+				id = MIL_power_balance
+			}
 			custom_effect_tooltip = MIL_Rio_school_tt
 			add_to_variable = { MIL_semina_idea_political_power_factor = 0.05 }
 			custom_effect_tooltip = enter_tt
@@ -550,6 +554,9 @@ focus_tree = {
 		y = 5
 		relative_position_id = MIL_intensified_disagreements
 		completion_reward = {
+			remove_power_balance = {
+				id = MIL_power_balance
+			}
 		}	
 	}
 		
@@ -569,10 +576,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_rebuilt_school1
 		completion_reward = {
-			add_power_balance_value = {
+			remove_power_balance = {
 				id = MIL_power_balance
-				value = 0.10
-				tooltip_side = MIL_Himari_side
 			}
 		}	
 	}
@@ -624,6 +629,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_Rio_school
 		completion_reward = {
+			set_country_flag = MIL_remove_CnC_flag
 			remove_ideas = MIL_CnC_is_hero
 		}	
 	}
@@ -652,15 +658,22 @@ focus_tree = {
 		prerequisite = { focus = MIL_control_of_everything }
 		x = 1
 		y = 1
+		available = {
+			has_country_flag = {
+				flag = MIL_remove_CnC_flag
+				days > 175
+			}
+		}
 		relative_position_id = MIL_control_of_everything
 		completion_reward = {
+			set_country_flag = MIL_remove_GDD_flag
 		}	
 	}
 		
 	focus = { # C&C 재편
 		id = MIL_CnC_reshuffle
 		icon = unknown
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_control_of_everything }
 		available = {
 			has_completed_focus = MIL_direct_bodyguards
@@ -709,11 +722,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_seminar_expansion
 		completion_reward = {
-			add_power_balance_value = {
-				id = MIL_power_balance
-				value = -1.00
-				tooltip_side = MIL_Rio_side
-			}
+			add_political_power = 120
+			add_country_leader_trait = MIL_bigsister
 		}	
 	}
 		
@@ -726,6 +736,7 @@ focus_tree = {
 		y = 2
 		relative_position_id = MIL_Rio_school
 		completion_reward = {
+			set_country_flag = MIL_internet_censorship_flag
 		}	
 	}
 		
@@ -735,6 +746,16 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_internet_censorship }
 		prerequisite = { focus = MIL_remove_GDD }
+		available = {
+			has_country_flag = {
+				flag = MIL_remove_GDD_flag
+				days > 175
+			}
+			has_country_flag = {
+				flag = MIL_internet_censorship_flag
+				days > 175
+			}
+		}
 		x = 0
 		y = 2
 		relative_position_id = MIL_internet_censorship
@@ -1227,6 +1248,10 @@ focus_tree = {
 		icon = GFX_focus_research2
 		cost = 10.00
 		available = {
+			OR = {
+				has_completed_focus = MIL_rebuilt_school1
+				has_completed_focus = MIL_rebuilt_school2
+			}
 			NOT = {
 				has_completed_focus = MIL_preemptive_intervention_1
 			}
@@ -1245,16 +1270,12 @@ focus_tree = {
 		id = MIL_go_to_the_space
 		icon = GFX_focus_rocketry
 		cost = 10.00
-		available = {
-			NOT = {
-				has_completed_focus = MIL_preemptive_intervention_1
-			}
-		}
 		prerequisite = { focus = MIL_science_focused_investment }
 		x = 0
 		y = 1
 		relative_position_id = MIL_science_focused_investment
 		completion_reward = {
+			add_country_leader_trait = MIL_starchaser
 			add_tech_bonus = {
 				name = GER_rocketry_focus
 				bonus = 1.0
@@ -1339,6 +1360,10 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_millennium_science_school }
 		available = {
+			OR = {
+				has_completed_focus = MIL_rebuilt_school1
+				has_completed_focus = MIL_rebuilt_school2
+			}
 			NOT = {
 				has_completed_focus = MIL_science_focused_investment
 			}
