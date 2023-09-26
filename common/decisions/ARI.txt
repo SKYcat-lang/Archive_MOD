@@ -1,0 +1,180 @@
+ARI_penetration = {
+	ARI_war_TRM_debug = {
+		icon = generic_operation
+		visible = {
+			is_debug = yes
+		}
+		ai_will_do = {
+			factor = 0
+		}
+		fire_only_once = yes
+		days_remove = 180
+		targeted_modifier = {
+			tag = TRM
+			attack_bonus_against = 20.0
+			defense_bonus_against = 20.0
+		}
+
+		complete_effect = {
+			clr_country_flag = penetration_try
+			set_variable = { ARI_eye_var = 2 }
+		}
+
+	}
+	ARI_war_TRM = {
+		icon = GFX_decision_generic_intelligence_operation
+
+		war_with_on_remove = TRM
+
+		visible = {
+			OR = {
+				has_completed_focus = ARI_TRM_penetration
+				date > 1940.1.1
+			}
+		}
+
+		ai_will_do = {
+			factor = 1000
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ARI_penetration_state_3_tt
+				check_variable = {
+    				var = ARI_penetration_state_var
+    				value = 3
+    				compare = greater_than_or_equals
+				}
+			}
+		}
+		fire_only_once = yes
+		days_remove = 70
+
+		cost = 150
+
+
+		complete_effect = {
+			add_to_variable = { ARI_penetration_per_var = 0.05 }
+		}
+		
+		remove_effect = {
+			create_wargoal = {
+				type = annex_everything
+				target = TRM
+				expire = 0
+			}	
+			TRM = {
+				start_civil_war = {
+					ideology = neutrality
+					size = ARI.ARI_penetration_per_var
+					states = all
+					states_filter = {
+						has_state_flag = penetration_complet
+					}
+				}
+			}
+		}
+
+	}
+	ARI_penetration_complet = {
+		icon = GFX_decision_generic_form_nation
+
+		state_target = yes
+
+		on_map_mode = map_only
+
+		target_array = TRM.core_states
+
+		target_trigger = {
+			FROM = {
+				has_state_flag = penetration_complet
+			}
+		}
+
+		available = {
+			always = no
+		}
+	}
+	ARI_penetration_TRM = {
+		icon = generic_operation
+
+		state_target = yes
+
+		on_map_mode = map_only
+
+		target_array = TRM.core_states
+
+		target_trigger = {
+			FROM = {
+				any_neighbor_state = {
+					has_state_flag = penetration_complet
+				}
+				NOT = {
+					has_state_flag = penetration_complet
+				}
+			}
+		}
+
+		available = {
+			NOT = {
+				has_country_flag = penetration_try
+				custom_trigger_tooltip = {
+					tooltip = ARI_eye_3_tt
+					check_variable = {
+						var = ARI_eye_var
+						value = 3
+						compare = greater_than_or_equals
+					}
+				}
+			}
+		}
+
+		visible = {
+			OR = {
+				has_completed_focus = ARI_TRM_penetration
+				date > 1940.1.1
+			}
+		}
+
+		cost = 25
+
+		days_remove = 70
+
+		ai_will_do = {
+			factor = 400
+		}
+		
+		modifier = {
+			political_power_cost = 1.0
+		}
+
+
+		complete_effect = {
+			set_country_flag = penetration_try
+			add_to_variable = { ARI_penetration_per_var = 0.02 }
+			random_list = {
+				25 = {
+					custom_effect_tooltip = ARI_penetration_TRM_up
+					add_to_variable = { ARI_eye_var = 1 }
+				}
+				75 = {}
+			}
+		}
+
+		remove_effect = {
+			add_to_variable = { ARI_penetration_state_var = 1 }
+			add_to_variable = { ARI_penetration_per_var = 0.03 }
+			clr_country_flag = penetration_try
+			FROM = {
+				set_state_flag = penetration_complet 
+			}
+			random_list = {
+				50 = {
+					custom_effect_tooltip = ARI_penetration_TRM_up
+					add_to_variable = { ARI_eye_var = 1 }
+				}
+				50 = {}
+			}
+		}
+	}
+}
