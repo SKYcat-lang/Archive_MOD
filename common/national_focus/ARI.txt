@@ -1,0 +1,184 @@
+focus_tree = {
+	id = ARI_focus_tree
+	continuous_focus_position = { x = 10 y = 1250 }
+	shared_focus = BA_new_world_technology
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = ARI
+		}
+	}
+	default = no
+
+    focus = {
+        id = ARI_under_the_curtain #장막 아래로
+        icon = GFX_goal_generic_defence
+        cost = 10.00
+		mutually_exclusive = { focus = ARI_use_hanran }
+        x = 7
+        y = 0
+        completion_reward = {
+			add_political_power = 120
+		}
+    }
+
+    focus = {
+        id = ARI_quiet_rearmament #조용한 재무장
+        icon = GFX_focus_secret_rearmament
+        cost = 10.00
+		prerequisite = { focus = ARI_under_the_curtain }
+        x = 0
+        y = 1
+		relative_position_id = ARI_under_the_curtain
+        completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+    }
+
+    focus = {
+        id = ARI_from_end_to_end #끝에서 끝으로
+        icon = GFX_goal_generic_army_doctrines
+        cost = 10.00
+		prerequisite = { focus = ARI_quiet_rearmament }
+        x = 1
+        y = 1
+		relative_position_id = ARI_quiet_rearmament
+        completion_reward = {
+		}
+    }
+
+    focus = {
+        id = ARI_generate_external_support #외부 지원 창출
+        icon = GFX_goal_generic_major_alliance
+        cost = 5.00
+		prerequisite = { focus = ARI_quiet_rearmament }
+        x = -2
+        y = 1
+		relative_position_id = ARI_quiet_rearmament
+        completion_reward = {
+		}
+    }
+
+    focus = {
+        id = ARI_german_resistance #독일 저항군
+        icon = GFX_focus_chi_mission_to_germany
+        cost = 5.00
+		mutually_exclusive = { focus = ARI_polish_spy }
+		prerequisite = { focus = ARI_generate_external_support }
+        x = -1
+        y = 1
+		relative_position_id = ARI_generate_external_support
+        completion_reward = {
+		}
+    }
+
+    focus = {
+        id = ARI_polish_spy #폴란드 첩보원
+        icon = GFX_focus_POL_clamp_down_on_danzig
+        cost = 5.00
+		mutually_exclusive = { focus = ARI_german_resistance }
+		prerequisite = { focus = ARI_generate_external_support }
+        x = 1
+        y = 1
+		relative_position_id = ARI_generate_external_support
+        completion_reward = {
+		}
+    }
+
+    focus = {
+        id = ARI_secret_agreement #비밀스러운 협정
+        icon = GFX_focus_chi_mission_to_the_soviet_union
+        cost = 5.00
+		prerequisite = { focus = ARI_generate_external_support }
+        x = -2
+        y = 2
+		relative_position_id = ARI_generate_external_support
+        completion_reward = {
+		}
+    }
+
+    focus = {
+        id = ARI_use_hanran #혼란 이용
+        icon = GFX_goal_generic_major_war
+        cost = 10.00
+		mutually_exclusive = { focus = ARI_under_the_curtain }
+        x = 15
+        y = 0
+        completion_reward = {
+			add_political_power = 120
+		}
+    }
+
+    focus = {
+        id = ARI_TRM_penetration #트리니티 침투
+        icon = GFX_focus_prc_infiltration
+        cost = 10.00
+		prerequisite = { focus = ARI_use_hanran }
+        x = 0
+        y = 2
+		relative_position_id = ARI_use_hanran
+        completion_reward = {
+		}
+    }
+
+    focus = {
+        id = ARI_war_with_trinity #트리니티와의 전쟁
+        icon = GFX_focus_attack_TRN
+        cost = 10.00
+		prerequisite = { focus = ARI_from_end_to_end focus = ARI_TRM_penetration }
+		available = {
+			date > 1940.1.1
+			NOT = { is_in_faction_with = TRM }
+		}
+
+		bypass = {
+			has_war_with = TRM
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+        x = 11
+        y = 3
+        completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = TRM
+				expire = 0
+			}	
+		}
+    }
+}
+
+
+
