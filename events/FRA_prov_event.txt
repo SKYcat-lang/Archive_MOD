@@ -3079,6 +3079,166 @@ country_event = { #협상국 조약 - 재수복
 		name = FRA_prov_event.113.b
 	}
 }
+country_event = { #약속하기
+	id = FRA_prov_event.114
+	title = FRA_prov_event.114.t
+	desc = FRA_prov_event.114.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = FRA_prov_event.114.a
+		add_timed_idea = {
+			idea = FRA_promise
+			days = 1000
+		}
+		custom_effect_tooltip = FRA_focus_12_tt
+	}
+}
+country_event = { #약속 어쩔거
+	id = FRA_prov_event.115
+	title = FRA_prov_event.115.t
+	desc = FRA_prov_event.115.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = { #독립시키자
+		name = FRA_prov_event.115.a
+		hidden_effect = {
+			FRA = {
+				release = MOR
+				release = ALG
+				release = MRT
+				release = WES
+				release = MLI
+				release = CAR
+				release = NGR
+				release = CHA
+				release = SEN
+				release = IVO
+				release = VOL
+				release = GNA
+			}
+		}
+	}
+	option = { #자치구 설치
+		name = FRA_prov_event.115.a
+		add_political_power = -200
+		add_stability = -0.2
+		add_war_support = -0.2
+		custom_effect_tooltip = FRA_focus_resist_10_tt
+			hidden_effect = {
+				MRT = {
+					every_state = {
+						limit = {
+							is_owned_by = fra
+							is_on_continent = africa
+							NOT = {
+								state = 459
+								state = 460
+								state = 513
+								state = 514
+							}
+						}
+						transfer_state_to=MRT
+						add_core_of = MRT
+					}
+					create_country_leader = {
+						name = FRA_borough
+						ideology = liberalism
+						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+						expire = "1965.1.1"
+					}
+					set_variable = { collaboration_formed_by = ROOT }
+				}
+				
+				MAD = {
+					transfer_state = 543
+					transfer_state = 706
+					transfer_state = 708
+					create_country_leader = {
+						name = FRA_borough
+						ideology = liberalism
+						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+						expire = "1965.1.1"
+					}
+					set_variable = { collaboration_formed_by = ROOT }
+				}
+				MOR = {
+					transfer_state = 461
+					transfer_state = 462
+					create_country_leader = {
+						name = FRA_borough
+						ideology = liberalism
+						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+						expire = "1965.1.1"
+					}
+					set_variable = { collaboration_formed_by = ROOT }
+				}
+				FRA = {
+					set_autonomy = {
+						target = MOR
+						autonomy_state = autonomy_collaboration_government
+					}
+					set_autonomy = {
+						target = MRT
+						autonomy_state = autonomy_collaboration_government
+					}
+					set_autonomy = {
+						target = MAD
+						autonomy_state = autonomy_collaboration_government
+					}
+				}
+				MRT = {
+					set_cosmetic_tag = MRT_FRA
+					set_politics = {
+						ruling_party = democratic
+						elections_allowed = no
+					}
+					set_popularities = {
+						democratic = 100
+					}
+					
+				}
+				MOR = {
+					set_cosmetic_tag = MOR_FRA
+					set_politics = {
+						ruling_party = democratic
+						elections_allowed = no
+					}
+					set_popularities = {
+						democratic = 100
+					}
+					
+				}
+				MAD = {
+					set_cosmetic_tag = MAD_FRA
+					set_politics = {
+						ruling_party = democratic
+						elections_allowed = no
+					}
+					set_popularities = {
+						democratic = 100
+					}
+					
+				}
+			}
+			ai_chance = {
+				base = 999
+			}
+	}
+	option = { #짓밟아
+		name = FRA_prov_event.115.c
+		every_core_state = {
+			limit = {
+				is_on_continent = africa
+			}
+			remove_core_of = FRA
+			start_resistance = yes
+			add_resistance = 10
+			add_compliance = -100
+		}
+		add_ideas = FRA_promise_cut
+	}
+}
 
 add_namespace = FRA_pro
 country_event = { #프로파간다 1
