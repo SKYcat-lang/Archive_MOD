@@ -631,6 +631,33 @@ FRA_urbanization = {
 }
 
 FRA_war_dec = {
+	FRA_divison_warning = { #분단 전조
+		icon = GFX_decision_generic_tank
+		allowed = {
+			original_tag = FRA
+		}
+		activation = {
+			always = no
+		}
+		is_good = no
+		available = {
+			always = no
+		}
+		
+		fire_only_once = yes
+		days_mission_timeout = 30
+		timeout_effect = {
+			hidden = {
+				FRA = {
+					country_event = FRA_prov_event.77
+				}
+				MIL = {
+					country_event = FRA_prov_event.33
+				}
+			}
+			activate_mission = FRA_division
+		}
+	}
 	FRA_division = {
 		#프랑스 분단
 		icon = GFX_decision_generic_tank
@@ -1084,15 +1111,8 @@ FRA_war_dec = {
 		icon = GFX_decision_generic_nationalism
 		visible = {
 			has_completed_focus = FRA_focus_resistance_5
-			FRA = {
-				OR = {
-					19 = {
-						is_capital = yes
-					}
-					21 = {
-						is_capital = yes
-					}
-				}
+			check_variable = {
+				FRA_lib = 1
 			}
 		}
 		available = {
@@ -1111,6 +1131,9 @@ FRA_war_dec = {
 				}
 			}
 			news_event = FRA_prov_event.41
+			add_to_variable = {
+				FRA_lib = 1
+			}
 		}
 		ai_will_do = {
 			factor = 100
@@ -1120,21 +1143,10 @@ FRA_war_dec = {
 		icon = GFX_decision_hol_war_on_pacifism
 		fire_only_once = yes
 		visible = {
-			OR = {
-				24 = {
-					is_capital = yes
-				}
-				AND = {
-					has_war = no
-					MIL = {
-						exists = no
-					}
-					24 = {
-						is_controlled_by_ROOT_or_ally = yes
-					}
-				}	
-			}
 			has_completed_focus = FRA_focus_resistance_5
+			check_variable = {
+				FAR_lib = 2
+			}
 		}
 		available = {
 			NOT = {
