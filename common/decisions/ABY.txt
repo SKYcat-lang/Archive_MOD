@@ -701,7 +701,7 @@ ABY_HYA_core = {
 }
 ABY_operations = {
 	ABY_operations_1 = {
-		icon = category_saf_anti_colonialist_crusade
+		icon = hol_draw_up_staff_plans
 		cost = 30
 		visible = {
 			has_completed_focus = ABY_I_newfocus_68
@@ -721,7 +721,7 @@ ABY_operations = {
 			}
 		}
 		ai_will_do = {
-			factor = 1000
+			factor = 100
 		}
 		complete_effect = {
 			start_border_war = {
@@ -741,12 +741,169 @@ ABY_operations = {
 					on_cancel = ABY_event.28
 				}
 			}
+			custom_effect_tooltip = ABY_first_focus_tt_30
+		}
+	}
+	ABY_operations_2 = {
+		icon = generic_political_discourse
+		cost = 30
+		visible = {
+			has_completed_focus = ABY_I_newfocus_69
+		}
+		available = {
+			country_exists = HYA
+			NOT = {
+				has_country_flag = ABY_operations_2_5
+			}
+		}
+		ai_will_do = {
+			factor = 1000
+		}
+		complete_effect = {
+			if = {
+				limit = {
+					has_country_flag = ABY_operations_2_5
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_36
+			}
+			if = {
+				limit = {
+					has_country_flag = ABY_operations_2_4
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_35
+				set_country_flag = ABY_operations_2_5
+				clr_country_flag = ABY_operations_2_4
+			}
+			if = {
+				limit = {
+					has_country_flag = ABY_operations_2_3
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_34
+				set_country_flag = ABY_operations_2_4
+				clr_country_flag = ABY_operations_2_3
+			}
+			if = {
+				limit = {
+					has_country_flag = ABY_operations_2_2
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_33
+				set_country_flag = ABY_operations_2_3
+				clr_country_flag = ABY_operations_2_2
+			}
+			if = {
+				limit = {
+					has_country_flag = ABY_operations_2_1
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_32
+				set_country_flag = ABY_operations_2_2
+				clr_country_flag = ABY_operations_2_1
+			}
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_country_flag = ABY_operations_2_1
+							has_country_flag = ABY_operations_2_2
+							has_country_flag = ABY_operations_2_3
+							has_country_flag = ABY_operations_2_4
+							has_country_flag = ABY_operations_2_5
+						}
+					}
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_31
+				set_country_flag = ABY_operations_2_1
+			}
 		}
 	}
 }
 ABY_political = {
+	ABY_political_start = {
+		icon = category_generic_democracy
+		days_mission_timeout = 120
+		priority = 1
+		activation = {
+			has_completed_focus = ABY_I_newfocus_115
+		}
+		available = {
+			democratic > 0.99
+    	}
+		timeout_effect = {
+			activate_mission = ABY_political_start
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.025
+			}
+			random = {
+   				chance = 50
+    			ABY = { country_event = { id = ABY_event.45 hours = 6 } }
+			}
+			if = {
+				limit = {
+					democratic > 0.50
+					NOT = {
+						has_government = democratic
+					}
+				}
+				ABY = { country_event = { id = ABY_event.46 hours = 6 } }
+			}
+		}
+	}
+	ABY_political_fascism = {
+		icon = category_generic_fascism
+		days_mission_timeout = 90
+		priority = 1
+		activation = {
+			has_completed_focus = ABY_I_newfocus_117
+		}
+		available = {
+			fascism > 0.99
+    	}
+		timeout_effect = {
+			activate_mission = ABY_political_start
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.025
+			}
+			if = {
+				limit = {
+					democratic > 0.50
+					NOT = {
+						has_government = fascism
+					}
+				}
+				ABY = { country_event = { id = ABY_event.46 hours = 6 } }
+			}
+		}
+	}
+	ABY_political_communism = {
+		icon = category_generic_communism
+		days_mission_timeout = 120
+		priority = 1
+		activation = {
+			has_completed_focus = ABY_I_newfocus_116
+		}
+		available = {
+			communism > 0.99
+    	}
+		timeout_effect = {
+			activate_mission = ABY_political_start
+			add_popularity = {
+				ideology = communism
+				popularity = 0.025
+			}
+			if = {
+				limit = {
+					communism > 0.50
+					NOT = {
+						has_government = communism
+					}
+				}
+				ABY = { country_event = { id = ABY_event.46 hours = 6 } }
+			}
+		}
+	}
 	ABY_political_1 = {
-		icon = category_saf_anti_colonialist_crusade
+		icon = category_generic_fascism
 		cost = 15
 		visible = {
 			has_completed_focus = ABY_I_newfocus_115
@@ -769,7 +926,7 @@ ABY_political = {
 		}
 	}
 	ABY_political_2 = {
-		icon = category_saf_anti_colonialist_crusade
+		icon = category_generic_communism
 		cost = 15
 		visible = {
 			has_completed_focus = ABY_I_newfocus_115
@@ -792,7 +949,7 @@ ABY_political = {
 		}
 	}
 	ABY_political_3 = {
-		icon = category_saf_anti_colonialist_crusade
+		icon = category_generic_fascism
 		cost = 30
 		visible = {
 			has_completed_focus = ABY_I_newfocus_116
@@ -813,7 +970,7 @@ ABY_political = {
 		}
 	}
 	ABY_political_4 = {
-		icon = category_saf_anti_colonialist_crusade
+		icon = category_generic_communism
 		cost = 30
 		visible = {
 			has_completed_focus = ABY_I_newfocus_117
@@ -834,7 +991,7 @@ ABY_political = {
 		}
 	}
 	ABY_political_5 = {
-		icon = category_saf_anti_colonialist_crusade
+		icon = category_generic_fascism
 		cost = 45
 		visible = {
 			has_completed_focus = ABY_I_newfocus_116
@@ -861,7 +1018,7 @@ ABY_political = {
 		}
 	}
 	ABY_political_6 = {
-		icon = category_saf_anti_colonialist_crusade
+		icon = category_generic_communism
 		cost = 45
 		visible = {
 			has_completed_focus = ABY_I_newfocus_117
@@ -888,7 +1045,7 @@ ABY_political = {
 		}
 	}
 	ABY_political_7 = {
-		icon = category_saf_anti_colonialist_crusade
+		icon = category_generic_foreign_policy
 		cost = 60
 		visible = {
 			OR = {
@@ -905,7 +1062,7 @@ ABY_political = {
 		}
 	}
 	ABY_political_8 = {
-		icon = category_saf_anti_colonialist_crusade
+		icon = category_generic_fascism
 		cost = 60
 		visible = {
 			has_completed_focus = ABY_I_newfocus_115
@@ -919,7 +1076,6 @@ ABY_political = {
 			}
 			fascism > 0.5
 		}
-		fire_only_once = yes
 		days_remove = 60
 		remove_effect = {
 			ABY = { country_event = { id = ABY_event.43 hours = 6 } }
@@ -932,7 +1088,7 @@ ABY_political = {
 		}
 	}
 	ABY_political_9 = {
-		icon = category_saf_anti_colonialist_crusade
+		icon = category_generic_communism
 		cost = 60
 		visible = {
 			has_completed_focus = ABY_I_newfocus_115
@@ -946,7 +1102,6 @@ ABY_political = {
 			}
 			communism > 0.5
 		}
-		fire_only_once = yes
 		days_remove = 60
 		remove_effect = {
 			ABY = { country_event = { id = ABY_event.44 hours = 6 } }
