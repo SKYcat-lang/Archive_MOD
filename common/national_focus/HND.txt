@@ -470,6 +470,8 @@ focus_tree = {
 		relative_position_id = HND_focus_com_0
 		prerequisite = {
 			focus = HND_focus_com_6
+		}
+		prerequisite = {
 			focus = HND_focus_com_8
 		}
 		mutually_exclusive = {
@@ -540,12 +542,13 @@ focus_tree = {
 			focus = HND_focus_com_in_1
 		}
 		completion_reward = {
-			add_political_power = 100
+			add_political_power = 30
+			add_ideas = HND_democent
 		}
 	}
-	focus = { #혁명가의 의무
+	focus = { #대중의 혁명성
 		id = HND_focus_com_in_1
-		icon = GFX_focus_generic_soviet_politics
+		icon = GFX_focus_spr_class_war
 		cost = 4.8
 		x = -1
 		y = 6
@@ -557,7 +560,7 @@ focus_tree = {
 			focus = HND_focus_com_12
 		}
 		completion_reward = {
-			add_political_power = 100
+			add_ideas = HND_classwar
 		}
 	}
 	focus = { #지방 저항조직 통합
@@ -574,7 +577,20 @@ focus_tree = {
 			focus = HND_focus_com_12
 		}
 		completion_reward = {
-			add_political_power = 100
+			add_stability = -0.1
+			add_war_support = 0.1
+			MAI = {
+				add_stability = -0.05
+			}
+			MDR = {
+				add_stability = -0.05
+			}
+			HDR = {
+				add_stability = -0.05
+			}
+			RJP = {
+				add_stability = -0.05
+			}
 		}
 	}
 	focus = { #연방화
@@ -613,6 +629,156 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_political_power = 100
+			custom_effect_tooltip = HND_focus_com_in_4_tt
+			hidden_effect = {
+				BAN = {
+					every_state = {
+						limit = {
+							OR = {
+								
+							state = 430
+							state = 432
+							state = 434
+							}
+						}
+						transfer_state_to=BAN
+						add_core_of = BAN
+					}
+					set_cosmetic_tag = BAN_hnd
+					create_country_leader = {
+						name = HND_pet
+						ideology = marxism
+						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+						expire = "1965.1.1"
+					}
+					set_variable = { collaboration_formed_by = ROOT }
+				}
+				BRM = {
+					every_core_state = {
+						transfer_state_to=BRM
+					}
+					set_cosmetic_tag = BRM_hnd
+					create_country_leader = {
+						name = HND_pet
+						ideology = marxism
+						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+						expire = "1965.1.1"
+					}
+					set_variable = { collaboration_formed_by = ROOT }
+				}
+				MAI = {
+					transfer_state = 425
+					transfer_state = 915
+					every_owned_state = {
+						add_core_of = MAI
+					}
+					set_cosmetic_tag = MDR_hnd
+					create_country_leader = {
+						name = HND_pet
+						ideology = marxism
+						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+						expire = "1965.1.1"
+					}
+					set_variable = { collaboration_formed_by = ROOT }
+				}
+				MDR = {
+					transfer_state = 424
+					transfer_state = 423
+					transfer_state = 916
+					every_owned_state = {
+						add_core_of = MDR
+					}
+					set_cosmetic_tag = MDR_hnd
+					create_country_leader = {
+						name = HND_pet
+						ideology = marxism
+						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+						expire = "1965.1.1"
+					}
+					set_variable = { collaboration_formed_by = ROOT }
+				}
+				HDR = {
+					transfer_state = 427
+					transfer_state = 429
+					every_owned_state = {
+						add_core_of = HDR
+					}
+					set_cosmetic_tag = HDR_hnd
+					create_country_leader = {
+						name = HND_pet
+						ideology = marxism
+						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+						expire = "1965.1.1"
+					}
+					set_variable = { collaboration_formed_by = ROOT }
+				}
+				RJP = {
+					transfer_state = 428
+					428 = {
+						add_core_of = RJP
+					}
+					set_cosmetic_tag = HDR_hnd
+					create_country_leader = {
+						name = HND_pet
+						ideology = marxism
+						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+						expire = "1965.1.1"
+					}
+					set_variable = { collaboration_formed_by = ROOT }
+				}
+				PAK = {
+					every_core_state = {
+						limit = {
+							is_owned_by = HND
+						}
+						transfer_state_to = PAK
+					}
+					transfer_state = 441
+					441 ={
+						
+					add_core_of = PAK
+					}
+					set_cosmetic_tag = PAK_hnd
+					create_country_leader = {
+						name = HND_pet
+						ideology = marxism
+						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+						expire = "1965.1.1"
+					}
+					set_variable = { collaboration_formed_by = ROOT }
+
+				}
+				HND = {
+					set_autonomy = {
+						target = MAI
+						autonomy_state = autonomy_collaboration_government
+					}
+					set_autonomy = {
+						target = MDR
+						autonomy_state = autonomy_collaboration_government
+					}
+					set_autonomy = {
+						target = BAN
+						autonomy_state = autonomy_collaboration_government
+					}
+					set_autonomy = {
+						target = PAK
+						autonomy_state = autonomy_collaboration_government
+					}
+					set_autonomy = {
+						target = BRM
+						autonomy_state = autonomy_collaboration_government
+					}
+					set_autonomy = {
+						target = RJP
+						autonomy_state = autonomy_collaboration_government
+					}
+					set_autonomy = {
+						target = HDR
+						autonomy_state = autonomy_collaboration_government
+					}
+				}
+			}
 		}
 	}
 	focus = { #내무위원회
@@ -621,9 +787,6 @@ focus_tree = {
 		cost = 4.8
 		x = 0
 		y = 7
-		mutually_exclusive = {
-			focus = HND_focus_com_in_0
-		}
 		relative_position_id = HND_focus_com_0
 		prerequisite = {
 			focus = HND_focus_com_in_0
@@ -657,7 +820,8 @@ focus_tree = {
 			focus = HND_focus_com_4
 		}
 		completion_reward = {
-			add_political_power = 100
+			add_war_support = 0.05
+			add_ideas = HND_liberation
 		}
 	}
 	focus = { #봉건 종교세력 타도
@@ -666,13 +830,15 @@ focus_tree = {
 		cost = 4.8
 		x = 5
 		y = 6
-		
 		relative_position_id = HND_focus_com_0
 		prerequisite = {
 			focus = HND_focus_com_out_0
 		}
 		completion_reward = {
-			add_political_power = 100
+			declare_war_on = {
+				target = PAK
+				type = annex_everything
+			}
 		}
 	}
 	focus = { #이슬람 정치세력 분쇄
@@ -696,7 +862,16 @@ focus_tree = {
 			focus = HND_focus_com_out_3
 		}
 		completion_reward = {
-			add_political_power = 100
+			add_political_power = -20
+			HND = {
+				every_owned_state = {
+					limit = {
+						is_core_of = PAK
+					}
+					add_resistance = -12
+					add_manpower = -200
+				}
+			}
 		}
 	}
 	focus = { #또 다른 무슬림 자치주
@@ -725,7 +900,7 @@ focus_tree = {
 				limit = {
 					is_core_of = PAK
 				}
-				add_compliance = 60
+				add_compliance = 40
 			}
 		}
 	}
@@ -743,7 +918,10 @@ focus_tree = {
 			focus = HND_focus_com_out_0
 		}
 		completion_reward = {
-			add_political_power = 100
+			declare_war_on = {
+				target = BRM
+				type = annex_everything
+			}
 		}
 	}
 	focus = { #사회주의 세력 지원
@@ -757,7 +935,13 @@ focus_tree = {
 			focus = HND_focus_com_out_4
 		}
 		completion_reward = {
-			add_political_power = 100
+			BRM = {
+				add_popularity = {
+					ideology = communism
+					popularity = 0.2
+				}
+				add_war_support = -0.2
+			}
 		}
 	}
 	focus = { #새로운동지
@@ -779,14 +963,21 @@ focus_tree = {
 			}
 		}
 		completion_reward = {
-			annex_country = {
-				target = BUR
+			if = {
+				limit = {
+					BRM = {
+						exists = yes
+					}
+				}	
+				annex_country = {
+					target = BRM
+				}
 			}
 			every_owned_state = {
 				limit = {
 					is_core_of = BRM
 				}
-				add_compliance = 50
+				add_compliance = 40
 			}
 		}
 	}
@@ -801,7 +992,19 @@ focus_tree = {
 			focus = HND_focus_com_out_0
 		}
 		completion_reward = {
-			add_political_power = 100
+			RJP = {
+				add_ideas = HND_anti_imp_march
+			}
+			HDR = {
+				add_ideas = HND_anti_imp_march
+			}
+			MAI = {
+				add_ideas = HND_anti_imp_march
+			}
+			MDR = {
+				add_ideas = HND_anti_imp_march
+			}
+			activate_mission = HND_prepare_war_for_imp
 		}
 	}
 	focus = { #차선의 협상
@@ -810,6 +1013,19 @@ focus_tree = {
 		cost = 4.8
 		x = 12
 		y = 7
+		available = {
+			OR = {
+				RJP = {
+					has_capitulated = yes
+				}
+				HDR = {
+					has_capitulated = yes
+				}
+				MAI = {
+					has_capitulated = yes
+				}
+			}
+		}
 		mutually_exclusive = {
 			focus = HND_focus_com_out_8.5
 		}
@@ -818,7 +1034,29 @@ focus_tree = {
 			focus = HND_focus_com_out_7
 		}
 		completion_reward = {
-			add_political_power = 100
+			add_political_power = -100
+			every_country = {
+				limit = {
+					OR = {
+						tag = RJP
+						tag = MAI
+						tag = MDR
+						tag = HDR
+					}
+					has_capitulated = yes
+				}
+				HND = {
+					annex_country = {
+						target = PREV
+					}
+				}
+			}
+			every_country = {
+				limit = {
+					has_war_with = HND
+				}
+				white_peace = HND
+			}
 		}
 	}
 	focus = { #끝까지
@@ -830,12 +1068,37 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = HND_focus_com_out_8
 		}
+		available = {
+			HND = {
+				all_core_state = {
+					is_controlled_by = HND
+				}
+			}
+		}
 		relative_position_id = HND_focus_com_0
 		prerequisite = {
 			focus = HND_focus_com_out_7
 		}
 		completion_reward = {
-			add_political_power = 100
+			every_core_state = {
+				transfer_state_to = HND
+			}
+			every_country = {
+				limit = {
+					OR = {
+						tag = RJP
+						tag = MAI
+						tag = MDR
+						tag = HDR
+					}
+					has_capitulated = yes
+				}
+				HND = {
+					annex_country = {
+						target = PREV
+					}
+				}
+			}
 		}
 	}
 	focus = { #아대륙의 기상
@@ -858,7 +1121,8 @@ focus_tree = {
 			focus = HND_focus_com_out_8.5
 		}
 		completion_reward = {
-			add_political_power = 100
+			add_ideas = HND_subcontinent
+			add_stability = 0.05
 		}
 	}
 	focus = { #소련과의 협력
@@ -871,8 +1135,27 @@ focus_tree = {
 		prerequisite = {
 			focus = HND_focus_com_out_9
 		}
+		bypass = {
+			SOV = {
+				OR = {
+					has_capitulated = yes
+					exists = no
+					is_puppet = yes
+				}
+			}
+		}
 		completion_reward = {
-			add_political_power = 100
+			add_opinion_modifier = {
+				target = SOV
+				modifier = HUN_SOV_good
+			}
+			SOV = {
+				
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = HUN_SOV_good
+			}
+			}
 		}
 	}
 	focus = { #자주적 외교
@@ -886,7 +1169,8 @@ focus_tree = {
 			focus = HND_focus_com_out_10
 		}
 		completion_reward = {
-			add_political_power = 100
+			add_political_power = -10
+			create_faction = HND_com_faction
 		}
 	}
 	focus = { #국제주의 고수
@@ -899,8 +1183,14 @@ focus_tree = {
 		prerequisite = {
 			focus = HND_focus_com_out_10
 		}
+		ai_will_do = {
+			base = 100
+		}
 		completion_reward = {
-			add_political_power = 100
+			add_political_power = 10
+			SOV = {
+				add_to_faction = HND
+			}
 		}
 	}
 	focus = { #동아시아 해방의 전쟁
@@ -915,11 +1205,21 @@ focus_tree = {
 				has_war_with = CHI
 			}
 		}
+		bypass = {
+			NOT = {
+				JAP = {
+					has_war_with = CHI
+				}
+			}
+		}
 		prerequisite = {
 			focus = HND_focus_com_out_9
 		}
 		completion_reward = {
-			add_political_power = 100
+			declare_war_on = {
+				target = JAP
+				type = annex_everything
+			}
 		}
 	}
 	focus = { #중원의 반동세력
@@ -938,7 +1238,10 @@ focus_tree = {
 			focus = HND_focus_com_out_13
 		}
 		completion_reward = {
-			add_political_power = 100
+			declare_war_on = {
+				target = CHI
+				type = annex_everything
+			}
 		}
 	}
 	focus = { #인도차이나의 소용돌이
@@ -957,7 +1260,10 @@ focus_tree = {
 			focus = HND_focus_com_out_13
 		}
 		completion_reward = {
-			add_political_power = 100
+			declare_war_on = {
+				target = FRA
+				type = annex_everything
+			}
 		}
 	}
 	focus = { #마지막 인민
@@ -976,7 +1282,11 @@ focus_tree = {
 			focus = HND_focus_com_out_15
 		}
 		completion_reward = {
-			add_political_power = 100
+			add_political_power = 50
+			swap_ideas = {
+				remove_idea = HND_liberation
+				add_idea = HND_liberation_1
+			}
 		}
 	}
 }
