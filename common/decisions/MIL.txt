@@ -182,7 +182,7 @@ MIL_robot_production = {
 			set_variable = { MIL_Millennium_robot_army_idea_stability_factor = 0.05 }
 			set_variable = { MIL_Millennium_robot_army_idea_army_core_attack_factor = 0 }
 			set_variable = { MIL_Millennium_robot_army_idea_army_attack_factor = 0 }
-			set_variable = { MIL_Millennium_robot_army_idea_army_defence_factor = 0. }
+			set_variable = { MIL_Millennium_robot_army_idea_army_defence_factor = 0.02 }
 			set_variable = { MIL_Millennium_robot_army_idea_army_core_defence_factor = 0 }
 			set_variable = { MIL_Millennium_robot_army_idea_army_org_factor = 0 }
 			set_variable = { MIL_Millennium_robot_army_idea_army_org_regain = 0 }
@@ -218,7 +218,7 @@ MIL_focused_research = {
 		complete_effect = {
 			set_variable = { mil_focused_research_slot_one_var = 2 }
 			set_variable = { mil_focused_research_slot_two_var = 2 }
-			set_variable = { mil_focused_research_slot_three_var = 2	 }
+			set_variable = { mil_focused_research_slot_three_var = 2 }
 		}
 	}
 	MIL_focused_research_unlock = {
@@ -609,6 +609,28 @@ MIL_focused_research = {
 }
 
 FRA_prepare_war = {
+	MIL_res_dn_debug = {
+		priority = 100
+		visible = {
+			is_debug = yes
+		}
+		complete_effect = {
+			if = {
+				limit = {
+					MIL_Resistance_atv_trigger = yes
+				}
+				MIL_Resistance_idea_down = yes
+				else = {
+					custom_effect_tooltip = MIL_res_down_tt
+					set_variable = { global.BA_resistance_n_var = 1 }
+					set_variable = { global.BA_resistance_e_var = 1 }
+					set_variable = { global.BA_resistance_w_var = 1 }
+					set_variable = { global.BA_resistance_sw_var = 1 }
+					set_variable = { global.BA_resistance_se_var = 1 }
+				}
+			}
+		}
+	}
 	MIL_res_all_debug = {
 		priority = 100
 		visible = {
@@ -701,6 +723,51 @@ FRA_prepare_war = {
 			set_variable = { global.BA_resistance_se_var = 1 }
 		}
 	}
+	MIL_res_down = {
+		icon = GFX_decision_oppression
+		ai_will_do = {
+			base = 1000
+		}
+		visible = {
+			has_completed_focus = MIL_rule
+		}
+
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MIL_res_clr_tt
+				NOT = {
+					check_variable = { global.BA_resistance_n_var = 3 }
+					check_variable = { global.BA_resistance_e_var = 3 }
+					check_variable = { global.BA_resistance_w_var = 3 }
+					check_variable = { global.BA_resistance_sw_var = 3 }
+					check_variable = { global.BA_resistance_se_var = 3 }
+				}
+			}
+		}
+		cost = 200
+
+		modifier = {
+			political_power_cost = 1.5
+		}
+
+		days_remove = 70
+		remove_effect = {
+			if = {
+				limit = {
+					MIL_Resistance_atv_trigger = yes
+				}
+				MIL_Resistance_idea_down = yes
+				else = {
+					custom_effect_tooltip = MIL_res_down_tt
+					set_variable = { global.BA_resistance_n_var = 1 }
+					set_variable = { global.BA_resistance_e_var = 1 }
+					set_variable = { global.BA_resistance_w_var = 1 }
+					set_variable = { global.BA_resistance_sw_var = 1 }
+					set_variable = { global.BA_resistance_se_var = 1 }
+				}
+			}
+		}
+	}
 	MIL_res_clear_mar = {
 		icon = GFX_decision_oppression
 		ai_will_do = {
@@ -784,12 +851,12 @@ FRA_prepare_war = {
 		cost = MIL_res_stop_var
 
 		modifier = {
-			political_power_cost = 1.0
+			political_power_cost = 0.4
 		}
 
 		complete_effect = {
 			add_to_variable = {
-				MIL_res_stop_var = 5
+				MIL_res_stop_var = 1
 			}
 			set_variable = { global.BA_resistance_n_var = 1 }
 		}
@@ -821,12 +888,12 @@ FRA_prepare_war = {
 		cost = MIL_res_stop_var
 
 		modifier = {
-			political_power_cost = 1.0
+			political_power_cost = 0.4
 		}
 
 		complete_effect = {
 			add_to_variable = {
-				MIL_res_stop_var = 5
+				MIL_res_stop_var = 1
 			}
 			set_variable = { global.BA_resistance_e_var = 1 }
 		}
@@ -858,12 +925,12 @@ FRA_prepare_war = {
 		cost = MIL_res_stop_var
 
 		modifier = {
-			political_power_cost = 1.0
+			political_power_cost = 0.4
 		}
 
 		complete_effect = {
 			add_to_variable = {
-				MIL_res_stop_var = 5
+				MIL_res_stop_var = 1
 			}
 			set_variable = { global.BA_resistance_w_var = 1 }
 		}
@@ -895,12 +962,12 @@ FRA_prepare_war = {
 		cost = MIL_res_stop_var
 
 		modifier = {
-			political_power_cost = 1.0
+			political_power_cost = 0.4
 		}
 
 		complete_effect = {
 			add_to_variable = {
-				MIL_res_stop_var = 5
+				MIL_res_stop_var = 1
 			}
 			set_variable = { global.BA_resistance_se_var = 1 }
 		}
@@ -932,12 +999,12 @@ FRA_prepare_war = {
 		cost = MIL_res_stop_var
 
 		modifier = {
-			political_power_cost = 1.0
+			political_power_cost = 0.4
 		}
 
 		complete_effect = {
 			add_to_variable = {
-				MIL_res_stop_var = 5
+				MIL_res_stop_var = 1
 			}
 			set_variable = { global.BA_resistance_sw_var = 1 }
 		}
