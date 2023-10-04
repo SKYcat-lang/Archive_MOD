@@ -1,0 +1,379 @@
+focus_tree = {
+	id = RED_focus_tree
+	
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = RED
+		}
+	}
+
+	default = no
+
+	continuous_focus_position = { x = 50 y = 1600 }
+
+# 붉은겨울 산업 중점
+	focus = { # 남부 도로 재정비
+		id = RED_road_to_south
+		icon = GFX_goal_generic_construction
+		mutually_exclusive = { focus = RED_road_to_north }
+		x = 1
+		y = 0
+		cost = 5
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+			110 = { # 외스틀란데트
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			140 = { #베스테르예틀란드
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			139 = { #스몰란드
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			99 = { #유틀란드
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			37 = { #덴마크
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { # 북부 도로 재개발
+		id = RED_road_to_north
+		icon = GFX_goal_generic_construction
+		mutually_exclusive = { focus = RED_road_to_south }
+		x = 2
+		y = 0
+		relative_position_id = RED_road_to_south
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+			141 = { # 스베알란드
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			38 = { # 노를란드
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+			666 = { #라플란드
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { # 토지 조사
+		id = RED_land_research
+		icon = GFX_focus_generic_industry_1
+		x = 1
+		y = 1
+		cost = 10
+		relative_position_id = RED_road_to_south
+
+		prerequisite = { focus = RED_road_to_south focus = RED_road_to_north }
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+
+# 붉은겨울 정치 중점(공산주의 루트)
+	focus = { #트로츠키주의 수용
+		id = RED_accept_trotskism
+		icon = GFX_focus_fra_loyalty_trotzky
+		mutually_exclusive = { focus = RED_ivan_kupla }
+		x = 12
+		y = 0
+		relative_position_id = 	id = RED_road_to_north
+		cost = 5
+		ai_will_do = {
+			factor = 0
+		}
+
+		available = {
+			has_government = communism
+		}
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = { has_completed_focus = RED_ivan_kupla }
+			}
+		}
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			custom_effect_tooltip = RED_accept_trotskism_tt
+			hidden_effect = {
+				add_ideas = {
+    				RED_lev_trotsky_pol
+    				RED_lev_trotsky_mil
+				}
+			}
+		}
+	}
+	focus = { #제 4인터내셔널
+		id = RED_the_fourth_international
+		icon = GFX_goal_support_fourth_int
+		prerequisite = { focus = RED_accept_trotskism }
+		x = -4
+		y = 1
+		relative_position_id = RED_accept_trotskism
+		cost = 10
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			add_political_power = 120
+
+			news_event = { id = BA_news.27 hours = 2 random_hours = 2 }
+		}
+	}
+	focus = { #푸딩 추가 배급
+		id = RED_pudding_supply
+		icon = GFX_goal_tripartite_pact
+		prerequisite = { focus = RED_accept_trotskism }
+		x = -2 
+		y = 1
+		relative_position_id = RED_accept_trotskism
+		cost = 5
+
+		available = {
+			
+		}
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			custom_effect_tooltip = RED_pudding_supply_tt
+			hidden_effect = {
+				add_dynamic_modifier = {
+					modifier = RED_pudding_supply_dynamic_modifier 
+					scope = RED
+					days = 90
+				}
+			}
+		}
+	}
+	focus = { # 내부를 살피다
+		id = RED_care_for_in
+		icon = GFX_focus_generic_self_management
+		prerequisite = { focus = RED_the_fourth_international }
+		prerequisite = { focus = RED_pudding_supply }
+		x = 1
+		y = 2
+		relative_position_id = RED_the_fourth_international
+		cost = 10
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			custom_effect_tooltip = RED_care_for_in_tt
+			hidden_effect = {
+				country_event = { id = RED_care_for_in_event.1 hours = 12 }
+			}
+		}
+	}
+	focus = { # 경비국 복원
+		id = RED_restore_the_security
+		icon = GFX_focus_SOV_organize_wreckers
+		prerequisite = { focus = RED_accept_trotskism }
+		x = 1
+		y = 1
+		relative_position_id = RED_accept_trotskism
+		cost = 10
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			add_stability = 0.10
+			add_war_support = 0.10
+			custom_effect_tooltip = RED_restore_the_security_tt
+			hidden_effect = { add_ideas = RED_the_security_idea }
+		}
+	}
+	focus = { # 공안국 강화
+		id = RED_upgrade_the_intel
+		icon = GFX_goal_generic_construction2
+		prerequisite = { focus = RED_accept_trotskism }
+		x = 3
+		y = 1
+		relative_position_id = RED_accept_trotskism
+		cost = 5
+		available = {
+		}
+		                
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_dlc = "La Resistance"
+				}
+				custom_effect_tooltip = RED_upgrade_the_intel_idea_tt
+				hidden_effect = { add_ideas = RED_the_counterintelligence_idea }
+				if = {
+					limit = {
+						has_intelligence_agency = no
+					}
+					custom_effect_tooltip = RED_upgrade_the_intel_tt
+					hidden_effect{
+						create_intelligence_agency = yes
+					}
+				}
+			}
+		}
+	}
+	focus = { # 현지인 억압
+		id = RED_depress_locals
+		icon = GFX_goal_generic_intelligence_exchange
+		mutually_exclusive = { focus = RED_enticing_locals }
+		prerequisite = { focus = RED_accept_trotskism }
+		x = 5
+		y = 1
+		relative_position_id = RED_accept_trotskism
+		cost = 5
+		available = {
+		}
+		                
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			add_stability = -0.10
+			add_political_power = 150
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.20
+			}
+		}
+	}
+	focus = { # 현지인 회유
+		id = RED_enticing_locals
+		icon = GFX_goal_generic_intelligence_exchange
+		mutually_exclusive = { focus = RED_depress_locals }
+		prerequisite = { focus = RED_accept_trotskism } 
+		x = 7
+		y = 1
+		relative_position_id = RED_accept_trotskism
+		cost = 10
+		available = {
+		}
+		                
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			add_stability = 0.15
+			add_political_power = 50
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
+		}
+	}
+
+# 붉은겨울 정치중점(비동맹주의 루트)
+	focus = { #이반 쿠팔라
+		id = RED_ivan_kupla
+		icon = GFX_goal_generic_war_with_comintern
+		mutually_exclusive = { focus = RED_the_path_of_redwinter }
+		x = 12
+		y = 0
+		relative_position_id = RED_accept_trotskism
+
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+		available = {
+			neutrality > 0.2
+		}
+
+		available_if_capitulated = yes
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			custom_effect_tooltip = RED_ivan_kupla_tt
+			add_political_power = 25
+
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
+		}
+	}
+}
