@@ -134,23 +134,623 @@ focus_tree = {
 			}
 		}
 	}
+	focus = { # 철도망 개선
+		id = RED_improve_railway_network
 
-# 붉은겨울 정치 중점(공산주의 루트)
-	focus = { #트로츠키주의 수용
-		id = RED_accept_trotskism
-		icon = GFX_focus_fra_loyalty_trotzky
-		mutually_exclusive = { focus = RED_ivan_kupla }
-		x = 12
-		y = 0
-		relative_position_id = 	id = RED_road_to_north
-		cost = 5
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = RED_economy_dev_plan }
+		x = -2
+		y = 1
+		relative_position_id = RED_economy_dev_plan
+		cost = 10
+
 		ai_will_do = {
-			factor = 0
+			factor = 1
 		}
 
 		available = {
-			has_government = communism
+
 		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+			# 지식해방전선 - 붉은겨울 사무국 - 토모에 그라드
+			build_railway = {
+				path = { 69 11114 6028 9054 3063 }
+			}
+			# 공안국 - 경비국
+			build_railway = {
+				path = { 3325 3277 6364 }
+			}
+			# 지식해방전선 보급 허브
+			11114 = {
+				add_building_construction = {
+					type = supply_node
+					level = 1
+					province = 11114
+					instant_build = yes
+				}
+			}
+			add_timed_idea = {
+				idea = RED_train_production_idea
+				days = 365
+			}
+		}
+	}
+	focus = { # 경제 발전 계획
+		id = RED_economy_dev_plan
+
+		icon = GFX_focus_generic_industry_2
+		prerequisite = { focus = RED_land_research }
+		x = 0
+		y = 1
+		relative_position_id = RED_land_research
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+				}
+			}
+			add_timed_idea = {
+				idea = RED_economy_recover_idea
+				days = 160
+			}
+		}
+	}
+	focus = { # 용역부 회유
+		id = RED_entice_publicworks
+
+		icon = GFX_goal_generic_construction2
+		prerequisite = { focus = RED_economy_dev_plan }
+		x = 0
+		y = 1
+		relative_position_id = RED_economy_dev_plan
+		cost = 10
+
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		bypass = {
+			#has_completed_focus = { focus = }
+		}
+
+		completion_reward = {
+			add_stability = 0.05
+			add_ideas = { RED_the_publicworks_idea }
+		}
+	}
+	focus = { # 중공업 확장
+		id = RED_upgrade_heavy_industry
+
+		icon = GFX_goal_generic_construct_civ_factory
+
+		prerequisite = { focus = RED_entice_publicworks }
+		x = -2
+		y = 2
+		relative_position_id = RED_entice_publicworks
+		cost = 10
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { # 군수공업 확장
+		id = RED_upgrade_army_industry
+
+		icon = GFX_goal_generic_construct_mil_factory
+
+		prerequisite = { focus = RED_entice_publicworks }
+		x = 2
+		y = 2
+		relative_position_id = RED_entice_publicworks
+		cost = 10
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = arms_factory
+				level = 2
+				instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = arms_factory
+				level = 2
+				instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { # 철광 확장
+		id = RED_steel_casting_industry
+
+		icon = GFX_focus_generic_steel
+		prerequisite = { focus = RED_upgrade_army_industry focus = RED_upgrade_heavy_industry }
+		x = 2
+		y = 1
+		relative_position_id = RED_upgrade_heavy_industry
+		cost = 10
+
+		available = {
+			any_owned_state = {
+				has_resources_amount = {
+					resource = steel
+					amount > 0
+				}
+				free_building_slots = {
+					building = industrial_complex
+					size > 1
+					include_locked = yes
+				}
+			}
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					has_resources_amount = {
+						resource = steel
+						amount > 0
+					}
+				}
+				add_resource = {
+					type = steel
+					amount = 5
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					has_resources_amount = {
+						resource = steel
+						amount > 0
+					}
+				}
+				add_resource = {
+					type = steel
+					amount = 5
+				}
+			}
+		}
+	}
+	focus = { # 합성 고무
+		id = RED_synthetic_rubber
+
+		icon = GFX_focus_generic_rubber
+		prerequisite = { focus = RED_steel_casting_industry }
+		x = -1
+		y = 1
+		relative_position_id = RED_steel_casting_industry
+		cost = 5
+
+		available = {
+			has_tech = rubber_processing
+			has_full_control_of_state = 110 #외스틀란데트
+			has_full_control_of_state = 140 #베스테르예틀란드
+			has_full_control_of_state = 141 #스베알란드
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH}
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_full_control_of_state = 110 #외스틀란데트
+				}
+				110 = { #외스틀란데트
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = synthetic_refinery
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 140 #베스테르예틀란드
+				}
+				140 = { #베스테르예틀란드
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = synthetic_refinery
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 141 #스베알란드
+				}
+				141 = { #스베알란드
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = synthetic_refinery
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			add_tech_bonus = {
+				bonus = 1
+				uses = 2
+				category = cat_synth_rubber
+			}
+		}
+	}
+	focus = { # 유전 개발
+		id = RED_oil_production
+
+		icon = GFX_goal_generic_oil_refinery
+		prerequisite = { focus = RED_steel_casting_industry }
+		x = 1
+		y = 1
+		relative_position_id = RED_steel_casting_industry
+		cost = 5
+
+		available = {
+			has_full_control_of_state = 110 #외스틀란데트
+			has_full_control_of_state = 140 #베스테르예틀란드
+			has_full_control_of_state = 141 #스베알란드
+			has_full_control_of_state = 144 #노르노르게
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+			every_owned_state = {
+				limit ={
+					is_fully_controlled_by = ROOT
+					has_resources_amount = {
+						resource = oil
+						amount > 0
+					}
+				}
+				add_resource = {
+					type = oil
+					amount = 3
+				}
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 144 #노르노르게
+				}
+				110 = { #노르노르게
+					add_extra_state_shared_building_slots = 1
+					add_resource = {
+						type = oil
+						amount = 3
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 110 #외스틀란데트
+				}
+				110 = { #외스틀란데트
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = fuel_silo
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 140 #베스테르예틀란드
+				}
+				140 = { #베스테르예틀란드
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = fuel_silo
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 141 #스베알란드
+				}
+				141 = { #스베알란드
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = fuel_silo
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	focus = { # 산업 미래화
+		id = RED_industrial_futurization
+
+		icon = GFX_goal_reichsautobahn
+		prerequisite = { focus = RED_upgrade_heavy_industry }
+		x = 0
+		y = 3
+		relative_position_id = RED_upgrade_heavy_industry
+		cost = 10
+
+		available = {
+			num_of_controlled_factories > 50
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+				}
+			}
+			add_timed_idea = {
+				idea = RED_industrial_futurization_idea
+				days = 140
+			}
+		}
+	}
+	focus = { # 미래식 생산라인
+		id = RED_future_production_line
+
+		icon = GFX_focus_generic_tank_production
+		prerequisite = { focus = RED_upgrade_army_industry }
+		x = 0
+		y = 3
+		relative_position_id = RED_upgrade_army_industry
+		cost = 10
+
+		available = {
+			num_of_controlled_factories > 40
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = arms_factory
+				level = 2
+				instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = arms_factory
+				level = 2
+				instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = arms_factory
+				level = 2
+				instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				bonus = 1
+				uses = 2
+				category = cat_production
+			}
+			add_tech_bonus = {
+				bonus = 1
+				uses = 2
+				category = artillery
+			}
+			add_timed_idea = {
+				idea = RED_future_production_line_idea
+				days = 140
+			}
+		}
+	}
+	focus = { # 복구된 경제
+		id = RED_restored_economy
+
+		icon = GFX_focus_generic_industry_3
+		prerequisite = { focus = RED_industrial_futurization }
+		x = 0
+		y = 1
+		relative_position_id = RED_industrial_futurization
+		cost = 5
+
+		cancel_if_invalid = yes
+
+		available = {
+			num_of_controlled_factories > 60
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = RED_doomed_economy_idea 
+				add_idea = RED_miracle_economy_idea
+			}
+		}
+	}
+	focus = { # 지식해방전선에 투자
+		id = RED_national_specialists
+
+		icon = GFX_focus_spa_the_spanish_miracle
+		prerequisite = { focus = RED_economy_dev_plan }
+		x = 4
+		y = 1
+		relative_position_id = RED_economy_dev_plan
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_RESEARCH}
+
+		completion_reward = {
+			add_timed_idea = { 
+				idea = RED_invest_frontline_idea
+				days = 365
+			}
+		}
+	}
+	focus = { # 지식의 해방
+		id = RED_knowledge_liberation
+
+		icon = GFX_focus_research
+		prerequisite = { focus = RED_national_specialists }
+		x = 0
+		y = 2
+		relative_position_id = RED_national_specialists
+		cost = 10
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_RESEARCH}
+
+		completion_reward = {
+			add_research_slot = 1
+			add_ideas = RED_knowledge_liberation_idea
+		}
+	}
+	focus = { #	지식을 위해!
+		id = RED_for_knowledge
+
+		icon = GFX_focus_research2
+		prerequisite = { focus = RED_knowledge_liberation }
+		x = 0
+		y = 3
+		relative_position_id = RED_knowledge_liberation
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_RESEARCH}
+
+		completion_reward = {
+			add_ideas = RED_for_knowledge_idea
+		}
+	}
+	focus = { # 강력한 한방
+		id = RED_great_punch
+
+		icon = GFX_focus_wonderweapons
+		prerequisite = { focus = RED_for_knowledge }
+		x = -1
+		y = 2
+		cost = 20
+		relative_position_id = RED_for_knowledge
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_RESEARCH}
+
+		completion_reward = {
+			add_tech_bonus = {
+				ahead_reduction = 10
+				uses = 3
+				category = nuclear
+			}
+		}
+	}
+	focus = { # 라케트니 라만티크
+		id = RED_rocket_romance
+
+		icon = GFX_goal_generic_construction2
+		prerequisite = { focus = RED_for_knowledge }
+		x = 1
+		y = 2
+		relative_position_id = RED_for_knowledge
+		cost = 10
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_RESEARCH}
+
+		completion_reward = {
+			add_tech_bonus = {
+				ahead_reduction = 10
+				uses = 6
+				category = rocketry
+			}
+		}
+	}
+
+# 붉은겨울 정치 중점(체리노 루트)
+	focus = { # 트로츠키주의 수용
+		id = RED_accept_trotskism
+		icon = GFX_focus_fra_loyalty_trotzky
+		mutually_exclusive = { focus = RED_ivan_kupla }
+		x = 14
+		y = 0
+		cost = 5
+		
+		ai_will_do = {
+			factor = 100
+		}
+
+		available = {
+		}
+		
 		allow_branch = {
 			if = {
 				limit = {
@@ -175,7 +775,7 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { #제 4인터내셔널
+	focus = { # 제4인터내셔널
 		id = RED_the_fourth_international
 		icon = GFX_goal_support_fourth_int
 		prerequisite = { focus = RED_accept_trotskism }
@@ -192,7 +792,7 @@ focus_tree = {
 			news_event = { id = BA_news.27 hours = 2 random_hours = 2 }
 		}
 	}
-	focus = { #푸딩 추가 배급
+	focus = { # 푸딩 추가 배급
 		id = RED_pudding_supply
 		icon = GFX_goal_tripartite_pact
 		prerequisite = { focus = RED_accept_trotskism }
@@ -211,9 +811,8 @@ focus_tree = {
 			custom_effect_tooltip = RED_pudding_supply_tt
 			hidden_effect = {
 				add_dynamic_modifier = {
-					modifier = RED_pudding_supply_dynamic_modifier 
-					scope = RED
-					days = 90
+					modifier = RED_pudding_supply_idea
+					days = 140
 				}
 			}
 		}
@@ -310,10 +909,6 @@ focus_tree = {
 		completion_reward = {
 			add_stability = -0.10
 			add_political_power = 150
-			add_popularity = {
-				ideology = neutrality
-				popularity = 0.20
-			}
 		}
 	}
 	focus = { # 현지인 회유
@@ -333,14 +928,10 @@ focus_tree = {
 		completion_reward = {
 			add_stability = 0.15
 			add_political_power = 50
-			add_popularity = {
-				ideology = communism
-				popularity = 0.10
-			}
 		}
 	}
 
-# 붉은겨울 정치중점(비동맹주의 루트)
+# 붉은겨울 정치중점(반체리노 루트)
 	focus = { #이반 쿠팔라
 		id = RED_ivan_kupla
 		icon = GFX_goal_generic_war_with_comintern
