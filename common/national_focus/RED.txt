@@ -817,15 +817,31 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { # 내부를 살피다
-		id = RED_care_for_in
+	focus = { # 행정 체계 재조직
+		id = RED_org_admin
 		icon = GFX_focus_generic_self_management
 		prerequisite = { focus = RED_the_fourth_international }
 		prerequisite = { focus = RED_pudding_supply }
 		x = 1
-		y = 2
+		y = 1
 		relative_position_id = RED_the_fourth_international
 		cost = 10
+
+		search_filters = {FOCUS_FILTER_POLITICAL}
+		
+		completion_reward = {
+			add_stability = 0.15
+			add_political_power = 50
+		}
+	}
+	focus = { # 선전국
+		id = RED_propaganda_dep
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = RED_org_admin }
+		x = 0
+		y = 2
+		relative_position_id = RED_org_admin
+		cost = 5
 
 		available = {
 		}
@@ -833,16 +849,13 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_POLITICAL}
 
 		completion_reward = {
-			custom_effect_tooltip = RED_care_for_in_tt
-			hidden_effect = {
-				country_event = { id = RED_care_for_in_event.1 hours = 12 }
-			}
+			add_political_power = 25
 		}
 	}
 	focus = { # 경비국 복원
 		id = RED_restore_the_security
 		icon = GFX_focus_SOV_organize_wreckers
-		prerequisite = { focus = RED_accept_trotskism }
+		prerequisite = { focus = RED_accept_trotskism focus = RED_ivan_kupla }
 		x = 1
 		y = 1
 		relative_position_id = RED_accept_trotskism
@@ -860,46 +873,14 @@ focus_tree = {
 			hidden_effect = { add_ideas = RED_the_security_idea }
 		}
 	}
-	focus = { # 공안국 강화
-		id = RED_upgrade_the_intel
-		icon = GFX_goal_generic_construction2
-		prerequisite = { focus = RED_accept_trotskism }
-		x = 3
-		y = 1
-		relative_position_id = RED_accept_trotskism
-		cost = 5
-		available = {
-		}
-		                
-		search_filters = {FOCUS_FILTER_POLITICAL}
-
-		completion_reward = {
-			if = {
-				limit = {
-					has_dlc = "La Resistance"
-				}
-				custom_effect_tooltip = RED_upgrade_the_intel_idea_tt
-				hidden_effect = { add_ideas = RED_the_counterintelligence_idea }
-				if = {
-					limit = {
-						has_intelligence_agency = no
-					}
-					custom_effect_tooltip = RED_upgrade_the_intel_tt
-					hidden_effect{
-						create_intelligence_agency = yes
-					}
-				}
-			}
-		}
-	}
 	focus = { # 현지인 억압
 		id = RED_depress_locals
-		icon = GFX_goal_generic_intelligence_exchange
+		icon = GFX_focus_generic_provoke_border_clashes
 		mutually_exclusive = { focus = RED_enticing_locals }
-		prerequisite = { focus = RED_accept_trotskism }
-		x = 5
+		prerequisite = { focus = RED_accept_trotskism focus = RED_ivan_kupla }
+		x = -3
 		y = 1
-		relative_position_id = RED_accept_trotskism
+		relative_position_id = RED_ivan_kupla
 		cost = 5
 		available = {
 		}
@@ -915,8 +896,8 @@ focus_tree = {
 		id = RED_enticing_locals
 		icon = GFX_goal_generic_intelligence_exchange
 		mutually_exclusive = { focus = RED_depress_locals }
-		prerequisite = { focus = RED_accept_trotskism } 
-		x = 7
+		prerequisite = { focus = RED_accept_trotskism focus = RED_ivan_kupla } 
+		x = 3
 		y = 1
 		relative_position_id = RED_accept_trotskism
 		cost = 10
@@ -930,22 +911,100 @@ focus_tree = {
 			add_political_power = 50
 		}
 	}
+	focus = { # 이민자 환영
+		id = RED_welcome_immigrate
+		icon = GFX_focus_generic_treaty
+		prerequisite = { focus = RED_enticing_locals }
+		prerequisite = { focus = RED_restore_the_security }
+		x = 1
+		y = 1
+		relative_position_id = RED_restore_the_security
+		cost = 10
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			add_manpower = 100000
+			add_ideas = RED_welcome_immigrate_idea
+		}
+	}
+	focus = { # 전선의 영웅들
+		id = RED_heros_at_front
+		icon = GFX_focus_generic_little_entente
+		prerequisite = { focus = RED_accept_trotskism focus = RED_ivan_kupla }
+		x = -1
+		y = 1
+		relative_position_id = RED_ivan_kupla
+		cost = 10
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			random_army_leader = {
+				limit = {
+					NOT = { has_trait = war_hero }
+					is_assigned = yes
+				}
+				add_unit_leader_trait = war_hero
+			}
+			random_army_leader = {
+				limit = {
+					NOT = { has_trait = war_hero }
+					is_assigned = yes
+				}
+				add_unit_leader_trait = war_hero
+			}
+		}
+	}
+	focus = { # 스케반 환영
+		id = RED_welcome_thugs
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = RED_heros_at_front }
+		prerequisite = { focus = RED_depress_locals }
+		x = 1
+		y = 1
+		relative_position_id = RED_depress_locals
+		cost = 5
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			set_division_template_cap = {  division_template = "Halo Infantry Division" division_cap = 18 }
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "division_template = \"Halo Infantry Division\" start_experience_factor = 0.4 start_equipment_factor = 1.0"
+					owner = ROOT
+					count = 1
+				}
+			}
+		}
+	}
 
 # 붉은겨울 정치중점(반체리노 루트)
-	focus = { #이반 쿠팔라
+	focus = { # 이반 쿠팔라
 		id = RED_ivan_kupla
 		icon = GFX_goal_generic_war_with_comintern
-		mutually_exclusive = { focus = RED_the_path_of_redwinter }
-		x = 12
+		mutually_exclusive = { focus = RED_accept_trotskism }
+		x = 8
 		y = 0
 		relative_position_id = RED_accept_trotskism
 
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = { has_completed_focus = RED_accept_trotskism }
+			}
+		}
+
 		cost = 5
+
 		ai_will_do = {
 			factor = 1
-		}
-		available = {
-			neutrality > 0.2
 		}
 
 		available_if_capitulated = yes
@@ -965,6 +1024,101 @@ focus_tree = {
 				}
 				mark_focus_tree_layout_dirty = yes
 			}
+		}
+	}
+	focus = { # 체리노 폄하
+		id = RED_undermine_cherino
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		prerequisite = { focus = RED_ivan_kupla }
+		x = 2
+		y = 1
+		relative_position_id = RED_ivan_kupla
+		cost = 5
+		available = {
+		}
+		                
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			add_stability = -0.10
+			add_political_power = 50
+		}
+	}
+	focus = { # 체리노 축출
+		id = RED_dipose_cherino
+		icon = GFX_focus_ITA_liberation_or_death
+		prerequisite = { focus = RED_undermine_cherino }
+		relative_position_id = RED_undermine_cherino
+		x = 0
+		y = 2
+		
+		cost = 5
+
+		bypass = {
+			NOT = {
+				has_character = RED_cherino
+			}
+		}
+
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			add_political_power = 50
+
+			if = {
+				limit = {
+					has_character = RED_minori
+				}
+				promote_character = RED_minori
+			}
+		}
+	}
+	focus = { # 사무국 반발
+		id = RED_office_disagree
+		icon = GFX_goal_demand_sudetenland
+		prerequisite = { focus = RED_dipose_cherino }
+		mutually_exclusive = { focus = RED_labor_world }
+		relative_position_id = RED_dipose_cherino
+		x = 2
+		y = 1
+
+		cost = 5
+		
+		available = {
+			has_character = RED_marina
+		}
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			add_political_power = 75
+			add_war_support = 0.05
+			add_stability = 0.10
+			if = {
+				limit = {
+					has_character = RED_marina
+				}
+				promote_character = RED_marina
+			}
+		}
+	}
+	focus = { # 노동자 세상
+		id =  RED_labor_world
+		icon = GFX_focus_SOV_breadbasket_of_the_union
+		prerequisite = { focus = RED_dipose_cherino }
+		mutually_exclusive = { focus = RED_office_disagree }
+		x = -2
+		y = 1
+		relative_position_id = RED_dipose_cherino
+
+		cost = 5
+
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			add_stability = 0.30
+			add_war_support = -0.30
+			add_ideas = RED_labor_world_idea
 		}
 	}
 }
