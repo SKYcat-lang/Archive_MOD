@@ -3480,15 +3480,15 @@ focus_tree = {
 		}
 	}
 
-
-	focus= { # 저단계 인공위성 발사
+	focus = { # 저단계 인공위성 발사
 		id = MIL_lowlevel_satellite
 		icon = GFX_focus_rocketry
 		cost = 5.00
 		x = 11
-		y = 0
+		y = -2
 		relative_position_id = MIL_queens_day
 		allow_branch = {
+			has_country_flag = MIL_fuck_flag
 			has_completed_focus = MIL_Forever_fire
 		}
 		completion_reward = {
@@ -3496,4 +3496,82 @@ focus_tree = {
 		}
 	}
 
+	focus = { # 발전된 인공위성 발사
+		id = MIL_highlevel_stelite
+		icon = GFX_focus_rocketry
+		cost = 10.00
+		prerequisite = { focus = MIL_lowlevel_satellite }
+		x = 0
+		y = 1
+		relative_position_id = MIL_lowlevel_satellite
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = MIL_satellite_1
+				add_idea = MIL_satellite_2
+			}
+		}
+	}
+
+	focus = { # 유인 우주선 발사
+		id = MIL_space_ship_withhuman
+		icon = GFX_focus_rocketry
+		cost = 10.00
+		prerequisite = { focus = MIL_highlevel_stelite }
+		mutually_exclusive = { focus = MIL_space_ship_nohuman }
+		x = 2
+		y = 1
+		relative_position_id = MIL_highlevel_stelite
+		completion_reward = {
+		}
+	}
+
+	focus = { # 무인 우주선 발사
+		id = MIL_space_ship_nohuman
+		icon = GFX_focus_rocketry
+		cost = 10.00
+		prerequisite = { focus = MIL_highlevel_stelite }
+		mutually_exclusive = { focus = MIL_space_ship_withhuman }
+		x = -2
+		y = 1
+		relative_position_id = MIL_highlevel_stelite
+		completion_reward = {
+		}
+	}
+
+	focus = { # 달 착륙
+		id = MIL_go_to_moon
+		icon = GFX_focus_rocketry
+		cost = 10.00
+		prerequisite = { focus = MIL_space_ship_withhuman focus = MIL_space_ship_nohuman }
+		x = 0
+		y = 2
+		relative_position_id = MIL_highlevel_stelite
+		completion_reward = {
+		}
+	}
+
+	focus = { # 월면기지 건설
+		id = MIL_moon_home
+		icon = GFX_focus_rocketry
+		cost = 10.00
+		prerequisite = { focus = MIL_go_to_moon }
+		x = 0
+		y = 1
+		relative_position_id = MIL_go_to_moon
+		completion_reward = {
+		}
+	}
+
+	focus = { # 달 무장
+		id = MIL_moon_weapon
+		icon = GFX_focus_rocketry
+		cost = 10.00
+		prerequisite = { focus = MIL_moon_home }
+		x = 0
+		y = 1
+		relative_position_id = MIL_moon_home
+		completion_reward = {
+			add_ideas = MIL_MOON_idea
+		}
+	}
 }		
