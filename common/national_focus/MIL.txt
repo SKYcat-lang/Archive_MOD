@@ -1300,9 +1300,14 @@ focus_tree = {
 		prerequisite = { focus = MIL_free_knowledge_sharing }
 		x = 0
 		y = 3
+
+		ai_will_do = {
+			factor = 0
+		}
 		relative_position_id = MIL_academy_of_science_and_research
 		completion_reward = {
 			add_research_slot = 1
+			add_ideas = MIL_science_focused_investment_idea
 		}	
 	}
 		
@@ -1328,6 +1333,111 @@ focus_tree = {
 				uses = 2
 				category = jet_technology
 			}
+			set_country_flag = MIL_go_to_the_space_flag
+			hidden_effect = { #collapse focus tree
+				load_focus_tree = {
+					tree = MIL_focus_tree
+					keep_completed = yes
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
+			custom_effect_tooltip = MIL_go_to_the_space_tt
+		}	
+	}
+		
+	focus = { # 우주 발사체 설계
+		id = MIL_space_launch_vehicle_design
+		icon = GFX_MIL_space_launch_vehicle_design
+		cost = 5.00
+		prerequisite = { focus = MIL_go_to_the_space }
+		allow_branch = {
+			has_country_flag = MIL_go_to_the_space_flag
+		}
+		available = {
+			has_tech = improved_machine_tools
+			has_tech = experimental_rockets
+		}
+		x = 2
+		y = 1
+		relative_position_id = MIL_go_to_the_space
+		completion_reward = {
+			add_tech_bonus = {
+				name = MIL_go_to_the_space
+				bonus = 1.0
+				uses = 1
+				category = rocketry
+			}
+		}	
+	}
+		
+	focus = { # 추진체 개발
+		id = MIL_propulsion_development
+		icon = GFX_goal_generic_army_artillery
+		cost = 5.00
+		prerequisite = { focus = MIL_go_to_the_space }
+		allow_branch = {
+			has_country_flag = MIL_go_to_the_space_flag
+		}
+		available = {
+			has_tech = oil_processing
+			has_tech = fuel_refining2
+		}
+		x = 0
+		y = 1
+		relative_position_id = MIL_go_to_the_space
+		completion_reward = {
+			add_tech_bonus = {
+				name = MIL_go_to_the_space
+				bonus = 1.0
+				uses = 1
+				category = synth_resources
+			}
+		}	
+	}
+		
+	focus = { # 위성 설계
+		id = MIL_satellite_design
+		icon = GFX_MIL_satellite_design
+		cost = 5.00
+		prerequisite = { focus = MIL_go_to_the_space }
+		allow_branch = {
+			has_country_flag = MIL_go_to_the_space_flag
+		}
+		available = {
+			has_tech = MIL_engineering_1
+			has_tech = computing_machine
+		}
+		x = -2
+		y = 1
+		relative_position_id = MIL_go_to_the_space
+		completion_reward = {
+			add_tech_bonus = {
+				name = MIL_go_to_the_space
+				bonus = 1.0
+				uses = 1
+				category = MIL_engineering
+			}
+		}	
+	}
+		
+	focus = { # 인공위성 발사
+		id = MIL_satellite_launch
+		icon = GFX_MIL_satellite_launch
+		cost = 10.00
+		prerequisite = { focus = MIL_propulsion_development }
+		prerequisite = { focus = MIL_satellite_design }
+		prerequisite = { focus = MIL_space_launch_vehicle_design }
+		available = {
+			has_tech = improved_rocket_engines
+			has_tech = improved_computing_machine
+			has_tech = fuel_refining3
+			has_tech = MIL_factory_automation
+		}
+		x = 0
+		y = 1
+		relative_position_id = MIL_propulsion_development
+		completion_reward = {
+			country_event = { id = MIL_conflict_event.22 hours = 6 }
 		}	
 	}
 		
@@ -1399,6 +1509,11 @@ focus_tree = {
 		icon = GFX_goal_generic_occupy_states_ongoing_war
 		cost = 10.00
 		prerequisite = { focus = MIL_millennium_science_school }
+		allow_branch = {
+			NOT = {
+				has_country_flag = MIL_go_to_the_space_flag
+			}
+		}
 		available = {
 			OR = {
 				has_completed_focus = MIL_rebuilt_school1
