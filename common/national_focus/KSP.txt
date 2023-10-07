@@ -1,0 +1,1554 @@
+focus_tree = {
+	id = KSP_focus_tree
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = KSP
+		}
+	}
+	
+	initial_show_position = {
+		x = 30
+		y = 0
+	}
+	
+	shared_focus = BA_new_world_technology
+	default = no
+	continuous_focus_position = { x = 50 y = 2000 }
+	
+	focus = {
+		id = KSP_first_valkyrie_assembly
+		icon = GFX_KSP_focus_assembly
+		cost = 10
+
+		x = 30
+		y = 0
+
+		select_effect = {
+			hidden_effect = {
+				remove_ideas = KSP_spread_out_officers_empty
+				add_dynamic_modifier = { modifier = KSP_spread_out_officers }
+				country_event = {id = KSP_event.1 hours = 2}
+				country_event = {id = KSP_event.5 days = 10}
+				country_event = {id = KSP_event.2 days = 20}
+				country_event = {id = KSP_event.7 days = 30}
+				country_event = {id = KSP_event.10 days = 40}
+				country_event = {id = KSP_event.11 days = 50}
+				country_event = {id = KSP_event.12 days = 60}
+			}
+		}
+		complete_tooltip = {
+			custom_effect_tooltip = KSP_first_valkyrie_assembly_end_ns_tt
+		}
+		completion_reward = {
+			hidden_effect = {
+				if = 
+				{
+					limit = { has_idea = KSP_valkyrie_in_chaos_4 }
+					swap_ideas = {
+						remove_idea = KSP_valkyrie_in_chaos_4
+						add_idea = KSP_valkyrie_comeback
+					}
+				}
+				if = 
+				{
+					limit = { has_idea = KSP_valkyrie_in_chaos_3 }
+					swap_ideas = {	
+						remove_idea = KSP_valkyrie_in_chaos_3
+						add_idea = KSP_valkyrie_in_chaos_4
+					}
+				}
+				if = 
+				{
+					limit = { has_idea = KSP_valkyrie_in_chaos_2 }
+					swap_ideas = {	
+						remove_idea = KSP_valkyrie_in_chaos_2
+						add_idea = KSP_valkyrie_in_chaos_3
+					}
+				}
+				if = 
+				{
+					limit = { has_idea = KSP_valkyrie_in_chaos }
+					swap_ideas = {	
+						remove_idea = KSP_valkyrie_in_chaos
+						add_idea = KSP_valkyrie_in_chaos_2
+					}
+				}
+				country_event = {id = KSP_event.13 days = 70}
+				activate_decision = KSP_army_from_wallonie
+			}
+			custom_effect_tooltip = KSP_first_valkyrie_assembly_ns_tt
+		}
+
+	}
+	focus = {
+		id = KSP_hyeongiin_leader_meeting
+		icon = GFX_goal_generic_intelligence_exchange
+		cost = 5
+		prerequisite = {
+			focus = KSP_first_valkyrie_assembly
+		}
+		x = 0
+		y = 1
+		relative_position_id = KSP_first_valkyrie_assembly
+
+		completion_reward = {
+			add_political_power = 100
+			country_event = { id = KSP_event.6 }
+		}
+
+	}
+
+	#중요
+	focus = {
+		id = KSP_two_students
+		icon = none
+		cost = 5
+		prerequisite = {
+			focus = KSP_hyeongiin_leader_meeting
+		}
+
+		x = 0
+		y = 2
+		relative_position_id = KSP_first_valkyrie_assembly
+
+		completion_reward = {
+			country_event = { id = KSP_event.14 }
+		}
+
+	}
+	focus = {
+		id = KSP_believe_our_friends
+		icon = GFX_goal_generic_improve_relations
+		cost = 2
+		prerequisite = {
+			focus = KSP_two_students
+		}
+		mutually_exclusive = {
+			focus = KSP_students_together
+		}
+
+		x = -3
+		y = 1
+		relative_position_id = KSP_two_students
+
+		completion_reward = {
+			hidden_effect = {
+				add_political_power = 10
+				country_event = { id = KSP_event.16 }
+				set_country_flag = KSP_trust
+			}
+			custom_effect_tooltip = KSP_believe_our_friends_ns_tt
+		}
+
+	}
+	focus = {
+		id = KSP_meeting_for_susa
+		icon = GFX_goal_generic_dangerous_deal
+		cost = 10
+		prerequisite = {
+			focus = KSP_believe_our_friends
+		}
+
+		x = -3
+		y = 2
+		relative_position_id = KSP_two_students
+
+		completion_reward = {
+			country_event = { id = KSP_event.20 }
+		}
+	}
+	focus = {
+		id = KSP_kannas_rage
+		icon = none
+		cost = 5
+		prerequisite = {
+			focus = KSP_meeting_for_susa
+		}
+		
+		x = -9
+		y = 3
+		relative_position_id = KSP_two_students
+
+		completion_reward = {
+			custom_effect_tooltip = kanna_rage_tt
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.30
+			}
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.30
+			}
+			add_stability = -0.10
+			add_war_support = 0.10
+		}
+	}
+	focus = {
+		id = KSP_kannas_rule
+		icon = GFX_KSP_focus_kanna
+		cost = 5
+		prerequisite = {
+			focus = KSP_kannas_rage
+		}
+		mutually_exclusive = {
+			focus = KSP_talk_with_moderate_partys
+		}
+
+		x = -7
+		y = 1
+		relative_position_id = KSP_kannas_rage
+
+		completion_reward = {
+			set_party_name = {
+				ideology = fascism
+				long_name = KSP_fascism_rage_kanna_long
+				name = KSP_fascism_rage_kanna
+			}
+			set_politics = {
+				ruling_party = fascism
+				elections_allowed = no
+			}
+			add_country_leader_trait = KSP_KANNA_SET1
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.40
+			}
+			custom_effect_tooltip = kanna_facsism
+			set_country_flag = KSP_NO_TAHYUP
+		}
+	}
+	focus = {
+		id = KSP_new_laws_kanna
+		icon = GFX_focus_renounce_the_treaty_of_trianon
+		cost = 8
+		prerequisite = {
+			focus = KSP_kannas_rule
+		}
+
+		x = -2
+		y = 1
+		relative_position_id = KSP_kannas_rule
+
+		completion_reward = {
+			add_ideas = KSP_new_laws
+		}
+	}
+	focus = {
+		id = KSP_valkyrie_gyeolgip
+		icon = none
+		cost = 1
+		prerequisite = {
+			focus = KSP_new_laws_kanna
+		}
+
+		x = -1
+		y = 1
+		relative_position_id = KSP_new_laws_kanna
+
+		completion_reward = {
+			if = 
+			{
+				limit = { has_idea = KSP_valkyrie_in_chaos }
+				swap_ideas = {	
+					remove_idea = KSP_valkyrie_in_chaos
+					add_idea = KSP_valkyrie_comeback
+				}
+			}
+			if = 
+			{
+				limit = { has_idea = KSP_valkyrie_in_chaos_2 }
+				swap_ideas = {	
+					remove_idea = KSP_valkyrie_in_chaos_2
+					add_idea = KSP_valkyrie_comeback
+				}
+			}
+			if = 
+			{
+				limit = { has_idea = KSP_valkyrie_in_chaos_3 }
+				swap_ideas = {	
+					remove_idea = KSP_valkyrie_in_chaos_3
+					add_idea = KSP_valkyrie_comeback
+				}
+			}
+			if = 
+			{
+				limit = { has_idea = KSP_valkyrie_in_chaos_4 }
+				swap_ideas = {	
+					remove_idea = KSP_valkyrie_in_chaos_4
+					add_idea = KSP_valkyrie_comeback
+				}
+			}
+			add_stability = 0.10
+		}
+	}
+	focus = {
+		id = KSP_siwidae_kill
+		icon = none
+		cost = 1
+		prerequisite = {
+			focus = KSP_new_laws_kanna
+		}
+
+		x = 1
+		y = 1
+		relative_position_id = KSP_new_laws_kanna
+
+		completion_reward = {
+			if = 
+			{
+				limit = { has_idea = KSP_clash_with_hyeongiin_3 }	
+					remove_ideas = KSP_clash_with_hyeongiin_3
+			}
+			if = 
+			{
+				limit = { has_idea = KSP_clash_with_hyeongiin_2 }
+					remove_ideas = KSP_clash_with_hyeongiin_2
+			}
+			if = 
+			{
+				limit = { has_idea = KSP_clash_with_hyeongiin }
+					remove_ideas = KSP_clash_with_hyeongiin
+			}
+			add_stability = -0.40
+		}
+	}
+	focus = {
+		id = KSP_start_controlling_society
+		icon = GFX_focus_generic_annex_country
+		cost = 5
+		prerequisite = {
+			focus = KSP_new_laws_kanna
+		}
+
+		x = 0
+		y = 2
+		relative_position_id = KSP_new_laws_kanna
+
+		completion_reward = {
+			hidden_effect = { add_dynamic_modifier = { modifier = KSP_police_society_idea } }
+			custom_effect_tooltip = KSP_start_controlling_society_ns_tt
+			
+			add_political_power = 25
+			remove_ideas = KSP_communist_books
+		}
+	}
+	focus = {
+		id = KSP_increase_police_officers
+		icon = GFX_focus_generic_little_entente
+		cost = 5
+		prerequisite = {
+			focus = KSP_start_controlling_society
+		}
+
+		x = 4
+		y = 1
+		relative_position_id = KSP_start_controlling_society
+
+		completion_reward = {
+			add_to_variable = { KSP_police_society_idea_conscription = 0.015 }
+			custom_effect_tooltip = KSP_increase_police_officers_ns_tt
+		}
+	}
+	focus = {
+		id = KSP_police_gwunhan_ganghwa
+		icon = none
+		cost = 5
+		prerequisite = {
+			focus = KSP_increase_police_officers
+		}
+
+		x = -1
+		y = 1
+		relative_position_id = KSP_increase_police_officers
+
+		completion_reward = {
+			add_to_variable = { KSP_police_society_idea_stability_factor = 0.10 }
+			add_to_variable = { KSP_police_society_idea_drift_defence_factor = 0.05 }
+			add_to_variable = { KSP_police_society_idea_subversive_activities_upkeep = -0.05 }
+			custom_effect_tooltip = KSP_police_gwunhan_ganghwa_ns_tt
+		}
+	}
+	focus = {
+		id = KSP_create_secret_cops
+		icon = GFX_SHE_skynet
+		cost = 5
+		prerequisite = {
+			focus = KSP_increase_police_officers
+		}
+
+		x = 1
+		y = 1
+		relative_position_id = KSP_increase_police_officers
+
+		completion_reward = {
+			add_ideas = KSP_secret_cops
+		}
+	}
+	focus = {
+		id = KSP_valkyrie_gwangsin
+		icon = GFX_focus_generic_military_mission
+		cost = 10
+		prerequisite = {
+			focus = KSP_police_gwunhan_ganghwa
+		}
+		prerequisite = {
+			focus = KSP_create_secret_cops
+		}
+
+		x = 0
+		y = 2
+		relative_position_id = KSP_increase_police_officers
+
+		completion_reward = {
+			add_to_variable = { KSP_police_society_idea_conscription = 0.010 }
+			add_to_variable = { KSP_police_society_idea_army_org_factor = 0.10 }
+			add_to_variable = { KSP_police_society_idea_army_morale_factor = 0.08 }
+
+			custom_effect_tooltip = KSP_valkyrie_gwangsin_ns_tt
+		}
+	}
+	focus = {
+		id = KSP_gyujungguck_ganghwa
+		icon = GFX_goal_generic_political_pressure
+		cost = 5
+		prerequisite = {
+			focus = KSP_start_controlling_society
+		}
+
+		x = -4
+		y = 1
+		relative_position_id = KSP_start_controlling_society
+
+		completion_reward = {
+			add_to_variable = { KSP_police_society_idea_conscription_factor = 0.15 }
+			custom_effect_tooltip = KSP_gyujungguck_ganghwa_ns_tt
+			add_political_power = 50
+		}
+	}
+	focus = {
+		id = KSP_forced_labor
+		icon = GFX_KSP_focus_forced_labor
+		cost = 10
+		prerequisite = {
+			focus = KSP_gyujungguck_ganghwa
+		}
+
+		x = -1
+		y = 1
+		relative_position_id = KSP_gyujungguck_ganghwa
+
+		completion_reward = {
+			add_to_variable = { KSP_police_society_idea_consumer_goods_factor = -0.05 }
+			add_to_variable = { KSP_police_society_idea_production_speed_buildings_factor = 0.10 }
+			custom_effect_tooltip = KSP_forced_labor_ns_tt
+			add_stability = -0.05
+			add_war_support = -0.05
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 34 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = KSP_workers_gamsigamdok
+		icon = GFX_KSP_focus_labor_gamsi
+		cost = 10
+		prerequisite = {
+			focus = KSP_gyujungguck_ganghwa
+		}
+		
+		x = 1
+		y = 1
+		relative_position_id = KSP_gyujungguck_ganghwa
+
+		completion_reward = {
+			add_to_variable = { KSP_police_society_idea_industrial_capacity_factory = 0.10 }
+			add_to_variable = { KSP_police_society_idea_production_lack_of_resource_penalty_factor = -0.15 }
+
+			custom_effect_tooltip = KSP_workers_gamsigamdok_ns_tt
+		}
+	}
+	focus = {
+		id = KSP_war_industry_creation
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 10
+		prerequisite = {
+			focus = KSP_forced_labor
+		}
+		prerequisite = {
+			focus = KSP_workers_gamsigamdok
+		}
+
+		x = 0
+		y = 2
+		relative_position_id = KSP_gyujungguck_ganghwa
+
+		completion_reward = {
+			add_to_variable = { KSP_police_society_idea_war_support_factor = 0.10 }
+			custom_effect_tooltip = KSP_war_industry_creation_ns_tt
+
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 34 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 911 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 912 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = KSP_increase_army_yesan
+		icon = GFX_goal_generic_consumer_goods
+		cost = 5
+		prerequisite = {
+			focus = KSP_start_controlling_society
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = KSP_start_controlling_society
+
+		completion_reward = {
+			add_political_power = -50
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_timed_idea = {
+				idea = KSP_increased_army_yesan
+				days = 360
+			}
+		}
+	}
+	focus = {
+		id = KSP_army_gaehyeok
+		icon = GFX_focus_chi_army_reform
+		cost = 10
+		prerequisite = {
+			focus = KSP_increase_army_yesan
+		}
+		available = {
+			NOT = { has_idea = KSP_increased_army_yesan }
+		}
+
+		x = 0
+		y = 2
+		relative_position_id = KSP_start_controlling_society
+
+		completion_reward = {
+			army_experience = 50
+			navy_experience = 50
+			air_experience = 50
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.25
+				uses = 1
+				category = land_doctrine
+			}
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.25
+				uses = 1
+				category = naval_doctrine
+			}
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.25
+				uses = 1
+				category = air_doctrine
+			}
+		}
+	}
+	focus = {
+		id = KSP_use_prisoners_for_army
+		icon = GFX_KSP_focus_AKIRA_WAKAMO
+		cost = 5
+		prerequisite = {
+			focus = KSP_army_gaehyeok
+		}
+		available = {
+
+		}
+
+		x = 0
+		y = 2
+		relative_position_id = KSP_army_gaehyeok
+
+		completion_reward = {
+			custom_effect_tooltip = KSP_use_prisoners_for_army_ns_tt
+			hidden_effect = {
+				create_intelligence_agency = {
+					name = "발키리 정보국"
+					icon = GFX_intelligence_agency_logo_bel
+				}
+				waka = {
+					add_corps_commander_role = {
+							traits={ brilliant_strategist career_officer media_personality politically_connected offensive_doctrine }
+							skill=4
+							attack_skill=4
+							defense_skill=3
+							planning_skill=4
+							logistics_skill=2
+							legacy_id = 5
+					}
+				}
+				create_operative_leader = {
+					name = "키요스미 아키라"
+					GFX = GFX_portrait_kiyosmi_akira
+					traits = { operative_safe_cracker operative_seducer operative_tough operative_infiltrator operative_natural_orator operative_commando operative_escape_artist operative_well_groomed operative_linguist operative_demolition_expert }
+					bypass_recruitment = no
+					available_to_spy_master = yes
+					nationalities = { KSP }
+				}
+			}
+		}
+	}
+	focus = {
+		id = KSP_guns_factory_create
+		icon = GFX_goal_panzerwaffe
+		cost = 5
+		prerequisite = {
+			focus = KSP_army_gaehyeok
+		}
+
+		x = -1
+		y = 1
+		relative_position_id = KSP_army_gaehyeok
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				bonus = 1.0
+				uses = 1
+				category = infantry_weapons
+			}
+		}
+	}
+	focus = {
+		id = KSP_more_stronger_training
+		icon = GFX_goal_generic_axis_build_infantry
+		cost = 5
+		prerequisite = {
+			focus = KSP_army_gaehyeok
+		}
+
+		x = 1
+		y = 1
+		relative_position_id = KSP_army_gaehyeok
+
+		completion_reward = {
+			add_ideas = KSP_reinforced_training
+		}
+	}
+
+	
+	focus = {
+		id = KSP_factory_war_production
+		icon = GFX_focus_generic_tank_production
+		cost = 5
+		prerequisite = {
+			focus = KSP_guns_factory_create
+		}
+		prerequisite = {
+			focus = KSP_war_industry_creation
+		}
+	
+		x = -1
+		y = 1
+		relative_position_id = KSP_guns_factory_create
+	
+		completion_reward = {
+			add_ideas = KSP_war_production
+		}
+	}
+
+	focus = {
+		id = KSP_reinforce_army
+		icon = GFX_focus_SOV_the_glory_of_the_red_army_alternative
+		cost = 5
+		prerequisite = {
+			focus = KSP_more_stronger_training
+		}
+		prerequisite = {
+			focus = KSP_valkyrie_gwangsin
+		}
+	
+		x = 1
+		y = 1
+		relative_position_id = KSP_more_stronger_training
+	
+		completion_reward = {
+			remove_ideas = KSP_weak_army
+		}
+	}
+	focus = {
+		id = KSP_police_society_valkyrie
+		icon = none
+		cost = 10
+		prerequisite = {
+			focus = KSP_factory_war_production
+		}
+		prerequisite = {
+			focus = KSP_reinforce_army
+		}
+		
+		x = 0
+		y = 5
+		relative_position_id = KSP_start_controlling_society
+
+		completion_reward = {
+			add_to_variable = { KSP_police_society_idea_conscription = 0.010 }
+			add_to_variable = { KSP_police_society_idea_army_attack_factor = 0.10 }
+			add_to_variable = { KSP_police_society_idea_army_defence_factor = 0.10 }
+			add_to_variable = { KSP_police_society_idea_max_surrender_limit_offset = 0.10 }
+
+			custom_effect_tooltip = KSP_police_society_valkyrie_ns_tt
+		}
+	}
+	#비동맹
+
+	focus = {
+		id = KSP_talk_with_moderate_partys
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		cost = 5
+		prerequisite = {
+			focus = KSP_kannas_rage
+		}
+		available = {
+			has_country_flag = GAEBALJUNG
+		}
+		mutually_exclusive = {
+			focus = KSP_kannas_rule
+		}
+
+		x = 7
+		y = 1
+		relative_position_id = KSP_kannas_rage
+
+		completion_reward = {
+			set_party_name = {
+				ideology = neutrality
+				long_name = KSP_neutral_rage_kanna_long
+				name = KSP_neutral_rage_kanna
+			}
+			set_politics = {
+				ruling_party = neutrality
+				elections_allowed = no
+			}
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.30
+			}
+		}
+	}
+	focus = {
+		id = KSP_target_hardliners
+		icon = GFX_goal_generic_secret_weapon
+		cost = 5
+		prerequisite = {
+			focus = KSP_talk_with_moderate_partys
+		}
+
+		x = 1
+		y = 1
+		relative_position_id = KSP_talk_with_moderate_partys
+
+		completion_reward = {
+			add_political_power = 100
+			add_stability = 0.10
+			add_war_support = 0.10
+		}
+	}
+	focus = {
+		id = KSP_focus_on_inside
+		icon = none
+		cost = 5
+		prerequisite = {
+			focus = KSP_target_hardliners
+		}
+
+		x = 1
+		y = 1
+		relative_position_id = KSP_target_hardliners
+
+		completion_reward = {
+			if = 
+			{
+				limit = { has_idea = KSP_valkyrie_in_chaos }
+				swap_ideas = {	
+					remove_idea = KSP_valkyrie_in_chaos
+					add_idea = KSP_valkyrie_comeback
+				}
+			}
+			if = 
+			{
+				limit = { has_idea = KSP_valkyrie_in_chaos_2 }
+				swap_ideas = {	
+					remove_idea = KSP_valkyrie_in_chaos_2
+					add_idea = KSP_valkyrie_comeback
+				}
+			}
+			if = 
+			{
+				limit = { has_idea = KSP_valkyrie_in_chaos_3 }
+				swap_ideas = {	
+					remove_idea = KSP_valkyrie_in_chaos_3
+					add_idea = KSP_valkyrie_comeback
+				}
+			}
+			if = 
+			{
+				limit = { has_idea = KSP_valkyrie_in_chaos_4 }
+				swap_ideas = {	
+					remove_idea = KSP_valkyrie_in_chaos_4
+					add_idea = KSP_valkyrie_comeback
+				}
+			}
+
+			add_stability = 0.10
+		}
+	}
+	focus = {
+		id = KSP_talk_with_siwidae
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 5
+		prerequisite = {
+			focus = KSP_target_hardliners
+		}
+
+		x = -1
+		y = 1
+		relative_position_id = KSP_target_hardliners
+
+		completion_reward = {
+			if = 
+			{
+				limit = { has_idea = KSP_clash_with_hyeongiin_3 }	
+					remove_ideas = KSP_clash_with_hyeongiin_3
+			}
+			if = 
+			{
+				limit = { has_idea = KSP_clash_with_hyeongiin_2 }
+					remove_ideas = KSP_clash_with_hyeongiin_2
+			}
+			if = 
+			{
+				limit = { has_idea = KSP_clash_with_hyeongiin }
+					remove_ideas = KSP_clash_with_hyeongiin
+			}
+			add_timed_idea = {
+				idea = KSP_bulman_wanhwa
+				days = 360
+			}
+		}
+	}
+	focus = {
+		id = KSP_government_ganghwa
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 10
+		prerequisite = {
+			focus = KSP_target_hardliners
+		}
+
+		x = 0
+		y = 2
+		relative_position_id = KSP_target_hardliners
+
+		completion_reward = {
+			add_political_power = 50
+			add_ideas = KSP_stronger_government
+		}
+	}
+	focus = {
+		id = KSP_strike_first
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		cost = 10
+		prerequisite = {
+			focus = KSP_government_ganghwa
+		}
+
+		x = -4
+		y = 1
+		relative_position_id = KSP_government_ganghwa
+
+		completion_reward = {
+			add_political_power = -100
+			create_wargoal = {
+				target = SHE
+				type = annex_everything
+			}
+			if = {
+				limit = { country_exists = COU }
+				create_wargoal = {
+					target = COU
+					type = annex_everything
+				}
+			}
+		}
+	}
+	focus = {
+		id = KSP_calling_for_war
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		cost = 10
+		prerequisite = {
+			focus = KSP_strike_first
+		}
+
+		x = -1
+		y = 1
+		relative_position_id = KSP_strike_first
+
+		completion_reward = {
+			add_ideas = KSP_call_students_for_war
+		}
+	}
+	focus = {
+		id = KSP_help_from_belgian_army
+		icon = GFX_goal_generic_axis_build_infantry
+		cost = 5
+		prerequisite = {
+			focus = KSP_government_ganghwa
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = KSP_government_ganghwa
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			army_experience = 25
+		}
+	}
+	focus = {
+		id = KSP_rebuild_our_army
+		icon = GFX_focus_generic_military_mission
+		cost = 10
+		prerequisite = {
+			focus = KSP_help_from_belgian_army
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = KSP_help_from_belgian_army
+
+		select_effect = {
+				add_ideas = KSP_rebuilding_army
+		}
+
+		completion_reward = {
+			#선택시
+			custom_effect_tooltip = SOV_focus_select_effect_tt
+			effect_tooltip = {
+				add_ideas = KSP_rebuilding_army
+			}
+
+			#완료시
+			custom_effect_tooltip = SOV_focus_complete_effect_tt
+			hidden_effect = {
+				remove_ideas = KSP_rebuilding_army
+			}
+			remove_ideas = KSP_weak_army
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			army_experience = 25
+		}
+	}
+
+	focus = {
+		id = KSP_look_at_outside
+		icon = GFX_goal_generic_territory_or_war
+		cost = 5
+		prerequisite = {
+			focus = KSP_kannas_rule
+			focus = KSP_talk_with_moderate_partys
+		}
+		
+		x = 0
+		y = 2
+		relative_position_id = KSP_kannas_rage
+
+		completion_reward = {
+			add_political_power = 25
+			add_war_support = 0.05
+		}
+	}
+	focus = {
+		id = KSP_schalle_war
+		icon = GFX_goal_generic_major_war
+		cost = 5
+		prerequisite = {
+			focus = KSP_look_at_outside
+		}
+		available = {
+			any_other_country = {
+				original_tag = SHE
+				has_war_with = KSP
+			}
+		}
+		bypass = {
+			SHE = {
+				all_core_state = {
+					is_owned_by = KSP
+				}
+			}
+		}
+		
+		x = 0
+		y = 1
+		relative_position_id = KSP_look_at_outside
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = KSP_war_against_schalle
+				days = 360
+			}
+		}
+	}
+	focus = {
+		id = KSP_emergency_army
+		icon = GFX_focus_generic_manpower
+		cost = 5
+		prerequisite = {
+			focus = KSP_schalle_war
+		}
+		available = {
+			any_other_country = {
+				original_tag = SHE
+				has_war_with = KSP
+			}
+		}
+		bypass = {
+			SHE = {
+				all_core_state = {
+					is_owned_by = KSP
+				}
+			}
+		}
+		
+		x = 1
+		y = 1
+		relative_position_id = KSP_schalle_war
+
+		completion_reward = {
+			random_owned_controlled_state = {	
+				prioritize = { 34 }
+				create_unit = {
+					division = "name = \"긴급동원된 군대\" division_template = \"Halo Infantry Division\" #  start_experience_factor = 0." 
+					owner = KSP
+				}
+				add_manpower = -5500
+				create_unit = {
+					division = "name = \"긴급동원된 군대\" division_template = \"Halo Infantry Division\" #  start_experience_factor = 0." 
+					owner = KSP
+				}
+				add_manpower = -5500
+				create_unit = {
+					division = "name = \"긴급동원된 군대\" division_template = \"Halo Infantry Division\" #  start_experience_factor = 0." 
+					owner = KSP
+				}
+				add_manpower = -5500
+			}
+		}
+	}
+	focus = {
+		id = KSP_war_industry_emergency_activation
+		icon = GFX_focus_generic_combined_arms
+		cost = 5
+		prerequisite = {
+			focus = KSP_schalle_war
+		}
+		available = {
+			any_other_country = {
+				original_tag = SHE
+				has_war_with = KSP
+			}
+		}
+		bypass = {
+			SHE = {
+				all_core_state = {
+					is_owned_by = KSP
+				}
+			}
+		}
+		
+		x = -1
+		y = 1
+		relative_position_id = KSP_schalle_war
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 34 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 911 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_ideas = war_economy
+		}
+	}
+	focus = {
+		id = KSP_hangzun
+		icon = GFX_goal_generic_military_sphere
+		cost = 5
+		prerequisite = {
+			focus = KSP_emergency_army
+		}
+		prerequisite = {
+			focus = KSP_war_industry_emergency_activation
+		}
+		available = {
+			any_other_country = {
+				original_tag = SHE
+				has_war_with = KSP
+			}
+		}
+		bypass = {
+			SHE = {
+				all_core_state = {
+					is_owned_by = KSP
+				}
+			}
+		}
+		
+		x = 0
+		y = 2
+		relative_position_id = KSP_schalle_war
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = KSP_hangzun
+				days = 360
+			}
+		}
+	}
+	focus = {
+		id = KSP_rebuild_COU
+		icon = GFX_focus_generic_treaty
+		cost = 10
+		prerequisite = {
+			focus = KSP_hangzun
+		}
+		available = {
+			NOT = { 
+					country_exists = SHE
+			}
+			controls_state = 7
+			controls_state = 35
+			controls_state = 6
+			controls_state = 29
+		}
+		
+		x = 0
+		y = 3
+		relative_position_id = KSP_schalle_war
+
+		completion_reward = {
+			set_cosmetic_tag = SHE_student_council
+			every_state = {
+				limit = { 
+					OR = { 
+						is_core_of = SHE
+						is_core_of = COU
+					} 
+				}
+				add_core_of = KSP
+			}
+		}
+	}
+	focus = {
+		id = KSP_kanna_rule_uzi
+		icon = GFX_KSP_focus_kanna_uzi
+		cost = 10
+		prerequisite = {
+			focus = KSP_rebuild_COU
+		}
+		mutually_exclusive = {
+			focus = KSP_COU_return
+		}
+		
+		x = -2
+		y = 1
+		relative_position_id = KSP_rebuild_COU
+
+		completion_reward = {
+			custom_effect_tooltip = KSP_kanna_rule_uzi_ns_tt
+			hidden_effect = { add_country_leader_trait = SHE_new_dictator }
+		}
+	}
+	focus = {
+		id = KSP_COU_tonghap
+		icon = GFX_focus_generic_self_management
+		cost = 10
+		prerequisite = {
+			focus = KSP_kanna_rule_uzi
+		}
+		
+		x = 0
+		y = 1
+		relative_position_id = KSP_kanna_rule_uzi
+
+		completion_reward = {
+			if = {
+				limit = {
+					SHE = {
+						has_completed_focus = SHE_student_council_relocation
+					}
+				}
+				SHE = {
+					every_character = {
+						limit = { 
+							OR = {
+								is_character = COU_RIN
+								is_character = COU_AOI
+								is_character = COU_KAYA
+								is_character = COU_AYUMU
+								is_character = COU_MOMOKA
+							}
+						}
+						set_nationality = KSP
+					}
+				}
+			}
+			else = {
+				COU = {
+					every_character = {
+						limit = { 
+							OR = {
+								is_character = COU_RIN
+								is_character = COU_AOI
+								is_character = COU_KAYA
+								is_character = COU_AYUMU
+								is_character = COU_MOMOKA
+							}
+						}
+						set_nationality = KSP
+					}
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = KSP_COU_return
+		icon = GFX_goal_support_democracy
+		cost = 10
+		prerequisite = {
+			focus = KSP_rebuild_COU
+		}
+		available = {
+			has_country_flag = GAEBALJUNG
+			NOT = { has_country_flag = KSP_NO_TAHYUP }
+		}
+		mutually_exclusive = {
+			focus = KSP_kanna_rule_uzi
+		}
+		
+		x = 2
+		y = 1
+		relative_position_id = KSP_rebuild_COU
+
+		completion_reward = {
+			custom_effect_tooltip = KSP_COU_return_ns_tt
+			hidden_effect = {
+				set_party_name = {
+					ideology = democratic
+					long_name = KSP_COU_democratic_return_long
+					name = KSP_COU_democratic_return
+				}
+				set_politics = {
+					ruling_party = democratic
+					elections_allowed = no
+				}
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.40
+				}
+				if = {
+					limit = {
+						SHE = {
+							has_completed_focus = SHE_student_council_relocation
+						}
+					}
+					SHE = {
+						every_character = {
+							limit = { 
+								OR = {
+									is_character = COU_RIN
+									is_character = COU_AOI
+									is_character = COU_KAYA
+									is_character = COU_AYUMU
+									is_character = COU_MOMOKA
+								}
+							}
+							set_nationality = ROOT
+						}
+					}
+				}
+				else = {
+					COU = {
+						every_character = {
+							limit = { 
+								OR = {
+									is_character = COU_RIN
+									is_character = COU_AOI
+									is_character = COU_KAYA
+									is_character = COU_AYUMU
+									is_character = COU_MOMOKA
+								}
+							}
+							set_nationality = ROOT
+						}
+					}
+				}
+			}
+		}
+	}
+	#첫 선거
+
+	focus = {
+		id = KSP_first_election
+		icon = GFX_focus_SHE_democracy
+		x = 0
+		y = 1
+		cost = 5
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		relative_position_id = KSP_COU_return
+		prerequisite = { focus = KSP_COU_return }
+		completion_reward = {
+			add_political_power = 200
+			add_popularity = {
+   				ideology = democratic
+    			popularity = 0.10
+			}
+		}
+	}
+
+	#총학생회장, 린
+
+	focus = {
+		id = KSP_rin_route
+		icon = GFX_COU_choice_RIN
+		x = -1
+		y = 1
+		cost = 5
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		relative_position_id = KSP_first_election
+		prerequisite = { focus = KSP_first_election }
+		mutually_exclusive = { focus = KSP_aoi_route }
+		completion_reward = {
+			hidden_effect = {
+				every_character = {
+					limit = {
+						has_ideology_group = democratic
+					}
+					remove_country_leader_role = {
+						character = PREV
+						ideology = conservatism
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_character = COU_RIN
+				}
+				add_country_leader_role = {
+					promote_leader = yes
+					character = COU_RIN
+					country_leader = {
+						ideology = socialism
+						expire = "1965.1.1.1"
+						traits = { SHE_new_dictator }
+					}
+				}
+			}
+		}
+	}
+
+	#총학생회장, 아오이
+
+	focus = {
+		id = KSP_aoi_route
+		icon = GFX_COU_choice_AOI
+		x = 1
+		y = 1
+		cost = 5
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		relative_position_id = KSP_first_election
+		prerequisite = { focus = KSP_first_election }
+		mutually_exclusive = { focus = KSP_rin_route }
+		completion_reward = {
+			hidden_effect = {
+				every_character = {
+					limit = {
+						has_ideology_group = democratic
+					}
+					remove_country_leader_role = {
+						character = PREV
+						ideology = conservatism
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_character = COU_AOI
+				}
+				add_country_leader_role = {
+					promote_leader = yes
+					character = COU_AOI
+					country_leader = {
+						ideology = socialism
+						expire = "1965.1.1.1"
+						traits = { SHE_new_dictator }
+					}
+				}
+			}
+		}
+	}
+
+	
+
+	#공산루트(미완성)
+
+	focus = {
+		id = KSP_students_together
+		icon = GFX_goal_generic_demand_territory
+		cost = 2
+		prerequisite = {
+			focus = KSP_two_students
+		}
+		available = {
+			has_country_flag = GAEBALJUNG
+		}
+		mutually_exclusive = {
+			focus = KSP_believe_our_friends
+		}
+
+		x = 3
+		y = 1
+		relative_position_id = KSP_two_students
+
+		completion_reward = {
+			add_political_power = -25
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
+		}
+
+	}
+	focus = {
+		id = KSP_use_the_chaos
+		icon = GFX_focus_generic_join_comintern
+		cost = 2
+		prerequisite = {
+			focus = KSP_students_together
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = KSP_students_together
+
+		completion_reward = {	
+			swap_ideas = {
+				remove_idea = KSP_communist_books
+				add_idea = KSP_more_communist_books
+			}
+		}
+
+	}
+}		

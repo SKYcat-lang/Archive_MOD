@@ -362,8 +362,8 @@ focus_tree = {
 				tooltip_side = MIL_Rio_side
 			}
 			custom_effect_tooltip = MIL_reduction_clubs_tt
-			add_to_variable = { MIL_semina_idea_stability_factor = 0.05 }
 			add_to_variable = { MIL_semina_idea_political_power_factor = 0.05 }
+			add_to_variable = { MIL_semina_idea_political_advisor_cost_factor = -0.15 }
 			add_to_variable = { MIL_semina_idea_research_speed_factor = 0.05 }
 		}	
 	}
@@ -496,6 +496,10 @@ focus_tree = {
     			elections_allowed = no
     			election_frequency = 48
 			}
+			hidden_effect = {
+				remove_dynamic_modifier = { modifier = MIL_semina_idea }
+				add_dynamic_modifier = { modifier = MIL_veritas_idea }
+			}
 		}	
 	}
 		
@@ -595,7 +599,7 @@ focus_tree = {
 		id = MIL_K_incarcerated
 		icon = unknown
 		cost = 5.00
-		prerequisite = { focus = MIL_Rio_school focus = MIL_maintaining_balance_of_power }
+		prerequisite = { focus = MIL_Rio_school focus = MIL_maintaining_balance_of_power focus = MIL_Himari_school }
 		mutually_exclusive = { focus = MIL_K_appeasement }
 		x = -3
 		y = 1
@@ -614,7 +618,7 @@ focus_tree = {
 		id = MIL_K_appeasement
 		icon = unknown
 		cost = 5.00
-		prerequisite = { focus = MIL_Himari_school focus = MIL_maintaining_balance_of_power }
+		prerequisite = { focus = MIL_Rio_school focus = MIL_maintaining_balance_of_power focus = MIL_Himari_school }
 		mutually_exclusive = { focus = MIL_K_incarcerated }
 		x = 3
 		y = 1
@@ -670,7 +674,7 @@ focus_tree = {
 		available = {
 			has_country_flag = {
 				flag = MIL_remove_CnC_flag
-				days > 175
+				days > 120
 			}
 		}
 		relative_position_id = MIL_control_of_everything
@@ -678,7 +682,7 @@ focus_tree = {
 			set_country_flag = MIL_remove_GDD_flag
 			add_political_power = 25
 			custom_effect_tooltip = MIL_remove_GDD_tt
-			add_to_variable = { MIL_semina_idea_political_advisor_cost_factor = -0.05 }
+			add_to_variable = { MIL_semina_idea_political_power_factor = 0.05 }
 		}	
 	}
 		
@@ -706,12 +710,12 @@ focus_tree = {
 		icon = unknown
 		cost = 10.00
 		prerequisite = { focus = MIL_Rio_school }
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = MIL_Rio_school
 		completion_reward = {
 			custom_effect_tooltip = MIL_central_control_network_tt
-			add_to_variable = { MIL_semina_idea_political_power_factor = 0.05 }
+			add_to_variable = { MIL_conflict_event_var = 20 }
 		}	
 	}
 		
@@ -724,6 +728,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_central_control_network
 		completion_reward = {
+			custom_effect_tooltip = MIL_seminar_expansion_tt
+			add_to_variable = { MIL_semina_idea_political_advisor_cost_factor = -0.25 }
 		}	
 	}
 		
@@ -733,7 +739,7 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_seminar_expansion }
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = MIL_seminar_expansion
 		completion_reward = {
 			add_political_power = 120
@@ -752,7 +758,7 @@ focus_tree = {
 		completion_reward = {
 			set_country_flag = MIL_internet_censorship_flag
 			custom_effect_tooltip = MIL_central_control_network_tt
-			add_to_variable = { MIL_semina_idea_political_power_factor = 0.05 }
+			add_to_variable = { MIL_conflict_event_var = 20 }
 		}	
 	}
 		
@@ -765,11 +771,11 @@ focus_tree = {
 		available = {
 			has_country_flag = {
 				flag = MIL_remove_GDD_flag
-				days > 175
+				days > 120
 			}
 			has_country_flag = {
 				flag = MIL_internet_censorship_flag
-				days > 175
+				days > 120
 			}
 		}
 		x = 0
@@ -777,9 +783,23 @@ focus_tree = {
 		relative_position_id = MIL_internet_censorship
 		completion_reward = {
 			add_political_power = 120
-			remove_ideas = MIL_seeds_of_conflict
 			custom_effect_tooltip = MIL_remove_Veritas_tt
+			add_to_variable = { MIL_semina_idea_political_power_factor = 0.05 }
 			add_to_variable = { MIL_semina_idea_political_advisor_cost_factor = -0.10 }
+		}	
+	}
+		
+	focus = { # 밀레니엄의 안정
+		id = MIL_stability_of_the_mil
+		icon = unknown
+		cost = 10.00
+		prerequisite = { focus = MIL_remove_Veritas }
+		prerequisite = { focus = MIL_big_sister }
+		x = 1
+		y = 1
+		relative_position_id = MIL_remove_Veritas
+		completion_reward = {
+			remove_ideas = MIL_seeds_of_conflict
 		}	
 	}
 
@@ -1411,6 +1431,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_preemptive_intervention_1
 		completion_reward = {
+			army_experience = 10
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.3
+				uses = 2
+				category = land_doctrine
+			}
 		}	
 	}
 		
@@ -1423,6 +1450,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_preemptive_intervention_2
 		completion_reward = {
+			add_tech_bonus = {
+				name = infantry_artillery_bonus
+				bonus = 0.5
+				uses = 2
+				category = infantry_weapons
+				category = artillery
+			}
 		}	
 	}
 		
@@ -1435,6 +1469,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_preemptive_intervention_3
 		completion_reward = {
+			add_tech_bonus = {
+				name = infantry_artillery_bonus
+				ahead_reduction = 2
+				uses = 2
+				category = infantry_weapons
+				category = artillery
+			}
 		}	
 	}
 		
@@ -1447,6 +1488,12 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_preemptive_intervention_3
 		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.1
+				uses = 3
+				category = land_doctrine
+			}
 		}	
 	}
 		
@@ -1473,6 +1520,12 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_preemptive_intervention_1
 		completion_reward = {
+			add_tech_bonus = {
+				name = motorized_bonus
+				bonus = 1.0
+				uses = 2
+				category = motorized_equipment
+			}
 		}	
 	}
 		
@@ -1485,6 +1538,12 @@ focus_tree = {
 		y = 2
 		relative_position_id = MIL_preemptive_intervention_7
 		completion_reward = {
+			add_tech_bonus = {
+				name = armor_bonus
+				bonus = 1.0
+				uses = 2
+				category = armor
+			}
 		}	
 	}
 		
@@ -1660,10 +1719,8 @@ focus_tree = {
 
 		completion_reward = {
 			custom_effect_tooltip = MIL_semina_idea_economy_tt
-			add_to_variable = { MIL_semina_idea_political_power_factor = 0.05 }
 			add_to_variable = { MIL_semina_idea_research_speed_factor = -0.05 }
 
-			add_to_variable = { MIL_semina_idea_political_advisor_cost_factor = -0.15 }
 			add_to_variable = { MIL_semina_idea_economy_cost_factor = -0.15 }
 			add_to_variable = { MIL_semina_idea_mobilization_laws_cost_factor = -0.15 }
 			add_to_variable = { MIL_semina_idea_trade_laws_cost_factor = -0.15 }
