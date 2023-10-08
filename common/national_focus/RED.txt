@@ -20,7 +20,7 @@ focus_tree = {
 		mutually_exclusive = { focus = RED_road_to_north }
 		x = 1
 		y = 0
-		cost = 5
+		cost = 10
 		
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 
@@ -69,7 +69,7 @@ focus_tree = {
 		x = 2
 		y = 0
 		relative_position_id = RED_road_to_south
-		cost = 5
+		cost = 10
 
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 
@@ -190,7 +190,7 @@ focus_tree = {
 		x = 0
 		y = 1
 		relative_position_id = RED_land_research
-		cost = 5
+		cost = 10
 
 		available = {
 		}
@@ -614,7 +614,7 @@ focus_tree = {
 		x = 0
 		y = 1
 		relative_position_id = RED_industrial_futurization
-		cost = 5
+		cost = 10
 
 		cancel_if_invalid = yes
 
@@ -639,7 +639,7 @@ focus_tree = {
 		x = 4
 		y = 1
 		relative_position_id = RED_economy_dev_plan
-		cost = 5
+		cost = 10
 
 		available = {
 		}
@@ -681,7 +681,7 @@ focus_tree = {
 		x = 0
 		y = 3
 		relative_position_id = RED_knowledge_liberation
-		cost = 5
+		cost = 10
 
 		available = {
 		}
@@ -697,6 +697,7 @@ focus_tree = {
 
 		icon = GFX_focus_wonderweapons
 		prerequisite = { focus = RED_for_knowledge }
+		prerequisite = { focus = RED_future_production_line }
 		x = -1
 		y = 2
 		cost = 20
@@ -720,6 +721,7 @@ focus_tree = {
 
 		icon = GFX_goal_generic_construction2
 		prerequisite = { focus = RED_for_knowledge }
+		prerequisite = { focus = RED_future_production_line }
 		x = 1
 		y = 2
 		relative_position_id = RED_for_knowledge
@@ -746,7 +748,7 @@ focus_tree = {
 		mutually_exclusive = { focus = RED_ivan_kupla }
 		x = 14
 		y = 0
-		cost = 5
+		cost = 10
 		
 		ai_will_do = {
 			factor = 100
@@ -803,7 +805,7 @@ focus_tree = {
 		x = -2 
 		y = 1
 		relative_position_id = RED_accept_trotskism
-		cost = 5
+		cost = 10
 
 		available = {
 			
@@ -842,7 +844,7 @@ focus_tree = {
 		x = 0
 		y = 2
 		relative_position_id = RED_org_admin
-		cost = 5
+		cost = 10
 
 		available = {
 		}
@@ -929,6 +931,90 @@ focus_tree = {
 			add_ideas = RED_welcome_immigrate_idea
 		}
 	}
+	focus = { # 게헨나와 제휴
+		id = RED_coop_with_geh
+		icon = GFX_goal_generic_improve_relations
+		prerequisite = { focus = RED_welcome_immigrate focus = RED_welcome_thugs }
+		mutually_exclusive = { focus = RED_coop_with_trm focus = RED_coop_with_sov }
+		x = -1
+		y = 1
+		relative_position_id = RED_welcome_immigrate
+		cost = 10
+
+		available = {
+			country_exists = GEH
+		}
+
+		bypass = {
+			is_in_faction_with = GEH
+		}
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			diplomatic_relation = {
+				country = GEH
+				relation = non_aggression_pact
+				active = no
+			}
+		}
+	}
+	focus = { # 트리니티와 제휴
+		id = RED_coop_with_trm
+		icon = GFX_goal_generic_improve_relations
+		prerequisite = { focus = RED_welcome_immigrate focus = RED_welcome_thugs }
+		mutually_exclusive = { focus = RED_coop_with_geh focus = RED_coop_with_sov }
+		x = 2
+		y = 1
+		relative_position_id = RED_welcome_immigrate
+		cost = 10
+
+		available = {
+			country_exists = TRM
+		}
+
+		bypass = {
+			is_in_faction_with = TRM
+		}
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			diplomatic_relation = {
+				country = TRM
+				relation = non_aggression_pact
+				active = no
+			}
+		}
+	}
+	focus = { # 소련과 제휴
+		id = RED_coop_with_sov
+		icon = GFX_goal_generic_improve_relations
+		prerequisite = { focus = RED_welcome_immigrate focus = RED_welcome_thugs }
+		mutually_exclusive = { focus = RED_coop_with_geh focus = RED_coop_with_trm }
+		x = 5
+		y = 1
+		relative_position_id = RED_welcome_immigrate
+		cost = 10
+
+		available = {
+			country_exists = SOV
+		}
+
+		bypass = {
+			is_in_faction_with = SOV
+		}
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			diplomatic_relation = {
+				country = SOV
+				relation = non_aggression_pact
+				active = no
+			}
+		}
+	}
 	focus = { # 전선의 영웅들
 		id = RED_heros_at_front
 		icon = GFX_focus_generic_little_entente
@@ -941,19 +1027,22 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_POLITICAL}
 
 		completion_reward = {
-			random_army_leader = {
-				limit = {
-					NOT = { has_trait = war_hero }
-					is_assigned = yes
+			custom_effect_tooltip = RED_heros_at_front_tt
+			hidden_effect = {
+				random_army_leader = {
+					limit = {
+						NOT = { has_trait = war_hero }
+						is_assigned = yes
+					}
+					add_unit_leader_trait = war_hero
 				}
-				add_unit_leader_trait = war_hero
-			}
-			random_army_leader = {
-				limit = {
-					NOT = { has_trait = war_hero }
-					is_assigned = yes
+				random_army_leader = {
+					limit = {
+						NOT = { has_trait = war_hero }
+						is_assigned = yes
+					}
+					add_unit_leader_trait = war_hero
 				}
-				add_unit_leader_trait = war_hero
 			}
 		}
 	}
@@ -965,7 +1054,7 @@ focus_tree = {
 		x = 1
 		y = 1
 		relative_position_id = RED_depress_locals
-		cost = 5
+		cost = 10
 		
 		search_filters = {FOCUS_FILTER_POLITICAL}
 
@@ -991,19 +1080,7 @@ focus_tree = {
 		y = 0
 		relative_position_id = RED_accept_trotskism
 
-		allow_branch = {
-			if = {
-				limit = {
-					has_game_rule = {
-						rule = obsolete_focus_branches_visibility
-						option = HIDE
-					}
-				}
-				NOT = { has_completed_focus = RED_accept_trotskism }
-			}
-		}
-
-		cost = 5
+		cost = 10
 
 		ai_will_do = {
 			factor = 1
@@ -1035,7 +1112,7 @@ focus_tree = {
 		x = 2
 		y = 1
 		relative_position_id = RED_ivan_kupla
-		cost = 5
+		cost = 10
 		available = {
 		}
 		                
@@ -1054,7 +1131,7 @@ focus_tree = {
 		x = 0
 		y = 2
 		
-		cost = 5
+		cost = 10
 
 		bypass = {
 			NOT = {
@@ -1081,10 +1158,10 @@ focus_tree = {
 		prerequisite = { focus = RED_dipose_cherino }
 		mutually_exclusive = { focus = RED_labor_world }
 		relative_position_id = RED_dipose_cherino
-		x = 2
+		x = 6
 		y = 1
 
-		cost = 5
+		cost = 10
 		
 		available = {
 			has_character = RED_marina
@@ -1093,9 +1170,6 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_POLITICAL}
 
 		completion_reward = {
-			add_political_power = 75
-			add_war_support = 0.05
-			add_stability = 0.10
 			if = {
 				limit = {
 					has_character = RED_marina
@@ -1109,11 +1183,11 @@ focus_tree = {
 		icon = GFX_focus_SOV_breadbasket_of_the_union
 		prerequisite = { focus = RED_dipose_cherino }
 		mutually_exclusive = { focus = RED_office_disagree }
-		x = -2
+		x = 0
 		y = 1
 		relative_position_id = RED_dipose_cherino
 
-		cost = 5
+		cost = 10
 
 		search_filters = {FOCUS_FILTER_POLITICAL}
 
@@ -1123,16 +1197,75 @@ focus_tree = {
 			add_ideas = RED_labor_world_idea
 		}
 	}
+	focus = { # 군부 독재
+		id =  RED_military_dictatorship
+		icon = GFX_focus_generic_military_dictatorship
+		prerequisite = { focus = RED_office_disagree }
+		x = 0
+		y = 1
+		relative_position_id = RED_office_disagree
+
+		cost = 10
+
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			add_political_power = 75
+			add_war_support = 0.05
+			add_stability = 0.10
+		}
+	}
+	focus = { # 발트해의 지배자
+		id =  RED_controller_of_baltic
+		icon = GFX_focus_SOV_reinforce_western_naval_bases
+		prerequisite = { focus = RED_military_dictatorship }
+		prerequisite = { focus = RED_warship_production focus = RED_submarine_effort }
+		x = 2
+		y = 1
+		relative_position_id = RED_military_dictatorship
+
+		cost = 10
+
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			load_obb = "RED_naval"
+		}
+	}
+	focus = { # 고틀란드냐 전쟁이냐
+		id =  RED_gotland_or_war
+		icon = GFX_focus_attack_germany
+		prerequisite = { focus = RED_controller_of_baltic }
+		x = 0
+		y = 2
+		relative_position_id = RED_controller_of_baltic
+
+		available ={
+			country_exists = GEN
+		}
+
+		bypass = {
+			has_war_with = RED
+		}
+
+		cost = 10
+
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			country_event = { id = RED_event.1 days = 1 }
+		}
+	}
 
 # 군 개편 중점
 	focus = {
 		id = RED_army_production_improve
 
 		icon = GFX_goal_generic_defence
-		x = 10
+		x = 20
 		y = 0
 		relative_position_id = RED_ivan_kupla
-		cost = 5
+		cost = 10
 
 		ai_will_do = {
 			factor = 1
@@ -1512,7 +1645,7 @@ focus_tree = {
 		x = 1
 		y = 1
 		relative_position_id = RED_superior_war_machines
-		cost = 5
+		cost = 10
 
 		available = {
 		}
@@ -1557,7 +1690,7 @@ focus_tree = {
 		x = 5
 		y = 0
 		relative_position_id = RED_army_production_improve
-		cost = 5
+		cost = 10
 
 		ai_will_do = {
 			factor = 1
@@ -1583,7 +1716,7 @@ focus_tree = {
 		x = 2
 		y = 5
 		relative_position_id = RED_army_production_improve
-		cost = 5
+		cost = 10
 
 		available = {
 
@@ -1605,7 +1738,7 @@ focus_tree = {
 		x = 3
 		y = 1
 		relative_position_id = RED_military_engineering
-		cost = 5
+		cost = 10
 
 		available = {
 		}
@@ -1797,7 +1930,7 @@ focus_tree = {
 		x = -1
 		y = 1
 		relative_position_id = RED_strengthen_the_mobilization_plan
-		cost = 5
+		cost = 10
 
 		available = {
 
@@ -1818,7 +1951,7 @@ focus_tree = {
 		x = 1
 		y = 1
 		relative_position_id = RED_strengthen_the_mobilization_plan
-		cost = 5
+		cost = 10
 
 		available = {
 		}
@@ -1883,7 +2016,7 @@ focus_tree = {
 		x = 3
 		y = 2
 		relative_position_id = RED_strengthen_the_mobilization_plan
-		cost = 5
+		cost = 10
 
 		available = {
 		}
@@ -1927,7 +2060,7 @@ focus_tree = {
 		x = 2
 		y = 1
 		relative_position_id = RED_ready_for_war
-		cost = 5
+		cost = 10
 
 		available = {
 			has_war = yes
@@ -1954,7 +2087,7 @@ focus_tree = {
 		x = 2
 		y = 2
 		relative_position_id = RED_an_adaptable_army
-		cost = 5
+		cost = 10
 
 		available = {
 
@@ -1974,7 +2107,7 @@ focus_tree = {
 		x = -1
 		y = 1
 		relative_position_id = RED_military_reorganization
-		cost = 5
+		cost = 10
 
 		available = {
 
@@ -2150,6 +2283,281 @@ focus_tree = {
 				set_technology = { masterful_blitz = 1 popup = no }
 			}
 			custom_effect_tooltip = SOV_the_glory_of_the_red_army_masterful_blitz_tactic_tt
+		}
+	}
+#해군 개편 중점	
+	focus = {
+		id = RED_naval_rearmament
+		icon = GFX_goal_generic_build_navy
+		x = 13
+		y = 0
+		relative_position_id = RED_ivan_kupla
+
+		cost = 5
+		ai_will_do = {
+			factor = 1
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = RED_naval_effort
+		text = naval_effort
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		prerequisite = { focus = RED_naval_rearmament }
+		x = 0
+		y = 2
+		relative_position_id = RED_naval_rearmament
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+			navy_experience = 25
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = dd_bonus
+				bonus = 2.0
+				uses = 1
+				category = dd_tech
+			}
+			add_tech_bonus = {
+				name = cr_bonus
+				bonus = 2.0
+				uses = 1
+				category = cl_tech
+				category = ca_tech
+			}
+		}
+	}
+	focus = {
+		id = RED_naval_effort2
+		icon = GFX_goal_generic_construct_naval_dockyard
+		prerequisite = { focus = RED_naval_effort }
+		x = 0
+		y = 1
+		relative_position_id = RED_naval_effort
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = RED_warship_production
+		icon = GFX_goal_generic_navy_battleship
+		prerequisite = { focus = RED_naval_effort }
+		mutually_exclusive = { focus = RED_submarine_effort focus = RED_rebuild_the_high_seas_fleet focus = RED_accept_british_naval_dominance }
+		x = -1
+		y = 3
+		relative_position_id = RED_naval_effort
+		cost = 10
+		ai_will_do = {
+			factor = 0.25
+		}	
+
+		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+			navy_experience = 50
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = bc_bonus
+				bonus = 2.0
+				uses = 1
+				category = bc_tech
+			}
+			add_tech_bonus = {
+				name = bb_bonus
+				bonus = 2.0
+				uses = 1
+				category = bb_tech
+				category = shbb_tech
+			}
+			add_tech_bonus = {
+				name = cv_bonus
+				bonus = 2.0
+				uses = 1
+				category = cv_tech
+			}
+		}
+	}
+	focus = {
+		id = RED_submarine_effort
+		icon = GFX_goal_generic_navy_submarine
+		prerequisite = { focus = RED_naval_effort }
+		mutually_exclusive = { focus = RED_warship_production focus = RED_rebuild_the_high_seas_fleet focus = RED_accept_british_naval_dominance }
+		x = 1
+		y = 3
+		relative_position_id = RED_naval_effort
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+		
+		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+
+		completion_reward = {
+			navy_experience = 25
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = RED_submarine_effort
+				bonus = 2.0
+				uses = 1
+				category = ss_tech
+			}
+			if = {
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				set_technology = { cruiser_submarines = 1 }
+			}
+		}
+	}
+	focus = {
+		id = RED_trade_interdiction
+		icon = GFX_goal_generic_wolf_pack
+		prerequisite = { focus = RED_submarine_effort }
+		x = 0
+		y = 1
+		relative_position_id = RED_submarine_effort
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = ti_bonus
+				name = RED_trade_interdiction
+				cost_reduction = 0.25
+				uses = 3 
+				category = trade_interdiction_tree
+			}
+		}
+	}
+	focus = {
+		id = RED_modular_construction
+		icon = GFX_goal_generic_construct_naval_dockyard
+		prerequisite = { focus = RED_trade_interdiction }
+		x = 0
+		y = 1
+		relative_position_id = RED_trade_interdiction
+		cost = 10
+		ai_will_do = {
+			factor = 1
+		}
+			
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			add_ideas = RED_modular_construction_idea
+		}
+	}
+	focus = {
+		id = RED_crossing_the_atlantic
+		icon = GFX_goal_generic_build_navy
+		prerequisite = { focus = RED_break_the_anglo_french_colonial_hegemony focus = RED_warship_production focus = RED_modular_construction }
+		available = {
+		}
+		x = -1
+		y = 1
+		relative_position_id = RED_modular_construction
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
 		}
 	}
 }

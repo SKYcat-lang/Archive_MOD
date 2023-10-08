@@ -1,0 +1,172 @@
+add_namespace = RED_event
+
+# 고틀란드냐 전쟁이냐
+country_event = {
+	id = RED_event.1
+	title = RED_event.1.t
+	desc = RED_event.1.d
+	picture = GFX_report_event_german_troops
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_war_with = RED }
+	}
+
+	option = {
+		name = RED_event.1.a
+		ai_chance = {
+			factor = 20
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		RED = { country_event = { id = RED_event.2 days = 1 } }
+		effect_tooltip = {
+			RED = {
+				transfer_state = 124
+				add_state_core = 124
+			}
+			GEN = {
+				remove_state_claim = 124
+			}
+		}
+	}
+
+	option = {
+		name = RED_event.1.b
+		ai_chance = {
+			factor = 80
+			modifier = {
+				factor = 3
+				strength_ratio = {
+					tag = RED
+					ratio > 0.7
+				}
+			}
+			modifier = {
+				factor = 10
+				any_other_country = {
+					is_major = yes
+					is_in_faction_with = GEN
+				}
+			}
+		}
+		RED = {
+			country_event = { id = RED_event.3 days = 1 }
+			if = {
+				limit = {
+					is_in_faction_with = GEN
+					is_faction_leader = yes
+				}
+				remove_from_faction = GEN
+			}
+			if = {
+				limit = {
+					is_in_faction_with = GEN
+					is_faction_leader = no
+				}
+				random_other_country = {
+					limit = {
+						is_in_faction_with = RED
+						is_faction_leader = yes
+					}
+					remove_from_faction = RED
+				}
+			}
+		}
+		effect_tooltip = {
+			RED = {
+				declare_war_on = {
+					target = GEN
+					type = take_state
+					generator = { 124 }
+				}
+			}
+		}
+	}
+}
+
+# 독일 수락
+country_event = {
+	id = RED_event.2
+	title = RED_event.2.t
+	desc = RED_event.2.d
+	picture = GFX_report_event_german_polish_border
+
+	is_triggered_only = yes
+
+	option = {
+		name = RED_event.2.a
+		RED = {
+			transfer_state = 124
+			add_state_core = 124
+		}
+		GEN = {
+			remove_state_claim = 124
+		}
+	}
+}
+
+# 독일 거부
+country_event = {
+	id = RED_event.3
+	title = RED_event.3.t
+	desc = RED_event.3.d
+	picture = GFX_report_event_polish_tanks_02
+
+	is_triggered_only = yes
+
+	option = {
+		name = RED_event.3.a
+		if = {
+			limit = {
+				GEN = {
+					is_subject = yes
+					OVERLORD = {
+						has_non_aggression_pact_with = RED
+					}
+				}
+			}
+			GEN = {
+				OVERLORD = {
+					diplomatic_relation = {
+						country = RED
+						relation = non_aggression_pact
+						active = no
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				GEN = {
+					has_non_aggression_pact_with = RED
+				}
+			}
+			GEN = {
+				diplomatic_relation = {
+					country = RED
+					relation = non_aggression_pact
+					active = no
+				}
+			}
+			every_other_country = {
+				limit = {
+					has_non_aggression_pact_with = RED
+				}
+				add_opinion_modifier = {
+					target = RED
+   					modifier = protest_action_strong
+				}
+			}
+		}
+		create_wargoal = {
+			type = take_state
+			generator = { 124 }
+			target = GEN
+		}
+		add_state_core = 124
+	}
+}
