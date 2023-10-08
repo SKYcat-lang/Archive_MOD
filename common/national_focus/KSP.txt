@@ -296,7 +296,7 @@ focus_tree = {
 	}
 	focus = {
 		id = KSP_increase_police_officers
-		icon = GFX_focus_generic_little_entente
+		icon = GFX_focus_generic_fascist_troops
 		cost = 5
 		prerequisite = {
 			focus = KSP_start_controlling_society
@@ -473,7 +473,7 @@ focus_tree = {
 				limit = {
 					is_core_of = ROOT
 				}
-				prioritize = { 911 }
+				prioritize = { 925 }
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = arms_factory
@@ -485,7 +485,7 @@ focus_tree = {
 				limit = {
 					is_core_of = ROOT
 				}
-				prioritize = { 912 }
+				prioritize = { 911 }
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = arms_factory
@@ -762,7 +762,7 @@ focus_tree = {
 			focus = KSP_talk_with_moderate_partys
 		}
 
-		x = 1
+		x = 2
 		y = 1
 		relative_position_id = KSP_talk_with_moderate_partys
 
@@ -901,7 +901,7 @@ focus_tree = {
 	}
 	focus = {
 		id = KSP_calling_for_war
-		icon = GFX_goal_generic_occupy_states_ongoing_war
+		icon = GFX_focus_generic_little_entente
 		cost = 10
 		prerequisite = {
 			focus = KSP_strike_first
@@ -913,6 +913,71 @@ focus_tree = {
 
 		completion_reward = {
 			add_ideas = KSP_call_students_for_war
+		}
+	}
+	focus = {
+		id = KSP_earn_hyeongi_weapons
+		icon = GFX_goal_generic_small_arms
+		cost = 5
+		prerequisite = {
+			focus = KSP_strike_first
+		}
+
+		x = 1
+		y = 1
+		relative_position_id = KSP_strike_first
+
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 1000
+				producer = KSP
+			}
+			add_equipment_to_stockpile = {
+				type = support_equipment
+				amount = 100
+				producer = KSP
+			}
+		}
+	}
+	focus = {
+		id = KSP_benerux_tonghap
+		icon = GFX_focus_generic_the_giant_wakes
+		cost = 5
+		prerequisite = {
+			focus = KSP_earn_hyeongi_weapons
+		}
+		prerequisite = {
+			focus = KSP_calling_for_war
+		}
+		available = {
+			NOT = {
+				has_completed_focus = KSP_rebuild_COU
+			}
+			controls_state = 7
+			controls_state = 35
+			controls_state = 6
+			controls_state = 29
+		}
+		mutually_exclusive = {
+			focus = KSP_kanna_rule_uzi
+			focus = KSP_COU_return
+		}
+
+		x = 0
+		y = 2
+		relative_position_id = KSP_strike_first
+
+		completion_reward = {
+			every_state = {
+				limit = { 
+					OR = { 
+						is_core_of = SHE
+						is_core_of = COU
+					} 
+				}
+				add_core_of = KSP
+			}
 		}
 	}
 	focus = {
@@ -983,6 +1048,76 @@ focus_tree = {
 				}
 			}
 			army_experience = 25
+		}
+	}
+	focus = {
+		id = KSP_build_arms_factories
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 10
+		prerequisite = {
+			focus = KSP_rebuild_our_army
+		}
+
+		x = -1
+		y = 2
+		relative_position_id = KSP_help_from_belgian_army
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 34 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 925 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = KSP_army_tonghap
+		icon = GFX_goal_generic_territory_or_war
+		cost = 5
+		prerequisite = {
+			focus = KSP_benerux_tonghap
+		}
+		prerequisite = {
+			focus = KSP_build_arms_factories
+		}
+		
+		x = -1
+		y = 1
+		relative_position_id = KSP_build_arms_factories
+
+		completion_reward = {
+			division_template = {
+				name = "민병대"
+				priority = 0
+				is_locked = yes
+				regiments = {
+				   infantry = { x = 0 y = 0 }
+				   infantry = { x = 1 y = 0 }
+				   infantry = { x = 0 y = 1 }
+				   infantry = { x = 1 y = 1 }
+				   infantry = { x = 0 y = 2 }
+				   infantry = { x = 1 y = 2 }
+				}
+			}
 		}
 	}
 
@@ -1063,7 +1198,7 @@ focus_tree = {
 
 		completion_reward = {
 			random_owned_controlled_state = {	
-				prioritize = { 34 }
+				prioritize = { 925 }
 				create_unit = {
 					division = "name = \"긴급동원된 군대\" division_template = \"Halo Infantry Division\" #  start_experience_factor = 0." 
 					owner = KSP
@@ -1118,7 +1253,7 @@ focus_tree = {
 				}
 			}
 			random_owned_controlled_state = {
-				prioritize = { 911 }
+				prioritize = { 925 }
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = arms_factory
@@ -1207,6 +1342,7 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = KSP_COU_return
+			focus = KSP_benerux_tonghap
 		}
 		
 		x = -2
@@ -1284,6 +1420,7 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = KSP_kanna_rule_uzi
+			focus = KSP_benerux_tonghap
 		}
 		
 		x = 2
