@@ -1,0 +1,135 @@
+focus_tree = {
+	id = IRE_united_kingdom
+	continuous_focus_position = { x = 200 y = 3000 } 
+
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = IRE
+		}
+	}
+	default = no
+	focus = { # 세계의 변화
+		id = IRE_world_change
+		icon = GFX_goal_anschluss
+		cost = 2.00
+		x = 22
+		y = 0
+
+		ai_will_do = {
+			base = 40
+		}
+		completion_reward = {
+			add_political_power = 150 
+			country_event = {
+				id = IRE_event.1
+				hours = 6
+			}
+			add_ideas = IRE_world_change_idea_1
+		}
+	}
+
+	focus = { # 상황 파악
+		id = IRE_Understanding_situation
+		icon = GFX_goal_generic_demand_territory
+		cost = 2.00
+		prerequisite = { focus = IRE_world_change }
+		x = 0
+		y = 1
+		relative_position_id = IRE_world_change
+
+		ai_will_do = {
+			base = 40
+		}
+		completion_reward = {
+			swap_ideas = {
+				add_idea = IRE_world_change_idea_2
+				remove_idea = IRE_world_change_idea_1
+			}
+		}
+	}
+
+	focus = { # 외부를 둘러보다
+		id = IRE_looking_united_kingdom
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 5.00
+		prerequisite = { focus = IRE_Understanding_situation }
+		x = 0
+		y = 1
+		relative_position_id = IRE_Understanding_situation
+
+		ai_will_do = {
+			base = 40
+		}
+		completion_reward = {
+			swap_ideas = {
+				add_idea = IRE_world_change_idea_3
+				remove_idea = IRE_world_change_idea_2
+			}
+		}
+	}
+
+	focus = { # 영국에 협력
+		id = IRE_helping_united_kingdom
+		icon = GFX_focus_chi_british_cooperation
+		cost = 5.00
+		prerequisite = { focus = IRE_looking_united_kingdom }
+		mutually_exclusive = { focus = IRE_attack_northen_ireland }
+		x = 4
+		y = 1
+		relative_position_id = IRE_looking_united_kingdom
+
+		ai_will_do = {
+			base = 40
+		}
+		completion_reward = {
+			ENG = { add_to_faction = IRE }
+			Declar_war_on = { 
+				target = KAI
+				type = annex_everything 
+			}
+		}
+	}
+
+	focus = { # 북아일랜드 침공
+		id = IRE_attack_northen_ireland
+		icon = GFX_focus_attack_britain
+		cost = 5.00
+		prerequisite = { focus = IRE_looking_united_kingdom }
+		x = -4
+		y = 1
+		relative_position_id = IRE_looking_united_kingdom
+		mutually_exclusive = { focus = IRE_helping_united_kingdom }
+
+		ai_will_do = {
+			base = 40
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = ENG
+			}
+			add_state_claim = 119
+		}
+	}
+	focus = { # 영국 내전 엄격중립
+		id = IRE_strictly_neutral
+		icon = GFX_goal_generic_alliance
+		cost = 5.00
+		prerequisite = { focus = IRE_looking_united_kingdom }
+		x = 0
+		y = 1
+		relative_position_id = IRE_looking_united_kingdom
+		mutually_exclusive = { focus = IRE_helping_united_kingdom }
+		mutually_exclusive = { focus = IRE_attack_northen_ireland }
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward ={
+			
+		}
+	}	
+}
