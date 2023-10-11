@@ -134,6 +134,36 @@ focus_tree = {
 			}
 		}
 	}
+	focus = { # 경제 발전 계획
+		id = RED_economy_dev_plan
+
+		icon = GFX_focus_generic_industry_2
+		prerequisite = { focus = RED_land_research }
+		x = 0
+		y = 1
+		relative_position_id = RED_land_research
+		cost = 10
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+				}
+			}
+			add_timed_idea = {
+				idea = RED_economy_recover_idea
+				days = 160
+			}
+		}
+	}
 	focus = { # 철도망 개선
 		id = RED_improve_railway_network
 
@@ -182,36 +212,7 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { # 경제 발전 계획
-		id = RED_economy_dev_plan
 
-		icon = GFX_focus_generic_industry_2
-		prerequisite = { focus = RED_land_research }
-		x = 0
-		y = 1
-		relative_position_id = RED_land_research
-		cost = 10
-
-		available = {
-		}
-		
-		search_filters = {FOCUS_FILTER_INDUSTRY}
-
-		completion_reward = {
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-				type = industrial_complex
-				level = 2
-				instant_build = yes
-				}
-			}
-			add_timed_idea = {
-				idea = RED_economy_recover_idea
-				days = 160
-			}
-		}
-	}
 	focus = { # 용역부 회유
 		id = RED_entice_publicworks
 
@@ -1326,48 +1327,6 @@ focus_tree = {
 			add_war_support = 0.20
 		}
 	}
-	focus = { # 붉은곰 편집국
-		id = RED_redbear_editorial
-		icon = GFX_goal_generic_propaganda
-		prerequisite = { focus = RED_welcome_immigrate focus = RED_welcome_thugs }
-		x = 2
-		y = 1
-		relative_position_id =  RED_welcome_immigrate
-		cost = 10
-
-		available = {
-			
-		}
-		
-		search_filters = {FOCUS_FILTER_POLITICAL}
-
-		completion_reward = {
-			add_political_power = 25
-			#디시전 주자
-		}
-	}
-	focus = { # 키보토스 외교 정책
-		id = RED_kibotos_policy
-		icon = GFX_goal_anschluss
-		prerequisite = { focus = RED_redbear_editorial }
-		x = 0
-		y = 3
-		relative_position_id = RED_redbear_editorial
-		cost = 10
-
-		available = {
-			has_completed_focus = RED_long_live_the_workers_government
-		}
-
-		search_filters = {}
-
-		completion_reward = {
-			add_political_power = 25
-			set_rule = {
-				can_join_factions = yes
-			}
-		}		
-	}	
 	focus = { # 경비국 복원
 		id = RED_restore_the_security
 		icon = GFX_focus_SOV_organize_wreckers
@@ -1498,6 +1457,93 @@ focus_tree = {
 			}
 		}
 	}
+	focus = { # 붉은곰 편집국
+		id = RED_redbear_editorial
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = RED_welcome_immigrate focus = RED_welcome_thugs }
+		x = 2
+		y = 1
+		relative_position_id =  RED_welcome_immigrate
+		cost = 10
+
+		available = {
+			
+		}
+		
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			add_political_power = 25
+			#디시전 주자
+		}
+	}
+	focus = { # 고틀란드냐 전쟁이냐
+		id =  RED_gotland_or_war
+		icon = GFX_focus_attack_germany
+		prerequisite = { focus = RED_redbear_editorial }
+		x = 1
+		y = 1
+		relative_position_id = RED_redbear_editorial
+
+		available ={
+			country_exists = GEN
+		}
+
+		cost = 10
+
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			country_event = { id = RED_event.1 days = 1 }
+		}
+	}
+	focus = { # 게헨나 내전 개입
+		id =  RED_intervene_in_geh
+		icon = GFX_focus_spr_torchbearers_of_tomorrow
+		prerequisite = { focus = RED_redbear_editorial }
+		x = -2
+		y = 1
+		relative_position_id = RED_redbear_editorial
+
+		available ={
+			GEH = {
+				has_war_with = GEM
+			}
+		}
+
+		cost = 10
+
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			set_rule = {
+				can_send_volunteers = yes
+			}
+			add_war_support = 0.15
+		}
+	}
+	focus = { # 키보토스 외교 정책
+		id = RED_kibotos_policy
+		icon = GFX_goal_anschluss
+		prerequisite = { focus = RED_redbear_editorial }
+		x = 0
+		y = 3
+		relative_position_id = RED_redbear_editorial
+		cost = 10
+
+		available = {
+			has_completed_focus = RED_long_live_the_workers_government
+		}
+
+		search_filters = {}
+
+		completion_reward = {
+			add_political_power = 25
+			set_rule = {
+				can_join_factions = yes
+			}
+		}		
+	}	
 
 # 붉은겨울 정치중점(반체리노 루트)
 	focus = { # 이반 쿠팔라
@@ -2014,6 +2060,67 @@ focus_tree = {
 			}
 		}
 	}
+	focus = { #혁명의 불꽃
+		id = RED_maintaining_the_fire
+		available = {
+		}
+		bypass = {
+		}
+		prerequisite = { focus = RED_labor_world }
+		
+		icon = GFX_goal_generic_attack_allies
+		x = 1
+		y = 1
+		relative_position_id = RED_labor_world
+		cost = 10
+
+		available_if_capitulated = yes
+		search_filters = {FOCUS_FILTER_WAR_SUPPORT}
+		completion_reward = {
+			add_ideas = RED_voluteer_corps_idea
+			add_war_support = 0.10
+		}
+	}
+	focus = { #사상의 자유
+		id = RED_freedom_of_thought
+		available = {
+			num_of_factories > 50
+		}
+		bypass = {
+		}
+		prerequisite = { focus = RED_maintaining_the_fire }
+		
+		icon = GFX_focus_research
+		x = 0
+		y = 1
+		relative_position_id = RED_maintaining_the_fire
+		cost = 10
+
+		available_if_capitulated = yes
+		search_filters = {FOCUS_FILTER_RESEARCH}
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	focus = { # 군부 독재
+		id =  RED_military_dictatorship
+		icon = GFX_focus_generic_military_dictatorship
+		prerequisite = { focus = RED_office_disagree }
+		x = 0
+		y = 3
+		relative_position_id = RED_office_disagree
+
+		cost = 10
+
+		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		completion_reward = {
+			add_political_power = 75
+			add_war_support = 0.05
+			add_stability = 0.10
+			remove_ideas = RED_doomed_army_idea
+		}
+	}
 	focus = { #소련과 제휴
 		id = RED_coop_with_sov
 		available = {
@@ -2090,137 +2197,6 @@ focus_tree = {
 					type = puppet_wargoal_focus
 				}
 			}
-		}
-	}
-	focus = { #혁명의 불꽃
-		id = RED_maintaining_the_fire
-		available = {
-		}
-		bypass = {
-		}
-		prerequisite = { focus = RED_labor_world }
-		
-		icon = GFX_goal_generic_attack_allies
-		x = 1
-		y = 1
-		relative_position_id = RED_labor_world
-		cost = 10
-
-		available_if_capitulated = yes
-		search_filters = {FOCUS_FILTER_WAR_SUPPORT}
-		completion_reward = {
-			add_ideas = RED_voluteer_corps_idea
-		}
-		add_war_support = 0.10
-	}
-	focus = { #사상의 자유
-		id = RED_freedom_of_thought
-		available = {
-			num_of_factories > 50
-		}
-		bypass = {
-		}
-		prerequisite = { focus = RED_maintaining_the_fire }
-		
-		icon = GFX_focus_research
-		x = 0
-		y = 1
-		relative_position_id = RED_maintaining_the_fire
-		cost = 10
-
-		available_if_capitulated = yes
-		search_filters = {FOCUS_FILTER_RESEARCH}
-		completion_reward = {
-			add_research_slot = 1
-		}
-	}
-	focus = { # 군부 독재
-		id =  RED_military_dictatorship
-		icon = GFX_focus_generic_military_dictatorship
-		prerequisite = { focus = RED_office_disagree }
-		x = 0
-		y = 3
-		relative_position_id = RED_office_disagree
-
-		cost = 10
-
-		search_filters = {FOCUS_FILTER_POLITICAL}
-
-		completion_reward = {
-			add_political_power = 75
-			add_war_support = 0.05
-			add_stability = 0.10
-			remove_ideas = RED_doomed_army_idea
-		}
-	}
-	focus = { # 고틀란드냐 전쟁이냐
-		id =  RED_gotland_or_war
-		icon = GFX_focus_attack_germany
-		prerequisite = { focus = RED_redbear_editorial }
-		x = 1
-		y = 1
-		relative_position_id = RED_redbear_editorial
-
-		available ={
-			country_exists = GEN
-		}
-
-		cost = 10
-
-		search_filters = {FOCUS_FILTER_POLITICAL}
-
-		completion_reward = {
-			country_event = { id = RED_event.1 days = 1 }
-		}
-	}
-	focus = { # 게헨나 내전 개입
-		id =  RED_intervene_in_geh
-		icon = GFX_focus_spr_torchbearers_of_tomorrow
-		prerequisite = { focus = RED_redbear_editorial }
-		x = -2
-		y = 1
-		relative_position_id = RED_redbear_editorial
-
-		available ={
-			GEH = {
-				has_war_with = GEM
-			}
-		}
-
-		cost = 10
-
-		search_filters = {FOCUS_FILTER_POLITICAL}
-
-		completion_reward = {
-			set_rule = {
-				can_send_volunteers = yes
-			}
-			add_war_support = 0.15
-		}
-	}
-	focus = { #게헨나 내전 개입
-		id =  RED_intervene_in_geh
-		icon = GFX_focus_spr_torchbearers_of_tomorrow
-		prerequisite = { focus = RED_redbear_editorial }
-		x = -1
-		y = 1
-		relative_position_id = RED_redbear_editorial
-
-		available ={
-			GEH = {
-				has_war_with = GEM
-			}
-		}
-
-		cost = 10
-
-		search_filters = {FOCUS_FILTER_POLITICAL}
-
-		completion_reward = {
-			set_rule = {
-				can_send_volunteers = yes
-			}
-			add_war_support = 0.15
 		}
 	}
 
@@ -2310,99 +2286,6 @@ focus_tree = {
 	}
 
 	focus = {
-		id = RED_superior_war_machines
-
-		icon = GFX_focus_generic_tank_production
-		prerequisite = { focus = RED_artillery }
-		prerequisite = { focus = RED_full_armament }
-		x = 1
-		y = 1
-		relative_position_id = RED_artillery
-		cost = 10
-
-		available = {
-			if = {
-				limit = {
-					has_dlc = "No Step Back"
-				}
-				has_tech = improved_medium_tank_chassis
-			}
-			else = {
-				has_tech = improved_medium_tank
-			}
-			OR = {
-				has_tech = artillery3
-				has_tech = antitank3
-			}
-		}
-		
-		search_filters = {FOCUS_FILTER_RESEARCH}
-
-		completion_reward = {
-			set_variable = { RED_tank_manufacturer_cost_factor = -0.25 }
-
-			add_tech_bonus = {
-				name = RED_superior_war_machines
-				bonus = 0.75
-				uses = 2
-				category = armor
-			}
-			if = {
-				limit = {
-					has_dlc = "No Step Back"
-				}
-				#T-34 tank template
-				create_equipment_variant = {
-					name = "T-34"
-					type = medium_tank_chassis_2
-					parent_version = 0
-					modules = {
-						main_armament_slot = tank_medium_cannon_2
-						turret_type_slot = tank_medium_two_man_tank_turret
-						suspension_type_slot = tank_christie_suspension
-						armor_type_slot = tank_welded_armor
-						engine_type_slot = tank_gasoline_engine
-						special_type_slot_1 = additional_machine_guns
-					}
-					upgrades = {
-						tank_nsb_engine_upgrade = 12
-						tank_nsb_armor_upgrade = 4
-					}
-					icon = "GFX_SOV_improved_medium_tank_medium"
-				}
-			}
-		}
-	}
-
-	focus = {
-		id = RED_the_means_to_wage_war
-
-		icon = GFX_goal_generic_military_sphere
-		prerequisite = { focus = RED_mechanical_engineering_dev }
-		x = 2
-		y = 1
-		relative_position_id = RED_mechanical_engineering_dev
-		cost = 10
-
-		available = {
-
-		}
-		
-		search_filters = {FOCUS_FILTER_RESEARCH}
-
-		completion_reward = {
-			set_variable = { RED_materiel_manufacturer_cost_factor = -0.25 }
-
-			add_tech_bonus = {
-				name = RED_the_means_to_wage_war_tech_bonus_name
-				bonus = 0.75
-				uses = 5
-				category = support_tech
-			}
-		}
-	}
-
-	focus = {
 		id = RED_artillery
 
 		icon = GFX_goal_generic_army_artillery
@@ -2486,6 +2369,99 @@ focus_tree = {
 						level = 1
 						instant_build = yes
 					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = RED_the_means_to_wage_war
+
+		icon = GFX_goal_generic_military_sphere
+		prerequisite = { focus = RED_mechanical_engineering_dev }
+		x = 2
+		y = 1
+		relative_position_id = RED_mechanical_engineering_dev
+		cost = 10
+
+		available = {
+
+		}
+		
+		search_filters = {FOCUS_FILTER_RESEARCH}
+
+		completion_reward = {
+			set_variable = { RED_materiel_manufacturer_cost_factor = -0.25 }
+
+			add_tech_bonus = {
+				name = RED_the_means_to_wage_war_tech_bonus_name
+				bonus = 0.75
+				uses = 5
+				category = support_tech
+			}
+		}
+	}
+
+	focus = {
+		id = RED_superior_war_machines
+
+		icon = GFX_focus_generic_tank_production
+		prerequisite = { focus = RED_artillery }
+		prerequisite = { focus = RED_full_armament }
+		x = 1
+		y = 1
+		relative_position_id = RED_artillery
+		cost = 10
+
+		available = {
+			if = {
+				limit = {
+					has_dlc = "No Step Back"
+				}
+				has_tech = improved_medium_tank_chassis
+			}
+			else = {
+				has_tech = improved_medium_tank
+			}
+			OR = {
+				has_tech = artillery3
+				has_tech = antitank3
+			}
+		}
+		
+		search_filters = {FOCUS_FILTER_RESEARCH}
+
+		completion_reward = {
+			set_variable = { RED_tank_manufacturer_cost_factor = -0.25 }
+
+			add_tech_bonus = {
+				name = RED_superior_war_machines
+				bonus = 0.75
+				uses = 2
+				category = armor
+			}
+			if = {
+				limit = {
+					has_dlc = "No Step Back"
+				}
+				#T-34 tank template
+				create_equipment_variant = {
+					name = "T-34"
+					type = medium_tank_chassis_2
+					parent_version = 0
+					modules = {
+						main_armament_slot = tank_medium_cannon_2
+						turret_type_slot = tank_medium_two_man_tank_turret
+						suspension_type_slot = tank_christie_suspension
+						armor_type_slot = tank_welded_armor
+						engine_type_slot = tank_gasoline_engine
+						special_type_slot_1 = additional_machine_guns
+					}
+					upgrades = {
+						tank_nsb_engine_upgrade = 12
+						tank_nsb_armor_upgrade = 4
+					}
+					icon = "GFX_SOV_improved_medium_tank_medium"
 				}
 			}
 		}
@@ -3113,7 +3089,7 @@ focus_tree = {
 	}
 
 	focus = {
-		id = SOV_adjoined_battle_priests
+		id = RED_adjoined_battle_priests
 		icon = GFX_focus_GRE_an_orthodox_state
 		prerequisite = { focus = RED_military_reorganization }
 		prerequisite = { focus = RED_an_adaptable_army }
@@ -3214,9 +3190,9 @@ focus_tree = {
 	}
 
 	focus = {
-		id = SOV_the_glory_of_the_red_army_alt
+		id = RED_the_glory_of_the_red_army_alt
 		icon = GFX_focus_SOV_the_glory_of_the_red_army_alternative
-		prerequisite = { focus = RED_defensive_plan focus = RED_aggresive_plan focus = SOV_adjoined_battle_priests }
+		prerequisite = { focus = RED_defensive_plan focus = RED_aggresive_plan focus = RED_adjoined_battle_priests }
 		x = 1
 		y = 1
 		relative_position_id = RED_defensive_plan
