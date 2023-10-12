@@ -1,4 +1,5 @@
 add_namespace = RED_event
+add_namespace = RED_unite_kibotos
 
 # 고틀란드냐 전쟁이냐
 country_event = {
@@ -25,11 +26,11 @@ country_event = {
 		RED = { country_event = { id = RED_event.2 days = 1 } }
 		effect_tooltip = {
 			RED = {
-				transfer_state = 124
-				add_state_core = 124
+				transfer_state = 281
+				add_state_core = 281
 			}
 			GEN = {
-				remove_state_claim = 124
+				remove_state_claim = 281
 			}
 		}
 	}
@@ -81,7 +82,7 @@ country_event = {
 				declare_war_on = {
 					target = GEN
 					type = take_state
-					generator = { 124 }
+					generator = { 281 }
 				}
 			}
 		}
@@ -100,11 +101,11 @@ country_event = {
 	option = {
 		name = RED_event.2.a
 		RED = {
-			transfer_state = 124
-			add_state_core = 124
+			transfer_state = 281
+			add_state_core = 281
 		}
 		GEN = {
-			remove_state_claim = 124
+			remove_state_claim = 281
 		}
 	}
 }
@@ -164,9 +165,117 @@ country_event = {
 		}
 		create_wargoal = {
 			type = take_state
-			generator = { 124 }
+			generator = { 281 }
 			target = GEN
 		}
-		add_state_core = 124
+		add_state_core = 281
+	}
+}
+
+country_event = { #키보토스 통일 요구
+	id = RED_unite_kibotos.1
+	title = RED_unite_kibotos.1.t
+	desc = RED_unite_kibotos.1.d
+	picture = GFX_report_event_stalin_propaganda
+
+	is_triggered_only = yes
+	
+	trigger = {
+		#tag = ROOT
+		ROOT = {
+			#tag = ROOT
+			any_owned_state = { is_claimed_by = FROM }
+		}
+	}
+		
+	option = { #수락
+		name = RED_unite_kibotos.1.a
+		ai_chance = {
+			factor = 50
+		}
+		FROM = { country_event = { days = 2 id = RED_unite_kibotos.2 } }
+	}
+	option = { #거절
+		name = RED_unite_kibotos.1.b
+		ai_chance = { 
+			factor = 50
+			modifier = {
+				factor = 5
+				strength_ratio = {
+					tag = RED
+					ratio > 0.8
+				}
+			}
+		}
+		FROM = { country_event = { days = 2 id = RED_unite_kibotos.3 } }
+	}
+}
+
+country_event = { #통일 수락
+	id = RED_unite_kibotos.2
+	title = RED_unite_kibotos.2.t
+	desc = RED_unite_kibotos.2.d
+	picture = GFX_report_event_soviet_in_riga
+
+	is_triggered_only = yes
+
+	option = {
+		name = RED_unite_kibotos.2.a
+		annex_country = {
+			target = FROM
+			transfer_troops = yes
+		}
+		add_named_threat = { threat = 5 name = RED_unite_kibotos_threat_RED }
+	}
+}
+
+country_event = { #통일 거부
+	id = RED_unite_kibotos.3
+	title = RED_unite_kibotos.3.t
+	desc = RED_unite_kibotos.3.d
+	picture = GFX_report_event_soviet_in_riga
+
+	is_triggered_only = yes
+
+	option = {
+		name = RED_unite_kibotos.3.a
+		if = {
+			limit = {
+				FROM = {
+					is_subject = yes
+					OVERLORD = {
+						has_non_aggression_pact_with = RED
+					}
+				}
+			}
+			FROM = {
+				OVERLORD = {
+					diplomatic_relation = {
+						country = RED
+						relation = non_aggression_pact
+						active = no
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				FROM = {
+					has_non_aggression_pact_with = RED
+				}
+			}
+			FROM = {
+				diplomatic_relation = {
+					country = RED
+					relation = non_aggression_pact
+					active = no
+				}
+			}
+		}
+		create_wargoal = {
+			type = annex_everything
+			generator = { }
+			target = FROM
+		}
 	}
 }
