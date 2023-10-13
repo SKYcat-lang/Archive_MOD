@@ -2,5 +2,71 @@
 
 
 RED_redbear_dec_cat = { #붉은곰 편집부 디시전
+	RED_propaganda_motherland_calls = { # ID = 3
+		priority = 3
 
+		icon = eng_propaganda_campaigns
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 1
+				surrender_progress > 0.4
+			}
+			modifier = {
+				add = 10
+				has_manpower < 500000
+			}
+			modifier = {
+				factor = 0.1
+				check_variable = { RED_propaganda_motherland_calls_cost > 30 } #Less likely to do it a third time
+			}
+			modifier = {
+				factor = 0.1
+				check_variable = { RED_propaganda_motherland_calls_cost > 45 } #Even less likely to do it a fourth time
+			}
+			modifier = {
+				factor = 0
+				check_variable = { RED_propaganda_motherland_calls_cost > 90 } #Shouldn't even consider doing it a fifth time
+			}
+		}
+
+		allowed = {
+			tag = RED
+		}
+
+		available = {
+			has_war = yes
+			check_variable = { RED_propaganda_empty_slot_index > 0 }
+		}
+
+		visible = {
+			has_completed_focus = RED_redbear_editorial
+		}
+
+		days_remove = 180
+
+		days_re_enable = 90
+
+		cost = RED_propaganda_motherland_calls_cost
+
+		modifier = {
+			weekly_manpower = 1000
+			training_time_factor = -0.1
+			minimum_training_level = -0.1
+		}
+
+		complete_effect = {
+			add_to_variable = { RED_propaganda_empty_slot_index = -1 }
+			set_variable = { RED_new_propaganda_campaign = 3 }
+			RED_pick_propaganda_campaign_slot_effect = yes
+		}
+
+		remove_effect = {
+			multiply_variable = { RED_propaganda_motherland_calls_cost = 2 }
+			add_to_variable = { RED_propaganda_empty_slot_index = 1 }
+			set_variable = { RED_propaganda_campaign_to_remove = 3 }
+			RED_reset_propaganda_campaign_slot_effect = yes
+		}
+	}
 }

@@ -160,7 +160,7 @@ focus_tree = {
 			}
 			add_timed_idea = {
 				idea = RED_economy_recover_idea
-				days = 160
+				days = 180
 			}
 		}
 	}
@@ -775,7 +775,8 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = RED_accept_trotskism_tt
 			hidden_effect = {
-				activate_advisor = RED_lev_trotsky
+				activate_advisor = RED_lev_trotsky_mil
+				activate_advisor = RED_lev_trotsky_pol
 			}
 		}
 	}
@@ -1240,7 +1241,7 @@ focus_tree = {
 		cost = 10
 
 		available = {
-			SOV_lev_trotsky = {	is_country_leader = yes }
+			has_character = RED_lev_trotsky
 		}
 		
 		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_XP}
@@ -1297,7 +1298,7 @@ focus_tree = {
 
 		completion_reward = {
 			add_timed_idea = {
-				idea = SOV_revolutionary_spirit_idea
+				idea = RED_revolutionary_spirit_idea
 				days = 365
 			}
 		}
@@ -1306,6 +1307,7 @@ focus_tree = {
 		id = RED_all_power_to_the_office
 		icon = GFX_goal_support_communism
 		prerequisite = { focus = RED_reigniting_the_revolutionary_spirit }
+		prerequisite = { focus = RED_the_builder_of_the_red_army }
 		x = -1
 		y = 1
 		relative_position_id = RED_reigniting_the_revolutionary_spirit
@@ -1471,7 +1473,7 @@ focus_tree = {
 
 		completion_reward = {
 			add_political_power = 25
-			#디시전 주자
+			custom_effect_tooltip = RED_redbear_editorial_tt
 		}
 	}
 	focus = { # 고틀란드냐 전쟁이냐
@@ -1498,7 +1500,7 @@ focus_tree = {
 		id =  RED_intervene_in_geh
 		icon = GFX_focus_spr_torchbearers_of_tomorrow
 		prerequisite = { focus = RED_redbear_editorial }
-		x = -2
+		x = -1
 		y = 1
 		relative_position_id = RED_redbear_editorial
 
@@ -1757,7 +1759,7 @@ focus_tree = {
 						has_government = neutrality
 					}
 				}
-				add_opinion_modifier = { target = RED modifier = SOV_anti_fascist_policies_bad } 
+				add_opinion_modifier = { target = RED modifier = RED_communist_diplo } 
 			}
 		}
 	}
@@ -3086,63 +3088,11 @@ focus_tree = {
 	}
 
 	focus = {
-		id = RED_adjoined_battle_priests
-		icon = GFX_focus_GRE_an_orthodox_state
-		prerequisite = { focus = RED_military_reorganization }
-		prerequisite = { focus = RED_an_adaptable_army }
-		x = 1
-		y = 1
-		relative_position_id = RED_military_reorganization
-		cost = 10
-
-		mutually_exclusive = { focus = RED_aggresive_plan }
-
-		allow_branch = {
-			OR = {
-				has_government = fascism
-				has_government = neutrality
-			}
-		}
-
-		available = {
-			has_completed_focus = SOV_church_candidates
-		}
-
-		bypass = {
-			has_completed_focus = SOV_depoliticize_the_military
-			has_completed_focus = SOV_socialist_humanism
-		}
-		
-		search_filters = {}
-
-		completion_reward = {
-			if = {
-				limit = {
-					has_idea = SOV_politicized_military
-				}
-				swap_ideas = {
-					remove_idea = SOV_politicized_military
-					add_idea = SOV_politicized_military_battle_priests
-				}
-			}
-			else_if = { #Just in case weird shit happens
-				limit = {
-					has_idea = SOV_politicized_military_humanism
-				}
-				swap_ideas = {
-					remove_idea = SOV_politicized_military_humanism
-					add_idea = SOV_politicized_military_battle_priests
-				}
-			}
-		}
-	}
-
-	focus = {
 		id = RED_aggresive_plan
 		icon = GFX_goal_generic_major_war
 		prerequisite = { focus = RED_military_reorganization }
 		prerequisite = { focus = RED_an_adaptable_army }
-		mutually_exclusive = { focus = RED_defensive_plan focus = RED_adjoined_battle_priests } 
+		mutually_exclusive = { focus = RED_defensive_plan } 
 		x = 3
 		y = 1
 		relative_position_id = RED_military_reorganization
@@ -3156,7 +3106,7 @@ focus_tree = {
 
 		completion_reward = {
 			army_experience = 100
-			custom_effect_tooltip = RED_defensive_plan_decision_tt
+			custom_effect_tooltip = RED_aggresive_plan_decision_tt
 		}
 	}
 
@@ -3170,9 +3120,6 @@ focus_tree = {
 		cost = 10
 
 		available = {
-			any_enemy_country = {
-				SOV_is_major_not_original_sov = yes
-			}
 			surrender_progress < 0.05
 		}
 		
@@ -3189,7 +3136,7 @@ focus_tree = {
 	focus = {
 		id = RED_the_glory_of_the_red_army_alt
 		icon = GFX_focus_SOV_the_glory_of_the_red_army_alternative
-		prerequisite = { focus = RED_defensive_plan focus = RED_aggresive_plan focus = RED_adjoined_battle_priests }
+		prerequisite = { focus = RED_defensive_plan focus = RED_aggresive_plan }
 		x = 1
 		y = 1
 		relative_position_id = RED_defensive_plan
