@@ -9,7 +9,8 @@ focus_tree = {
 			tag = IRE
 		}
 	}
-	default = no
+	default = yes
+
 	focus = { # 세계의 변화
 		id = IRE_world_change
 		icon = GFX_goal_anschluss
@@ -29,7 +30,6 @@ focus_tree = {
 			add_ideas = IRE_world_change_idea_1
 			set_power_balance = {
 				id = IRE_power_balance
-				value = 0.2
 			}
 		}
 	}
@@ -99,6 +99,7 @@ focus_tree = {
 				target = KAI
 				type = annex_everything 
 			}
+			add_ideas = IRE_united_kingdom_hell_yeah_idea
 		}
 	}
 
@@ -161,6 +162,7 @@ focus_tree = {
 				target = ENG
 			}
 			add_state_claim = 119
+			add_ideas = IRE_united_kingdom_hell_yeah_idea
 		}
 	}
 
@@ -211,15 +213,6 @@ focus_tree = {
 		id = IRE_strictly_neutral
 		icon = GFX_goal_generic_alliance
 		cost = 5.00
-		available = {
-			power_balance_value = {
-				id = IRE_power_balance
-				OR = {
-					value < 0.3
-					value > -0.3
-				}
-			}
-		}
 		prerequisite = { focus = IRE_looking_united_kingdom }
 		x = 0
 		y = 1
@@ -239,12 +232,12 @@ focus_tree = {
 	focus = { # 영국 내전 종료
 		id = IRE_all_over_united_kingdom
 		icon = GFX_goal_tripartite_pact
-		cost = 5.00
+		cost = 0.00
 		prerequisite = { focus = IRE_kill_united_kingdom focus = IRE_strictly_neutral focus = IRE_give_weapon }
 		available = {
 			NOT = {
 				ENG = {
-					has war with = KAI
+					has_war_with = KAI
 				}
 			}
 		}
@@ -257,7 +250,29 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			
+			remove_ideas = IRE_united_kingdom_hell_yeah_idea
 		}
-	}	
+	}
+	
+	focus = { # 방향을 결정하다
+		id = IRE_choose_ireland
+		icon = GFX_goal_generic_major_alliance
+		cost = 5.00
+		prerequisite = { focus = IRE_all_over_united_kingdom }
+		allow_branch = {
+		has_completed_focus = IRE_all_over_united_kingdom
+		}
+		x = 0
+		y = 1
+		relative_position_id = IRE_all_over_united_kingdom
+
+		ai_will_do = {
+		base = 40
+		}
+
+		completion_reward = {
+
+		}
+	}
 }
+
