@@ -105,7 +105,7 @@ focus_tree = {
 
 	focus = { # 화해
 		id = IRE_sorry_ireland
-		icon = GFX_goal_generic_improve_relations
+		icon = GFX_focus_eng_decolonization
 		cost = 5.00
 		prerequisite = { focus = IRE_helping_united_kingdom }
 		x = 0
@@ -232,7 +232,7 @@ focus_tree = {
 	focus = { # 영국 내전 종료
 		id = IRE_all_over_united_kingdom
 		icon = GFX_goal_tripartite_pact
-		cost = 0.00
+		cost = 10.00
 		prerequisite = { focus = IRE_kill_united_kingdom focus = IRE_strictly_neutral focus = IRE_give_weapon }
 		available = {
 			NOT = {
@@ -251,6 +251,7 @@ focus_tree = {
 
 		completion_reward = {
 			remove_ideas = IRE_united_kingdom_hell_yeah_idea
+			leave_faction = yes
 		}
 	}
 	
@@ -297,13 +298,265 @@ focus_tree = {
 		}
 	}
 
+	focus = { # 피어너 팔 정부 지속
+		id = IRE_ireland_democracy
+		icon = GFX_goal_support_democracy
+		cost = 5.00
+		prerequisite = { focus = IRE_neutrality_ireland }
+		mutually_exclusive { focus = IRE_royal_power }
+		x = -2
+		y = 1
+		relative_position_id = IRE_neutrality_ireland
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = IRE_ireland_democracy_idea
+				days = 365
+			}
+		}
+	}
+
+	focus = { # 자본가와 협력
+		id = IRE_cooperation_capitalists
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		cost = 10.00
+		prerequisite = { focus = IRE_ireland_democracy }
+		x = 0
+		y = 1
+		relative_position_id = IRE_ireland_democracy
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = IRE_cooperation_capitalists_tt
+		}
+	}
+
+	focus = { # 기업과 연합
+		id = IRE_capitalists_allied
+		icon = GFX_goal_generic_intelligence_exchange
+		cost = 10.00
+		prerequisite = { focus = IRE_cooperation_capitalists }
+		x = 0
+		y = 1
+		relative_position_id = IRE_cooperation_capitalists
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+
+		}
+	}
+
+	focus = { # 작은 거인
+		id = IRE_little_giant
+		icon = GFX_focus_generic_the_giant_wakes
+		cost = 10.00
+		prerequisite = { focus = IRE_capitalists_allied }
+		x = 0
+		y = 1
+		relative_position_id = IRE_capitalists_allied
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+
+		}
+	}
+
+	focus = { # 대학교 설립
+		id = IRE_create_university
+		icon = GFX_focus_research2
+		cost = 10.00
+		prerequisite = { focus = IRE_cooperation_capitalists }
+		x = -2
+		y = 1
+		relative_position_id = IRE_cooperation_capitalists
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	focus = { # 신 헌법 재정
+		id = IRE_new_constitution
+		icon = GFX_focus_hol_the_foundations_of_defense
+		cost = 10.00
+		prerequisite = { focus = IRE_ireland_democracy }
+		x = -4
+		y = 1
+		relative_position_id = IRE_ireland_democracy
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = IRE_new_constitution_idea
+				days = 180
+			}
+		}
+	}
+
+	focus = { # 미국과의 조약
+		id = IRE_allied_usa
+		icon = GFX_focus_chi_mission_to_the_us
+		cost = 10.00
+		prerequisite = { focus = IRE_new_constitution }
+		mutually_exclusive { focus = IRE_with_allies }
+		available = {
+			NOT = {
+				has_completed_focus = IRE_helping_united_kingdom
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id = IRE_new_constitution
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			create_faction = "아일랜드 - 미국 연합"
+			IRE = { add_to_faction = USA }
+		}
+	}
+
+	focus = { # 공산주의에 대항
+		id = IRE_attack_communism
+		icon = GFX_goal_anti_comintern_pact
+		cost = 5.00
+		prerequisite = { focus = IRE_allied_usa focus = IRE_with_allies }
+		x = -3
+		y = 1
+		relative_position_id = IRE_allied_usa
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			every_country = {
+        		limit = {
+            		has_government = communism
+            		any_state = {
+                		is_capital = yes
+                		is_on_continent = europe
+           			}
+        		}
+        		save_event_target_as = fuking_communist
+   			}
+    		IRE = {
+       	 		create_wargoal = {
+           	 		type = annex_everything
+           	 		target = event_target:fuking_communist
+        		}
+   			}
+		}
+	}
+
+	focus = { # 파시즘 척살
+		id = IRE_attack_fascism
+		icon = GFX_focus_generic_anti_fascist_diplomacy
+		cost = 5.00
+		prerequisite = { focus = IRE_attack_communism }
+		x = 0
+		y = 1
+		relative_position_id = IRE_attack_communism
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			every_country = {
+				limit = {
+					has_government = fascism
+					any_state = {
+						is_capital = yes
+						is_on_continent = europe
+					   }
+				}
+				save_event_target_as = fuking_fascism
+			}
+			IRE = {
+				reate_wargoal = {
+					type = annex_everything
+					target = event_target:fuking_fascism
+				}
+			}
+			
+		}
+	}
+	
+	
+
+	focus = { # 협상국 가입
+		id = IRE_with_allies
+		icon = GFX_focus_generic_league_of_nations
+		cost = 10.00
+		prerequisite = { focus = IRE_new_constitution }
+		mutually_exclusive { focus = IRE_allied_usa }
+		available = {
+			has_completed_focus = IRE_helping_united_kingdom
+		}
+		x = -6
+		y = 1
+		relative_position_id = IRE_new_constitution
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+
+	focus = { # 왕권 강화
+		id = IRE_royal_power
+		icon = GFX_focus_rom_royal_dictatorship
+		cost = 5.00
+		prerequisite = { focus = IRE_neutrality_ireland }
+		mutually_exclusive { focus = IRE_ireland_democracy }
+		x = 2
+		y = 1
+		relative_position_id = IRE_neutrality_ireland
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = IRE_royal_power_idea
+				days = 365
+			}
+		}
+	}
+
 	focus = { # 아일랜드 강경책
 		id = IRE_power_ireland
 		icon = GFX_goal_generic_political_pressure
 		cost = 2.00
 		prerequisite = { focus = IRE_choose_ireland }
 		mutually_exclusive { focus = IRE_neutrality_ireland focus = IRE_peace_ireland }
-		x = 4
+		x = 14
 		y = 1
 		relative_position_id = IRE_choose_ireland
 
@@ -325,7 +578,7 @@ focus_tree = {
 		cost = 2.00
 		prerequisite = { focus = IRE_choose_ireland }
 		mutually_exclusive { focus = IRE_neutrality_ireland focus = IRE_power_ireland }
-		x = -4
+		x = -14
 		y = 1
 		relative_position_id = IRE_choose_ireland
 
