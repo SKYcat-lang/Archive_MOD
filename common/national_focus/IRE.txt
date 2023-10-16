@@ -252,6 +252,13 @@ focus_tree = {
 		completion_reward = {
 			remove_ideas = IRE_united_kingdom_hell_yeah_idea
 			leave_faction = yes
+			hidden_effect = { 
+				load_focus_tree = {
+					tree = IRE_united_kingdom
+					keep_completed = yes
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 	
@@ -304,7 +311,7 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = IRE_neutrality_ireland }
 		mutually_exclusive { focus = IRE_royal_power }
-		x = -2
+		x = -4
 		y = 1
 		relative_position_id = IRE_neutrality_ireland
 
@@ -323,7 +330,7 @@ focus_tree = {
 	focus = { # 자본가와 협력
 		id = IRE_cooperation_capitalists
 		icon = GFX_focus_eng_concessions_to_the_trade_unions
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = IRE_ireland_democracy }
 		x = 0
 		y = 1
@@ -341,7 +348,7 @@ focus_tree = {
 	focus = { # 기업과 연합
 		id = IRE_capitalists_allied
 		icon = GFX_goal_generic_intelligence_exchange
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = IRE_cooperation_capitalists }
 		x = 0
 		y = 1
@@ -372,6 +379,143 @@ focus_tree = {
 		}
 	}
 
+	focus = { # 아일랜드의 부름
+		id = IRE_irelands_call
+		icon = GFX_IRE_irelands_call
+		cost = 10.00
+		prerequisite = { focus = IRE_little_giant}
+		x = 0
+		y = 1
+		relative_position_id = IRE_little_giant
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			add_ideas = IRE_irelands_call_idea
+		}
+	}
+
+	focus = { # 영국 해방
+		id = IRE_free_united_kingdom
+		icon = GFX_focus_attack_germany
+		cost = 5.00
+		prerequisite = { focus = IRE_irelands_call }
+		available = {
+			KAI = {
+				exists = yes
+			}
+		}
+		x = -2
+		y = 1
+		relative_position_id = IRE_irelands_call
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = KAI
+			}
+		}
+	}
+
+	focus = { # 영국과의 조약
+		id = IRE_promise_england
+		icon = GFX_focus_eng_the_sun_never_sets
+		cost = 10.00
+		prerequisite = { focus = IRE_free_united_kingdom }
+		x = -2
+		y = 1
+		relative_position_id = IRE_free_united_kingdom
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			country_event = {
+				id = IRE_event.101
+				hours = 6
+			}
+		}
+	}
+
+	focus = { # 배네룩스 해방
+		id = IRE_free_benelux
+		icon = GFX_focus_hol_liberation
+		cost = 5.00
+		prerequisite = { focus = IRE_irelands_call }
+		x = 0
+		y = 1
+		relative_position_id = IRE_irelands_call
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					COU = {
+						exists = yes
+					}
+				}
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = COU
+				}
+			}
+			if = {
+				limit = {
+					KSP = {
+						exists = yes
+					}
+				}
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = KSP
+				}
+			}
+			if = {
+				limit = {
+					SHE = {
+						exists = yes
+					}
+				}
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = SHE
+				}
+			}
+		}
+	}
+
+	focus = { # 프랑스 지원
+		id = IRE_help_france
+		icon = GFX_focus_chi_reach_out_to_france
+		cost = 5.00
+		prerequisite = { focus = IRE_irelands_call }
+		available = {
+			has_equipment = {
+				infantry_equipment > 100
+			}
+		}
+		x = 2
+		y = 1
+		relative_position_id = IRE_irelands_call
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			send_equipment = {
+				equipment = infantry_equipment
+				amount = 100
+				target = FRA
+			}
+		}
+	}
+
 	focus = { # 대학교 설립
 		id = IRE_create_university
 		icon = GFX_focus_research2
@@ -395,7 +539,7 @@ focus_tree = {
 		icon = GFX_focus_hol_the_foundations_of_defense
 		cost = 10.00
 		prerequisite = { focus = IRE_ireland_democracy }
-		x = -4
+		x = -6
 		y = 1
 		relative_position_id = IRE_ireland_democracy
 
@@ -534,7 +678,7 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = IRE_neutrality_ireland }
 		mutually_exclusive { focus = IRE_ireland_democracy }
-		x = 2
+		x = 4
 		y = 1
 		relative_position_id = IRE_neutrality_ireland
 
@@ -556,7 +700,7 @@ focus_tree = {
 		cost = 2.00
 		prerequisite = { focus = IRE_choose_ireland }
 		mutually_exclusive { focus = IRE_neutrality_ireland focus = IRE_peace_ireland }
-		x = 14
+		x = 18
 		y = 1
 		relative_position_id = IRE_choose_ireland
 
@@ -578,7 +722,7 @@ focus_tree = {
 		cost = 2.00
 		prerequisite = { focus = IRE_choose_ireland }
 		mutually_exclusive { focus = IRE_neutrality_ireland focus = IRE_power_ireland }
-		x = -14
+		x = -18
 		y = 1
 		relative_position_id = IRE_choose_ireland
 
