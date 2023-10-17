@@ -15,7 +15,7 @@ focus_tree = {
 		id = FRA_focus_win_0
 		cost = 4.8
 		x = 10
-		y = 0
+		y = 1
 		available = {
 			NOT = {
 				has_country_flag = FRA_division_flag
@@ -23,18 +23,12 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_stability = 0.1
-		}
-	}
-	focus = { #프랑스 재건
-		id = FRA_focus_win_1
-		cost = 4.6
-		x = 10
-		y = 1
-		prerequisite = {
-			focus = FRA_focus_win_0
-		}
-		completion_reward = {
-			add_stability = 0.1
+			hidden_effect = {
+				country_event = {
+					id = FRA_recover.1
+					days = 5
+				}
+			}
 		}
 	}
 	focus = { #비상사태 해제
@@ -43,7 +37,7 @@ focus_tree = {
 		x = 10
 		y = 2
 		prerequisite = {
-			focus = FRA_focus_win_1
+			focus = FRA_focus_win_0
 		}
 		completion_reward = {
 			add_ideas = export_focus
@@ -53,10 +47,10 @@ focus_tree = {
 	focus = { #학생 체포
 		id = FRA_focus_win_3
 		cost = 4.4
-		x = 7
-		y = 3
+		x = 8
+		y = 4
 		prerequisite = {
-			focus = FRA_focus_win_2
+			focus = FRA_focus_win_4
 		}
 		completion_reward = {
 			add_political_power = -100
@@ -99,60 +93,10 @@ focus_tree = {
 	focus = { #망명자 복귀
 		id = FRA_focus_win_6
 		cost = 4.4
-		x = 13
-		y = 3
-		prerequisite = {
-			focus = FRA_focus_win_2
-		}
-		completion_reward = {
-			every_core_state = {
-				limit = {
-					is_owned_by = ROOT
-					is_on_continent = europe
-				}
-				add_manpower = 1000
-			}
-			459 = {
-				add_manpower = -10000
-			}
-			460 = {
-				add_manpower = -10000
-			}
-			add_popularity = {
-				ideology = var:current_party_ideology_group
-				popularity = 0.05
-			}
-			if = {
-				limit = {
-					OR = {
-						NOT = {
-							has_government = communism
-							has_idea = FRA_alg_civil
-							has_idea = FRA_ally_int
-						}
-					}
-				}
-				every_core_state = {
-					limit = {
-						NOT = {
-							is_on_continent = europe
-						}
-					}
-					remove_core_of = FRA
-				}
-			}
-		}
-	}
-	focus = { #자본 이전
-		id = FRA_focus_win_7
-		cost = 4.4
-		x = 8
+		x = 12
 		y = 4
 		prerequisite = {
-			focus = FRA_focus_win_3
-		}
-		prerequisite = {
-			focus = FRA_focus_win_4
+			focus = FRA_focus_win_5
 		}
 		completion_reward = {
 			every_core_state = {
@@ -196,33 +140,52 @@ focus_tree = {
 				}
 			}
 			
-		}
-	}
-	focus = { #훈장 수여
-		id = FRA_focus_win_8
-		cost = 4.4
-		x = 10
-		y = 4
-		prerequisite = {
-			focus = FRA_focus_win_4
-		}
-		prerequisite = {
-			focus = FRA_focus_win_5
-		}
-		completion_reward = {
-			add_war_support = 0.1
+			if = {
+				limit = {
+					OR = {
+						NOT = {
+							has_government = communism
+							has_idea = FRA_alg_civil
+							has_idea = FRA_ally_int
+						}
+					}
+				}
+				every_core_state = {
+					limit = {
+						NOT = {
+							is_on_continent = europe
+						}
+					}
+					remove_core_of = FRA
+				}
+			}
+			every_core_state = {
+				limit = {
+					is_owned_by = ROOT
+					is_on_continent = europe
+				}
+				add_manpower = 1000
+			}
+			459 = {
+				add_manpower = -10000
+			}
+			460 = {
+				add_manpower = -10000
+			}
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.05
+			}
 		}
 	}
 	focus = { #에펠탑 재건축
 		id = FRA_focus_win_9
 		cost = 4.4
-		x = 12
+		x = 10
 		y = 4
 		prerequisite = {
+			focus = FRA_focus_win_4
 			focus = FRA_focus_win_5
-		}
-		prerequisite = {
-			focus = FRA_focus_win_6
 		}
 		completion_reward = {
 			country_event = {
@@ -237,13 +200,13 @@ focus_tree = {
 		x = 10
 		y = 5
 		prerequisite = {
-			focus = FRA_focus_win_8
-		}
-		prerequisite = {
 			focus = FRA_focus_win_9
 		}
 		prerequisite = {
-			focus = FRA_focus_win_7
+			focus = FRA_focus_win_6
+		}
+		prerequisite = {
+			focus = FRA_focus_win_3
 		}
 		completion_reward = {
 			if = {
