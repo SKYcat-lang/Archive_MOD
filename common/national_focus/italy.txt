@@ -15668,19 +15668,20 @@ focus_tree = {
 	}
 
 
-	
+	#유럽 난민
 	focus = {
 		id = ITA_pact_of_steel
 		icon = GFX_focus_prc_infiltration
 		prerequisite = { focus = ITA_potential_allies_in_the_balkans focus = ITA_balkan_ambition }
-		mutually_exclusive = { focus = ITA_guarantee_austrian_independence focus = ITA_italy_first }
 		x = -4
 		y = 1
 		relative_position_id = ITA_potential_allies_in_the_balkans
 		cost = 10
 
 		completion_reward = {
-			
+			add_manpower = 100000
+			add_stability = -0.2
+
 		}
 	}
 
@@ -15737,6 +15738,7 @@ focus_tree = {
 		}
 	}
 
+
 	focus = {
 		id = ITA_secret_weapons
 		icon = GFX_goal_generic_secret_weapon
@@ -15745,21 +15747,55 @@ focus_tree = {
 		x = 1
 		y = 1
 		relative_position_id = ITA_german_military_cooperation
-		cost = 5
-		available = {
-			NOT = { has_country_flag = ENG_ditched_by_the_germans_flag }
-		}
+		cost = 10
 
 		search_filters = {FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
+			if = {
+				limit = {
+					159 = {
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+				}
+				159 = { #LOMBARDY
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			else = {
+				random_core_state = {
+					limit = {
+						is_controlled_by = ROOT
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					prioritize = { 160 852 736 } #VENETO as main fallback
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
 			add_tech_bonus = {
 				name = ITA_secret_weapons
 				bonus = 1.0
 				uses = 2
-				category = electronics
-				category = rocketry
-				category = nuclear
+				category = artillery
+				category = infantry_weapons
 			}
 		}
 	}
@@ -15818,13 +15854,13 @@ focus_tree = {
 		}
 	}
 
+	#밀레니엄 공격
 	focus = {
 		id = ITA_request_control_of_french_territories
 		icon = GFX_goal_generic_territory_or_war
-		prerequisite = { focus = ITA_pact_of_steel }
-		prerequisite = { focus = ITA_italian_irredentism }
-		mutually_exclusive = { focus = ITA_war_with_france }
-		x = -1
+		prerequisite = { focus = ITA_secret_weapons}
+		prerequisite = { focus = ITA_sea_wolves_bba}
+		x = -3
 		y = 3
 		relative_position_id = ITA_pact_of_steel
 		cost = 10
@@ -15840,126 +15876,45 @@ focus_tree = {
 		}
 	}
 
+	#게헨나 공격
+	focus = {
+		id = ITA_befriend_japan
+		icon = GFX_focus_chi_collaboration_with_the_japanese
+		prerequisite = { focus = ITA_request_control_of_french_territories}
+
+		x = 114
+		y = 9
+
+		cost = 10
+
+		completion_reward = {
+			create_wargoal = {
+				type = take_state_focus
+				target = GEH
+				expire = 60
+			}
+		}
+	}
 
 	focus = {
 		id = ITA_italy_first
 		icon = GFX_focus_generic_italy_first
 		prerequisite = { focus = ITA_potential_allies_in_the_balkans focus = ITA_balkan_ambition }
-		mutually_exclusive = { focus = ITA_guarantee_austrian_independence focus = ITA_pact_of_steel }
 		x = 0
 		y = 1
 		relative_position_id = ITA_potential_allies_in_the_balkans
 		cost = 10
 
-		bypass = {
-			is_in_faction = yes
-			NOT = { is_in_faction_with = GER }
-		}
-
-		available = {
-			is_subject = no
-			NOT = { is_in_faction_with = GER }
-			NOT = { is_in_faction_with = ENG }
-			OR = {
-				owns_state = 44
-				44 = { owner = { is_subject_of = ROOT } }
-				owns_state = 102
-				102 = { owner = { is_subject_of = ROOT } }
-				owns_state = 853
-				853 = { owner = { is_subject_of = ROOT } }
-			}
-			is_in_faction = no
-		}
-
-		search_filters = {FOCUS_FILTER_POLITICAL}
 
 		completion_reward = {
 			add_political_power = 75
-			if = {
-				limit = {
-					NOT = { has_rule = can_create_factions }
-				}
-				set_rule = { can_create_factions = yes }
-			}
-			create_faction = ITA_italian_league
 
-			if = {
-				limit = {
-					BUL = { 
-						exists = yes
-						is_ai = yes
-						is_subject = no
-						is_in_faction = no
 					}
-					NOT = { has_war_with = BUL }				
-				}
-				add_to_faction = BUL
-				BUL = {
-					add_ai_strategy = {
-						type = alliance
-						id = "ITA"
-						value = 200
-					}
-				}
-			}
-			else_if = {
-				limit = {
-					BUL = { 
-						exists = yes
-						is_ai = no
-						is_subject = no
-						is_in_faction = no
-					}
-					NOT = { has_war_with = BUL }
-				}
-				BUL = { country_event = { id = generic.5 hours = 2 } }
-			}
+			
 
-			YUG = {
-				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
-				# REVISIT Possibly clear old negative modifier if Slovenia and Dalmatia were taken
-			}
-			hidden_effect = {
-				news_event = { hours = 6 id = news.185 }
-			}
 		}
-	}
+	
 
-	focus = {
-		id = ITA_befriend_japan
-		icon = GFX_focus_chi_collaboration_with_the_japanese
-		prerequisite = { focus = ITA_pact_of_steel focus = ITA_italy_first }
-
-		x = 1
-		y = 1
-		relative_position_id = ITA_pact_of_steel
-		cost = 10
-
-		available = {
-			country_exists = JAP
-			JAP = { 
-				is_in_faction = no
-				has_government = ROOT
-			}
-		}
-
-		search_filters = {FOCUS_FILTER_INDUSTRY}
-
-		completion_reward = {
-			add_relation_modifier = {
-				target = JAP
-				modifier = ITA_military_agreements
-			}
-			JAP = {
-				add_relation_modifier = {
-					target = ROOT
-					modifier = ITA_military_agreements
-				}
-
-				add_opinion_modifier = { target = ITA modifier = ita_diplomacy_focus }
-			}
-		}
-	}
 
 	focus = {
 		id = ITA_italian_irredentism
@@ -16042,11 +15997,11 @@ focus_tree = {
 	focus = {
 		id = ITA_war_with_france
 		icon = GFX_focus_attack_france
-		prerequisite = { focus = ITA_italian_irredentism }
+		prerequisite = { focus = ITA_pact_of_steel}
 
 
 		x = -1
-		y = 1
+		y = 0
 		relative_position_id = ITA_italian_irredentism
 		cost = 10
 
@@ -16407,7 +16362,7 @@ focus_tree = {
 		icon = GFX_goal_generic_military_deal
 		prerequisite = { focus = ITA_foreign_affairs }
 
-		x = 4
+		x = 7
 		y = 1
 		relative_position_id = ITA_foreign_affairs
 		cost = 5
@@ -16535,7 +16490,6 @@ focus_tree = {
 		id = ITA_spanish_italian_alliance
 		icon = GFX_focus_intervention_spain_nationalists
 		prerequisite = { focus = ITA_corpo_di_truppe_volontarie }
-		prerequisite = { focus = ITA_italy_first }
 		mutually_exclusive = { focus = ITA_demand_balearic_islands_bba }
 		x = -1
 		y = 2
