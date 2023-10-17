@@ -1,0 +1,74 @@
+on_actions = {
+	on_puppet = {
+		effect = {
+			if = {
+				limit = {
+					has_template = "Halo Infantry Division"
+				}
+				delete_unit_template_and_units = {
+					division_template = "Halo Infantry Division"
+					disband = yes
+				}
+				FROM = {
+					if = {
+						limit = {
+							has_template = "Halo Infantry Division"
+						}
+						add_to_variable = { ROOT.halo_infantry_cap = 2 }
+						set_division_template_cap = {
+							division_template = "Halo Infantry Division"
+							division_cap = ROOT.halo_infantry_cap
+						}
+					}
+				}
+			}
+		}
+	}
+	on_subject_free = {
+		effect = {
+			if = {
+				limit = {
+					has_variable = ROOT.halo_infantry_cap
+				}
+				if = {
+					limit = {
+						NOT = { has_template = "Halo Infantry Division" }
+					}
+					
+					division_template = {
+						name = "Halo Infantry Division"		
+						division_names_group = BA_INF_01
+						is_locked = yes
+						force_allow_recruiting = yes
+						division_cap = 12
+						regiments = {
+							halo_infantry = { x = 0 y = 0 }
+							halo_infantry = { x = 0 y = 1 }
+							halo_infantry = { x = 0 y = 2 }
+							halo_infantry = { x = 1 y = 0 }
+							halo_infantry = { x = 1 y = 1 }
+							halo_infantry = { x = 1 y = 2 }
+							halo_infantry = { x = 2 y = 0 }
+							halo_infantry = { x = 2 y = 1 }
+							halo_infantry = { x = 2 y = 2 }
+						}
+						support = {
+							engineer = { x = 0 y = 0 }
+							artillery = { x = 0 y = 1 }
+							anti_air = { x = 0 y = 2 }
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_template = "Halo Infantry Division"
+					}
+					set_division_template_cap = {
+						division_template = "Halo Infantry Division"
+						division_cap = ROOT.halo_infantry_cap
+					}
+				}
+			}
+		}
+	}
+}

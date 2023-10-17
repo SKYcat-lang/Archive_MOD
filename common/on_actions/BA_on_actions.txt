@@ -336,7 +336,7 @@ on_actions = {
 					has_war_with = HND
 				}
 				HND = {
-					white_peace = CAN
+					white_peace = ENG
 					annex_country = {
 						target = RAJ
 						transfer_troops = yes
@@ -345,52 +345,21 @@ on_actions = {
 				}
 				
 			}
-			if = {
-				limit = {
-					TAG = GEH
-					has_war_with = TRM
-					TRM = { has_government = fascism } 
-				}
-				TRM = { country_event = { id = TRM_event.15 hours = 1 } }
-			}
-			if = {
-				limit = {
-					TAG = GEM
-					has_war_with = TRM
-					TRM = { has_government = fascism } 
-				}
-				TRM = { country_event = { id =TRM_event.15 hours = 1 } }
-			}
-			if = {
-				limit = {
-					TAG = GEN
-					has_war_with = TRM
-					TRM = { has_government = fascism } 
-				}
-				TRM = { country_event = { id =TRM_event.15 hours = 1 } }
-			}
             if = {
 				limit = {
                     TAG = ENG
                     has_war_with = KAI
 				}
-				CAN = {
-					change_tag_from = ENG
-				}
-				ENG = {
-                    white_peace = KAI
-					every_unit_leader = {
-						set_nationality = CAN
-					}
-				}
-                ENG_lose_effect = yes
-				set_global_flag = ENG_lose_global_flag
+				leave_faction = yes
 				every_country = {
 					limit = {
 						has_war_with = KAI
 					}
 					white_peace = KAI
 				}
+                ENG_lose_effect = yes
+				set_global_flag = ENG_lose_global_flag
+				mark_focus_tree_layout_dirty = yes
 			}
             if = {
 				limit = {
@@ -401,6 +370,10 @@ on_actions = {
                     annex_country = {
 						target = KAI
 						transfer_troops = no
+					}
+					delete_unit_template_and_units = {
+						division_template = "Home Guard"
+						disband = yes #will refund equipment and manpower
 					}
 				}
 				set_global_flag = ENG_win_global_flag
@@ -472,6 +445,16 @@ on_actions = {
 					country_event = { id = GEH_event.23 days = 5 }
 				}
 			}
+			if = {
+				limit = {
+					TAG = FIN
+					has_war_with = SOV
+					has_global_flag = BA_winter_war
+				}
+				SOV = { remove_ideas = SOV_winter_war_effects }
+				FIN = { country_event = { id = BA_generic_event.402 days = 5 }}
+
+			}
         }
 	}
 	on_nuke_drop = {
@@ -515,9 +498,45 @@ on_actions = {
 				TRM = {
 					add_timed_idea = {
 						idea = TRN_NOT_READY_WAR
-						days = 120
+						days = 365
 					}
 				}
+			}
+			if = {
+				limit = {
+					FROM = {
+						original_tag = TRM
+						has_government = fascism
+					}
+					ROOT = {
+						original_tag = GEH
+						has_completed_focus = GEH_hina_is_goat
+						NOT = {
+							has_completed_focus = GEH_HELLYEAH
+						}
+					}
+				}
+				GEH = {
+					add_timed_idea = {
+						idea = TRN_NOT_READY_WAR
+						days = 365
+					}
+				}
+			}
+			if = {
+				limit = {
+					FROM = {
+						original_tag = FIN
+					}
+					ROOT = {
+						original_tag = SOV
+						has_government = communism
+					}
+				}
+				SOV = {
+					add_ideas = SOV_winter_war_effects
+				}
+				set_global_flag = BA_winter_war
 			}
 			if = {
 				limit = {

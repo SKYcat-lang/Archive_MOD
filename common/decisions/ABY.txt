@@ -160,9 +160,9 @@ ABY_bunker = {
 		remove_effect = {
             if = {
                 limit = {
-                    controls_state = 935
+                    controls_state = 909
                 }
-                935 = {
+                909 = {
                     set_building_level = {
                         type = bunker
                         level = 2
@@ -192,9 +192,9 @@ ABY_bunker = {
 			set_country_flag = ABY_bunker_2_end
             if = {
                 limit = {
-                    controls_state = 935
+                    controls_state = 909
                 }
-                935 = {
+                909 = {
                     set_building_level = {
                         type = bunker
                         level = 4
@@ -223,9 +223,9 @@ ABY_bunker = {
 			set_country_flag = ABY_bunker_3_end
             if = {
                 limit = {
-                    controls_state = 935
+                    controls_state = 909
                 }
-                935 = {
+                909 = {
                     set_building_level = {
                         type = bunker
                         level = 6
@@ -254,9 +254,9 @@ ABY_bunker = {
 			set_country_flag = ABY_bunker_4_end
             if = {
                 limit = {
-                    controls_state = 935
+                    controls_state = 909
                 }
-                935 = {
+                909 = {
                     set_building_level = {
                         type = bunker
                         level = 8
@@ -284,9 +284,9 @@ ABY_bunker = {
 		remove_effect = {
             if = {
                 limit = {
-                    controls_state = 935
+                    controls_state = 909
                 }
-                935 = {
+                909 = {
                     set_building_level = {
                         type = bunker
                         level = 10
@@ -315,9 +315,9 @@ ABY_bunker = {
 			set_country_flag = ABY_anti_air_1_end
             if = {
                 limit = {
-                    controls_state = 935
+                    controls_state = 909
                 }
-                935 = {
+                909 = {
 					add_building_construction = {
 						type = anti_air_building
 						level = 1
@@ -342,9 +342,9 @@ ABY_bunker = {
 			set_country_flag = ABY_anti_air_2_end
             if = {
                 limit = {
-                    controls_state = 935
+                    controls_state = 909
                 }
-                935 = {
+                909 = {
 					add_building_construction = {
 						type = anti_air_building
 						level = 3
@@ -369,9 +369,9 @@ ABY_bunker = {
 			set_country_flag = ABY_anti_air_3_end
             if = {
                 limit = {
-                    controls_state = 935
+                    controls_state = 909
                 }
-                935 = {
+                909 = {
 					add_building_construction = {
 						type = anti_air_building
 						level = 4
@@ -395,9 +395,9 @@ ABY_bunker = {
 		remove_effect = {
             if = {
                 limit = {
-                    controls_state = 935
+                    controls_state = 909
                 }
-				935 = {
+				909 = {
 					add_building_construction = {
 						type = anti_air_building
 						level = 5
@@ -424,9 +424,9 @@ ABY_bunker = {
 		remove_effect = {
             if = {
                 limit = {
-                    controls_state = 935
+                    controls_state = 909
                 }
-				935 = {
+				909 = {
 					add_building_construction = {
 						type = radar_station
 						level = 1
@@ -522,7 +522,7 @@ ABY_HYA_annex_decisions = {
 			has_completed_focus = ABY_I_newfocus_56
 		}
 		ai_will_do = {
-			factor = 1000
+			factor = 10000
 		}
 		fire_only_once = yes
 		days_remove = 150
@@ -549,7 +549,7 @@ ABY_HYA_annex_decisions = {
 			has_country_flag = ABY_HYA_annex_1_end
 		}
 		ai_will_do = {
-			factor = 1000
+			factor = 10000
 		}
 		fire_only_once = yes
 		days_remove = 150
@@ -580,6 +580,7 @@ ABY_HYA_annex_decisions = {
 					division_template = "Halo Infantry Division"
 					division_cap = ROOT.halo_infantry_cap
 				}
+				clr_country_flag = ABY_HYA_annex_focus_completion
 			}
 			
 		}
@@ -700,16 +701,31 @@ ABY_HYA_core = {
 	}
 }
 ABY_operations = {
+	ABY_operations_start = {
+		icon = eng_support_imperialist_coup
+		days_mission_timeout = 240
+		priority = 1
+		activation = {
+			has_completed_focus = ABY_I_newfocus_66
+		}
+		available = {
+			has_country_flag = ABY_operations_start_no
+		}
+		fire_only_once = yes
+		timeout_effect = {
+			ABY = { country_event = { id = ABY_event.50 hours = 6 } }
+		}
+	}
 	ABY_operations_1 = {
 		icon = hol_draw_up_staff_plans
-		cost = 30
+		cost = 60
 		visible = {
 			has_completed_focus = ABY_I_newfocus_68
 		}
 		available = {
 			country_exists = HYA
 			divisions_in_border_state = {
-				state = 935
+				state = 909
 				border_state = 9
 				size > 0
 			}
@@ -723,11 +739,12 @@ ABY_operations = {
 		ai_will_do = {
 			factor = 100
 		}
+		days_remove = 30
 		complete_effect = {
 			start_border_war = {
 				change_state_after_war = no
 				attacker = {
-					state = 935
+					state = 909
 					num_provinces = 4
 					on_win = ABY_event.26
 					on_lose = ABY_event.27
@@ -812,6 +829,112 @@ ABY_operations = {
 				}
 				custom_effect_tooltip = ABY_first_focus_tt_31
 				set_country_flag = ABY_operations_2_1
+			}
+		}
+	}
+	ABY_operations_3 = {
+		icon = SWI_expand_covert_operations
+		cost = 60
+		visible = {
+			has_completed_focus = ABY_I_newfocus_72
+		}
+		available = {
+			country_exists = HYA
+			NOT = {
+				has_country_flag = ABY_operations_3_3
+			}
+		}
+		ai_will_do = {
+			factor = 1000
+		}
+		complete_effect = {
+			if = {
+				limit = {
+					has_country_flag = ABY_operations_3_3
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_40
+			}
+			if = {
+				limit = {
+					has_country_flag = ABY_operations_3_2
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_39
+				set_country_flag = ABY_operations_3_3
+				clr_country_flag = ABY_operations_3_2
+			}
+			if = {
+				limit = {
+					has_country_flag = ABY_operations_3_1
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_38
+				set_country_flag = ABY_operations_3_2
+				clr_country_flag = ABY_operations_3_1
+			}
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_country_flag = ABY_operations_3_1
+							has_country_flag = ABY_operations_3_2
+							has_country_flag = ABY_operations_3_3
+						}
+					}
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_37
+				set_country_flag = ABY_operations_3_1
+			}
+		}
+	}
+	ABY_operations_4 = {
+		icon = hol_draw_up_staff_plans
+		cost = 60
+		visible = {
+			has_completed_focus = ABY_I_newfocus_72
+		}
+		available = {
+			country_exists = HYA
+			NOT = {
+				has_country_flag = ABY_operations_4_3
+			}
+		}
+		ai_will_do = {
+			factor = 1000
+		}
+		complete_effect = {
+			if = {
+				limit = {
+					has_country_flag = ABY_operations_4_3
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_44
+			}
+			if = {
+				limit = {
+					has_country_flag = ABY_operations_4_2
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_43
+				set_country_flag = ABY_operations_4_3
+				clr_country_flag = ABY_operations_4_2
+			}
+			if = {
+				limit = {
+					has_country_flag = ABY_operations_4_1
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_42
+				set_country_flag = ABY_operations_4_2
+				clr_country_flag = ABY_operations_4_1
+			}
+			if = {
+				limit = {
+					NOT = {
+						OR = {
+							has_country_flag = ABY_operations_4_1
+							has_country_flag = ABY_operations_4_2
+							has_country_flag = ABY_operations_4_3
+						}
+					}
+				}
+				custom_effect_tooltip = ABY_first_focus_tt_41
+				set_country_flag = ABY_operations_4_1
 			}
 		}
 	}
@@ -909,7 +1032,13 @@ ABY_political = {
 			has_completed_focus = ABY_I_newfocus_115
 		}
 		ai_will_do = {
-			factor = 1000
+			factor = 0
+			modifier = {
+				add = 1000
+				NOT = {
+					has_country_flag = ABY_HYA_annex_focus_completion
+				}
+			}
 		}
 		available = {
 			NOT = {
@@ -932,7 +1061,13 @@ ABY_political = {
 			has_completed_focus = ABY_I_newfocus_115
 		}
 		ai_will_do = {
-			factor = 100
+			factor = 0
+			modifier = {
+				add = 1000
+				NOT = {
+					has_country_flag = ABY_HYA_annex_focus_completion
+				}
+			}
 		}
 		available = {
 			NOT = {
@@ -955,7 +1090,13 @@ ABY_political = {
 			has_completed_focus = ABY_I_newfocus_116
 		}
 		ai_will_do = {
-			factor = 1000
+			factor = 0
+			modifier = {
+				add = 10
+				NOT = {
+					has_country_flag = ABY_HYA_annex_focus_completion
+				}
+			}
 		}
 		available = {
 			fascism < 0.99
@@ -976,7 +1117,13 @@ ABY_political = {
 			has_completed_focus = ABY_I_newfocus_117
 		}
 		ai_will_do = {
-			factor = 100
+			factor = 0
+			modifier = {
+				add = 10
+				NOT = {
+					has_country_flag = ABY_HYA_annex_focus_completion
+				}
+			}
 		}
 		available = {
 			communism < 0.99
@@ -997,7 +1144,13 @@ ABY_political = {
 			has_completed_focus = ABY_I_newfocus_116
 		}
 		ai_will_do = {
-			factor = 1000
+			factor = 0
+			modifier = {
+				add = 1
+				NOT = {
+					has_country_flag = ABY_HYA_annex_focus_completion
+				}
+			}
 		}
 		available = {
 			fascism < 0.99
@@ -1024,7 +1177,13 @@ ABY_political = {
 			has_completed_focus = ABY_I_newfocus_117
 		}
 		ai_will_do = {
-			factor = 1000
+			factor = 0
+			modifier = {
+				add = 1
+				NOT = {
+					has_country_flag = ABY_HYA_annex_focus_completion
+				}
+			}
 		}
 		available = {
 			communism < 0.99
@@ -1054,7 +1213,13 @@ ABY_political = {
 			}
 		}
 		ai_will_do = {
-			factor = 900
+			factor = 0
+			modifier = {
+				add = 500
+				NOT = {
+					has_country_flag = ABY_HYA_annex_focus_completion
+				}
+			}
 		}
 		days_remove = 180
 		remove_effect = {
@@ -1073,6 +1238,7 @@ ABY_political = {
 		available = {
 			NOT = {
 				has_completed_focus = ABY_I_newfocus_117
+				has_government = fascism
 			}
 			fascism > 0.5
 		}
@@ -1094,11 +1260,12 @@ ABY_political = {
 			has_completed_focus = ABY_I_newfocus_115
 		}
 		ai_will_do = {
-			factor = 100
+			factor = 1000
 		}
 		available = {
 			NOT = {
 				has_completed_focus = ABY_I_newfocus_116
+				has_government = communism
 			}
 			communism > 0.5
 		}
