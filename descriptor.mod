@@ -1,4 +1,4 @@
-name="Pasta Archive MOD"
+name="Archive MOD"
 replace_path="gfx/loadingscreens"
 replace_path="common/national_focus/france.txt"
 replace_path="common/national_focus/hungary.txt"
