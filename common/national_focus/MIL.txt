@@ -532,7 +532,7 @@ focus_tree = {
 				value < -0.7
 			}
 		}
-		x = -5
+		x = -6
 		y = 1
 		relative_position_id = MIL_rebuilt_school2
 		completion_reward = {
@@ -586,7 +586,7 @@ focus_tree = {
 				value > 0.7
 			}
 		}
-		x = 5
+		x = 6
 		y = 1
 		relative_position_id = MIL_rebuilt_school1
 		completion_reward = {
@@ -673,7 +673,7 @@ focus_tree = {
 	focus = { # 동아리 자유화
 		id = MIL_club_liberalization
 		icon = GFX_focus_generic_strike_at_democracy2
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_CnC_is_friend }
 		x = -3
 		y = 1
@@ -689,7 +689,7 @@ focus_tree = {
 	focus = { # 전문 직업군인
 		id = MIL_professional_occupation
 		icon = GFX_focus_generic_little_entente
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_CnC_is_friend }
 		x = 3
 		y = 1
@@ -706,17 +706,26 @@ focus_tree = {
 		icon = GFX_focus_generic_support_the_left_right
 		cost = 10.00
 		prerequisite = { focus = MIL_CnC_is_friend }
+		available = {
+			NOT = {
+				has_country_flag = MIL_coupdetat_flag
+			}
+		}
 		x = -1
 		y = 1
 		relative_position_id = MIL_CnC_is_friend
 		completion_reward = {
+			custom_effect_tooltip = MIL_dismantling_authoritarianism_tt
+			add_to_variable = { MIL_semina_idea_stability_factor = MIL_semina_idea_political_power_factor }
+			add_to_variable = { MIL_semina_idea_war_support_factor = MIL_semina_idea_political_power_factor }
+			set_variable = { MIL_semina_idea_political_power_factor = 0 }
 		}	
 	}
 
 	focus = { # 학생 권리 확대
 		id = MIL_expanded_student_rights
 		icon = GFX_goal_generic_major_alliance
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_CnC_is_friend }
 		x = 1
 		y = 1
@@ -732,14 +741,26 @@ focus_tree = {
 		id = MIL_student_council_President_himari
 		icon = unknown
 		cost = 10.00
-		prerequisite = { focus = MIL_club_liberalization }
-		prerequisite = { focus = MIL_dismantling_authoritarianism }
-		prerequisite = { focus = MIL_expanded_student_rights }
-		prerequisite = { focus = MIL_professional_occupation }
+		prerequisite = { focus = MIL_club_liberalization focus = MIL_dismantling_authoritarianism focus = MIL_expanded_student_rights focus = MIL_professional_occupation }
+		available = {
+			OR = {
+				has_country_flag = MIL_coupdetat_flag
+				has_completed_focus = MIL_dismantling_authoritarianism
+			}
+		}
 		x = 0
 		y = 2
 		relative_position_id = MIL_CnC_is_friend
 		completion_reward = {
+			if = {
+				limit = {
+					has_country_flag = MIL_coupdetat_flag
+				}
+				add_country_leader_trait = MIL_figurehead
+			}
+			else = {
+				add_country_leader_trait = MIL_hero_of_reform
+			}
 		}	
 	}
 
@@ -749,7 +770,7 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = MIL_student_council_President_himari }
 		mutually_exclusive = { focus = MIL_democracy_on_campus }
-		x = -1
+		x = 1
 		y = 1
 		relative_position_id = MIL_student_council_President_himari
 		completion_reward = {
@@ -769,7 +790,7 @@ focus_tree = {
 				has_country_flag = MIL_coupdetat_flag
 			}
 		}
-		x = 1
+		x = -1
 		y = 1
 		relative_position_id = MIL_student_council_President_himari
 		completion_reward = {
@@ -777,6 +798,66 @@ focus_tree = {
 				remove_idea = MIL_seeds_of_conflict
 				add_idea = MIL_elected_bureaucracy
 			}
+		}	
+	}
+
+	focus = { # 대의의 믿음
+		id = MIL_peoples_politics
+		icon = GFX_goal_support_democracy
+		cost = 5.00
+		prerequisite = { focus = MIL_democracy_on_campus focus = MIL_puppet_seminar }
+		x = 1
+		y = 1
+		relative_position_id = MIL_democracy_on_campus
+		completion_reward = {
+			add_stability = 0.10
+			add_war_support = 0.10
+			add_political_power = 120
+		}	
+	}
+
+	focus = { # 히마리의 영도
+		id = MIL_Himari_leader
+		icon = unknown
+		cost = 10.00
+		prerequisite = { focus = MIL_democracy_on_campus }
+		prerequisite = { focus = MIL_club_liberalization }
+		prerequisite = { focus = MIL_dismantling_authoritarianism }
+		x = -2
+		y = 1
+		relative_position_id = MIL_democracy_on_campus
+		completion_reward = {
+			if = {
+				limit = {
+					has_country_leader_with_trait = MIL_hero_of_reform
+				}
+				swap_ruler_traits = {
+					remove = MIL_hero_of_reform
+					add = MIL_hero_of_reform2
+				}
+			}
+			else = {
+				add_country_leader_trait = MIL_hero_of_reform2
+			}
+		}	
+	}
+
+	focus = { # 선군주의
+		id = MIL_militaryfirst_politics
+		icon = GFX_focus_generic_military_mission
+		cost = 5.00
+		prerequisite = { focus = MIL_puppet_seminar }
+		prerequisite = { focus = MIL_professional_occupation }
+		available = {
+			has_country_flag = MIL_coupdetat_flag
+		}
+		x = 2
+		y = 1
+		relative_position_id = MIL_puppet_seminar
+		completion_reward = {
+			custom_effect_tooltip = MIL_militaryfirst_politics_tt
+			add_to_variable = { MIL_CnC_dynamic_modifier_conscription = 0.03 }
+			add_to_variable = { MIL_CnC_dynamic_modifier_conscription_factor = 0.10 }
 		}	
 	}
 
@@ -1157,7 +1238,7 @@ focus_tree = {
 		icon = unknown
 		cost = 10.00
 		prerequisite = { focus = MIL_intensified_disagreements }
-		x = 18
+		x = 20
 		y = 1
 		relative_position_id = MIL_intensified_disagreements
 		completion_reward = {
@@ -1362,7 +1443,7 @@ focus_tree = {
 		icon = GFX_focus_generic_self_management
 		cost = 5.00
 		prerequisite = { focus = MIL_intensified_disagreements }
-		x = 12
+		x = 14
 		y = 1
 		relative_position_id = MIL_intensified_disagreements
 		completion_reward = {
