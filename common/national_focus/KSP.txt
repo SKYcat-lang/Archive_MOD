@@ -734,6 +734,9 @@ focus_tree = {
 		id = KSP_talk_with_moderate_partys
 		icon = GFX_focus_eng_concessions_to_the_trade_unions
 		cost = 5
+		available = {
+			has_country_flag = GAEBALJUNG
+		}
 		prerequisite = {
 			focus = KSP_kannas_rage
 		}
@@ -775,7 +778,7 @@ focus_tree = {
 
 		completion_reward = {
 			add_political_power = 100
-			add_stability = 0.10
+			add_stability = -0.10
 			add_war_support = 0.10
 		}
 	}
@@ -877,48 +880,9 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 50
 			add_ideas = KSP_stronger_government
-		}
-	}
-	focus = {
-		id = KSP_strike_first
-		icon = GFX_goal_generic_occupy_states_ongoing_war
-		cost = 10
-		prerequisite = {
-			focus = KSP_government_ganghwa
-		}
-		bypass = {
-			OR = {
-				ROOT = {
-					has_war_with = SHE
-				}
-				ROOT = {
-					has_war_with = COU
-				}
-				NOT = {
-					SHE = {
-						country_exists = yes
-					}
-				}
-			}
-			
-		}
-
-		x = -4
-		y = 1
-		relative_position_id = KSP_government_ganghwa
-
-		completion_reward = {
-			add_political_power = -100
-			create_wargoal = {
-				target = SHE
-				type = annex_everything
-			}
-			if = {
-				limit = { country_exists = COU }
-				create_wargoal = {
-					target = COU
-					type = annex_everything
-				}
+			set_power_balance = {
+				id = KSP_yunjung_power_balance
+				set_default = yes
 			}
 		}
 	}
@@ -927,15 +891,19 @@ focus_tree = {
 		icon = GFX_focus_generic_little_entente
 		cost = 10
 		prerequisite = {
-			focus = KSP_strike_first
+			focus = KSP_government_ganghwa
 		}
 
-		x = -1
+		x = -3
 		y = 1
-		relative_position_id = KSP_strike_first
+		relative_position_id = KSP_government_ganghwa
 
 		completion_reward = {
 			add_ideas = KSP_call_students_for_war
+			add_power_balance_value = {
+				id = KSP_yunjung_power_balance
+				value = 0.10
+			}
 		}
 	}
 	focus = {
@@ -943,12 +911,12 @@ focus_tree = {
 		icon = GFX_goal_generic_small_arms
 		cost = 5
 		prerequisite = {
-			focus = KSP_strike_first
+			focus = KSP_government_ganghwa
 		}
 
-		x = 1
+		x = 3
 		y = 1
-		relative_position_id = KSP_strike_first
+		relative_position_id = KSP_government_ganghwa
 
 		completion_reward = {
 			add_equipment_to_stockpile = {
@@ -966,46 +934,91 @@ focus_tree = {
 				amount = 200
 				producer = KSP
 			}
+			add_power_balance_value = {
+				id = KSP_yunjung_power_balance
+				value = -0.10
+			}
 		}
 	}
 	focus = {
-		id = KSP_benerux_tonghap
-		icon = GFX_focus_generic_the_giant_wakes
+		id = KSP_belgian_sanup_control
+		icon = GFX_goal_generic_axis_build_infantry
 		cost = 5
 		prerequisite = {
 			focus = KSP_earn_hyeongi_weapons
 		}
-		prerequisite = {
-			focus = KSP_calling_for_war
-		}
-		available = {
-			NOT = {
-				has_completed_focus = KSP_rebuild_COU
-			}
-			controls_state = 7
-			controls_state = 35
-			controls_state = 6
-			controls_state = 29
-			has_country_flag = GAEBALJUNG
-		}
-		mutually_exclusive = {
-			focus = KSP_kanna_rule_uzi
-			focus = KSP_COU_return
-		}
 
-		x = 0
-		y = 2
-		relative_position_id = KSP_strike_first
+		x = -1
+		y = 1
+		relative_position_id = KSP_earn_hyeongi_weapons
 
 		completion_reward = {
-			every_state = {
-				limit = { 
-					OR = { 
-						is_core_of = SHE
-						is_core_of = COU
-					} 
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
 				}
-				add_core_of = KSP
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_power_balance_value = {
+				id = KSP_yunjung_power_balance
+				value = -0.10
+			}
+		}
+	}
+	focus = {
+		id = KSP_belgian_army
+		icon = GFX_goal_generic_small_arms
+		cost = 5
+		prerequisite = {
+			focus = KSP_earn_hyeongi_weapons
+		}
+
+		x = 1
+		y = 1
+		relative_position_id = KSP_earn_hyeongi_weapons
+
+		completion_reward = {
+			division_template = {
+				name = "Infantry division"
+				regiments = {
+					infantry = { x = 0 y = 0 }
+					infantry = { x = 0 y = 1 }
+					infantry = { x = 0 y = 2 }
+					infantry = { x = 1 y = 0 }
+					infantry = { x = 1 y = 1 }
+					infantry = { x = 1 y = 2 }
+				}
+				support = {
+					artillery = { x = 0 y = 0 }
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 948 }
+				create_unit = {
+					division = "name = \"Infantry division\" division_template = \"Infantry division\" #  start_experience_factor = 2." 
+					owner = KSP
+				}
+				create_unit = {
+					division = "name = \"Infantry division\" division_template = \"Infantry division\" #  start_experience_factor = 2." 
+					owner = KSP
+				}
+				create_unit = {
+					division = "name = \"Infantry division\" division_template = \"Infantry division\" #  start_experience_factor = 2." 
+					owner = KSP
+				}
+				create_unit = {
+					division = "name = \"Infantry division\" division_template = \"Infantry division\" #  start_experience_factor = 2." 
+					owner = KSP
+				}
+			}
+			add_power_balance_value = {
+				id = KSP_yunjung_power_balance
+				value = -0.10
 			}
 		}
 	}
@@ -1018,7 +1031,7 @@ focus_tree = {
 		}
 
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = KSP_government_ganghwa
 
 		select_effect = {
@@ -1042,43 +1055,19 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = KSP_help_from_belgian_army
-		icon = GFX_goal_generic_axis_build_infantry
-		cost = 10
-		prerequisite = {
-			focus = KSP_rebuild_our_army
-		}
-
-		x = 0
-		y = 1
-		relative_position_id = KSP_rebuild_our_army
-
-		completion_reward = {
-			random_owned_controlled_state = {
-				limit = {
-					is_core_of = ROOT
-				}
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = arms_factory
-					level = 2
-					instant_build = yes
-				}
-			}
-			army_experience = 25
-		}
-	}
-	focus = {
 		id = KSP_build_arms_factories
 		icon = GFX_goal_generic_construct_mil_factory
 		cost = 10
 		prerequisite = {
-			focus = KSP_help_from_belgian_army
+			focus = KSP_belgian_army
+		}
+		prerequisite = {
+			focus = KSP_belgian_sanup_control
 		}
 
-		x = -1
-		y = 1
-		relative_position_id = KSP_help_from_belgian_army
+		x = 0
+		y = 2
+		relative_position_id = KSP_belgian_sanup_control
 
 		completion_reward = {
 			random_owned_controlled_state = {
@@ -1098,160 +1087,17 @@ focus_tree = {
 					is_core_of = ROOT
 				}
 				prioritize = { 948 }
-				add_extra_state_shared_building_slots = 1
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = arms_factory
-					level = 1
+					level = 2
 					instant_build = yes
 				}
 			}
-		}
-	}
-	focus = {
-		id = KSP_army_tonghap
-		icon = GFX_goal_generic_territory_or_war
-		cost = 10
-		prerequisite = {
-			focus = KSP_benerux_tonghap
-		}
-		prerequisite = {
-			focus = KSP_build_arms_factories
-		}
-		
-		x = -1
-		y = 1
-		relative_position_id = KSP_build_arms_factories
-
-		completion_reward = {
-			army_experience = 50
-			custom_effect_tooltip = KSP_army_tonghap_ns_tt
-			division_template = {
-				name = "벨기에 정규군"
-				priority = 0
-				is_locked = no
-				regiments = {
-					infantry = { x = 0 y = 0 }
-					infantry = { x = 1 y = 0 }
-					infantry = { x = 0 y = 1 }
-					infantry = { x = 1 y = 1 }
-					infantry = { x = 0 y = 2 }
-					infantry = { x = 1 y = 2 }
-				}
-				support = {
-					artillery = { x = 0 y = 0 }
-					engineer = { x = 0 y = 1 }
-				}
+			add_power_balance_value = {
+				id = KSP_yunjung_power_balance
+				value = -0.10
 			}
-			random_owned_controlled_state = {
-				create_unit = {
-					division = "name = \"벨기에 정규군\" division_template = \"벨기에 정규군\" #  start_experience_factor = 1. start_equipment_factor = 1." 
-					owner = KSP
-				}
-				create_unit = {
-					division = "name = \"벨기에 정규군\" division_template = \"벨기에 정규군\" #  start_experience_factor = 1. start_equipment_factor = 1." 
-					owner = KSP
-				}
-				create_unit = {
-					division = "name = \"벨기에 정규군\" division_template = \"벨기에 정규군\" #  start_experience_factor = 1. start_equipment_factor = 1." 
-					owner = KSP
-				}
-				create_unit = {
-					division = "name = \"벨기에 정규군\" division_template = \"벨기에 정규군\" #  start_experience_factor = 1. start_equipment_factor = 1." 
-					owner = KSP
-				}
-			}
-		}
-	}
-	focus = {
-		id = KSP_power_focus
-		icon = GFX_focus_generic_self_management
-		cost = 10
-		prerequisite = {
-			focus = KSP_government_ganghwa
-		}
-
-		x = 4
-		y = 1
-		relative_position_id = KSP_government_ganghwa
-
-		completion_reward = {
-			add_political_power = 100
-			add_stability = 0.10
-		}
-	}
-	focus = {
-		id = KSP_belgian_sanup_control
-		icon = GFX_goal_generic_production
-		cost = 10
-		prerequisite = {
-			focus = KSP_power_focus
-		}
-
-		x = 1
-		y = 1
-		relative_position_id = KSP_power_focus
-
-		completion_reward = {
-			random_owned_controlled_state = {
-				limit = {
-					is_core_of = ROOT
-				}
-				prioritize = { 948 }
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
-			add_tech_bonus = {
-				category = industry
-				bonus = 0.75
-				uses = 2
-			}
-		}
-	}
-	focus = {
-		id = KSP_give_students_simingwun
-		icon = none
-		cost = 10
-		prerequisite = {
-			focus = KSP_power_focus
-		}
-
-		x = -1
-		y = 1
-		relative_position_id = KSP_power_focus
-
-		completion_reward = {
-			add_political_power = 100
-			add_stability = 0.10
-			add_popularity = {
-				ideology = democratic
-				popularity = 0.10
-			}
-		}
-	}
-	focus = {
-		id = KSP_yunjung_over
-		icon = none
-		cost = 10
-		available = {
-			has_country_flag = GAEBALJUNG
-		}
-		prerequisite = {
-			focus = KSP_give_students_simingwun
-		}
-		prerequisite = {
-			focus = KSP_belgian_sanup_control
-		}
-
-		x = 0
-		y = 2
-		relative_position_id = KSP_power_focus
-
-		completion_reward = {
-			country_event= { id = KSP_event.3 }
 		}
 	}
 	focus = {
@@ -1259,37 +1105,17 @@ focus_tree = {
 		icon = GFX_goal_generic_political_pressure
 		cost = 10
 		prerequisite = {
-			focus = KSP_help_from_belgian_army
+			focus = KSP_belgian_army
 		}
 
-		x = 1
-		y = 1
-		relative_position_id = KSP_help_from_belgian_army
-
-		completion_reward = {
-			add_ideas = KSP_political_army_alpha
-		}
-	}
-	focus = {
-		id = KSP_belgium_gov_return
-		icon = none
-		cost = 10
-		prerequisite = {
-			focus = KSP_yunjung_over
-		}
-		prerequisite = {
-			focus = KSP_political_army
-		}
-
-		x = -2
-		y = 1
-		relative_position_id = KSP_yunjung_over
+		x = 0
+		y = 2
+		relative_position_id = KSP_belgian_army
 
 		completion_reward = {
 			add_ideas = KSP_political_army_alpha
 		}
 	}
-
 	focus = {
 		id = KSP_look_at_outside
 		icon = GFX_goal_generic_territory_or_war
@@ -1478,7 +1304,6 @@ focus_tree = {
 		available = {
 			NOT = { 
 					country_exists = SHE
-					has_completed_focus = KSP_yunjung_over
 			}
 			controls_state = 7
 			controls_state = 35
@@ -1512,7 +1337,6 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = KSP_COU_return
-			focus = KSP_benerux_tonghap
 		}
 		
 		x = -2
@@ -1669,7 +1493,6 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = KSP_kanna_rule_uzi
-			focus = KSP_benerux_tonghap
 		}
 		
 		x = 2
