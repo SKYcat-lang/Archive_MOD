@@ -9,7 +9,7 @@ focus_tree = {
 	}
 	
 	initial_show_position = {
-		x = 30
+		x = 40
 		y = 0
 	}
 	
@@ -22,7 +22,7 @@ focus_tree = {
 		icon = GFX_KSP_focus_assembly
 		cost = 10
 
-		x = 30
+		x = 40
 		y = 0
 
 		select_effect = {
@@ -70,7 +70,7 @@ focus_tree = {
 		}
 
 		x = 0
-		y = 2
+		y = 5
 		relative_position_id = KSP_first_valkyrie_assembly
 
 		completion_reward = {
@@ -79,61 +79,23 @@ focus_tree = {
 
 	}
 	focus = {
-		id = KSP_believe_our_friends
-		icon = GFX_goal_generic_improve_relations
-		cost = 0
-		prerequisite = {
-			focus = KSP_two_students
-		}
-		mutually_exclusive = {
-			focus = KSP_students_together
-		}
-		allow_branch = {
-			NOT = {
-				has_completed_focus = KSP_students_together
-			}
-		}
-
-		x = -3
-		y = 1
-		relative_position_id = KSP_two_students
-
-		completion_reward = {
-			hidden_effect = {
-				add_political_power = 10
-				#country_event = { id = KSP_event.16 }
-				set_country_flag = KSP_trust
-			}
-			custom_effect_tooltip = KSP_believe_our_friends_ns_tt
-		}
-
-	}
-	focus = {
-		id = KSP_meeting_for_susa
-		icon = GFX_goal_generic_dangerous_deal
-		cost = 10
-		prerequisite = {
-			focus = KSP_believe_our_friends
-		}
-
-		x = -3
-		y = 2
-		relative_position_id = KSP_two_students
-
-		completion_reward = {
-			country_event = { id = KSP_event.20 }
-		}
-	}
-	focus = {
 		id = KSP_kannas_rage
 		icon = none
 		cost = 5
 		prerequisite = {
-			focus = KSP_meeting_for_susa
+			focus = KSP_two_students
+		}
+		mutually_exclusive = {
+			focus = KSP_believe_our_friends
+		}
+		allow_branch = {
+			NOT = {
+				has_completed_focus = KSP_believe_our_friends
+			}
 		}
 		
-		x = -9
-		y = 3
+		x = -3
+		y = 1
 		relative_position_id = KSP_two_students
 
 		completion_reward = {
@@ -146,8 +108,76 @@ focus_tree = {
 				ideology = neutrality
 				popularity = 0.30
 			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.30
+			}
 			add_stability = -0.10
 			add_war_support = 0.10
+		}
+	}
+	focus = {
+		id = KSP_sanghwal_safety_coup
+		icon = none
+		cost = 5
+		prerequisite = {
+			focus = KSP_kannas_rage
+		}
+		mutually_exclusive = {
+			focus = KSP_kannas_rule
+			focus = KSP_gyeonbiguk_coup
+		}
+
+		x = -1
+		y = 1
+		relative_position_id = KSP_kannas_rage
+
+		completion_reward = {
+			set_party_name = {
+				ideology = communism
+				long_name = KSP_communism_rage_long
+				name = KSP_communism_rage
+			}
+			set_politics = {
+				ruling_party = communism
+				elections_allowed = no
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.40
+			}
+		}
+	}
+	focus = {
+		id = KSP_gyeonbiguk_coup
+		icon = none
+		cost = 5
+		prerequisite = {
+			focus = KSP_kannas_rage
+		}
+		mutually_exclusive = {
+			focus = KSP_kannas_rule
+			focus = KSP_sanghwal_safety_coup
+		}
+
+		x = -10
+		y = 1
+		relative_position_id = KSP_kannas_rage
+
+		completion_reward = {
+			set_party_name = {
+				ideology = fascism
+				long_name = KSP_fascism_rage_long
+				name = KSP_fascism_rage
+			}
+			set_politics = {
+				ruling_party = fascism
+				elections_allowed = no
+			}
+			add_popularity = {
+				ideology = fascsims
+				popularity = 0.40
+			}
 		}
 	}
 	focus = {
@@ -158,10 +188,11 @@ focus_tree = {
 			focus = KSP_kannas_rage
 		}
 		mutually_exclusive = {
-			focus = KSP_talk_with_moderate_partys
+			focus = KSP_sanghwal_safety_coup
+			focus = KSP_gyeonbiguk_coup
 		}
 
-		x = -7
+		x = -19
 		y = 1
 		relative_position_id = KSP_kannas_rage
 
@@ -192,7 +223,7 @@ focus_tree = {
 			focus = KSP_kannas_rule
 		}
 
-		x = -2
+		x = -4
 		y = 1
 		relative_position_id = KSP_kannas_rule
 
@@ -728,8 +759,675 @@ focus_tree = {
 			custom_effect_tooltip = KSP_police_society_valkyrie_ns_tt
 		}
 	}
-	#비동맹
+	focus = {
+		id = KSP_look_at_outside
+		icon = GFX_goal_generic_territory_or_war
+		cost = 5
+		prerequisite = {
+			focus = KSP_kannas_rule
+		}
+		
+		x = 3
+		y = 1
+		relative_position_id = KSP_kannas_rule
 
+		completion_reward = {
+			add_political_power = 25
+			add_war_support = 0.05
+		}
+	}
+	focus = {
+		id = KSP_schalle_war
+		icon = GFX_goal_generic_major_war
+		cost = 5
+		prerequisite = {
+			focus = KSP_look_at_outside
+		}
+		available = {
+			any_other_country = {
+				original_tag = SHE
+				has_war_with = KSP
+			}
+		}
+		bypass = {
+			SHE = {
+				all_core_state = {
+					is_owned_by = KSP
+				}
+			}
+		}
+		
+		x = 0
+		y = 1
+		relative_position_id = KSP_look_at_outside
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = KSP_war_against_schalle
+				days = 360
+			}
+		}
+	}
+	focus = {
+		id = KSP_emergency_army
+		icon = GFX_focus_generic_manpower
+		cost = 5
+		prerequisite = {
+			focus = KSP_schalle_war
+		}
+		available = {
+			any_other_country = {
+				original_tag = SHE
+				has_war_with = KSP
+			}
+		}
+		bypass = {
+			SHE = {
+				all_core_state = {
+					is_owned_by = KSP
+				}
+			}
+		}
+		
+		x = 1
+		y = 1
+		relative_position_id = KSP_schalle_war
+
+		completion_reward = {
+			random_owned_controlled_state = {	
+				prioritize = { 948 }
+				create_unit = {
+					division = "name = \"긴급동원된 군대\" division_template = \"Halo Infantry Division\" #  start_experience_factor = 0." 
+					owner = KSP
+				}
+				add_manpower = -5500
+				create_unit = {
+					division = "name = \"긴급동원된 군대\" division_template = \"Halo Infantry Division\" #  start_experience_factor = 0." 
+					owner = KSP
+				}
+				add_manpower = -5500
+				create_unit = {
+					division = "name = \"긴급동원된 군대\" division_template = \"Halo Infantry Division\" #  start_experience_factor = 0." 
+					owner = KSP
+				}
+				add_manpower = -5500
+			}
+		}
+	}
+	focus = {
+		id = KSP_war_industry_emergency_activation
+		icon = GFX_focus_generic_combined_arms
+		cost = 5
+		prerequisite = {
+			focus = KSP_schalle_war
+		}
+		available = {
+			any_other_country = {
+				original_tag = SHE
+				has_war_with = KSP
+			}
+		}
+		bypass = {
+			SHE = {
+				all_core_state = {
+					is_owned_by = KSP
+				}
+			}
+		}
+		
+		x = -1
+		y = 1
+		relative_position_id = KSP_schalle_war
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 34 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 948 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_ideas = war_economy
+		}
+	}
+	focus = {
+		id = KSP_hangzun
+		icon = GFX_goal_generic_military_sphere
+		cost = 5
+		prerequisite = {
+			focus = KSP_emergency_army
+		}
+		prerequisite = {
+			focus = KSP_war_industry_emergency_activation
+		}
+		available = {
+			any_other_country = {
+				original_tag = SHE
+				has_war_with = KSP
+			}
+		}
+		bypass = {
+			SHE = {
+				all_core_state = {
+					is_owned_by = KSP
+				}
+			}
+		}
+		
+		x = 0
+		y = 2
+		relative_position_id = KSP_schalle_war
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = KSP_hangzun
+				days = 360
+			}
+		}
+	}
+	focus = {
+		id = KSP_rebuild_COU
+		icon = GFX_focus_generic_treaty
+		cost = 10
+		prerequisite = {
+			focus = KSP_hangzun
+		}
+		available = {
+			NOT = { 
+					country_exists = SHE
+			}
+			controls_state = 7
+			controls_state = 35
+			controls_state = 6
+			controls_state = 29
+		}
+		
+		x = 0
+		y = 3
+		relative_position_id = KSP_schalle_war
+
+		completion_reward = {
+			set_cosmetic_tag = SHE_student_council
+			every_state = {
+				limit = { 
+					OR = { 
+						is_core_of = SHE
+						is_core_of = COU
+					} 
+				}
+				add_core_of = KSP
+			}
+		}
+	}
+	focus = {
+		id = KSP_kanna_rule_uzi
+		icon = GFX_KSP_focus_kanna_uzi
+		cost = 10
+		prerequisite = {
+			focus = KSP_rebuild_COU
+		}
+		#mutually_exclusive = {
+		#	focus = KSP_COU_return
+		#}
+		
+		x = 0
+		y = 1
+		relative_position_id = KSP_rebuild_COU
+
+		completion_reward = {
+			custom_effect_tooltip = KSP_kanna_rule_uzi_ns_tt
+			hidden_effect = { add_country_leader_trait = SHE_new_dictator }
+		}
+	}
+	focus = {
+		id = KSP_COU_tonghap
+		icon = GFX_focus_generic_self_management
+		cost = 10
+		prerequisite = {
+			focus = KSP_kanna_rule_uzi
+		}
+		
+		x = 0
+		y = 1
+		relative_position_id = KSP_kanna_rule_uzi
+
+		completion_reward = {
+			if = {
+				limit = {
+					SHE = {
+						has_completed_focus = SHE_student_council_relocation
+					}
+				}
+				SHE = {
+					every_character = {
+						limit = { 
+							OR = {
+								is_character = COU_RIN
+								is_character = COU_AOI
+								is_character = COU_KAYA
+								is_character = COU_AYUMU
+								is_character = COU_MOMOKA
+							}
+						}
+						set_nationality = KSP
+					}
+				}
+			}
+			else = {
+				COU = {
+					every_character = {
+						limit = { 
+							OR = {
+								is_character = COU_RIN
+								is_character = COU_AOI
+								is_character = COU_KAYA
+								is_character = COU_AYUMU
+								is_character = COU_MOMOKA
+							}
+						}
+						set_nationality = KSP
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_character = COU_KAYA
+				}
+				add_advisor_role = {
+					character = COU_KAYA
+					
+					advisor = {
+						slot = army_chief
+						cost = 100
+						idea_token = COU_KAYA
+						traits = {
+							army_chief_maneuver_2
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_character = COU_AYUMU
+				}
+				add_advisor_role = {
+					character = COU_AYUMU
+					advisor = {
+						slot = political_advisor
+						idea_token = AYUMU_political_advisor
+						traits = {
+							COU_AYUMU_SET1 
+						}
+						cost = 150
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_character = COU_MOMOKA
+				}
+				add_advisor_role = {
+					character = COU_MOMOKA
+					
+					
+					advisor = {
+						slot = political_advisor
+						idea_token = MOMOKA_political_advisor
+						traits = {
+							COU_MOMOKA_SET1 
+						}
+						cost = 150
+					}
+				}
+				add_advisor_role = {
+					character = COU_MOMOKA
+					
+					
+					advisor = {
+						slot = high_command
+						idea_token = MOMOKA_high_command
+						traits = {
+							army_CombinedArms_2 
+						}
+						cost = 150
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_character = COU_AOI
+				}
+				add_advisor_role = {
+					character = COU_AOI
+					advisor = {
+						slot = high_command
+						idea_token = AOI_political_advisor
+						traits = {
+							army_logistics_2 
+						}
+						cost = 150
+					}
+				}
+			}
+		}
+	}
+	
+	#focus = {
+	#	id = KSP_COU_return
+	#	icon = GFX_goal_support_democracy
+	#	cost = 10
+	#	prerequisite = {
+	#		focus = KSP_rebuild_COU
+	#	}
+	#	available = {
+	#		NOT = { has_country_flag = KSP_NO_TAHYUP }
+	#	}
+	#	mutually_exclusive = {
+	#		focus = KSP_kanna_rule_uzi
+	#	}
+	#	
+	#	x = 2
+	#	y = 1
+	#	relative_position_id = KSP_rebuild_COU
+	#
+	#	completion_reward = {
+	#		custom_effect_tooltip = KSP_COU_return_ns_tt
+	#		hidden_effect = {
+	#			set_party_name = {
+	#				ideology = democratic
+	#				long_name = KSP_COU_democratic_return_long
+	#				name = KSP_COU_democratic_return
+	#			}
+	#			set_politics = {
+	#				ruling_party = democratic
+	#				elections_allowed = no
+	#			}
+	#			add_popularity = {
+	#				ideology = democratic
+	#				popularity = 0.40
+	#			}
+	#			if = {
+	#				limit = {
+	#					SHE = {
+	#						has_completed_focus = SHE_student_council_relocation
+	#					}
+	#				}
+	#				SHE = {
+	#					every_character = {
+	#						limit = { 
+	#							OR = {
+	#								is_character = COU_RIN
+	#								is_character = COU_AOI
+	#								is_character = COU_KAYA
+	#								is_character = COU_AYUMU
+	#								is_character = COU_MOMOKA
+	#							}
+	#						}
+	#						set_nationality = ROOT
+	#					}
+	#				}
+	#			}
+	#			else = {
+	#				COU = {
+	#					every_character = {
+	#						limit = { 
+	#							OR = {
+	#								is_character = COU_RIN
+	#								is_character = COU_AOI
+	#								is_character = COU_KAYA
+	#								is_character = COU_AYUMU
+	#								is_character = COU_MOMOKA
+	#							}
+	#						}
+	#						set_nationality = ROOT
+	#					}
+	#				}
+	#			}
+	#			if = {
+	#				limit = {
+	#					has_character = COU_KAYA
+	#				}
+	#				add_advisor_role = {
+	#					character = COU_KAYA
+	#					
+	#					advisor = {
+	#						slot = army_chief
+	#						cost = 100
+	#						idea_token = COU_KAYA
+	#						traits = {
+	#							army_chief_maneuver_2
+	#						}
+	#					}
+	#				}
+	#			}
+	#			if = {
+	#				limit = {
+	#					has_character = COU_AYUMU
+	#				}
+	#				add_advisor_role = {
+	#					character = COU_AYUMU
+	#					advisor = {
+	#						slot = political_advisor
+	#						idea_token = AYUMU_political_advisor
+	#						traits = {
+	#							COU_AYUMU_SET1 
+	#						}
+	#						cost = 150
+	#					}
+	#				}
+	#			}
+	#			if = {
+	#				limit = {
+	#					has_character = COU_MOMOKA
+	#				}
+	#				add_advisor_role = {
+	#					character = COU_MOMOKA
+	#					
+	#					
+	#					advisor = {
+	#						slot = political_advisor
+	#						idea_token = MOMOKA_political_advisor
+	#						traits = {
+	#							COU_MOMOKA_SET1 
+	#						}
+	#						cost = 150
+	##					}
+	#				}
+	#				add_advisor_role = {
+	#					character = COU_MOMOKA
+	#					
+	#					
+	#					advisor = {
+	#						slot = high_command
+	#						idea_token = MOMOKA_high_command
+	#						traits = {
+	#							army_CombinedArms_2 
+	#						}
+	#						cost = 150
+	#					}
+	#				}
+	#			}
+	#			if = {
+	#				limit = {
+	#					has_character = COU_AOI
+	#				}
+	#				add_advisor_role = {
+	#					character = COU_AOI
+	#					advisor = {
+	#						slot = high_command
+	#						idea_token = AOI_political_advisor
+	#						traits = {
+	#							army_logistics_2 
+	#						}
+	#						cost = 150
+	#					}
+	#				}
+	#			}
+	#		}
+	#	}
+	#}
+	#첫 선거
+
+	#focus = {
+	#	id = KSP_first_election
+	#	icon = GFX_focus_SHE_democracy
+	#	x = 0
+	#	y = 1
+	#	cost = 5
+	#	search_filters = {
+	#		
+	#					FOCUS_FILTER_POLITICAL
+	#				
+	#	}
+	#	relative_position_id = KSP_COU_return
+	#	prerequisite = { focus = KSP_COU_return }
+	#	completion_reward = {
+	#		add_political_power = 200
+	#		add_popularity = {
+   	#			ideology = democratic
+    #			popularity = 0.10
+	#		}
+	#	}
+	#}
+
+	#총학생회장, 린
+
+	#focus = {
+	#	id = KSP_rin_route
+	#	icon = GFX_COU_choice_RIN
+	#	x = -1
+	#	y = 1
+	#	cost = 5
+	#	search_filters = {
+	#		
+	#					FOCUS_FILTER_POLITICAL
+	#				
+	#	}
+	#	relative_position_id = KSP_first_election
+	#	prerequisite = { focus = KSP_first_election }
+	#	mutually_exclusive = { focus = KSP_aoi_route }
+	#	completion_reward = {
+	#		hidden_effect = {
+	#			every_character = {
+	#				limit = {
+	#					has_ideology_group = democratic
+	#				}
+	#				remove_country_leader_role = {
+	#					character = PREV
+	#					ideology = conservatism
+	#				}
+	#			}
+	#		}
+	#		if = {
+	#			limit = {
+	#				has_character = COU_RIN
+	#			}
+	#			add_country_leader_role = {
+	#				promote_leader = yes
+	#				character = COU_RIN
+	#				country_leader = {
+	#					ideology = socialism
+	#					expire = "1965.1.1.1"
+	#					traits = { SHE_new_dictator }
+	#				}
+	#			}
+	#		}
+	#	}
+	#}
+
+	#총학생회장, 아오이
+
+	#focus = {
+	#	id = KSP_aoi_route
+	#	icon = GFX_COU_choice_AOI
+	#	x = 1
+	#	y = 1
+	#	cost = 5
+	#	search_filters = {
+	#		
+	#					FOCUS_FILTER_POLITICAL
+	#				
+	#	}
+	#	relative_position_id = KSP_first_election
+	#	prerequisite = { focus = KSP_first_election }
+	#	mutually_exclusive = { focus = KSP_rin_route }
+	#	completion_reward = {
+	#		hidden_effect = {
+	#			load_focus_tree = COU_AOI_focus
+	#			every_character = {
+	#				limit = {
+	#					has_ideology_group = democratic
+	#				}
+	#				remove_country_leader_role = {
+	#					character = PREV
+	#					ideology = conservatism
+	#				}
+	#			}
+	#		}
+	#		if = {
+	#			limit = {
+	#				has_character = COU_AOI
+	#			}
+	#			add_country_leader_role = {
+	#				promote_leader = yes
+	#				character = COU_AOI
+	#				country_leader = {
+	#					ideology = socialism
+	#					expire = "1965.1.1.1"
+	#					traits = { SHE_new_dictator }
+	#				}
+	#			}
+	#		}
+	#	}
+	#}
+
+	
+
+	#공산루트(미완성)
+	focus = {
+		id = KSP_believe_our_friends
+		icon = GFX_goal_generic_improve_relations
+		cost = 0
+		available = {
+			has_country_flag = GAEBALJUNG
+		}
+		prerequisite = {
+			focus = KSP_two_students
+		}
+		mutually_exclusive = {
+			focus = KSP_students_together
+		}
+		allow_branch = {
+			NOT = {
+				has_completed_focus = KSP_students_together
+			}
+		}
+
+		x = 3
+		y = 1
+		relative_position_id = KSP_two_students
+
+		completion_reward = {
+			hidden_effect = {
+				add_political_power = 10
+				#country_event = { id = KSP_event.16 }
+				set_country_flag = KSP_trust
+			}
+			custom_effect_tooltip = KSP_believe_our_friends_ns_tt
+		}
+
+	}
 	focus = {
 		id = KSP_talk_with_moderate_partys
 		icon = GFX_focus_eng_concessions_to_the_trade_unions
@@ -738,15 +1436,15 @@ focus_tree = {
 			has_country_flag = GAEBALJUNG
 		}
 		prerequisite = {
-			focus = KSP_kannas_rage
+			focus = KSP_believe_our_friends
 		}
 		mutually_exclusive = {
-			focus = KSP_kannas_rule
+			
 		}
 
 		x = 7
 		y = 1
-		relative_position_id = KSP_kannas_rage
+		relative_position_id = KSP_believe_our_friends
 
 		completion_reward = {
 			set_party_name = {
@@ -772,7 +1470,7 @@ focus_tree = {
 			focus = KSP_talk_with_moderate_partys
 		}
 
-		x = 2
+		x = 0
 		y = 1
 		relative_position_id = KSP_talk_with_moderate_partys
 
@@ -1116,844 +1814,5 @@ focus_tree = {
 			add_ideas = KSP_political_army_alpha
 		}
 	}
-	focus = {
-		id = KSP_look_at_outside
-		icon = GFX_goal_generic_territory_or_war
-		cost = 5
-		prerequisite = {
-			focus = KSP_kannas_rule
-			focus = KSP_talk_with_moderate_partys
-		}
-		
-		x = 0
-		y = 2
-		relative_position_id = KSP_kannas_rage
-
-		completion_reward = {
-			add_political_power = 25
-			add_war_support = 0.05
-		}
-	}
-	focus = {
-		id = KSP_schalle_war
-		icon = GFX_goal_generic_major_war
-		cost = 5
-		prerequisite = {
-			focus = KSP_look_at_outside
-		}
-		available = {
-			any_other_country = {
-				original_tag = SHE
-				has_war_with = KSP
-			}
-		}
-		bypass = {
-			SHE = {
-				all_core_state = {
-					is_owned_by = KSP
-				}
-			}
-		}
-		
-		x = 0
-		y = 1
-		relative_position_id = KSP_look_at_outside
-
-		completion_reward = {
-			add_timed_idea = {
-				idea = KSP_war_against_schalle
-				days = 360
-			}
-		}
-	}
-	focus = {
-		id = KSP_emergency_army
-		icon = GFX_focus_generic_manpower
-		cost = 5
-		prerequisite = {
-			focus = KSP_schalle_war
-		}
-		available = {
-			any_other_country = {
-				original_tag = SHE
-				has_war_with = KSP
-			}
-		}
-		bypass = {
-			SHE = {
-				all_core_state = {
-					is_owned_by = KSP
-				}
-			}
-		}
-		
-		x = 1
-		y = 1
-		relative_position_id = KSP_schalle_war
-
-		completion_reward = {
-			random_owned_controlled_state = {	
-				prioritize = { 948 }
-				create_unit = {
-					division = "name = \"긴급동원된 군대\" division_template = \"Halo Infantry Division\" #  start_experience_factor = 0." 
-					owner = KSP
-				}
-				add_manpower = -5500
-				create_unit = {
-					division = "name = \"긴급동원된 군대\" division_template = \"Halo Infantry Division\" #  start_experience_factor = 0." 
-					owner = KSP
-				}
-				add_manpower = -5500
-				create_unit = {
-					division = "name = \"긴급동원된 군대\" division_template = \"Halo Infantry Division\" #  start_experience_factor = 0." 
-					owner = KSP
-				}
-				add_manpower = -5500
-			}
-		}
-	}
-	focus = {
-		id = KSP_war_industry_emergency_activation
-		icon = GFX_focus_generic_combined_arms
-		cost = 5
-		prerequisite = {
-			focus = KSP_schalle_war
-		}
-		available = {
-			any_other_country = {
-				original_tag = SHE
-				has_war_with = KSP
-			}
-		}
-		bypass = {
-			SHE = {
-				all_core_state = {
-					is_owned_by = KSP
-				}
-			}
-		}
-		
-		x = -1
-		y = 1
-		relative_position_id = KSP_schalle_war
-
-		completion_reward = {
-			random_owned_controlled_state = {
-				prioritize = { 34 }
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = arms_factory
-					level = 1
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				prioritize = { 948 }
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = arms_factory
-					level = 1
-					instant_build = yes
-				}
-			}
-			add_ideas = war_economy
-		}
-	}
-	focus = {
-		id = KSP_hangzun
-		icon = GFX_goal_generic_military_sphere
-		cost = 5
-		prerequisite = {
-			focus = KSP_emergency_army
-		}
-		prerequisite = {
-			focus = KSP_war_industry_emergency_activation
-		}
-		available = {
-			any_other_country = {
-				original_tag = SHE
-				has_war_with = KSP
-			}
-		}
-		bypass = {
-			SHE = {
-				all_core_state = {
-					is_owned_by = KSP
-				}
-			}
-		}
-		
-		x = 0
-		y = 2
-		relative_position_id = KSP_schalle_war
-
-		completion_reward = {
-			add_timed_idea = {
-				idea = KSP_hangzun
-				days = 360
-			}
-		}
-	}
-	focus = {
-		id = KSP_rebuild_COU
-		icon = GFX_focus_generic_treaty
-		cost = 10
-		prerequisite = {
-			focus = KSP_hangzun
-		}
-		available = {
-			NOT = { 
-					country_exists = SHE
-			}
-			controls_state = 7
-			controls_state = 35
-			controls_state = 6
-			controls_state = 29
-		}
-		
-		x = 0
-		y = 3
-		relative_position_id = KSP_schalle_war
-
-		completion_reward = {
-			set_cosmetic_tag = SHE_student_council
-			every_state = {
-				limit = { 
-					OR = { 
-						is_core_of = SHE
-						is_core_of = COU
-					} 
-				}
-				add_core_of = KSP
-			}
-		}
-	}
-	focus = {
-		id = KSP_kanna_rule_uzi
-		icon = GFX_KSP_focus_kanna_uzi
-		cost = 10
-		prerequisite = {
-			focus = KSP_rebuild_COU
-		}
-		mutually_exclusive = {
-			focus = KSP_COU_return
-		}
-		
-		x = -2
-		y = 1
-		relative_position_id = KSP_rebuild_COU
-
-		completion_reward = {
-			custom_effect_tooltip = KSP_kanna_rule_uzi_ns_tt
-			hidden_effect = { add_country_leader_trait = SHE_new_dictator }
-		}
-	}
-	focus = {
-		id = KSP_COU_tonghap
-		icon = GFX_focus_generic_self_management
-		cost = 10
-		prerequisite = {
-			focus = KSP_kanna_rule_uzi
-		}
-		
-		x = 0
-		y = 1
-		relative_position_id = KSP_kanna_rule_uzi
-
-		completion_reward = {
-			if = {
-				limit = {
-					SHE = {
-						has_completed_focus = SHE_student_council_relocation
-					}
-				}
-				SHE = {
-					every_character = {
-						limit = { 
-							OR = {
-								is_character = COU_RIN
-								is_character = COU_AOI
-								is_character = COU_KAYA
-								is_character = COU_AYUMU
-								is_character = COU_MOMOKA
-							}
-						}
-						set_nationality = KSP
-					}
-				}
-			}
-			else = {
-				COU = {
-					every_character = {
-						limit = { 
-							OR = {
-								is_character = COU_RIN
-								is_character = COU_AOI
-								is_character = COU_KAYA
-								is_character = COU_AYUMU
-								is_character = COU_MOMOKA
-							}
-						}
-						set_nationality = KSP
-					}
-				}
-			}
-			if = {
-				limit = {
-					has_character = COU_KAYA
-				}
-				add_advisor_role = {
-					character = COU_KAYA
-					
-					advisor = {
-						slot = army_chief
-						cost = 100
-						idea_token = COU_KAYA
-						traits = {
-							army_chief_maneuver_2
-						}
-					}
-				}
-			}
-			if = {
-				limit = {
-					has_character = COU_AYUMU
-				}
-				add_advisor_role = {
-					character = COU_AYUMU
-					advisor = {
-						slot = political_advisor
-						idea_token = AYUMU_political_advisor
-						traits = {
-							COU_AYUMU_SET1 
-						}
-						cost = 150
-					}
-				}
-			}
-			if = {
-				limit = {
-					has_character = COU_MOMOKA
-				}
-				add_advisor_role = {
-					character = COU_MOMOKA
-					
-					
-					advisor = {
-						slot = political_advisor
-						idea_token = MOMOKA_political_advisor
-						traits = {
-							COU_MOMOKA_SET1 
-						}
-						cost = 150
-					}
-				}
-				add_advisor_role = {
-					character = COU_MOMOKA
-					
-					
-					advisor = {
-						slot = high_command
-						idea_token = MOMOKA_high_command
-						traits = {
-							army_CombinedArms_2 
-						}
-						cost = 150
-					}
-				}
-			}
-			if = {
-				limit = {
-					has_character = COU_AOI
-				}
-				add_advisor_role = {
-					character = COU_AOI
-					advisor = {
-						slot = high_command
-						idea_token = AOI_political_advisor
-						traits = {
-							army_logistics_2 
-						}
-						cost = 150
-					}
-				}
-			}
-		}
-	}
 	
-	focus = {
-		id = KSP_COU_return
-		icon = GFX_goal_support_democracy
-		cost = 10
-		prerequisite = {
-			focus = KSP_rebuild_COU
-		}
-		available = {
-			NOT = { has_country_flag = KSP_NO_TAHYUP }
-		}
-		mutually_exclusive = {
-			focus = KSP_kanna_rule_uzi
-		}
-		
-		x = 2
-		y = 1
-		relative_position_id = KSP_rebuild_COU
-
-		completion_reward = {
-			custom_effect_tooltip = KSP_COU_return_ns_tt
-			hidden_effect = {
-				set_party_name = {
-					ideology = democratic
-					long_name = KSP_COU_democratic_return_long
-					name = KSP_COU_democratic_return
-				}
-				set_politics = {
-					ruling_party = democratic
-					elections_allowed = no
-				}
-				add_popularity = {
-					ideology = democratic
-					popularity = 0.40
-				}
-				if = {
-					limit = {
-						SHE = {
-							has_completed_focus = SHE_student_council_relocation
-						}
-					}
-					SHE = {
-						every_character = {
-							limit = { 
-								OR = {
-									is_character = COU_RIN
-									is_character = COU_AOI
-									is_character = COU_KAYA
-									is_character = COU_AYUMU
-									is_character = COU_MOMOKA
-								}
-							}
-							set_nationality = ROOT
-						}
-					}
-				}
-				else = {
-					COU = {
-						every_character = {
-							limit = { 
-								OR = {
-									is_character = COU_RIN
-									is_character = COU_AOI
-									is_character = COU_KAYA
-									is_character = COU_AYUMU
-									is_character = COU_MOMOKA
-								}
-							}
-							set_nationality = ROOT
-						}
-					}
-				}
-				if = {
-					limit = {
-						has_character = COU_KAYA
-					}
-					add_advisor_role = {
-						character = COU_KAYA
-						
-						advisor = {
-							slot = army_chief
-							cost = 100
-							idea_token = COU_KAYA
-							traits = {
-								army_chief_maneuver_2
-							}
-						}
-					}
-				}
-				if = {
-					limit = {
-						has_character = COU_AYUMU
-					}
-					add_advisor_role = {
-						character = COU_AYUMU
-						advisor = {
-							slot = political_advisor
-							idea_token = AYUMU_political_advisor
-							traits = {
-								COU_AYUMU_SET1 
-							}
-							cost = 150
-						}
-					}
-				}
-				if = {
-					limit = {
-						has_character = COU_MOMOKA
-					}
-					add_advisor_role = {
-						character = COU_MOMOKA
-						
-						
-						advisor = {
-							slot = political_advisor
-							idea_token = MOMOKA_political_advisor
-							traits = {
-								COU_MOMOKA_SET1 
-							}
-							cost = 150
-						}
-					}
-					add_advisor_role = {
-						character = COU_MOMOKA
-						
-						
-						advisor = {
-							slot = high_command
-							idea_token = MOMOKA_high_command
-							traits = {
-								army_CombinedArms_2 
-							}
-							cost = 150
-						}
-					}
-				}
-				if = {
-					limit = {
-						has_character = COU_AOI
-					}
-					add_advisor_role = {
-						character = COU_AOI
-						advisor = {
-							slot = high_command
-							idea_token = AOI_political_advisor
-							traits = {
-								army_logistics_2 
-							}
-							cost = 150
-						}
-					}
-				}
-			}
-		}
-	}
-	#첫 선거
-
-	focus = {
-		id = KSP_first_election
-		icon = GFX_focus_SHE_democracy
-		x = 0
-		y = 1
-		cost = 5
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		relative_position_id = KSP_COU_return
-		prerequisite = { focus = KSP_COU_return }
-		completion_reward = {
-			add_political_power = 200
-			add_popularity = {
-   				ideology = democratic
-    			popularity = 0.10
-			}
-		}
-	}
-
-	#총학생회장, 린
-
-	focus = {
-		id = KSP_rin_route
-		icon = GFX_COU_choice_RIN
-		x = -1
-		y = 1
-		cost = 5
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		relative_position_id = KSP_first_election
-		prerequisite = { focus = KSP_first_election }
-		mutually_exclusive = { focus = KSP_aoi_route }
-		completion_reward = {
-			hidden_effect = {
-				every_character = {
-					limit = {
-						has_ideology_group = democratic
-					}
-					remove_country_leader_role = {
-						character = PREV
-						ideology = conservatism
-					}
-				}
-			}
-			if = {
-				limit = {
-					has_character = COU_RIN
-				}
-				add_country_leader_role = {
-					promote_leader = yes
-					character = COU_RIN
-					country_leader = {
-						ideology = socialism
-						expire = "1965.1.1.1"
-						traits = { SHE_new_dictator }
-					}
-				}
-			}
-		}
-	}
-
-	#총학생회장, 아오이
-
-	focus = {
-		id = KSP_aoi_route
-		icon = GFX_COU_choice_AOI
-		x = 1
-		y = 1
-		cost = 5
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		relative_position_id = KSP_first_election
-		prerequisite = { focus = KSP_first_election }
-		mutually_exclusive = { focus = KSP_rin_route }
-		completion_reward = {
-			hidden_effect = {
-				load_focus_tree = COU_AOI_focus
-				every_character = {
-					limit = {
-						has_ideology_group = democratic
-					}
-					remove_country_leader_role = {
-						character = PREV
-						ideology = conservatism
-					}
-				}
-			}
-			if = {
-				limit = {
-					has_character = COU_AOI
-				}
-				add_country_leader_role = {
-					promote_leader = yes
-					character = COU_AOI
-					country_leader = {
-						ideology = socialism
-						expire = "1965.1.1.1"
-						traits = { SHE_new_dictator }
-					}
-				}
-			}
-		}
-	}
-
-	
-
-	#공산루트(미완성)
-
-	focus = {
-		id = KSP_students_together
-		icon = GFX_goal_generic_demand_territory
-		cost = 2
-		prerequisite = {
-			focus = KSP_two_students
-		}
-		available = {
-			has_country_flag = GAEBALJUNG
-		}
-		mutually_exclusive = {
-			focus = KSP_believe_our_friends
-		}
-		allow_branch = {
-			NOT = {
-				has_completed_focus = KSP_believe_our_friends
-			}
-		}
-
-		x = 3
-		y = 1
-		relative_position_id = KSP_two_students
-
-		completion_reward = {
-			add_political_power = -25
-			add_popularity = {
-				ideology = communism
-				popularity = 0.10
-			}
-		}
-
-	}
-	focus = {
-		id = KSP_use_the_chaos
-		icon = GFX_focus_generic_join_comintern
-		cost = 2
-		prerequisite = {
-			focus = KSP_students_together
-		}
-
-		x = 0
-		y = 1
-		relative_position_id = KSP_students_together
-
-		completion_reward = {	
-			swap_ideas = {
-				remove_idea = KSP_communist_books
-				add_idea = KSP_more_communist_books
-			}
-		}
-
-	}
-	focus = {
-		id = KSP_uprising_communism
-		icon = GFX_focus_generic_support_the_left_right
-		cost = 5
-		prerequisite = {
-			focus = KSP_use_the_chaos
-		}
-
-		x = 9
-		y = 1
-		relative_position_id = KSP_use_the_chaos
-
-		completion_reward = {	
-			add_political_power = 100
-			add_stability = -0.30
-			set_politics = {
-				ruling_party = communism
-				elections_allowed = no
-			}
-			add_popularity = {
-				ideology = communism
-				popularity = 0.10
-			}
-			add_popularity = {
-				ideology = democratic
-				popularity = -0.30
-			}
-			set_power_balance = {
-				id = KSP_communism_power_balance
-				set_default = yes
-			}
-		}
-
-	}
-	focus = {
-		id = KSP_student_council
-		icon = none
-		cost = 5
-		prerequisite = {
-			focus = KSP_uprising_communism
-		}
-		mutually_exclusive = {
-			focus = KSP_kirino_pa
-		}
-
-		x = 3
-		y = 1
-		relative_position_id = KSP_uprising_communism
-
-		completion_reward = {	
-			add_political_power = 100
-			add_power_balance_value = {
-				id = KSP_communism_power_balance
-				value = -0.15
-			}
-		}
-	}
-	focus = {
-		id = KSP_kirino_pa
-		icon = none
-		cost = 5
-		prerequisite = {
-			focus = KSP_uprising_communism
-		}
-		mutually_exclusive = {
-			focus = KSP_student_council
-		}
-
-		x = -3
-		y = 1
-		relative_position_id = KSP_uprising_communism
-
-		completion_reward = {	
-			add_political_power = 100
-			add_power_balance_value = {
-				id = KSP_communism_power_balance
-				value = 0.15
-			}
-		}
-	}
-	focus = {
-		id = KSP_homeground_hwakbo
-		icon = none
-		cost = 5
-		prerequisite = {
-			focus = KSP_kirino_pa
-		}
-
-		x = 0
-		y = 1
-		relative_position_id = KSP_kirino_pa
-
-		completion_reward = {	
-			#다이나믹 시작
-			add_power_balance_value = {
-				id = KSP_communism_power_balance
-				value = 0.05
-			}
-		}
-	}
-
-	focus = {
-		id = KSP_stabilize_valkyrie
-		icon = none
-		cost = 5
-		prerequisite = {
-			focus = KSP_kirino_pa
-			focus = KSP_student_council
-		}
-
-		x = 0
-		y = 2
-		relative_position_id = KSP_uprising_communism
-
-		completion_reward = {	
-			if = 
-			{
-				limit = { has_idea = KSP_valkyrie_in_chaos }
-				swap_ideas = {	
-					remove_idea = KSP_valkyrie_in_chaos
-					add_idea = KSP_valkyrie_comeback
-				}
-			}
-			if = 
-			{
-				limit = { has_idea = KSP_valkyrie_in_chaos_2 }
-				swap_ideas = {	
-					remove_idea = KSP_valkyrie_in_chaos_2
-					add_idea = KSP_valkyrie_comeback
-				}
-			}
-			if = 
-			{
-				limit = { has_idea = KSP_valkyrie_in_chaos_3 }
-				swap_ideas = {	
-					remove_idea = KSP_valkyrie_in_chaos_3
-					add_idea = KSP_valkyrie_comeback
-				}
-			}
-			if = 
-			{
-				limit = { has_idea = KSP_valkyrie_in_chaos_4 }
-				swap_ideas = {	
-					remove_idea = KSP_valkyrie_in_chaos_4
-					add_idea = KSP_valkyrie_comeback
-				}
-			}
-			add_stability = 0.05
-		}
-	}
 }		
