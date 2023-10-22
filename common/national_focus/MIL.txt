@@ -3167,12 +3167,20 @@ focus_tree = {
 		} 
 		completion_reward = { #중점 효과
 		 #근데 이거 여기다가 밀레니엄 색깔 바뀌게 하면 안되나
+			set_power_balance = {
+				id = MIL_AL_1S_humanity
+				set_default = yes # whether or not to reset the power balance to the initial value, default = no
+			}
 			set_party_name = {
 				ideology = fascism
 				long_name = MIL_fascism_AL_1S_party_long
 				name = MIL_fascism_AL_1S_party
 			}
         	set_cosmetic_tag = MIL_AL_1S
+			add_named_threat = {
+				threat = 20
+				name = MIL_broken_cog
+			}
             news_event = { id = BA_news.25  hours = 8 }
 		}		
 	}
@@ -3451,6 +3459,52 @@ focus_tree = {
 		}
 	}
 
+	focus = { # 아프리카로의 여정
+		id = MIL_travel_africa
+		icon = GFX_focus_attack_france
+		cost = 5.00
+		prerequisite = { focus = MIL_ship_of_ATRAHASIS }
+		available = {
+			has_war_with = FRA
+		}
+		x = 2
+		y = 1
+		relative_position_id = MIL_ship_of_ATRAHASIS
+		completion_reward = {
+			add_timed_idea = {
+				idea = MIL_travel_africa_idea
+				days = 180
+			}	
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = land_doctrine
+			}
+			army_experience = 5
+			navy_experience = 5
+			air_experience = 5
+		}
+	}
+
+	focus = { # 프랑스 완전점령
+		id = MIL_theres_nofrance
+		icon = unknown
+		cost = 10.00
+		prerequisite = { focus = MIL_travel_africa }
+		available = {
+			NOT = {
+				has_war_with = FRA
+				has_idea = MIL_travel_africa_idea
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id = MIL_travel_africa
+		completion_reward = {
+
+		}
+	}
+
 	focus = { # 다차원해석 이용
 		id = MIL_multidimensional_analysis
 		icon = GFX_focus_generic_annex_country
@@ -3521,102 +3575,6 @@ focus_tree = {
 				category = nuclear
 			}
 			custom_effect_tooltip = MIL_nuclear_bow_tt
-		}
-	}
-
-	focus = { # 재사회화
-		id = MIL_re_social
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_ship_of_ATRAHASIS }
-		mutually_exclusive = { focus = MIL_iron_robots }
-		x = 2
-		y = 1
-		relative_position_id = MIL_ship_of_ATRAHASIS
-		completion_reward = {
-		}
-	}
-
-	focus = { # 세뇌
-		id = MIL_Brain_washing
-		icon = GFX_focus_generic_annex_country_2
-		cost = 5.00
-		prerequisite = { focus = MIL_re_social }
-		x = 0
-		y = 1
-		relative_position_id = MIL_re_social
-		completion_reward = {
-		}
-	}
-
-	focus = { # 강철 기계
-		id = MIL_iron_robots
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_ship_of_ATRAHASIS }
-		mutually_exclusive = { focus = MIL_re_social }
-		x = 6
-		y = 1
-		relative_position_id = MIL_ship_of_ATRAHASIS
-		completion_reward = {
-		}
-	}
-
-	focus = { # 레지스탕스 분쇄
-		id = MIL_kill_resistance
-		icon = GFX_focus_eng_move_to_secure_the_dominions
-		cost = 5.00
-		prerequisite = { focus = MIL_re_social focus = MIL_iron_robots}
-		x = 2
-		y = 1
-		relative_position_id = MIL_re_social
-		completion_reward = {
-		}
-	}
-
-	focus = { # 아프리카로의 여정
-		id = MIL_travel_africa
-		icon = GFX_focus_attack_france
-		cost = 5.00
-		prerequisite = { focus = MIL_kill_resistance }
-		available = {
-			has_war_with = FRA
-		}
-		x = 0
-		y = 1
-		relative_position_id = MIL_kill_resistance
-		completion_reward = {
-			add_timed_idea = {
-				idea = MIL_travel_africa_idea
-				days = 180
-			}	
-			add_doctrine_cost_reduction = {
-				cost_reduction = 0.5
-				uses = 2
-				category = land_doctrine
-			}
-			army_experience = 5
-			navy_experience = 5
-			air_experience = 5
-		}
-	}
-
-	focus = { # 프랑스 완전점령
-		id = MIL_theres_nofrance
-		icon = unknown
-		cost = 10.00
-		prerequisite = { focus = MIL_travel_africa }
-		available = {
-			NOT = {
-				has_war_with = FRA
-				has_idea = MIL_travel_africa_idea
-			}
-		}
-		x = 0
-		y = 1
-		relative_position_id = MIL_travel_africa
-		completion_reward = {
-
 		}
 	}
 
@@ -3698,6 +3656,12 @@ focus_tree = {
 		cost = 8.00
 		prerequisite = { focus = MIL_use_inwar }
 		prerequisite = { focus = MIL_all_kill }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MIL_clean_fance_trigger_tt
+				check_variable = { MIL_purified_week > 3 }
+			}
+		}
 		x = 0
 		y = 1
 		relative_position_id = MIL_use_inwar
@@ -3792,7 +3756,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_make_own_skills
 		completion_reward = {
-			set_variable = { MIL_semina_idea_civilian_factory_use = 0 }
+			set_variable = { MIL_purified_week = 0 }
+			set_variable = { MIL_taken_to_purify = 70 }
 			custom_effect_tooltip = MIL_all_kill_tt
 			unlock_decision_tooltip = MIL_reskill_all
 		}
@@ -3807,6 +3772,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_all_kill
 		completion_reward = {
+			custom_effect_tooltip = MIL_claer_world_tt
+			set_variable = { MIL_taken_to_purify = 35 }
 		}
 	}
 
@@ -3855,6 +3822,12 @@ focus_tree = {
 		prerequisite = { focus = MIL_queens_dance }
 		prerequisite = { focus = MIL_use_robots }
 		mutually_exclusive = { focus = MIL_new_ego }
+		available = {
+			power_balance_value = {
+				id = MIL_AL_1S_humanity
+				value < -0.20
+			}
+		}
 
 		x = 3
 		y = 1
@@ -3872,128 +3845,22 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_people_destoyed
 		completion_reward = {
-		}
-	}
-
-	focus = { # 동부
-		id = MIL_war_in_east
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_take_schools }
-		x = -3
-		y = 1
-		relative_position_id = MIL_take_schools
-		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = HEU
+			every_country = {
+				limit = {
+					Kivotos_school_tag = yes
+					NOT = { tag = MIL }
+				}
+				create_wargoal = {
+					target = PREV
+					type = annex_everything
+				}
+				MIL = {
+					create_wargoal = {
+						target = PREV
+						type = annex_everything
+					}
+				}
 			}
-			create_wargoal = {
-				type = annex_everything
-				target = GEH
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = TRM
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = ABY
-			}
-		}
-	}
-
-	focus = { # 서부
-		id = MIL_war_in_west
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_take_schools }
-		x = -1
-		y = 1
-		relative_position_id = MIL_take_schools
-		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = SRT
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = KAI
-			}
-		}
-	}
-
-	focus = { # 동서부 확보
-		id = MIL_take_eastwest
-		icon = unknown
-		cost = 10.00
-		prerequisite = { focus = MIL_war_in_east }
-		prerequisite = { focus = MIL_war_in_west }
-		x = -1
-		y = 1
-		relative_position_id = MIL_war_in_west
-		completion_reward = {
-		}
-	}
-
-	focus = { # 남부
-		id = MIL_war_in_south
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_take_schools }
-		x = 1
-		y = 1
-		relative_position_id = MIL_take_schools
-		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = HYA
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = SHA
-			}
-		}
-	}
-
-	focus = { # 북부
-		id = MIL_war_in_north
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_take_schools }
-		x = 3
-		y = 1
-		relative_position_id = MIL_take_schools
-		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = COU
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = KSP
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = SHE
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = RED
-			}
-		}
-	}
-
-	focus = { # 남북부 확보
-		id = MIL_take_north_south
-		icon = unknown
-		cost = 10.00
-		prerequisite = { focus = MIL_war_in_north }
-		prerequisite = { focus = MIL_war_in_south }
-		x = -1
-		y = 1
-		relative_position_id = MIL_war_in_north
-		completion_reward = {
 		}
 	}
 
@@ -4001,7 +3868,7 @@ focus_tree = {
 		id = MIL_have_all_schools
 		icon = GFX_focus_SWI_dissolve_the_federal_council
 		cost = 10.00
-		prerequisite = { focus = MIL_war_in_east focus = MIL_war_in_west focus = MIL_war_in_south focus = MIL_war_in_north}
+		prerequisite = { focus = MIL_take_schools }
 		x = 0
 		y = 2
 		relative_position_id = MIL_take_schools
@@ -4030,6 +3897,12 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_queens_dance }
 		mutually_exclusive = { focus = MIL_people_destoyed }
+		available = {
+			power_balance_value = {
+				id = MIL_AL_1S_humanity
+				value > 0.7
+			}
+		}
 		x = -3
 		y = 1
 		relative_position_id = MIL_queens_dance
