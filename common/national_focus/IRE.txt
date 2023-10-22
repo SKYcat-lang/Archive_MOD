@@ -601,11 +601,15 @@ focus_tree = {
 		completion_reward = {
 			every_country = {
         		limit = {
-            		has_government = communism
-            		any_state = {
-                		is_capital = yes
-                		is_on_continent = europe
-           			}
+					AND = {
+            			has_government = communism
+            			any_state = {
+                			AND = {
+                				is_capital = yes
+                				is_on_continent = europe
+							}
+           				}
+					}	
         		}
         		save_event_target_as = fuking_communist
    			}
@@ -634,11 +638,15 @@ focus_tree = {
 		completion_reward = {
 			every_country = {
 				limit = {
-					has_government = fascism
-					any_state = {
-						is_capital = yes
-						is_on_continent = europe
-					   }
+					AND = {
+            			has_government = fascism
+            			any_state = {
+							AND = {
+                				is_capital = yes
+                				is_on_continent = europe
+							}
+           				}
+					}
 				}
 				save_event_target_as = fuking_fascism
 			}
@@ -842,13 +850,16 @@ focus_tree = {
 		}
 	}
 
-	focus = { # 켈트 제국 복원
-		id = IRE_ireland_celt
-		icon = GFX_goal_unknown
-		cost = 5.00
+	focus = { # 친위대 창설
+		id = IRE_ireland_bodyguard
+		icon = GFX_focus_ITA_generic_fascist_workers
+		cost = 10.00
 		prerequisite = { focus = IRE_fascism_goverment }
-		mutually_exclusive = { focus = IRE_very_big_ireland}
-		x = 2
+		available = {
+			has_government = fascism
+			has_war = no
+		}
+		x = -2
 		y = 1
 		relative_position_id = IRE_fascism_goverment
 
@@ -861,15 +872,508 @@ focus_tree = {
 		}
 	}
 
-	focus = { # 대아일랜드를 향하여
-		id = IRE_very_big_ireland
+	focus = { # 켈트 제국 복원
+		id = IRE_ireland_celt
 		icon = GFX_goal_unknown
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = IRE_fascism_goverment }
-		mutually_exclusive = { focus = IRE_ireland_celt }
-		x = -2
+		x = 0
 		y = 1
 		relative_position_id = IRE_fascism_goverment
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			set_cosmetic_tag = IRE_CELT_fascism
+			add_state_core = 119
+			add_state_core = 120
+			add_state_core = 136
+			add_state_core = 133
+			add_state_core = 121
+			add_state_core = 122
+			add_state_core = 14
+		}
+	}
+
+	focus = { # 스코틀랜드 확보
+		id = IRE_scotland_celt
+		icon = GFX_goal_generic_major_war
+		cost = 5.00
+		prerequisite = { focus = IRE_ireland_celt }
+		x = 1
+		y = 1
+		relative_position_id = IRE_ireland_celt
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					any_country = {
+						limit = {
+							controls_state = 120
+							controls_state = 136
+							controls_state = 133
+							controls_state = 121
+						}
+					}	
+				}
+				save_event_target_as = scotland_celt_target
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = event_target:scotland_celt_target
+			}
+		}
+	}
+
+	focus = { # 웨일스 합병
+		id = IRE_wales_celt
+		icon = GFX_goal_generic_major_war
+		cost = 5.00
+		prerequisite = { focus = IRE_ireland_celt }
+		x = -1
+		y = 1
+		relative_position_id = IRE_ireland_celt
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					any_country = {
+						limit = {
+							controls_state = 122
+						}
+					}	
+				}
+				save_event_target_as = wales_celt_target
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = event_target:wales_celt_target
+			}
+		}
+	}
+
+	focus = { # 브르타뉴 침공
+		id = IRE_bretagne_celt
+		icon = GFX_goal_generic_major_war
+		cost = 5.00
+		prerequisite = { focus = IRE_ireland_celt }
+		x = -3
+		y = 1
+		relative_position_id = IRE_ireland_celt
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = SRT
+			}
+		}
+	}
+
+	focus = { # 프랑스 영토 합병
+		id = IRE_france_celt
+		icon = GFX_focus_attack_france
+		cost = 10.00
+		prerequisite = { focus = IRE_bretagne_celt }
+		prerequisite = { focus = IRE_wales_celt }
+		available = {
+			OR = {
+				country_exists = MIL
+				country_exists = FRA
+			}
+		}
+		x = 1
+		y = 1
+		relative_position_id = IRE_bretagne_celt
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = MIL
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = MIL
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						country_exists = FRA
+						FRA = {
+							any_state = {
+								limit = {
+									AND = {
+										is_capital = yes
+										is_on_continent = europe
+									}
+								}
+							}
+						}	
+					}
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = FRA
+				}
+			}
+		}
+	}
+
+	focus = { # 브리튼 제도 공습
+		id = IRE_england_celt
+		icon = GFX_focus_attack_britain
+		cost = 10.00
+		prerequisite = { focus = IRE_scotland_celt }
+		
+		available = {
+			OR = {
+				country_exists = KAI
+				country_exists = ENG
+			}
+		}
+		x = 4
+		y = 1
+		relative_position_id = IRE_bretagne_celt
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = KAI
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = KAI
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						country_exists = ENG
+						ENG = {
+							any_state = {
+								limit = {
+									AND = {
+										is_capital = yes
+										is_on_continent = europe
+									}
+								}
+							}	
+						}	
+					}
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = ENG
+				}
+			}
+		}
+	}
+
+	focus = { # 대아일랜드 선포
+		id = IRE_bigbig_ireland
+		icon = GFX_goal_generic_propaganda
+		cost = 10.00
+		prerequisite = { focus = IRE_england_celt }
+		prerequisite = { focus = IRE_france_celt }
+		x = -1.5
+		y = 1
+		relative_position_id = IRE_england_celt
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			set_cosmetic_tag = IRE_BIG
+		}
+	}
+
+	focus = { # 알프스를 넘어
+		id = IRE_travel_alps
+		icon = GFX_focus_GRE_a_land_of_mountains
+		cost = 5.00
+		prerequisite = { focus = IRE_bigbig_ireland }
+		x = -1
+		y = 1
+		relative_position_id = IRE_bigbig_ireland
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					any_country = {
+						limit = {
+							controls_state = 845
+							controls_state = 3
+							controls_state = 847
+							controls_state = 151
+							controls_state = 846
+							controls_state = 158
+							controls_state = 159
+							controls_state = 850
+							controls_state = 39
+							controls_state = 160
+							controls_state = 848
+							controls_state = 153
+							controls_state = 152
+							controls_state = 4
+							controls_state = 949
+						}
+					}	
+				}
+				save_event_target_as = big_ireland_alpes_target
+			}
+			
+			create_wargoal = {
+				type = annex_everything
+				target = event_target:big_ireland_alpes_target
+			}
+		}
+	}
+
+	focus = { # 스페인 공격
+		id = IRE_spain_attack
+		icon = GFX_focus_focus_fra_intervention_spain
+		cost = 10.00
+		prerequisite = { focus = IRE_travel_alps }
+		x = 0
+		y = 1
+		relative_position_id = IRE_travel_alps
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = SPR
+			}
+		}
+	}
+
+	focus = { # 독일 영토 합병
+		id = IRE_germany_attack
+		icon = GFX_goal_generic_territory_or_war
+		cost = 10.00
+		prerequisite = { focus = IRE_travel_alps }
+		x = -2
+		y = 1
+		relative_position_id = IRE_travel_alps
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = GEH
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = GEH
+				}
+			}
+			if = {
+				limit = {
+					country_exists = TRM
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = TRM
+				}
+			}
+		}
+	}
+
+	focus = { # 사회주의 분쇄
+		id = IRE_attack_soviet
+		icon = GFX_focus_attack_soviet
+		cost = 10.00
+		prerequisite = { focus = IRE_germany_attack }
+		prerequisite = { focus = IRE_spain_attack }
+		x = 2
+		y = 1
+		relative_position_id = IRE_germany_attack
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = SOV
+			}
+		}
+	}
+
+	focus = { # 배네룩스 합병
+		id = IRE_attack_benelux
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		cost = 5.00
+		prerequisite = { focus = IRE_bigbig_ireland }
+		x = 1
+		y = 1
+		relative_position_id = IRE_bigbig_ireland
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = COU
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = COU
+				}
+			}
+			if = {
+				limit = {
+					country_exists = SHE
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = SHE
+				}
+			}
+			if = {
+				limit = {
+					country_exists = KSP
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = KSP
+				}
+			}
+		}
+	}
+
+	focus = { # 북유럽 확보
+		id = IRE_attack_north_europe
+		icon = GFX_goal_generic_attack_allies
+		cost = 10.00
+		prerequisite = { focus = IRE_attack_benelux }
+		x = 0
+		y = 1
+		relative_position_id = IRE_attack_benelux
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = RED
+			}
+		}
+	}
+
+	focus = { # 발트 3국 지배
+		id = IRE_attack_balt
+		icon = GFX_focus_SOV_baltic_security
+		cost = 10.00
+		prerequisite = { focus = IRE_attack_benelux }
+		x = 2
+		y = 1
+		relative_position_id = IRE_attack_benelux
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = LIT
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = LIT
+				}
+			}
+			if = {
+				limit = {
+					country_exists = LAT
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = LAT
+				}
+			}
+			if = {
+				limit = {
+					country_exists = EST
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = EST
+				}
+			}
+		}
+	}
+
+	focus = { # 미국 공격
+		id = IRE_attck_usa
+		icon = GFX_focus_spa_the_war_of_vengeance
+		cost = 10.00
+		prerequisite = { focus = IRE_attack_balt }
+		prerequisite = { focus = IRE_attack_north_europe }
+		x = -2
+		y = 1
+		relative_position_id = IRE_attack_balt
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = USA
+			}
+		}
+	}
+
+	focus = { # 꺼지지 않는 불꽃
+		id = IRE_foever_ireland
+		icon = GFX_focus_spr_torchbearers_of_tomorrow
+		cost = 10.00
+		prerequisite = { focus = IRE_attck_usa }
+		prerequisite = { focus = IRE_attack_soviet }
+		x = -1
+		y = 1
+		relative_position_id = IRE_attck_usa
 
 		ai_will_do = {
 			base = 40

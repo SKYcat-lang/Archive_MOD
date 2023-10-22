@@ -5,6 +5,7 @@ technologies = {
         }
 		enable_equipments = {
 			kivotos_infantry_equipment_0
+			kivotos_infantry_equipment_1
 		}
 
 		path = {
@@ -16,6 +17,7 @@ technologies = {
 			leads_to_tech = kivotos_halo_max_upgrade 
 			research_cost_coeff = 1
 		}
+
 		on_research_complete = {
 			custom_effect_tooltip = kivotos_infantry_weapons_tt
 			hidden_effect = {
@@ -30,7 +32,7 @@ technologies = {
 						division_names_group = BA_INF_01
 						is_locked = yes
 						force_allow_recruiting = yes
-						division_cap = 12
+						division_cap = 6
 						regiments = {
 							halo_infantry = { x = 0 y = 0 }
 							halo_infantry = { x = 0 y = 1 }
@@ -43,9 +45,10 @@ technologies = {
 							halo_infantry = { x = 2 y = 2 }
 						}
 						support = {
-							engineer = { x = 0 y = 0 }
-							artillery = { x = 0 y = 1 }
-							anti_air = { x = 0 y = 2 }
+							halo_recon = { x = 0 y = 0 }
+							engineer = { x = 0 y = 1 }
+							artillery = { x = 0 y = 2 }
+							anti_air = { x = 0 y = 3 }
 						}
 					}
 				}
@@ -86,11 +89,6 @@ technologies = {
 		}
 
 		path = {
-			leads_to_tech = kivotos_halo_recon 
-			research_cost_coeff = 1
-		}
-
-		path = {
 			leads_to_tech = kivotos_halo_upgrade_1 
 			research_cost_coeff = 1
 		}
@@ -115,6 +113,7 @@ technologies = {
 	}
 	kivotos_halo_upgrade_1  = {
 		halo_infantry = {
+			supply_consumption = 0.1
 			max_organisation = 5
 			hardness = 0.15
 		}
@@ -129,22 +128,27 @@ technologies = {
 			research_cost_coeff = 1
 		}
 		
+		path = {
+			leads_to_tech = mystery_analysis 
+			research_cost_coeff = 1
+		}
+		
 		
 		ai_will_do = {
 			factor = 100
 						
 			modifier = {
-				factor = 100
+				factor = 500
 				date > "1938.1.1"
 			}
 						
 			modifier = {
-				factor = 100
+				factor = 500
 				date > "1939.1.1"
 			}
 						
 			modifier = {
-				factor = 500
+				factor = 1000
 				date > "1940.1.1"
 			}
 		}
@@ -164,28 +168,72 @@ technologies = {
 	}
 	kivotos_halo_heavy_infantry  = {
 
-		XOR = { kivotos_halo_light_infantry }
-
 		halo_infantry = {
-			supply_consumption = 0.10
-			combat_width = 1.5
-			soft_attack = 0.30
-			hard_attack = 0.30
-			breakthrough = 0.15
+			supply_consumption = 0.1
+			soft_attack = 0.10
+			hard_attack = 0.10
+			breakthrough = 0.05
+		}
+		
+
+		path = {
+			leads_to_tech = kivotos_halo_special_forces
+			research_cost_coeff = 1
 		}
 		
 		
 		ai_will_do = {
-			factor = 100
+			factor = 200
 						
 			modifier = {
-				factor = 100
-				date > "1940.1.1"
+				factor = 200
+				date > "1939.1.1"
 			}
 						
 			modifier = {
-				factor = 100
+				factor = 300
+				date > "1939.6.1"
+			}
+						
+			modifier = {
+				factor = 1000
+				date > "1940.1.1"
+			}
+		}
+		
+		research_cost = 1.5
+		
+		start_year = 1939
+
+		folder = {
+			name = mystic_engineering_folder
+			position = { x = -1 y = 9 }
+		}
+		
+		categories = {
+			mystic_engineering
+		}
+	}
+	kivotos_halo_special_forces  = {
+		
+		show_effect_as_desc = yes
+
+		halo_infantry = {
+			soft_attack = 0.05
+		}
+		
+		
+		ai_will_do = {
+			factor = 200
+						
+			modifier = {
+				factor = 200
 				date > "1941.1.1"
+			}
+						
+			modifier = {
+				factor = 300
+				date > "1941.6.1"
 			}
 						
 			modifier = {
@@ -193,14 +241,60 @@ technologies = {
 				date > "1942.1.1"
 			}
 		}
+
+		on_research_complete = {
+			custom_effect_tooltip = kivotos_halo_special_forces_tt
+			hidden_effect = {
+				set_variable = { ROOT.halo_special_forces_cap = 4 } # 사단 제한, 헤일로 특수부대의 사단 제한과 같아야 함'
+				if = {
+					limit = {
+						NOT = { has_template = "Halo Special Forces" }
+					}
+					
+					division_template = {
+						name = "Halo Special Forces"		
+						division_names_group = BA_INF_01
+						is_locked = yes
+						force_allow_recruiting = yes
+						division_cap = 4
+						regiments = {
+							halo_special_forces = { x = 0 y = 0 }
+							halo_special_forces = { x = 0 y = 1 }
+							halo_special_forces = { x = 0 y = 2 }
+							halo_special_forces = { x = 1 y = 0 }
+							halo_special_forces = { x = 1 y = 1 }
+							halo_special_forces = { x = 1 y = 2 }
+							halo_special_forces = { x = 2 y = 0 }
+							halo_special_forces = { x = 2 y = 1 }
+							halo_special_forces = { x = 2 y = 2 }
+						}
+						support = {
+							halo_recon = { x = 0 y = 0 }
+							engineer = { x = 0 y = 1 }
+							artillery = { x = 0 y = 2 }
+							anti_air = { x = 0 y = 3 }
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_template = "Halo Special Forces"
+					}
+					set_division_template_cap = {
+						division_template = "Halo Special Forces"
+						division_cap = ROOT.halo_special_forces_cap
+					}
+				}
+			}
+		}
 		
 		research_cost = 1.5
 		
-		start_year = 1940
+		start_year = 1941
 
 		folder = {
 			name = mystic_engineering_folder
-			position = { x = 1 y = 11 }
+			position = { x = -2 y = 13 }
 		}
 		
 		categories = {
@@ -209,12 +303,14 @@ technologies = {
 	}
 	kivotos_halo_light_infantry  = {
 
-		XOR = { kivotos_halo_heavy_infantry }
-
 		halo_infantry = {
-			max_organisation = 10
+			max_organisation = 5
 		}
-		
+
+		path = {
+			leads_to_tech = kivotos_artificial_halo_low 
+			research_cost_coeff = 1
+		}
 		
 		on_research_complete = {
 			custom_effect_tooltip = kivotos_halo_max_upgrade_tt
@@ -246,7 +342,7 @@ technologies = {
 			}
 						
 			modifier = {
-				factor = 500
+				factor = 2000
 				date > "1942.1.1"
 			}
 		}
@@ -257,7 +353,7 @@ technologies = {
 
 		folder = {
 			name = mystic_engineering_folder
-			position = { x = -1 y = 11 }
+			position = { x = 1 y = 11 }
 		}
 		
 		categories = {
@@ -305,17 +401,17 @@ technologies = {
 			factor = 100
 						
 			modifier = {
-				factor = 100
+				factor = 500
 				date > "1937.1.1"
 			}
 						
 			modifier = {
-				factor = 100
+				factor = 500
 				date > "1937.6.1"
 			}
 						
 			modifier = {
-				factor = 500
+				factor = 1000
 				date > "1938.1.1"
 			}
 		}
@@ -361,17 +457,17 @@ technologies = {
 			factor = 100
 						
 			modifier = {
-				factor = 100
+				factor = 400
 				date > "1938.1.1"
 			}
 						
 			modifier = {
-				factor = 100
+				factor = 400
 				date > "1938.6.1"
 			}
 						
 			modifier = {
-				factor = 500
+				factor = 800
 				date > "1939.1.1"
 			}
 		}
@@ -382,38 +478,146 @@ technologies = {
 		
 		show_effect_as_desc = yes
 	}
+	mystery_correspondence = {
+		allow = {
+			any_enemy_country = {
+				has_tech = kivotos_infantry_weapons
+			}
+        }
+		
+		path = {
+			leads_to_tech = mystery_analysis 
+			research_cost_coeff = 1
+		}
+
+		category_all_infantry = {
+			hard_attack = 0.05
+			ap_attack = 0.10
+		}
+		
+		ai_will_do = {
+			factor = 4000
+		}
+		
+		research_cost = 1
+		
+		start_year = 1936
+
+		folder = {
+			name = mystic_engineering_folder
+			position = { x = 5 y = 0 }
+		}
+		
+		categories = {
+			mystic_engineering
+		}
+	}
+	mystery_analysis = {
+
+		research_speed_factor = 0.05
+		
+		path = {
+			leads_to_tech = kivotos_artificial_halo_low 
+			research_cost_coeff = 1
+		}
+		
+		ai_will_do = {
+			factor = 200
+						
+			modifier = {
+				factor = 300
+				date > "1939.1.1"
+			}
+						
+			modifier = {
+				factor = 300
+				date > "1939.6.1"
+			}
+						
+			modifier = {
+				factor = 1000
+				date > "1940.1.1"
+			}
+		}
+		
+		research_cost = 2.5
+		
+		start_year = 1939
+
+		folder = {
+			name = mystic_engineering_folder
+			position = { x = 4 y = 9 }
+		}
+		
+		categories = {
+			mystic_engineering
+		}
+	}
+	kivotos_artificial_halo_low  = {
+		enable_subunits = {
+			low_halo_infantry
+		}
+		
+		enable_equipments = {
+			kivotos_infantry_equipment_0
+		}
+		
+		ai_will_do = {
+			factor = 200
+						
+			modifier = {
+				factor = 300
+				date > "1942.1.1"
+			}
+						
+			modifier = {
+				factor = 300
+				date > "1942.6.1"
+			}
+						
+			modifier = {
+				factor = 1000
+				date > "1943.1.1"
+			}
+		}
+		
+		research_cost = 2.5
+		
+		start_year = 1942
+
+		folder = {
+			name = mystic_engineering_folder
+			position = { x = 3 y = 15 }
+		}
+		
+		categories = {
+			mystic_engineering
+		}
+	}
 	kivotos_halo_recon  = {
 		enable_subunits = {
 			halo_recon
 		}
+		allow = {
+			has_tech = tech_support
+			OR = {
+				has_tech = kivotos_infantry_weapons
+				has_tech = kivotos_artificial_halo_low
+			}
+        }
 		
 		
 		ai_will_do = {
-			factor = 100
-						
-			modifier = {
-				factor = 100
-				date > "1937.1.1"
-			}
-						
-			modifier = {
-				factor = 100
-				date > "1937.6.1"
-			}
-						
-			modifier = {
-				factor = 500
-				date > "1938.1.1"
-			}
+			factor = 3000
 		}
 		
-		research_cost = 1.5
+		research_cost = 3
 		
-		start_year = 1937
+		start_year = 1936
 
 		folder = {
 			name = mystic_engineering_folder
-			position = { x = 1 y = 5 }
+			position = { x = 2 y = 0 }
 		}
 		
 		ai_will_do = {

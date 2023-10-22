@@ -11,7 +11,7 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		NOT = { has_war_with = RED }
+		NOT = { has_war_with = FROM }
 	}
 
 	option = {
@@ -23,13 +23,13 @@ country_event = {
 				is_historical_focus_on = yes
 			}
 		}
-		RED = { country_event = { id = RED_event.2 days = 1 } }
+		FROM = { country_event = { id = RED_event.2 days = 1 } }
 		effect_tooltip = {
-			RED = {
+			FROM = {
 				transfer_state = 281
 				add_state_core = 281
 			}
-			GEN = {
+			ROOT = {
 				remove_state_claim = 281
 			}
 		}
@@ -42,7 +42,7 @@ country_event = {
 			modifier = {
 				factor = 3
 				strength_ratio = {
-					tag = RED
+					tag = FROM
 					ratio > 0.7
 				}
 			}
@@ -50,37 +50,37 @@ country_event = {
 				factor = 10
 				any_other_country = {
 					is_major = yes
-					is_in_faction_with = GEN
+					is_in_faction_with = ROOT
 				}
 			}
 		}
-		RED = {
+		FROM = {
 			country_event = { id = RED_event.3 days = 1 }
 			if = {
 				limit = {
-					is_in_faction_with = GEN
+					is_in_faction_with = ROOT
 					is_faction_leader = yes
 				}
-				remove_from_faction = GEN
+				remove_from_faction = ROOT
 			}
 			if = {
 				limit = {
-					is_in_faction_with = GEN
+					is_in_faction_with = ROOT
 					is_faction_leader = no
 				}
 				random_other_country = {
 					limit = {
-						is_in_faction_with = RED
+						is_in_faction_with = FROM
 						is_faction_leader = yes
 					}
-					remove_from_faction = RED
+					remove_from_faction = FROM
 				}
 			}
 		}
 		effect_tooltip = {
-			RED = {
-				declare_war_on = {
-					target = GEN
+			FROM = {
+				create_wargoal = {
+					target = ROOT
 					type = take_state
 					generator = { 281 }
 				}
@@ -100,11 +100,11 @@ country_event = {
 
 	option = {
 		name = RED_event.2.a
-		RED = {
+		ROOT = {
 			transfer_state = 281
 			add_state_core = 281
 		}
-		GEN = {
+		FROM = {
 			remove_state_claim = 281
 		}
 	}
@@ -123,17 +123,17 @@ country_event = {
 		name = RED_event.3.a
 		if = {
 			limit = {
-				GEN = {
+				FROM = {
 					is_subject = yes
 					OVERLORD = {
-						has_non_aggression_pact_with = RED
+						has_non_aggression_pact_with = ROOT
 					}
 				}
 			}
-			GEN = {
+			FROM = {
 				OVERLORD = {
 					diplomatic_relation = {
-						country = RED
+						country = ROOT
 						relation = non_aggression_pact
 						active = no
 					}
@@ -142,31 +142,31 @@ country_event = {
 		}
 		if = {
 			limit = {
-				GEN = {
-					has_non_aggression_pact_with = RED
+				FROM = {
+					has_non_aggression_pact_with = ROOT
 				}
 			}
-			GEN = {
+			FROM = {
 				diplomatic_relation = {
-					country = RED
+					country = ROOT
 					relation = non_aggression_pact
 					active = no
 				}
 			}
 			every_other_country = {
 				limit = {
-					has_non_aggression_pact_with = RED
+					has_non_aggression_pact_with = ROOT
 				}
 				add_opinion_modifier = {
-					target = RED
+					target = ROOT
    					modifier = protest_action_strong
 				}
 			}
 		}
 		create_wargoal = {
+			target = FROM
 			type = take_state
 			generator = { 281 }
-			target = GEN
 		}
 		add_state_core = 281
 	}
@@ -179,26 +179,18 @@ country_event = { #키보토스 통일 요구
 	picture = GFX_report_event_stalin_propaganda
 
 	is_triggered_only = yes
-	
-	trigger = {
-		#tag = ROOT
-		ROOT = {
-			#tag = ROOT
-			any_owned_state = { is_claimed_by = FROM }
-		}
-	}
 		
 	option = { #수락
 		name = RED_unite_kibotos.1.a
 		ai_chance = {
-			factor = 50
+			factor = 10
 		}
 		FROM = { country_event = { days = 2 id = RED_unite_kibotos.2 } }
 	}
 	option = { #거절
 		name = RED_unite_kibotos.1.b
 		ai_chance = { 
-			factor = 50
+			factor = 90
 			modifier = {
 				factor = 5
 				strength_ratio = {
@@ -221,10 +213,7 @@ country_event = { #통일 수락
 
 	option = {
 		name = RED_unite_kibotos.2.a
-		annex_country = {
-			target = FROM
-			transfer_troops = yes
-		}
+		ROOT = { puppet = FROM }
 		add_named_threat = { threat = 5 name = RED_unite_kibotos_threat_RED }
 	}
 }
@@ -239,43 +228,5 @@ country_event = { #통일 거부
 
 	option = {
 		name = RED_unite_kibotos.3.a
-		if = {
-			limit = {
-				FROM = {
-					is_subject = yes
-					OVERLORD = {
-						has_non_aggression_pact_with = RED
-					}
-				}
-			}
-			FROM = {
-				OVERLORD = {
-					diplomatic_relation = {
-						country = RED
-						relation = non_aggression_pact
-						active = no
-					}
-				}
-			}
-		}
-		if = {
-			limit = {
-				FROM = {
-					has_non_aggression_pact_with = RED
-				}
-			}
-			FROM = {
-				diplomatic_relation = {
-					country = RED
-					relation = non_aggression_pact
-					active = no
-				}
-			}
-		}
-		create_wargoal = {
-			type = annex_everything
-			generator = { }
-			target = FROM
-		}
 	}
 }
