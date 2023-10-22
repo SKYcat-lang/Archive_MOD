@@ -8,138 +8,117 @@ focus_tree = {
 		}
 	}
 	default = no
+
 	focus = {
-		id = KAI_FOCUS_0
-		icon = GFX_goal_kai_focus_1
-		cost = 0.2
-        available = {
-        }
-		x = 12
+		id = KAI_war_logistics
+		icon = GFX_goal_generic_position_armies
+
+		x = 2
 		y = 0
-		completion_reward = {
-			add_political_power = 150
+		cost = 5
+		bypass = {
+			NOT = { has_war_with = ENG }
 		}
 
+		available = {
+		}
+
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+			if = { limit = { 550 = { is_owned_and_controlled_by = ITA } }
+				550 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 1
+						instant_build = yes
+					}
+				}
+				550 = {
+					add_building_construction = {
+						type = naval_base
+						level = 2
+						province = 12766
+						instant_build = yes
+					}
+				}
+			}
+
+			if = { limit = { 559 = { is_owned_and_controlled_by = ITA } }
+				559 = {
+						add_building_construction = {
+							type = infrastructure
+							level = 1
+							instant_build = yes
+						}
+				}
+				559 = {
+					add_building_construction = {
+						type = naval_base
+						level = 2
+						province = 12991
+						instant_build = yes
+					}
+				}
+			}
+
+			if = { limit = { 844 = { is_owned_and_controlled_by = ITA } }
+				844 = {
+						add_building_construction = {
+							type = infrastructure
+							level = 1
+							instant_build = yes
+						}
+				}
+				844 = {
+					add_building_construction = {
+						type = naval_base
+						level = 2
+						province = 12941
+						instant_build = yes
+					}
+				}
+			}
+		}
 	}
 	focus = {
 		id = KAI_FOCUS_1
 		icon = GFX_focus_eng_move_to_secure_the_dominions
-		cost = 2.00
-		prerequisite = {
-			focus = KAI_FOCUS_0
-		}
-		x = 12
+		cost = 5
+		prerequisite = { focus = KAI_war_logistics }
+		x = 1
 		y = 1
+		relative_position_id = KAI_war_logistics
 		completion_reward = {
-			hidden_effect = {
-				remove_ideas = KAI_BONUS_ATTACK_TO_ENG
-				add_ideas = KAI_BONUS_TO_ENG
-			}
 			add_ideas = KAI_IS_STRONG
-		}
-	}
-	focus = {
-		id = KAI_FOCUS_2
-		icon = GFX_focus_eng_special_air_service
-		cost = 2.00
-		prerequisite = {
-			focus = KAI_FOCUS_1
-		}
-		x = 9
-		y = 2
-		completion_reward = {
-			add_manpower = 1000
+			add_manpower = 4000
 			add_equipment_to_stockpile = {
                 type = infantry_equipment
-                amount = 1000
+                amount = 4000
             }
 		}
-
-	}
-	focus = {
-		id = KAI_FOCUS_3
-		icon = GFX_focus_RAJ_lions_of_the_great_war
-		text  = KAI_FOCUS_2
-		cost = 2.00
-		prerequisite = {
-			focus = KAI_FOCUS_1
-		}
-		x = 11
-		y = 2
-		completion_reward = {
-			add_manpower = 1000
-			add_equipment_to_stockpile = {
-                type = infantry_equipment
-                amount = 1000
-            }
-		}
-
-	}
-	focus = {
-		id = KAI_FOCUS_5
-		icon = GFX_goal_generic_major_war
-		text  = KAI_FOCUS_2
-		cost = 2.00
-		prerequisite = {
-			focus = KAI_FOCUS_1
-		}
-		x = 15
-		y = 2
-		completion_reward = {
-			add_manpower = 1000
-			add_equipment_to_stockpile = {
-                type = infantry_equipment
-                amount = 1000
-            }
-
-		}
-
-	}
-	focus = {
-		id = KAI_FOCUS_4
-		icon = GFX_focus_generic_strike_at_democracy1
-		text  = KAI_FOCUS_2
-		cost = 2.00
-		prerequisite = {
-			focus = KAI_FOCUS_1
-		}
-		x = 13
-		y = 2
-		completion_reward = {
-			add_manpower = 1000
-			add_equipment_to_stockpile = {
-                type = infantry_equipment
-                amount = 1000
-            }
-
-		}
-
 	}
 	focus = {
 		id = KAI_FOCUS_8
 		icon = GFX_focus_POL_beck_ribbentrop
-		cost = 2.00
+		cost = 10
 		prerequisite = {
-			focus = KAI_FOCUS_5
-		}
-		prerequisite = {
-			focus = KAI_FOCUS_4
-		}
-		prerequisite = {
-			focus = KAI_FOCUS_3
-		}
-		prerequisite = {
-			focus = KAI_FOCUS_2
+			focus = KAI_FOCUS_1
 		}
 		available = {
 			has_country_flag = ENG_lose_global_flag
 		}
-		x = 12
-		y = 3
+		x = 1
+		y = 1
+		relative_position_id = KAI_FOCUS_1
 		completion_reward = {
 			remove_ideas = KAI_IS_STRONG
-			remove_ideas = KAI_BONUS_TO_ENG
-			load_focus_tree = GEH_lose_focus_tree
+			swap_ideas = {
+				remove_idea = KAI_total_war
+				add_idea = KAI_eco_impact
+			}
+			add_stability = -0.10
+			add_war_support = -0.10
 		}
 	}
 }
