@@ -228,6 +228,7 @@ focus_tree = {
 				id = FRA_prov_event.6
 				days = 3
 			}
+			unlock_decision_tooltip = FRA_africa_agri
 		}
 	}
 	focus = {
@@ -258,8 +259,14 @@ focus_tree = {
 					idea = FRA_MIL_bourgeois
 					days = 150
 				}
+				random_owned_state = {
+					remove_building = {
+						type = industrial_complex
+						level = 2
+					}
+				}
 			}
-			
+			unlock_decision_tooltip = FRA_support_bour
 		}
 	}
 	focus = {
@@ -3265,7 +3272,7 @@ focus_tree = {
 								damage = 0.3
 							}
 						}
-						2 = {
+						1 = {
 			
 						}
 					}
@@ -3283,12 +3290,9 @@ focus_tree = {
 			focus = FRA_focus_resistance_6
 		}
 		completion_reward = {
-			add_political_power = 100
+			add_political_power = 50
 			add_manpower = 10000
-			add_timed_idea = {
-				idea = FRA_lib_army
-				days = 500
-			}
+			add_ideas = FRA_lib_army
 		}
 	}
 	focus = { #산업역량총동원
@@ -3319,7 +3323,7 @@ focus_tree = {
 			focus = FRA_focus_resistance_8
 		}
 		completion_reward = {
-			add_political_power = 100
+			add_political_power = 50
 			create_intelligence_agency = yes
 		}
 	}
@@ -3421,7 +3425,7 @@ focus_tree = {
 		icon = GFX_goal_FRA_peupeongjoa4
 		id = FRA_focus_war_3
 		cost = 2
-		x = 3
+		x = 1
 		y = 14
 		available = {
 			23= {
@@ -3456,7 +3460,7 @@ focus_tree = {
 		icon = GFX_goal_FRA_peupeongjoa3
 		id = FRA_focus_war_4
 		cost = 2
-		x = 7
+		x = 9
 		y = 14
 		available = {
 			27 = {
@@ -3492,7 +3496,7 @@ focus_tree = {
 		icon = GFX_goal_FRA_peupeongjoa
 		cost = 4
 		x = 5
-		y = 15
+		y = 17
 		available = {
 			16 = {
 				is_owned_by = FRA
@@ -3500,13 +3504,16 @@ focus_tree = {
 			}
 		}
 		prerequisite = {
-			focus = FRA_focus_war_2
+			focus = FRA_focus_war_9
+			focus = FRA_focus_war_10
 		}
 		prerequisite = {
-			focus = FRA_focus_war_3
+			focus = FRA_focus_war_11
+			focus = FRA_focus_war_12
 		}
 		prerequisite = {
-			focus = FRA_focus_war_4
+			focus = FRA_focus_war_7
+			focus = FRA_focus_war_8
 		}
 		completion_reward = {
 			set_province_name = {
@@ -3524,12 +3531,259 @@ focus_tree = {
 			}
 		}
 	}
+	focus = { #현지 인력 징집
+		id = FRA_focus_war_7
+		cost = 4
+		icon = GFX_focus_spr_the_anti_fascist_workers_revolution
+		x = 0
+		y = 15
+		prerequisite = {
+			focus = FRA_focus_war_3
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_war_8
+		}
+		bypass = {
+			NOT = {
+				has_war_with = FRA
+			}
+		}
+		available = {
+			23 = {
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+		completion_reward = {
+			add_manpower = 300000
+		}
+	}
+	focus = { #대규모 시설 이전
+		id = FRA_focus_war_8
+		icon = GFX_goal_generic_construction
+		cost = 4
+		x = 2
+		y = 15
+		prerequisite = {
+			focus = FRA_focus_war_3
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_war_7
+		}
+		bypass = {
+			NOT = {
+				has_war_with = FRA
+			}
+		}
+		available = {
+			23 = {
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+		completion_reward = {
+			23 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+				}
+				add_building_construction = {
+					type = dockyard
+					level = 2
+				}
+			}
+		}
+	}
+	focus = { #해방군 확장
+		id = FRA_focus_war_9
+		icon = GFX_focus_focus_fra_revolution_utmost
+		cost = 4
+		x = 4
+		y = 15
+		prerequisite = {
+			focus = FRA_focus_war_2
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_war_10
+		}
+		bypass = {
+			NOT = {
+				has_war_with = FRA
+			}
+		}
+		available = {
+			22 = {
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = FRA_lib_army
+				add_idea = FRA_lib_army_1
+			}
+		}
+	}
+	focus = { #기지로의 활용
+		id = FRA_focus_war_10
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 4
+		x = 6
+		y = 15
+		prerequisite = {
+			focus = FRA_focus_war_2
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_war_9
+		}
+		bypass = {
+			NOT = {
+				has_war_with = FRA
+			}
+		}
+		available = {
+			22 = {
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+		completion_reward = {
+			
+		22 = {
+			add_building_construction = {
+				type = infrastructure
+				level = 2
+			}
+			add_building_construction = {
+				type = air_base
+				level = 2
+			}
+			add_building_construction = {
+				type = naval_base
+				level = 2
+				province = 9898
+			}
+		}
+		}
+	}
+	focus = { #물자 징발
+		id = FRA_focus_war_11
+		icon = GFX_goal_generic_army_artillery
+		cost = 4
+		x = 8
+		y = 15
+		prerequisite = {
+			focus = FRA_focus_war_4
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_war_12
+		}
+		bypass = {
+			NOT = {
+				has_war_with = FRA
+			}
+		}
+		available = {
+			27 = {
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = train_equipment
+				amount = 10
+			}
+			add_equipment_to_stockpile = {
+				type = motorized_equipment
+				amount = 300
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 20000
+			}
+		}
+	}
+	focus = { #레인저 부대
+		id = FRA_focus_war_12
+		icon = GFX_focus_GRE_a_land_of_mountains
+		cost = 4
+		x = 10
+		y = 15
+		prerequisite = {
+			focus = FRA_focus_war_4
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_war_11
+		}
+		available = {
+			27 = {
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+		bypass = {
+			NOT = {
+				has_war_with = FRA
+			}
+		}
+		completion_reward = {
+			27={
+				custom_effect_tooltip = FRA_focus_war_12_tt
+				hidden_effect = {
+					
+				create_unit = {
+					division = "name = \"Infanterie Alpine\" division_template = \"Division d'Infanterie Alpine\" start_experience_factor = 1 start_equipment_factor = 1" 
+					owner = FRA
+				}
+				create_unit = {
+					division = "name = \"Infanterie Alpine\" division_template = \"Division d'Infanterie Alpine\" start_experience_factor = 1 start_equipment_factor = 1" 
+					owner = FRA
+				}
+				create_unit = {
+					division = "name = \"Infanterie Alpine\" division_template = \"Division d'Infanterie Alpine\" start_experience_factor = 1 start_equipment_factor = 1" 
+					owner = FRA
+				}
+				create_unit = {
+					division = "name = \"Infanterie Alpine\" division_template = \"Division d'Infanterie Alpine\" start_experience_factor = 1 start_equipment_factor = 1" 
+					owner = FRA
+				}
+				create_unit = {
+					division = "name = \"Infanterie Alpine\" division_template = \"Division d'Infanterie Alpine\" start_experience_factor = 1 start_equipment_factor = 1" 
+					owner = FRA
+				}
+				create_unit = {
+					division = "name = \"Infanterie Alpine\" division_template = \"Division d'Infanterie Alpine\" start_experience_factor = 1 start_equipment_factor = 1" 
+					owner = FRA
+				}
+				create_unit = {
+					division = "name = \"Infanterie Alpine\" division_template = \"Division d'Infanterie Alpine\" start_experience_factor = 1 start_equipment_factor = 1" 
+					owner = FRA
+				}
+				create_unit = {
+					division = "name = \"Infanterie Alpine\" division_template = \"Division d'Infanterie Alpine\" start_experience_factor = 1 start_equipment_factor = 1" 
+					owner = FRA
+				}
+				create_unit = {
+					division = "name = \"Infanterie Alpine\" division_template = \"Division d'Infanterie Alpine\" start_experience_factor = 1 start_equipment_factor = 1" 
+					owner = FRA
+				}
+				create_unit = {
+					division = "name = \"Infanterie Alpine\" division_template = \"Division d'Infanterie Alpine\" start_experience_factor = 1 start_equipment_factor = 1" 
+					owner = FRA
+				}
+				}
+			}
+		}
+	}
 	focus = { #분단
 		icon = GFX_goal_generic_forceful_treaty
 		id = FRA_focus_war_6
 		cost = 1
-		x = -1
-		y = 14
+		x = -3
+		y = 15
 		prerequisite = {
 			focus = FRA_focus_war_1
 		}

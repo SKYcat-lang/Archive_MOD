@@ -164,6 +164,9 @@ country_event = {
     option = {
         name = MIL_event.6.a
         add_political_power = -50
+        remove_power_balance = {
+            id = MIL_power_balance
+        }
         set_party_name = {
             ideology = fascism
             long_name = MIL_fascism_AL1S1_party_long
@@ -180,10 +183,20 @@ country_event = {
                     id = -1
                 }
             }
-        }
-        set_country_leader_portrait = {
-            ideology = fascism
-            portrait = "gfx/leaders/MIL/MIL_AL_1S_Portrait.tga"
+            add_field_marshal_role = {
+                traits={ MIL_disaster_machine front_line_general }
+                skill = 5
+                attack_skill = 6
+                defense_skill = 5
+                planning_skill = 3
+                logistics_skill = 3
+            }
+            set_portraits = {
+                army = {
+                    large ="gfx/leaders/MIL/MIL_AL_1S_Portrait.tga"
+                    small="GFX_AL_1S"
+                }
+            }
         }
         country_event = {
             id = MIL_event.7
@@ -202,6 +215,9 @@ country_event = {
 
     option = {
         name = MIL_event.7.a
+        16 = { set_state_flag = MIL_rework_completed }
+        946 = { set_state_flag = MIL_rework_completed }
+        947 = { set_state_flag = MIL_rework_completed }
         kill_ideology_leader = democratic
         remove_ideas = MIL_eridu_broken
         swap_ideas = {
@@ -209,7 +225,11 @@ country_event = {
             add_idea = MIL_CnC_al_1s
         }
         remove_ideas = MIL_neutrality_idea
+        remove_ideas = MIL_seeds_of_conflict
         remove_ideas = MIL_Millennium_Science_School_idea
+        remove_dynamic_modifier = {
+            modifier = MIL_semina_idea
+        }
 
         add_popularity = {
             ideology = fascism
@@ -245,14 +265,116 @@ country_event = {
                 }
             }
         }
-        set_politics = {
+			
+		set_variable = { mil_auto_war_lv_var = 5 }
+
+		set_variable = { MIL_Millennium_robot_army_idea_stability_factor = -0.20 }
+		set_variable = { MIL_Millennium_robot_army_idea_army_core_attack_factor = 0.20 }
+		set_variable = { MIL_Millennium_robot_army_idea_army_attack_factor = 0.20 }
+		set_variable = { MIL_Millennium_robot_army_idea_army_defence_factor = 0.20 }
+		set_variable = { MIL_Millennium_robot_army_idea_army_core_defence_factor = 0.20 }
+		set_variable = { MIL_Millennium_robot_army_idea_army_org_factor = 0.25 }
+		set_variable = { MIL_Millennium_robot_army_idea_army_org_regain = -0.15 }
+		set_variable = { MIL_Millennium_robot_army_idea_conscription_factor = -1.00 }
+		set_variable = { MIL_Millennium_robot_army_idea_weekly_manpower = 4000 }
+		set_variable = { MIL_Millennium_robot_army_idea_civilian_factory_use = 30 }
+
+		add_timed_idea = {
+			idea = MIL_Rebalancing_automaton_industry
+			days = 120
+		}
+        set_cosmetic_tag = MIL_AL_1S_start
+        start_civil_war = {
+            ideology = communism
             ruling_party = fascism
-            elections_allowed = no
-            election_frequency = 48
-            long_name = MIL_fascism_AL_1S_party_long
-            name = MIL_fascism_AL_1S_party
+            size = 0.0
+            army_ratio = 1.0
+            navy_ratio = 0
+            air_ratio = 0
+            capital = 24
+            states = {
+                24 27 18 17 23 33 26 20 25 19 806 31 22 32 21 939 851
+            }
+            keep_all_characters = yes
+            PREV = {
+                every_character = {
+                    limit = {
+                        NOT = {	
+                            OR = {
+                                is_character = MIL_dkfltm
+                                is_character = MIL_priesthood
+                            }
+                        }
+                    }
+                    set_nationality = PREV.PREV
+                }
+            }
+            every_controlled_state = {
+                damage_units = {
+                    state = THIS
+                    damage = 0.5
+                    org_damage = 0.4
+                    str_damage = 0.3
+                    ratio = yes
+                    army = yes
+                }
+            }
         }
         hidden_effect = {
+			if = {
+				limit = {
+					NOT = { has_template = "Disaster machine" }
+				}
+				division_template = {
+				    name = "Disaster machine"		
+				    division_names_group = SOV_INF_01
+				    force_allow_recruiting = yes
+					regiments = {
+						low_halo_infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+						low_halo_infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+						infantry = { x = 1 y = 2 }
+						low_halo_infantry = { x = 2 y = 0 }
+						infantry = { x = 2 y = 1 }
+						infantry = { x = 2 y = 2 }
+					}
+					support = {
+                        engineer = { x = 0 y = 0 }
+                        artillery = { x = 0 y = 1 }
+                        anti_air = { x = 0 y = 2 }
+					}
+				}
+			}
+			capital_scope = {
+				create_unit = {
+					division = "name = \"Disaster machine\" division_template = \"Disaster machine\" start_experience_factor = 1.0" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Disaster machine\" division_template = \"Disaster machine\" start_experience_factor = 1.0" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Disaster machine\" division_template = \"Disaster machine\" start_experience_factor = 0.5 start_equipment_factor = 0.7" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Disaster machine\" division_template = \"Disaster machine\" start_experience_factor = 0.5 start_equipment_factor = 0.7" 
+					owner = ROOT
+				}
+			}
+            every_controlled_state = {
+				create_unit = {
+					division = "name = \"Disaster machine\" division_template = \"Disaster machine\" start_experience_factor = 0.5 start_equipment_factor = 0.7" 
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Disaster machine\" division_template = \"Disaster machine\" start_experience_factor = 0.5 start_equipment_factor = 0.7" 
+					owner = ROOT
+				}
+            }
             news_event = { id = BA_news.13  days = 1}
         }
     }
@@ -355,50 +477,22 @@ country_event = {
     title = MIL_event.13.t
     desc = MIL_event.13.d
     picture = none
-    hidden = yes
-    
-    fire_only_once = no
-    is_triggered_only = yes   
 
-    trigger = {
+    fire_only_once = yes
+
+	trigger = {
+        has_stability < 0.3
+        date > 1940.1.1
         NOT = {
-            has_country_flag = killing_stop_flag
-        }
-        any_core_state = {
             OR = {
-                state = 19
-                state = 31
-                state = 806
+                has_completed_focus = MIL_Rio_intensified
+                has_completed_focus = MIL_Himari_intensified
             }
-            state_population > 55000
         }
-    }
+	}
 
     option = {
         name = MIL_event.13.a
-        random_core_state = {
-            prioritize = { 19 31 806 }
-            limit = {
-                state_population > 55000
-            }
-            add_manpower = -50000
-        }
-        country_event = { id = MIL_event.13 days = 4 }
-        if = {
-            limit = {
-                NOT = {
-                    any_core_state = {
-                        OR = {
-                            state = 19
-                            state = 31
-                            state = 806
-                        }
-                        state_population > 55000
-                    }
-                }
-            }
-			country_event = { id = MIL_event.14 }
-        }
     }
 }
 country_event = {
@@ -407,11 +501,13 @@ country_event = {
     desc = MIL_event.14.d
     picture = none
     
-    fire_only_once = yes
+    fire_only_once = no
     is_triggered_only = yes  
 
     option = {
         name = MIL_event.14.a
+        add_political_power = 25
+        add_stability = 0.05
     }
 }
 country_event = {
@@ -901,13 +997,13 @@ country_event = {
     desc = MIL_event.22.d
     picture = GFX_report_event_radar_01
     
-    fire_only_once = yes
+    fire_only_once = no
     is_triggered_only = yes 
 
     option = {
         name = MIL_event.22.a
 		hidden_effect = {
-			country_event = { id = MIL_conflict_event.23 hours = 18 }
+			country_event = { id = MIL_event.23 hours = 18 }
 		}
     }
 }
@@ -922,7 +1018,10 @@ country_event = {
 
     option = {
         name = MIL_event.23.a
-        news_event = { id = BA_news.28 hours = 10 }
+        news_event = { id = BA_news.27 hours = 10 }
+        add_dynamic_modifier = {
+            modifier = MIL_satellite_dynamic_modifier
+        }
     }
 }
 country_event = {

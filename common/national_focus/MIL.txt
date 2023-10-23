@@ -248,6 +248,11 @@ focus_tree = {
 				has_completed_focus = MIL_rebuilt_school2
 			}
 		}
+		allow_branch = {
+			NOT = {
+				has_country_flag = MIL_Koyuki_revolution_flag
+			}
+		} 
 		x = -2
 		y = 1
 		relative_position_id = MIL_intensified_disagreements
@@ -272,6 +277,11 @@ focus_tree = {
 				has_completed_focus = MIL_rebuilt_school2
 			}
 		}
+		allow_branch = {
+			NOT = {
+				has_country_flag = MIL_Koyuki_revolution_flag
+			}
+		} 
 		x = 2
 		y = 1
 		relative_position_id = MIL_intensified_disagreements
@@ -522,7 +532,7 @@ focus_tree = {
 		
 	focus = { # 리오 루트
 		id = MIL_Rio_school
-		icon = unknown
+		icon = GFX_MIL_Rio_school
 		cost = 10.00
 		prerequisite = {focus = MIL_rebuilt_school2 }
 		mutually_exclusive = { focus = MIL_maintaining_balance_of_power focus = MIL_Himari_school }
@@ -576,7 +586,7 @@ focus_tree = {
 		
 	focus = { # 히마리 루트
 		id = MIL_Himari_school
-		icon = unknown
+		icon = GFX_MIL_Himari_school
 		cost = 10.00
 		prerequisite = {focus = MIL_rebuilt_school1 }
 		mutually_exclusive = { focus = MIL_maintaining_balance_of_power focus = MIL_Rio_school }
@@ -617,7 +627,7 @@ focus_tree = {
 		
 	focus = { # 코유키 수감
 		id = MIL_K_incarcerated
-		icon = unknown
+		icon = GFX_MIL_K_incarcerated
 		cost = 5.00
 		prerequisite = { focus = MIL_Rio_school focus = MIL_maintaining_balance_of_power }
 		mutually_exclusive = { focus = MIL_K_appeasement }
@@ -636,7 +646,7 @@ focus_tree = {
 		
 	focus = { # 코유키 회유
 		id = MIL_K_appeasement
-		icon = unknown
+		icon = GFX_MIL_K_appeasement
 		cost = 5.00
 		prerequisite = { focus = MIL_Rio_school focus = MIL_maintaining_balance_of_power }
 		mutually_exclusive = { focus = MIL_K_incarcerated }
@@ -1751,6 +1761,17 @@ focus_tree = {
 		relative_position_id = MIL_science_focused_investment
 		completion_reward = {
 			add_country_leader_trait = MIL_starchaser
+			set_variable = { MIL_satellite_dynamic_modifier_civilian_intel_factor = 0.02 }
+			set_variable = { MIL_satellite_dynamic_modifier_airforce_intel_factor = 0.04 }
+			set_variable = { MIL_satellite_dynamic_modifier_army_intel_factor = 0.04 }
+			set_variable = { MIL_satellite_dynamic_modifier_navy_intel_factor = 0.10 }
+
+			set_variable = { MIL_satellite_dynamic_modifier_army_attack_factor = 0.01 }
+			set_variable = { MIL_satellite_dynamic_modifier_army_defence_factor = 0.01 }
+			
+			set_variable = { MIL_satellite_dynamic_modifier_max_planning_factor = 0.02 }
+			set_variable = { MIL_satellite_dynamic_modifier_recon_factor = 0.02 }
+			set_variable = { MIL_satellite_dynamic_modifier_planning_speed = 0.02 }
 			add_tech_bonus = {
 				name = GER_rocketry_focus
 				bonus = 1.0
@@ -1834,7 +1855,6 @@ focus_tree = {
 			has_country_flag = MIL_go_to_the_space_flag
 		}
 		available = {
-			has_tech = MIL_engineering_1
 			has_tech = computing_machine
 		}
 		x = -2
@@ -1844,8 +1864,8 @@ focus_tree = {
 			add_tech_bonus = {
 				name = MIL_go_to_the_space
 				bonus = 1.0
-				uses = 1
-				category = MIL_engineering
+				uses = 2
+				category = rocketry
 			}
 		}	
 	}
@@ -1861,7 +1881,6 @@ focus_tree = {
 			has_tech = improved_rocket_engines
 			has_tech = improved_computing_machine
 			has_tech = fuel_refining3
-			has_tech = MIL_factory_automation
 		}
 		x = 0
 		y = 1
@@ -1945,6 +1964,7 @@ focus_tree = {
 		allow_branch = {
 			NOT = {
 				has_country_flag = MIL_go_to_the_space_flag
+				has_country_flag = MIL_fuck_flag
 			}
 		}
 		available = {
@@ -2106,29 +2126,20 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = industrial_bonus
-				bonus = 1.0
-				uses = 2
-				category = industry
-			}
-			add_tech_bonus = {
-				name = MIL_engineering_bonus
-				bonus = 0.3
+				bonus = 2.0
 				uses = 1
-				category = MIL_engineering
+				category = industry
 			}
 		}	
 	}
 		
 	focus = { #자동화 경제
 		id = MIL_automation_economy
-		icon = unknown
+		icon = GFX_focus_generic_industry_1
 		cost = 10.00
 		prerequisite = { focus = MIL_the_economy }
 		mutually_exclusive = { focus = MIL_direct_economic_control  }
-		available = {
-			has_country_flag = GAEBALJUNG
-		}
-		x = 4
+		x = 3
 		y = 1
 		relative_position_id = MIL_the_economy
 		
@@ -2138,7 +2149,7 @@ focus_tree = {
 			}
 		}
 		offset = {
-			x = -4
+			x = -3
 			y = 0
 			trigger = {
 				OR = {
@@ -2161,75 +2172,320 @@ focus_tree = {
 		}	
 	}
 		
-	focus = { #산업 자동화
-		id = MIL_automation_industry
-		icon = unknown
-		cost = 5.00
+	focus = { #소비재 생산
+		id = MIL_consumer_goods_production
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 10.00
 		prerequisite = { focus = MIL_automation_economy }
-		x = -2
+		mutually_exclusive = { focus = MIL_heavy_industry_focus }
+		x = -1
 		y = 1
 		relative_position_id = MIL_automation_economy
 		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = MIL_consumer_goods_production
+				bonus = 1.25
+				uses = 2
+				category = industry
+				category = electronics
+			}
 		}	
 	}
 		
-	focus = { #맞춤 생산 계획
-		id = MIL_custom_production_plan
-		icon = unknown
+	focus = { #톱니바퀴 사회
+		id = MIL_cogwheel_society
+		icon = GFX_goal_generic_production
+		cost = 10.00
+		prerequisite = { focus = MIL_consumer_goods_production }
+		prerequisite = { focus = MIL_expanding_the_base }
+		x = 0
+		y = 3
+		relative_position_id = MIL_consumer_goods_production
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = MIL_precision_production_planning_idea
+				add_idea = MIL_cogwheel_society_idea
+			}
+		}	
+	}
+		
+	focus = { #중공업
+		id = MIL_heavy_industry_focus
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 10.00
+		prerequisite = { focus = MIL_automation_economy }
+		mutually_exclusive = { focus = MIL_consumer_goods_production }
+		x = 1
+		y = 1
+		relative_position_id = MIL_automation_economy
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = MIL_heavy_industry_focus
+				bonus = 1.25
+				uses = 2
+				category = infantry_weapons
+			}
+		}	
+	}
+		
+	focus = { #기계화 군세
+		id = MIL_mechanized_army
+		icon = GFX_focus_generic_combined_arms
+		cost = 10.00
+		prerequisite = { focus = MIL_heavy_industry_focus }
+		prerequisite = { focus = MIL_expanding_the_base }
+		x = 0
+		y = 3
+		relative_position_id = MIL_heavy_industry_focus
+		completion_reward = {
+			add_tech_bonus = {
+				name = MIL_mechanized_army
+				bonus = 1.00
+				uses = 2
+				category = armor
+			}
+			swap_ideas = {
+				remove_idea = MIL_precision_production_planning_idea
+				add_idea = MIL_mechanized_army_idea
+			}
+		}	
+	}
+		
+	focus = { #정밀 생산 계획
+		id = MIL_precision_production_planning
+		icon = GFX_focus_generic_industry_2
+		cost = 5.00
+		prerequisite = { focus = MIL_consumer_goods_production focus = MIL_heavy_industry_focus }
+		x = 0
+		y = 2
+		relative_position_id = MIL_automation_economy
+		completion_reward = {
+			add_ideas = MIL_precision_production_planning_idea
+		}	
+	}
+		
+	focus = { #기반 확산
+		id = MIL_expanding_the_base
+		icon = GFX_goal_generic_construction2
+		cost = 10.00
+		prerequisite = { focus = MIL_precision_production_planning }
+		x = 0
+		y = 1
+		relative_position_id = MIL_precision_production_planning
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					has_resources_amount = {
+						resource = steel
+						amount > 5
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_resource = {
+					type = steel
+					amount = -5
+				}
+				add_resource = {
+					type = tungsten
+					amount = 3
+				}
+				add_resource = {
+					type = chromium
+					amount = 2
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					has_resources_amount = {
+						resource = steel
+						amount > 5
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_resource = {
+					type = steel
+					amount = -5
+				}
+				add_resource = {
+					type = tungsten
+					amount = 3
+				}
+				add_resource = {
+					type = chromium
+					amount = 2
+				}
+			}
+			random_owned_controlled_state = {	
+				limit ={
+					is_fully_controlled_by = ROOT
+					free_building_slots = {
+						building = fuel_silo
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_building_construction = {
+					type = fuel_silo
+					level = 1
+					instant_build = yes						
+				}
+			}
+			random_owned_controlled_state = {	
+				limit ={
+					is_fully_controlled_by = ROOT
+					free_building_slots = {
+						building = fuel_silo
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_building_construction = {
+					type = fuel_silo
+					level = 1
+					instant_build = yes						
+				}
+			}
+		}	
+	}
+		
+	focus = { #산업 자동화
+		id = MIL_automation_industry
+		icon = GFX_goal_generic_production2
+		cost = 5.00
+		prerequisite = { focus = MIL_automation_economy }
+		x = 4
+		y = 1
+		relative_position_id = MIL_automation_economy
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = MIL_consumer_goods_production
+				bonus = 0.25
+				uses = 2
+				category = electronics
+			}
+		}	
+	}
+		
+	focus = { #근미래 수요 예측
+		id = MIL_near_future_demand_analysis
+		icon = GFX_goal_generic_neutrality_focus
 		cost = 5.00
 		prerequisite = { focus = MIL_automation_industry }
-		x = 0
+		mutually_exclusive = { focus = MIL_customized_production_system }
+		x = -1
 		y = 1
 		relative_position_id = MIL_automation_industry
 		completion_reward = {
+			add_ideas = MIL_near_future_demand_analysis_idea
 		}	
 	}
 		
-	focus = { #미래 계산 모델
-		id = MIL_future_computation_model
-		icon = unknown
+	focus = { #맞춤형 생산 시스템
+		id = MIL_customized_production_system
+		icon = GFX_goal_generic_positive_trade_relations
 		cost = 5.00
-		prerequisite = { focus = MIL_automation_economy }
-		x = 0
+		prerequisite = { focus = MIL_automation_industry }
+		mutually_exclusive = { focus = MIL_near_future_demand_analysis }
+		x = 1
 		y = 1
-		relative_position_id = MIL_automation_economy
+		relative_position_id = MIL_automation_industry
 		completion_reward = {
-		}	
-	}
-		
-	focus = { #수요 예측 알고리즘
-		id = MIL_demand_forecasting_algorithm
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_future_computation_model }
-		x = 0
-		y = 1
-		relative_position_id = MIL_future_computation_model
-		completion_reward = {
-		}	
-	}
-		
-	focus = { #운송 자동화
-		id = MIL_transportation_automation
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_automation_economy }
-		x = 2
-		y = 1
-		relative_position_id = MIL_automation_economy
-		completion_reward = {
-		}	
-	}
-		
-	focus = { #로봇 경제
-		id = MIL_robot_economy
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_transportation_automation }
-		x = 0
-		y = 1
-		relative_position_id = MIL_transportation_automation
-		completion_reward = {
+			add_ideas = MIL_customized_production_system_idea
 		}	
 	}
 		
@@ -2245,7 +2501,7 @@ focus_tree = {
 				has_completed_focus = MIL_rebuilt_school2
 			}
 		}
-		x = -4
+		x = -3
 		y = 1
 		relative_position_id = MIL_the_economy
 		
@@ -2258,7 +2514,7 @@ focus_tree = {
 			}
 		}
 		offset = {
-			x = 4
+			x = 3
 			y = 0
 			trigger = {
 				has_completed_focus = MIL_direct_economic_control
@@ -2327,27 +2583,10 @@ focus_tree = {
 		id = MIL_destroy_french_market
 		icon = unknown
 		cost = 5.00
-		prerequisite = { focus = MIL_economy_control focus = MIL_automation_economy }
-		x = -5
-		y = 3
-		relative_position_id = MIL_the_economy
-		offset = {
-			x = 4
-			y = 0
-			trigger = {
-				has_completed_focus = MIL_direct_economic_control
-			}
-		}
-		offset = {
-			x = 1
-			y = -1
-			trigger = {
-				OR = {
-					has_completed_focus = MIL_automation_economy
-					has_country_flag = MIL_fuck_flag
-				}
-			}
-		}
+		prerequisite = { focus = MIL_economy_control }
+		x = 0
+		y = 1
+		relative_position_id = MIL_economy_control
 		completion_reward = {
 			country_event = {
 				id = MIL_event.4
@@ -2364,10 +2603,9 @@ focus_tree = {
 		icon = GFX_goal_generic_construct_civ_factory
 		cost = 5.00
 		prerequisite = { focus = MIL_destroy_french_market }
-		prerequisite = { focus = MIL_economy_control }
 		x = 0
-		y = 2
-		relative_position_id = MIL_economy_control
+		y = 1
+		relative_position_id = MIL_destroy_french_market
 		completion_reward = {
 			capital_scope = {
 				add_extra_state_shared_building_slots = 2
@@ -3126,7 +3364,7 @@ focus_tree = {
 		
 	focus = { #폐허 조사
 		id = MIL_ruin_investigation
-		icon = unknown
+		icon = GFX_MIL_ruin_investigation
 		cost = 1.00
 		prerequisite = { focus = MIL_administration_seminar }
 		x = 0
@@ -3164,7 +3402,7 @@ focus_tree = {
 
 	focus = { # 깨진 톱니 //중점 이름에 대한 간략한 주석
 		id = MIL_broken_cog #중점 ID
-		icon = unknown #중점 아이콘
+		icon = GFX_goal_MIL_broken_cog #중점 아이콘
 		cost = 5.00 #걸리는 시간, 주 단위 5면 35일
 		prerequisite = { focus = MIL_ruin_investigation } #선행 중점
 		x = 0
@@ -3175,7 +3413,20 @@ focus_tree = {
 		} 
 		completion_reward = { #중점 효과
 		 #근데 이거 여기다가 밀레니엄 색깔 바뀌게 하면 안되나
+			set_power_balance = {
+				id = MIL_AL_1S_humanity
+				set_default = yes # whether or not to reset the power balance to the initial value, default = no
+			}
+			set_party_name = {
+				ideology = fascism
+				long_name = MIL_fascism_AL_1S_party_long
+				name = MIL_fascism_AL_1S_party
+			}
         	set_cosmetic_tag = MIL_AL_1S
+			add_named_threat = {
+				threat = 20
+				name = MIL_broken_cog
+			}
             news_event = { id = BA_news.25  hours = 8 }
 		}		
 	}
@@ -3196,7 +3447,7 @@ focus_tree = {
 				hours = 6
 			}
 			create_intelligence_agency = {
-				name = Decagrammaton
+				name = "Divi:SION"
 				icon = GFX_intelligence_agency_logo_generic_1 # 이거 만들까?
 			}
 		}
@@ -3238,10 +3489,10 @@ focus_tree = {
     			limit = {
         			is_core_of = PREV
     			}
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {	
 					type = arms_factory
-					level = 2
+					level = 1
 					instant_build = yes
 				}
 			}
@@ -3249,10 +3500,21 @@ focus_tree = {
     			limit = {
         			is_core_of = PREV
     			}
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {	
 					type = industrial_complex
-					level = 2
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {	
+					type = industrial_complex
+					level = 1
 					instant_build = yes
 				}
 			}
@@ -3279,13 +3541,25 @@ focus_tree = {
 		y = 2
 		relative_position_id = MIL_come_back_queen
 		completion_reward = {
-		country_event = {
-			id = MIL_event.11
-			hours = 6
-		}
-		add_political_power = 100
-		add_stability = -0.20
-		custom_effect_tooltip = MIL_queens_day_tt
+			add_advisor_role = {
+				character = MIL_priesthood
+				activate = yes
+				advisor={
+					slot = political_advisor
+					cost = 150
+					idea_token = MIL_parliament_political_advisor
+					traits = {
+						MIL_hymn_of_the_gods
+					}
+				}
+			}
+			country_event = {
+				id = MIL_event.11
+				hours = 6
+			}
+			add_political_power = 100
+			add_stability = -0.20
+			custom_effect_tooltip = MIL_queens_day_tt
 		}
 
 	}	
@@ -3300,15 +3574,6 @@ focus_tree = {
 		relative_position_id = MIL_queens_day
 		completion_reward = { 
 			#슈퍼노바 장군 추가좀
-			add_corps_commander_role = {
-				character = MIL_light_sowrd
-				traits = { Brilliant_Strategist Harsh_Leader Infantry_Officer Infantry_Leader Panzer_Leader Offensive_Doctrine Aggressive_Assaulter }
-				skill = 7
-				attack_skill = 8
-				defense_skill = 3
-				planning_skill = 6
-				logistics_skill = 2
-			}
 		}
 	}
 	
@@ -3357,26 +3622,58 @@ focus_tree = {
 		relative_position_id = MIL_make_own_skills
 		completion_reward = { 
 			add_ideas = MIL_Divi_Sion_idea
-			random_owned_controlled_state = {
-    			limit = {
-        			is_core_of = PREV
-    			}
-				add_extra_state_shared_building_slots = 4
-				add_building_construction = {	
-					type = arms_factory
-					level = 4
-					instant_build = yes
+			generate_character = {
+				token_base = MIL_nameless_1
+				name = MIL_nameless_1
+				portraits = {
+					civilian = {
+						large = "gfx/leaders/MIL/MIL_nameless_Portrait.tga"
+					}
+				}
+				corps_commander={
+					traits= { brilliant_strategist reckless }
+					skill=2
+					attack_skill=2
+					defense_skill=1
+					planning_skill=1
+					logistics_skill=2
+					legacy_id=-1
 				}
 			}
-			random_owned_controlled_state = {
-    			limit = {
-        			is_core_of = PREV
-    			}
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {	
-					type = arms_factory
-					level = 2
-					instant_build = yes
+			generate_character = {
+				token_base = MIL_nameless_2
+				name = MIL_nameless_2
+				portraits = {
+					civilian = {
+						large = "gfx/leaders/MIL/MIL_nameless_Portrait.tga"
+					}
+				}
+				corps_commander={
+					traits= { infantry_officer cautious }
+					skill=2
+					attack_skill=2
+					defense_skill=2
+					planning_skill=1
+					logistics_skill=1
+					legacy_id=-1
+				}
+			}
+			generate_character = {
+				token_base = MIL_nameless_3
+				name = MIL_nameless_3
+				portraits = {
+					civilian = {
+						large = "gfx/leaders/MIL/MIL_nameless_Portrait.tga"
+					}
+				}
+				corps_commander={
+					traits= { politically_connected }
+					skill=2
+					attack_skill=3
+					defense_skill=1
+					planning_skill=1
+					logistics_skill=1
+					legacy_id=-1
 				}
 			}
 		}
@@ -3429,28 +3726,52 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
-			random_owned_controlled_state = {
-    			limit = {
-        			is_core_of = PREV
-    			}
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {	
-					type = industrial_complex
-					level = 2
-					instant_build = yes
-				}
+		}
+	}
+
+	focus = { # 아프리카로의 여정
+		id = MIL_travel_africa
+		icon = GFX_focus_attack_france
+		cost = 5.00
+		prerequisite = { focus = MIL_ship_of_ATRAHASIS }
+		available = {
+			has_war_with = FRA
+		}
+		x = 2
+		y = 1
+		relative_position_id = MIL_ship_of_ATRAHASIS
+		completion_reward = {
+			add_timed_idea = {
+				idea = MIL_travel_africa_idea
+				days = 180
+			}	
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.5
+				uses = 2
+				category = land_doctrine
 			}
-			random_owned_controlled_state = {
-    			limit = {
-        			is_core_of = PREV
-    			}
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {	
-					type = industrial_complex
-					level = 2
-					instant_build = yes
-				}
-			} #공장을 막 퍼줘! 공장을 막!
+			army_experience = 5
+			navy_experience = 5
+			air_experience = 5
+		}
+	}
+
+	focus = { # 프랑스 완전점령
+		id = MIL_theres_nofrance
+		icon = unknown
+		cost = 10.00
+		prerequisite = { focus = MIL_travel_africa }
+		available = {
+			NOT = {
+				has_war_with = FRA
+				has_idea = MIL_travel_africa_idea
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id = MIL_travel_africa
+		completion_reward = {
+
 		}
 	}
 
@@ -3527,126 +3848,6 @@ focus_tree = {
 		}
 	}
 
-	focus = { # 재사회화
-		id = MIL_re_social
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_ship_of_ATRAHASIS }
-		mutually_exclusive = { focus = MIL_iron_robots }
-		x = 2
-		y = 1
-		relative_position_id = MIL_ship_of_ATRAHASIS
-		completion_reward = {
-		}
-	}
-
-	focus = { # 세뇌
-		id = MIL_Brain_washing
-		icon = GFX_focus_generic_annex_country_2
-		cost = 5.00
-		prerequisite = { focus = MIL_re_social }
-		x = 0
-		y = 1
-		relative_position_id = MIL_re_social
-		completion_reward = {
-		}
-	}
-
-	focus = { # 강철 기계
-		id = MIL_iron_robots
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_ship_of_ATRAHASIS }
-		mutually_exclusive = { focus = MIL_re_social }
-		x = 6
-		y = 1
-		relative_position_id = MIL_ship_of_ATRAHASIS
-		completion_reward = {
-		}
-	}
-
-	focus = { # 레지스탕스 분쇄
-		id = MIL_kill_resistance
-		icon = GFX_focus_eng_move_to_secure_the_dominions
-		cost = 5.00
-		prerequisite = { focus = MIL_re_social focus = MIL_iron_robots}
-		x = 2
-		y = 1
-		relative_position_id = MIL_re_social
-		completion_reward = {
-			if = {
-				limit = {
-					has_idea = MIL_Resistance_1
-				}	
-				remove_ideas = MIL_Resistance_1
-			}
-			if = {
-				limit = {
-					has_idea = MIL_Resistance_2
-				}
-				remove_ideas = MIL_Resistance_2
-			}
-			if = {
-				limit = {
-					has_idea = MIL_Resistance_3
-				}
-				remove_ideas = MIL_Resistance_3
-			}
-			
-			country_event = {
-				id = MIL_event.15
-				hours = 6
-			}
-			custom_effect_tooltip = MIL_kill_resistance_tt
-		}
-	}
-
-	focus = { # 아프리카로의 여정
-		id = MIL_travel_africa
-		icon = GFX_focus_attack_france
-		cost = 5.00
-		prerequisite = { focus = MIL_kill_resistance }
-		available = {
-			has_war_with = FRA
-		}
-		x = 0
-		y = 1
-		relative_position_id = MIL_kill_resistance
-		completion_reward = {
-			add_timed_idea = {
-				idea = MIL_travel_africa_idea
-				days = 180
-			}	
-			add_doctrine_cost_reduction = {
-				cost_reduction = 0.5
-				uses = 2
-				category = land_doctrine
-			}
-			army_experience = 5
-			navy_experience = 5
-			air_experience = 5
-		}
-	}
-
-	focus = { # 프랑스 완전점령
-		id = MIL_theres_nofrance
-		icon = unknown
-		cost = 10.00
-		prerequisite = { focus = MIL_travel_africa }
-		available = {
-			NOT = {
-				has_war_with = FRA
-				has_idea = MIL_travel_africa_idea
-			}
-		}
-		x = 0
-		y = 1
-		relative_position_id = MIL_travel_africa
-		completion_reward = {
-
-		}
-	}
-
 
 	focus = { # 로봇 생산
 		id = MIL_make_robots
@@ -3657,23 +3858,6 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_upgrade_AL_1S
 		completion_reward = { 
-			
-			set_variable = { mil_auto_war_lv_var = 5 }
-
-			set_variable = { MIL_Millennium_robot_army_idea_stability_factor = 0.20 }
-			set_variable = { MIL_Millennium_robot_army_idea_army_core_attack_factor = 0.20 }
-			set_variable = { MIL_Millennium_robot_army_idea_army_attack_factor = 0.15 }
-			set_variable = { MIL_Millennium_robot_army_idea_army_core_defence_factor = 0.20 }
-			set_variable = { MIL_Millennium_robot_army_idea_army_org_factor = 0.40 }
-			set_variable = { MIL_Millennium_robot_army_idea_army_org_regain = -0.20 }
-			set_variable = { MIL_Millennium_robot_army_idea_conscription_factor = -1.00 }
-			set_variable = { MIL_semina_idea_weekly_manpower = 10000 }
-			set_variable = { MIL_semina_idea_civilian_factory_use = 40 }
-
-			add_timed_idea = {
-				idea = MIL_Rebalancing_automaton_industry
-				days = 120
-			}
 		}
 	}
 	
@@ -3736,20 +3920,62 @@ focus_tree = {
 		}
 	}
 
-	focus = { # 프랑스를 부수라
+	focus = { # 레지스탕스의 최후
 		id = MIL_clean_fance
 		icon = GFX_goal_FRA_Riot
 		cost = 8.00
 		prerequisite = { focus = MIL_use_inwar }
 		prerequisite = { focus = MIL_all_kill }
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = MIL_clean_fance_trigger_tt
+				check_variable = { MIL_purified_week > 3 }
+			}
+		}
 		x = 0
 		y = 1
 		relative_position_id = MIL_use_inwar
 		completion_reward = {
+			hidden_effect = {
+				785 = { set_demilitarized_zone = no }
+				15 = { set_demilitarized_zone = no }
+				30 = { set_demilitarized_zone = no }
+				24 = { set_demilitarized_zone = no }
+				16 = { set_demilitarized_zone = no }
+				946 = { set_demilitarized_zone = no }
+				947 = { set_demilitarized_zone = no }
+				17 = { set_demilitarized_zone = no }
+				18 = { set_demilitarized_zone = no }
+				27 = { set_demilitarized_zone = no }
+				23 = { set_demilitarized_zone = no }
+				33 = { set_demilitarized_zone = no }
+				25 = { set_demilitarized_zone = no }
+				26 = { set_demilitarized_zone = no }
+				20 = { set_demilitarized_zone = no }
+				22 = { set_demilitarized_zone = no }
+				32 = { set_demilitarized_zone = no }
+				21 = { set_demilitarized_zone = no }
+				939 = { set_demilitarized_zone = no }
+				851 = { set_demilitarized_zone = no }
+				19 = { set_demilitarized_zone = no }
+				31 = { set_demilitarized_zone = no }
+				806 = { set_demilitarized_zone = no }
+			
+				set_variable = { global.BA_resistance_n_var = 1 }
+				set_variable = { global.BA_resistance_e_var = 1 }
+				set_variable = { global.BA_resistance_w_var = 1 }
+				set_variable = { global.BA_resistance_sw_var = 1 }
+				set_variable = { global.BA_resistance_se_var = 1 }
+			}
+			country_event = {
+				id = MIL_event.15
+				hours = 6
+			}
+			custom_effect_tooltip = MIL_kill_resistance_tt
 		}
 	}
 
-	focus = { # 저지대 파괴
+	focus = { # 학생 저항의 종결
 		id = MIL_clean_aland
 		icon = GFX_goal_MIL_end_student_activism
 		cost = 8.00
@@ -3800,7 +4026,10 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_make_own_skills
 		completion_reward = {
+			set_variable = { MIL_purified_week = 0 }
+			set_variable = { MIL_taken_to_purify = 70 }
 			custom_effect_tooltip = MIL_all_kill_tt
+			unlock_decision_tooltip = MIL_reskill_all
 		}
 	}
 
@@ -3813,6 +4042,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_all_kill
 		completion_reward = {
+			custom_effect_tooltip = MIL_claer_world_tt
+			set_variable = { MIL_taken_to_purify = 35 }
 		}
 	}
 
@@ -3861,6 +4092,12 @@ focus_tree = {
 		prerequisite = { focus = MIL_queens_dance }
 		prerequisite = { focus = MIL_use_robots }
 		mutually_exclusive = { focus = MIL_new_ego }
+		available = {
+			power_balance_value = {
+				id = MIL_AL_1S_humanity
+				value < -0.20
+			}
+		}
 
 		x = 3
 		y = 1
@@ -3878,128 +4115,22 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_people_destoyed
 		completion_reward = {
-		}
-	}
-
-	focus = { # 동부
-		id = MIL_war_in_east
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_take_schools }
-		x = -3
-		y = 1
-		relative_position_id = MIL_take_schools
-		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = HEU
+			every_country = {
+				limit = {
+					Kivotos_school_tag = yes
+					NOT = { tag = MIL }
+				}
+				create_wargoal = {
+					target = PREV
+					type = annex_everything
+				}
+				MIL = {
+					create_wargoal = {
+						target = PREV
+						type = annex_everything
+					}
+				}
 			}
-			create_wargoal = {
-				type = annex_everything
-				target = GEH
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = TRM
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = ABY
-			}
-		}
-	}
-
-	focus = { # 서부
-		id = MIL_war_in_west
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_take_schools }
-		x = -1
-		y = 1
-		relative_position_id = MIL_take_schools
-		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = SRT
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = KAI
-			}
-		}
-	}
-
-	focus = { # 동서부 확보
-		id = MIL_take_eastwest
-		icon = unknown
-		cost = 10.00
-		prerequisite = { focus = MIL_war_in_east }
-		prerequisite = { focus = MIL_war_in_west }
-		x = -1
-		y = 1
-		relative_position_id = MIL_war_in_west
-		completion_reward = {
-		}
-	}
-
-	focus = { # 남부
-		id = MIL_war_in_south
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_take_schools }
-		x = 1
-		y = 1
-		relative_position_id = MIL_take_schools
-		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = HYA
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = SHA
-			}
-		}
-	}
-
-	focus = { # 북부
-		id = MIL_war_in_north
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_take_schools }
-		x = 3
-		y = 1
-		relative_position_id = MIL_take_schools
-		completion_reward = {
-			create_wargoal = {
-				type = annex_everything
-				target = COU
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = KSP
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = SHE
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = RED
-			}
-		}
-	}
-
-	focus = { # 남북부 확보
-		id = MIL_take_north_south
-		icon = unknown
-		cost = 10.00
-		prerequisite = { focus = MIL_war_in_north }
-		prerequisite = { focus = MIL_war_in_south }
-		x = -1
-		y = 1
-		relative_position_id = MIL_war_in_north
-		completion_reward = {
 		}
 	}
 
@@ -4007,7 +4138,7 @@ focus_tree = {
 		id = MIL_have_all_schools
 		icon = GFX_focus_SWI_dissolve_the_federal_council
 		cost = 10.00
-		prerequisite = { focus = MIL_war_in_east focus = MIL_war_in_west focus = MIL_war_in_south focus = MIL_war_in_north}
+		prerequisite = { focus = MIL_take_schools }
 		x = 0
 		y = 2
 		relative_position_id = MIL_take_schools
@@ -4018,11 +4149,9 @@ focus_tree = {
 
 	focus = { # 모든 것의 마지막.
 		id = MIL_all_finish
-		icon = unknown
+		icon = GFX_goal_MIL_end
 		cost = 10.00
-		prerequisite = { focus = MIL_take_eastwest }
 		prerequisite = { focus = MIL_have_all_schools }
-		prerequisite = { focus = MIL_take_north_south }
 		x = 0
 		y = 3
 		relative_position_id = MIL_take_schools
@@ -4036,6 +4165,12 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_queens_dance }
 		mutually_exclusive = { focus = MIL_people_destoyed }
+		available = {
+			power_balance_value = {
+				id = MIL_AL_1S_humanity
+				value > 0.7
+			}
+		}
 		x = -3
 		y = 1
 		relative_position_id = MIL_queens_dance

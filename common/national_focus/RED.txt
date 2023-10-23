@@ -727,7 +727,7 @@ focus_tree = {
 		x = 0
 		y = 1
 		relative_position_id = RED_for_knowledge
-		cost = 10
+		cost = 20
 
 		available = {
 		}
@@ -794,8 +794,6 @@ focus_tree = {
 
 		completion_reward = {
 			add_political_power = 120
-
-			news_event = { id = BA_news.27 hours = 2 random_hours = 2 }
 		}
 	}
 	focus = { # 푸딩 추가 배급
@@ -1227,7 +1225,6 @@ focus_tree = {
 		completion_reward = {
 			add_stability = 0.10
 			add_political_power = 100
-			set_rule = { can_join_factions = yes }
 			set_rule = { can_create_factions = yes }
 			create_faction = FOURTH_INTERNATIONAL_FACTION
 		}
@@ -1447,14 +1444,17 @@ focus_tree = {
 
 		completion_reward = {
 			add_stability = -0.15
-			add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
-			if = {
-				limit = {
-					has_template = "Halo Infantry Division"
-				}
-				set_division_template_cap = {
-					division_template = "Halo Infantry Division"
-					division_cap = ROOT.halo_infantry_cap
+			custom_effect_tooltip = RED_add_halo_cap_3_tt
+			hidden_effect = {
+				add_to_variable = { ROOT.halo_infantry_cap = 3 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+				if = {
+					limit = {
+						has_template = "Halo Infantry Division"
+					}
+					set_division_template_cap = {
+						division_template = "Halo Infantry Division"
+						division_cap = RED.halo_infantry_cap
+					}
 				}
 			}
 			random_owned_controlled_state = {
@@ -1489,14 +1489,18 @@ focus_tree = {
 	focus = { # 고틀란드냐 전쟁이냐
 		id =  RED_gotland_or_war
 		icon = GFX_focus_attack_germany
-		prerequisite = { focus = RED_redbear_editorial }
-		x = 1
+		prerequisite = { focus = RED_welcome_thugs focus = RED_welcome_immigrate }
+		x = 0
 		y = 1
-		relative_position_id = RED_redbear_editorial
+		relative_position_id = RED_welcome_thugs
 
 		cost = 10
 
 		search_filters = {FOCUS_FILTER_POLITICAL}
+
+		bypass = {
+			controls_state = 124
+		}
 
 		completion_reward = {
 			every_country = {
@@ -1507,18 +1511,15 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { # 게헨나 내전 개입
+	focus = { # 횃불을 밝혀라
 		id =  RED_intervene_in_geh
 		icon = GFX_focus_spr_torchbearers_of_tomorrow
-		prerequisite = { focus = RED_redbear_editorial }
-		x = -1
+		prerequisite = { focus = RED_welcome_immigrate focus = RED_welcome_thugs }
+		x = 0
 		y = 1
-		relative_position_id = RED_redbear_editorial
+		relative_position_id = RED_welcome_immigrate
 
 		available ={
-			GEH = {
-				has_war_with = GEM
-			}
 		}
 
 		cost = 10
@@ -1553,14 +1554,35 @@ focus_tree = {
 				can_join_factions = yes
 			}
 		}		
-	}	
+	}
+	focus = { # 반 소비에트 정책
+		id = RED_anti_sov_diplo
+		icon = GFX_goal_anti_comintern_pact
+		prerequisite = { focus = RED_kibotos_policy focus = RED_communist_diplo }
+		x = 0
+		y = 1
+		relative_position_id = RED_kibotos_policy
+		cost = 10
+		
+		bypass = {
+			OR = {
+				NOT = { country_exists = SOV }
+				has_war_with = SOV
+			}
+		}
+
+		completion_reward = {
+			add_war_support = 0.15
+			SOV = { add_opinion_modifier = { target = ROOT modifier = RED_anti_soviet } }
+		}
+	}
 
 # 붉은겨울 정치중점(반체리노 루트)
 	focus = { # 이반 쿠팔라
 		id = RED_ivan_kupla
 		icon = GFX_goal_generic_war_with_comintern
 		mutually_exclusive = { focus = RED_accept_trotskism }
-		x = 11
+		x = 10
 		y = 0
 		relative_position_id = RED_accept_trotskism
 
@@ -1577,16 +1599,6 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = RED_ivan_kupla_tt
 			add_political_power = 25
-
-			if = {
-				limit = {
-					has_game_rule = {
-						rule = obsolete_focus_branches_visibility
-						option = HIDE
-					}
-				}
-				mark_focus_tree_layout_dirty = yes
-			}
 		}
 	}
 	focus = { # 체리노 폄하
@@ -1716,7 +1728,7 @@ focus_tree = {
 			set_rule = {
 				can_create_factions = yes
 			}
-			create_faction = "제5인터내셔널"
+			create_faction = "anarchist_international"
 		}
 	}
 	focus = { #독일의 독립 지지
@@ -1725,10 +1737,7 @@ focus_tree = {
 			NOT = { has_war_with = GEN }
 		}
 		bypass = {
-			OR = {
-				has_completed_focus = RED_gotland_or_war
-				NOT = { country_exists = GEN }
-			}
+			NOT = { country_exists = GEN }
 		}
 		prerequisite = { focus = RED_the_threats_abound }
 
@@ -1746,7 +1755,7 @@ focus_tree = {
 		}
 	}
 	focus = { #공산주의 외교
-		id = RED_anti_fascism
+		id = RED_communist_diplo
 		icon = GFX_focus_SOV_proclaim_soviet_hegemony
 		x = 1
 		y = 1
@@ -1770,116 +1779,55 @@ focus_tree = {
 						has_government = neutrality
 					}
 				}
-				add_opinion_modifier = { target = RED modifier = RED_communist_diplo } 
+				add_opinion_modifier = { 
+					target = RED
+					modifier = RED_communist_diplo_modifier
+				}
 			}
 		}
 	}
 	focus = { #게헨나-트리니티 갈등
 		id = RED_geh_versus_trm
+		icon = GFX_goal_generic_more_territorial_claims
+		x = 0
+		y = 1
+		relative_position_id = RED_communist_diplo
+		prerequisite = { focus = RED_kibotos_policy focus = RED_communist_diplo focus = RED_military_dictatorship }
+		cost = 10
+
 		available = {
 		}
 		bypass = {
-			AND = {
-				NOT = { country_exists = GEH }
-				NOT = { country_exists = GEM }
-				NOT = { country_exists = TRM }
+			OR = {
+				has_war_with = GEH
+				has_war_with = TRM
 			}
 		}
-		prerequisite = { focus = RED_kibotos_policy focus = RED_military_dictatorship focus = RED_anti_fascism }
-
-		icon = GFX_goal_generic_more_territorial_claims
-		x = 5
-		y = 1
-		relative_position_id = RED_kibotos_policy
-		cost = 10
 		
 		completion_reward = {
-			if = {
-				limit = {
-					country_exists = GEH
-				}
-				GEH = {
-					if = {
-						limit = { ROOT = { has_government = fascism } }
-						add_timed_idea = { idea = fascist_influence days = 1095 }
-					}
-					if = {
-						limit = { ROOT = { has_government = democratic } }
-						add_timed_idea = { idea = democratic_influence days = 1095 }
-					}
-					if = {
-						limit = { ROOT = { has_government = communism } }
-						add_timed_idea = { idea = communist_influence days = 1095 }
-					}
-					hidden_effect = {
-						country_event = { id = generic.1 }
-					}
-				}
-			}
-			if = {
-				limit = {
-					country_exists = GEM
-				}
-				GEM = {
-					if = {
-						limit = { ROOT = { has_government = fascism } }
-						add_timed_idea = { idea = fascist_influence days = 1095 }
-					}
-					if = {
-						limit = { ROOT = { has_government = democratic } }
-						add_timed_idea = { idea = democratic_influence days = 1095 }
-					}
-					if = {
-						limit = { ROOT = { has_government = communism } }
-						add_timed_idea = { idea = communist_influence days = 1095 }
-					}
-					hidden_effect = {
-						country_event = { id = generic.1 }
-					}
-				}
-			}
-			if = {
-				limit = {
-					country_exists = TRM
-				}
-				TRM = {
-					if = {
-						limit = { ROOT = { has_government = fascism } }
-						add_timed_idea = { idea = fascist_influence days = 1095 }
-					}
-					if = {
-						limit = { ROOT = { has_government = democratic } }
-						add_timed_idea = { idea = democratic_influence days = 1095 }
-					}
-					if = {
-						limit = { ROOT = { has_government = communism } }
-						add_timed_idea = { idea = communist_influence days = 1095 }
-					}
-					hidden_effect = {
-						country_event = { id = generic.1 }
-					}
-				}
-			}
+			add_war_support = 0.15
 		}
 	}
 	focus = { #게헨나 선제타격
 		id = RED_attack_geh
-		available = {
-			
-		}
-		bypass = {
-			AND = {
-				NOT = { country_exists = GEH }
-				NOT = { country_exists = GEM }
-			}
-		}
 		prerequisite = { focus = RED_geh_versus_trm }
-
 		icon = GFX_goal_generic_occupy_states_ongoing_war
 		x = -1 
 		y = 1
 		relative_position_id = RED_geh_versus_trm
 		cost = 10
+
+		available = {
+			GEH = {
+				has_government = fascism
+			}
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = GEH }
+				GEH = { NOT = { has_government =  fascism } }
+			}
+		}
 		
 		completion_reward = {
 			if = {
@@ -1891,25 +1839,10 @@ focus_tree = {
 					type = annex_everything
 				}
 			}
-			if = {
-				limit = {
-					country_exists = GEM
-				}
-				create_wargoal = {
-					target = GEM
-					type = annex_everything
-				}
-			}
 		}
 	}
 	focus = { #트리니티 선제타격
 		id = RED_attack_trm
-		available = {
-			
-		}
-		bypass = {
-			NOT = { country_exists = TRM }
-		}
 		prerequisite = { focus = RED_geh_versus_trm }
 
 		icon = GFX_goal_generic_occupy_states_ongoing_war
@@ -1917,6 +1850,18 @@ focus_tree = {
 		y = 1
 		relative_position_id = RED_geh_versus_trm
 		cost = 10
+
+		available = {
+			TRM = {
+				has_government = fascism
+			}
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = TRM }
+				TRM = { NOT = { has_government =  fascism } }
+			}
+		}
 		
 		completion_reward = {
 			if = {
@@ -1930,143 +1875,27 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { #키보토스 통합 운동
-		id = RED_unite_the_kibotos
-		icon = GFX_goal_generic_demand_territory
+	focus = {
+		id = RED_anti_fascism_policy
+		icon = GFX_focus_generic_anti_fascist_diplomacy
+		prerequisite = { focus = RED_attack_geh focus = RED_attack_trm }
 		x = 1
 		y = 1
 		relative_position_id = RED_attack_geh
-		prerequisite = { focus = RED_attack_geh }
-		prerequisite = { focus = RED_attack_trm }
 		cost = 10
+
+		cancel_if_invalid = yes
+
 		available = {
 			has_war = no
 		}
 
 		completion_reward = {
-			add_war_support = 0.20
-			custom_effect_tooltip = RED_unite_the_kibotos_tt
-		}
-	}
-	focus = { #영국 본토 공격
-		id = RED_attack_on_england
-		available = {
-			
-		}
-		bypass = {
-			AND = {
-				NOT = { country_exists = KAI }
-				NOT = { country_exists = GEI }
-			}
-		}
-		prerequisite = { focus = RED_kibotos_policy focus = RED_military_dictatorship focus = RED_anti_fascism }
-
-		icon = GFX_goal_generic_more_territorial_claims
-		x = 0
-		y = 1
-		relative_position_id = RED_kibotos_policy
-		cost = 10
-		
-		completion_reward = {
-			if = {
+			every_other_country = {
 				limit = {
-					country_exists = KAI
+					has_government = fascism
 				}
-				KAI = {
-					if = {
-						limit = { ROOT = { has_government = fascism } }
-						add_timed_idea = { idea = fascist_influence days = 1095 }
-					}
-					if = {
-						limit = { ROOT = { has_government = democratic } }
-						add_timed_idea = { idea = democratic_influence days = 1095 }
-					}
-					if = {
-						limit = { ROOT = { has_government = communism } }
-						add_timed_idea = { idea = communist_influence days = 1095 }
-					}
-					hidden_effect = {
-						country_event = { id = generic.1 }
-					}
-				}
-			}
-			if = {
-				limit = {
-					country_exists = GEI
-				}
-				GEI = {
-					if = {
-						limit = { ROOT = { has_government = fascism } }
-						add_timed_idea = { idea = fascist_influence days = 1095 }
-					}
-					if = {
-						limit = { ROOT = { has_government = democratic } }
-						add_timed_idea = { idea = democratic_influence days = 1095 }
-					}
-					if = {
-						limit = { ROOT = { has_government = communism } }
-						add_timed_idea = { idea = communist_influence days = 1095 }
-					}
-					hidden_effect = {
-						country_event = { id = generic.1 }
-					}
-				}
-			}
-		}
-	}
-	focus = { #게마트리아 선제타격
-		id = RED_attack_gei
-		available = {
-			
-		}
-		bypass = {
-			NOT = { country_exists = GEI }
-		}
-		prerequisite = { focus = RED_attack_on_england }
-
-		icon = GFX_goal_generic_occupy_states_ongoing_war
-		x = -1
-		y = 1
-		relative_position_id = RED_attack_on_england
-		cost = 10
-		
-		completion_reward = {
-			if = {
-				limit = {
-					country_exists = GEI
-				}
-				create_wargoal = {
-					target = GEI
-					type = annex_everything
-				}
-			}
-		}
-	}
-	focus = { #카이저 코퍼레이션 선제타격
-		id = RED_attack_kai
-		available = {
-			
-		}
-		bypass = {
-			NOT = { country_exists = KAI }
-		}
-		prerequisite = { focus = RED_attack_on_england }
-
-		icon = GFX_goal_generic_occupy_states_ongoing_war
-		x = 1
-		y = 1
-		relative_position_id = RED_attack_on_england
-		cost = 10
-		
-		completion_reward = {
-			if = {
-				limit = {
-					country_exists = KAI
-				}
-				create_wargoal = {
-					target = KAI
-					type = annex_everything
-				}
+				add_opinion_modifier = { target = RED modifier = SOV_anti_fascist_policies_bad } 
 			}
 		}
 	}
@@ -2115,10 +1944,10 @@ focus_tree = {
 	focus = { # 군부 독재
 		id =  RED_military_dictatorship
 		icon = GFX_focus_generic_military_dictatorship
-		prerequisite = { focus = RED_office_disagree }
+		prerequisite = { focus = RED_need_civil_war }
 		x = 0
-		y = 3
-		relative_position_id = RED_office_disagree
+		y = 2
+		relative_position_id = RED_need_civil_war
 
 		cost = 10
 
@@ -2128,11 +1957,18 @@ focus_tree = {
 			add_political_power = 75
 			add_war_support = 0.05
 			add_stability = 0.10
-			remove_ideas = RED_doomed_army_idea
+			add_ideas = RED_military_dictatorship_idea
 		}
 	}
 	focus = { #소련과 제휴
 		id = RED_coop_with_sov
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		prerequisite = { focus = RED_military_dictatorship }
+		x = 0
+		y = 2
+		relative_position_id = RED_military_dictatorship
+		cost = 5
+		
 		available = {
 			SOV = {
 				has_government = communism
@@ -2141,81 +1977,129 @@ focus_tree = {
 		bypass = {
 			is_in_faction_with = SOV
 		}
-		prerequisite = { focus = RED_military_dictatorship }
-
-		icon = GFX_goal_generic_improve_relations
-		x = 0
-		y = 1
-		relative_position_id = RED_military_dictatorship
-		cost = 5
 		
 		completion_reward = {
 			SOV = { country_event = {id = generic.2 }}
+			set_rule = {
+				can_join_factions = yes
+			}
 		}
 	}
-	focus = { #영국 선제타격
-		id = RED_attack_eng
-		available = {
-			
-		}
-		bypass = {
-			NOT = { country_exists = ENG }
-		}
-		prerequisite = { focus = RED_coop_with_sov }
-
-		icon = GFX_goal_generic_occupy_states_ongoing_war
+	focus = { #핀란드 침공
+		id = RED_attack_fin
+		icon = GFX_focus_generic_attack_finland
+		prerequisite = { focus = RED_anti_sov_diplo }
+		mutually_exclusive = { focus = RED_deal_with_fin }
 		x = 1
 		y = 1
-		relative_position_id = RED_coop_with_sov
+		relative_position_id = RED_anti_sov_diplo
 		cost = 10
-		
-		completion_reward = {
-			if = {
-				limit = {
-					country_exists = ENG
-				}
-				create_wargoal = {
-					target = ENG
-					type = puppet_wargoal_focus
-				}
-			}
-		}
-	}
-	focus = { #폴란드 선제타격
-		id = RED_attack_pol
+
 		available = {
 			
 		}
 		bypass = {
-			NOT = { country_exists = POL }
+			OR = {
+				NOT = { country_exists = FIN }
+				has_war_with = FIN
+			}
 		}
-		prerequisite = { focus = RED_coop_with_sov }
-
-		icon = GFX_goal_generic_occupy_states_ongoing_war
-		x = -1
-		y = 1
-		relative_position_id = RED_coop_with_sov
-		cost = 10
 		
 		completion_reward = {
 			if = {
 				limit = {
-					country_exists = POL
+					country_exists = FIN
 				}
 				create_wargoal = {
-					target = POL
+					target = FIN
 					type = puppet_wargoal_focus
 				}
 			}
 		}
 	}
+	focus = { #핀란드와 제휴
+		id = RED_deal_with_fin
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = RED_anti_sov_diplo }
+		mutually_exclusive = { focus = RED_attack_fin }
+		x = -1
+		y = 1
+		relative_position_id = RED_anti_sov_diplo
+		cost = 10
 
+		available = {
+			
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = FIN }
+				has_war_with = FIN
+			}
+		}
+		
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = FIN
+				}
+				FIN = {
+					if = {
+						limit = { ROOT = { has_government = fascism } }
+						add_timed_idea = { idea = fascist_influence days = 1095 }
+					}
+					if = {
+						limit = { ROOT = { has_government = democratic } }
+						add_timed_idea = { idea = democratic_influence days = 1095 }
+					}
+					if = {
+						limit = { ROOT = { has_government = communism } }
+						add_timed_idea = { idea = communist_influence days = 1095 }
+					}
+					hidden_effect = {
+						country_event = { id = generic.1 }
+					}
+				}
+			}
+		}
+	}
+	focus = { #소련 침공
+		id = RED_attack_sov
+		icon = GFX_focus_attack_soviet
+		prerequisite = { focus = RED_attack_fin focus = RED_deal_with_fin }
+		x = -1
+		y = 1
+		relative_position_id = RED_attack_fin
+		cost = 10
+
+		available = {
+			
+		}
+		bypass = {
+			OR = {
+				NOT = { country_exists = SOV }
+				has_war_with = SOV
+			}
+		}
+		
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = SOV
+				}
+				create_wargoal = {
+					target = SOV
+					type = puppet_wargoal_focus
+				}
+			}
+		}
+	}
+	
 # 군 개편 중점
 	focus = {
 		id = RED_army_production_improve
 
 		icon = GFX_goal_generic_defence
-		x = 15
+		x = 12
 		y = 0
 		relative_position_id = RED_ivan_kupla
 		cost = 10
@@ -2650,12 +2534,14 @@ focus_tree = {
 		}
 
 		available = {
+			has_completed_focus = RED_restore_the_security
 		}
 		
 		search_filters = {}
 
 		completion_reward = {
 			add_manpower = 100000
+			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_mobilization_speed = 0.05 }
 			add_to_variable = { RED_conscription_factor = 0.03 }
 		}
@@ -2892,6 +2778,7 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
+			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_modifier_army_sub_unit_infantry_speed_factor = 0.05 }
 			add_to_variable = { RED_army_infantry_attack_factor = 0.05 }
 		}
@@ -2912,6 +2799,7 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
+			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_army_org_factor = 0.05 }
 			add_to_variable = { RED_training_time_factor = 0.1 }
 		}
@@ -2932,6 +2820,7 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
+			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_army_org_factor = 0.05 }
 		}
 	}
@@ -2952,6 +2841,7 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_ARMY_XP}
 
 		completion_reward = {
+			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_unit_infantry_design_cost_factor = -0.1 }
 			add_to_variable = { RED_unit_artillery_brigade_design_cost_factor = -0.1 }
 
@@ -3000,6 +2890,7 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
+			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_heat_attrition_factor = -0.1 }
 			add_to_variable = { RED_winter_attrition_factor = -0.1 }
 			add_to_variable = { RED_terrain_penalty_reduction = 0.15 }
@@ -3022,14 +2913,17 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
-			add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
-			if = {
-				limit = {
-					has_template = "Halo Infantry Division"
-				}
-				set_division_template_cap = {
-					division_template = "Halo Infantry Division"
-					division_cap = ROOT.halo_infantry_cap
+			custom_effect_tooltip = RED_add_halo_cap_3_tt
+			hidden_effect = {
+				add_to_variable = { ROOT.halo_infantry_cap = 3 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+				if = {
+					limit = {
+						has_template = "Halo Infantry Division"
+					}
+					set_division_template_cap = {
+						division_template = "Halo Infantry Division"
+						division_cap = ROOT.halo_infantry_cap
+					}
 				}
 			}
 			random_owned_controlled_state = {
@@ -3058,6 +2952,7 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
+			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_army_org_factor = 0.10 }
 		}
 	}
@@ -3078,6 +2973,7 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
+			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_cas_damage_reduction = 0.05 }
 			add_to_variable = { RED_max_dig_in = 5 }
 			add_to_variable = { RED_dig_in_speed_factor = 0.05 }
@@ -3146,6 +3042,7 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_ARMY_XP}
 
 		completion_reward = {
+			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_special_forces_cap = 0.1 }
 			add_to_variable = { RED_land_doctrine_cost_factor = -0.1 }
 
@@ -3196,8 +3093,8 @@ focus_tree = {
 	focus = {
 		id = RED_naval_rearmament
 		icon = GFX_goal_generic_build_navy
-		x = 7
-		y = 0
+		x = 5
+		y = 1
 		relative_position_id = RED_ivan_kupla
 
 		cost = 5
@@ -3417,9 +3314,9 @@ focus_tree = {
 		ai_will_do = {
 			factor = 1
 		}
-			
-		available_if_capitulated = yes
+
 		search_filters = { FOCUS_FILTER_INDUSTRY }
+
 		completion_reward = {
 			add_ideas = RED_modular_construction_idea
 		}
@@ -3431,7 +3328,7 @@ focus_tree = {
 		available = {
 		}
 		x = -1
-		y = 1
+		y = 2
 		relative_position_id = RED_modular_construction
 		cost = 10
 		ai_will_do = {
@@ -3478,7 +3375,11 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_POLITICAL}
 
 		completion_reward = {
-			
+			set_variable = { RED_naval_coordination = 0.1 }
+			set_variable = { RED_navy_visibility = -0.05 }
+			set_variable = { RED_positioning = 0.1 }
+			set_variable = { RED_screening_efficiency = 0.1 }
+			custom_effect_tooltip = RED_security_advance_tt
 		}
 	}
 }

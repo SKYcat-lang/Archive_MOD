@@ -1140,6 +1140,7 @@ country_event = {
 	option = { #
 		name = TRM_event.59.a
 		complete_national_focus = TRN_yurijono_seia
+		custom_effect_tooltip = TRM_sanctus__20_tt
 		hidden_effect = {
 			news_event = { id = BA_news.12 hours = 1 }
 			add_popularity = {
@@ -1150,6 +1151,17 @@ country_event = {
 				ideology = democratic
 				popularity = -99
 			}
+			TRN_tpdldk = {
+				remove_country_leader_role = {
+					ideology = marxism
+				}
+				remove_country_leader_role = {
+					ideology = conservatism
+				}
+			}
+			add_to_variable = { TRM_sanctus_popularity = -30 }
+			TRM_internal_factions_popularity_change = yes
+			country_event = { id = TRM_event.71 hours = 480 }
 		}
 	}
 }
@@ -1430,6 +1442,54 @@ country_event = {  # 소련 붕괴
 		hidden_effect = {
 			TRM_NEW_ORDER_SIBERIA = yes
 		}
+	}
+}
+country_event = { 
+	id = TRM_event.71
+	title = TRM_event.71.t
+	desc = TRM_event.71.desc
+	picture = GFX_event_none_picture
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = TRM_event.71.a
+		custom_effect_tooltip = TRM_sanctus_del_tt
+		set_variable = { TRM_internal_factions_remove_var = 1 } #지울 세력 코드
+		TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
+		hidden_effect = {
+			set_party_name = {
+				ideology = communism
+				long_name = debacle
+				name = debacle_short
+			}
+		}
+	}
+}
+country_event = {
+	id = TRM_event.72
+	title = TRM_event.72.t
+	desc = TRM_event.72.desc
+	picture = GFX_event_none_picture
+	
+	fire_only_once = yes	
+    is_triggered_only = yes
+	
+	option = { 
+		name = TRM_event.3.a
+		add_popularity = {
+			ideology = communism
+			popularity = 0.20
+		}
+		add_popularity = {
+			ideology = democratic
+			popularity = -0.52
+		}
+		set_politics = {
+			ruling_party = communism
+		}
+		add_country_leader_trait = TRN_seia_trait
 	}
 }
 add_namespace = TRN_opposition
@@ -2317,21 +2377,15 @@ country_event = {
 				set_popularities = {
 					fascism = 100
 				}
-				generate_character = {
-					token_base = SIL_heydrich
-					name = SIL_heydrich
-					portraits = {
-						civilian = {
-							large = "gfx/leaders/SIL/하이드리히.png"
-						}
-					}
+				add_country_leader_role = {
+					character = SIL_heydrich
+					promote_leader = yes
 					country_leader = {
 						ideology = nazism
 						traits={dictator}
 						expire="1965.1.1.1"
 					}
 				}
-				retire_country_leader = yes
 			}
 			SAX = {
 				set_cosmetic_tag = SAX_kpd
@@ -2342,61 +2396,39 @@ country_event = {
 					communism = 100
 				}
 				hidden_effect = {
-					generate_character = {
-						token_base = SAX_thalman
-						name = SAX_thalman
+					add_country_leader_role = {
+						character = SAX_thalman
+						promote_leader = yes
 						country_leader = {
 							ideology = stalinism
 							traits={ }
 							expire="1965.1.1.1"
 						}
-						portraits = {
-							civilian = {
-								large = "gfx/leaders/SAX/SAX_thalman.png"
-							}
-						}
 					}
-					generate_character = {
-						token_base = SAX_elected_officer_1
-						name = SAX_elected_officer_1
-						corps_commander = {
-							skill = 1
-							attack_skill = 2
-							defense_skill = 2
-							planning_skill = 0
-							logistics_skill = 0
-							traits = {
-								BA_elected_officer
-							}
-						}
-						portraits = {
-							army = {
-								large = "gfx/leaders/SAX/elected_officer.dds"
-								small = "gfx/leaders/SAX/elected_officer.dds"
-							}
-						}
-					}
-					generate_character = {
-						token_base = SAX_elected_officer
+					create_corps_commander = {
 						name = SAX_elected_officer
-						corps_commander = {
-							skill = 1
-							attack_skill = 2
-							defense_skill = 2
-							planning_skill = 0
-							logistics_skill = 0
-							traits = {
-								BA_elected_officer
-							}
+						gfx = "GFX_Elected_Officer"
+						traits = {
+							BA_elected_officer
 						}
-						portraits = {
-							army = {
-								large = "gfx/leaders/SAX/elected_officer.dds"
-								small = "gfx/leaders/SAX/elected_officer.dds"
-							}
-						}
+						skill = 1
+						attack_skill = 2
+						defense_skill = 2
+						planning_skill = 0
+						logistics_skill = 0
 					}
-					retire_country_leader = yes
+					create_corps_commander = {
+						name = SAX_elected_officer_1
+						gfx = "GFX_Elected_Officer"
+						traits = {
+							BA_elected_officer
+						}
+						skill = 1
+						attack_skill = 2
+						defense_skill = 2
+						planning_skill = 0
+						logistics_skill = 0
+					}
 				}
 			}
 			every_state = {

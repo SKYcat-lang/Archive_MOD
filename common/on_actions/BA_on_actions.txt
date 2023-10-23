@@ -1,8 +1,15 @@
 on_actions = {
 	on_startup = {
 		effect = {
+			every_country ={
+				limit = {
+					is_ai = no
+				}
+				country_event = { id = BA_generic_event.401 days = 2 }
+			}
 			#이벤트
 			FRA = {
+				set_major = yes
 				country_event = {
 					id = FRA_prov_event.120
 					days = 3
@@ -93,10 +100,6 @@ on_actions = {
 				country_event = { id = MTG_naval_treaty.11 hours = 6 }
 			}
 			ENG = {
-				add_timed_idea = {
-					idea = KAI_BONUS_ATTACK_TO_ENG
-					days = 160
-				}
 				activate_advisor = edmund_ironside
 			}
 			every_country = {
@@ -324,6 +327,29 @@ on_actions = {
 	}
  	on_capitulation = {
 		effect = {
+			if = {
+				limit = {
+					tag = SOV
+					has_war_with = FRA
+					FRA = {
+						has_completed_focus = FRA_focus_big_14
+					}
+				}
+				FRA = {
+					white_peace = SOV
+					every_country = {
+						limit = {
+							is_ally_with = SOV
+						}
+						white_peace = FRA
+					}
+					FRA = {
+						country_event = {
+							id = FRA_recover.2
+						}
+					}
+				}
+			}
 			if = {
 				limit = {
 					tag = RAJ
