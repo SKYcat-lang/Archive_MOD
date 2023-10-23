@@ -248,6 +248,11 @@ focus_tree = {
 				has_completed_focus = MIL_rebuilt_school2
 			}
 		}
+		allow_branch = {
+			NOT = {
+				has_country_flag = MIL_Koyuki_revolution_flag
+			}
+		} 
 		x = -2
 		y = 1
 		relative_position_id = MIL_intensified_disagreements
@@ -272,6 +277,11 @@ focus_tree = {
 				has_completed_focus = MIL_rebuilt_school2
 			}
 		}
+		allow_branch = {
+			NOT = {
+				has_country_flag = MIL_Koyuki_revolution_flag
+			}
+		} 
 		x = 2
 		y = 1
 		relative_position_id = MIL_intensified_disagreements
@@ -2116,8 +2126,8 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = industrial_bonus
-				bonus = 1.5
-				uses = 2
+				bonus = 2.0
+				uses = 1
 				category = industry
 			}
 		}	
@@ -2125,14 +2135,11 @@ focus_tree = {
 		
 	focus = { #자동화 경제
 		id = MIL_automation_economy
-		icon = unknown
+		icon = GFX_focus_generic_industry_1
 		cost = 10.00
 		prerequisite = { focus = MIL_the_economy }
 		mutually_exclusive = { focus = MIL_direct_economic_control  }
-		available = {
-			has_country_flag = GAEBALJUNG
-		}
-		x = 4
+		x = 3
 		y = 1
 		relative_position_id = MIL_the_economy
 		
@@ -2142,7 +2149,7 @@ focus_tree = {
 			}
 		}
 		offset = {
-			x = -4
+			x = -3
 			y = 0
 			trigger = {
 				OR = {
@@ -2165,75 +2172,320 @@ focus_tree = {
 		}	
 	}
 		
-	focus = { #산업 자동화
-		id = MIL_automation_industry
-		icon = unknown
-		cost = 5.00
+	focus = { #소비재 생산
+		id = MIL_consumer_goods_production
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 10.00
 		prerequisite = { focus = MIL_automation_economy }
-		x = -2
+		mutually_exclusive = { focus = MIL_heavy_industry_focus }
+		x = -1
 		y = 1
 		relative_position_id = MIL_automation_economy
 		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = MIL_consumer_goods_production
+				bonus = 1.25
+				uses = 2
+				category = industry
+				category = electronics
+			}
 		}	
 	}
 		
-	focus = { #맞춤 생산 계획
-		id = MIL_custom_production_plan
-		icon = unknown
+	focus = { #톱니바퀴 사회
+		id = MIL_cogwheel_society
+		icon = GFX_goal_generic_production
+		cost = 10.00
+		prerequisite = { focus = MIL_consumer_goods_production }
+		prerequisite = { focus = MIL_expanding_the_base }
+		x = 0
+		y = 3
+		relative_position_id = MIL_consumer_goods_production
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = MIL_precision_production_planning_idea
+				add_idea = MIL_cogwheel_society_idea
+			}
+		}	
+	}
+		
+	focus = { #중공업
+		id = MIL_heavy_industry_focus
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 10.00
+		prerequisite = { focus = MIL_automation_economy }
+		mutually_exclusive = { focus = MIL_consumer_goods_production }
+		x = 1
+		y = 1
+		relative_position_id = MIL_automation_economy
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = MIL_heavy_industry_focus
+				bonus = 1.25
+				uses = 2
+				category = infantry_weapons
+			}
+		}	
+	}
+		
+	focus = { #기계화 군세
+		id = MIL_mechanized_army
+		icon = GFX_focus_generic_combined_arms
+		cost = 10.00
+		prerequisite = { focus = MIL_heavy_industry_focus }
+		prerequisite = { focus = MIL_expanding_the_base }
+		x = 0
+		y = 3
+		relative_position_id = MIL_heavy_industry_focus
+		completion_reward = {
+			add_tech_bonus = {
+				name = MIL_mechanized_army
+				bonus = 1.00
+				uses = 2
+				category = armor
+			}
+			swap_ideas = {
+				remove_idea = MIL_precision_production_planning_idea
+				add_idea = MIL_mechanized_army_idea
+			}
+		}	
+	}
+		
+	focus = { #정밀 생산 계획
+		id = MIL_precision_production_planning
+		icon = GFX_focus_generic_industry_2
+		cost = 5.00
+		prerequisite = { focus = MIL_consumer_goods_production focus = MIL_heavy_industry_focus }
+		x = 0
+		y = 2
+		relative_position_id = MIL_automation_economy
+		completion_reward = {
+			add_ideas = MIL_precision_production_planning_idea
+		}	
+	}
+		
+	focus = { #기반 확산
+		id = MIL_expanding_the_base
+		icon = GFX_goal_generic_construction2
+		cost = 10.00
+		prerequisite = { focus = MIL_precision_production_planning }
+		x = 0
+		y = 1
+		relative_position_id = MIL_precision_production_planning
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					has_resources_amount = {
+						resource = steel
+						amount > 5
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_resource = {
+					type = steel
+					amount = -5
+				}
+				add_resource = {
+					type = tungsten
+					amount = 3
+				}
+				add_resource = {
+					type = chromium
+					amount = 2
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					has_resources_amount = {
+						resource = steel
+						amount > 5
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_resource = {
+					type = steel
+					amount = -5
+				}
+				add_resource = {
+					type = tungsten
+					amount = 3
+				}
+				add_resource = {
+					type = chromium
+					amount = 2
+				}
+			}
+			random_owned_controlled_state = {	
+				limit ={
+					is_fully_controlled_by = ROOT
+					free_building_slots = {
+						building = fuel_silo
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_building_construction = {
+					type = fuel_silo
+					level = 1
+					instant_build = yes						
+				}
+			}
+			random_owned_controlled_state = {	
+				limit ={
+					is_fully_controlled_by = ROOT
+					free_building_slots = {
+						building = fuel_silo
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_building_construction = {
+					type = fuel_silo
+					level = 1
+					instant_build = yes						
+				}
+			}
+		}	
+	}
+		
+	focus = { #산업 자동화
+		id = MIL_automation_industry
+		icon = GFX_goal_generic_production2
+		cost = 5.00
+		prerequisite = { focus = MIL_automation_economy }
+		x = 4
+		y = 1
+		relative_position_id = MIL_automation_economy
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = MIL_consumer_goods_production
+				bonus = 0.25
+				uses = 2
+				category = electronics
+			}
+		}	
+	}
+		
+	focus = { #근미래 수요 예측
+		id = MIL_near_future_demand_analysis
+		icon = GFX_goal_generic_neutrality_focus
 		cost = 5.00
 		prerequisite = { focus = MIL_automation_industry }
-		x = 0
+		mutually_exclusive = { focus = MIL_customized_production_system }
+		x = -1
 		y = 1
 		relative_position_id = MIL_automation_industry
 		completion_reward = {
+			add_ideas = MIL_near_future_demand_analysis_idea
 		}	
 	}
 		
-	focus = { #미래 계산 모델
-		id = MIL_future_computation_model
-		icon = unknown
+	focus = { #맞춤형 생산 시스템
+		id = MIL_customized_production_system
+		icon = GFX_goal_generic_positive_trade_relations
 		cost = 5.00
-		prerequisite = { focus = MIL_automation_economy }
-		x = 0
+		prerequisite = { focus = MIL_automation_industry }
+		mutually_exclusive = { focus = MIL_near_future_demand_analysis }
+		x = 1
 		y = 1
-		relative_position_id = MIL_automation_economy
+		relative_position_id = MIL_automation_industry
 		completion_reward = {
-		}	
-	}
-		
-	focus = { #수요 예측 알고리즘
-		id = MIL_demand_forecasting_algorithm
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_future_computation_model }
-		x = 0
-		y = 1
-		relative_position_id = MIL_future_computation_model
-		completion_reward = {
-		}	
-	}
-		
-	focus = { #운송 자동화
-		id = MIL_transportation_automation
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_automation_economy }
-		x = 2
-		y = 1
-		relative_position_id = MIL_automation_economy
-		completion_reward = {
-		}	
-	}
-		
-	focus = { #로봇 경제
-		id = MIL_robot_economy
-		icon = unknown
-		cost = 5.00
-		prerequisite = { focus = MIL_transportation_automation }
-		x = 0
-		y = 1
-		relative_position_id = MIL_transportation_automation
-		completion_reward = {
+			add_ideas = MIL_customized_production_system_idea
 		}	
 	}
 		
@@ -2249,7 +2501,7 @@ focus_tree = {
 				has_completed_focus = MIL_rebuilt_school2
 			}
 		}
-		x = -4
+		x = -3
 		y = 1
 		relative_position_id = MIL_the_economy
 		
@@ -2262,7 +2514,7 @@ focus_tree = {
 			}
 		}
 		offset = {
-			x = 4
+			x = 3
 			y = 0
 			trigger = {
 				has_completed_focus = MIL_direct_economic_control
@@ -2331,27 +2583,10 @@ focus_tree = {
 		id = MIL_destroy_french_market
 		icon = unknown
 		cost = 5.00
-		prerequisite = { focus = MIL_economy_control focus = MIL_automation_economy }
-		x = -5
-		y = 3
-		relative_position_id = MIL_the_economy
-		offset = {
-			x = 4
-			y = 0
-			trigger = {
-				has_completed_focus = MIL_direct_economic_control
-			}
-		}
-		offset = {
-			x = 1
-			y = -1
-			trigger = {
-				OR = {
-					has_completed_focus = MIL_automation_economy
-					has_country_flag = MIL_fuck_flag
-				}
-			}
-		}
+		prerequisite = { focus = MIL_economy_control }
+		x = 0
+		y = 1
+		relative_position_id = MIL_economy_control
 		completion_reward = {
 			country_event = {
 				id = MIL_event.4
@@ -2368,10 +2603,9 @@ focus_tree = {
 		icon = GFX_goal_generic_construct_civ_factory
 		cost = 5.00
 		prerequisite = { focus = MIL_destroy_french_market }
-		prerequisite = { focus = MIL_economy_control }
 		x = 0
-		y = 2
-		relative_position_id = MIL_economy_control
+		y = 1
+		relative_position_id = MIL_destroy_french_market
 		completion_reward = {
 			capital_scope = {
 				add_extra_state_shared_building_slots = 2
