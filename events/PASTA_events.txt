@@ -1,0 +1,89 @@
+add_namespace = PASTA_event
+
+country_event = {
+	id = PASTA_event.1
+	title = PASTA_event.1.t 
+	desc = PASTA_event.1.d
+	picture = GFX_report_event_generic_read_write
+	
+	is_triggered_only = yes
+
+	# The conditions are acceptable
+	option = { 
+		name = PASTA_event.1.a 
+
+		ai_chance = {
+			base = 100
+		}
+
+		every_country = { #If Italy has any wargoal on other countries, remove them so they can join the faction
+			limit = {
+				OR = {
+					is_in_faction_with = ROOT
+					tag = ROOT
+				}
+				FROM = {
+					has_wargoal_against = PREV
+				}
+			}
+			FROM = {
+				remove_wargoal = {
+					type = all
+					target = PREV
+				}
+			}
+		}
+		ITA = {
+			add_to_faction = ROOT
+			country_event = { id = PASTA_event.2 hours = 8 }
+		}
+	}
+
+	# No thank you
+	option = { 
+		name = PASTA_event.1.b 
+
+		ai_chance = {
+			base = 0
+		}
+
+		ITA = {
+			country_event = { id = PASTA_event.3 hours = 24 }
+		}
+		add_war_support = -0.3
+
+	}
+}
+
+country_event = {
+	id = PASTA_event.2
+	title = PASTA_event.2.t 
+	desc = PASTA_event.2.d
+	picture = GFX_report_event_generic_read_write
+	
+	is_triggered_only = yes
+
+	option = { 
+		name = PASTA_event.2.a
+
+		add_stability = 0.05
+		add_war_support = -0.05
+
+	}
+}
+
+country_event = {
+	id = PASTA_event.3
+	title = PASTA_event.3.t 
+	desc = PASTA_event.3.d
+	picture = GFX_report_event_generic_read_write
+	
+	is_triggered_only = yes
+
+	option = { 
+		name = PASTA_event.3.a
+
+		add_war_support = 0.10
+
+	}
+}
