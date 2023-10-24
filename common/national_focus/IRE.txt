@@ -271,9 +271,7 @@ focus_tree = {
 		icon = GFX_goal_generic_major_alliance
 		cost = 5.00
 		prerequisite = { focus = IRE_all_over_united_kingdom }
-		allow_branch = {
-			has_completed_focus = IRE_all_over_united_kingdom
-		}
+		allow_branch = { has_completed_focus = IRE_all_over_united_kingdom }
 		x = 0
 		y = 1
 		relative_position_id = IRE_all_over_united_kingdom
@@ -919,23 +917,22 @@ focus_tree = {
 			base = 40
 		}
 
-		completion_reward = {
-			if = {
+		completion_reward = { 
+			every_country = {
 				limit = {
-					any_country = {
-						limit = {
-							controls_state = 120
-							controls_state = 136
-							controls_state = 133
-							controls_state = 121
-						}
-					}	
+					OR = {
+						controls_state = 120
+						controls_state = 136
+						controls_state = 133
+						controls_state = 121
+					}
 				}
-				save_event_target_as = scotland_celt_target
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = event_target:scotland_celt_target
+				IRE = {
+				   create_wargoal = {
+					   type = annex_everything
+					   target = PREV 
+					 }
+			   }
 			}
 		}
 	}
@@ -954,21 +951,15 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			if = {
-				limit = {
-					any_country = {
-						limit = {
-							controls_state = 122
-						}
-					}	
-				}
-				save_event_target_as = wales_celt_target
-			}
-			create_wargoal = {
-				type = annex_everything
-				target = event_target:wales_celt_target
-			}
-		}
+			random_country = {
+	 		 	limit = { owns_state = 122 }
+				 IRE = {
+					create_wargoal = {
+					    type = annex_everything
+					    target = PREV 
+	  				}
+    			}
+    		}
 	}
 
 	focus = { # 브르타뉴 침공
@@ -1013,34 +1004,15 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			if = {
-				limit = {
-					country_exists = MIL
-				}
-				create_wargoal = {
-					type = annex_everything
-					target = MIL
-				}
-			}
-			if = {
-				limit = {
-					AND = {
-						country_exists = FRA
-						FRA = {
-							any_state = {
-								limit = {
-									AND = {
-										is_capital = yes
-										is_on_continent = europe
-									}
-								}
-							}
-						}	
-					}
-				}
-				create_wargoal = {
-					type = annex_everything
-					target = FRA
+			random_country = {
+				  limit = {
+					controls_state = 16
+					  }
+				 IRE = {
+					create_wargoal = {
+						type = annex_everything
+						target = PREV
+					  }
 				}
 			}
 		}
@@ -1559,5 +1531,6 @@ focus_tree = {
 			
 		}
 	}
+}
 }
 
