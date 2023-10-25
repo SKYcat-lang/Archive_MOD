@@ -794,6 +794,8 @@ focus_tree = {
 
 		completion_reward = {
 			add_political_power = 120
+
+			news_event = { id = BA_news.27 hours = 2 random_hours = 2 }
 		}
 	}
 	focus = { # 푸딩 추가 배급
@@ -1444,17 +1446,14 @@ focus_tree = {
 
 		completion_reward = {
 			add_stability = -0.15
-			custom_effect_tooltip = RED_add_halo_cap_3_tt
-			hidden_effect = {
-				add_to_variable = { ROOT.halo_infantry_cap = 3 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
-				if = {
-					limit = {
-						has_template = "Halo Infantry Division"
-					}
-					set_division_template_cap = {
-						division_template = "Halo Infantry Division"
-						division_cap = RED.halo_infantry_cap
-					}
+			add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+			if = {
+				limit = {
+					has_template = "Halo Infantry Division"
+				}
+				set_division_template_cap = {
+					division_template = "Halo Infantry Division"
+					division_cap = ROOT.halo_infantry_cap
 				}
 			}
 			random_owned_controlled_state = {
@@ -1489,7 +1488,7 @@ focus_tree = {
 	focus = { # 고틀란드냐 전쟁이냐
 		id =  RED_gotland_or_war
 		icon = GFX_focus_attack_germany
-		prerequisite = { focus = RED_welcome_thugs focus = RED_welcome_immigrate }
+		prerequisite = { focus = RED_welcome_thugs }
 		x = 0
 		y = 1
 		relative_position_id = RED_welcome_thugs
@@ -1514,7 +1513,7 @@ focus_tree = {
 	focus = { # 횃불을 밝혀라
 		id =  RED_intervene_in_geh
 		icon = GFX_focus_spr_torchbearers_of_tomorrow
-		prerequisite = { focus = RED_welcome_immigrate focus = RED_welcome_thugs }
+		prerequisite = { focus = RED_welcome_immigrate }
 		x = 0
 		y = 1
 		relative_position_id = RED_welcome_immigrate
@@ -1558,7 +1557,7 @@ focus_tree = {
 	focus = { # 반 소비에트 정책
 		id = RED_anti_sov_diplo
 		icon = GFX_goal_anti_comintern_pact
-		prerequisite = { focus = RED_kibotos_policy focus = RED_communist_diplo }
+		prerequisite = { focus = RED_kibotos_policy focus = RED_communist_diplo_modifier }
 		x = 0
 		y = 1
 		relative_position_id = RED_kibotos_policy
@@ -1709,7 +1708,7 @@ focus_tree = {
 			add_ideas = RED_labor_world_idea
 		}
 	}
-	focus = { #주변의 위협
+	focus = { #오직 노동자만을 위해
 		id = RED_the_threats_abound
 		available = {
 		}
@@ -1718,7 +1717,7 @@ focus_tree = {
 		prerequisite = { focus = RED_labor_world }
 		
 		icon = GFX_goal_generic_defence
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = RED_labor_world
 		cost = 10
@@ -1728,10 +1727,10 @@ focus_tree = {
 			set_rule = {
 				can_create_factions = yes
 			}
-			create_faction = "anarchist_international"
+			create_faction = "제5인터내셔널"
 		}
 	}
-	focus = { #독일의 독립 지지
+	focus = { #사무부 축출
 		id = RED_deal_with_ger
 		available = {
 			NOT = { has_war_with = GEN }
@@ -1741,8 +1740,8 @@ focus_tree = {
 		}
 		prerequisite = { focus = RED_the_threats_abound }
 
-		icon = GFX_focus_chi_mission_to_germany
-		x = 0
+		icon = GFX_goal_unknown
+		x = -1
 		y = 1
 		relative_position_id = RED_the_threats_abound
 		cost = 10
@@ -1754,13 +1753,12 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { #공산주의 외교
+	focus = { #용역부 권한 강화
 		id = RED_communist_diplo
-		icon = GFX_focus_SOV_proclaim_soviet_hegemony
-		x = 1
-		y = 1
+		icon = GFX_goal_unknown
+		x = -1
+		y = 2
 		relative_position_id = RED_deal_with_ger
-		prerequisite = { focus = RED_deal_with_ger }
 		prerequisite = { focus = RED_freedom_of_thought }
 
 		cost = 10
@@ -1779,20 +1777,17 @@ focus_tree = {
 						has_government = neutrality
 					}
 				}
-				add_opinion_modifier = { 
-					target = RED
-					modifier = RED_communist_diplo_modifier
-				}
+				add_opinion_modifier = { target = RED modifier = RED_communist_diplo }
 			}
 		}
 	}
-	focus = { #게헨나-트리니티 갈등
+	focus = { #체리노 동상 파괴
 		id = RED_geh_versus_trm
-		icon = GFX_goal_generic_more_territorial_claims
-		x = 0
-		y = 1
+		icon = GFX_goal_unknown
+		x = 2
+		y = 0
 		relative_position_id = RED_communist_diplo
-		prerequisite = { focus = RED_kibotos_policy focus = RED_communist_diplo focus = RED_military_dictatorship }
+		prerequisite = { focus = RED_freedom_of_thought }
 		cost = 10
 
 		available = {
@@ -1808,12 +1803,12 @@ focus_tree = {
 			add_war_support = 0.15
 		}
 	}
-	focus = { #게헨나 선제타격
+	focus = { #체리노 처리
 		id = RED_attack_geh
-		prerequisite = { focus = RED_geh_versus_trm }
-		icon = GFX_goal_generic_occupy_states_ongoing_war
-		x = -1 
-		y = 1
+		prerequisite = { focus = RED_freedom_of_thought }
+		icon = GFX_goal_unknown
+		x = 2
+		y = 0
 		relative_position_id = RED_geh_versus_trm
 		cost = 10
 
@@ -1841,45 +1836,13 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { #트리니티 선제타격
-		id = RED_attack_trm
-		prerequisite = { focus = RED_geh_versus_trm }
-
-		icon = GFX_goal_generic_occupy_states_ongoing_war
-		x = 1
-		y = 1
-		relative_position_id = RED_geh_versus_trm
-		cost = 10
-
-		available = {
-			TRM = {
-				has_government = fascism
-			}
-		}
-		bypass = {
-			OR = {
-				NOT = { country_exists = TRM }
-				TRM = { NOT = { has_government =  fascism } }
-			}
-		}
-		
-		completion_reward = {
-			if = {
-				limit = {
-					country_exists = TRM
-				}
-				create_wargoal = {
-					target = TRM
-					type = annex_everything
-				}
-			}
-		}
-	}
-	focus = {
+	focus = { #해방이다!
 		id = RED_anti_fascism_policy
-		icon = GFX_focus_generic_anti_fascist_diplomacy
-		prerequisite = { focus = RED_attack_geh focus = RED_attack_trm }
-		x = 1
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_communist_diplo }
+		prerequisite = { focus = RED_geh_versus_trm }
+		prerequisite = { focus = RED_attack_geh }
+		x = -2
 		y = 1
 		relative_position_id = RED_attack_geh
 		cost = 10
@@ -1899,17 +1862,17 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { #혁명의 불꽃
+	focus = { #혁명 지속화
 		id = RED_maintaining_the_fire
 		available = {
 		}
 		bypass = {
 		}
-		prerequisite = { focus = RED_labor_world }
+		prerequisite = { focus = RED_the_threats_abound }
 		
-		icon = GFX_goal_generic_attack_allies
+		icon = GFX_goal_unknown
 		x = 1
-		y = 1
+		y = 2
 		relative_position_id = RED_labor_world
 		cost = 10
 
@@ -1920,17 +1883,18 @@ focus_tree = {
 			add_war_support = 0.10
 		}
 	}
-	focus = { #사상의 자유
+	focus = { #노동자를 위한 적기
 		id = RED_freedom_of_thought
 		available = {
 			num_of_factories > 50
 		}
 		bypass = {
 		}
+		prerequisite = { focus = RED_deal_with_ger }
 		prerequisite = { focus = RED_maintaining_the_fire }
 		
 		icon = GFX_focus_research
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = RED_maintaining_the_fire
 		cost = 10
@@ -2541,7 +2505,6 @@ focus_tree = {
 
 		completion_reward = {
 			add_manpower = 100000
-			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_mobilization_speed = 0.05 }
 			add_to_variable = { RED_conscription_factor = 0.03 }
 		}
@@ -2778,7 +2741,6 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
-			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_modifier_army_sub_unit_infantry_speed_factor = 0.05 }
 			add_to_variable = { RED_army_infantry_attack_factor = 0.05 }
 		}
@@ -2799,7 +2761,6 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
-			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_army_org_factor = 0.05 }
 			add_to_variable = { RED_training_time_factor = 0.1 }
 		}
@@ -2820,7 +2781,6 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
-			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_army_org_factor = 0.05 }
 		}
 	}
@@ -2841,7 +2801,6 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_ARMY_XP}
 
 		completion_reward = {
-			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_unit_infantry_design_cost_factor = -0.1 }
 			add_to_variable = { RED_unit_artillery_brigade_design_cost_factor = -0.1 }
 
@@ -2890,7 +2849,6 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
-			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_heat_attrition_factor = -0.1 }
 			add_to_variable = { RED_winter_attrition_factor = -0.1 }
 			add_to_variable = { RED_terrain_penalty_reduction = 0.15 }
@@ -2913,17 +2871,14 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
-			custom_effect_tooltip = RED_add_halo_cap_3_tt
-			hidden_effect = {
-				add_to_variable = { ROOT.halo_infantry_cap = 3 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
-				if = {
-					limit = {
-						has_template = "Halo Infantry Division"
-					}
-					set_division_template_cap = {
-						division_template = "Halo Infantry Division"
-						division_cap = ROOT.halo_infantry_cap
-					}
+			add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+			if = {
+				limit = {
+					has_template = "Halo Infantry Division"
+				}
+				set_division_template_cap = {
+					division_template = "Halo Infantry Division"
+					division_cap = ROOT.halo_infantry_cap
 				}
 			}
 			random_owned_controlled_state = {
@@ -2952,7 +2907,6 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
-			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_army_org_factor = 0.10 }
 		}
 	}
@@ -2973,7 +2927,6 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
-			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_cas_damage_reduction = 0.05 }
 			add_to_variable = { RED_max_dig_in = 5 }
 			add_to_variable = { RED_dig_in_speed_factor = 0.05 }
@@ -3042,7 +2995,6 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_ARMY_XP}
 
 		completion_reward = {
-			custom_effect_tooltip = RED_security_advance_tt
 			add_to_variable = { RED_special_forces_cap = 0.1 }
 			add_to_variable = { RED_land_doctrine_cost_factor = -0.1 }
 
@@ -3381,5 +3333,41 @@ focus_tree = {
 			set_variable = { RED_screening_efficiency = 0.1 }
 			custom_effect_tooltip = RED_security_advance_tt
 		}
+	}
+	focus = { #새 평의회 구성 
+		id = RED_new_council
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_anti_fascism_policy }
+		x = 20
+		y = 10
+
+		cost = 5
+
+		search_filters = {FOCUS_FILTER_POLITICAL}
+		
+	}
+	focus = { #노동자를 위한 의회를
+		id = RED_council_for_worker
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_new_council }
+		x = 18
+		y = 11
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+	focus = { #혁명을 위한 의회를
+		id = RED_council_for_party
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_new_council }
+		mutually_exclusive = { focus = RED_council_for_worker }
+		x = 22
+		y = 11
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL}
+
 	}
 }
