@@ -122,7 +122,7 @@ TRN_internal_factions_categories = {
 		days_mission_timeout = 12
 
 		activation = {
-		 	has_completed_focus = TRN_nagisa_gyehek
+			always = no
 	 	}
 
 		is_good = no
@@ -148,8 +148,8 @@ TRN_internal_factions_categories = {
 			hidden_effect = {
 				activate_mission = TRN_pater_opp_auto
 			}
-			custom_effect_tooltip = TRM_pater_popularity_5_tt
-			add_to_variable = { TRM_pater_popularity = 5 }
+			custom_effect_tooltip = TRM_pater_popularity_10_tt
+			add_to_variable = { TRM_pater_popularity = 10 }
 			TRM_internal_factions_popularity_change = yes	
 		}
 
@@ -158,10 +158,10 @@ TRN_internal_factions_categories = {
 		icon = GFX_decision_generic_prepare_civil_war
 
 		priority = 10
-		days_mission_timeout = 1
+		days_mission_timeout = 110
 
 		activation = {
-		 	has_completed_focus = TRN_nagisa_gyehek
+			always = no
 	 	}
 
 		available = {
@@ -190,8 +190,81 @@ TRN_internal_factions_categories = {
 			custom_effect_tooltip = TRM_filius_popularity__20_tt
 			add_to_variable = { TRM_filius_popularity = 20 }
 			TRM_internal_factions_popularity_change = yes
+			
+			hidden_effect = {
+				activate_mission = TRN_parter_coupdetat
+			}
 		}
 
+	}
+	TRN_parter_coupdetat = {
+		icon = GFX_decision_generic_prepare_civil_war
+
+		priority = 10
+		days_mission_timeout = 110
+
+		activation = {
+			always = no
+	 	}
+
+		available = {
+			has_completed_focus = TRN_Crushing_Pater
+		}
+		
+		is_good = no
+
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_internal_factions_pater_slot_tt
+				NOT = {
+					OR = {
+						check_variable = { TRM_internal_factions_slot_one_var = 0 }
+						check_variable = { TRM_internal_factions_slot_two_var = 0 }
+						check_variable = { TRM_internal_factions_slot_three_var = 0 }
+					}
+				}
+			}
+		}
+		
+		timeout_effect = {
+			if = {
+				limit = {
+					has_completed_focus = TRN_Suppressing_mika
+				}
+				start_civil_war = {
+					ideology = fascism
+					size = 0.7
+					army_ratio = 0.5
+					navy_ratio = 0
+					air_ratio = 0
+					keep_all_characters = yes
+					create_country_leader = {
+						picture = GFX_Portrait_BlueArchive_TRM_Generic_2
+						expire = "1965.1.1"
+						ideology = pater_nazism
+					}
+					set_cosmetic_tag = TRM_pater
+				}
+			}
+			else = {
+				start_civil_war = {
+					ideology = fascism
+					size = 0.4
+					army_ratio = 0.4
+					navy_ratio = 0
+					air_ratio = 0
+					keep_all_characters = yes
+					PREV = {  # Original country
+						TRN_alzk = { # Character
+							set_nationality = PREV.PREV
+							# Transfers to breakaway
+						}
+					}
+					promote_character = TRN_alzk
+					set_cosmetic_tag = TRM_pater
+				}
+			}
+		}
 	}
 	TRN_pater_add = {
 		icon = GFX_decision_eng_propaganda_campaigns
@@ -202,9 +275,9 @@ TRN_internal_factions_categories = {
 			base = 100
 		}
 		
-		cost = 15
-		days_remove = 7
-		days_re_enable = 14
+		cost = 20
+		days_remove = 35
+		days_re_enable = 35
 
 		visible = {
 			check_variable = { TRM_pater_popularity > 0 }
@@ -233,9 +306,9 @@ TRN_internal_factions_categories = {
 			base = 100
 		}
 		
-		cost = 15
-		days_remove = 7
-		days_re_enable = 14
+		cost = 20
+		days_remove = 35
+		days_re_enable = 35
 
 		visible = {
 			check_variable = { TRM_filius_popularity > 0 }
@@ -265,9 +338,9 @@ TRN_internal_factions_categories = {
 			base = 100
 		}
 		
-		cost = 15
-		days_remove = 7
-		days_re_enable = 14
+		cost = 30
+		days_remove = 35
+		days_re_enable = 70
 
 		visible = {
 			check_variable = { TRM_pater_popularity > 0 }
@@ -297,9 +370,9 @@ TRN_internal_factions_categories = {
 			base = 100
 		}
 		
-		cost = 15
-		days_remove = 7
-		days_re_enable = 14
+		cost = 30
+		days_remove = 35
+		days_re_enable = 70
 
 		visible = {
 			check_variable = { TRM_filius_popularity > 0 }
@@ -329,9 +402,9 @@ TRN_internal_factions_categories = {
 			base = 100
 		}
 		
-		cost = 15
-		days_remove = 7
-		days_re_enable = 14
+		cost = 30
+		days_remove = 35
+		days_re_enable = 70
 
 		visible = {
 			check_variable = { TRM_sanctus_popularity > 0 }
@@ -361,9 +434,9 @@ TRN_internal_factions_categories = {
 			base = 100
 		}
 		
-		cost = 15
-		days_remove = 7
-		days_re_enable = 14
+		cost = 30
+		days_remove = 35
+		days_re_enable = 70
 
 		visible = {
 			check_variable = { TRM_gerarmy_popularity > 0 }
@@ -397,7 +470,7 @@ TRN_internal_factions_categories = {
 			base = 100
 		}
 		
-		cost = 100
+		cost = 200
 		visible = {
 			OR = {
 				check_variable = { TRM_internal_factions_slot_one_var = 0 }
@@ -427,7 +500,7 @@ TRN_internal_factions_categories = {
 			base = 100
 		}
 		
-		cost = 100
+		cost = 200
 		visible = {
 			OR = {
 				check_variable = { TRM_internal_factions_slot_one_var = 2 }
@@ -457,7 +530,7 @@ TRN_internal_factions_categories = {
 			base = 100
 		}
 		
-		cost = 100
+		cost = 200
 		visible = {
 			OR = {
 				check_variable = { TRM_internal_factions_slot_one_var = 1 }
@@ -487,7 +560,7 @@ TRN_internal_factions_categories = {
 			base = 100
 		}
 		
-		cost = 100
+		cost = 200
 		visible = {
 			OR = {
 				check_variable = { TRM_internal_factions_slot_one_var = 3 }
@@ -514,7 +587,7 @@ TRN_internal_factions_categories = {
 			base = 100
 		}
 		
-		cost = 25
+		cost = 100
 		visible = {
 			has_completed_focus = TRN_Request_assistance_from_Sisterhood
 		}
@@ -543,7 +616,7 @@ TRN_internal_factions_categories = {
 			base = 100
 		}
 		
-		cost = 25
+		cost = 100
 		visible = {
 			has_completed_focus = TRN_Request_assistance_from_relief_knights
 		}
@@ -572,7 +645,7 @@ TRN_internal_factions_categories = {
 			base = 100
 		}
 		
-		cost = 25
+		cost = 100
 		visible = {
 			has_completed_focus = TMR_support_with_germany
 		}
