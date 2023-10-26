@@ -18,7 +18,6 @@ focus_tree = {
 	focus = { # 남부 도로 재정비
 		id = RED_road_to_south
 		icon = GFX_goal_generic_construction
-		mutually_exclusive = { focus = RED_road_to_north }
 		x = 1
 		y = 0
 		cost = 10
@@ -66,7 +65,6 @@ focus_tree = {
 	focus = { # 북부 도로 재개발
 		id = RED_road_to_north
 		icon = GFX_goal_generic_construction
-		mutually_exclusive = { focus = RED_road_to_south }
 		x = 2
 		y = 0
 		relative_position_id = RED_road_to_south
@@ -862,147 +860,19 @@ focus_tree = {
 			add_political_power = 25
 
 			#샬레
-			if = {
-				limit = {
-					country_exists = SHE
-					SHE = {
+			every_other_country = {
+				if = {
+					limit = {
+						has_country_flag = kivotos_research_on
 						NOT = { is_in_faction_with = ROOT }
 					}
-				}
-				SHE = {
 					add_timed_idea = {
-						idea = communist_pressure
+						idea = communist_influence
 						days = 365
 					}
 					hidden_effect = {
 						country_event = { id = generic.1 }
-					}        
-				}
-			}
-			#흥신소
-			if = {
-				limit = {
-					country_exists = HEU
-					HEU = {
-						NOT = { is_in_faction_with = ROOT }
 					}
-				}
-				HEU = {
-					add_timed_idea = {
-						idea = communist_pressure
-						days = 365
-					}
-					hidden_effect = {
-						country_event = { id = generic.1 }
-					}        
-				}
-			}
-			#발키리
-			if = {
-				limit = {
-					country_exists = KSP
-					KSP = {
-						NOT = { is_in_faction_with = ROOT }
-					}
-				}
-				KSP = {
-					add_timed_idea = {
-						idea = communist_pressure
-						days = 365
-					}
-					hidden_effect = {
-						country_event = { id = generic.1 }
-					}        
-				}
-			}
-			#SRT
-			if = {
-				limit = {
-					country_exists = SRT
-					SRT = {
-						NOT = { is_in_faction_with = ROOT }
-					}
-				}
-				SRT = {
-					add_timed_idea = {
-						idea = communist_pressure
-						days = 365
-					}
-					hidden_effect = {
-						country_event = { id = generic.1 }
-					}        
-				}
-			}
-			#MIL
-			if = {
-				limit = {
-					country_exists = MIL
-					MIL = {
-						NOT = { is_in_faction_with = ROOT }
-					}
-				}
-				MIL = {
-					add_timed_idea = {
-						idea = communist_pressure
-						days = 365
-					}
-					hidden_effect = {
-						country_event = { id = generic.1 }
-					}        
-				}
-			}
-			#ABY
-			if = {
-				limit = {
-					country_exists = ABY
-					ABY = {
-						NOT = { is_in_faction_with = ROOT }
-					}
-				}
-				ABY = {
-					add_timed_idea = {
-						idea = communist_pressure
-						days = 365
-					}
-					hidden_effect = {
-						country_event = { id = generic.1 }
-					}        
-				}
-			}
-			#HYA
-			if = {
-				limit = {
-					country_exists = HYA
-					HYA = {
-						NOT = { is_in_faction_with = ROOT }
-					}
-				}
-				HYA = {
-					add_timed_idea = {
-						idea = communist_pressure
-						days = 365
-					}
-					hidden_effect = {
-						country_event = { id = generic.1 }
-					}        
-				}
-			}
-			#SHA
-			if = {
-				limit = {
-					country_exists = SHA
-					SHA = {
-						NOT = { is_in_faction_with = ROOT }
-					}
-				}
-				SHA = {
-					add_timed_idea = {
-						idea = communist_pressure
-						days = 365
-					}
-					hidden_effect = {
-						country_event = { id = generic.1 }
-					}        
 				}
 			}
 		}
@@ -1141,7 +1011,7 @@ focus_tree = {
 	}
 	focus = { #중앙집권과 규율
 		id = RED_organization_centralization_discipline
-		icon = GFX_focus_SOV_father_of_nations
+		icon = GFX_focus_generic_soviet_politics
 		prerequisite = { focus = RED_the_collectivization_process }
 		x = -1
 		y = 1
@@ -1211,7 +1081,7 @@ focus_tree = {
 	}
 	focus = { #붉은겨울이여 영원하라
 		id = RED_long_live_the_workers_government
-		icon = GFX_focus_generic_join_comintern
+		icon = GFX_focus_SOV_international_union_of_soviet_republics
 		prerequisite = { focus = RED_the_collectivization_process }
 	
 		x = 1
@@ -1447,20 +1317,23 @@ focus_tree = {
 		completion_reward = {
 			add_stability = -0.15
 			add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
-			if = {
-				limit = {
-					has_template = "Halo Infantry Division"
+			custom_effect_tooltip = RED_add_halo_cap_3_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						has_template = "Halo Infantry Division"
+					}
+					set_division_template_cap = {
+						division_template = "Halo Infantry Division"
+						division_cap = ROOT.halo_infantry_cap
+					}
 				}
-				set_division_template_cap = {
-					division_template = "Halo Infantry Division"
-					division_cap = ROOT.halo_infantry_cap
-				}
-			}
-			random_owned_controlled_state = {
-				create_unit = {
-					division = "division_template = \"Halo Infantry Division\" start_experience_factor = 1 start_equipment_factor = 1.0"
-					owner = ROOT
-					count = 1
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "division_template = \"Halo Infantry Division\" start_experience_factor = 1 start_equipment_factor = 1.0"
+						owner = ROOT
+						count = 1
+					}
 				}
 			}
 		}
@@ -1557,7 +1430,7 @@ focus_tree = {
 	focus = { # 반 소비에트 정책
 		id = RED_anti_sov_diplo
 		icon = GFX_goal_anti_comintern_pact
-		prerequisite = { focus = RED_kibotos_policy focus = RED_communist_diplo_modifier }
+		prerequisite = { focus = RED_kibotos_policy focus = RED_communist_diplo }
 		x = 0
 		y = 1
 		relative_position_id = RED_kibotos_policy
@@ -1777,7 +1650,7 @@ focus_tree = {
 						has_government = neutrality
 					}
 				}
-				add_opinion_modifier = { target = RED modifier = RED_communist_diplo }
+				add_opinion_modifier = { target = RED modifier = RED_communist_diplo_modifier }
 			}
 		}
 	}
@@ -2872,20 +2745,23 @@ focus_tree = {
 
 		completion_reward = {
 			add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
-			if = {
-				limit = {
-					has_template = "Halo Infantry Division"
+			custom_effect_tooltip = RED_add_halo_cap_3_tt
+			hidden_effect = {
+				if = {
+					limit = {
+						has_template = "Halo Infantry Division"
+					}
+					set_division_template_cap = {
+						division_template = "Halo Infantry Division"
+						division_cap = ROOT.halo_infantry_cap
+					}
 				}
-				set_division_template_cap = {
-					division_template = "Halo Infantry Division"
-					division_cap = ROOT.halo_infantry_cap
-				}
-			}
-			random_owned_controlled_state = {
-				create_unit = {
-					division = "division_template = \"Halo Infantry Division\" start_experience_factor = 1 start_equipment_factor = 1.0"
-					owner = ROOT
-					count = 3
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "division_template = \"Halo Infantry Division\" start_experience_factor = 1 start_equipment_factor = 1.0"
+						owner = ROOT
+						count = 3
+					}
 				}
 			}
 		}
