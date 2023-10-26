@@ -320,10 +320,10 @@ FRA_urbanization = {
 					}
 				}
 				459 = {
-					set_state_category = large_town
+					BA_increase_state_category_by_one_level = yes
 				}
 				460 = {
-					set_state_category = large_town
+					BA_increase_state_category_by_one_level = yes
 				}
 				add_compliance = 50
 			}
@@ -448,7 +448,7 @@ FRA_urbanization = {
 					}
 				}
 				461 = {
-					set_state_category = large_town
+					BA_increase_state_category_by_one_level = yes
 				}
 				add_compliance = 50
 			}
@@ -578,6 +578,129 @@ FRA_urbanization = {
 		}
 		cost = 150
 	}
+	FRA_tun_infra = {
+		ai_will_do = {
+			factor = 20
+		}
+		icon = GFX_decision_generic_factory
+		allowed = {
+			original_tag = FRA
+		}
+		available = {
+			has_idea = FRA_emergency_mobil
+		}
+		visible = {
+			check_variable = {
+				FRA_tun = 1
+			}
+		}
+		days_remove = 30
+		modifier = {
+			monthly_population = -0.5
+			civilian_factory_use = 1
+			fascism_drift = 0.01
+		}
+		remove_effect = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 458
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+				}
+			}
+			add_to_variable = {
+				FRA_tun = 1
+			}
+		}
+		cost = 30
+	}
+	FRA_tun_kasa = {
+		ai_will_do = {
+			factor = 200
+		}
+		fire_only_once = yes
+		icon = GFX_decision_generic_factory
+		allowed = {
+			original_tag = FRA
+		}
+		available = {
+			has_idea = FRA_emergency_mobil
+		}
+		visible = {
+			check_variable = {
+				FRA_tun = 2
+			}
+		}
+		days_remove = 100
+		modifier = {
+			monthly_population = -0.5
+			civilian_factory_use = 1
+			fascism_drift = 0.01
+		}
+		remove_effect = {
+			458 = {
+				add_building_construction = {
+					type = air_base
+					level = 1
+				}
+				add_building_construction = {
+					type = dockyard
+					level = 1
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+				}
+			}
+		}
+		cost = 100
+	}
+	FRA_tun_core = {
+		ai_will_do = {
+			factor = 20
+		}
+		icon = GFX_decision_generic_factory
+		allowed = {
+			original_tag = FRA
+		}
+		available = {
+			has_idea = FRA_emergency_mobil
+		}
+		visible = {
+			check_variable = {
+				FRA_tun = 2
+			}
+		}
+		days_remove = 100
+		modifier = {
+			monthly_population = -0.5
+			civilian_factory_use = 3
+			fascism_drift = 0.01
+		}
+		remove_effect = {
+			every_state = {
+				limit = {
+					OR = {
+						state = 458
+					}
+				}
+				458 = {
+					BA_increase_state_category_by_one_level = yes
+				}
+				add_compliance = 50
+			}
+			clear_variable = FRA_tun
+		}
+		cost = 150
+	}
 	FRA_africa_agri = {
 		#대규모 개간
 		cost = 100
@@ -635,6 +758,7 @@ FRA_war_dec = {
 				}
 				MIL = {
 					country_event = FRA_prov_event.33
+					activate_mission = MIL_division_dec
 				}
 			}
 			activate_mission = FRA_division
@@ -667,7 +791,16 @@ FRA_war_dec = {
 			add_political_power = 30
 		}
 		timeout_effect = {
-			white_peace = MIL
+			if = {
+				limit = {
+					any_core_state = {
+						is_on_continent = europe
+						FRA = {	
+							has_full_control_of_state = prev
+						}
+					}
+				}
+				white_peace = MIL
 			every_country = {
 				limit = {
 					is_ally_with = MIL
@@ -706,6 +839,7 @@ FRA_war_dec = {
 					}
 				}
 				set_country_flag = FRA_division_flag
+			}
 			}
 		}
 		fire_only_once = yes
@@ -959,19 +1093,6 @@ FRA_war_dec = {
 	FRA_resistance_dec = {
 		visible = {
 			has_completed_focus = FRA_focus_resistance_5
-			FRA = {
-				AND = {
-					21 = {
-						is_capital = no
-					}
-					24 = {
-						is_capital = no
-					}
-					19 = {
-						is_capital = no
-					}
-				}
-			}
 			has_war_with = MIL
 		}
 		icon = GFX_decision_generic_military
