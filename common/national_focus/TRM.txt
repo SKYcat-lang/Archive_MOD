@@ -526,12 +526,15 @@
 		offset = {
 			x = -3
 			trigger = {
-				OR = {
-					has_completed_focus = TRN_nagisa_gyehek
-					has_completed_focus = TRM_newfocus_7
-				}
+				has_completed_focus = TRM_newfocus_7
 			}
 		} 
+		offset = {
+			x = -4
+			trigger = {
+				has_completed_focus = TRN_nagisa_gyehek
+			}
+		}
 		ai_will_do = {
 			factor = 30
 			modifier = {
@@ -2483,20 +2486,20 @@
 	focus = {
 		id = TRN_Removing_doubt
 		icon = GFX_goal_TRN_Removing_doubt
-		cost = 1.50
+		cost = 3
 		prerequisite = {
 			focus = TRN_nagisa_gyehek
+		}
+		available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
 		}
 		relative_position_id = TRN_nagisa_gyehek
 		x = 0
 		y = 1
 		completion_reward = {
 			add_country_leader_trait = TRN_iron_lady
-			set_party_name = {
-				ideology = democratic
-				long_name = "티파티 - 호스트 나기사"
-				name = "티파티"
-			}
 			custom_effect_tooltip =  TRN_skgrltk_is_not_political_advisor
 			hidden_effect = {
 				remove_ideas = TRN_skrltk
@@ -2505,21 +2508,201 @@
 		}
 	}
 	focus = {
+		id = TRN_Request_assistance_from_Sisterhood
+		icon = GFX_goal_generic_major_alliance
+		cost = 5.00
+		prerequisite = {
+			focus = TRN_nagisa_gyehek
+		}
+		mutually_exclusive = {
+			focus = TRN_Request_assistance_from_relief_knights
+		}
+		relative_position_id = TRN_nagisa_gyehek
+		x = 3
+		y = 1
+		completion_reward = {
+			
+			custom_effect_tooltip = TRM_filius_loyalty__10_tt
+			add_to_variable = { TRM_filius_loyalty = -10 }
+			TRM_internal_factions_loyalty_change = yes
+
+			custom_effect_tooltip = TRM_filius_popularity_20_tt
+			add_to_variable = { TRM_filius_popularity = 20 }
+			TRM_internal_factions_popularity_change = yes
+			unlock_decision_tooltip = TRN_sh_add
+
+		}
+	}
+	focus = {
+		id = TRN_Request_assistance_from_relief_knights
+		icon = GFX_goal_generic_major_alliance
+		cost = 5.00
+		prerequisite = {
+			focus = TRN_nagisa_gyehek
+		}
+		mutually_exclusive = {
+			focus = TRN_Request_assistance_from_Sisterhood
+		}
+		relative_position_id = TRN_nagisa_gyehek
+		x = 5
+		y = 1
+		completion_reward = {
+			
+			custom_effect_tooltip = TRM_filius_loyalty__10_tt
+			add_to_variable = { TRM_filius_loyalty = -10 }
+			TRM_internal_factions_loyalty_change = yes
+
+			custom_effect_tooltip = TRM_filius_popularity_20_tt
+			add_to_variable = { TRM_filius_popularity = 20 }
+			TRM_internal_factions_popularity_change = yes
+			unlock_decision_tooltip = TRN_rk_add
+
+		}
+	}
+	focus = {
 		id = TRN_Hug_students
 		icon = GFX_goal_TRN_Hug_students
-		cost = 1.50
+		cost = 2
 		prerequisite = {
 			focus = TRN_Removing_doubt
 		}
+		available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+		}
 		relative_position_id = TRN_nagisa_gyehek
-		x = -1
+		x = 0
 		y = 2
 		completion_reward = {
 			add_stability = 0.05
 			add_war_support = 0.05
 			add_popularity = {
-				ideology = democratic
+				ideology = ROOT
 				popularity = 0.05
+			}
+		}
+
+	}
+	focus = {
+		id = TRN_suppress_the_opposition
+		icon = GFX_goal_generic_more_territorial_claims
+		cost = 5
+		prerequisite = {
+			focus = TRN_Hug_students
+		}
+		mutually_exclusive = {
+			focus = TRN_Trinitys_Balance
+		}
+		available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+		}
+		relative_position_id = TRN_Hug_students
+		x = 1
+		y = 1
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.05
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.05
+			}
+		}
+
+	}
+	focus = {
+		id = TRN_Trinitys_Balance
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 10
+		prerequisite = {
+			focus = TRN_Request_assistance_from_Sisterhood
+			focus = TRN_Request_assistance_from_relief_knights
+		}
+		mutually_exclusive = {
+			focus = TRN_suppress_the_opposition
+		}
+		relative_position_id = TRN_Hug_students
+		x = 4
+		y = 1
+		completion_reward = {
+			add_stability = 0.15
+			add_war_support = -0.05
+		}
+
+	}
+	focus = {
+		id = TRN_nagisa_coupdetat
+		icon = GFX_focus_spr_masters_of_our_own_fate
+		cost = 8
+		prerequisite = {
+			focus = TRN_Trinitys_Balance
+		}
+		mutually_exclusive = {
+			focus = TRN_Blocking_attacks_from_the_outside
+		}
+		available = {
+			has_country_flag = nagisa_imprisoned_flag
+		}
+		relative_position_id = TRN_Trinitys_Balance
+		x = 0
+		y = 1
+		completion_reward = {
+			set_party_name = {
+				ideology = democratic
+				long_name = TRM_filius_democratic_party
+				name = TRM_filius_democratic_party
+			}
+			add_country_leader_role = {
+				character = TRN_Hifumi
+				promote_leader = yes
+				country_leader = {
+					ideology = liberalism
+					expire = "1965.1.1.1"
+					traits = { }
+				}
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.20
+			}
+			if = {
+				limit = {
+					has_completed_focus = TRN_Suppressing_mika
+				}
+				start_civil_war = {
+					ideology = fascism
+					ruling_party = democratic
+					size = 0.2
+					army_ratio = 0.3
+					navy_ratio = 0
+					air_ratio = 0
+					keep_all_characters = yes
+					create_country_leader = {
+						picture = GFX_Portrait_BlueArchive_TRM_Generic_2
+						expire = "1965.1.1"
+						ideology = pater_nazism
+					}
+				}
+			}
+			else = {
+				start_civil_war = {
+					ideology = fascism
+					ruling_party = democratic
+					size = 0.2
+					army_ratio = 0.3
+					navy_ratio = 0
+					air_ratio = 0
+					keep_all_characters = yes
+					PREV = {  # Original country
+						TRN_alzk = { # Character
+							set_nationality = PREV.PREV
+							# Transfers to breakaway
+						}
+					}
+					promote_character = TRN_alzk
+				}
 			}
 		}
 
@@ -2527,32 +2710,43 @@
 	focus = {
 		id = TRN_Suppressing_mika
 		icon = GFX_goal_TRN_Suppressing_mika
-		cost = 10.00
+		cost = 5.00
 		prerequisite = {
-			focus = TRN_Removing_doubt
+			focus = TRN_nagisa_gyehek
+		}
+		available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_internal_factions_pater_slot_tt
+				NOT = {
+					OR = {
+						check_variable = { TRM_internal_factions_slot_one_var = 0 }
+						check_variable = { TRM_internal_factions_slot_two_var = 0 }
+						check_variable = { TRM_internal_factions_slot_three_var = 0 }
+					}
+				}
+			}
 		}
 		relative_position_id = TRN_nagisa_gyehek
-		x = 1
-		y = 2
+		x = -2
+		y = 1
 		completion_reward = {
+			custom_effect_tooltip = TRM_pater_loyalty__30_tt
+			add_to_variable = { TRM_pater_loyalty = -30 }
+			TRM_internal_factions_loyalty_change = yes
+			custom_effect_tooltip = TRM_pater_popularity__10_tt
+			add_to_variable = { TRM_pater_popularity = -10 }
+			TRM_internal_factions_popularity_change = yes
+
 			swap_ideas = {
-			remove_idea = TRM_troll_mika
-			add_idea = TRN_pater_remnant
+				remove_idea = TRM_troll_mika
+				add_idea = TRN_pater_remnant
 			}
 			custom_effect_tooltip =  TRN_weak_mika
-			hidden_effect = {
-				add_trait = {
-				character = TRN_alzk
-				slot = political_advisor
-				 trait = TRN_Suppressed_mika
-				}
-				remove_trait = {
-				character = TRN_alzk
-				slot = political_advisor
-				trait = TRN_queen_of_the_night
-				}
-				activate_advisor = TRN_alzk_political_advisor
-			}
 			
 		}
 
@@ -2563,6 +2757,30 @@
 		cost = 8.00
 		prerequisite = {
 			focus = TRN_Crushing_Pater
+		}
+		prerequisite = {
+			focus = TRN_suppress_the_opposition
+			focus = TRN_Trinitys_Balance
+		}
+		mutually_exclusive = {
+			focus = TRN_nagisa_coupdetat
+		}
+		available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_internal_factions_pater_slot_tt
+				NOT = {
+					OR = {
+						check_variable = { TRM_internal_factions_slot_one_var = 0 }
+						check_variable = { TRM_internal_factions_slot_two_var = 0 }
+						check_variable = { TRM_internal_factions_slot_three_var = 0 }
+					}
+				}
+			}
 		}
 		relative_position_id = TRN_nagisa_gyehek
 		x = 0
@@ -2575,19 +2793,53 @@
 	focus = {
 		id = TRN_Crushing_Pater
 		icon = GFX_focus_generic_anti_fascist_diplomacy
-		cost = 4.30
+		cost = 5.00
 		prerequisite = {
 			focus = TRN_Suppressing_mika
 		}
 		prerequisite = {
 			focus = TRN_Hug_students
 		}
+		available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = TRN_Crushing_Pater_tt
+				check_variable = { TRM_pater_popularity < 21 }
+			}
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_internal_factions_pater_slot_tt
+				NOT = {
+					OR = {
+						check_variable = { TRM_internal_factions_slot_one_var = 0 }
+						check_variable = { TRM_internal_factions_slot_two_var = 0 }
+						check_variable = { TRM_internal_factions_slot_three_var = 0 }
+					}
+				}
+			}
+		}
 		relative_position_id = TRN_nagisa_gyehek
-		x = 0
+		x = -2
 		y = 3
 		completion_reward = {
 			remove_ideas = TRN_pater_remnant
 			add_stability = 0.05
+			if = {
+				limit = {
+					check_variable = { TRM_pater_popularity > 1 }
+				}
+				custom_effect_tooltip = TRM_pater_popularity__20_tt
+				add_to_variable = { TRM_pater_popularity = -20 }
+				TRM_internal_factions_popularity_change = yes
+			}
+			else = {
+				custom_effect_tooltip = TRM_pater_del_tt
+				set_variable = { TRM_internal_factions_remove_var = 0 } #지울 세력 코드
+				TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
+			}
 		}
 
 	}
