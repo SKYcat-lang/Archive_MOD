@@ -60,6 +60,10 @@ focus_tree = {
 					days = 70
 					random_days = 20
 				}
+				country_event = {
+					id = FRA_prov_event.126
+					days = 4
+				}
 			}
 		}
 	}
@@ -134,7 +138,7 @@ focus_tree = {
 		id = FRA_focus_3
 		icon = "GFX_goal_fra_alg"
 		cost = 6
-		x = 0
+		x = 3
 		y = 3
 		prerequisite = {
 			focus = FRA_focus_2
@@ -159,11 +163,33 @@ focus_tree = {
 		}
 	}
 	focus = {
+		#튀니지 투자
+		id = FRA_focus_3.1
+		icon = GFX_focus_FRA_tun
+		cost = 6
+		x = 5
+		y = 3
+		prerequisite = {
+			focus = FRA_focus_2
+		}
+		available = {
+			has_idea = FRA_emergency_mobil
+		}
+		completion_reward = {
+			add_manpower = -1500
+			add_stability = -0.03
+			set_variable = {
+				FRA_tun = 1
+			}
+			unlock_decision_tooltip = FRA_tun_infra
+		}
+	}
+	focus = {
 		#모로코 투자
 		id = FRA_focus_4
 		icon = "GFX_goal_fra_mor"
 		cost = 6
-		x = 2
+		x = 1
 		y = 3
 		prerequisite = {
 			focus = FRA_focus_2
@@ -185,7 +211,7 @@ focus_tree = {
 		id = FRA_focus_5
 		icon = GFX_goal_fra_waf
 		cost = 6
-		x = 4
+		x = -1
 		y = 3
 		prerequisite = {
 			focus = FRA_focus_2
@@ -207,13 +233,16 @@ focus_tree = {
 		id = FRA_focus_6
 		icon = GFX_goal_generic_agriculture
 		cost = 4.4
-		x = 1
+		x = 0
 		y = 4
 		prerequisite = {
 			focus = FRA_focus_3
 		}
 		prerequisite = {
 			focus = FRA_focus_4
+		}
+		prerequisite = {
+			focus = FRA_focus_3.1
 		}
 		prerequisite = {
 			focus = FRA_focus_5
@@ -232,17 +261,49 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#자본가 영입
-		id = FRA_focus_6.5
+		#지하 경제 
+		id = FRA_focus_6.8
+		icon = GFX_focus_generic_modernize_industry
 		cost = 4.4
-		icon = GFX_goal_FRA_Restore_the_Suspended_Constitution
-		x = 3
+		x = 2
 		y = 4
 		prerequisite = {
 			focus = FRA_focus_3
 		}
 		prerequisite = {
 			focus = FRA_focus_4
+		}
+		prerequisite = {
+			focus = FRA_focus_3.1
+		}
+		prerequisite = {
+			focus = FRA_focus_5
+		}
+		available = {
+			has_idea = FRA_emergency_mobil
+		}
+		completion_reward = {
+			add_ideas = FRA_basement_economy
+			MIL = {
+				add_ideas = FRA_MIL_basement_economy
+			}
+		}
+	}
+	focus = {
+		#자본가 영입
+		id = FRA_focus_6.5
+		cost = 4.4
+		icon = GFX_goal_FRA_Restore_the_Suspended_Constitution
+		x = 4
+		y = 4
+		prerequisite = {
+			focus = FRA_focus_3
+		}
+		prerequisite = {
+			focus = FRA_focus_4
+		}
+		prerequisite = {
+			focus = FRA_focus_3.1
 		}
 		prerequisite = {
 			focus = FRA_focus_5
@@ -285,6 +346,9 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_6.5
 		}
+		prerequisite = {
+			focus = FRA_focus_6.8
+		}
 		completion_reward = {
 			461 = {
 				add_extra_state_shared_building_slots = 4
@@ -312,14 +376,24 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_6.5
 		}
+		prerequisite = {
+			focus = FRA_focus_6.8
+		}
 		completion_reward = {
 			459 = {
-				add_extra_state_shared_building_slots = 4
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = arms_factory
-					level = 3
+					level = 2
 				}
 				
+			}
+			458 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+				}
 			}
 		}
 	}
@@ -339,11 +413,19 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_6.5
 		}
+		prerequisite = {
+			focus = FRA_focus_6.8
+		}
 		completion_reward = {
 			add_resource = {
 				type = chromium
 				amount = 5
 				state = 461
+			}
+			add_resource = {
+				type = steel
+				amount = 10
+				state = 459
 			}
 			add_resource = {
 				type = tungsten
@@ -362,7 +444,7 @@ focus_tree = {
 			hidden_effect={country_event = {
 				id = FRA_prov_event.117
 				days = 70
-				random_days = 3
+				random_days = 30
 			}}
 		}
 	}
@@ -382,12 +464,23 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_6.5
 		}
+		prerequisite = {
+			focus = FRA_focus_6.8
+		}
 		completion_reward = {
 			460 = {
 				add_extra_state_shared_building_slots = 4
 				add_building_construction = {
 					type = dockyard
 					level = 3
+				}
+				
+			}
+			458 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
 				}
 				
 			}
@@ -409,9 +502,6 @@ focus_tree = {
 		y = 6
 		ai_will_do = {
 			factor = 100
-		}
-		prerequisite = {
-			focus = FRA_focus_6
 		}
 		prerequisite = {
 			focus = FRA_focus_7
@@ -438,38 +528,31 @@ focus_tree = {
 			factor = 100
 		}
 		prerequisite = {
-			focus = FRA_focus_6
-		}
-		prerequisite = {
 			focus = FRA_focus_10
 		}
 		prerequisite = {
 			focus = FRA_focus_9.5
 		}
 		completion_reward = {
-			add_victory_points = {
-				province = 12051
-				value = 27
+			every_state = {
+				limit = {
+					is_owned_by = FRA
+					is_on_continent = africa
+					is_coastal = yes
+				}
+				add_extra_state_shared_building_slots = 3
 			}
-			add_victory_points = {
-				province = 7081
-				value = 14
+			459 = {
+				BA_increase_state_category_by_one_level = yes
 			}
-			add_victory_points = {
-				province = 12034
-				value = 9
+			460 = {
+				BA_increase_state_category_by_one_level = yes
 			}
-			add_victory_points = {
-				province = 7132
-				value = 25
+			461 = {
+				BA_increase_state_category_by_one_level = yes
 			}
-			add_victory_points = {
-				province = 7069
-				value = 30
-			}
-			add_victory_points = {
-				province = 4108
-				value = 9
+			458 = {
+				BA_increase_state_category_by_one_level = yes
 			}
 			every_state = {
 				limit = {
@@ -477,6 +560,7 @@ focus_tree = {
 						state = 459
 						state = 460
 						state = 461
+						state = 458
 					}
 				}
 				add_state_modifier = {
@@ -484,16 +568,6 @@ focus_tree = {
 						local_manpower = 0.3
 					}
 				}
-			}
-			459 = {
-				set_state_category = large_city
-			}
-			every_state = {
-				limit = {
-					is_owned_by = FRA
-					is_on_continent = africa
-				}
-				add_extra_state_shared_building_slots = 3
 			}
 		}
 	}
@@ -531,6 +605,9 @@ focus_tree = {
 					}
 					check_variable = {
 						FRA_waf > 0
+					}
+					check_variable = {
+						FRA_tun > 0
 					}
 					check_variable = {
 						FRA_mor > 0
@@ -578,10 +655,7 @@ focus_tree = {
 		y = 7
 		icon = GFX_goal_FRA_Madagascar_tooja
 		prerequisite = {
-			focus = FRA_focus_6
-		}
-		prerequisite = {
-			focus = FRA_focus_7
+			focus = FRA_focus_11
 		}
 		prerequisite = {
 			focus = FRA_focus_8
@@ -631,13 +705,10 @@ focus_tree = {
 		y = 7
 		icon = GFX_goal_FRA_Indochina_tooja
 		prerequisite = {
-			focus = FRA_focus_6
-		}
-		prerequisite = {
 			focus = FRA_focus_11
 		}
 		prerequisite = {
-			focus = FRA_focus_10
+			focus = FRA_focus_8
 		}
 		completion_reward = {
 			add_manpower = -1000
@@ -688,7 +759,11 @@ focus_tree = {
 			focus = FRA_focus.1
 		}
 		available = {
-			has_completed_focus = FRA_focus_6
+			OR = {
+				has_completed_focus = FRA_focus_6.5
+				has_completed_focus = FRA_focus_6.8
+				has_completed_focus = FRA_focus_6
+			}
 		}
 		completion_reward = {
 			add_political_power = 50
@@ -986,7 +1061,7 @@ focus_tree = {
 			always = no
 		}
 		completion_reward = {
-			add_political_power = 100
+			add_political_power = 50
 		}
 	}
 	focus = {
@@ -2333,6 +2408,38 @@ focus_tree = {
 						democratic = 100
 					}
 					
+				}
+				if = {
+					limit = {
+						458 = {
+							is_owned_and_controlled_by = FRA
+						}
+						665 = {
+							is_owned_and_controlled_by = FRA
+						}
+					}
+					TUN = {
+						transfer_state = 458
+						transfer_state = 665
+						create_country_leader = {
+							name = FRA_borough
+							ideology = liberalism
+							picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+							expire = "1965.1.1"
+							traits = {
+								FRA_weak_auto
+							}
+						}
+						set_variable = {
+							collaboration_formed_by = ROOT
+						}
+					}
+					FRA = {	
+						set_autonomy = {
+							target = TUN
+							autonomy_state = autonomy_collaboration_government
+						}
+					}
 				}
 			}
 		}
