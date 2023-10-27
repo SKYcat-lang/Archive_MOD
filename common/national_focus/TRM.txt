@@ -3333,7 +3333,11 @@
 					exists = yes
 				}
 			}
-			has_country_flag = TRM_Treaty_of_Eden_true
+			OR = {
+				has_global_flag = GEH_win_global_flag
+				has_global_flag = GEM_win_global_flag
+			}
+			has_country_flag = TRM_Treaty_of_Eden_false
 		}
 		bypass = {
 			has_war_with = GEH
@@ -3401,7 +3405,11 @@
 					exists = yes
 				}
 			}
-			has_country_flag = TRM_Treaty_of_Eden_false
+			OR = {
+				has_global_flag = GEH_win_global_flag
+				has_global_flag = GEM_win_global_flag
+			}
+			has_country_flag = TRM_Treaty_of_Eden_true
 		}
 		relative_position_id = TRN_Reunion_of_the_Treaty_of_Eden
 		x = -1
@@ -3409,11 +3417,179 @@
 		completion_reward = {
 			if = {
 				limit = {
-					NOT = { has_rule = can_create_factions }
+					has_global_flag = Treaty_of_Eden_1
 				}
-				set_rule = { can_create_factions = yes }
+				if = {
+					limit = {
+						GEH = {
+							exists = yes
+						}
+					}
+					GEH = {
+						if = {
+							limit = {
+								NOT = { has_rule = can_create_factions }
+							}
+							set_rule = { can_create_factions = yes }
+						}
+						create_faction = TRM_Treaty_of_Eden_faction
+						add_to_faction = TRM
+						add_ai_strategy = {
+							type = alliance
+							id = TRM
+							value = 200
+						}
+					}
+					TRM = {
+						add_ai_strategy = {
+							type = alliance
+							id = "GEH"
+							value = 200
+						}
+					}
+				}
+				if = {
+					limit = {
+						GEM = {
+							exists = yes
+						}
+					}
+					GEM = {
+						if = {
+							limit = {
+								NOT = { has_rule = can_create_factions }
+							}
+							set_rule = { can_create_factions = yes }
+						}
+						create_faction = TRM_Treaty_of_Eden_faction
+						add_to_faction = TRM
+						add_ai_strategy = {
+							type = alliance
+							id = TRM
+							value = 200
+						}
+					}
+					TRM = {
+						add_ai_strategy = {
+							type = alliance
+							id = "GEM"
+							value = 200
+						}
+					}
+				}
 			}
-			create_faction = TRM_Treaty_of_Eden_faction
+			else = {
+				if = {
+					limit = {
+						NOT = { has_rule = can_create_factions }
+					}
+					set_rule = { can_create_factions = yes }
+				}
+				create_faction = TRM_Treaty_of_Eden_faction
+				every_country = {
+					limit = {
+						has_country_flag = TRM_Treaty_of_Eden_gehenna
+					}
+					TRM = {
+						add_to_faction = PREV
+						PREV = {
+							add_ai_strategy = {
+								type = alliance
+								id = "TRM"
+								value = 200
+							}
+						}
+						add_ai_strategy = {
+							type = alliance
+							id = PREV
+							value = 200
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = Treaty_of_Eden_2
+				}
+				add_ideas = TRN_economic_unification
+				if = {
+					limit = {
+						GEH = {
+							exists = yes
+						}
+					}
+					GEH = {
+						add_ideas = GEH_economic_unification
+					}
+				}
+				if = {
+					limit = {
+						GEM = {
+							exists = yes
+						}
+					}
+					GEM = {
+						add_ideas = GEH_economic_unification
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = Treaty_of_Eden_3
+				}
+				add_ideas = TRN_military_spending
+				if = {
+					limit = {
+						GEH = {
+							exists = yes
+						}
+					}
+					GEH = {
+						add_ideas = GEH_military_spending
+					}
+				}
+				if = {
+					limit = {
+						GEM = {
+							exists = yes
+						}
+					}
+					GEM = {
+						add_ideas = GEH_military_spending
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = Treaty_of_Eden_4
+				}
+				if = {
+					limit = {
+						GEH = {
+							exists = yes
+						}
+					}
+					GEH = {
+						add_ideas = GEH_TRN_support
+					}
+				}
+				if = {
+					limit = {
+						GEM = {
+							exists = yes
+						}
+					}
+					GEM = {
+						add_ideas = GEH_TRN_support
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = Treaty_of_Eden_5
+				}
+				add_ideas = TRN_GEH_support
+			}
 		}
 
 	}
@@ -3432,6 +3608,10 @@
 				GEM = {
 					exists = yes
 				}
+			}
+			OR = {
+				has_global_flag = GEH_win_global_flag
+				has_global_flag = GEM_win_global_flag
 			}
 		}
 		relative_position_id = TRN_Reunion_of_the_Treaty_of_Eden
@@ -3457,6 +3637,70 @@
 				GEM = {
 					country_event = { id = TRM_event.76 hours = 8 }
 				}
+			}
+		}
+
+	}
+	focus = {
+		id = TRN_Gehenna_Trinity_Conference
+		icon = GFX_goal_unknown
+		cost = 10
+		prerequisite = {
+			focus = TRN_Confirmation_of_intention_to_treaty
+		}
+		available = {
+			OR = {
+				GEH = {
+					exists = yes
+				}
+				GEM = {
+					exists = yes
+				}
+			}
+			has_country_flag = TRM_Treaty_of_Eden_lose
+		}
+		bypass = {
+			has_country_flag = TRM_Treaty_of_Eden_true
+		}
+		relative_position_id = TRN_Confirmation_of_intention_to_treaty
+		x = 0
+		y = 1
+		select_effect ={
+			if = {
+				limit = {
+					GEH = {
+						exists = yes
+					}
+				}
+				GEH = {
+					country_event = { id = TRM_event.79 hours = 8 }
+					country_event = { id = TRM_event.80 hours = 80 }
+				}
+			}
+			if = {
+				limit = {
+					GEM = {
+						exists = yes
+					}
+				}
+				GEM = {
+					country_event = { id = TRM_event.79 hours = 8 }
+					country_event = { id = TRM_event.80 hours = 80 }
+				}
+			}
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					check_variable = { Treaty_of_Eden_var < 0 }
+				}
+				country_event = { id = TRM_event.92 hours = 8 }
+			}
+			if = {
+				limit = {
+					check_variable = { Treaty_of_Eden_var > -1 }
+				}
+				country_event = { id = TRM_event.93 hours = 8 }
 			}
 		}
 
