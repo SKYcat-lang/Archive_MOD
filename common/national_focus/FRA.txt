@@ -1175,7 +1175,7 @@ focus_tree = {
 		#제 2차 협상국
 		id = FRA_focus_london_4
 		cost = 2
-		x = 6
+		x = 2
 		y = 11
 		icon = GFX_goal_FRA_Entente
 		available = {
@@ -1199,11 +1199,14 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = FRA_focus_london_0
-			focus = FRA_focus_london_2
 			focus = FRA_focus_london_3
 		}
 		mutually_exclusive = {
 			focus = FRA_focus_london_4_5
+		}
+		mutually_exclusive = {
+			
+			focus = FRA_focus_london_4.8
 		}
 		bypass = {
 			FRA = {
@@ -1212,23 +1215,82 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_political_power = 50
-			if = {
-				limit = {
-					FRA = {
-						is_in_faction = no
-					}
+			ENG = {
+				country_event = {
+					id = FRA_prov_event.129
+					days = 3
 				}
-				create_faction = fac_entente
-			}	
+			}
 		}
 	}
 	focus = {
-		#상황을 지켜보다
+		#전선 유지
+		icon = GFX_focus_focus_fra_ratify_stresa
+		id = FRA_focus_london_4.8
+		cost = 2
+		x = 6
+		y = 11
+		available = {
+			has_idea = PASTA_signatories_of_the_stresa_idea
+			NOT = {
+				OR = {
+					check_variable = {
+						FRA_demand_colony = 1
+					}
+					check_variable = {
+						FRA_demand_economy = 1
+					}
+					check_variable = {
+						FRA_demand_after_war = 1
+					}
+					check_variable = {
+						FRA_demand_entente = 1
+					}
+				}
+			}
+			
+		}
+		prerequisite = {
+			focus = FRA_focus_london_0
+			focus = FRA_focus_london_2
+			focus = FRA_focus_london_3
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_london_4
+		}
+		mutually_exclusive = {
+			
+			focus = FRA_focus_london_4_5
+		}
+		completion_reward = {
+			ENG = {
+				country_event = {
+					id = FRA_prov_event.132
+					days = 3
+				}
+			}
+			ITA = {
+				country_event = {
+					id = FRA_prov_event.132
+					days = 3
+				}
+			}
+		}
+	}
+	focus = {
+		#우리 스스로!
 		icon = GFX_goal_FRA_watch
 		id = FRA_focus_london_4_5
 		cost = 2
-		x = 3
+		x = 4
 		y = 11
+		ai_will_do = {
+			base = 1
+			modifier = {
+				has_government = communism
+				add = 100
+			}
+		}
 		available = {
 			NOT = {
 				OR = {
@@ -1256,13 +1318,17 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = FRA_focus_london_4
 		}
+		mutually_exclusive = {
+			
+			focus = FRA_focus_london_4.8
+		}
 		completion_reward = {
 			add_stability = 0.1
 			add_war_support = 0.1
 		}
 	}
 	focus = {
-		#동맹 찾아보기
+		#외무 재개
 		id = FRA_focus_london_5
 		cost = 2
 		x = 7
@@ -1271,6 +1337,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_london_4
 			focus = FRA_focus_london_4_5
+			focus = FRA_focus_london_4.8
 		}
 		completion_reward = {
 			effect_tooltip = {
