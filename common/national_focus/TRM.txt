@@ -12,7 +12,7 @@
 	default = no
 	focus = { 
 		id = TRM_localization #트리니티 현지화
-		icon = GFX_goal_generic_construct_civ_factory
+		icon = GFX_focus_generic_modernize_industry
 		cost = 5
 		cancelable = no
 		available = {
@@ -20,18 +20,25 @@
 				has_country_flag = TRN_country_collapse_yes
 			}
 		}
-		prerequisite = {
-			focus = TRM_newfocus_0
-		}
 		ai_will_do = {
-			base = 20
+			base = 0
 			modifier = {
-				factor = 10
-				date > 1938.01.01
+				add = 50
+				OR = {
+					has_completed_focus = TRM_newfocus_7
+					has_completed_focus = TRN_nagisa_gyehek
+				}
+			}
+			modifier = {
+				factor = 50
+				OR = {
+					has_completed_focus = TRM_newfocus_27
+					has_completed_focus = TRN_Reunion_of_the_Treaty_of_Eden
+				}
 			}
 		}
-		x = 5
-		y = 1
+		x = 9
+		y = 0
 		completion_reward = {
 			add_tech_bonus = {
 				name = industrial_bonus
@@ -53,65 +60,87 @@
 		ai_will_do = {
 			base = 40
 		}
-		icon = GFX_goal_generic_construct_civ_factory
-		x = -4
+		icon = GFX_focus_generic_industry_1
+		x = -7
 		y = 1
 		relative_position_id = TRM_localization
 		cost = 7.20
-		complete_tooltip = {
-			every_state = {
-				limit = { has_state_flag = TRN_state_civilian_flag }
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
-			
-		}
 		completion_reward = {
-			random_owned_controlled_state = {
-    			limit = {
-        			is_core_of = PREV
-    			}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {	
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-				set_state_flag = TRN_state_civilian_flag
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 0.35
+				uses = 1
+				category = industry
 			}
-			random_owned_controlled_state = {
-    			limit = {
-        			is_core_of = PREV
-    			}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-				set_state_flag = TRN_state_civilian_flag
-			}
-			random_owned_controlled_state = {
-    			limit = {
-        			is_core_of = PREV
-    			}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-				set_state_flag = TRN_state_civilian_flag
+			add_dynamic_modifier = {
+				modifier = TRM_industries_dynamic
 			}
 		}
 	}
 	focus = {
-		id = TRN_kickstart_the_autoban # 고속도로
+		id = TRN_railway_focus # 트리니티 철도 설치
+		icon = GFX_focus_generic_railroad
+		available = {
+
+		}		
+		ai_will_do = {
+			base = 40
+		}
 		prerequisite = { focus = TRN_kickstart_the_civilian_industry }
+
+		x = 5
+		y = 1
+		relative_position_id = TRN_kickstart_the_civilian_industry
+		cost = 7.20
+		completion_reward = {
+		custom_effect_tooltip = TRN_eden_railway_state_modifier_tt
+		every_state = {
+			limit = {
+				OR = {
+					state = 64
+					state = 65
+					state = 66
+					state = 60
+					state = 61
+					state = 62
+					state = 63
+					state = 68
+					state = 86
+					state = 67
+					state = 762
+					state = 807
+					state = 5
+					state = 763
+					state = 188
+				}
+				state_is_fully_controlled_by_ROOT_or_subject = yes
+			}
+			add_dynamic_modifier = { modifier = TRN_eden_railway_modifier days = 730 scope = TRM }
+		}
+		}
+	}
+	focus = {
+		id = TRN_railway_gun_focus # 트리니티 열차포
+		icon = GFX_focus_generic_railway_gun
+		available = {
+
+		}	
+		ai_will_do = {
+			base = 80
+		}	
+		prerequisite = { focus = TRN_railway_focus }
+
+		x = -1
+		y = 1
+		relative_position_id = TRN_railway_focus
+		cost = 7.20
+		completion_reward = {
+			set_technology = { railway_gun = 1 }
+		}
+	}
+	focus = {
+		id = TRN_kickstart_the_autoban # 고속도로
+		prerequisite = { focus = TRN_railway_focus }
 		available = { 
 			
 		}
@@ -121,7 +150,7 @@
 		icon = GFX_goal_generic_railroad
 		x = 1
 		y = 1
-		relative_position_id = TRN_kickstart_the_civilian_industry
+		relative_position_id = TRN_railway_focus
 		cost = 7.20
 		complete_tooltip = {
 			every_state = {
@@ -180,22 +209,10 @@
 			base = 40
 		}
 		icon = GFX_goal_generic_construct_civ_factory
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = TRN_kickstart_the_civilian_industry
 		cost = 7.20
-		complete_tooltip = {
-			every_state = {
-				limit = { has_state_flag = TRN_state_civilian_2_flag }
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = industrial_complex
-					level = 2
-					instant_build = yes
-				}
-			}
-			
-		}
 		completion_reward = {
 			random_owned_controlled_state = {
     			limit = {
@@ -236,84 +253,452 @@
 		}
 	}
 	focus = {
-		id = TRN_research_slot # 연구슬롯 늘리기
-		icon = GFX_focus_research
-		available = {
-
-		}	
+		id = TRN_self_reliance # 학원 산업 개편
+		icon = GFX_goal_generic_consumer_goods
+		prerequisite = { focus = TRN_kickstart_the_civilian_industry }
+		mutually_exclusive = {
+			focus = TRN_german_company_acceptance
+		}
+		available = { 
+			
+		}
 		ai_will_do = {
 			base = 40
-		}	
-		prerequisite = { focus = TRN_civilian_industry }
-
-		x = 0
-		y = 1
-		relative_position_id = TRN_civilian_industry
+		}
+		x = 2
+		y = 2
+		relative_position_id = TRN_kickstart_the_civilian_industry
 		cost = 7.20
 		completion_reward = {
-			add_research_slot = 1
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 1.0
+				uses = 1
+				category = industry
+			}
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {	
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = TRN_self_reliance_tt
+			add_to_variable = { TRM_industries_dynamic_consumer_goods_factor = -0.05 }
+			add_to_variable = { TRM_industries_dynamic_production_speed_industrial_complex_factor = 0.05 }
 		}
 	}
 	focus = {
-		id = TRN_railway_focus # 트리니티 철도 설치
-		icon = GFX_focus_generic_railroad
-		available = {
-
-		}		
+		id = TRN_german_company_acceptance # 독일 기업 수용
+		icon = GFX_focus_chi_mission_to_germany
+		prerequisite = { focus = TRN_kickstart_the_civilian_industry }
+		mutually_exclusive = {
+			focus = TRN_self_reliance
+		}
+		available = { 
+			
+		}
 		ai_will_do = {
 			base = 40
 		}
-		prerequisite = { focus = TRN_kickstart_the_autoban }
-
+		x = -2
+		y = 2
+		relative_position_id = TRN_kickstart_the_civilian_industry
+		cost = 7.20
+		completion_reward = {
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {	
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {	
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					OR = {
+						is_core_of = owner
+						is_claimed_by = owner
+					}
+					free_building_slots = { building = arms_factory size > 0 include_locked = yes }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					OR = {
+						is_core_of = owner
+						is_claimed_by = owner
+					}
+					free_building_slots = { building = arms_factory size > 0 include_locked = yes }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = TRN_german_company_acceptance_tt
+			add_to_variable = { TRM_industries_dynamic_consumer_goods_factor = 0.05 }
+			add_to_variable = { TRM_industries_dynamic_production_speed_arms_factory_factor = 0.10 }
+		}
+	}
+	focus = {
+		id = TRN_Trinity_Industrial_Development_Department
+		icon = GFX_focus_generic_industry_2
+		cost = 7.20
+		prerequisite = {
+			focus = TRN_self_reliance
+		}
+		ai_will_do = {
+			base = 40
+			modifier = {
+				factor = 30
+				has_idea = TRN_aftermath
+			}
+		}
 		x = 0
+		y = 3
+		relative_position_id = TRN_self_reliance
+		completion_reward = {
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {	
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {	
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = TRN_Trinity_Industrial_Development_Department_tt
+			add_to_variable = { TRM_industries_dynamic_production_factory_max_efficiency_factor = 0.05 }
+			add_to_variable = { TRM_industries_dynamic_production_factory_start_efficiency_factor = 0.05 }
+			add_to_variable = { TRM_industries_dynamic_production_speed_buildings_factor = 0.05 }
+			
+		}
+
+	}
+	focus = {
+		id = TRN_economic_adjustment
+		icon = GFX_focus_generic_industry_3
+		cost = 7.20
+		prerequisite = {
+			focus = TRN_Trinity_Industrial_Development_Department
+		}
+		ai_will_do = {
+			base = 40
+		}
+		x = 0
+		y = 1
+		relative_position_id = TRN_Trinity_Industrial_Development_Department
+		completion_reward = {
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 1.0
+				uses = 2
+				category = industry
+			}
+		}
+
+	}
+	focus = {
+		id = TRN_KRUPP_steel
+		icon = GFX_goal_LEP_krupp_industial
+		cost = 7.20
+		prerequisite = {
+			focus = TRN_german_company_acceptance
+		}
+		ai_will_do = {
+			base = 40
+			modifier = {
+				factor = 30
+				has_idea = TRN_aftermath
+			}
+		}
+		x = 0
+		y = 3
+		relative_position_id = TRN_german_company_acceptance
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					OR = {
+						is_core_of = owner
+						is_claimed_by = owner
+					}
+					free_building_slots = { building = arms_factory size > 0 include_locked = yes }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					OR = {
+						is_core_of = owner
+						is_claimed_by = owner
+					}
+					free_building_slots = { building = arms_factory size > 0 include_locked = yes }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			custom_effect_tooltip = TRN_KRUPP_steel_tt
+			add_to_variable = { TRM_industries_dynamic_production_factory_efficiency_gain_factor = 0.05 }
+			add_to_variable = { TRM_industries_dynamic_production_lack_of_resource_penalty_factor = -0.10 }
+			
+		}
+
+	}
+	focus = {
+		id = TRN_Contract_with_Mauser
+		icon = GFX_goal_GER_Mauser_Werke_Contracts
+		cost = 7.20
+		prerequisite = {
+			focus = TRN_KRUPP_steel
+		}
+		ai_will_do = {
+			base = 40
+		}
+		x = 0
+		y = 1
+		relative_position_id = TRN_KRUPP_steel
+		completion_reward = {
+		random_owned_controlled_state = {
+			limit = {
+				OR = {
+					is_core_of = owner
+					is_claimed_by = owner
+				}
+				free_building_slots = { building = arms_factory size > 0 include_locked = yes }
+				is_in_home_area = yes
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = arms_factory
+				level = 1
+				instant_build = yes
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				OR = {
+					is_core_of = owner
+					is_claimed_by = owner
+				}
+				free_building_slots = { building = arms_factory size > 0 include_locked = yes }
+				is_in_home_area = yes
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = arms_factory
+				level = 1
+				instant_build = yes
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				OR = {
+					is_core_of = owner
+					is_claimed_by = owner
+				}
+				free_building_slots = { building = arms_factory size > 0 include_locked = yes }
+				is_in_home_area = yes
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = arms_factory
+				level = 1
+				instant_build = yes
+			}
+		}
+			
+		}
+
+	}
+	focus = {
+		id = TRN_Siemens_grant
+		icon = GFX_goal_GER_Siemens
+		cost = 7.20
+		prerequisite = {
+			focus = TRN_german_company_acceptance
+			focus = TRN_self_reliance
+		}
+		ai_will_do = {
+			base = 40
+		}
+		x = 0
+		y = 3
+		relative_position_id = TRN_kickstart_the_civilian_industry
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 65 }
+				limit = {
+					is_core_of = ROOT
+					is_in_home_area = yes
+					free_building_slots = { building = infrastructure size > 0 include_locked = yes }
+				}
+				add_extra_state_shared_building_slots = 1
+				set_building_level = { type = infrastructure level = 5 }
+			}
+			random_owned_controlled_state = {
+				prioritize = { 64 }
+				limit = {
+					is_core_of = ROOT
+					is_in_home_area = yes
+					free_building_slots = { building = infrastructure size > 0 include_locked = yes }
+				}
+				add_extra_state_shared_building_slots = 1
+				set_building_level = { type = infrastructure level = 5 }
+			}
+			
+		}
+
+	}
+	focus = {
+		id = TRN_Autobahn
+		icon = GFX_goal_generic_trade
+		cost = 7.20
+		prerequisite = {
+			focus = TRN_Siemens_grant
+		}
+		mutually_exclusive = {
+			focus = TRN_Forced_merger_of_Siemens
+		}
+		mutually_exclusive = {
+		}
+		ai_will_do = {
+			base = 40
+		}
+		x = -1
+		y = 1
+		relative_position_id = TRN_Siemens_grant
+		completion_reward = {
+			add_ideas = TRN_Sie_Contracts
+		}
+
+	}
+	focus = {
+		id = TRN_Forced_merger_of_Siemens
+		icon = GFX_goal_generic_soviet_construction
+		cost = 7.20
+		prerequisite = {
+			focus = TRN_Siemens_grant
+		}
+		mutually_exclusive = {
+			focus = TRN_Autobahn
+		}
+		ai_will_do = {
+			base = 40
+		}
+		x = 1
+		y = 1
+		relative_position_id = TRN_Siemens_grant
+		completion_reward = {
+			add_ideas = TRN_Sie_merger
+		}
+
+	}
+	focus = {
+		id = TRN_Recovering_the_aftermath
+		icon = GFX_goal_aftermath_recovery
+		cost = 7.20
+		prerequisite = {
+			focus = TRN_KRUPP_steel
+			focus = TRN_Trinity_Industrial_Development_Department
+		}
+		available = {
+			OR = {
+				has_idea = TRN_aftermath
+				has_idea = TRM_great_depression_2
+			}
+
+		}	
+		ai_will_do = {
+			base = 100
+		}
+		x = 0
+		y = 6
+		relative_position_id = TRN_kickstart_the_civilian_industry
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = TRM_great_depression_2
+				}
+				remove_ideas = TRM_great_depression_2
+			}
+			if = {
+				limit = {
+					has_idea = TRN_aftermath
+				}
+				remove_ideas = TRN_aftermath
+			}
+		}
+
+	}
+	focus = {
+		id = TRN_research_slot # 연구슬롯 늘리기
+		icon = GFX_focus_research
+		ai_will_do = {
+			base = 40
+		}	
+		prerequisite = { focus = TRN_kickstart_the_autoban focus = TRN_railway_gun_focus }
+
+		x = -1
 		y = 1
 		relative_position_id = TRN_kickstart_the_autoban
 		cost = 7.20
 		completion_reward = {
-		custom_effect_tooltip = TRN_eden_railway_state_modifier_tt
-		every_state = {
-			limit = {
-				OR = {
-					state = 64
-					state = 65
-					state = 66
-					state = 60
-					state = 61
-					state = 62
-					state = 63
-					state = 68
-					state = 86
-					state = 67
-					state = 762
-					state = 807
-					state = 5
-					state = 763
-					state = 188
-				}
-				state_is_fully_controlled_by_ROOT_or_subject = yes
-			}
-			add_dynamic_modifier = { modifier = TRN_eden_railway_modifier days = 730 scope = TRM }
-		}
-		}
-	}
-	focus = {
-		id = TRN_railway_gun_focus # 트리니티 열차포
-		icon = GFX_focus_generic_railway_gun
-		available = {
-
-		}	
-		ai_will_do = {
-			base = 80
-		}	
-		prerequisite = { focus = TRN_research_slot }
-		prerequisite = { focus = TRN_railway_focus }
-
-		x = -1
-		y = 1
-		relative_position_id = TRN_railway_focus
-		cost = 7.20
-		completion_reward = {
-			set_technology = { railway_gun = 1 }
+			add_research_slot = 1
 		}
 	}
 	focus = { 
@@ -357,7 +742,7 @@
 				date > 1936.01.01
 			}
 		}
-		x = 25
+		x = 33
 		y = 0
 		completion_reward = {
 			custom_effect_tooltip = TRM_first_focus_tt
@@ -536,7 +921,7 @@
 			has_country_flag = TRN_Yurizono_Seia_dead
 		}
 		offset = {
-			x = -3
+			x = 3
 			trigger = {
 				has_completed_focus = TRM_newfocus_7
 			}
@@ -553,9 +938,6 @@
 				factor = 10
 				date > 1936.01.01
 			}
-		}
-		available = {
-
 		}
 		prerequisite = {
 			focus = TRN_nagisa_gyehek
@@ -592,8 +974,6 @@
 		cost = 3.00
 		available = {
 			always = no
-		}
-		available = {
 		}
 		prerequisite = {
 			focus = TRN_yurijono_seia
@@ -865,11 +1245,11 @@
 		available = { 
 		}
 		ai_will_do = {
-			base = 40
+			base = 100
 		}
 		relative_position_id = TRM_newfocus_7
 		x = 0
-		y = 6
+		y = 5
 		completion_reward = {
 			add_stability = 0.05
 			add_timed_idea = {
@@ -879,33 +1259,16 @@
 		}
 	}
 	focus = {
-		id = TRM_war_with_ghena #게헨나와 전쟁 준비
-		icon = GFX_goal_generic_army_doctrines
-		cost = 1
-		prerequisite = {
-			focus = TRM_naechi
-		}
-		ai_will_do = {
-			base = 80
-		}
-		x = -4
-		y = 1
-		relative_position_id = TRM_naechi
-		completion_reward = {
-			unlock_decision_category_tooltip = TRM_war_plan_decisions
-		}
-	}
-	focus = {
 		id = TMR_support_with_germany #독일인과 접촉
 		icon = GFX_focus_chi_mission_to_germany
-		cost = 1
+		cost = 4.3
 		prerequisite = {
 			focus = TRM_naechi
 		}
 		ai_will_do = {
 			base = 40
 		}
-		x = 8
+		x = 1
 		y = 1
 		relative_position_id = TRM_naechi
 		completion_reward = {
@@ -918,13 +1281,13 @@
 		icon = GFX_goal_general_embrace
 		cost = 4.3
 		prerequisite = {
-			focus = TMR_support_with_germany
+			focus = TRM_naechi
 		}
 		ai_will_do = {
 			base = 40
 		}
-		relative_position_id = TMR_support_with_germany
-		x = 3
+		relative_position_id = TRM_naechi
+		x = -1
 		y = 1
 		completion_reward = {
 		add_political_power = -150
@@ -933,6 +1296,24 @@
 			country_event = { id = TRM_event.5 days = 1 }
 			country_event = { id = TRM_event.53 days = 7 }
 			}
+		}
+	}
+	focus = {
+		id = TRM_war_with_ghena #게헨나와 전쟁 준비
+		icon = GFX_goal_generic_army_doctrines
+		cost = 1
+		prerequisite = {
+			focus = TRM_newfocus_27
+			focus = TRM_arius_annex
+		}
+		ai_will_do = {
+			base = 100
+		}
+		x = -4
+		y = 0
+		relative_position_id = TRM_naechi
+		completion_reward = {
+			unlock_decision_category_tooltip = TRM_war_plan_decisions
 		}
 	}
 	focus = {
@@ -975,11 +1356,11 @@
 			focus = TRM_naechi
 		}
 		ai_will_do = {
-			base = 80
+			base = 100
 		}
 		relative_position_id = TRM_naechi
 		x = 0
-		y = 1
+		y = 2
 		completion_reward = {
 		add_war_support = 0.15
 		country_event = { id = TRM_event.39 days = 3}
@@ -1006,8 +1387,11 @@
 		prerequisite = {
 			focus = TRN_trinity_mika_propaganda
 		}
-		x = 0
-		y = 2
+		prerequisite = {
+			focus = TRN_gisauihon
+		}
+		x = 3
+		y = 1
 		relative_position_id = TRN_trinity_mika_propaganda
 		completion_reward = { 
 			add_political_power = 120
@@ -1027,10 +1411,10 @@
 			focus = TRN_military_industrial_complex
 		}
 		prerequisite = {
-			focus = TRN_radio_propaganda
+			focus = TRN_threat_up_of_europa
 		}
 		prerequisite = {
-			focus = TRN_Recovering_the_aftermath
+			focus = TRN_radio_propaganda
 		}
 		allow_branch = {
 			NOT = {
@@ -1043,9 +1427,9 @@
 		ai_will_do = {
 			base = 100
 		}
-		relative_position_id = TRN_radio_propaganda
+		relative_position_id = TRM_naechi
 		x = 0
-		y = 1
+		y = 5
 		completion_reward = {
 			country_event = { id = TRM_event.35 }
 			hidden_effect = {
@@ -1449,7 +1833,7 @@
 			
 		}
 		ai_will_do = {
-			base = 40
+			base = 100
 		}
 		icon = GFX_goal_generic_construct_mil_factory
 		x = 1
@@ -1513,7 +1897,7 @@
 
 		}		
 		ai_will_do = {
-			base = 40
+			base = 100
 		}
 		prerequisite = { focus = TRM_war_with_ghena }
 
@@ -1550,7 +1934,7 @@
 			
 		}
 		x = 0
-		y = 3
+		y = 2
 		relative_position_id = TRN_prepare_for_the_inevitable
 		cost = 10.00
 		completion_reward = {
@@ -1600,7 +1984,7 @@
 
 		}		
 		ai_will_do = {
-			base = 40
+			base = 100
 		}
 		prerequisite = { focus = TRN_prepare_for_the_inevitable }
 		prerequisite = { focus = TRN_kickstart_the_war_industry }
@@ -1623,10 +2007,10 @@
 		ai_will_do = {
 			base = 40
 		}
-		prerequisite = { focus = TRN_prepare_for_the_inevitable }
-		x = -2
-		y = 1
-		relative_position_id = TRN_prepare_for_the_inevitable
+		prerequisite = { focus = TRM_newfocus_27 }
+		x = 4
+		y = 0
+		relative_position_id = TRM_naechi
 		cost = 7.20
 		completion_reward = {
 			swap_ideas = {
@@ -1712,7 +2096,7 @@
 		}	
 		prerequisite = { focus = TRM_localization }
 
-		x = 0
+		x = 2
 		y = 1
 		relative_position_id = TRM_localization
 		cost = 7.20
@@ -1859,7 +2243,7 @@
 		icon = GFX_goal_war_with_gehenna
 		cost = 8.00
 		prerequisite = { focus = TMR_anti_gehenna }
-		prerequisite = { focus = TRM_war_with_ghena }
+		prerequisite = { focus = TRN_military_training }
 		available = { 
 			has_army_manpower = { size > 249999 } 
 			has_war_support > 0.4 
@@ -1916,12 +2300,12 @@
 		id = TRM_arius_annex #아리우스 노빠구 선전포고
 		icon = GFX_goal_anschluss
 		will_lead_to_war_with  = ARI
-		cost = 1.50
+		cost = 5.00
 		prerequisite = {
-			focus = TRM_naechi
+			focus = TRM_newfocus_21
 		}
 		ai_will_do = {
-			base = 100
+			base = 30
 		}
 		available = {
         country_exists = ARI
@@ -1937,9 +2321,9 @@
 			}
 		}
 		
-		x = 4
+		x = -3
 		y = 1
-		relative_position_id = TRM_naechi
+		relative_position_id = TRM_newfocus_21
 		completion_reward = {
 			create_wargoal = {
 				target = ARI
@@ -2931,83 +3315,6 @@
 
 	}
 	focus = {
-		id = TRN_Siemens_grant
-		icon = GFX_goal_GER_Siemens
-		cost = 7.20
-		prerequisite = {
-			focus = TMR_support_with_germany
-		}
-		ai_will_do = {
-			base = 40
-		}
-		x = -1
-		y = 1
-		relative_position_id = TMR_support_with_germany
-		completion_reward = {
-			random_owned_controlled_state = {
-				prioritize = { 65 }
-				limit = {
-					is_core_of = ROOT
-					is_in_home_area = yes
-					free_building_slots = { building = infrastructure size > 0 include_locked = yes }
-				}
-				add_extra_state_shared_building_slots = 1
-				set_building_level = { type = infrastructure level = 5 }
-			}
-			random_owned_controlled_state = {
-				prioritize = { 64 }
-				limit = {
-					is_core_of = ROOT
-					is_in_home_area = yes
-					free_building_slots = { building = infrastructure size > 0 include_locked = yes }
-				}
-				add_extra_state_shared_building_slots = 1
-				set_building_level = { type = infrastructure level = 5 }
-			}
-			
-		}
-
-	}
-	focus = {
-		id = TRN_Autobahn
-		icon = GFX_goal_WAL_German_Investements
-		cost = 7.20
-		prerequisite = {
-			focus = TRN_Siemens_grant
-		}
-		ai_will_do = {
-			base = 40
-		}
-		x = 0
-		y = 1
-		relative_position_id = TRN_Siemens_grant
-		completion_reward = {
-			add_ideas = TRN_Sie_Contracts
-		}
-
-	}
-	focus = {
-		id = TRN_Recovering_the_aftermath
-		icon = GFX_goal_aftermath_recovery
-		cost = 7.20
-		prerequisite = {
-			focus = TRN_Autobahn
-		}
-		ai_will_do = {
-			base = 100
-		}
-		prerequisite = {
-			focus = TRN_KRUPP_ZIP_III
-		}
-		x = 1
-		y = 1
-		relative_position_id = TRN_Autobahn
-		completion_reward = {
-			remove_ideas = TRN_aftermath
-		}
-
-	}
-	focus = {
 		id = TRN_doklisanupyi_him
 		icon = GFX_goal_doklisanupyi_him
 		cost = 7.20
@@ -3231,107 +3538,6 @@
 		}
 	}
 	focus = {
-		id = TRN_KRUPP_steel
-		icon = GFX_goal_LEP_krupp_industial
-		cost = 7.20
-		prerequisite = {
-			focus = TMR_support_with_germany
-		}
-		ai_will_do = {
-			base = 40
-			modifier = {
-				factor = 30
-				has_idea = TRN_aftermath
-			}
-		}
-		x = 1
-		y = 1
-		relative_position_id = TMR_support_with_germany
-		completion_reward = {
-			random_owned_controlled_state = {
-			limit = {
-				OR = {
-					is_core_of = owner
-					is_claimed_by = owner
-				}
-				free_building_slots = { building = arms_factory size > 0 include_locked = yes }
-			}
-			add_extra_state_shared_building_slots = 1
-			add_building_construction = {
-				type = arms_factory
-				level = 1
-				instant_build = yes
-			}
-		}
-			random_owned_controlled_state = {
-			limit = {
-				OR = {
-					is_core_of = owner
-					is_claimed_by = owner
-				}
-				free_building_slots = { building = arms_factory size > 0 include_locked = yes }
-			}
-			add_extra_state_shared_building_slots = 1
-			add_building_construction = {
-				type = arms_factory
-				level = 1
-				instant_build = yes
-			}
-		}
-			
-		}
-
-	}
-	focus = {
-		id = TRN_KRUPP_ZIP_III
-		icon = GFX_goal_construction_engineering
-		cost = 7.20
-		x = 0
-		y = 1
-		relative_position_id = TRN_KRUPP_steel
-		prerequisite = {
-			focus = TRN_KRUPP_steel
-		}
-		ai_will_do = {
-			base = 40
-		}
-		completion_reward = {
-		random_owned_controlled_state = {
-			limit = {
-				OR = {
-					is_core_of = owner
-					is_claimed_by = owner
-				}
-				free_building_slots = { building = industrial_complex size > 0 include_locked = yes }
-			}
-			add_extra_state_shared_building_slots = 1
-			add_building_construction = {
-				type = industrial_complex
-				level = 1
-				instant_build = yes
-			}
-		}
-		random_owned_controlled_state = {
-			limit = {
-				OR = {
-					is_core_of = owner
-					is_claimed_by = owner
-				}
-				free_building_slots = { building = industrial_complex size > 0 include_locked = yes }
-				is_in_home_area = yes
-			}
-			add_extra_state_shared_building_slots = 1
-			add_building_construction = {
-				type = industrial_complex
-				level = 1
-				instant_build = yes
-			}
-		}
-			
-		}
-
-	}
-	focus = {
 		id = TRN_military_industrial_complex
 		icon = GFX_goal_Military_Mobilisation
 		cost = 7.20
@@ -3340,10 +3546,7 @@
 		}
 		x = 0
 		y = 2
-		relative_position_id = TRN_kickstart_the_war_industry
-		prerequisite = {
-			focus = TRN_Contract_with_Mauser
-		}
+		relative_position_id = TRN_military_training
 		prerequisite = {
 			focus = TRN_military_training
 		}
@@ -3362,7 +3565,7 @@
 			focus = TRM_localization
 		}
 		relative_position_id = TRM_localization
-		x = 4
+		x = 7
 		y = 1
 		completion_reward = { 
 			add_tech_bonus = {
@@ -3549,76 +3752,10 @@
 		}
 	}
 	focus = {
-		id = TRN_Contract_with_Mauser
-		icon = GFX_goal_GER_Mauser_Werke_Contracts
-		cost = 7.20
-		prerequisite = {
-			focus = TRN_kickstart_the_war_industry
-		}
-		ai_will_do = {
-			base = 40
-		}
-		x = 1
-		y = 1
-		relative_position_id = TRN_kickstart_the_war_industry
-		completion_reward = {
-		random_owned_controlled_state = {
-			limit = {
-				OR = {
-					is_core_of = owner
-					is_claimed_by = owner
-				}
-				free_building_slots = { building = arms_factory size > 0 include_locked = yes }
-				is_in_home_area = yes
-			}
-			add_extra_state_shared_building_slots = 1
-			add_building_construction = {
-				type = arms_factory
-				level = 1
-				instant_build = yes
-			}
-		}
-		random_owned_controlled_state = {
-			limit = {
-				OR = {
-					is_core_of = owner
-					is_claimed_by = owner
-				}
-				free_building_slots = { building = arms_factory size > 0 include_locked = yes }
-				is_in_home_area = yes
-			}
-			add_extra_state_shared_building_slots = 1
-			add_building_construction = {
-				type = arms_factory
-				level = 1
-				instant_build = yes
-			}
-		}
-		random_owned_controlled_state = {
-			limit = {
-				OR = {
-					is_core_of = owner
-					is_claimed_by = owner
-				}
-				free_building_slots = { building = arms_factory size > 0 include_locked = yes }
-				is_in_home_area = yes
-			}
-			add_extra_state_shared_building_slots = 1
-			add_building_construction = {
-				type = arms_factory
-				level = 1
-				instant_build = yes
-			}
-		}
-			
-		}
-
-	}
-	focus = {
 		id = TRN_Fission
 		icon = GFX_goal_TRN_nuclear_fission
 		cost = 7.20
-		prerequisite = { focus = TMR_support_with_germany }
+		prerequisite = { focus = TRN_research_slot }
 		available = { has_country_flag = TRM_OTTO_HAN_EVENT has_country_flag = GAEBALJUNG }
 		ai_will_do = {
 			base = 1
@@ -3627,9 +3764,9 @@
 				date < 1944.1.1
 			}
 		}
-		x = 7
-		y = 1
-		relative_position_id = TMR_support_with_germany
+		x = 0
+		y = 3
+		relative_position_id = TRN_research_slot
 		completion_reward = {  
 			custom_effect_tooltip = TRN_Fission_tt
 			country_event = TRM_event.73
