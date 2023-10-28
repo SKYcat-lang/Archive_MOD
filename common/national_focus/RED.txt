@@ -18,6 +18,7 @@ focus_tree = {
 	focus = { # 남부 도로 재정비
 		id = RED_road_to_south
 		icon = GFX_goal_generic_construction
+		mutually_exclusive = { focus = RED_road_to_north }
 		x = 1
 		y = 0
 		cost = 10
@@ -65,6 +66,7 @@ focus_tree = {
 	focus = { # 북부 도로 재개발
 		id = RED_road_to_north
 		icon = GFX_goal_generic_construction
+		mutually_exclusive = { focus = RED_road_to_south }
 		x = 2
 		y = 0
 		relative_position_id = RED_road_to_south
@@ -746,7 +748,7 @@ focus_tree = {
 		id = RED_accept_trotskism
 		icon = GFX_focus_fra_loyalty_trotzky
 		mutually_exclusive = { focus = RED_ivan_kupla }
-		x = 14
+		x = 36
 		y = 0
 		cost = 10
 		
@@ -792,6 +794,8 @@ focus_tree = {
 
 		completion_reward = {
 			add_political_power = 120
+
+			news_event = { id = BA_news.27 hours = 2 random_hours = 2 }
 		}
 	}
 	focus = { # 푸딩 추가 배급
@@ -858,19 +862,147 @@ focus_tree = {
 			add_political_power = 25
 
 			#샬레
-			every_other_country = {
-				if = {
-					limit = {
-						has_country_flag = kivotos_research_on
+			if = {
+				limit = {
+					country_exists = SHE
+					SHE = {
 						NOT = { is_in_faction_with = ROOT }
 					}
+				}
+				SHE = {
 					add_timed_idea = {
-						idea = communist_influence
+						idea = communist_pressure
 						days = 365
 					}
 					hidden_effect = {
 						country_event = { id = generic.1 }
+					}        
+				}
+			}
+			#흥신소
+			if = {
+				limit = {
+					country_exists = HEU
+					HEU = {
+						NOT = { is_in_faction_with = ROOT }
 					}
+				}
+				HEU = {
+					add_timed_idea = {
+						idea = communist_pressure
+						days = 365
+					}
+					hidden_effect = {
+						country_event = { id = generic.1 }
+					}        
+				}
+			}
+			#발키리
+			if = {
+				limit = {
+					country_exists = KSP
+					KSP = {
+						NOT = { is_in_faction_with = ROOT }
+					}
+				}
+				KSP = {
+					add_timed_idea = {
+						idea = communist_pressure
+						days = 365
+					}
+					hidden_effect = {
+						country_event = { id = generic.1 }
+					}        
+				}
+			}
+			#SRT
+			if = {
+				limit = {
+					country_exists = SRT
+					SRT = {
+						NOT = { is_in_faction_with = ROOT }
+					}
+				}
+				SRT = {
+					add_timed_idea = {
+						idea = communist_pressure
+						days = 365
+					}
+					hidden_effect = {
+						country_event = { id = generic.1 }
+					}        
+				}
+			}
+			#MIL
+			if = {
+				limit = {
+					country_exists = MIL
+					MIL = {
+						NOT = { is_in_faction_with = ROOT }
+					}
+				}
+				MIL = {
+					add_timed_idea = {
+						idea = communist_pressure
+						days = 365
+					}
+					hidden_effect = {
+						country_event = { id = generic.1 }
+					}        
+				}
+			}
+			#ABY
+			if = {
+				limit = {
+					country_exists = ABY
+					ABY = {
+						NOT = { is_in_faction_with = ROOT }
+					}
+				}
+				ABY = {
+					add_timed_idea = {
+						idea = communist_pressure
+						days = 365
+					}
+					hidden_effect = {
+						country_event = { id = generic.1 }
+					}        
+				}
+			}
+			#HYA
+			if = {
+				limit = {
+					country_exists = HYA
+					HYA = {
+						NOT = { is_in_faction_with = ROOT }
+					}
+				}
+				HYA = {
+					add_timed_idea = {
+						idea = communist_pressure
+						days = 365
+					}
+					hidden_effect = {
+						country_event = { id = generic.1 }
+					}        
+				}
+			}
+			#SHA
+			if = {
+				limit = {
+					country_exists = SHA
+					SHA = {
+						NOT = { is_in_faction_with = ROOT }
+					}
+				}
+				SHA = {
+					add_timed_idea = {
+						idea = communist_pressure
+						days = 365
+					}
+					hidden_effect = {
+						country_event = { id = generic.1 }
+					}        
 				}
 			}
 		}
@@ -1009,7 +1141,7 @@ focus_tree = {
 	}
 	focus = { #중앙집권과 규율
 		id = RED_organization_centralization_discipline
-		icon = GFX_focus_generic_soviet_politics
+		icon = GFX_focus_SOV_father_of_nations
 		prerequisite = { focus = RED_the_collectivization_process }
 		x = -1
 		y = 1
@@ -1079,7 +1211,7 @@ focus_tree = {
 	}
 	focus = { #붉은겨울이여 영원하라
 		id = RED_long_live_the_workers_government
-		icon = GFX_focus_SOV_international_union_of_soviet_republics
+		icon = GFX_focus_generic_join_comintern
 		prerequisite = { focus = RED_the_collectivization_process }
 	
 		x = 1
@@ -1315,23 +1447,20 @@ focus_tree = {
 		completion_reward = {
 			add_stability = -0.15
 			add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
-			custom_effect_tooltip = RED_add_halo_cap_3_tt
-			hidden_effect = {
-				if = {
-					limit = {
-						has_template = "Halo Infantry Division"
-					}
-					set_division_template_cap = {
-						division_template = "Halo Infantry Division"
-						division_cap = ROOT.halo_infantry_cap
-					}
+			if = {
+				limit = {
+					has_template = "Halo Infantry Division"
 				}
-				random_owned_controlled_state = {
-					create_unit = {
-						division = "division_template = \"Halo Infantry Division\" start_experience_factor = 1 start_equipment_factor = 1.0"
-						owner = ROOT
-						count = 1
-					}
+				set_division_template_cap = {
+					division_template = "Halo Infantry Division"
+					division_cap = ROOT.halo_infantry_cap
+				}
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "division_template = \"Halo Infantry Division\" start_experience_factor = 1 start_equipment_factor = 1.0"
+					owner = ROOT
+					count = 1
 				}
 			}
 		}
@@ -1428,7 +1557,7 @@ focus_tree = {
 	focus = { # 반 소비에트 정책
 		id = RED_anti_sov_diplo
 		icon = GFX_goal_anti_comintern_pact
-		prerequisite = { focus = RED_kibotos_policy focus = RED_communist_diplo }
+		prerequisite = { focus = RED_kibotos_policy focus = RED_communist_diplo_modifier }
 		x = 0
 		y = 1
 		relative_position_id = RED_kibotos_policy
@@ -1452,7 +1581,7 @@ focus_tree = {
 		id = RED_ivan_kupla
 		icon = GFX_goal_generic_war_with_comintern
 		mutually_exclusive = { focus = RED_accept_trotskism }
-		x = 10
+		x = 12
 		y = 0
 		relative_position_id = RED_accept_trotskism
 
@@ -1648,7 +1777,7 @@ focus_tree = {
 						has_government = neutrality
 					}
 				}
-				add_opinion_modifier = { target = RED modifier = RED_communist_diplo_modifier }
+				add_opinion_modifier = { target = RED modifier = RED_communist_diplo }
 			}
 		}
 	}
@@ -1936,7 +2065,6 @@ focus_tree = {
 		icon = GFX_goal_generic_defence
 		x = 12
 		y = 0
-		relative_position_id = RED_ivan_kupla
 		cost = 10
 
 		ai_will_do = {
@@ -2743,23 +2871,20 @@ focus_tree = {
 
 		completion_reward = {
 			add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
-			custom_effect_tooltip = RED_add_halo_cap_3_tt
-			hidden_effect = {
-				if = {
-					limit = {
-						has_template = "Halo Infantry Division"
-					}
-					set_division_template_cap = {
-						division_template = "Halo Infantry Division"
-						division_cap = ROOT.halo_infantry_cap
-					}
+			if = {
+				limit = {
+					has_template = "Halo Infantry Division"
 				}
-				random_owned_controlled_state = {
-					create_unit = {
-						division = "division_template = \"Halo Infantry Division\" start_experience_factor = 1 start_equipment_factor = 1.0"
-						owner = ROOT
-						count = 3
-					}
+				set_division_template_cap = {
+					division_template = "Halo Infantry Division"
+					division_cap = ROOT.halo_infantry_cap
+				}
+			}
+			random_owned_controlled_state = {
+				create_unit = {
+					division = "division_template = \"Halo Infantry Division\" start_experience_factor = 1 start_equipment_factor = 1.0"
+					owner = ROOT
+					count = 3
 				}
 			}
 		}
@@ -2826,7 +2951,7 @@ focus_tree = {
 
 		completion_reward = {
 			army_experience = 100
-			add_to_variable = { RED_army_artillery_defence_factor = 0.05 }
+			custom_effect_tooltip = RED_defensive_plan_decision_tt
 		}
 	}
 
@@ -2849,7 +2974,7 @@ focus_tree = {
 
 		completion_reward = {
 			army_experience = 100
-			add_to_variable = { RED_army_infantry_attack_factor = 0.05 }
+			custom_effect_tooltip = RED_aggresive_plan_decision_tt
 		}
 	}
 
@@ -2919,9 +3044,8 @@ focus_tree = {
 	focus = {
 		id = RED_naval_rearmament
 		icon = GFX_goal_generic_build_navy
-		x = 5
-		y = 1
-		relative_position_id = RED_ivan_kupla
+		x = 27
+		y = 0
 
 		cost = 5
 		ai_will_do = {
@@ -3212,8 +3336,9 @@ focus_tree = {
 		id = RED_new_council
 		icon = GFX_goal_unknown
 		prerequisite = { focus = RED_anti_fascism_policy }
-		x = 20
-		y = 10
+		x = 0
+		y = 1
+		relative_position_id = RED_anti_fascism_policy
 
 		cost = 5
 
@@ -3224,8 +3349,9 @@ focus_tree = {
 		id = RED_council_for_worker
 		icon = GFX_goal_unknown
 		prerequisite = { focus = RED_new_council }
-		x = 18
-		y = 11
+		relative_position_id = RED_new_council
+		x = -2
+		y = 1
 
 		cost = 5
 
@@ -3236,12 +3362,169 @@ focus_tree = {
 		icon = GFX_goal_unknown
 		prerequisite = { focus = RED_new_council }
 		mutually_exclusive = { focus = RED_council_for_worker }
-		x = 22
-		y = 11
+		relative_position_id = RED_new_council 
+		x = 2
+		y = 1
 
 		cost = 5
 
 		search_filters = { FOCUS_FILTER_POLITICAL}
 
+	}
+	focus = { #용역부 꼭두각시화
+	 	id = RED_GGOKDUGAKSI
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_council_for_worker}
+		x = -1
+		y = 1
+
+		cost = 5
+		relative_position_id = RED_council_for_worker
+
+		search_filters = { focus = FOCUS_FILTER_POLITICAL}
+	}
+	focus = { #평의회 설치
+		id = RED_workerfront
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_council_for_worker }
+		x = 1
+		y = 1
+		relative_position_id = RED_council_for_worker 
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL}
+	}
+	focus = { #평의회로의 권한 이관
+		id = RED_workercouncil
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_workerfront }
+		relative_position_id = RED_workerfront
+		x = 2
+		y = 1
+
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+	focus = { #지역 평의회에서의 의원 선출
+		id = RED_eonesunchl
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_GGOKDUGAKSI }
+		relative_position_id = RED_GGOKDUGAKSI
+		x = -2
+		y = 1
+
+		cost = 5
+		
+		search_filters = { FOCUS_FILTER_POLITICAL }
+	}
+	focus = { #빈민 구제
+		id = RED_Poverty_Relief
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_GGOKDUGAKSI }
+		prerequisite = { focus = RED_workerfront }
+		relative_position_id = RED_workerfront
+		x = -1
+		y= 1
+
+		cost = 5
+	}
+	focus = { #이방인 포용 
+		id = RED_ibangin_poyong
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_Poverty_Relief }
+		relative_position_id = RED_Poverty_Relief
+
+		cost = 5
+
+		x = -1
+		y = 1
+	}
+	focus = { #물자 재분배
+		id = RED_Material_Redistribution
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_Poverty_Relief }
+		relative_position_id = RED_Poverty_Relief
+
+		cost = 5
+
+		x = 1 
+		y = 1
+
+
+	}
+	focus = { #이방인 문화 적극 수용
+		id = RED_Embrace_stranger_cultures
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_ibangin_poyong }
+		relative_position_id = RED_ibangin_poyong
+		
+		cost = 5
+
+		x = 0
+		y = 1
+
+	}
+	focus = { #없는자에게 없는 것을
+		id = RED_ahirummolloham
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_Material_Redistribution }
+		relative_position_id = RED_Material_Redistribution
+
+		cost = 5
+
+		x = 0 
+		y = 1
+
+	}
+	focus = { #차별없는 공화국
+		id = RED_chabulnorepublic
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_Embrace_stranger_cultures }
+		prerequisite = { focus = RED_ahirummolloham }
+		prerequisite = { focus = RED_jibangjunchi_ganghwa }
+		prerequisite = { focus = RED_jackupjang_council }
+		relative_position_id = RED_Embrace_stranger_cultures
+
+		cost = 5
+
+		x = 1
+		y = 1
+
+	}
+	focus = { #지방정치 강화
+		id = RED_jibangjunchi_ganghwa
+		icon = GFX_goal_unknown 
+		prerequisite = { focus = RED_eonesunchl }
+		relative_position_id = RED_eonesunchl
+
+		cost = 5
+
+		x = 0
+		y = 2
+
+	}
+	focus = { #작업장마다 평의회가
+		id = RED_jackupjang_council
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_workercouncil }
+		relative_position_id = RED_workercouncil
+
+		cost = 5
+
+		x = 0
+		y = 2
+	}
+	focus = {#노동자 공화국
+		id = RED_worker_repulbic
+		icon = GFX_goal_unknown
+		prerequisite = { focus = RED_chabulnorepublic }
+		relative_position_id = RED_chabulnorepublic
+
+		cost = 2
+
+		x = 0
+		y = 1
 	}
 }
