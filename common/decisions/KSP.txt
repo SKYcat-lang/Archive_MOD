@@ -23,62 +23,88 @@ KSP_annex_countries = {
 		fire_only_once = yes
 	}
 }
-KSP_army_create = {
-	KSP_army_from_wallonie = {
-		cost = 25
+KSP_fight_with_wakamo = {
+	KSP_wakamo_sabotage_mission = {
+		activation = {
+			has_country_flag = KSP_wakamo_sabotage_activated
+		}
 		available = {
-			ROOT = {has_full_control_of_state = 34}
-		}
-		visible = {
-			ROOT = { NOT = { has_country_flag = KSP_VAL_CHIAN_UZIGUN }}
-		}
-		days_remove = 1
-
-		modifier = {
-			political_power_cost = 0.01
-		}
-
-		remove_effect = {
-			if = {
-				limit = { NOT = { has_country_flag = KSP_VAL_CHIAN_UZIGUN } }
-				division_template = {
-					name = "민병대"
-					priority = 0
-					is_locked = yes
-					regiments = {
-					   infantry = { x = 0 y = 0 }
-					   infantry = { x = 1 y = 0 }
-					   infantry = { x = 0 y = 1 }
-					   infantry = { x = 1 y = 1 }
-					}
-				}
+			NOT = {
+				has_country_flag = KSP_wakamo_sabotage_activated
 			}
-			set_country_flag = KSP_VAL_CHIAN_UZIGUN
-			
-			random_owned_controlled_state = {
-				prioritize = { 34 }
-				create_unit = {
-					division = "name = \"왈로니 민병대\" division_template = \"민병대\" #  start_experience_factor = 0." 
-					owner = KSP
-				}
-				create_unit = {
-					division = "name = \"왈로니 민병대\" division_template = \"민병대\" #  start_experience_factor = 0." 
-					owner = KSP
-				}
+		}
+		cancel_trigger = {
+			NOT = {
+				has_country_flag = KSP_wakamo_sabotage_activated
 			}
+		}
+		is_good = no
+		days_mission_timeout = 35
+		timeout_effect = {
 			random_owned_controlled_state = {
-				prioritize = { 948 }
-				create_unit = {
-					division = "name = \"동왈로니 민병대\" division_template = \"민병대\" #  start_experience_factor = 0." 
-					owner = KSP
+				damage_building = {
+					type = infrastructure
+					damage = 1
 				}
-				create_unit = {
-					division = "name = \"동왈로니 민병대\" division_template = \"민병대\" #  start_experience_factor = 0." 
-					owner = KSP
+				damage_building = {
+					type = industrial_complex
+					damage = 1
 				}
 			}
 		}
 	}
-	
-	
+	KSP_suppressing_plan_sustain_de = {
+		cost = 25
+		visible = {
+			OR = {
+				has_completed_focus = KSP_suppressing_plan_sustain
+				is_debug = yes
+			}
+		}
+		available = {
+			has_idea = KSP_wakamo_sabotage
+		}
+		days_remove = 70
+
+		modifier = {
+			political_power_cost = 0.10
+		}
+
+		remove_effect = {
+			swap_ideas = {
+				remove_idea = KSP_wakamo_sabotage
+				add_idea = KSP_wakamo_sabotage_1
+			}
+			custom_effect_tooltip = KSP_suppressing_plan_sustain_de_ns_tt
+		}
+
+		fire_only_once = yes
+	}
+	KSP_skeban_suppress_de = {
+		cost = 25
+		visible = {
+			OR = {
+				has_completed_focus = KSP_skeban_suppress
+				is_debug = yes
+			}
+		}
+		available = {
+			has_idea = KSP_wakamo_sabotage_1
+		}
+		days_remove = 70
+
+		modifier = {
+			political_power_cost = 0.10
+		}
+
+		remove_effect = {
+			swap_ideas = {
+				remove_idea = KSP_wakamo_sabotage_1
+				add_idea = KSP_wakamo_sabotage_2
+			}
+			custom_effect_tooltip = KSP_suppressing_plan_sustain_de_ns_tt
+		}
+
+		fire_only_once = yes
+	}
 }
