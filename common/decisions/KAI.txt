@@ -1,0 +1,1064 @@
+
+
+KAI_corp_powerbalance_dec_cat = { #사내 권력 균형
+	debug_deactivate_powerbalance = {
+		priority = 91
+		visible = {
+			is_debug = yes
+		}
+		complete_effect = {
+			remove_power_balance = { id = KAI_power_balance }
+		}
+	}
+
+	debug_powerbalance_make_decisions_faster_and_free = {
+		priority = 90
+		visible = {
+			is_debug = yes
+			NOT = { has_country_flag = KAI_debug_powerbalance_decisions_faster_and_free_flag }
+		}
+		complete_effect = {
+			set_country_flag = KAI_debug_powerbalance_decisions_faster_and_free_flag
+			set_variable = { KAI_bop_take_over_ministry_cost = 0 }
+			set_variable = { KAI_bop_resign_ministry_cost = 0 }
+		}
+	}
+
+	debug_powerbalance_make_decisions_go_back_to_normal = {
+		priority = 90
+		visible = {
+			is_debug = yes
+			has_country_flag = KAI_debug_powerbalance_decisions_faster_and_free_flag
+		}
+		complete_effect = {
+			clr_country_flag = KAI_debug_powerbalance_decisions_faster_and_free_flag
+			set_variable = { KAI_bop_take_over_ministry_cost = 50 }
+			set_variable = { KAI_bop_resign_ministry_cost = 15 }
+		}
+	}
+
+	debug_powerbalance_increase_value = {
+		priority = 20
+		visible = {
+			is_debug = yes
+		}
+		complete_effect = {
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = 0.1
+			}
+		}
+	}
+
+	debug_powerbalance_decrease_value = {
+		priority = 15
+		visible = {
+			is_debug = yes
+		}
+		complete_effect = {
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = -0.1
+			}
+		}
+	}
+
+	KAI_take_over_ministry_of_foreign_affairs = {
+		priority = 100
+		icon = GFX_decision_eng_trade_unions_demand
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+			has_country_leader = {
+				character = KAI_president
+				ruling_only = yes
+			}
+			has_completed_focus = KAI_corp_fascism
+		}
+
+		available = {
+			has_country_flag = KAI_mussolini_resigned_minister_of_foreign_affairs_position_flag
+			NOT = { has_country_flag = KAI_debug_powerbalance_decisions_faster_and_free_flag } #Debug
+		}
+
+		cost = KAI_bop_take_over_ministry_cost
+
+		complete_effect = {
+			set_country_flag = { flag = KAI_mussolini_took_over_minister_of_foreign_affairs_flag value = 1 days = 365 }
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = 0.15
+			}
+
+			hidden_effect = { #In order to work with debug decisions
+				if = {
+					limit = {
+						has_country_flag = KAI_mussolini_resigned_minister_of_foreign_affairs_position_flag
+					}
+					clr_country_flag = KAI_mussolini_resigned_minister_of_foreign_affairs_position_flag
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 0.1
+			modifier = {
+				factor = 10
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0.1
+				}
+			}
+			modifier = {
+				factor = 10
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0
+				}
+			}
+			modifier = {
+				factor = 10
+				power_balance_value = {
+					id = KAI_power_balance
+					value < -0.2
+				}
+			}
+			modifier = {
+				factor = 0
+				ITA_is_historical_ai = no
+			}
+		}
+	}
+
+	KAI_resign_ministry_of_foreign_affairs_position = {
+		priority = 100
+		icon = GFX_decision_generic_political_discourse
+
+		visible = {
+			has_country_leader = {
+				character = KAI_president
+				ruling_only = yes
+			}
+		}
+
+		available = {
+			has_country_flag = KAI_mussolini_took_over_minister_of_foreign_affairs_flag
+			NOT = { has_country_flag = KAI_debug_powerbalance_decisions_faster_and_free_flag } #Debug
+		}
+
+		cost = KAI_bop_resign_ministry_cost
+
+		complete_effect = {
+			set_country_flag = { flag = KAI_mussolini_resigned_minister_of_foreign_affairs_position_flag value = 1 days = 365 }
+			remove_country_leader_trait = mussolini_minister_of_foreign_affairs
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = -0.15
+			}
+
+			hidden_effect = { #In order to work with debug decisions
+				if = {
+					limit = {
+						has_country_flag = KAI_mussolini_took_over_minister_of_foreign_affairs_flag
+					}
+					clr_country_flag = KAI_mussolini_took_over_minister_of_foreign_affairs_flag
+				}
+			}
+		}
+
+		ai_will_do = { #Never
+			base = 0
+		}
+	}
+
+	KAI_take_over_ministry_of_justice = {
+		priority = 99
+		icon = GFX_decision_eng_trade_unions_demand
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+			has_country_leader = {
+				character = KAI_president
+				ruling_only = yes
+			}
+		}
+
+		available = {
+			has_country_flag = KAI_president_resigned_minister_of_justice_position_flag
+			NOT = { has_country_flag = KAI_debug_powerbalance_decisions_faster_and_free_flag } #Debug
+		}
+
+		cost = KAI_bop_take_over_ministry_cost
+
+		complete_effect = {
+			set_country_flag = { flag = KAI_president_took_over_minister_of_justice_flag value = 1 days = 365 }
+			add_country_leader_trait = mussolini_minister_of_justice
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = 0.15
+			}
+
+			hidden_effect = { #In order to work with debug decisions
+				if = {
+					limit = {
+						has_country_flag = KAI_president_resigned_minister_of_justice_position_flag
+					}
+					clr_country_flag = KAI_president_resigned_minister_of_justice_position_flag
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 0.1
+			modifier = {
+				factor = 9
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0.1
+				}
+			}
+			modifier = {
+				factor = 9
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0
+				}
+			}
+			modifier = {
+				factor = 9
+				power_balance_value = {
+					id = KAI_power_balance
+					value < -0.2
+				}
+			}
+			modifier = {
+				factor = 0
+				ITA_is_historical_ai = no
+			}
+		}
+	}
+
+	KAI_resign_ministry_of_justice_position = {
+		priority = 99
+		icon = GFX_decision_generic_political_discourse
+
+		visible = {
+			has_country_leader = {
+				character = KAI_president
+				ruling_only = yes
+			}
+		}
+
+		available = {
+			has_country_flag = KAI_president_took_over_minister_of_justice_flag
+			NOT = { has_country_flag = KAI_debug_powerbalance_decisions_faster_and_free_flag } #Debug
+		}
+
+		cost = KAI_bop_resign_ministry_cost
+
+		complete_effect = {
+			set_country_flag = { flag = KAI_president_resigned_minister_of_justice_position_flag value = 1 days = 365 }
+			remove_country_leader_trait = mussolini_minister_of_justice
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = -0.15
+			}
+
+			hidden_effect = { #In order to work with debug decisions
+				if = {
+					limit = {
+						has_country_flag = KAI_president_took_over_minister_of_justice_flag
+					}
+					clr_country_flag = KAI_president_took_over_minister_of_justice_flag
+				}
+			}
+		}
+
+		ai_will_do = { #Never
+			base = 0
+		}
+	}
+
+	KAI_take_over_ministry_of_education = {
+		priority = 98
+		icon = GFX_decision_eng_trade_unions_demand
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+			has_country_leader = {
+				character = KAI_president
+				ruling_only = yes
+			}
+		}
+
+		available = {
+			has_country_flag = KAI_president_resigned_minister_of_education_position_flag
+			NOT = { has_country_flag = KAI_debug_powerbalance_decisions_faster_and_free_flag } #Debug
+		}
+
+		cost = KAI_bop_take_over_ministry_cost
+
+		complete_effect = {
+			set_country_flag = { flag = KAI_president_took_over_minister_of_education_flag value = 1 days = 365 }
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = -0.15
+			}
+
+			hidden_effect = { #In order to work with debug decisions
+				if = {
+					limit = {
+						has_country_flag = KAI_president_resigned_minister_of_education_position_flag
+					}
+					clr_country_flag = KAI_president_resigned_minister_of_education_position_flag
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 0.1
+			modifier = {
+				factor = 9
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0.1
+				}
+			}
+			modifier = {
+				factor = 9
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0
+				}
+			}
+			modifier = {
+				factor = 9
+				power_balance_value = {
+					id = KAI_power_balance
+					value < -0.2
+				}
+			}
+			modifier = {
+				factor = 0
+				ITA_is_historical_ai = no
+			}
+		}
+	}
+
+	KAI_resign_ministry_of_education_position = {
+		priority = 98
+		icon = GFX_decision_generic_political_discourse
+
+		visible = {
+			has_country_leader = {
+				character = KAI_president
+				ruling_only = yes
+			}
+		}
+
+		available = {
+			has_country_flag = KAI_president_took_over_minister_of_education_flag
+			NOT = { has_country_flag = KAI_debug_powerbalance_decisions_faster_and_free_flag } #Debug
+		}
+
+		cost = KAI_bop_resign_ministry_cost
+
+		complete_effect = {
+			set_country_flag = { flag = KAI_president_resigned_minister_of_education_position_flag value = 1 days = 365 }
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = -0.15
+			}
+
+			hidden_effect = { #In order to work with debug decisions
+				if = {
+					limit = {
+						has_country_flag = KAI_president_took_over_minister_of_education_flag
+					}
+					clr_country_flag = KAI_president_took_over_minister_of_education_flag
+				}
+			}
+		}
+
+		ai_will_do = { #Never
+			base = 0
+		}
+	}
+
+	KAI_take_over_ministry_of_corporations = {
+		priority = 97
+		icon = GFX_decision_eng_trade_unions_demand
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+			has_country_leader = {
+				character = KAI_president
+				ruling_only = yes
+			}
+		}
+
+		available = {
+			has_country_flag = KAI_president_resigned_minister_of_corporations_position_flag
+			NOT = { has_country_flag = KAI_debug_powerbalance_decisions_faster_and_free_flag } #Debug
+		}
+
+		cost = KAI_bop_take_over_ministry_cost
+
+		complete_effect = {
+			set_country_flag = { flag = KAI_president_took_over_minister_of_corporations_flag value = 1 days = 365 }
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = -0.15
+			}
+
+			hidden_effect = { #In order to work with debug decisions
+				if = {
+					limit = {
+						has_country_flag = KAI_president_resigned_minister_of_corporations_position_flag
+					}
+					clr_country_flag = KAI_president_resigned_minister_of_corporations_position_flag
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 0.1
+			modifier = {
+				factor = 9
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0.1
+				}
+			}
+			modifier = {
+				factor = 9
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0
+				}
+			}
+			modifier = {
+				factor = 9
+				power_balance_value = {
+					id = KAI_power_balance
+					value < -0.2
+				}
+			}
+			modifier = {
+				factor = 0
+				ITA_is_historical_ai = no
+			}
+		}
+	}
+
+	KAI_resign_ministry_of_corporations_position = {
+		priority = 97
+		icon = GFX_decision_generic_political_discourse
+
+		visible = {
+			has_country_leader = {
+				character = KAI_president
+				ruling_only = yes
+			}
+		}
+
+		available = {
+			has_country_flag = KAI_president_took_over_minister_of_corporations_flag
+			NOT = { has_country_flag = KAI_debug_powerbalance_decisions_faster_and_free_flag } #Debug
+		}
+
+		cost = KAI_bop_resign_ministry_cost
+
+		complete_effect = {
+			set_country_flag = { flag = KAI_president_resigned_minister_of_corporations_position_flag value = 1 days = 365 }
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = -0.15
+			}
+
+			hidden_effect = { #In order to work with debug decisions
+				if = {
+					limit = {
+						has_country_flag = KAI_president_took_over_minister_of_corporations_flag
+					}
+					clr_country_flag = KAI_president_took_over_minister_of_corporations_flag
+				}
+			}
+		}
+
+		ai_will_do = { #Never
+			base = 0
+		}
+	}
+
+	KAI_slander_the_duce = {
+		priority = 120
+		icon = GFX_decision_generic_political_discourse
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+			has_country_leader = {
+				character = KAI_president
+				ruling_only = yes
+			}
+		}
+
+		available = {}
+
+		cost = KAI_generic_council_cost
+
+		fire_only_once = yes
+
+		complete_effect = {
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = -0.10
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value > 0.1
+				}
+			}
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value > 0
+				}
+			}
+			modifier = {
+				factor = 10
+				power_balance_value = {
+					id = KAI_power_balance
+					value > -0.1
+				}
+			}
+			modifier = {
+				factor = 0
+				ITA_is_historical_ai = yes
+			}
+		}
+	}
+
+	KAI_criticize_the_war = {
+		priority = 119
+		icon = GFX_decision_generic_political_discourse
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+			has_country_leader = {
+				character = KAI_president
+				ruling_only = yes
+			}
+		}
+
+		available = {}
+
+		ai_hint_pp_cost = 25
+		custom_cost_trigger = {
+			command_power > 24
+			has_political_power > 24
+		}
+		custom_cost_text = decision_cost_CP_25_pp_25
+
+		fire_only_once = yes
+
+		complete_effect = {
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = -0.10
+			}
+			hidden_effect = {
+				add_command_power = -25
+				add_political_power = -25
+			}
+
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value > 0.1
+				}
+			}
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value > 0
+				}
+			}
+			modifier = {
+				factor = 10
+				power_balance_value = {
+					id = KAI_power_balance
+					value > -0.1
+				}
+			}
+			modifier = {
+				factor = 0
+				ITA_is_historical_ai = yes
+			}
+		}
+	}
+
+	KAI_question_the_army = {
+		priority = 118
+		icon = GFX_decision_generic_political_discourse
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+			has_country_leader = {
+				character = KAI_president
+				ruling_only = yes
+			}
+		}
+
+		available = {}
+
+		ai_hint_pp_cost = 15
+		custom_cost_trigger = {
+			has_political_power > 14
+			has_army_experience > 9
+		}
+		custom_cost_text = decision_cost_pp_15_ArmXP_10
+
+		days_re_enable = 365
+
+		complete_effect = {
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = -0.05
+			}
+			hidden_effect = {
+				add_political_power = -15
+				army_experience = -10
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value > 0.1
+				}
+			}
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value > 0
+				}
+			}
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value > -0.1
+				}
+			}
+			modifier = {
+				factor = 0
+				ITA_is_historical_ai = yes
+			}
+		}
+	}
+
+	KAI_question_the_airforce = {
+		priority = 117
+		icon = GFX_decision_generic_political_discourse
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+			has_country_leader = {
+				character = KAI_president
+				ruling_only = yes
+			}
+		}
+
+		available = {}
+
+		ai_hint_pp_cost = 15
+		custom_cost_trigger = {
+			has_political_power > 14
+			has_air_experience > 9
+		}
+		custom_cost_text = decision_cost_pp_15_AirXP_10
+
+		days_re_enable = 365
+
+		complete_effect = {
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = -0.05
+			}
+			hidden_effect = {
+				add_political_power = -15
+				air_experience = -10
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value > 0.1
+				}
+			}
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value > 0
+				}
+			}
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value > -0.1
+				}
+			}
+			modifier = {
+				factor = 0
+				ITA_is_historical_ai = yes
+			}
+		}
+	}
+
+	KAI_question_the_navy = {
+		priority = 116
+		icon = GFX_decision_generic_political_discourse
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+			has_country_leader = {
+				character = KAI_president
+				ruling_only = yes
+			}
+		}
+
+		available = {}
+
+		ai_hint_pp_cost = 15
+		custom_cost_trigger = {
+			has_political_power > 14
+			has_navy_experience > 9
+		}
+		custom_cost_text = decision_cost_pp_15_NavXP_10
+
+		days_re_enable = 365
+
+		complete_effect = {
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = -0.05
+			}
+			hidden_effect = {
+				add_political_power = -15
+				navy_experience = -10
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value > 0.1
+				}
+			}
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value > 0
+				}
+			}
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value > -0.1
+				}
+			}
+			modifier = {
+				factor = 0
+				ITA_is_historical_ai = yes
+			}
+		}
+	}
+
+	KAI_military_parade = {
+		priority = 1115
+		icon = GFX_decision_generic_military
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+		}
+
+		available = {
+		}
+
+		cost = KAI_generic_council_cost
+
+		days_re_enable = 365
+
+		complete_effect = {
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = 0.05
+			}
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 10
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0.3
+				}
+			}
+			modifier = {
+				factor = 10
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0.15
+				}
+			}
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value < -0.11
+				}
+			}
+			modifier = {
+				factor = 0
+				has_country_leader = {
+					character = KAI_president
+					ruling_only = yes
+				}
+			}
+		}
+	}
+
+	KAI_praise_the_army = {
+		priority = 113
+		icon = GFX_decision_generic_tank
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+		}
+
+		available = {}
+
+		cost = KAI_generic_council_cost
+
+		days_re_enable = 365
+
+		complete_effect = {
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = 0.05
+			}
+			
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0.3
+				}
+			}
+			modifier = {
+				factor = 10
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0.15
+				}
+			}
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value < -0.11
+				}
+			}
+			modifier = {
+				factor = 0
+				has_country_leader = {
+					character = KAI_president
+					ruling_only = yes
+				}
+			}
+		}
+	}
+
+	KAI_praise_the_airforce = {
+		priority = 112
+		icon = GFX_decision_generic_air
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+		}
+
+		available = {}
+
+		cost = KAI_generic_council_cost
+
+		days_re_enable = 365
+
+		complete_effect = {
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = 0.05
+			}
+			
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0.3
+				}
+			}
+			modifier = {
+				factor = 10
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0.15
+				}
+			}
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value < -0.11
+				}
+			}
+			modifier = {
+				factor = 0
+				has_country_leader = {
+					character = KAI_president
+					ruling_only = yes
+				}
+			}
+		}
+	}
+
+	KAI_praise_the_navy = {
+		priority = 111
+		icon = GFX_decision_generic_naval
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+		}
+
+		available = {}
+
+		cost = KAI_generic_council_cost
+
+		days_re_enable = 365
+
+		complete_effect = {
+			add_power_balance_value = {
+				id = KAI_power_balance
+				value = 0.05
+			}
+			
+		}
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0.3
+				}
+			}
+			modifier = {
+				factor = 10
+				power_balance_value = {
+					id = KAI_power_balance
+					value < 0.15
+				}
+			}
+			modifier = {
+				factor = 5
+				power_balance_value = {
+					id = KAI_power_balance
+					value < -0.11
+				}
+			}
+			modifier = {
+				factor = 0
+				has_country_leader = {
+					character = KAI_president
+					ruling_only = yes
+				}
+			}
+		}
+	}
+}

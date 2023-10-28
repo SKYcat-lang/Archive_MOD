@@ -1,0 +1,45 @@
+add_namespace = KAI_event
+
+country_event = { # 카이저 내전
+	id = KAI_event.1
+	title = KAI_event.1.t
+	desc = KAI_event.1.d
+	picture = GFX_report_event_generic_read_write
+
+	fire_only_once = yes
+    is_triggered_only = yes
+
+	immediate = {
+		KAI = {
+			start_civil_war = {
+				ideology = democratic
+				size = 0.5
+			}
+		}
+		FROM = {
+			every_controlled_state = {
+				if = {
+					limit = {
+						AND = {
+							NOT = {
+								OR = {
+									is_owned_by = ENG
+									is_owned_by = WLS
+								}
+							}
+							is_owned_by = ROOT
+						}
+					}
+					ROOT = { transfer_state = PREV }
+				}
+			}
+		}
+	}
+
+	option = {
+		name = KAI_event.1.a
+		hidden_effect = {
+			news_event = KAI_news.1
+		}
+	}
+}

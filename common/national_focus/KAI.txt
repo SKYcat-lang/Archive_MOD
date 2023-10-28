@@ -9,6 +9,7 @@ focus_tree = {
 	}
 	default = no
 
+	#영국과 전쟁
 	focus = { #전쟁 군수
 		id = KAI_war_logistics
 		icon = GFX_goal_generic_position_armies
@@ -106,40 +107,121 @@ focus_tree = {
 		completion_reward = {
 			add_ideas = KAI_eco_impact
 			add_stability = -0.10
-			add_war_support = -0.10
+			add_war_support = -0.50
 			custom_effect_tooltip = KAI_add_navy_tt
 			hidden_effect = {
 				load_oob = KAI_1936_naval
 			}
 		}
 	}
-	focus = {
-		id = KAI_corp_communism
-		icon = GFX_goal_support_communism
+
+	#사내 민주주의
+	focus = { #콩산 카이저
+		id = KAI_corp_democratic
+		icon = GFX_goal_support_democracy
 		cost = 10
 		prerequisite = {
 			focus = KAI_FOCUS_8
 		}
+		mutually_exclusive = {
+			focus = KAI_corp_fascism focus = KAI_corp_communism
+		}
 		bypass = {
-			has_government = communism
+			has_government = democratic
 		}
 		x = -5
 		y = 1
 		relative_position_id = KAI_FOCUS_8
 		completion_reward = {
-			add_popularity = {
-				ideology = communism
-				popularity = 30
-			}
-			add_stability = -20
+			add_war_support = -0.30
 		}
 	}
-	focus = {
+	focus = { #이사회 압박
+		id = KAI_convention_pressure
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = {
+			focus = KAI_corp_democratic
+		}
+		x = -1
+		y = 1
+		relative_position_id = KAI_corp_democratic
+
+		cost = 10
+
+		bypass = {
+			has_government = democratic
+		}
+
+		completion_reward = {
+			add_ideas = KAI_convention_pressure_idea
+		}
+	}
+	focus = { # 주권 재분배
+		id = KAI_redistribution_of_sovereignty
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = KAI_corp_democratic }
+		x = 1
+		y = 1
+		relative_position_id = KAI_corp_democratic
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+			has_government = democratic
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 20
+			}
+			add_stability = -0.10
+		}
+	}
+	focus = { #회장 해고
+		id = KAI_fire_president
+		icon = GFX_focus_generic_treaty
+		prerequisite = {
+			focus = KAI_convention_pressure
+		}
+		prerequisite = {
+			focus = KAI_redistribution_of_sovereignty
+		}
+		available = {
+			democratic > 0.5
+		}
+		x = 1
+		y = 1
+		relative_position_id = KAI_convention_pressure
+		completion_reward = {
+			if = {
+				limit = {
+					has_character = KAI_convention
+				}
+				promote_character = KAI_convention
+			}
+			add_stability = 0.40
+			remove_ideas = KAI_convention_pressure_idea
+		}
+	}
+
+	#개인 기업
+	focus = { #파시 카이저
 		id = KAI_corp_fascism
 		icon = GFX_goal_support_fascism
 		cost = 10
 		prerequisite = {
 			focus = KAI_FOCUS_8
+		}
+		mutually_exclusive = {
+			focus = KAI_corp_democratic focus = KAI_corp_communism
 		}
 		bypass = {
 			has_government = fascism
@@ -148,18 +230,114 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_FOCUS_8
 		completion_reward = {
+			custom_effect_tooltip = KAI_corp_fascism_tt
+			hidden_effect = {
+				set_power_balance = {
+					id = KAI_power_balance
+					left_side = KAI_shareholders_meeting_side
+					right_side = KAI_president_side
+					set_default = yes
+				}
+			}
+			add_war_support = 0.10
+		}
+	}
+	focus = { #은행 통합
+		id = KAI_bank_unity
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = {
+			focus = KAI_corp_fascism
+		}
+		bypass = {
+			has_government = fascism
+		}
+		x = -1
+		y = 1
+		relative_position_id = KAI_corp_fascism
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 10
+			}
+			add_war_support = 0.10
+		}
+	}
+	focus = { #반대파 해고
+		id = KAI_fire_opposition
+		icon = GFX_focus_ITA_banda_carita
+		prerequisite = {
+			focus = KAI_corp_fascism
+		}
+		x = 1
+		y = 1
+		relative_position_id = KAI_corp_fascism
+		completion_reward = {
+			add_stability = -0.15
+			add_political_power = 25
+		}
+	}
+	focus = { #주식 매수
+		id = KAI_buy_stocks
+		icon = GFX_focus_mex_privatisation
+		prerequisite = {
+			focus = KAI_bank_unity
+		}
+		bypass = {
+			has_government = fascism
+		}
+		x = 0
+		y = 1
+		relative_position_id = KAI_bank_unity
+		completion_reward = {
 			add_popularity = {
 				ideology = fascism
 				popularity = 30
 			}
+			add_war_support = 0.25
 		}
 	}
-	focus = {
-		id = KAI_corp_neutrality
+	focus = { #충성 강요
+		id = KAI_force_loyalty
+		icon = GFX_focus_generic_military_dictatorship
+		prerequisite = {
+			focus = KAI_fire_opposition
+		}
+		x = 0
+		y = 1
+		relative_position_id = KAI_fire_opposition
+		completion_reward = {
+			add_ideas = KAI_unjust_contract
+		}
+	}
+	focus = { #회장 권력 강화
+		id = KAI_advance_president
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = {
+			focus = KAI_buy_stocks
+		}
+		prerequisite = {
+			focus = KAI_force_loyalty
+		}
+		x = 1
+		y = 1
+		relative_position_id = KAI_buy_stocks
+		completion_reward = {
+			promote_character = KAI_president
+			add_stability = 0.20
+			add_war_support = 0.15
+		}
+	}
+
+	#주식 상장
+	focus = { #공산 카이저
+		id = KAI_corp_communism
 		icon = GFX_goal_generic_neutrality_focus
 		cost = 10
 		prerequisite = {
 			focus = KAI_FOCUS_8
+		}
+		mutually_exclusive = {
+			focus = KAI_corp_democratic focus = KAI_corp_fascism
 		}
 		bypass = {
 			has_government = neutrality
@@ -168,11 +346,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_FOCUS_8
 		completion_reward = {
-			add_popularity = {
-				ideology = neutrality
-				popularity = 30
-			}
-			add_stability = 10
+			add_stability = 20
 		}
 	}
 }
