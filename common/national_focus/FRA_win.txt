@@ -856,6 +856,11 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_big_0
 		}
+		bypass = {
+			SWI = {
+				exists = no
+			}
+		}
 		available = {
 		}
 		completion_reward = {
@@ -885,8 +890,14 @@ focus_tree = {
 			has_country_flag = FRA_spain_civilwar_win
 		}
 		bypass = {
+			OR = {
+				
 			NOT = {
 				has_country_flag = FRA_spain_civilwar_win
+			}
+				SPR = {
+					exists = no
+				}
 			}
 		}
 		completion_reward = {
@@ -952,6 +963,14 @@ focus_tree = {
 		x = 2
 		y = 2
 		relative_position_id = FRA_focus_big_0
+		bypass = {
+			OR = {
+				has_war_with = ITA
+				ITA = {
+					exists = no
+				}
+			}
+		}
 		prerequisite = {
 			focus = FRA_focus_big_1
 		}
@@ -1134,6 +1153,15 @@ focus_tree = {
 		cost = 5
 		x = 1
 		y = 4
+		bypass = {
+			OR = {
+				
+			has_war_with = POL
+				POL = {
+					exists = no
+				}
+			}
+		}
 		relative_position_id = FRA_focus_big_0
 		prerequisite = {
 			focus = FRA_focus_big_7
@@ -1173,7 +1201,7 @@ focus_tree = {
 			focus = FRA_focus_big_7
 		}
 		bypass = {
-			
+			has_war_with = RED
 		}
 		available = {
 			
@@ -1203,7 +1231,7 @@ focus_tree = {
 			focus = FRA_focus_big_12
 		}
 		bypass = {
-			
+			has_war_with =SOV
 		}
 		available = {
 			
@@ -1427,8 +1455,9 @@ focus_tree = {
 	}
 	focus = {
 		#이계 탐구
+		icon = GFX_focus_NORDIC_dem_research
 		id = FRA_focus_tech_0
-		cost = 5
+		cost = 4.2
 		x = 20
 		y = 0
 		available = {
@@ -1441,8 +1470,9 @@ focus_tree = {
 	}
 	focus = {
 		#밀레니엄 타워 점거
+		icon = GFX_focus_ITA_modernize_ansaldo_facilities
 		id = FRA_focus_tech_9
-		cost = 5
+		cost = 4.2
 		x = -3
 		y = 2
 		prerequisite = {
@@ -1458,8 +1488,9 @@ focus_tree = {
 	}
 	focus = {
 		#통신선 장악
+		icon = GFX_focus_SWE_radiotjanst
 		id = FRA_focus_tech_2
-		cost = 5
+		cost = 4.2
 		x = 0
 		y = 2
 		prerequisite = {
@@ -1467,12 +1498,28 @@ focus_tree = {
 		}
 		relative_position_id = FRA_focus_tech_0
 		completion_reward = {
+			if = {
+				limit = {
+					has_idea = FRA_research_com
+				}
+				add_timed_idea = {
+					idea = FRA_research_talk
+					days = 125
+				}
+			}
+			else = {
+				add_timed_idea = {
+					idea = FRA_research_talk
+					days = 250
+				}
+			}
 		}
 	}
 	focus = {
 		#기계장치 분석
+		icon = GFX_focus_NORDIC_com_research
 		id = FRA_focus_tech_3
-		cost = 5
+		cost = 4.2
 		x = 3
 		y = 2
 		prerequisite = {
@@ -1480,12 +1527,28 @@ focus_tree = {
 		}
 		relative_position_id = FRA_focus_tech_0
 		completion_reward = {
+			if = {
+				limit = {
+					has_idea = FRA_research_com
+				}
+				add_timed_idea = {
+					idea = FRA_research_machine
+					days = 180
+				}
+			}
+			else = {
+				add_timed_idea = {
+					idea = FRA_research_machine
+					days = 360
+				}
+			}
 		}
 	}
 	focus = {
 		#헤일로 보병 훈련
+		icon = GFX_goal_generic_special_forces
 		id = FRA_focus_tech_4
-		cost = 5
+		cost = 4.2
 		x = -1
 		prerequisite = {
 			focus = FRA_focus_tech_0
@@ -1495,14 +1558,20 @@ focus_tree = {
 		completion_reward = {
 			set_technology = {
 				kivotos_infantry_weapons = 1
+				kivotos_halo_max_upgrade = 1
 			}
-			custom_effect_tooltip = FRA_focus_tech_4_tt
+			add_tech_bonus = {
+				category = mystic_engineering
+				uses = 2
+				bonus = 0.4
+			}
 		}
 	}
 	focus = {
 		#전력기술확보
+		icon = GFX_focus_NORDIC_dem_selector_civilian
 		id = FRA_focus_tech_5
-		cost = 5
+		cost = 4.2
 		x = 1
 		y = 3
 		prerequisite = {
@@ -1512,9 +1581,7 @@ focus_tree = {
 		completion_reward = {
 			if = {
 				limit = {
-					check_variable = {
-						FRA_student = 1
-					}
+					has_idea = FRA_research_com
 				}
 				add_timed_idea = {
 					idea = FRA_research_elect
@@ -1531,8 +1598,9 @@ focus_tree = {
 	}
 	focus = {
 		#자동화 공정 연구
+		icon = GFX_focus_NORDIC_dem_capstone_civilian
 		id = FRA_focus_tech_6
-		cost = 5
+		cost = 4.2
 		x = -3
 		y = 4
 		prerequisite = {
@@ -1542,9 +1610,7 @@ focus_tree = {
 		completion_reward = {
 			if = {
 				limit = {
-					check_variable = {
-						FRA_student = 1
-					}
+					has_idea = FRA_research_com
 				}
 				add_timed_idea = {
 					idea = FRA_research_auto
@@ -1560,9 +1626,10 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#엔지니어링 기술 개발
+		#미래 과학 탐구
+		icon = GFX_focus_NORDIC_dem_capstone_research
 		id = FRA_focus_tech_7
-		cost = 5
+		cost = 4.2
 		x = 3
 		y = 4
 		prerequisite = {
@@ -1572,9 +1639,7 @@ focus_tree = {
 		completion_reward = {
 			if = {
 				limit = {
-					check_variable = {
-						FRA_student = 1
-					}
+					has_idea = FRA_research_com
 				}
 				add_timed_idea = {
 					idea = FRA_research_engine
@@ -1590,8 +1655,10 @@ focus_tree = {
 		}
 	}
 	focus = {
+		#교통시설
+		icon = GFX_focus_NORDIC_dem_capstone_airforce
 		id = FRA_focus_tech_8
-		cost = 5
+		cost = 4.2
 		x = 0
 		y = 4
 		prerequisite = {
@@ -1601,9 +1668,7 @@ focus_tree = {
 		completion_reward = {
 			if = {
 				limit = {
-					check_variable = {
-						FRA_student = 1
-					}
+					has_idea = FRA_research_com
 				}
 				add_timed_idea = {
 					idea = FRA_research_trans
@@ -1619,8 +1684,9 @@ focus_tree = {
 		}
 	}
 	focus = {
+		icon = GFX_focus_NORDIC_dem_institution_1
 		id = FRA_focus_tech_1
-		cost = 5
+		cost = 4.2
 		x = 2
 		y = 1
 		available = {
@@ -1641,8 +1707,9 @@ focus_tree = {
 		}
 	}
 	focus = {
+		icon = GFX_focus_NORDIC_dem_materiel
 		id = FRA_focus_tech_10
-		cost = 5
+		cost = 4.2
 		x = -2
 		y = 1
 		prerequisite = {
@@ -1650,7 +1717,21 @@ focus_tree = {
 		}
 		relative_position_id = FRA_focus_tech_0
 		completion_reward = {
-			add_ideas = FRA_research_robot
+			if = {
+				limit = {
+					has_idea = FRA_research_com
+				}
+				add_timed_idea = {
+					idea = FRA_research_robot
+					days = 200
+				}
+			}
+			else = {
+				add_timed_idea = {
+					idea = FRA_research_robot
+					days = 400
+				}
+			}
 		}
 	}
 	focus = {
