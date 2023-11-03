@@ -1447,7 +1447,7 @@ focus_tree = {
 		icon = GFX_focus_spr_crush_the_revolution
 		id = FRA_focus_resist_1
 		cost = 2
-		x = 30
+		x = 33
 		y = 0
 		available = {
 			always = no
@@ -1461,7 +1461,7 @@ focus_tree = {
 		id = FRA_focus_resist_2
 		icon = GFX_focus_eng_concessions_to_the_trade_unions
 		cost = 2
-		x = 30
+		x = 33
 		y = 1
 		prerequisite = {
 			focus = FRA_focus_resist_1
@@ -2547,7 +2547,7 @@ focus_tree = {
 		id = FRA_focus_par_3
 		icon = "GFX_goal_FRA_bosu_win"
 		cost = 4.4
-		x = 37
+		x = 36
 		y = 5
 		prerequisite = {
 			focus = FRA_focus_par_2
@@ -2661,6 +2661,10 @@ focus_tree = {
 		}
 		
 		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
 			set_party_name = {
 				ideology = communism
 				long_name = fra_communism_party_new
@@ -2927,6 +2931,9 @@ focus_tree = {
 		cost = 4.4
 		x = 49
 		y = 7
+		available = {
+			communism > 0.6
+		}
 		prerequisite = {
 			focus = FRA_focus_par_7
 		}
@@ -3056,20 +3063,20 @@ focus_tree = {
 		icon = GFX_goal_generic_trade
 		id = FRA_focus_con_0
 		cost = 4.4
-		x = 37
+		x = 36
 		y = 6
 		prerequisite = {
 			focus = FRA_focus_par_3
 		}
 		completion_reward = {
-			add_ideas = free_trade
+			add_ideas = FRA_con_free_market
 		}
 	}
 	focus = { #식민지 경제 블록 확립
 		icon = GFX_focus_generic_industry_2
 		id = FRA_focus_con_1
 		cost = 4.4
-		x = 36
+		x = 35
 		y = 7
 		prerequisite = {
 			focus = FRA_focus_con_0
@@ -3078,11 +3085,43 @@ focus_tree = {
 			add_ideas = FRA_colony_economic_block
 		}
 	}
+	focus = { #농업 보조금
+		icon = GFX_focus_generic_farmland
+		id = FRA_focus_con_1.5
+		cost = 4.4
+		x = 37
+		y = 7
+		prerequisite = {
+			focus = FRA_focus_con_0
+		}
+		completion_reward = {
+			add_ideas = FRA_con_company_agri
+			if = {
+				limit = {
+					has_idea = FRA_agricultural_corporation
+				}
+				swap_ideas = {
+					remove_idea = FRA_agricultural_corporation
+					add_idea = FRA_agricultural_company
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						NOT = {
+							has_idea = FRA_agricultural_company
+						}
+					}
+					add_ideas = FRA_agricultural_company
+				}
+			}
+		}
+	}
 	focus = { #인권 강조
 		icon = GFX_goal_generic_major_alliance
 		id = FRA_focus_con_2
 		cost = 4.4
-		x = 38
+		x = 39
 		y = 7
 		prerequisite = {
 			focus = FRA_focus_con_0
@@ -3100,7 +3139,7 @@ focus_tree = {
 		icon = GFX_goal_generic_war_with_comintern
 		id = FRA_focus_con_3
 		cost = 4.4
-		x = 35
+		x = 34
 		y = 8
 		prerequisite = {
 			focus = FRA_focus_con_1
@@ -3121,24 +3160,27 @@ focus_tree = {
 		icon = GFX_goal_generic_consumer_goods
 		id = FRA_focus_con_4
 		cost = 4.4
-		x = 37
+		x = 36
 		y = 8
 		prerequisite = {
 			focus = FRA_focus_con_1
 			
 		}
 		prerequisite = {
-			focus = FRA_focus_con_2
+			focus = FRA_focus_con_1.5
 		}
 		completion_reward = {
-			add_ideas = FRA_caplitalist_idea
+			swap_ideas = {
+				remove_idea = FRA_con_free_market
+				add_idea = FRA_con_free_market_1
+			}
 		}
 	}
 	focus = { #애국심에 호소
 		icon = GFX_goal_generic_propaganda
 		id = FRA_focus_con_5
 		cost = 4.4
-		x = 39
+		x = 38
 		y = 8
 		prerequisite = {
 			focus = FRA_focus_con_1
@@ -3154,7 +3196,7 @@ focus_tree = {
 		icon = GFX_goal_generic_military_deal
 		id = FRA_focus_con_6
 		cost = 4.4
-		x = 37
+		x = 36
 		y = 9
 		prerequisite = {
 			focus = FRA_focus_con_3
@@ -3281,6 +3323,10 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_political_power = 30
+			add_popularity = {
+				ideology = communism
+				popularity = 0.03
+			}
 			add_to_variable = {
 				MIL_res_days_var = 5
 			}
@@ -3302,6 +3348,7 @@ focus_tree = {
 			focus = FRA_focus_resistance_3
 		}
 		completion_reward = {
+			add_political_power = 50
 			MIL = {
 				country_event = FRA_prov_event.31
 			}
@@ -3356,7 +3403,6 @@ focus_tree = {
 			focus = FRA_focus_resistance_6
 		}
 		completion_reward = {
-			add_political_power = 50
 			add_manpower = 10000
 			add_ideas = FRA_lib_army
 		}
