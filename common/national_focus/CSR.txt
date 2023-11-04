@@ -29,10 +29,9 @@ focus_tree = {
 	focus = { # 미사카 중점
 		id = CSR_misaka_focus
 		icon = GFX_CSR_mikoto_focus
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = CSR_find_coin }
-		mutually_exclusive { focus = CSR_misaki_focus focus = CSR_saten_focus focus = CSR_judgment_focus }
-		x = 2
+		x = 0
 		y = 1
 		relative_position_id = CSR_find_coin
 
@@ -45,56 +44,408 @@ focus_tree = {
 		}
 	}
 
-	focus = { # 미사키 중점
-		id = CSR_misaki_focus
-		icon = GFX_CSR_misaki_focus
+	focus = { # 중학교 확장
+		id = CSR_expansion_tokiwadai
+		icon = GFX_goal_tfv_generic_tech_sharing
 		cost = 5.00
-		prerequisite = { focus = CSR_find_coin }
-		mutually_exclusive { focus = CSR_misaka_focus focus = CSR_saten_focus focus = CSR_judgment_focus }
-		x = -2
-		y = 1
-		relative_position_id = CSR_find_coin
-
-		ai_will_do = {
-			base = 80
-		}
-
-		completion_reward = {
-			
-		}
-	}
-
-	focus = { # 사텐 중점
-		id = CSR_saten_focus
-		icon = GFX_CSR_saten_focus
-		cost = 5.00
-		prerequisite = { focus = CSR_find_coin }
-		mutually_exclusive { focus = CSR_misaki_focus focus = CSR_misaka_focus focus = CSR_judgment_focus }
-		x = -6
-		y = 1
-		relative_position_id = CSR_find_coin
-
-		ai_will_do = {
-			base = 80
-		}
-
-		completion_reward = {
-			
-		}
-	}
-
-	focus = { # 저지먼트 중점
-		id = CSR_judgment_focus
-		icon = GFX_CSR_judgment_focus
-		cost = 5.00
-		prerequisite = { focus = CSR_find_coin }
-		mutually_exclusive { focus = CSR_misaki_focus focus = CSR_saten_focus focus = CSR_misaka_focus }
+		prerequisite = { focus = CSR_misaka_focus }
 		x = 6
 		y = 1
-		relative_position_id = CSR_find_coin
+		relative_position_id = CSR_misaka_focus
 
 		ai_will_do = {
 			base = 80
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 엘리트주의 유지
+		id = CSR_keep_elitism
+		icon = GFX_focus_research2
+		cost = 5.00
+		prerequisite = { focus = CSR_expansion_tokiwadai }
+		mutually_exclusive = { focus = CSR_abolition_elitism }
+		x = 1
+		y = 1
+		relative_position_id = CSR_expansion_tokiwadai
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 엘리트의 공장
+		id = CSR_elites_factory
+		icon = GFX_goal_panzerwaffe
+		cost = 5.00
+		prerequisite = { focus = CSR_keep_elitism }
+		x = 0
+		y = 1
+		relative_position_id = CSR_keep_elitism
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 4
+				add_building_construction = {	
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {	
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { # 엘리트주의 폐지
+		id = CSR_abolition_elitism
+		icon = GFX_goal_generic_scientific_exchange
+		cost = 5.00
+		prerequisite = { focus = CSR_expansion_tokiwadai }
+		mutually_exclusive = { focus = CSR_keep_elitism }
+		x = -1
+		y = 1
+		relative_position_id = CSR_expansion_tokiwadai
+
+		ai_will_do = {
+			base = 20
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 민간공장 투자
+		id = CSR_private_factory_investment
+		icon = GFX_goal_generic_consumer_goods
+		cost = 5.00
+		prerequisite = { focus = CSR_abolition_elitism }
+		x = 0
+		y = 1
+		relative_position_id = CSR_abolition_elitism
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 4
+				add_building_construction = {	
+					type = industrial_complex
+					level = 4
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { # 토키와다이의 공장
+		id = CSR_tokiwadai_factorys
+		icon = GFX_focus_generic_industry_1
+		cost = 5.00
+		prerequisite = { focus = CSR_private_factory_investment focus = CSR_elites_factory }
+		x = 1
+		y = 1
+		relative_position_id = CSR_private_factory_investment
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+    			limit = {
+        			is_core_of = PREV
+    			}
+				add_extra_state_shared_building_slots = 4
+				add_building_construction = {	
+					type = industrial_complex
+					level = 4
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { # 새로운 토키와다이
+		id = CSR_new_tokiwadai
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 10.00
+		prerequisite = { focus = CSR_misaka_focus }
+		x = 0
+		y = 1
+		relative_position_id = CSR_misaka_focus
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 내부 갈등 해결
+		id = CSR_internal_conflict_resolution
+		icon = GFX_focus_generic_self_management
+		cost = 10.00
+		prerequisite = { focus = CSR_new_tokiwadai }
+		x = 2
+		y = 1
+		relative_position_id = CSR_new_tokiwadai
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 유화책
+		id = CSR_peace_route
+		icon = GFX_goal_generic_improve_relations
+		cost = 5.00
+		prerequisite = { focus = CSR_internal_conflict_resolution }
+		mutually_exclusive = { focus = CSR_hard_line }
+		x = 1
+		y = 1
+		relative_position_id = CSR_internal_conflict_resolution
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 주민들과 협상
+		id = CSR_deal_people
+		icon = GFX_goal_generic_major_alliance
+		cost = 10.00
+		prerequisite = { focus = CSR_peace_route }
+		x = 0
+		y = 1
+		relative_position_id = CSR_peace_route
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 강경책
+		id = CSR_hard_line
+		icon = GFX_goal_generic_political_pressure
+		cost = 5.00
+		prerequisite = { focus = CSR_internal_conflict_resolution }
+		mutually_exclusive = { focus = CSR_peace_route }
+		x = -1
+		y = 1
+		relative_position_id = CSR_internal_conflict_resolution
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 주민 시위 진압
+		id = CSR_deal_demonstration
+		icon = GFX_focus_eng_move_to_secure_the_dominions
+		cost = 10.00
+		prerequisite = { focus = CSR_hard_line }
+		x = 0
+		y = 1
+		relative_position_id = CSR_hard_line
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 상황 종료
+		id = CSR_situation_over
+		icon = GFX_focus_generic_improve_the_administration
+		cost = 5.00
+		prerequisite = { focus = CSR_deal_demonstration focus = CSR_deal_people }
+		x = 1
+		y = 1
+		relative_position_id = CSR_deal_demonstration
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 토키와다이의 군대
+		id = CSR_army_tokiwadai
+		icon = GFX_focus_NORDIC_dem_army
+		cost = 10.00
+		prerequisite = { focus = CSR_new_tokiwadai }
+		x = -2
+		y = 1
+		relative_position_id = CSR_new_tokiwadai
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 초능력 이용
+		id = CSR_use_super_power
+		icon = GFX_focus_generic_treaty
+		cost = 5.00
+		prerequisite = { focus = CSR_army_tokiwadai }
+		mutually_exclusive = { focus = CSR_use_new_weapon }
+		x = -1
+		y = 1
+		relative_position_id = CSR_army_tokiwadai
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 초능력자 양성
+		id = CSR_make_super_power
+		icon = GFX_focus_generic_military_academy
+		cost = 5.00
+		prerequisite = { focus = CSR_use_super_power }
+		x = 0
+		y = 1
+		relative_position_id = CSR_use_super_power
+
+		ai_will_do = {
+			base = 80
+		}
+
+		completion_reward = {
+			
+		}
+	}
+	
+	focus = { # 이세계의 무기
+		id = CSR_use_new_weapon
+		icon = GFX_focus_generic_little_entente
+		cost = 5.00
+		prerequisite = { focus = CSR_army_tokiwadai }
+		mutually_exclusive = { focus = CSR_use_super_power }
+		x = 1
+		y = 1
+		relative_position_id = CSR_army_tokiwadai
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 화력 집중
+		id = CSR_fire_power_weapon
+		icon = GFX_goal_generic_army_artillery2
+		cost = 5.00
+		prerequisite = { focus = CSR_use_new_weapon }
+		x = 0
+		y = 1
+		relative_position_id = CSR_use_new_weapon
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 최고의 무기, 최고의 군대
+		id = CSR_good_weapon_good_army
+		icon = GFX_focus_NORDIC_com_army
+		cost = 10.00
+		prerequisite = { focus = CSR_fire_power_weapon focus = CSR_make_super_power }
+		x = -1
+		y = 1
+		relative_position_id = CSR_fire_power_weapon
+
+		ai_will_do = {
+			base = 40
+		}
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = { # 전격공주
+		id = CSR_lightning_princess
+		icon = GFX_focus_NORDIC_com_army
+		cost = 10.00
+		prerequisite = { focus = CSR_good_weapon_good_army }
+		prerequisite = { focus = CSR_situation_over }
+		prerequisite = { focus = CSR_new_tokiwadai }
+		x = 2
+		y = 1
+		relative_position_id = CSR_good_weapon_good_army
+
+		ai_will_do = {
+			base = 40
 		}
 
 		completion_reward = {
