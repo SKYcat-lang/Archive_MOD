@@ -590,7 +590,7 @@ focus_tree = {
 		icon = GFX_goal_generic_position_armies
 		x = 16
 		y = 9
-		cost = 10
+		cost = 5
 		search_filters = {
 			
 						FOCUS_FILTER_WAR_SUPPORT
@@ -838,6 +838,65 @@ focus_tree = {
 		}
 		prerequisite = { focus = SHE_hagsaenggyeongchaldae focus = SHE_hyeonjijachi  }
 		prerequisite = { focus = SHE_ingongjineungtongje  }
+		completion_reward = {
+		}
+	}
+
+	#통제지구 설치
+
+	focus = {
+		id = SHE_tongjejiguseolchi
+		icon = GFX_focus_SHE_control_district
+		x = 24
+		y = 14
+		cost = 10
+		search_filters = {
+						FOCUS_FILTER_POLITICAL
+						FOCUS_FILTER_STABILITY
+						FOCUS_FILTER_WAR_SUPPORT
+					
+		}
+		prerequisite = { focus = SHE_cheolgwontongchi  }
+		completion_reward = {
+		}
+	}
+
+	#신식민주의
+
+	focus = {
+		id = SHE_sinsigminjuui
+		icon = GFX_focus_hol_abandon_the_gold_standard
+		x = 16
+		y = 15
+		cost = 5
+		search_filters = {
+						FOCUS_FILTER_POLITICAL
+						FOCUS_FILTER_STABILITY
+						FOCUS_FILTER_WAR_SUPPORT
+					
+		}
+		prerequisite = { focus = SHE_kibotoseu  }
+		mutually_exclusive = { focus = SHE_haengseongtonghab  }
+		completion_reward = {
+		}
+	}
+
+	#행성 통합
+
+	focus = {
+		id = SHE_haengseongtonghab
+		icon = GFX_focus_SHE_world_annex
+		x = 18
+		y = 15
+		cost = 15
+		search_filters = {
+						FOCUS_FILTER_POLITICAL
+						FOCUS_FILTER_STABILITY
+						FOCUS_FILTER_WAR_SUPPORT
+					
+		}
+		prerequisite = { focus = SHE_kibotoseu  }
+		mutually_exclusive = { focus = SHE_sinsigminjuui  }
 		completion_reward = {
 		}
 	}
@@ -1259,7 +1318,7 @@ focus_tree = {
 	focus = {
 		id = SHE_gangjeomhwalyong
 		icon = GFX_goal_generic_military_sphere
-		x = 11
+		x = 13
 		y = 14
 		cost = 5
 		search_filters = {
@@ -1267,7 +1326,7 @@ focus_tree = {
 						FOCUS_FILTER_POLITICAL
 					
 		}
-		prerequisite = { focus = SHE_chonglyeogjeon }
+		prerequisite = { focus = SHE_chonglyeogjeon focus = SHE_kibotosnationalism }
 		completion_reward = {
 			army_experience = 25
 			add_doctrine_cost_reduction = {
@@ -1412,7 +1471,7 @@ focus_tree = {
 	focus = {
 		id = SHE_gonggyeogjeoghwagjang
 		icon = GFX_goal_generic_occupy_states_ongoing_war
-		x = 10
+		x = 13
 		y = 15
 		cost = 5
 		search_filters = {
@@ -1420,7 +1479,7 @@ focus_tree = {
 					FOCUS_FILTER_ANNEXATION
 					
 		}
-		prerequisite = { focus = SHE_jeontualgolijeumjaepyeonseong }
+		prerequisite = { focus = SHE_gangjeomhwalyong }
 		completion_reward = {
 			if = {
 				limit = {
@@ -1432,6 +1491,7 @@ focus_tree = {
 				add_to_variable = { SHE_world_control_army_attack_factor = 0.05 }
 				add_to_variable = { SHE_world_control_army_defence_factor = 0.05 }
 			}
+			add_ideas = SHE_expansionism
 		}
 	}
 
@@ -2854,9 +2914,9 @@ focus_tree = {
 		}
 	}
 
-	#통일을 향해
+	#키보토스 민족주의
 	focus = {
-		id = SHE_tongileulhyanghae
+		id = SHE_kibotosnationalism
 		icon = GFX_focus_generic_fascist_propaganda
 		x = 17
 		y = 13
@@ -2864,218 +2924,73 @@ focus_tree = {
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
-		available = {
-			OR = {
-				custom_trigger_tooltip = {
-					tooltip = SHE_tongileulhyanghae_mil_tt
-					AND = {
-						NOT = {
-							any_state = {
-									is_core_of = MIL
-									NOT = {
-										is_fully_controlled_by = ROOT
-									}
-							}
-						}
-					}
-				}
-				has_subject = MIL
-			}
-			OR = {
-				custom_trigger_tooltip = {
-					tooltip = SHE_tongileulhyanghae_geh_tt
-					AND = {
-						NOT = {
-							any_state = {
-									is_core_of = GEH
-									NOT = {
-										is_fully_controlled_by = ROOT
-									}
-							}
-						}
-					}
-				}
-				has_subject = GEH
-			}
-			OR = {
-				custom_trigger_tooltip = {
-					tooltip = SHE_tongileulhyanghae_trm_tt
-					AND = {
-						NOT = {
-							any_state = {
-									is_core_of = TRM
-									NOT = {
-										is_fully_controlled_by = ROOT
-									}
-							}
-						}
-					}
-				}
-				has_subject = TRM
-			}
-		}
-		prerequisite = { focus = SHE_coehutongceob  } 
-		prerequisite = { focus = SHE_milrenieombogsogyogu  }
-		prerequisite = { focus = SHE_teurinitigonggyeog  }
-		prerequisite = { focus = SHE_bulgeungyeoulseonjegonggyeog  }
+		prerequisite = { focus = SHE_coehutongceob focus = SHE_milrenieombogsogyogu focus = SHE_teurinitigonggyeog focus = SHE_bulgeungyeoulseonjegonggyeog }
 		completion_reward = {
-			add_country_leader_trait =  SHE_great_victor
-			add_stability = 0.20
-			add_war_support = 0.20
+			add_ideas = SHE_she_nationalism
+			every_country = {
+				limit = {
+					OR = {
+						TAG = COU
+						TAG = ARI
+						TAG = RED
+						TAG = MIL
+						TAG = GEH
+						TAG = TRM
+						TAG = SRT
+						TAG = KSP
+						TAG = ABY
+						TAG = HYA
+						TAG = SHA
+						TAG = BAC
+						TAG = SUH
+						TAG = INK
+					}
+				}
+				add_timed_idea = {
+					idea = SHE_give_nationalism
+					days = 365
+				}
+			}
 		}
-		}
+	}
 
 	#키보토스
 	focus = {
 		id = SHE_kibotoseu
 		icon = GFX_goal_SHE_Kivotos_focus
-		x = 20
+		x = 17
 		y = 14
 		cost = 10
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
 		available = {
-			custom_trigger_tooltip = {
-			tooltip = SHE_kibotoseu_tt
-			AND = {
-				NOT = {
-					any_state = {
-							is_core_of = SHE
-							NOT = {
-								is_fully_controlled_by = ROOT
-							}
-					}
-				}
-				NOT = {
-					any_state = {
-							is_core_of = COU
-							NOT = {
-								AND = {
-								is_fully_controlled_by = ROOT
-								}
-							}
-					}
-				}
-				NOT = {
-					any_state = {
-							is_core_of = KSP
-							NOT = {
-								AND = {
-								is_fully_controlled_by = ROOT
-								}
-							}
-					}
-				}
-				NOT = {
-					any_state = {
-							is_core_of = SRT
-							NOT = {
-								AND = {
-								is_fully_controlled_by = ROOT
-								}
-							}
-					}
-				}
-				NOT = {
-					any_state = {
-							is_core_of = MIL
-							NOT = {
-								AND = {
-								is_fully_controlled_by = ROOT
-								}
-							}
-					}
-				}
-				NOT = {
-					any_state = {
-							is_core_of = GEH
-							NOT = {
-								AND = {
-								is_fully_controlled_by = ROOT
-								}
-							}
-					}
-				}
-				NOT = {
-					any_state = {
-							is_core_of = TRM
-							NOT = {
-								AND = {
-								is_fully_controlled_by = ROOT
-								}
-							}
-					}
-				}
-				NOT = {
-					any_state = {
-							is_core_of = HYA
-							NOT = {
-								AND = {
-								is_fully_controlled_by = ROOT
-								}
-							}
-					}
-				}
-				NOT = {
-					any_state = {
-							is_core_of = SHA
-							NOT = {
-								AND = {
-								is_fully_controlled_by = ROOT
-								}
-							}
-					}
-				}
-				NOT = {
-					any_state = {
-							is_core_of = RED
-							NOT = {
-								AND = {
-								is_fully_controlled_by = ROOT
-								}
-							}
-					}
+			OR = {
+				controls_province = 11506
+				any_subject_country = {
+					controls_province = 11506
 				}
 			}
+			OR = {
+				controls_province = 6488
+				any_subject_country = {
+					controls_province = 6488
+				}
+			}
+			OR = {
+				controls_province = 6521
+				any_subject_country = {
+					controls_province = 6521
+				}
 			}
 		}
 
-		prerequisite = { focus = SHE_tongileulhyanghae  } 
-		prerequisite = { focus = SHE_cheolgwontongchi  }
+		prerequisite = { focus = SHE_kibotosnationalism  }
 		completion_reward = {
-			custom_effect_tooltip = SHE_Kivotos_complete_tt
-			hidden_effect = {
-				set_cosmetic_tag = SHE_Kivotos
-				every_state = {
-					if = {
-						limit = {
-							AND = {
-								OR = {
-									is_core_of = COU
-									is_core_of = SHE
-									is_core_of = ARI
-									is_core_of = RED
-									is_core_of = MIL
-									is_core_of = GEH
-									is_core_of = TRM
-									is_core_of = SRT
-									is_core_of = KSP
-									is_core_of = ABY
-									is_core_of = HYA
-									is_core_of = SHA
-									is_core_of = BAC
-									is_core_of = SUH
-									is_core_of = INK
-								}
-								is_fully_controlled_by = ROOT
-							}
-
-						}
-						add_core_of = PREV
-					}
-				}
-			}
+			set_cosmetic_tag = SHE_Kivotos
+			add_country_leader_trait =  SHE_great_victor
+			add_stability = 0.20
+			add_war_support = 0.20
 		}
 	}
 
@@ -3366,17 +3281,30 @@ focus_tree = {
 		}
 
 		ai_will_do = {
-			base = 40
+			base = 400
 		}
 		available = {
-			country_exists = KSP
-			NOT = {
-				is_in_faction_with = KSP
+			OR = {
+				AND = {
+					country_exists = KSP
+					NOT = {
+						is_in_faction_with = KSP
+					}
+				}
+				has_completed_focus = SHE_hanayikibotoseu
 			}
 		}
 		prerequisite = { focus = SHE_conghagsaenghoetongjegweoninsu  }
 		will_lead_to_war_with = KSP
 		completion_reward = {
+			if = {
+				limit = {
+					is_in_faction_with = KSP
+				}
+				KSP = {
+					leave_faction = yes
+				}
+			}
 			create_wargoal = { type = annex_everything target = KSP }
 		}
 	}
