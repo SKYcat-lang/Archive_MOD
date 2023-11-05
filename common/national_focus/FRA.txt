@@ -3108,12 +3108,12 @@ focus_tree = {
 			focus = FRA_focus_fas_0
 		}
 		completion_reward = {
-			add_stability = 0.1
 			add_war_support = 0.1
 			add_popularity = {
 				ideology = neutrality
 				popularity = 0.05
 			}
+			remove_ideas = FRA_purge
 		}
 	}
 	focus = { #식민지 경제 블록 확립
@@ -3286,15 +3286,44 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = FRA_focus_par_3
 		}
+		completion_reward = {
+			add_ideas = FRA_fascist_movement
+			
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.15
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.15
+			}
+			set_party_name = {
+				ideology = fascism
+				long_name = fra_party_fas
+				name =  fra_party_fas
+			}
+			set_party_name = {
+				ideology = communism
+				long_name = fra_party_resist
+				name =  fra_party_resist
+			}
+			set_country_flag = FRA_fascist_on
+		}
 	}
 	focus = { #대중 동원
-		icon = GFX_focus_ITA_generic_fascist_workers
+		icon = GFX_focus_generic_workers
 		id = FRA_focus_fas_1
 		cost = 2.2
 		x = 35
 		y = 7
 		prerequisite = {
 			focus = FRA_focus_fas_0
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = FRA_fascist_movement
+				add_idea = FRA_fascist_movement_1
+			}
 		}
 	}
 	focus = { #국민주의 선전
@@ -3305,6 +3334,13 @@ focus_tree = {
 		y = 7
 		prerequisite = {
 			focus = FRA_focus_fas_0
+		}
+		completion_reward = {
+			add_war_support = 0.1
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
 		}
 	}
 	focus = { #의사당 점거
@@ -3319,6 +3355,13 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_fas_1
 		}
+		completion_reward = {
+			add_political_power = -100
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.1
+			}
+		}
 	}
 	focus = { #결정 강요
 		icon = GFX_goal_generic_forceful_treaty
@@ -3328,6 +3371,27 @@ focus_tree = {
 		y = 9
 		prerequisite = {
 			focus = FRA_focus_fas_2
+		}
+		available = {
+			fascism > 0.4
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = -0.03
+			}
+			add_popularity = {
+				ideology = neutrality
+				popularity = -0.03
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.03
+			}
+			swap_ideas = {
+				remove_idea = FRA_fascist_movement_1
+				add_idea = FRA_fascist_movement_2
+			}
 		}
 	}
 	focus = { #타오르는 십자가
@@ -3345,6 +3409,27 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = FRA_focus_fas_5
 		}
+		completion_reward = {
+			custom_effect_tooltip = FRA_focus_fas_4_tt
+			hidden_effect={set_politics = {
+				ruling_party = fascism
+				elections_allowed = no
+			}
+			set_party_name = {
+				ideology = fascism
+				long_name = fra_party_fire_cross
+				name =  fra_party_fire_cross
+			}
+			create_country_leader = {
+				id = FRA_francois_de_la_rocque
+				name = FRA_francois_de_la_rocque
+				picture = "gfx/leaders/FRA/FRA_de.tga"
+				ideology = fascism_ideology
+				traits = {
+					retired_officer
+				}
+			}}
+		}
 	}
 	focus = { #국민 통합과 행동
 		icon = GFX_focus_generic_support_the_left_right
@@ -3361,6 +3446,17 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = FRA_focus_fas_6
 		}
+		completion_reward = {
+			set_politics = {
+				ruling_party = fascism
+				elections_allowed = no
+			}
+			set_party_name = {
+				ideology = fascism
+				long_name = fra_party_action_france
+				name =  fra_party_action_france
+			}
+		}
 	}
 	focus = { #프랑키스트 운동
 		icon = GFX_goal_generic_political_pressure
@@ -3376,6 +3472,150 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = FRA_focus_fas_5
+		}
+		completion_reward = {
+			set_politics = {
+				ruling_party = fascism
+				elections_allowed = no
+			}
+			set_party_name = {
+				ideology = fascism
+				long_name = fra_party_french_movement
+				name =  fra_party_french_movement
+			}
+		}
+	}
+	focus = { #의회주의 부패 폭로
+		icon = GFX_focus_rom_parties_end
+		id = FRA_focus_fire_0
+		cost = 2.9
+		x = 31
+		y = 11
+		prerequisite = {
+			focus = FRA_focus_fas_4
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = FRA_fascist_movement_2
+				add_idea = FRA_fascist_movement_3
+			}
+		}
+	}
+	focus = { #시민 내셔널리즘
+		icon = GFX_goal_generic_demand_territory
+		id = FRA_focus_fire_1
+		cost = 2.9
+		x = 32
+		y = 12
+		prerequisite = {
+			focus = FRA_focus_fire_0
+		}
+		completion_reward = {
+			add_stability = 0.1
+			add_political_power = 50
+		}
+	}
+	focus = { #노동권리 확대
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		id = FRA_focus_fire_2
+		cost = 2.9
+		x = 30
+		y = 12
+		prerequisite = {
+			focus = FRA_focus_fire_0
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = FRA_resist_request
+				add_idea = FRA_fire_labor
+			}
+		}
+	}
+	focus = { #가톨릭 노동정책
+		icon = GFX_focus_ITA_generic_fascist_workers
+		id = FRA_focus_fire_3
+		cost = 2.9
+		x = 31
+		y = 13
+		prerequisite = {
+			focus = FRA_focus_fire_1
+		}
+		prerequisite = {
+			
+			focus = FRA_focus_fire_2
+		}
+		completion_reward = {
+			add_ideas = FRA_fire_union
+		}
+	}
+	focus = { #국내 볼셰비키 타격
+		icon = GFX_focus_ger_bulwark_against_bolshevism
+		id = FRA_focus_fire_4
+		cost = 2.9
+		x = 29
+		y = 14
+		prerequisite = {
+			focus = FRA_focus_fire_3
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = FRA_fascist_movement_3
+				add_idea = FRA_fascist_movement_4
+			}
+		}
+	}
+	focus = { #부농에게 양보 강요
+		icon = GFX_focus_generic_agricultural_subsidies
+		id = FRA_focus_fire_5
+		cost = 2.9
+		x = 31
+		y = 14
+		prerequisite = {
+			focus = FRA_focus_fire_3
+		}
+		completion_reward = {
+			add_political_power = -30
+			add_ideas = FRA_fire_farming
+		}
+	}
+	focus = { #협동조합주의 경제로
+		icon = GFX_focus_generic_full_employment
+		id = FRA_focus_fire_6
+		cost = 2.9
+		x = 33
+		y = 14
+		prerequisite = {
+			focus = FRA_focus_fire_3
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = FRA_fire_labor
+				add_idea = FRA_fire_corperatism
+			}
+		}
+	}
+	focus = { #사회공화국
+		icon = GFX_focus_generic_vichy_france_triumphant_focus
+		id = FRA_focus_fire_7
+		cost = 2.9
+		x = 31
+		y = 15
+		prerequisite = {
+			focus = FRA_focus_fire_6
+		}
+		prerequisite = {
+			focus = FRA_focus_fire_4
+		}
+		prerequisite = {
+			focus = FRA_focus_fire_5
+		}
+		completion_reward = {
+			set_cosmetic_tag = FRA_social_republic
+			add_country_leader_trait = national_integralist
+			
+			clr_country_flag = FRA_emergency_flag
+
+			custom_effect_tooltip = FRA_focus_resist_11_tt	
 		}
 	}
 	focus = { #본토와의 접촉
@@ -4094,6 +4334,7 @@ focus_tree = {
 			add_war_support = -0.2
 		}
 	}
+	
 	focus = { # 간지나는 공백 중점
 		id = FRA_noting_focus
 		icon = GFX_goal_NOTING
