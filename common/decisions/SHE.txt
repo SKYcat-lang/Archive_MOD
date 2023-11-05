@@ -532,6 +532,59 @@ SHE_Ai_manipulation = {
 }
 
 SHE_managing_occupied_territory_category = {
+	SHE_puppet_annex = {
+		priority = 5
+
+		icon = GFX_decision_ITA_italian_east_africa
+
+		target_trigger = {
+			FROM = {
+				is_puppet_of = SHE
+				NOT = { tag = ROOT }
+				has_capitulated = no
+			}
+		}
+
+		ai_will_do = {
+			base = 4000
+		}
+
+		allowed = {
+			original_tag = SHE
+		}
+
+		available = {
+			FROM = {
+				has_stability > 0.99
+			}
+		}
+
+		visible = {
+			country_exists = FROM
+			FROM = {
+				has_country_flag = SHE_puppet_flag
+				has_stability > 0.8
+			}
+		}
+
+		cost = 100
+
+		fire_only_once = yes
+
+		complete_effect = {
+			every_state = {
+				limit = {
+					is_core_of = FROM
+					is_fully_controlled_by = FROM
+				}
+				add_core_of = PREV
+			}
+			annex_country = {
+				target = FROM
+				transfer_troops = yes
+			}
+		}
+	}
 	SHE_managing_occupied_territory = {
 
 		icon = decision_SHE_managing_occupied_territory
@@ -621,9 +674,41 @@ SHE_managing_occupied_territory_category = {
 			}
 		}
 	}
+	SHE_occupied_territory_HEU = {
+		icon = GFX_decision_eng_puppet_usa
+		cost = 25
+		fire_only_once = yes
+		available = {
+			controls_state = 8
+			NOT = {
+				country_exists = HEU
+			}
+		}
+		visible = {
+			has_completed_focus = SHE_tongjejiguseolchi
+			controls_state = 8
+		}
+		ai_will_do = {
+			base = 4000
+		}
+		fire_only_once = yes
+
+		complete_effect = {
+			HEU = {
+				transfer_state = 8
+				BA_puppet_on_action_effect = yes
+				set_cosmetic_tag = HEU_SHE_puppet
+				set_country_flag = SHE_puppet_flag
+				set_stability = 0
+			}
+			set_autonomy = { target = HEU autonomy_state = autonomy_integrated_puppet }
+		}
+
+	}
 	SHE_occupied_territory_SRT = {
 		icon = GFX_decision_SWI_no_elected_president
-		cost = 100
+		cost = 25
+		fire_only_once = yes
 		available = {
 			controls_state = 14
 		}
@@ -639,7 +724,6 @@ SHE_managing_occupied_territory_category = {
 			if = {
 				limit = {
 					country_exists = SRT
-					NOT = { SRT = { has_government = fascism } }
 				}
 				hidden_effect = {
 					SRT = {
@@ -655,7 +739,9 @@ SHE_managing_occupied_territory_category = {
 							puppet = PREV
 							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
 						}
+						BA_puppet_on_action_effect = yes
 						set_cosmetic_tag = SRT_SHE_puppet
+						set_country_flag = SHE_puppet_flag
 						set_stability = 0
 						set_party_name = {
 							ideology = neutrality
@@ -687,7 +773,9 @@ SHE_managing_occupied_territory_category = {
 			else = {
 				SRT = {
 					transfer_state = 14
+					BA_puppet_on_action_effect = yes
 					set_cosmetic_tag = SRT_SHE_puppet
+					set_country_flag = SHE_puppet_flag
 					set_stability = 0
 					set_party_name = {
 						ideology = neutrality
@@ -721,7 +809,8 @@ SHE_managing_occupied_territory_category = {
 	}
 	SHE_occupied_territory_MIL = {
 		icon = GFX_decision_SWI_no_elected_president
-		cost = 100
+		cost = 25
+		fire_only_once = yes
 		available = {
 			controls_state = 16
 			controls_state = 946
@@ -748,7 +837,6 @@ SHE_managing_occupied_territory_category = {
 			if = {
 				limit = {
 					country_exists = MIL
-					NOT = { MIL = { has_government = fascism } }
 				}
 				hidden_effect = {
 					MIL = {
@@ -798,7 +886,9 @@ SHE_managing_occupied_territory_category = {
 							puppet = PREV
 							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
 						}
+						BA_puppet_on_action_effect = yes
 						set_cosmetic_tag = MIL_SHE_puppet
+						set_country_flag = SHE_puppet_flag
 						set_stability = 0
 						set_party_name = {
 							ideology = neutrality
@@ -853,7 +943,9 @@ SHE_managing_occupied_territory_category = {
 					add_state_core = 17
 					add_state_core = 33
 					add_state_core = 23
+					BA_puppet_on_action_effect = yes
 					set_cosmetic_tag = MIL_SHE_puppet
+					set_country_flag = SHE_puppet_flag
 					set_stability = 0
 					set_party_name = {
 						ideology = neutrality
@@ -887,7 +979,8 @@ SHE_managing_occupied_territory_category = {
 	}
 	SHE_occupied_territory_FRA = {
 		icon = GFX_decision_SWI_no_elected_president
-		cost = 100
+		cost = 25
+		fire_only_once = yes
 		available = {
 			controls_state = 19
 			controls_state = 25
@@ -941,7 +1034,9 @@ SHE_managing_occupied_territory_category = {
 					}
 					transfer_state = 940
 				}
+				BA_puppet_on_action_effect = yes
 				set_cosmetic_tag = FRA_SHE_puppet
+				set_country_flag = SHE_puppet_flag
 				set_stability = 0
 				set_party_name = {
 					ideology = neutrality
@@ -977,7 +1072,8 @@ SHE_managing_occupied_territory_category = {
 	}
 	SHE_occupied_territory_GEN = {
 		icon = GFX_decision_SWI_no_elected_president
-		cost = 100
+		cost = 25
+		fire_only_once = yes
 		available = {
 			controls_state = 944
 			controls_state = 51
@@ -999,7 +1095,6 @@ SHE_managing_occupied_territory_category = {
 			if = {
 				limit = {
 					country_exists = GEN
-					NOT = { GEN = { has_government = fascism } }
 				}
 				hidden_effect = {
 					GEN = {
@@ -1034,7 +1129,9 @@ SHE_managing_occupied_territory_category = {
 							puppet = PREV
 							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
 						}
+						BA_puppet_on_action_effect = yes
 						set_cosmetic_tag = GEN_SHE_puppet
+						set_country_flag = SHE_puppet_flag
 						set_stability = 0
 						set_party_name = {
 							ideology = neutrality
@@ -1079,7 +1176,9 @@ SHE_managing_occupied_territory_category = {
 					add_state_core = 59
 					add_state_core = 58
 					add_state_core = 909
+					BA_puppet_on_action_effect = yes
 					set_cosmetic_tag = GEN_SHE_puppet
+					set_country_flag = SHE_puppet_flag
 					set_stability = 0
 					set_party_name = {
 						ideology = neutrality
@@ -1113,7 +1212,8 @@ SHE_managing_occupied_territory_category = {
 	}
 	SHE_occupied_territory_GEH = {
 		icon = GFX_decision_SWI_no_elected_president
-		cost = 100
+		cost = 25
+		fire_only_once = yes
 		available = {
 			controls_state = 945
 			controls_state = 42
@@ -1137,7 +1237,6 @@ SHE_managing_occupied_territory_category = {
 			if = {
 				limit = {
 					country_exists = GEH
-					NOT = { GEH = { has_government = fascism } }
 				}
 				hidden_effect = {
 					GEH = {
@@ -1186,7 +1285,9 @@ SHE_managing_occupied_territory_category = {
 							puppet = PREV
 							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
 						}
+						BA_puppet_on_action_effect = yes
 						set_cosmetic_tag = GEH_SHE_puppet
+						set_country_flag = SHE_puppet_flag
 						set_stability = 0
 						set_party_name = {
 							ideology = neutrality
@@ -1243,7 +1344,9 @@ SHE_managing_occupied_territory_category = {
 						}
 						transfer_state = 8
 					}
+					BA_puppet_on_action_effect = yes
 					set_cosmetic_tag = GEH_SHE_puppet
+					set_country_flag = SHE_puppet_flag
 					set_stability = 0
 					set_party_name = {
 						ideology = neutrality
@@ -1271,6 +1374,1126 @@ SHE_managing_occupied_territory_category = {
 					}
 				}
 				set_autonomy = { target = GEH autonomy_state = autonomy_integrated_puppet }
+			}
+		}
+
+	}
+	SHE_occupied_territory_RED = {
+		icon = GFX_decision_SWI_no_elected_president
+		cost = 25
+		fire_only_once = yes
+		available = {
+			controls_state = 99
+			controls_state = 911
+			controls_state = 912
+			controls_state = 37
+			controls_state = 138
+			controls_state = 139
+			controls_state = 913
+			controls_state = 140
+			controls_state = 915
+			controls_state = 141
+			controls_state = 919
+			controls_state = 110
+			controls_state = 920
+			controls_state = 921
+			controls_state = 922
+			controls_state = 142
+		}
+		visible = {
+			has_completed_focus = SHE_tongjejiguseolchi
+		}
+		ai_will_do = {
+			base = 4000
+		}
+		fire_only_once = yes
+
+		complete_effect = {
+			if = {
+				limit = {
+					country_exists = RED
+				}
+				hidden_effect = {
+					RED = {
+						set_state_controller = 99
+						set_state_controller = 911
+						set_state_controller = 912
+						set_state_controller = 37
+						set_state_controller = 138
+						set_state_controller = 139
+						set_state_controller = 913
+						set_state_controller = 140
+						set_state_controller = 915
+						set_state_controller = 141
+						set_state_controller = 919
+						set_state_controller = 110
+						set_state_controller = 920
+						set_state_controller = 921
+						set_state_controller = 922
+						set_state_controller = 142
+					}
+				}
+				RED = {
+					start_civil_war = {
+						ideology = fascism
+						size = 1
+						transfer_state = 99
+						transfer_state = 911
+						transfer_state = 912
+						transfer_state = 37
+						transfer_state = 138
+						transfer_state = 139
+						transfer_state = 913
+						transfer_state = 140
+						transfer_state = 915
+						transfer_state = 141
+						transfer_state = 919
+						transfer_state = 110
+						transfer_state = 920
+						transfer_state = 921
+						transfer_state = 922
+						transfer_state = 142
+						add_state_core = 99
+						add_state_core = 911
+						add_state_core = 912
+						add_state_core = 37
+						add_state_core = 138
+						add_state_core = 139
+						add_state_core = 913
+						add_state_core = 140
+						add_state_core = 915
+						add_state_core = 141
+						add_state_core = 919
+						add_state_core = 110
+						add_state_core = 920
+						add_state_core = 921
+						add_state_core = 922
+						add_state_core = 142
+						if = {
+							limit = {
+								SHE = {
+									controls_state = 914
+								}
+							}
+							transfer_state = 914
+						}
+						SHE = {
+							puppet = PREV
+							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
+						}
+						BA_puppet_on_action_effect = yes
+						set_cosmetic_tag = RED_SHE_puppet
+						set_country_flag = SHE_puppet_flag
+						set_stability = 0
+						set_party_name = {
+							ideology = neutrality
+							long_name = SHE_puppet_party
+							name = SHE_puppet_party
+						}
+						set_party_name = {
+							ideology = fascism
+							long_name = SHE_puppet_party
+							name = SHE_puppet_party
+						}
+						create_country_leader = {
+							name = SHE_RED_arona
+							picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+							expire = "1965.1.1"
+							ideology = fascism_aicontrol
+							traits = { SHE_integrated_system }
+						}
+						create_country_leader = {
+							name = SHE_RED_arona
+							picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+							expire = "1965.1.1"
+							ideology = aicontrol
+							traits = { SHE_integrated_system }
+						}
+					}
+				}
+			}
+			else = {
+				RED = {
+					transfer_state = 99
+					transfer_state = 911
+					transfer_state = 912
+					transfer_state = 37
+					transfer_state = 138
+					transfer_state = 139
+					transfer_state = 913
+					transfer_state = 140
+					transfer_state = 915
+					transfer_state = 141
+					transfer_state = 919
+					transfer_state = 110
+					transfer_state = 920
+					transfer_state = 921
+					transfer_state = 922
+					transfer_state = 142
+					add_state_core = 99
+					add_state_core = 911
+					add_state_core = 912
+					add_state_core = 37
+					add_state_core = 138
+					add_state_core = 139
+					add_state_core = 913
+					add_state_core = 140
+					add_state_core = 915
+					add_state_core = 141
+					add_state_core = 919
+					add_state_core = 110
+					add_state_core = 920
+					add_state_core = 921
+					add_state_core = 922
+					add_state_core = 142
+					if = {
+						limit = {
+							SHE = {
+								controls_state = 914
+							}
+						}
+						transfer_state = 914
+					}
+					BA_puppet_on_action_effect = yes
+					set_cosmetic_tag = RED_SHE_puppet
+					set_country_flag = SHE_puppet_flag
+					set_stability = 0
+					set_party_name = {
+						ideology = neutrality
+						long_name = SHE_puppet_party
+						name = SHE_puppet_party
+					}
+					set_party_name = {
+						ideology = fascism
+						long_name = SHE_puppet_party
+						name = SHE_puppet_party
+					}
+					create_country_leader = {
+						name = SHE_RED_arona
+						picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+						expire = "1965.1.1"
+						ideology = fascism_aicontrol
+						traits = { SHE_integrated_system }
+					}
+					create_country_leader = {
+						name = SHE_RED_arona
+						picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+						expire = "1965.1.1"
+						ideology = aicontrol
+						traits = { SHE_integrated_system }
+					}
+				}
+				set_autonomy = { target = RED autonomy_state = autonomy_integrated_puppet }
+			}
+		}
+
+	}
+	SHE_occupied_territory_SMI = {
+		icon = GFX_decision_SWI_no_elected_president
+		cost = 25
+		fire_only_once = yes
+		available = {
+			controls_state = 38
+			controls_state = 916
+			controls_state = 917
+			controls_state = 143
+			controls_state = 923
+			controls_state = 918
+			controls_state = 144
+			controls_state = 666
+			controls_state = 924
+			controls_state = 925
+		}
+		visible = {
+			has_completed_focus = SHE_tongjejiguseolchi
+		}
+		ai_will_do = {
+			base = 4000
+		}
+		fire_only_once = yes
+
+		complete_effect = {
+			if = {
+				limit = {
+					country_exists = SMI
+				}
+				hidden_effect = {
+					SMI = {
+						set_state_controller = 38
+						set_state_controller = 916
+						set_state_controller = 917
+						set_state_controller = 143
+						set_state_controller = 923
+						set_state_controller = 918
+						set_state_controller = 144
+						set_state_controller = 666
+						set_state_controller = 924
+						set_state_controller = 925
+					}
+				}
+				SMI = {
+					start_civil_war = {
+						ideology = fascism
+						size = 1
+						transfer_state = 38
+						transfer_state = 916
+						transfer_state = 917
+						transfer_state = 143
+						transfer_state = 923
+						transfer_state = 918
+						transfer_state = 144
+						transfer_state = 666
+						transfer_state = 924
+						transfer_state = 925
+						add_state_core = 38
+						add_state_core = 916
+						add_state_core = 917
+						add_state_core = 143
+						add_state_core = 923
+						add_state_core = 918
+						add_state_core = 144
+						add_state_core = 666
+						add_state_core = 924
+						add_state_core = 925
+						if = {
+							limit = {
+								SHE = {
+									controls_state = 914
+								}
+							}
+							transfer_state = 914
+						}
+						SHE = {
+							puppet = PREV
+							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
+						}
+						BA_puppet_on_action_effect = yes
+						set_cosmetic_tag = SMI_SHE_puppet
+						set_country_flag = SHE_puppet_flag
+						set_stability = 0
+						set_party_name = {
+							ideology = neutrality
+							long_name = SHE_puppet_party
+							name = SHE_puppet_party
+						}
+						set_party_name = {
+							ideology = fascism
+							long_name = SHE_puppet_party
+							name = SHE_puppet_party
+						}
+						create_country_leader = {
+							name = SHE_SMI_arona
+							picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+							expire = "1965.1.1"
+							ideology = fascism_aicontrol
+							traits = { SHE_integrated_system }
+						}
+						create_country_leader = {
+							name = SHE_SMI_arona
+							picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+							expire = "1965.1.1"
+							ideology = aicontrol
+							traits = { SHE_integrated_system }
+						}
+					}
+				}
+			}
+			else = {
+				SMI = {
+					transfer_state = 38
+					transfer_state = 916
+					transfer_state = 917
+					transfer_state = 143
+					transfer_state = 923
+					transfer_state = 918
+					transfer_state = 144
+					transfer_state = 666
+					transfer_state = 924
+					transfer_state = 925
+					add_state_core = 38
+					add_state_core = 916
+					add_state_core = 917
+					add_state_core = 143
+					add_state_core = 923
+					add_state_core = 918
+					add_state_core = 144
+					add_state_core = 666
+					add_state_core = 924
+					add_state_core = 925
+					if = {
+						limit = {
+							SHE = {
+								controls_state = 914
+							}
+						}
+						transfer_state = 914
+					}
+					BA_puppet_on_action_effect = yes
+					set_cosmetic_tag = SMI_SHE_puppet
+					set_country_flag = SHE_puppet_flag
+					set_stability = 0
+					set_party_name = {
+						ideology = neutrality
+						long_name = SHE_puppet_party
+						name = SHE_puppet_party
+					}
+					set_party_name = {
+						ideology = fascism
+						long_name = SHE_puppet_party
+						name = SHE_puppet_party
+					}
+					create_country_leader = {
+						name = SHE_SMI_arona
+						picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+						expire = "1965.1.1"
+						ideology = fascism_aicontrol
+						traits = { SHE_integrated_system }
+					}
+					create_country_leader = {
+						name = SHE_SMI_arona
+						picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+						expire = "1965.1.1"
+						ideology = aicontrol
+						traits = { SHE_integrated_system }
+					}
+				}
+				set_autonomy = { target = SMI autonomy_state = autonomy_integrated_puppet }
+			}
+		}
+
+	}
+	SHE_occupied_territory_TRM = {
+		icon = GFX_decision_SWI_no_elected_president
+		cost = 25
+		fire_only_once = yes
+		available = {
+			controls_state = 64
+			controls_state = 65
+			controls_state = 60
+		}
+		visible = {
+			has_completed_focus = SHE_tongjejiguseolchi
+		}
+		ai_will_do = {
+			base = 4000
+		}
+		fire_only_once = yes
+
+		complete_effect = {
+			create_dynamic_country = {
+				original_tag = TRM
+				copy_tag = TRM
+				add_political_power = 100
+				transfer_state = 64
+				transfer_state = 65
+				transfer_state = 60
+				BA_puppet_on_action_effect = yes
+				set_cosmetic_tag = TRM_SHE_puppet
+				set_country_flag = SHE_puppet_flag
+				set_stability = 0
+				set_party_name = {
+					ideology = neutrality
+					long_name = SHE_puppet_party
+					name = SHE_puppet_party
+				}
+				set_party_name = {
+					ideology = fascism
+					long_name = SHE_puppet_party
+					name = SHE_puppet_party
+				}
+				create_country_leader = {
+					name = SHE_TRM_arona
+					picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+					expire = "1965.1.1"
+					ideology = fascism_aicontrol
+					traits = { SHE_integrated_system }
+				}
+				create_country_leader = {
+					name = SHE_TRM_arona
+					picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+					expire = "1965.1.1"
+					ideology = aicontrol
+					traits = { SHE_integrated_system }
+				}
+				SHE = {
+					puppet = PREV
+					set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
+				}
+				if = {
+					limit = {
+						country_exists = TRM
+					}
+					declare_war_on = {
+						target = TRM
+						type = civil_war
+					}
+				}
+			}
+		}
+
+	}
+	SHE_occupied_territory_TRC = {
+		icon = GFX_decision_SWI_no_elected_president
+		cost = 25
+		fire_only_once = yes
+		available = {
+			controls_state = 61
+			controls_state = 62
+			controls_state = 63
+		}
+		visible = {
+			has_completed_focus = SHE_tongjejiguseolchi
+		}
+		ai_will_do = {
+			base = 4000
+		}
+		fire_only_once = yes
+
+		complete_effect = {
+			create_dynamic_country = {
+				original_tag = TRM
+				copy_tag = TRM
+				add_political_power = 100
+				transfer_state = 61
+				transfer_state = 62
+				transfer_state = 63
+				BA_puppet_on_action_effect = yes
+				set_cosmetic_tag = TRC_SHE_puppet
+				set_country_flag = SHE_puppet_flag
+				set_stability = 0
+				set_party_name = {
+					ideology = neutrality
+					long_name = SHE_puppet_party
+					name = SHE_puppet_party
+				}
+				set_party_name = {
+					ideology = fascism
+					long_name = SHE_puppet_party
+					name = SHE_puppet_party
+				}
+				create_country_leader = {
+					name = SHE_TRC_arona
+					picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+					expire = "1965.1.1"
+					ideology = fascism_aicontrol
+					traits = { SHE_integrated_system }
+				}
+				create_country_leader = {
+					name = SHE_TRC_arona
+					picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+					expire = "1965.1.1"
+					ideology = aicontrol
+					traits = { SHE_integrated_system }
+				}
+				SHE = {
+					puppet = PREV
+					set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
+				}
+				if = {
+					limit = {
+						country_exists = TRM
+					}
+					declare_war_on = {
+						target = TRM
+						type = civil_war
+					}
+				}
+			}
+		}
+
+	}
+	SHE_occupied_territory_TRP = {
+		icon = GFX_decision_SWI_no_elected_president
+		cost = 25
+		fire_only_once = yes
+		available = {
+			controls_state = 66
+			controls_state = 67
+			controls_state = 68
+			controls_state = 86
+		}
+		visible = {
+			has_completed_focus = SHE_tongjejiguseolchi
+		}
+		ai_will_do = {
+			base = 4000
+		}
+		fire_only_once = yes
+
+		complete_effect = {
+			create_dynamic_country = {
+				original_tag = TRM
+				copy_tag = TRM
+				add_political_power = 100
+				transfer_state = 66
+				transfer_state = 67
+				transfer_state = 68
+				transfer_state = 86
+				if = {
+					limit = {
+						SHE = {
+							controls_state = 762
+						}
+					}
+					transfer_state = 762
+				}
+				BA_puppet_on_action_effect = yes
+				set_cosmetic_tag = TRP_SHE_puppet
+				set_country_flag = SHE_puppet_flag
+				set_stability = 0
+				set_party_name = {
+					ideology = neutrality
+					long_name = SHE_puppet_party
+					name = SHE_puppet_party
+				}
+				set_party_name = {
+					ideology = fascism
+					long_name = SHE_puppet_party
+					name = SHE_puppet_party
+				}
+				create_country_leader = {
+					name = SHE_TRP_arona
+					picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+					expire = "1965.1.1"
+					ideology = fascism_aicontrol
+					traits = { SHE_integrated_system }
+				}
+				create_country_leader = {
+					name = SHE_TRP_arona
+					picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+					expire = "1965.1.1"
+					ideology = aicontrol
+					traits = { SHE_integrated_system }
+				}
+				SHE = {
+					puppet = PREV
+					set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
+				}
+				if = {
+					limit = {
+						country_exists = TRM
+					}
+					declare_war_on = {
+						target = TRM
+						type = civil_war
+					}
+				}
+			}
+		}
+
+	}
+	SHE_occupied_territory_ARI = {
+		icon = GFX_decision_SWI_no_elected_president
+		cost = 25
+		fire_only_once = yes
+		available = {
+			controls_state = 85
+			controls_state = 807
+			controls_state = 5
+			controls_state = 763
+		}
+		visible = {
+			has_completed_focus = SHE_tongjejiguseolchi
+		}
+		ai_will_do = {
+			base = 4000
+		}
+		fire_only_once = yes
+
+		complete_effect = {
+			if = {
+				limit = {
+					country_exists = ARI
+				}
+				hidden_effect = {
+					ARI = {
+						set_state_controller = 85
+						set_state_controller = 807
+						set_state_controller = 5
+						set_state_controller = 763
+					}
+				}
+				ARI = {
+					start_civil_war = {
+						ideology = fascism
+						size = 1
+						transfer_state = 85
+						transfer_state = 807
+						transfer_state = 5
+						transfer_state = 763
+						add_state_core = 85
+						add_state_core = 807
+						add_state_core = 5
+						add_state_core = 763
+						if = {
+							limit = {
+								SHE = {
+									controls_state = 188
+								}
+							}
+							transfer_state = 188
+						}
+						SHE = {
+							puppet = PREV
+							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
+						}
+						BA_puppet_on_action_effect = yes
+						set_cosmetic_tag = ARI_SHE_puppet
+						set_country_flag = SHE_puppet_flag
+						set_stability = 0
+						set_party_name = {
+							ideology = neutrality
+							long_name = SHE_puppet_party
+							name = SHE_puppet_party
+						}
+						set_party_name = {
+							ideology = fascism
+							long_name = SHE_puppet_party
+							name = SHE_puppet_party
+						}
+						create_country_leader = {
+							name = SHE_ARI_arona
+							picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+							expire = "1965.1.1"
+							ideology = fascism_aicontrol
+							traits = { SHE_integrated_system }
+						}
+						create_country_leader = {
+							name = SHE_ARI_arona
+							picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+							expire = "1965.1.1"
+							ideology = aicontrol
+							traits = { SHE_integrated_system }
+						}
+					}
+				}
+			}
+			else = {
+				ARI = {
+					transfer_state = 85
+					transfer_state = 807
+					transfer_state = 5
+					transfer_state = 763
+					add_state_core = 85
+					add_state_core = 807
+					add_state_core = 5
+					add_state_core = 763
+					if = {
+						limit = {
+							SHE = {
+								controls_state = 188
+							}
+						}
+						transfer_state = 188
+					}
+					BA_puppet_on_action_effect = yes
+					set_cosmetic_tag = ARI_SHE_puppet
+					set_country_flag = SHE_puppet_flag
+					set_stability = 0
+					set_party_name = {
+						ideology = neutrality
+						long_name = SHE_puppet_party
+						name = SHE_puppet_party
+					}
+					set_party_name = {
+						ideology = fascism
+						long_name = SHE_puppet_party
+						name = SHE_puppet_party
+					}
+					create_country_leader = {
+						name = SHE_ARI_arona
+						picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+						expire = "1965.1.1"
+						ideology = fascism_aicontrol
+						traits = { SHE_integrated_system }
+					}
+					create_country_leader = {
+						name = SHE_ARI_arona
+						picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+						expire = "1965.1.1"
+						ideology = aicontrol
+						traits = { SHE_integrated_system }
+					}
+				}
+				set_autonomy = { target = ARI autonomy_state = autonomy_integrated_puppet }
+			}
+		}
+
+	}
+	SHE_occupied_territory_ABY = {
+		icon = GFX_decision_SWI_no_elected_president
+		cost = 25
+		fire_only_once = yes
+		available = {
+			controls_state = 935
+		}
+		visible = {
+			has_completed_focus = SHE_tongjejiguseolchi
+		}
+		ai_will_do = {
+			base = 4000
+		}
+		fire_only_once = yes
+
+		complete_effect = {
+			if = {
+				limit = {
+					country_exists = ABY
+				}
+				hidden_effect = {
+					ABY = {
+						set_state_controller = 935
+					}
+				}
+				ABY = {
+					start_civil_war = {
+						ideology = fascism
+						size = 1
+						transfer_state = 935
+						SHE = {
+							puppet = PREV
+							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
+						}
+						BA_puppet_on_action_effect = yes
+						set_cosmetic_tag = ABY_SHE_puppet
+						set_country_flag = SHE_puppet_flag
+						set_stability = 0
+						set_party_name = {
+							ideology = neutrality
+							long_name = SHE_puppet_party
+							name = SHE_puppet_party
+						}
+						set_party_name = {
+							ideology = fascism
+							long_name = SHE_puppet_party
+							name = SHE_puppet_party
+						}
+						create_country_leader = {
+							name = SHE_ABY_arona
+							picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+							expire = "1965.1.1"
+							ideology = fascism_aicontrol
+							traits = { SHE_integrated_system }
+						}
+						create_country_leader = {
+							name = SHE_ABY_arona
+							picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+							expire = "1965.1.1"
+							ideology = aicontrol
+							traits = { SHE_integrated_system }
+						}
+					}
+				}
+			}
+			else = {
+				ABY = {
+					transfer_state = 935
+					BA_puppet_on_action_effect = yes
+					set_cosmetic_tag = ABY_SHE_puppet
+					set_country_flag = SHE_puppet_flag
+					set_stability = 0
+					set_party_name = {
+						ideology = neutrality
+						long_name = SHE_puppet_party
+						name = SHE_puppet_party
+					}
+					set_party_name = {
+						ideology = fascism
+						long_name = SHE_puppet_party
+						name = SHE_puppet_party
+					}
+					create_country_leader = {
+						name = SHE_ABY_arona
+						picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+						expire = "1965.1.1"
+						ideology = fascism_aicontrol
+						traits = { SHE_integrated_system }
+					}
+					create_country_leader = {
+						name = SHE_ABY_arona
+						picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+						expire = "1965.1.1"
+						ideology = aicontrol
+						traits = { SHE_integrated_system }
+					}
+				}
+				set_autonomy = { target = ABY autonomy_state = autonomy_integrated_puppet }
+			}
+		}
+
+	}
+	SHE_occupied_territory_SHA = {
+		icon = GFX_decision_SWI_no_elected_president
+		cost = 25
+		fire_only_once = yes
+		available = {
+			controls_state = 153
+			controls_state = 152
+			controls_state = 4
+			controls_state = 949
+		}
+		visible = {
+			has_completed_focus = SHE_tongjejiguseolchi
+		}
+		ai_will_do = {
+			base = 4000
+		}
+		fire_only_once = yes
+
+		complete_effect = {
+			if = {
+				limit = {
+					country_exists = SHA
+				}
+				hidden_effect = {
+					SHA = {
+						set_state_controller = 153
+						set_state_controller = 152
+						set_state_controller = 4
+						set_state_controller = 949
+					}
+				}
+				SHA = {
+					start_civil_war = {
+						ideology = fascism
+						size = 1
+						transfer_state = 153
+						transfer_state = 152
+						transfer_state = 4
+						transfer_state = 949
+						add_state_core = 153
+						add_state_core = 152
+						add_state_core = 4
+						add_state_core = 949
+						if = {
+							limit = {
+								SHE = {
+									controls_state = 848
+								}
+							}
+							transfer_state = 848
+						}
+						SHE = {
+							puppet = PREV
+							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
+						}
+						BA_puppet_on_action_effect = yes
+						set_cosmetic_tag = SHA_SHE_puppet
+						set_country_flag = SHE_puppet_flag
+						set_stability = 0
+						set_party_name = {
+							ideology = neutrality
+							long_name = SHE_puppet_party
+							name = SHE_puppet_party
+						}
+						set_party_name = {
+							ideology = fascism
+							long_name = SHE_puppet_party
+							name = SHE_puppet_party
+						}
+						create_country_leader = {
+							name = SHE_SHA_arona
+							picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+							expire = "1965.1.1"
+							ideology = fascism_aicontrol
+							traits = { SHE_integrated_system }
+						}
+						create_country_leader = {
+							name = SHE_SHA_arona
+							picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+							expire = "1965.1.1"
+							ideology = aicontrol
+							traits = { SHE_integrated_system }
+						}
+					}
+				}
+			}
+			else = {
+				SHA = {
+					transfer_state = 153
+					transfer_state = 152
+					transfer_state = 4
+					transfer_state = 949
+					add_state_core = 153
+					add_state_core = 152
+					add_state_core = 4
+					add_state_core = 949
+					if = {
+						limit = {
+							SHE = {
+								controls_state = 848
+							}
+						}
+						transfer_state = 848
+					}
+					BA_puppet_on_action_effect = yes
+					set_cosmetic_tag = SHA_SHE_puppet
+					set_country_flag = SHE_puppet_flag
+					set_stability = 0
+					set_party_name = {
+						ideology = neutrality
+						long_name = SHE_puppet_party
+						name = SHE_puppet_party
+					}
+					set_party_name = {
+						ideology = fascism
+						long_name = SHE_puppet_party
+						name = SHE_puppet_party
+					}
+					create_country_leader = {
+						name = SHE_SHA_arona
+						picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+						expire = "1965.1.1"
+						ideology = fascism_aicontrol
+						traits = { SHE_integrated_system }
+					}
+					create_country_leader = {
+						name = SHE_SHA_arona
+						picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+						expire = "1965.1.1"
+						ideology = aicontrol
+						traits = { SHE_integrated_system }
+					}
+				}
+				set_autonomy = { target = SHA autonomy_state = autonomy_integrated_puppet }
+			}
+		}
+
+	}
+	SHE_occupied_territory_HYA = {
+		icon = GFX_decision_SWI_no_elected_president
+		cost = 25
+		fire_only_once = yes
+		available = {
+			controls_state = 9
+			controls_state = 69
+			controls_state = 75
+			controls_state = 74
+		}
+		visible = {
+			has_completed_focus = SHE_tongjejiguseolchi
+		}
+		ai_will_do = {
+			base = 4000
+		}
+		fire_only_once = yes
+
+		complete_effect = {
+			if = {
+				limit = {
+					country_exists = HYA
+				}
+				hidden_effect = {
+					HYA = {
+						set_state_controller = 9
+						set_state_controller = 69
+						set_state_controller = 75
+						set_state_controller = 74
+					}
+				}
+				HYA = {
+					start_civil_war = {
+						ideology = fascism
+						size = 1
+						transfer_state = 9
+						transfer_state = 69
+						transfer_state = 75
+						transfer_state = 74
+						add_state_core = 9
+						add_state_core = 69
+						add_state_core = 75
+						add_state_core = 74
+						if = {
+							limit = {
+								SHE = {
+									controls_state = 72
+								}
+							}
+							transfer_state = 72
+						}
+						SHE = {
+							puppet = PREV
+							set_autonomy = { target = PREV autonomy_state = autonomy_integrated_puppet }
+						}
+						BA_puppet_on_action_effect = yes
+						set_cosmetic_tag = HYA_SHE_puppet
+						set_country_flag = SHE_puppet_flag
+						set_stability = 0
+						set_party_name = {
+							ideology = neutrality
+							long_name = SHE_puppet_party
+							name = SHE_puppet_party
+						}
+						set_party_name = {
+							ideology = fascism
+							long_name = SHE_puppet_party
+							name = SHE_puppet_party
+						}
+						create_country_leader = {
+							name = SHE_HYA_arona
+							picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+							expire = "1965.1.1"
+							ideology = fascism_aicontrol
+							traits = { SHE_integrated_system }
+						}
+						create_country_leader = {
+							name = SHE_HYA_arona
+							picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+							expire = "1965.1.1"
+							ideology = aicontrol
+							traits = { SHE_integrated_system }
+						}
+					}
+				}
+			}
+			else = {
+				HYA = {
+					transfer_state = 9
+					transfer_state = 69
+					transfer_state = 75
+					transfer_state = 74
+					add_state_core = 9
+					add_state_core = 69
+					add_state_core = 75
+					add_state_core = 74
+					if = {
+						limit = {
+							SHE = {
+								controls_state = 72
+							}
+						}
+						transfer_state = 72
+					}
+					BA_puppet_on_action_effect = yes
+					set_cosmetic_tag = HYA_SHE_puppet
+					set_country_flag = SHE_puppet_flag
+					set_stability = 0
+					set_party_name = {
+						ideology = neutrality
+						long_name = SHE_puppet_party
+						name = SHE_puppet_party
+					}
+					set_party_name = {
+						ideology = fascism
+						long_name = SHE_puppet_party
+						name = SHE_puppet_party
+					}
+					create_country_leader = {
+						name = SHE_HYA_arona
+						picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+						expire = "1965.1.1"
+						ideology = fascism_aicontrol
+						traits = { SHE_integrated_system }
+					}
+					create_country_leader = {
+						name = SHE_HYA_arona
+						picture = "gfx/leaders/SHE/SHE_Arona_viceroy.dds"
+						expire = "1965.1.1"
+						ideology = aicontrol
+						traits = { SHE_integrated_system }
+					}
+				}
+				set_autonomy = { target = HYA autonomy_state = autonomy_integrated_puppet }
 			}
 		}
 
