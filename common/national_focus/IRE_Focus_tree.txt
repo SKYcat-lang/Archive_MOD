@@ -3,7 +3,7 @@ focus_tree = {
 	country = {
 		factor = 0
 		modifier = {
-			add = 0
+			add = 10
 			tag = IRE
 		}
 	}
@@ -11,12 +11,12 @@ focus_tree = {
 	default = no
 	focus = {
 		id = IRE_change_the_world
-		icon = GFX_IRE_irelands_call
-		cost = 1.00
-		x = 20
+		icon = GFX_focus_generic_ire_propaganda
+		cost = 5.00
+		x = 15
 		y = 0
-		available = {
-			has_global_flag = ENG_lose_global_flag
+		mutually_exclusive = {
+			focus = IRE_attack_N_ire
 		}
 		completion_reward = {
 			add_political_power = 150
@@ -24,52 +24,260 @@ focus_tree = {
 
 	}
 	focus = {
-		id = IRE_fascism_focus_1
-		icon = GFX_goal_support_fascism
-		cost = 1.00
-		x = 26
+		id = IRE_fine_gale_focus
+		icon = GFX_goal_support_democracy
+		cost = 5.00
+		x = -4
 		y = 1
+		relative_position_id = IRE_change_the_world
 		available = {
-			controls_state = 119
-			has_global_flag = ENG_lose_global_flag
+			is_subject = no
 		}
-		mutually_exclusive = {
-			focus = IRE_democracy_focus_1
+		mutually_exclusive = { 
+			focus = IRE_democracy_focus 	
+			focus = IRE_fascism_focus  
 		}
 		prerequisite = {
 			focus = IRE_change_the_world
 		}
 		completion_reward = {
-
+			set_party_name = {
+				ideology = democratic
+				long_name = IRE_fine_gale
+				name = IRE_fine_gale
+			}
 		}
 
 	}
 	focus = {
-		id = IRE_fascism_focus_2
-		icon = GFX_goal_support_fascism
+		id = IRE_attack_N_ire
+		icon = GFX_focus_IRE_cavalry_charge
+		cost = 5.00
+		x = 27
+		y = 0
+		mutually_exclusive = {
+			focus = IRE_change_the_world
+		}
+		available = {
+			is_subject = no
+		}
+		completion_reward = {
+			add_political_power = 30
+			add_stability = -0.20
+			add_war_support = 0.20
+			if = {
+				limit = {
+					NOT = {
+						controls_state = 119
+					}
+				}
+				transfer_state = 119
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.10
+			}
+			set_party_name = {
+				ideology = neutrality
+				long_name = IRE_IRA_party
+				name = IRE_IRA_party
+			}
+			add_country_leader_role = {
+				character = IRE_Moss_Twomey
+				promote_leader = yes
+				country_leader = {
+					ideology = centrism
+					expire = "1965.1.1.1"
+				}
+			}
+			add_ideas = IRE_IRA_idea
+		}
+
+	}
+	focus = {
+		id = IRE_IRA
+		icon = GFX_focus_ITA_corpo_volontari_della_liberta
+		cost = 5.00
+		x = -3
+		y = 1
+		relative_position_id = IRE_attack_N_ire
+		available = {
+			democratic < 0.50
+			is_subject = no
+		}
+		mutually_exclusive = {
+
+		}
+		prerequisite = {
+			focus = IRE_attack_N_ire
+		}
+		completion_reward = {
+			if = {
+				limit = { has_completed_focus = IRE_republican_reunion }
+				start_civil_war = {
+					ideology = democratic
+					ruling_party = communism
+					size = 0.5
+					keep_all_characters = yes
+				}
+			}
+			else = {
+				start_civil_war = {
+					ideology = democratic
+					ruling_party = neutrality
+					size = 0.5
+					keep_all_characters = yes
+				}
+			}
+			#add_ideas = FIN_the_red_watch
+			
+		}
+
+	}
+	focus = {
+		id = IRE_new_government
+		icon = GFX_focus_spr_masters_of_our_own_fate
+		cost = 5.00
+		x = 2
+		y = 1
+		relative_position_id = IRE_attack_N_ire
+		available = {
+			is_subject = no
+		}
+		mutually_exclusive = {
+
+		}
+		prerequisite = {
+			focus = IRE_attack_N_ire
+		}
+		completion_reward = {
+			add_political_power = 120
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.05
+			}
+		}
+
+	}
+	focus = {
+		id = IRE_last_gamble
+		icon = GFX_focus_spr_masters_of_our_own_fate
 		cost = 5.00
 		x = 0
 		y = 1
-		relative_position_id = IRE_fascism_focus_1
+		relative_position_id = IRE_new_government
+		available = {
+			is_subject = no
+		}
+		mutually_exclusive = {
+
+		}
 		prerequisite = {
-			focus = IRE_fascism_focus_1
+			focus = IRE_new_government
 		}
 		completion_reward = {
-
+			add_political_power = 10
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.05
+			}
 		}
 
 	}
 	focus = {
-		id = IRE_democracy_focus_1
+		id = IRE_republican_reunion
+		icon = GFX_focus_generic_join_comintern
+		cost = 5.00
+		x = -2
+		y = 1
+		relative_position_id = IRE_new_government
+		available = {
+			is_subject = no
+		}
+		mutually_exclusive = {
+
+		}
+		prerequisite = {
+			focus = IRE_new_government
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
+			set_party_name = {
+				ideology = communism
+				long_name = IRE_IRA_communism
+				name = IRE_IRA_communism
+			}
+			add_country_leader_role = {
+				character = IRE_Peadar_ODonnell
+				promote_leader = yes
+				country_leader = {
+					ideology = marxism
+					expire = "1965.1.1.1"
+				}
+			}
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = Peadar_ODonnell
+		}
+
+	}
+	focus = {
+		id = IRE_IRA_leftist_movement
+		icon = GFX_goal_generic_war_with_comintern
+		cost = 5.00
+		x = -3
+		y = 1
+		relative_position_id = IRE_last_gamble
+		available = {
+			is_subject = no
+			has_government = communism
+		}
+		mutually_exclusive = {
+
+		}
+		prerequisite = {
+			focus = IRE_last_gamble
+		}
+		prerequisite = {
+			focus = IRE_republican_reunion
+		}
+		completion_reward = {
+			add_stability = 0.20
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
+		}
+
+	}
+	focus = {
+		id = IRE_democracy_focus
 		icon = GFX_goal_support_democracy
 		cost = 5.00
-		x = 15
+		x = 0
 		y = 1
+		relative_position_id = IRE_change_the_world
 		available = {
-			has_global_flag = ENG_lose_global_flag
-			NOT = { controls_state = 119 }
+			is_subject = no
 		}
-		mutually_exclusive = { 	focus = IRE_fascism_focus_1  }
+		mutually_exclusive = { 
+			focus = IRE_fine_gale_focus 	
+			focus = IRE_fascism_focus  
+		}
 		prerequisite = { focus = IRE_change_the_world }
 		completion_reward = {
 			add_country_leader_trait = IRE_Father_of_Ireland 
@@ -77,16 +285,36 @@ focus_tree = {
 
 	}
 	focus = {
+		id = IRE_fascism_focus
+		icon = GFX_focus_FIN_chaplains
+		cost = 5.00
+		x = 4
+		y = 1
+		relative_position_id = IRE_change_the_world
+		available = {
+			is_subject = no
+		}
+		mutually_exclusive = { 
+			focus = IRE_fine_gale_focus 	
+			focus = IRE_democracy_focus  
+		}
+		prerequisite = { focus = IRE_change_the_world }
+		completion_reward = {
+		}
+
+	}
+	focus = {
 		id = IRE_democracy_focus_2
 		icon = GFX_goal_generic_political_pressure
 		cost = 5.00
-		x = 0
-		y = 1
-		relative_position_id = IRE_democracy_focus_1
+		x = -2
+		y = 2
+		relative_position_id = IRE_change_the_world
 		available = {  }
 		mutually_exclusive = {  }
 		prerequisite = {
-			focus = IRE_democracy_focus_1
+			focus = IRE_democracy_focus
+			focus = IRE_fine_gale_focus
 		}
 		completion_reward = {
 			country_event = IRE_event.1
@@ -116,15 +344,10 @@ focus_tree = {
 		id = IRE_saneopwalseonghwa
 		icon = GFX_goal_generic_construct_infrastructure
 		cost = 5.00
-		x = 0
-		y = 2
-		relative_position_id = IRE_change_the_world
+		x = 3
+		y = 0
 		available = {
 
-		}
-		prerequisite = {
-			focus = IRE_democracy_focus_1
-			focus = IRE_fascism_focus_1
 		}
 		completion_reward = {
 			random_owned_controlled_state = {
