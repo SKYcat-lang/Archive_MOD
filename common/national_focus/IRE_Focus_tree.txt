@@ -137,6 +137,63 @@ focus_tree = {
 					keep_all_characters = yes
 				}
 			}
+			
+			set_cosmetic_tag = IIRA
+			division_template = { #Red Guard
+				name = "garda dearg" 
+				division_names_group = FIN_MIL_02
+				#template_counter = 14
+				override_model = FIN_militia_alt_0_entity
+				is_locked = yes
+				force_allow_recruiting = yes
+				division_cap = 12
+
+				regiments = { 
+					militia = { x = 0 y = 0 }
+					militia = { x = 0 y = 1 }
+					militia = { x = 1 y = 0 }
+					militia = { x = 1 y = 1 }
+					militia = { x = 2 y = 0 }
+					militia = { x = 2 y = 1 }
+				}
+				support = { 
+					engineer = { x = 0 y = 0 }
+				}
+			}
+
+			hidden_effect = {
+				capital_scope = {
+					create_unit = {
+						division = "division_template = \"garda dearg\" start_experience_factor = 0.5 start_equipment_factor = 1.0"
+						owner = ROOT
+						count = 2
+					}
+				}
+				if = {
+					limit = {
+						has_completed_focus = IRE_republican_reunion
+					}
+					capital_scope = {
+						create_unit = {
+							division = "division_template = \"garda dearg\" start_experience_factor = 0.5 start_equipment_factor = 1.0"
+							owner = ROOT
+							count = 3
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_completed_focus = IRE_last_gamble
+					}
+					capital_scope = {
+						create_unit = {
+							division = "division_template = \"garda dearg\" start_experience_factor = 0.5 start_equipment_factor = 1.0"
+							owner = ROOT
+							count = 1
+						}
+					}
+				}
+			}
 			#add_ideas = FIN_the_red_watch
 			
 		}
@@ -169,7 +226,7 @@ focus_tree = {
 	}
 	focus = {
 		id = IRE_last_gamble
-		icon = GFX_focus_spr_masters_of_our_own_fate
+		icon = GFX_focus_generic_diplomatic_treaty
 		cost = 5.00
 		x = 0
 		y = 1
@@ -189,6 +246,7 @@ focus_tree = {
 				ideology = democratic
 				popularity = -0.05
 			}
+			custom_effect_tooltip = IRE_last_gamble_tt
 		}
 
 	}
@@ -232,6 +290,7 @@ focus_tree = {
 			}
 			custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = Peadar_ODonnell
+			custom_effect_tooltip = IRE_republican_reunion_tt
 		}
 
 	}
@@ -250,7 +309,7 @@ focus_tree = {
 
 		}
 		prerequisite = {
-			focus = IRE_last_gamble
+			focus = IRE_IRA
 		}
 		prerequisite = {
 			focus = IRE_republican_reunion
@@ -378,6 +437,24 @@ focus_tree = {
 			focus = IRE_saneopwalseonghwa 
 		}
 		completion_reward = {
+			if = {
+				limit = { has_idea = IRE_collapse_england_1 }
+				remove_ideas = IRE_collapse_england_1
+			}
+			if = {
+				limit = { has_idea = IRE_collapse_england_2 }
+				swap_ideas = {
+					add_idea = IRE_collapse_england_1
+					remove_idea = IRE_collapse_england_2
+				}
+			}
+			if = {
+				limit = { has_idea = IRE_collapse_england_3 }
+				swap_ideas = {
+					add_idea = IRE_collapse_england_2
+					remove_idea = IRE_collapse_england_3
+				}
+			}
 			random_owned_controlled_state = {
 			limit = { is_core_of = ROOT }
 			add_extra_state_shared_building_slots = 1
@@ -494,6 +571,24 @@ focus_tree = {
 		prerequisite = { focus = IRE_guksansohwagihoesa }
 		prerequisite = { focus = IRE_aillaendeuhanggonghakgyo }
 		completion_reward = {
+			if = {
+				limit = { has_idea = IRE_collapse_england_1 }
+				remove_ideas = IRE_collapse_england_1
+			}
+			if = {
+				limit = { has_idea = IRE_collapse_england_2 }
+				swap_ideas = {
+					add_idea = IRE_collapse_england_1
+					remove_idea = IRE_collapse_england_2
+				}
+			}
+			if = {
+				limit = { has_idea = IRE_collapse_england_3 }
+				swap_ideas = {
+					add_idea = IRE_collapse_england_2
+					remove_idea = IRE_collapse_england_3
+				}
+			}
 			add_tech_bonus = { 
 				bonus = 0.75
 				uses = 1
@@ -553,6 +648,17 @@ focus_tree = {
 			focus = IRE_cheoldogeonseol
 		}
 		completion_reward = {
+			if = {
+				limit = { has_idea = IRE_great_depression_1 }
+				remove_ideas = IRE_great_depression_1
+			}
+			if = {
+				limit = { has_idea = IRE_great_depression_2 }
+				swap_ideas = {
+					add_idea = IRE_great_depression_1
+					remove_idea = IRE_great_depression_2
+				}
+			}
 			113 = {
 				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
@@ -567,7 +673,7 @@ focus_tree = {
 		id = IRE_gukgamujang
 		icon = GFX_goal_generic_construct_mil_factory
 		cost = 5.00
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = IRE_nodongnyeokjipjung
 		available = {
@@ -634,7 +740,7 @@ focus_tree = {
 		id = IRE_daehakgyoseollip
 		icon = GFX_focus_research
 		cost = 5.00
-		x = 2
+		x = -1
 		y = 1
 		relative_position_id = IRE_nodongnyeokjipjung
 		available = {
@@ -655,7 +761,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = IRE_daehakgyoseollip
 		available = {
-			industrial_complex > 15
+			industrial_complex > 29
 		}
 		prerequisite = {
 			focus = IRE_daehakgyoseollip
@@ -668,7 +774,7 @@ focus_tree = {
 		id = IRE_arms_industry
 		icon = GFX_goal_generic_construct_mil_factory
 		cost = 5.00
-		x = 4
+		x = 3
 		y = 1
 		relative_position_id = IRE_gukbangwiwonhoeseollip
 		available = {
@@ -679,6 +785,24 @@ focus_tree = {
 			focus = IRE_dokjaseolgye
 		}
 		completion_reward = {
+			if = {
+				limit = { has_idea = IRE_collapse_england_1 }
+				remove_ideas = IRE_collapse_england_1
+			}
+			if = {
+				limit = { has_idea = IRE_collapse_england_2 }
+				swap_ideas = {
+					add_idea = IRE_collapse_england_1
+					remove_idea = IRE_collapse_england_2
+				}
+			}
+			if = {
+				limit = { has_idea = IRE_collapse_england_3 }
+				swap_ideas = {
+					add_idea = IRE_collapse_england_2
+					remove_idea = IRE_collapse_england_3
+				}
+			}
 			random_owned_controlled_state = {
 				limit = { is_core_of = ROOT }
 				add_extra_state_shared_building_slots = 2
