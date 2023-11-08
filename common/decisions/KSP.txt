@@ -38,6 +38,12 @@ KSP_fight_with_wakamo = {
 		priority = 10
 		timeout_effect = {
 			random_owned_controlled_state = {
+				limit = { 
+					NOT = {
+						has_state_flag = KSP_no_wakamo_here
+					}
+				}
+				prioritize = { 34 }
 				random_list = {
 					10 = {
 						damage_building = {
@@ -134,57 +140,10 @@ KSP_fight_with_wakamo = {
 				has_idea = KSP_wakamo_sabotage_2
 			}
 		}
-		days_remove = 35
+		days_remove = 60
 
 		modifier = {
-			political_power_cost = 0.10
-		}
-
-		remove_effect = {
-			if = {
-				limit = { has_idea = KSP_wakamo_sabotage_2 }
-				swap_ideas = {
-					remove_idea = KSP_wakamo_sabotage_2
-					add_idea = KSP_wakamo_sabotage_3
-				}
-			}
-			if = {
-				limit = { has_idea = KSP_wakamo_sabotage_1 }
-				swap_ideas = {
-					remove_idea = KSP_wakamo_sabotage_1
-					add_idea = KSP_wakamo_sabotage_2
-				}
-			}
-			if = {
-				limit = { has_idea = KSP_wakamo_sabotage }
-				swap_ideas = {
-					remove_idea = KSP_wakamo_sabotage
-					add_idea = KSP_wakamo_sabotage_1
-				}
-			}
-		}
-
-		fire_only_once = yes
-	}
-	KSP_skeban_suppress_de = {
-		cost = 25
-		visible = {
-			OR = {
-				has_completed_focus = KSP_skeban_suppress
-				is_debug = yes
-			}
-		}
-		available = {
-			OR = {
-				has_idea = KSP_wakamo_sabotage
-				has_idea = KSP_wakamo_sabotage_1
-				has_idea = KSP_wakamo_sabotage_2
-			}
-		}
-		days_remove = 70
-
-		modifier = {
-			political_power_cost = 0.10
+			political_power_cost = 0.50
 		}
 
 		remove_effect = {
@@ -214,5 +173,91 @@ KSP_fight_with_wakamo = {
 		}
 
 		fire_only_once = yes
+	}
+	KSP_skeban_suppress_de = {
+		cost = 25
+		visible = {
+			OR = {
+				has_completed_focus = KSP_skeban_suppress
+				is_debug = yes
+			}
+		}
+		available = {
+			OR = {
+				has_idea = KSP_wakamo_sabotage
+				has_idea = KSP_wakamo_sabotage_1
+				has_idea = KSP_wakamo_sabotage_2
+			}
+		}
+		days_remove = 60
+
+		modifier = {
+			political_power_cost = 0.50
+		}
+
+		remove_effect = {
+			if = {
+				limit = { has_idea = KSP_wakamo_sabotage_2 }
+				swap_ideas = {
+					remove_idea = KSP_wakamo_sabotage_2
+					add_idea = KSP_wakamo_sabotage_3
+				}
+			}
+			if = {
+				limit = { has_idea = KSP_wakamo_sabotage_1 }
+				swap_ideas = {
+					remove_idea = KSP_wakamo_sabotage_1
+					add_idea = KSP_wakamo_sabotage_2
+				}
+			}
+			if = {
+				limit = { has_idea = KSP_wakamo_sabotage }
+				swap_ideas = {
+					remove_idea = KSP_wakamo_sabotage
+					add_idea = KSP_wakamo_sabotage_1
+				}
+			}
+			custom_effect_tooltip = KSP_suppressing_plan_sustain_de_ns_tt
+			add_to_variable = { KSP_wakamo_next_sabotage = 7 }
+		}
+
+		fire_only_once = yes
+	}
+	KSP_suppress_wakamo_in_34 = {
+		cost = 50
+		visible = {
+			OR = {
+				has_completed_focus = KSP_country_plan_wakamo
+				is_debug = yes
+			}
+		}
+		available = {
+			34 = {
+				NOT = {
+					has_state_flag = KSP_no_wakamo_here
+				}
+			}
+		}
+		days_remove = 60
+
+		modifier = {
+			political_power_cost = 0.25
+		}
+
+		complete_effect = {
+			34 = {
+				set_state_flag = KSP_no_wakamo_here
+			}
+			custom_effect_tooltip = KSP_wakamo_suppressed_ns_tt
+		}
+
+		remove_effect = {
+			34 = {
+				clr_state_flag = KSP_no_wakamo_here
+			}
+			custom_effect_tooltip = KSP_wakamo_suppressed_over_ns_tt
+		}
+
+		days_re_enable = 90
 	}
 }
