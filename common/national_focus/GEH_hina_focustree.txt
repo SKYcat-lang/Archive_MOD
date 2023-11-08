@@ -18,7 +18,7 @@ focus_tree = {
 			base = 40
 		}
 		x = 36
-		y = 0
+		y = -1
 		completion_reward = {
 			custom_effect_tooltip = GEH_Disciplinary_Committee_idea_tt
 			hidden_effect = {
@@ -36,7 +36,7 @@ focus_tree = {
 	}
 	focus = {
 		id = GEH_Army_Absorption
-		icon = GFX_goal_generic_axis_build_infantry
+		icon = GFX_focus_generic_full_social_mobilization
 		cost = 2.00
 		ai_will_do = {
 			base = 40
@@ -44,7 +44,8 @@ focus_tree = {
 		prerequisite = {
 			focus = GEH_hina_is_jungsli
 		}
-		x = 37
+		relative_position_id = GEH_hina_is_jungsli
+		x = 1
 		y = 1
 		completion_reward = {
 			add_manpower = 12000
@@ -57,38 +58,72 @@ focus_tree = {
 
 	}
 	focus = {
+		id = GEH_Armoury_Raid
+		icon = GFX_focus_generic_total_war
+		cost = 1.50
+		ai_will_do = { base = 40 }
+		prerequisite = { focus = GEH_Army_Absorption }
+		relative_position_id = GEH_Army_Absorption
+		x = 1
+		y = 1
+		completion_reward = {
+			GEM = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -1500
+				}
+			}
+			GEH = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 750
+				}
+			}
+		}
+	}
+	focus = {
 		id = GEH_no_more_Heer
 		icon = GFX_focus_generic_little_entente
 		cost = 1.50
 		ai_will_do = {
-			base = 40
+			base = 80
 		}
 		prerequisite = {
 			focus = GEH_hina_is_jungsli
 		}
-		x = 35
+		relative_position_id = GEH_hina_is_jungsli
+		x = -1
 		y = 1
 		completion_reward = {
 			custom_effect_tooltip = GEH_Disciplinary_Committee_idea_2_tt
-			add_to_variable = { GEH_Disciplinary_Committee_idea_army_attack_factor = 0.15 }
+			add_to_variable = { GEH_Disciplinary_Committee_idea_army_attack_factor = 0.20 }
+			add_war_support = 0.05
+		}
+
+	}
+	focus = {
+		id = GEH_Defence
+		icon = GFX_focus_FIN_weapon_caches
+		cost = 1.50
+		ai_will_do = { base = 40 }
+		prerequisite = { focus = GEH_no_more_Heer }
+		relative_position_id = GEH_no_more_Heer
+		x = -1
+		y = 1
+		completion_reward = {
+			custom_effect_tooltip = GEH_Disciplinary_Committee_idea_16_tt
 			add_to_variable = { GEH_Disciplinary_Committee_idea_army_core_defence_factor = 0.15}
 			add_stability = 0.05
 		}
-
 	}
 	focus = {
 		id = GEH_anti_wehrmacht
 		icon = GFX_goal_generic_occupy_states_ongoing_war
 		cost = 1.50
-		prerequisite = {
-			focus = GEH_no_more_Heer
-		}
-		prerequisite = {
-			focus = GEH_Army_Absorption
-		}
 		available = {
 			has_civil_war = no
 		}
+		prerequisite = { focus = GEH_hina_is_jungsli }
 		ai_will_do = {
 			base = 80
 		}
@@ -116,13 +151,17 @@ focus_tree = {
 				owns_state = 28
 			}	
 		}
-		will_lead_to_war_with = HEU
 		x = 38
 		y = 3
 		completion_reward = { 
 			set_country_flag = GOODBYE_HEU
 			HEU = {
 				country_event = { id = HEU_event.22 hours = 6 }
+			}
+			add_ai_strategy = {
+				type = conquer
+				id = HEU
+				value = 200
 			}
 			hidden_effect = {
 				add_ideas = GEH_HEU_attack
@@ -146,15 +185,13 @@ focus_tree = {
 			has_war = no
 			country_exists = GEN
 		}
-		will_lead_to_war_with = GEN
 		x = 34
 		y = 3
 		completion_reward = {
-			create_wargoal = {
+			declare_war_on = {
 				target = GEN
-				type = annex_everything
-				expire = 0
 			}
+			add_ideas = GEH_Defend_the_School
 			add_ai_strategy = {
 				type = conquer
 				id = GEN
@@ -966,7 +1003,7 @@ focus_tree = {
 	}
 	focus = {
 		id = GEH_HELLYEAH
-		icon = GFX_goal_unknown
+		icon = GFX_focus_NOR_the_lone_wolf_norway
 		cost = 7.20
 		prerequisite = {
 			focus = GEH_cheoldoyeongyeol
