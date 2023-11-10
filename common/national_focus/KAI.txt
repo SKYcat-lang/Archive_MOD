@@ -16,7 +16,7 @@ focus_tree = {
 		id = KAI_war_logistics
 		icon = GFX_goal_generic_position_armies
 
-		x = 20
+		x = 10
 		y = 0
 		cost = 5
 		bypass = {
@@ -66,8 +66,12 @@ focus_tree = {
 				}
 			}
 			add_equipment_to_stockpile = {
+                type = infantry_equipment
+                amount = 1000
+            }
+			add_equipment_to_stockpile = {
 				type = convoy
-				amount = 1000
+				amount = 200
 			}
 		}
 	}
@@ -89,7 +93,7 @@ focus_tree = {
 			add_manpower = 4000
 			add_equipment_to_stockpile = {
                 type = infantry_equipment
-                amount = 4000
+                amount = 2000
             }
 		}
 	}
@@ -107,7 +111,6 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_FOCUS_1
 		completion_reward = {
-			add_ideas = KAI_eco_impact
 			add_ideas = civilian_economy
 			add_stability = -0.10
 			add_war_support = -0.70
@@ -117,310 +120,37 @@ focus_tree = {
 			}
 		}
 	}
-
-	#사내 민주주의
-	focus = { #콩산 카이저
-		id = KAI_corp_democratic
-		icon = GFX_goal_support_democracy
-		cost = 10
-		prerequisite = {
-			focus = KAI_FOCUS_8
-		}
-		mutually_exclusive = {
-			focus = KAI_corp_fascism focus = KAI_corp_convention
-		}
-		bypass = {
-			has_government = communism
-		}
-		x = -10
-		y = 1
-		relative_position_id = KAI_FOCUS_8
-		completion_reward = {
-			add_war_support = -0.30
-			set_party_name = {
-				ideology = communism
-				long_name = KaiserCorporationGeneralMeeting
-				name = GeneralMeeting
-			}
-			KAI_shareholders_meeting = {
-				set_character_name = KAI_general_meeting
-			}
-		}
-	}
-	focus = { #주주총회 압박
-		id = KAI_stockholder_pressure
-		icon = GFX_goal_generic_demand_territory
-		prerequisite = {
-			focus = KAI_corp_democratic
-		}
-		x = -1
-		y = 1
-		relative_position_id = KAI_corp_democratic
-
-		cost = 10
-
-		bypass = {
-			has_government = communism
-		}
-
-		completion_reward = {
-			add_ideas = KAI_stockholder_pressure_idea
-		}
-	}
-	focus = { # 주권 재분배
-		id = KAI_redistribution_of_sovereignty
-		icon = GFX_goal_generic_forceful_treaty
-		prerequisite = { focus = KAI_corp_democratic }
-		x = 1
-		y = 1
-		relative_position_id = KAI_corp_democratic
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		available = {
-
-		}
-
-		bypass = {
-			has_government = democratic
-		}
-		completion_reward = {
-			add_popularity = {
-				ideology = democratic
-				popularity = 20
-			}
-			add_stability = -0.10
-		}
-	}
-	focus = { #회장 해고
-		id = KAI_fire_president
-		icon = GFX_focus_generic_treaty
-		prerequisite = {
-			focus = KAI_stockholder_pressure
-		}
-		prerequisite = {
-			focus = KAI_redistribution_of_sovereignty
-		}
-		available = {
-			communism > 0.5
-		}
-		cost = 10
-		x = 1
-		y = 1
-		relative_position_id = KAI_stockholder_pressure
-		completion_reward = {
-			set_politics = {
-				ruling_party = communism
-			}
-			add_stability = 0.40
-			remove_ideas = KAI_stockholder_pressure_idea
-		}
-	}
-	focus = { #공밀레 폐지
-		id = KAI_no_more_torture
-		icon = GFX_focus_research
-		prerequisite = {
-			focus = KAI_fire_president
-		}
-		cost = 10
-		x = -1
-		y = 1
-		relative_position_id = KAI_fire_president
-		completion_reward = {
-			add_research_slot = 1
-		}
-	}
-	focus = { #시장 개방
-		id = KAI_open_market
-		icon = GFX_goal_generic_positive_trade_relations
-		prerequisite = {
-			focus = KAI_fire_president
-		}
-		cost = 10
-		x = 1
-		y = 1
-		relative_position_id = KAI_fire_president
-		completion_reward = {
-			add_political_power = 50
-			add_ideas = free_trade
-			add_ideas = civilian_economy
-		}
-	}
-
-	#개인 기업
-	focus = { #파시 카이저
-		id = KAI_corp_fascism
-		icon = GFX_goal_support_fascism
-		cost = 10
-		prerequisite = {
-			focus = KAI_FOCUS_8
-		}
-		mutually_exclusive = {
-			focus = KAI_corp_democratic focus = KAI_corp_convention
-		}
-		bypass = {
-			has_government = fascism
-		}
-		x = 10
-		y = 1
-		relative_position_id = KAI_FOCUS_8
-		completion_reward = {
-			set_power_balance = {
-				id = KAI_power_balance
-				set_default = yes
-			}
-			add_war_support = 0.10
-		}
-	}
-	focus = { #은행 통합
-		id = KAI_bank_unity
-		icon = GFX_goal_generic_intelligence_exchange
-		prerequisite = {
-			focus = KAI_corp_fascism
-		}
-		bypass = {
-			has_government = fascism
-		}
-		cost = 10
-		x = -1
-		y = 1
-		relative_position_id = KAI_corp_fascism
-		completion_reward = {
-			add_popularity = {
-				ideology = fascism
-				popularity = 10
-			}
-			add_war_support = 0.10
-		}
-	}
-	focus = { #반대파 해고
-		id = KAI_fire_opposition
-		icon = GFX_focus_ITA_banda_carita
-		prerequisite = {
-			focus = KAI_corp_fascism
-		}
-		x = 1
-		y = 1
-		relative_position_id = KAI_corp_fascism
-		cost = 10
-		completion_reward = {
-			add_stability = -0.15
-			add_political_power = 25
-		}
-	}
-	focus = { #주식 매수
-		id = KAI_buy_stocks
-		icon = GFX_focus_generic_annex_country
-		prerequisite = {
-			focus = KAI_bank_unity
-		}
-		bypass = {
-			has_government = fascism
-		}
-		cost = 10
-		x = 0
-		y = 1
-		relative_position_id = KAI_bank_unity
-		completion_reward = {
-			add_popularity = {
-				ideology = fascism
-				popularity = 30
-			}
-			add_war_support = 0.25
-		}
-	}
-	focus = { #충성 강요
-		id = KAI_force_loyalty
-		icon = GFX_focus_generic_military_dictatorship
-		prerequisite = {
-			focus = KAI_fire_opposition
-		}
-		cost = 10
-		x = 0
-		y = 1
-		relative_position_id = KAI_fire_opposition
-		completion_reward = {
-			add_ideas = KAI_unjust_contract
-		}
-	}
-	focus = { #회장 권력 강화
-		id = KAI_advance_president
-		icon = GFX_goal_generic_political_pressure
-		prerequisite = {
-			focus = KAI_buy_stocks
-		}
-		prerequisite = {
-			focus = KAI_force_loyalty
-		}
-		cost = 10
-		x = 1
-		y = 1
-		relative_position_id = KAI_buy_stocks
-		completion_reward = {
-			set_politics = {
-				ruling_party = fascism
-			}
-			add_stability = 0.15
-			add_war_support = 0.30
-		}
-	}
-	focus = { #전시경제 전환
-		id = KAI_war_eco
-		icon = GFX_goal_generic_trade
-		prerequisite = {
-			focus = KAI_advance_president
-		}
-		cost = 10
-		x = 0
-		y = 1
-		relative_position_id = KAI_advance_president
-		completion_reward = {
-			add_political_power = 25
-			if = {
-				limit = {
-					NOT = { has_idea = tot_economic_mobilisation }
-				}
-				add_ideas = war_economy
-			}
-		}
-	}
-
 	#주식 상장
 	focus = { #민주 카이저
 		id = KAI_corp_convention
-		icon = GFX_goal_generic_neutrality_focus
+		icon = GFX_goal_generic_consumer_goods
 		cost = 10
-		prerequisite = {
-			focus = KAI_FOCUS_8
-		}
 		mutually_exclusive = {
-			focus = KAI_corp_democratic focus = KAI_corp_fascism
+			focus = KAI_corp_fascism
 		}
-		bypass = {
-			has_government = neutrality
+		available = {
+			has_global_flag = ENG_lose_global_flag
 		}
-		x = 0
-		y = 1
-		relative_position_id = KAI_FOCUS_8
+		x = 17
+		y = 0
 		completion_reward = {
 			add_stability = 0.20
 		}
 	}
 	focus = { #해안방어선 구축
 		id = KAI_frontify
-		icon = GFX_goal_fortify_the_westwall
+		icon = GFX_focus_NOR_restore_public_trust_in_the_storting
 		cost = 10
 		prerequisite = {
 			focus = KAI_corp_convention
 		}
-		bypass = {
-			has_war = yes
+		mutually_exclusive = {
+			focus = KAI_corp_democratic
 		}
-		x = 0
+		bypass = {
+			has_government = democratic
+		}
+		x = 3
 		y = 1
 		relative_position_id = KAI_corp_convention
 		completion_reward = {
@@ -538,6 +268,299 @@ focus_tree = {
 			}
 			add_stability = 0.15
 			add_war_support = -0.15
+		}
+	}
+
+	#사내 민주주의
+	focus = { #콩산 카이저
+		id = KAI_corp_democratic
+		icon = GFX_focus_YUG_pan_slavic_congress
+		cost = 10
+		prerequisite = {
+			focus = KAI_corp_convention
+		}
+		mutually_exclusive = {
+			focus = KAI_frontify
+		}
+		bypass = {
+			has_government = communism
+		}
+		x = -3
+		y = 1
+		relative_position_id = KAI_corp_convention
+		completion_reward = {
+			add_war_support = -0.30
+			add_popularity = {
+				ideology = communism
+				popularity = 0.20
+			}
+			add_ideas = KAI_stockholder_pressure_idea
+		}
+	}
+	focus = { #주주총회 압박
+		id = KAI_stockholder_pressure
+		icon = GFX_goal_generic_demand_territory
+		prerequisite = {
+			focus = KAI_corp_democratic
+		}
+		x = -1
+		y = 1
+		relative_position_id = KAI_corp_democratic
+
+		cost = 10
+
+		bypass = {
+			has_government = communism
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.20
+			}
+			add_stability = -0.10
+		}
+	}
+	focus = { # 주권 재분배
+		id = KAI_redistribution_of_sovereignty
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = KAI_corp_democratic }
+		x = 1
+		y = 1
+		relative_position_id = KAI_corp_democratic
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+			has_government = democratic
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+			add_timed_idea = {
+				idea = MIL_wealth_redistribution
+				days = 365
+			}
+			add_stability = -0.10
+		}
+	}
+	focus = { #회장 해고
+		id = KAI_fire_president
+		icon = GFX_focus_SWE_socialist_reforms
+		prerequisite = {
+			focus = KAI_stockholder_pressure
+		}
+		prerequisite = {
+			focus = KAI_redistribution_of_sovereignty
+		}
+		available = {
+			communism > 0.5
+		}
+		cost = 10
+		x = 1
+		y = 1
+		relative_position_id = KAI_stockholder_pressure
+		completion_reward = {
+			set_politics = {
+				ruling_party = communism
+			}
+			set_party_name = {
+				ideology = communism
+				long_name = KaiserCorporationGeneralMeeting
+				name = GeneralMeeting
+			}
+			KAI_shareholders_meeting = {
+				set_character_name = KAI_general_meeting
+			}
+			add_stability = 0.40
+			remove_ideas = KAI_stockholder_pressure_idea
+		}
+	}
+	focus = { #회장의 운명
+		id = KAI_president_fate
+		icon = GFX_goal_tfv_burn_the_royal_portraits
+		prerequisite = {
+			focus = KAI_fire_president
+		}
+		cost = 10
+		x = -2
+		y = 1
+		relative_position_id = KAI_fire_president
+		completion_reward = {
+			country_event = { id = KAI_event.2 }
+		}
+	}
+	focus = { #공밀레 폐지
+		id = KAI_no_more_torture
+		icon = GFX_focus_research
+		prerequisite = {
+			focus = KAI_fire_president
+		}
+		cost = 10
+		x = 0
+		y = 1
+		relative_position_id = KAI_fire_president
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	focus = { #시장 개방
+		id = KAI_open_market
+		icon = GFX_goal_generic_trade
+		prerequisite = {
+			focus = KAI_fire_president
+		}
+		cost = 10
+		x = 2
+		y = 1
+		relative_position_id = KAI_fire_president
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_idea = tot_economic_mobilisation }
+				}
+				add_ideas = war_economy
+			}
+			add_ideas = KAI_improvedA_labor_productivity
+		}
+	}
+
+	#개인 기업
+	focus = { #파시 카이저
+		id = KAI_corp_fascism
+		icon = GFX_goal_support_fascism
+		cost = 10
+		mutually_exclusive = {
+			focus = KAI_corp_convention
+		}
+		available = {
+			has_global_flag = ENG_lose_global_flag
+		}
+		x = 8
+		y = 0
+		relative_position_id = KAI_corp_convention
+		completion_reward = {
+			set_power_balance = {
+				id = KAI_power_balance
+				set_default = yes
+			}
+			add_war_support = 0.10
+		}
+	}
+	focus = { #은행 통합
+		id = KAI_bank_unity
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = {
+			focus = KAI_corp_fascism
+		}
+		bypass = {
+			has_government = fascism
+		}
+		cost = 10
+		x = -1
+		y = 1
+		relative_position_id = KAI_corp_fascism
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.10
+			}
+			add_war_support = 0.10
+		}
+	}
+	focus = { #반대파 해고
+		id = KAI_fire_opposition
+		icon = GFX_focus_ITA_banda_carita
+		prerequisite = {
+			focus = KAI_corp_fascism
+		}
+		x = 1
+		y = 1
+		relative_position_id = KAI_corp_fascism
+		cost = 10
+		completion_reward = {
+			add_stability = -0.15
+			add_political_power = 25
+		}
+	}
+	focus = { #주식 매수
+		id = KAI_buy_stocks
+		icon = GFX_focus_generic_annex_country
+		prerequisite = {
+			focus = KAI_bank_unity
+		}
+		bypass = {
+			has_government = fascism
+		}
+		cost = 10
+		x = 0
+		y = 1
+		relative_position_id = KAI_bank_unity
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.30
+			}
+			add_war_support = 0.25
+		}
+	}
+	focus = { #충성 강요
+		id = KAI_force_loyalty
+		icon = GFX_focus_generic_military_dictatorship
+		prerequisite = {
+			focus = KAI_fire_opposition
+		}
+		cost = 10
+		x = 0
+		y = 1
+		relative_position_id = KAI_fire_opposition
+		completion_reward = {
+			add_ideas = KAI_unjust_contract
+		}
+	}
+	focus = { #회장 권력 강화
+		id = KAI_advance_president
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = {
+			focus = KAI_buy_stocks
+		}
+		prerequisite = {
+			focus = KAI_force_loyalty
+		}
+		cost = 10
+		x = 1
+		y = 1
+		relative_position_id = KAI_buy_stocks
+		completion_reward = {
+			set_politics = {
+				ruling_party = fascism
+			}
+			add_stability = 0.15
+			add_war_support = 0.30
+		}
+	}
+	focus = { #전시경제 전환
+		id = KAI_war_eco
+		icon = GFX_goal_generic_trade
+		prerequisite = {
+			focus = KAI_advance_president
+		}
+		cost = 10
+		x = 0
+		y = 1
+		relative_position_id = KAI_advance_president
+		completion_reward = {
+			add_political_power = 25
 		}
 	}
 
