@@ -3186,36 +3186,38 @@
 			custom_effect_tooltip = TRM_pater_del_tt
 			set_variable = { TRM_internal_factions_remove_var = 0 } #지울 세력 코드
 			TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
+			set_variable = { TRM_civil_war_size = 0.2 }
 			if = {
 				limit = {
 					has_completed_focus = TRN_Suppressing_mika
 				}
-				start_civil_war = {
-					ideology = fascism
-					ruling_party = democratic
-					size = 0.2
-					army_ratio = 0.3
-					navy_ratio = 0
-					air_ratio = 0
-					keep_all_characters = yes
-					create_country_leader = {
-						picture = GFX_Portrait_BlueArchive_TRM_Generic_2
-						expire = "1965.1.1"
-						ideology = pater_nazism
-					}
-					set_country_flag = ARI_puppet_state
-					set_cosmetic_tag = TRM_pater
-				}
+				add_to_variable = { TRM_civil_war_size = 0.1 }
 			}
-			else = {
-				start_civil_war = {
-					ideology = fascism
-					ruling_party = democratic
-					size = 0.2
-					army_ratio = 0.2
-					navy_ratio = 0
-					air_ratio = 0
-					keep_all_characters = yes
+			if = {
+				limit = {
+					has_government = fascism
+				}
+				add_to_variable = { TRM_civil_war_size = 0.25 }
+			}
+			start_civil_war = {
+				ideology = fascism
+				ruling_party = democratic
+				size = TRM_civil_war_size
+				army_ratio = TRM_civil_war_size
+				navy_ratio = 0
+				air_ratio = 0
+				keep_all_characters = yes
+				create_country_leader = {
+					picture = GFX_Portrait_BlueArchive_TRM_Generic_2
+					expire = "1965.1.1"
+					ideology = pater_nazism
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_completed_focus = TRN_Suppressing_mika
+						}
+					}
 					PREV = {  # Original country
 						TRN_alzk = { # Character
 							set_nationality = PREV.PREV
@@ -3223,9 +3225,9 @@
 						}
 					}
 					promote_character = TRN_alzk
-					set_country_flag = ARI_puppet_state
-					set_cosmetic_tag = TRM_pater
 				}
+				set_country_flag = ARI_puppet_state
+				set_cosmetic_tag = TRM_pater
 			}
 		}
 
