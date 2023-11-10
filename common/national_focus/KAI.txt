@@ -9,12 +9,14 @@ focus_tree = {
 	}
 	default = no
 
+	continuous_focus_position = { x = 50 y = 1600 }
+
 	#영국과 전쟁
 	focus = { #전쟁 군수
 		id = KAI_war_logistics
 		icon = GFX_goal_generic_position_armies
 
-		x = 15
+		x = 20
 		y = 0
 		cost = 5
 		bypass = {
@@ -106,8 +108,9 @@ focus_tree = {
 		relative_position_id = KAI_FOCUS_1
 		completion_reward = {
 			add_ideas = KAI_eco_impact
+			add_ideas = civilian_economy
 			add_stability = -0.10
-			add_war_support = -0.50
+			add_war_support = -0.90
 			custom_effect_tooltip = KAI_add_navy_tt
 			hidden_effect = {
 				load_oob = KAI_1936_naval
@@ -129,7 +132,7 @@ focus_tree = {
 		bypass = {
 			has_government = communism
 		}
-		x = -8
+		x = -10
 		y = 1
 		relative_position_id = KAI_FOCUS_8
 		completion_reward = {
@@ -227,11 +230,27 @@ focus_tree = {
 			focus = KAI_fire_president
 		}
 		cost = 10
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = KAI_fire_president
 		completion_reward = {
 			add_research_slot = 1
+		}
+	}
+	focus = { #시장 개방
+		id = KAI_open_market
+		icon = GFX_goal_generic_positive_trade_relations
+		prerequisite = {
+			focus = KAI_fire_president
+		}
+		cost = 10
+		x = 1
+		y = 1
+		relative_position_id = KAI_fire_president
+		completion_reward = {
+			add_political_power = 50
+			add_ideas = free_trade
+			add_ideas = civilian_economy
 		}
 	}
 
@@ -249,7 +268,7 @@ focus_tree = {
 		bypass = {
 			has_government = fascism
 		}
-		x = 8
+		x = 10
 		y = 1
 		relative_position_id = KAI_FOCUS_8
 		completion_reward = {
@@ -298,7 +317,7 @@ focus_tree = {
 	}
 	focus = { #주식 매수
 		id = KAI_buy_stocks
-		icon = GFX_focus_mex_privatisation
+		icon = GFX_focus_generic_annex_country
 		prerequisite = {
 			focus = KAI_bank_unity
 		}
@@ -348,8 +367,28 @@ focus_tree = {
 			set_politics = {
 				ruling_party = fascism
 			}
-			add_stability = 0.20
-			add_war_support = 0.15
+			add_stability = 0.15
+			add_war_support = 0.30
+		}
+	}
+	focus = { #전시경제 전환
+		id = KAI_war_eco
+		icon = GFX_goal_generic_trade
+		prerequisite = {
+			focus = KAI_advance_president
+		}
+		cost = 10
+		x = 0
+		y = 1
+		relative_position_id = KAI_advance_president
+		completion_reward = {
+			add_political_power = 25
+			if = {
+				limit = {
+					NOT = { has_idea = tot_economic_mobilisation }
+				}
+				add_ideas = war_economy
+			}
 		}
 	}
 
@@ -444,6 +483,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_frontify
 		completion_reward = {
+			add_political_power = 25
 			add_ideas = free_trade
 		}
 	}
@@ -461,8 +501,8 @@ focus_tree = {
 			#다이내믹 추가 예정
 		}
 	}
-	focus = { #
-		id = KAI_
+	focus = { #제1회 주주총회
+		id = KAI_first_shareholders_meeting
 		icon = GFX_focus_NOR_restore_public_trust_in_the_storting
 		cost = 10
 		prerequisite = {
@@ -472,7 +512,92 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_frontify
 		completion_reward = {
-
+			add_political_power = 200
+		}
+	}
+	focus = { # 카이저 주식회사
+		id = KAI_kaiser_inc
+		icon = GFX_focus_jap_strike_south
+		cost = 10
+		x = 28
+		y = 0
+		relative_position_id = KAI_war_logistics
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 10
+			}
+			#디시전 추가 예정
+		}
+	}
+	focus = { #카이저 론
+		id = KAI_kaiser_loan
+		icon = GFX_focus_mex_privatisation
+		cost = 10
+		prerequisite = {
+			focus = KAI_kaiser_inc
+		}
+		x = -4
+		y = 1
+		relative_position_id = KAI_kaiser_inc
+		completion_reward = {
+			
+		}
+	}
+	focus = { #카이저 PMC
+		id = KAI_kaiser_PMC
+		icon = GFX_goal_generic_army_doctrines
+		cost = 10
+		prerequisite = {
+			focus = KAI_kaiser_inc
+		}
+		x = 0
+		y = 1
+		relative_position_id = KAI_kaiser_inc
+		completion_reward = {
+			
+		}
+	}
+	focus = { #카이저 컨스트럭션
+		id = KAI_kaiser_construction
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 10
+		prerequisite = {
+			focus = KAI_kaiser_inc
+		}
+		x = 4
+		y = 1
+		relative_position_id = KAI_kaiser_inc
+		completion_reward = {
+			
+		}
+	}
+	focus = { #카이저 인더스트리
+		id = KAI_kaiser_industry
+		icon = GFX_focus_generic_combined_arms
+		cost = 10
+		prerequisite = {
+			focus = KAI_kaiser_inc
+		}
+		x = -8
+		y = 1
+		relative_position_id = KAI_kaiser_inc
+		completion_reward = {
+			
+		}
+	}
+	focus = { #카이저 시큐리티
+		id = KAI_kaiser_security
+		icon = GFX_goal_generic_defence
+		cost = 10
+		prerequisite = {
+			focus = KAI_kaiser_inc
+		}
+		x = 8
+		y = 1
+		relative_position_id = KAI_kaiser_inc
+		completion_reward = {
+			
 		}
 	}
 }
