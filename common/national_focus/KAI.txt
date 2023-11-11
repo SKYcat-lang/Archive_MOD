@@ -16,7 +16,7 @@ focus_tree = {
 		id = KAI_war_logistics
 		icon = GFX_goal_generic_position_armies
 
-		x = 10
+		x = 8
 		y = 0
 		cost = 5
 		bypass = {
@@ -135,6 +135,9 @@ focus_tree = {
 		y = 0
 		completion_reward = {
 			add_stability = 0.20
+			set_rule = {
+				can_not_declare_war = yes
+			}
 		}
 	}
 	focus = { #해안방어선 구축
@@ -266,7 +269,7 @@ focus_tree = {
 			set_politics = {
 				ruling_party = democratic
 			}
-			add_stability = 0.15
+			add_stability = 0.30 
 			add_war_support = -0.15
 		}
 	}
@@ -569,7 +572,7 @@ focus_tree = {
 		id = KAI_kaiser_corp
 		icon = GFX_focus_jap_strike_south
 		cost = 10
-		x = 28
+		x = 40
 		y = 0
 		relative_position_id = KAI_war_logistics
 		available = {
@@ -579,6 +582,8 @@ focus_tree = {
 			#디시전 추가 예정
 		}
 	}
+
+	#민공 뜯기
 	focus = { #카이저 론
 		id = KAI_kaiser_loan
 		icon = GFX_focus_mex_privatisation
@@ -586,13 +591,15 @@ focus_tree = {
 		prerequisite = {
 			focus = KAI_kaiser_corp
 		}
-		x = -4
+		x = -7
 		y = 1
 		relative_position_id = KAI_kaiser_corp
 		completion_reward = {
 			
 		}
 	}
+
+	#소비재 - 인력 등가교환
 	focus = { #카이저 PMC
 		id = KAI_kaiser_PMC
 		icon = GFX_goal_generic_army_doctrines
@@ -607,20 +614,304 @@ focus_tree = {
 			
 		}
 	}
+
+	# 모든 건설 관련
 	focus = { #카이저 컨스트럭션
 		id = KAI_kaiser_construction
-		icon = GFX_goal_generic_construct_infrastructure
+		icon = GFX_focus_POL_warsaw_main_station
 		cost = 10
 		prerequisite = {
 			focus = KAI_kaiser_corp
 		}
-		x = 4
+		x = 7
 		y = 1
 		relative_position_id = KAI_kaiser_corp
 		completion_reward = {
-			
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 1.0
+				uses = 1
+				category = industry
+			}
 		}
 	}
+	
+	focus = { #민공 1
+		id = KAI_construction_effort
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = KAI_kaiser_construction }
+		x = -2
+		y = 1
+		relative_position_id = KAI_kaiser_construction
+		cost = 10
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { #민공 2
+		id = KAI_construction_effort_2
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = KAI_construction_effort }
+		x = 0
+		y = 2
+		relative_position_id = KAI_construction_effort
+		cost = 10
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { #민공 3
+		id = KAI_construction_effort_3
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = KAI_construction_effort_2 }
+		x = 0
+		y = 2
+		relative_position_id = KAI_construction_effort_2
+		cost = 10
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 4
+				add_building_construction = {
+					type = industrial_complex
+					level = 4
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = { #유전 개발
+		id = KAI_oil_dev
+		icon = GFX_goal_generic_oil_refinery
+		prerequisite = { focus = KAI_kaiser_construction }
+		x = 2
+		y = 1
+		relative_position_id = KAI_kaiser_construction
+		cost = 10
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_resource = {
+					type = oil
+					amount = 8
+				}
+			}
+		}
+	}
+	focus = { #고무 합성
+		id = KAI_rubber_synthesis
+		icon = GFX_focus_generic_rubber
+		prerequisite = { focus = KAI_oil_dev }
+		x = 0
+		y = 2
+		relative_position_id = KAI_oil_dev
+		cost = 10
+
+		completion_reward = {
+			modify_building_resources = {
+				building = synthetic_refinery
+				resource = rubber
+				amount = 2
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { #자원개발 특이점
+		id = KAI_resource_dev_singularity
+		icon = GFX_focus_generic_steel
+		prerequisite = { focus = KAI_rubber_synthesis }
+		x = 0
+		y = 2
+		relative_position_id = KAI_rubber_synthesis
+		cost = 10	
+
+		completion_reward = {
+			add_ideas = KAI_resource_dev_singularity_idea
+		}
+	}
+
+	focus = { #조선소 증축
+		id = KAI_naval_effort
+		icon = GFX_goal_generic_construct_naval_dockyard
+		prerequisite = {
+			focus = KAI_construction_effort
+		}
+		prerequisite = {
+			focus = KAI_oil_dev
+		}
+		x = 1
+		y = 1
+		relative_position_id = KAI_construction_effort
+		cost = 10
+		
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = dockyard
+					level = 3
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = dockyard
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { #해양 유전
+		id = KAI_offshore_oil
+		icon = GFX_focus_generic_destroyer
+		prerequisite = {
+			focus = KAI_construction_effort
+		}
+		prerequisite = {
+			focus = KAI_oil_dev
+		}
+		x = -1
+		y = 1
+		relative_position_id = KAI_oil_dev
+		cost = 10
+		
+		completion_reward = {
+			add_resource = {
+				type = oil
+				amount = 16
+				state = 130
+			}
+		}
+	}
+
+	focus = { #공군기지 증축
+		id = KAI_aviation_effort
+		icon = GFX_goal_generic_build_airforce
+		prerequisite = {
+			focus = KAI_construction_effort_2
+		}
+		prerequisite = {
+			focus = KAI_rubber_synthesis
+		}
+		x = 1
+		y = 1
+		relative_position_id = KAI_construction_effort_2
+		cost = 10
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { #대공 요새
+		id = KAI_anti_air_fortress
+		icon = GFX_
+		prerequisite = {
+			focus = KAI_construction_effort_2
+		}
+		prerequisite = {
+			focus = KAI_rubber_synthesis
+		}
+		x = -1
+		y = 1
+		relative_position_id = KAI_rubber_synthesis
+
+		available = {
+			has_tech = decimetric_radar
+		}
+		
+		cost = 10
+
+		completion_reward = {
+			126 = {
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+				}
+				add_building_construction = {
+					type = radar_station
+					level = 1
+				}
+				set_state_flag = KAI_antiaired
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { has_state_flag = KAI_antiaired }
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { has_state_flag = KAI_antiaired }
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+				}
+			}
+		}
+	}
+
+	focus = { # 경제 호황
+		id = KAI_economy_boom
+		icon = GFX_focus_generic_industry_3
+		prerequisite = { focus = KAI_construction_effort_3 }
+		prerequisite = { focus = KAI_resource_dev_singularity }
+		x = 2
+		y = 1
+		relative_position_id = KAI_construction_effort_3
+		cost = 10
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = KAI_eco_impact
+				add_idea = KAI_eco_boom
+			}
+		}
+	}
+
+	# 장비연구 및 생산
 	focus = { #카이저 인더스트리
 		id = KAI_kaiser_industry
 		icon = GFX_focus_generic_combined_arms
@@ -628,13 +919,271 @@ focus_tree = {
 		prerequisite = {
 			focus = KAI_kaiser_corp
 		}
-		x = -8
+		x = -14
 		y = 1
 		relative_position_id = KAI_kaiser_corp
 		completion_reward = {
-			
+			add_dynamic_modifier = {
+				modifier = KAI_industry_dynamic_modifier
+			}
 		}
 	}
+
+	focus = { #연구 중점
+		id = KAI_focus_research
+		icon = GFX_focus_research
+		prerequisite = { focus = KAI_kaiser_industry }
+		x = -2
+		y = 1
+		relative_position_id = KAI_kaiser_industry
+		cost = 10
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	focus = { #장비연구 1
+		id = KAI_equipment_effort
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus = KAI_focus_research }
+		x = -1
+		y = 1
+		relative_position_id = KAI_focus_research
+		cost = 10
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = infantry_artillery_bonus
+				bonus = 1.0
+				uses = 1
+				category = infantry_weapons
+				category = artillery
+			}
+		}
+	}
+	focus = { #장비연구 2
+		id = KAI_equipment_effort_2
+		icon = GFX_goal_generic_army_artillery
+		prerequisite = { focus = KAI_equipment_effort }
+		x = 0
+		y = 1
+		relative_position_id = KAI_equipment_effort
+		cost = 10
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = infantry_artillery_bonus
+				bonus = 1.0
+				uses = 2
+				category = infantry_weapons
+				category = artillery
+			}
+		}
+	}
+	focus = { #장비연구 3
+		id = KAI_equipment_effort_3
+		icon = GFX_goal_generic_army_artillery2
+		prerequisite = { focus = KAI_equipment_effort_2 }
+		x = 0
+		y = 1
+		relative_position_id = KAI_equipment_effort_2
+		cost = 10
+
+		search_filters = {  FOCUS_FILTER_RESEARCH }
+		
+		available_if_capitulated = yes
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = infantry_artillery_bonus
+				ahead_reduction = 2
+				uses = 4
+				category = infantry_weapons
+				category = artillery
+			}
+		}
+	}
+
+	focus = { #트럭 연구
+		id = KAI_motorization_effort
+		icon = GFX_goal_generic_army_motorized
+		prerequisite = { focus = KAI_focus_research }
+		bypass = { has_tech = motorised_infantry }
+		x = 1
+		y = 1
+		relative_position_id = KAI_focus_research
+		cost = 10
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = motorized_bonus
+				bonus = 3.0
+				technology = motorised_infantry
+			}
+		}
+	}
+	focus = { #기계화 연구
+		id = KAI_mechanization_effort
+		icon = GFX_goal_generic_build_tank
+		prerequisite = { focus = KAI_motorization_effort }
+		x = 0
+		y = 1
+		relative_position_id = KAI_motorization_effort
+		cost = 10
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = motorized_bonus
+				ahead_reduction = 2
+				uses = 1
+				category = motorized_equipment
+			}
+		}
+	}
+	focus = { #전차 연구
+		id = KAI_armor_effort
+		icon = GFX_goal_generic_army_tanks
+		prerequisite = { focus = KAI_mechanization_effort }
+		x = 0
+		y = 1
+		relative_position_id = KAI_mechanization_effort
+		cost = 10
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = armor_bonus
+				bonus = 2.0
+				uses = 3
+				category = armor
+			}
+		}
+	}
+	
+	focus = { #기술의 우월성
+		id = KAI_supremacy_of_technology
+		icon = GFX_goal_generic_production
+		prerequisite = { focus = KAI_equipment_effort_3 }
+		prerequisite = { focus = KAI_armor_effort }
+		x = 1
+		y = 2
+		relative_position_id = KAI_equipment_effort_3
+
+		cost = 10
+
+		completion_reward = {
+			add_ideas = JAP_supremacy_of_technology
+		}
+	}
+
+	focus = { #생산 중점
+		id = KAI_focus_production
+		icon = GFX_goal_generic_production2
+		prerequisite = { focus = KAI_kaiser_industry }
+		x = 2
+		y = 1
+		relative_position_id = KAI_kaiser_industry
+
+		cost = 10
+
+		completion_reward = {
+			custom_effect_tooltip = KAI_advance_industry_tt
+			add_to_variable = {
+				KAI_production_factory_start_efficiency_factor = 0.10
+			}
+		}
+	}
+
+	focus = { #군공 1
+		id = KAI_production_effort
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = KAI_focus_production }
+		x = 0
+		y = 1
+		relative_position_id = KAI_focus_production
+		cost = 10
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { #군공 2
+		id = KAI_production_effort_2
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = KAI_production_effort }
+		x = 0
+		y = 1
+		relative_position_id = KAI_production_effort
+		cost = 10
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { #군공 3
+		id = KAI_production_effort_3
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = KAI_production_effort_2 }
+		x = 0
+		y = 1
+		relative_position_id = KAI_production_effort_2
+		cost = 10	
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 4
+				add_building_construction = {
+					type = arms_factory
+					level = 4
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = { #대량생산
+		id = KAI_mess_production
+		icon = GFX_focus_SOV_merge_plants
+		prerequisite = {
+			focus = KAI_production_effort_3
+		}
+		x = 0
+		y = 2
+		relative_position_id = KAI_production_effort_3
+		cost = 10
+
+		completion_reward = {
+			custom_effect_tooltip = KAI_advance_industry_tt
+			add_to_variable = {
+				KAI_production_factory_efficiency_gain_factor = 0.10
+			}
+			add_to_variable = {
+				KAI_production_factory_max_efficiency_factor = 0.10
+			}
+			add_to_variable = {
+				KAI_production_factory_start_efficiency_factor = 0.10
+			}
+			add_to_variable = {
+				KAI_production_cost_max_infantry_equipment = 0.20
+			}
+		}
+	}
+
+	# 저항군 소탕
 	focus = { #카이저 시큐리티
 		id = KAI_kaiser_security
 		icon = GFX_goal_generic_defence
@@ -642,12 +1191,14 @@ focus_tree = {
 		prerequisite = {
 			focus = KAI_kaiser_corp
 		}
-		x = 8
+		x = 14
 		y = 1
 		relative_position_id = KAI_kaiser_corp
 		completion_reward = {
-			
+
 		}
 	}
+
+
 }
 
