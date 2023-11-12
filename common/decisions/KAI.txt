@@ -1061,3 +1061,95 @@ KAI_corp_powerbalance_dec_cat = { #사내 권력 균형
 		}
 	}
 }
+
+KAI_loan_dec_cat = { #카이저 론 대출
+	KAI_loan_country = { #대출
+		priority = 100
+		icon = ger_mefo_bills
+
+		allowed = {
+			tag = KAI
+		}
+
+		visible = {
+			FROM = {
+				is_major = yes
+				NOT = { has_country_flag = KAI_loaned }
+			}
+		}
+
+		target_array = subjects
+
+		available = {
+			FROM = {
+				has_war = no
+			}
+		}
+
+		cost = 100
+
+		days_remove = 7
+
+		complete_effect = {
+			FROM = {
+				country_event = KAI_event.3
+			}
+		}
+	}
+
+	KAI_loan_mission = { #대출 상납 미션
+		priority = 100
+		icon = ger_mefo_bills
+
+		allowed = { always = no }
+
+		visible = {
+			has_country_flag = KAI_loaned
+		}
+
+		available = {
+			has_country_flag = KAI_loaned
+			num_of_available_civilian_factories > 0
+		}
+
+		days_mission_timeout = 60
+		is_good = yes
+
+		cancel_trigger = {
+			NOT = { has_country_flag = KAI_loaned }
+		}
+
+		timeout_effect = {
+			add_to_variable = {
+				KAI_loan_industrial_factory_donations = ROOT.KAI_loan_civilian_factory_use
+			}
+			if = {
+				limit = {
+					check_variable = {
+						ROOT.KAI_loan_civilian_factory_use > 0
+					}
+				}
+				if = {
+					limit = {
+						has_country_flag = KAI_loan_pay_flag
+					}
+					add_to_variable = {
+						ROOT.KAI_loan_civilian_factory_use = -1
+					}
+					add_to_variable = {
+						KAI_loan_industrial_factory_donations = -1
+					}
+				}
+				else = {
+					country_event = KAI_event.4
+				}
+			}
+			else = {
+				clr_country_flag = KAI_loaned
+				remove_dynamic_modifier = {
+					modifier = KAI_loan_dynamic_modifier
+				}
+			}
+		}
+	}
+}

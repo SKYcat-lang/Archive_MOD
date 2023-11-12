@@ -62,3 +62,72 @@ country_event = { # 회장의 운명
 		add_ideas = KAI_president_idea
 	}
 }
+country_event = { # 카이저 대출
+	id = KAI_event.3
+	title = KAI_event.3.t
+	desc = KAI_event.3.d
+	picture = GFX_report_event_german_reichstag_gathering
+	
+	is_triggered_only = yes
+
+	option = { #수락
+		name = KAI_event.3.a
+		FROM = {
+			set_country_flag = KAI_loaned
+			add_dynamic_modifier = {
+				modifier = KAI_loan_dynamic_modifier
+			}
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = KAI_loan_good
+			}
+		}
+		add_opinion_modifier = {
+			target = FROM
+			modifier = KAI_loan_buffed
+		}
+		add_to_variable = {
+			KAI_loan_industrial_factory_donations = 1
+		}
+	}
+	option = { #거부
+		name = KAI_event.3.b
+		FROM = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = KAI_loan_bad
+			}
+		}
+	}
+}
+country_event = { # 대출 상납 촉구
+	id = KAI_event.4
+	title = KAI_event.4.t
+	desc = KAI_event.4.d
+	picture = GFX_report_event_german_reichstag_gathering
+	
+	is_triggered_only = yes
+
+	option = {
+		name = KAI_event.4.a
+		custom_effect_tooltip = KAI_loan_pay_tt
+		remove_opinion_modifier = {
+			target = FROM
+			modifier = KAI_loan_buffed
+		}
+		set_variable = {
+			ROOT.KAI_loan_consumer_goods_factor = 0
+		}
+		set_variable = {
+			ROOT.KAI_loan_production_speed_buildings_factor = 0
+		}
+		set_country_flag = KAI_loan_pay_flag 
+	}
+	option = {
+		name = KAI_event.4.b
+		custom_effect_tooltip = KAI_loan_postpone_tt
+		add_to_variable = {
+			ROOT.KAI_loan_civilian_factory_use = 2
+		}
+	}
+}

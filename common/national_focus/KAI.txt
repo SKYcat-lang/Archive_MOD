@@ -230,7 +230,7 @@ focus_tree = {
 		completion_reward = {
 			add_popularity = {
 				ideology = democratic
-				popularity = 10
+				popularity = 0.10
 			}
 			#다이내믹 추가 예정
 		}
@@ -587,15 +587,20 @@ focus_tree = {
 	focus = { #카이저 론
 		id = KAI_kaiser_loan
 		icon = GFX_focus_mex_privatisation
-		cost = 10
+		cost = 5
 		prerequisite = {
 			focus = KAI_kaiser_corp
 		}
 		x = -7
 		y = 1
 		relative_position_id = KAI_kaiser_corp
+
 		completion_reward = {
-			
+			add_dynamic_modifier = {
+				modifier = KAI_loan_dynamic_modifier_2
+			}
+			custom_effect_tooltip = KAI_kaiser_loan_tt
+			#디시전 추가 예정
 		}
 	}
 
@@ -611,7 +616,71 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_kaiser_corp
 		completion_reward = {
-			
+			add_manpower = 10000
+			add_dynamic_modifier = {
+				modifier = KAI_PMC_dynamic_modifier
+			}
+		}
+	}
+
+	focus = { #모병1
+		id = KAI_recruitment
+		icon = GFX_focus_generic_manpower
+		cost = 10
+		prerequisite = {
+			focus = KAI_kaiser_PMC
+		}
+		x = 0
+		y = 1
+		relative_position_id = KAI_kaiser_PMC
+		completion_reward = {
+			custom_effect_tooltip = KAI_advance_PMC_tt
+			add_to_variable = {
+				KAI_PMC_consumer_goods_factor = 0.05
+			}
+			add_to_variable = {
+				KAI_PMC_weekly_manpower = 5000
+			}
+		}
+	}
+	focus = { #모병2
+		id = KAI_recruitment_2
+		icon = GFX_focus_generic_manpower
+		cost = 10
+		prerequisite = {
+			focus = KAI_recruitment
+		}
+		x = 0
+		y = 2
+		relative_position_id = KAI_recruitment
+		completion_reward = {
+			custom_effect_tooltip = KAI_advance_PMC_tt
+			add_to_variable = {
+				KAI_PMC_consumer_goods_factor = 0.10
+			}
+			add_to_variable = {
+				KAI_PMC_weekly_manpower = 10000
+			}
+		}
+	}
+	focus = { #모병3
+		id = KAI_recruitment_3
+		icon = GFX_focus_generic_manpower
+		cost = 10
+		prerequisite = {
+			focus = KAI_recruitment_2
+		}
+		x = 0
+		y = 2
+		relative_position_id = KAI_recruitment_2
+		completion_reward = {
+			custom_effect_tooltip = KAI_advance_PMC_tt
+			add_to_variable = {
+				KAI_PMC_consumer_goods_factor = 0.25
+			}
+			add_to_variable = {
+				KAI_PMC_weekly_manpower = 50000
+			}
 		}
 	}
 
@@ -687,10 +756,18 @@ focus_tree = {
 
 		completion_reward = {
 			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 4
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = industrial_complex
-					level = 4
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
 					instant_build = yes
 				}
 			}
@@ -733,7 +810,7 @@ focus_tree = {
 			random_owned_controlled_state = {
 				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
-					type = arms_factory
+					type = synthetic_refinery
 					level = 2
 					instant_build = yes
 				}
@@ -804,7 +881,7 @@ focus_tree = {
 		completion_reward = {
 			add_resource = {
 				type = oil
-				amount = 16
+				amount = 24
 				state = 130
 			}
 		}
@@ -880,6 +957,7 @@ focus_tree = {
 					type = anti_air_building
 					level = 1
 				}
+				set_state_flag = KAI_antiaired
 			}
 			random_owned_controlled_state = {
 				limit = {
@@ -889,6 +967,7 @@ focus_tree = {
 					type = anti_air_building
 					level = 1
 				}
+				set_state_flag = KAI_antiaired
 			}
 		}
 	}
@@ -923,6 +1002,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_kaiser_corp
 		completion_reward = {
+			add_political_power = 50
 			add_dynamic_modifier = {
 				modifier = KAI_industry_dynamic_modifier
 			}
@@ -1072,7 +1152,10 @@ focus_tree = {
 		cost = 10
 
 		completion_reward = {
-			add_ideas = JAP_supremacy_of_technology
+			custom_effect_tooltip = KAI_advance_industry_tt
+			add_to_variable = {
+				KAI_industry_research_speed_factor = 0.20
+			}
 		}
 	}
 
@@ -1089,7 +1172,7 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = KAI_advance_industry_tt
 			add_to_variable = {
-				KAI_production_factory_start_efficiency_factor = 0.10
+				KAI_industry_production_factory_start_efficiency_factor = 0.10
 			}
 		}
 	}
@@ -1145,10 +1228,18 @@ focus_tree = {
 
 		completion_reward = {
 			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 4
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = arms_factory
-					level = 4
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
 					instant_build = yes
 				}
 			}
@@ -1169,16 +1260,16 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = KAI_advance_industry_tt
 			add_to_variable = {
-				KAI_production_factory_efficiency_gain_factor = 0.10
+				KAI_industry_production_factory_efficiency_gain_factor = 0.10
 			}
 			add_to_variable = {
-				KAI_production_factory_max_efficiency_factor = 0.10
+				KAI_industry_production_factory_max_efficiency_factor = 0.10
 			}
 			add_to_variable = {
-				KAI_production_factory_start_efficiency_factor = 0.10
+				KAI_industry_production_factory_start_efficiency_factor = 0.10
 			}
 			add_to_variable = {
-				KAI_production_cost_max_infantry_equipment = 0.20
+				KAI_industry_production_cost_max_infantry_equipment = 0.20
 			}
 		}
 	}
