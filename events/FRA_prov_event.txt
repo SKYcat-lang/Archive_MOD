@@ -2157,7 +2157,7 @@ country_event = {
 }
 
 country_event = {
-	#식민지인 시민권
+	#식민지인 해방
 	id = FRA_prov_event.69
 	title = FRA_prov_event.69.t
 	desc = FRA_prov_event.69.d
@@ -2165,14 +2165,188 @@ country_event = {
 	fire_only_once = yes
 	option = {
 		name = FRA_prov_event.69.a
-		every_state = {
-			limit = {
-				is_owned_by = fra
-				NOT = {
-					is_on_continent = europe
+		set_cosmetic_tag = FRA_Decolonisation
+		custom_effect_tooltip = FRA_focus_resist_10_tt
+		hidden_effect = {
+			MRT = {
+				every_state = {
+					limit = {
+						is_owned_by = fra
+						is_on_continent = africa
+						NOT = {
+							state = 459
+							state = 460
+							state = 513
+							state = 514
+						}
+					}
+					transfer_state_to = MRT
+					add_core_of = MRT
+				}
+				create_country_leader = {
+					name = FRA_borough
+					ideology = leninism
+					picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+					expire = "1965.1.1"
+					traits = {
+						FRA_weak_auto
+					}
+				}
+				set_variable = {
+					collaboration_formed_by = ROOT
 				}
 			}
-			add_core_of = FRA
+			MAD = {
+				transfer_state = 543
+				transfer_state = 706
+				transfer_state = 708
+				create_country_leader = {
+					name = FRA_borough
+					ideology = leninism
+					picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+					expire = "1965.1.1"
+					traits = {
+						FRA_weak_auto
+					}
+				}
+				set_variable = {
+					collaboration_formed_by = ROOT
+				}
+			}
+			
+			VIN = {
+				transfer_state = 670
+				transfer_state = 741
+				transfer_state = 671
+				transfer_state = 286
+				every_owned_state = {
+					add_core_of = VIN
+				}
+				create_country_leader = {
+					name = FRA_borough
+					ideology = leninism
+					picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+					expire = "1965.1.1"
+					traits = {
+						FRA_weak_auto
+					}
+				}
+				set_variable = {
+					collaboration_formed_by = ROOT
+				}
+			}
+			TUN = {
+				transfer_state = 458
+				transfer_state = 665
+				create_country_leader = {
+					name = FRA_borough
+					ideology = leninism
+					picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+					expire = "1965.1.1"
+					traits = {
+						FRA_weak_auto
+					}
+				}
+				set_variable = {
+					collaboration_formed_by = ROOT
+				}
+			}
+			MOR = {
+				transfer_state = 461
+				transfer_state = 462
+				create_country_leader = {
+					name = FRA_borough
+					ideology = leninism
+					picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+					expire = "1965.1.1"
+					traits = {
+						FRA_weak_auto
+					}
+				}
+				set_variable = {
+					collaboration_formed_by = ROOT
+				}
+			}
+			FRA = {
+				set_autonomy = {
+					target = VIN
+					autonomy_state = autonomy_collaboration_government
+				}
+				set_autonomy = {
+					target = MOR
+					autonomy_state = autonomy_collaboration_government
+				}
+				set_autonomy = {
+					target = MRT
+					autonomy_state = autonomy_collaboration_government
+				}
+				set_autonomy = {
+					target = MAD
+					autonomy_state = autonomy_collaboration_government
+				}
+				set_autonomy = {
+					target = TUN
+					autonomy_state = autonomy_collaboration_government
+				}
+			}
+			VIN = {
+				set_cosmetic_tag = VIN_FRA
+				set_politics = {
+					ruling_party = communism
+					elections_allowed = no
+				}
+				set_popularities = {
+					communism = 100
+				}
+			}
+			MRT = {
+				set_cosmetic_tag = MRT_FRA
+				set_politics = {
+					ruling_party = communism
+					elections_allowed = no
+				}
+				set_popularities = {
+					communism = 100
+				}
+			}
+			MOR = {
+				set_cosmetic_tag = MOR_FRA
+				set_politics = {
+					ruling_party = communism
+					elections_allowed = no
+				}
+				set_popularities = {
+					communism = 100
+				}
+			}
+			MAD = {
+				set_cosmetic_tag = MAD_FRA
+				set_politics = {
+					ruling_party = communism
+					elections_allowed = no
+				}
+				set_popularities = {
+					communism = 100
+				}
+			}
+			TUN = {
+				set_cosmetic_tag = TUN_FRA
+				set_politics = {
+					ruling_party = communism
+					elections_allowed = no
+				}
+				set_popularities = {
+					communism = 100
+				}
+			}
+			320 = {
+				random_other_country = {
+					limit = {
+						owns_state = 430
+					}
+					transfer_state = prev
+				}
+			}
 		}
 	}
 }
@@ -3249,12 +3423,23 @@ country_event = {
 	fire_only_once = yes
 	is_triggered_only = yes
 	option = {
+		trigger = {
+			NOT={has_government = communism}
+		}
 		name = FRA_prov_event.114.a
 		add_timed_idea = {
 			idea = FRA_promise
 			days = 1200
 		}
 		custom_effect_tooltip = FRA_focus_12_tt
+	}
+	option = {
+		trigger = {
+			has_government = communism
+		}
+		name = FRA_prov_event.114.b
+		add_stability = 0.05
+		add_war_support = 0.05
 	}
 }
 
