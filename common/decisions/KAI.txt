@@ -1063,8 +1063,8 @@ KAI_corp_powerbalance_dec_cat = { #사내 권력 균형
 }
 
 KAI_loan_dec_cat = { #카이저 론 대출
-	KAI_loan_country = { #대출
-		priority = 100
+	KAI_loan_dec_debug = { #디버깅용
+		priority = 10
 		icon = ger_mefo_bills
 
 		allowed = {
@@ -1072,23 +1072,61 @@ KAI_loan_dec_cat = { #카이저 론 대출
 		}
 
 		visible = {
-			FROM = {
-				is_major = yes
-				NOT = { has_country_flag = KAI_loaned }
-			}
+			is_debug = yes
+			has_completed_focus = KAI_kaiser_loan
 		}
 
-		target_array = subjects
-
 		available = {
-			FROM = {
-				has_war = no
-			}
+			is_debug = yes
+			has_completed_focus = KAI_kaiser_loan
 		}
 
 		cost = 100
 
-		days_remove = 7
+		complete_effect = {
+			FROM = {
+				country_event = KAI_event.3
+			}
+		}
+
+	}
+	KAI_loan_dec = { #대출
+		priority = 20
+		icon = ger_mefo_bills
+
+		allowed = {
+			tag = KAI
+		}
+
+		available = {
+			has_completed_focus = KAI_kaiser_loan
+			FROM = {
+				AND = {
+					has_opinion = {
+						target = ROOT
+						value > 0
+					}
+					is_major = yes
+					NOT = { has_country_flag = KAI_loaned }
+				}
+			}
+		}
+
+		visible = {
+			has_completed_focus = KAI_kaiser_loan
+			FROM = {
+				AND = {
+					has_opinion = {
+						target = ROOT
+						value > 0
+					}
+					is_major = yes
+					NOT = { has_country_flag = KAI_loaned }
+				}
+			}
+		}
+
+		cost = 100
 
 		complete_effect = {
 			FROM = {
@@ -1096,9 +1134,11 @@ KAI_loan_dec_cat = { #카이저 론 대출
 			}
 		}
 	}
+}
 
+KAI_loan_mission_dec_cat = {
 	KAI_loan_mission = { #대출 상납 미션
-		priority = 100
+		priority = 10
 		icon = ger_mefo_bills
 
 		allowed = { always = no }
@@ -1112,7 +1152,7 @@ KAI_loan_dec_cat = { #카이저 론 대출
 			num_of_available_civilian_factories > 0
 		}
 
-		days_mission_timeout = 60
+		days_mission_timeout = 90
 		is_good = yes
 
 		cancel_trigger = {
