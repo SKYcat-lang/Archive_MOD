@@ -154,6 +154,33 @@ country_event = { # 마진콜
 
 	option = {
 		name = KAI_event.5.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0.10
+				OR = {
+					AND = {
+						is_major = yes
+						NOT = { has_government = democratic }
+					}
+					has_opinion = {
+						target = FROM
+						value < -50 
+					}
+				}
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					has_government = democratic
+					has_opinion = {
+						target = FROM
+						value > 25
+					}
+					FROM = { enemies_strength_ratio > 0.5 }
+				}
+			}
+		}
 		ROOT = {
 			remove_opinion_modifier = {
 				target = FROM
@@ -175,6 +202,14 @@ country_event = { # 마진콜
 			create_wargoal = {
 				target = ROOT
 				type = puppet_wargoal_focus
+			}
+		}
+		ROOT = {
+			subtract_from_variable = {
+				KAI_loan_industrial_factory_donations = ROOT.kai_loan_civilian_factory_use
+			}
+			remove_dynamic_modifier = {
+				modifier = KAI_loan_dynamic_modifier
 			}
 		}
 	}
