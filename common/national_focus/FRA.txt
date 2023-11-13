@@ -424,7 +424,8 @@ focus_tree = {
 				days = 200
 			}
 			add_tech_bonus = {
-				category = synth_resources
+				category = excavation_tech
+
 				bonus = 0.5
 				uses = 2
 			}
@@ -1400,7 +1401,7 @@ focus_tree = {
 		x = 13
 		y = 10
 		ai_will_do = {
-			factor = 100
+			factor = 0
 		}
 		mutually_exclusive = {
 			focus = FRA_focus_spain_2
@@ -2969,16 +2970,13 @@ focus_tree = {
 		x = 55
 		y = 7
 		available = {
-			communism > 0.6
+			communism > 0.5
 		}
 		prerequisite = {
 			focus = FRA_focus_par_7
 		}
 		completion_reward = {
-			add_timed_idea = {
-				idea = FRA_com_constitution
-				days = 400
-			}
+			add_ideas = FRA_com_constitution
 		}
 	}
 	focus = { #코뮌기념
@@ -3007,9 +3005,9 @@ focus_tree = {
 			add_political_power = 50
 		}
 	}
-	focus = { #식민지인 시민권
+	focus = { #식민지 해방
 		id = FRA_focus_com_5
-		icon = GFX_focus_por_latin_american_communism
+		icon = GFX_focus_ETH_callout_to_the_world
 		cost = 4.4
 		x = 55
 		y = 8
@@ -3020,6 +3018,7 @@ focus_tree = {
 			focus = FRA_focus_com_4
 		}
 		completion_reward = {
+			add_country_leader_trait = BA_enlightened_leninist
 			country_event = {
 				id = FRA_prov_event.69
 				days = 5
@@ -3039,7 +3038,10 @@ focus_tree = {
 			focus = FRA_focus_com_0
 		}
 		completion_reward = {
-			add_ideas = FRA_women_lib
+			swap_ideas = {
+				remove_idea = FRA_com_constitution
+				add_idea = FRA_com_constitution_1
+			}
 		}
 	}
 	focus = { #집단농업
@@ -3056,6 +3058,15 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_ideas = FRA_collective_farm
+			if = {
+				limit = {
+					has_idea = FRA_agricultural_company
+				}
+				swap_ideas = {
+					remove_idea = FRA_agricultural_company
+					add_idea = FRA_agricultural_corporation
+				}
+			}
 		}
 	}
 	focus = { #광범위한 국유화
@@ -3071,7 +3082,10 @@ focus_tree = {
 			focus = FRA_focus_com_5
 		}
 		completion_reward = {
-			add_ideas = FRA_com_nationalize
+			swap_ideas = {
+				remove_idea = FRA_com_constitution_1
+				add_idea = FRA_com_nationalize
+			}
 		}
 	}
 	focus = { #혁명의 열의
@@ -3159,16 +3173,6 @@ focus_tree = {
 				swap_ideas = {
 					remove_idea = FRA_agricultural_corporation
 					add_idea = FRA_agricultural_company
-				}
-			}
-			else = {
-				if = {
-					limit = {
-						NOT = {
-							has_idea = FRA_agricultural_company
-						}
-					}
-					add_ideas = FRA_agricultural_company
 				}
 			}
 		}
