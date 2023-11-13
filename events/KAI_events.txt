@@ -72,22 +72,28 @@ country_event = { # 카이저 대출
 
 	option = { #수락
 		name = KAI_event.3.a
-		FROM = {
-			set_country_flag = KAI_loaned
+		ROOT = {
+			set_variable = {
+				ROOT.kai_loan_civilian_factory_use = 2
+			}
 			add_dynamic_modifier = {
 				modifier = KAI_loan_dynamic_modifier
 			}
+			set_country_flag = KAI_loaned
+			activate_mission = KAI_loan_mission
+			add_opinion_modifier = {
+				target = FROM
+				modifier = KAI_loan_buffed
+			}
+		}
+		FROM = {
 			add_opinion_modifier = {
 				target = ROOT
 				modifier = KAI_loan_good
 			}
-		}
-		add_opinion_modifier = {
-			target = FROM
-			modifier = KAI_loan_buffed
-		}
-		add_to_variable = {
-			KAI_loan_industrial_factory_donations = 1
+			add_to_variable = {
+				KAI_loan_industrial_factory_donations = 2
+			}
 		}
 	}
 	option = { #거부
@@ -110,24 +116,28 @@ country_event = { # 대출 상납 촉구
 
 	option = {
 		name = KAI_event.4.a
-		custom_effect_tooltip = KAI_loan_pay_tt
-		remove_opinion_modifier = {
-			target = FROM
-			modifier = KAI_loan_buffed
+		ROOT = {
+			remove_opinion_modifier = {
+				target = FROM
+				modifier = KAI_loan_buffed
+			}
+			set_variable = {
+				ROOT.kai_loan_consumer_goods_factor = 0
+			}
+			set_variable = {
+				ROOT.kai_loan_production_speed_buildings_factor = 0
+			}
+			set_country_flag = KAI_loan_pay_flag
+			activate_mission = KAI_loan_mission
 		}
-		set_variable = {
-			ROOT.KAI_loan_consumer_goods_factor = 0
-		}
-		set_variable = {
-			ROOT.KAI_loan_production_speed_buildings_factor = 0
-		}
-		set_country_flag = KAI_loan_pay_flag 
 	}
 	option = {
 		name = KAI_event.4.b
-		custom_effect_tooltip = KAI_loan_postpone_tt
-		add_to_variable = {
-			ROOT.KAI_loan_civilian_factory_use = 2
+		ROOT = {
+			add_to_variable = {
+				ROOT.kai_loan_civilian_factory_use = 2
+			}
+			activate_mission = KAI_loan_mission
 		}
 	}
 }

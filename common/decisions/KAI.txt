@@ -1071,26 +1071,32 @@ KAI_loan_dec_cat = { #카이저 론 대출
 			tag = KAI
 		}
 
-		visible = {
-			is_debug = yes
-			has_completed_focus = KAI_kaiser_loan
+		target_trigger = {
+			FROM = {
+				num_of_factories > 50
+			}
 		}
 
 		available = {
 			is_debug = yes
-			has_completed_focus = KAI_kaiser_loan
 		}
 
-		cost = 100
+		visible = {
+			is_debug = yes
+		}
+
+		fire_only_once = no
+
+		cost = 1
 
 		complete_effect = {
 			FROM = {
-				country_event = KAI_event.3
+				country_event = { id = KAI_event.3 hours = 12 }
 			}
 		}
 
 	}
-	KAI_loan_dec = { #대출
+	KAI_loan_europe_dec = { #대출
 		priority = 20
 		icon = ger_mefo_bills
 
@@ -1098,16 +1104,17 @@ KAI_loan_dec_cat = { #카이저 론 대출
 			tag = KAI
 		}
 
-		available = {
-			has_completed_focus = KAI_kaiser_loan
+		target_trigger = {
 			FROM = {
-				AND = {
-					has_opinion = {
-						target = ROOT
-						value > 0
-					}
-					is_major = yes
-					NOT = { has_country_flag = KAI_loaned }
+				num_of_factories > 50 
+			}
+		}
+
+		available = {
+			FROM = {
+				has_opinion = {
+					target = ROOT
+					value > 0
 				}
 			}
 		}
@@ -1115,22 +1122,17 @@ KAI_loan_dec_cat = { #카이저 론 대출
 		visible = {
 			has_completed_focus = KAI_kaiser_loan
 			FROM = {
-				AND = {
-					has_opinion = {
-						target = ROOT
-						value > 0
-					}
-					is_major = yes
-					NOT = { has_country_flag = KAI_loaned }
-				}
+				NOT = { has_country_flag = KAI_loaned }
 			}
 		}
+
+		fire_only_once = no
 
 		cost = 100
 
 		complete_effect = {
 			FROM = {
-				country_event = KAI_event.3
+				country_event = { id = KAI_event.3 hours = 12 }
 			}
 		}
 	}
@@ -1141,55 +1143,91 @@ KAI_loan_mission_dec_cat = {
 		priority = 10
 		icon = ger_mefo_bills
 
-		allowed = { always = no }
+		allowed = {
+			always = no
+		}
 
 		visible = {
-			has_country_flag = KAI_loaned
+			ROOT = { has_country_flag = KAI_loaned }
 		}
 
 		available = {
-			has_country_flag = KAI_loaned
-			num_of_available_civilian_factories > 0
+			ROOT = {
+				custom_trigger_tooltip = {
+					tooltip = KAI_loan_pay_tt
+					AND = {
+						has_country_flag = KAI_loan_pay_flag
+						check_variable = {
+							ROOT.kai_loan_civilian_factory_use = 0
+						}
+					}
+				}
+			}
 		}
 
+		fire_only_once = no
 		days_mission_timeout = 90
-		is_good = yes
+		is_good = no
 
 		cancel_trigger = {
-			NOT = { has_country_flag = KAI_loaned }
+			ROOT = { num_of_civilian_factories_available_for_projects < 1 }
+		}
+
+		complete_effect = {
+			ROOT = {
+				remove_dynamic_modifier = {
+					modifier = KAI_loan_dynamic_modifier
+				}
+				clr_country_flag = KAI_loaned
+			}
 		}
 
 		timeout_effect = {
-			add_to_variable = {
-				KAI_loan_industrial_factory_donations = ROOT.KAI_loan_civilian_factory_use
-			}
-			if = {
-				limit = {
-					check_variable = {
-						ROOT.KAI_loan_civilian_factory_use > 0
-					}
-				}
+			ROOT = {
 				if = {
 					limit = {
 						has_country_flag = KAI_loan_pay_flag
 					}
 					add_to_variable = {
-						ROOT.KAI_loan_civilian_factory_use = -1
+						ROOT.kai_loan_civilian_factory_use = -1
 					}
 					add_to_variable = {
 						KAI_loan_industrial_factory_donations = -1
 					}
 				}
 				else = {
+					add_to_variable = {
+						KAI_loan_industrial_factory_donations = ROOT.kai_loan_civilian_factory_use
+					}
 					country_event = KAI_event.4
 				}
 			}
-			else = {
-				clr_country_flag = KAI_loaned
-				remove_dynamic_modifier = {
-					modifier = KAI_loan_dynamic_modifier
+		}
+
+		cancel_effect = {
+			ROOT = {
+				if = {
+					limit = {
+						has_country_flag = KAI_loan_pay_flag
+					}
+					add_to_variable = {
+						ROOT.kai_loan_civilian_factory_use = -1
+					}
+					add_to_variable = {
+						KAI_loan_industrial_factory_donations = -1
+					}
+				}
+				else = {
+					add_to_variable = {
+						KAI_loan_industrial_factory_donations = ROOT.kai_loan_civilian_factory_use
+					}
+					country_event = KAI_event.4
 				}
 			}
+		}
+
+		ai_will_do = {
+			factor = 200
 		}
 	}
 }
