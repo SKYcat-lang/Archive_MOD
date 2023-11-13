@@ -200,7 +200,7 @@ focus_tree = {
 		icon = GFX_goal_generic_construct_civ_factory
 		cost = 5.00
 		prerequisite = { focus = MIL_economicintervention }
-		x = 8
+		x = 11
 		y = 1
 		relative_position_id = MIL_economicintervention
 		completion_reward = {
@@ -223,6 +223,11 @@ focus_tree = {
 		x = 4
 		y = 1
 		relative_position_id = MIL_economicintervention
+		available = {
+			NOT = {
+				has_country_flag = MIL_fuck_flag
+			}
+		}
 		completion_reward = {
 			add_stability = 0.10
 			add_timed_idea = {
@@ -384,7 +389,7 @@ focus_tree = {
 	focus = { #중앙 집권 경제
 		id = MIL_centralized_economy
 		icon = GFX_goal_generic_political_pressure
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_command_to_chaebol }
 		x = 0
 		y = 1
@@ -473,6 +478,11 @@ focus_tree = {
 		x = -4
 		y = 1
 		relative_position_id = MIL_economicintervention
+		available = {
+			NOT = {
+				has_country_flag = MIL_fuck_flag
+			}
+		}
 		completion_reward = {
 			add_popularity = {
    				ideology = communism
@@ -557,6 +567,7 @@ focus_tree = {
 		relative_position_id = MIL_automation_industry
 		
 		completion_reward = {
+			remove_ideas = MIL_destroy_french_market_idea
 			add_ideas = MIL_automation_economy
 			
 			hidden_effect = { #collapse focus tree
@@ -828,7 +839,7 @@ focus_tree = {
 	focus = { #소비에트 모델
 		id = MIL_soviet_model
 		icon = GFX_focus_ger_strike_at_the_source
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_destroy_french_market }
 		mutually_exclusive = { focus = MIL_automation_economy focus = MIL_command_to_chaebol }
 		x = 0
@@ -1097,13 +1108,24 @@ focus_tree = {
 	focus = { #국가자본주의
 		id = MIL_state_capitalism
 		icon = GFX_goal_generic_political_pressure
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_redistribution_wealth focus = MIL_expansion_of_financial_industry }
 		mutually_exclusive = { focus = MIL_communist_society focus = MIL_megacorp }
 		x = 0
 		y = 8
 		relative_position_id = MIL_economicintervention
 		completion_reward = {
+			add_stability = 0.10
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.20
+			}
+			add_tech_bonus = {
+				name = industrial_bonus
+				bonus = 0.5
+				uses = 1
+				category = industry
+			}
 			custom_effect_tooltip = MIL_communist_society_tt
 			set_variable = { MIL_semina_idea_communism_drift = 0 }
 		}	
@@ -1112,7 +1134,7 @@ focus_tree = {
 	focus = { #미래 기업
 		id = MIL_megacorp
 		icon = GFX_focus_generic_the_giant_wakes
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_expansion_of_financial_industry }
 		mutually_exclusive = { focus = MIL_state_capitalism focus = MIL_communist_society }
 		x = 2
@@ -1120,6 +1142,78 @@ focus_tree = {
 		relative_position_id = MIL_expansion_of_financial_industry
 		completion_reward = {
 			add_ideas = MIL_cryptocurrency_idea
+		}	
+	}
+		
+	focus = { #신경제정책
+		id = MIL_NEP
+		icon = GFX_focus_generic_treaty
+		cost = 10.00
+		prerequisite = { focus = MIL_state_capitalism }
+		x = 0
+		y = 3
+		relative_position_id = MIL_state_capitalism
+		completion_reward = {
+			add_dynamic_modifier = {
+				modifier = MIL_NEP_idea
+			}
+		}	
+	}
+		
+	focus = { #부분 시장 개방
+		id = MIL_partial_market_opening
+		icon = GFX_focus_generic_modernize_industry
+		cost = 10.00
+		prerequisite = { focus = MIL_NEP }
+		x = -2
+		y = 1
+		relative_position_id = MIL_NEP
+		completion_reward = {
+			custom_effect_tooltip = MIL_partial_market_opening_tt
+			add_to_variable = { MIL_NEP_idea_consumer_goods_factor = -0.05 }
+			add_to_variable = { MIL_NEP_idea_research_speed_factor = 0.05 }
+		}	
+	}
+		
+	focus = { #핵심 산업 통제
+		id = MIL_control_of_key_industries
+		icon = GFX_focus_generic_conspiracy
+		cost = 10.00
+		prerequisite = { focus = MIL_NEP }
+		x = 0
+		y = 1
+		relative_position_id = MIL_NEP
+		completion_reward = {
+			custom_effect_tooltip = MIL_control_of_key_industries_tt
+			add_to_variable = { MIL_NEP_idea_production_factory_max_efficiency_factor = 0.05 }
+			add_to_variable = { MIL_NEP_idea_production_lack_of_resource_penalty_factor = -0.10 }
+		}	
+	}
+		
+	focus = { #농업관리법
+		id = MIL_agricultural_management_act
+		icon = GFX_focus_generic_farmland
+		cost = 10.00
+		prerequisite = { focus = MIL_NEP }
+		x = 2
+		y = 1
+		relative_position_id = MIL_NEP
+		completion_reward = {
+			custom_effect_tooltip = MIL_agricultural_management_act_tt
+			add_to_variable = { MIL_NEP_idea_production_factory_efficiency_gain_factor = 0.05 }
+			add_to_variable = { MIL_NEP_idea_global_building_slots_factor = 0.10 }
+		}	
+	}
+		
+	focus = { #시장 해방
+		id = MIL_market_liberation
+		icon = GFX_focus_generic_the_giant_wakes
+		cost = 10.00
+		prerequisite = { focus = MIL_megacorp }
+		x = 1
+		y = 1
+		relative_position_id = MIL_megacorp
+		completion_reward = {
 		}	
 	}
 		
@@ -1141,7 +1235,7 @@ focus_tree = {
 		id = MIL_SEMINA
 		icon = GFX_MIL_semina_hochul
 		cost = 2.00
-		x = 20
+		x = 24
 		y = 0
 
 		ai_will_do = {
@@ -1349,7 +1443,7 @@ focus_tree = {
 		icon = GFX_focus_generic_court
 		cost = 5.00
 		prerequisite = { focus = MIL_administration_seminar }
-		x = 8
+		x = 6
 		y = 1
 		relative_position_id = MIL_administration_seminar
 		allow_branch = {
@@ -3281,7 +3375,7 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = MIL_economic_plan }
 		prerequisite = { focus = MIL_administration_seminar }
-		x = -5
+		x = -6
 		y = 1
 		relative_position_id = MIL_administration_seminar
 		completion_reward = {
@@ -3419,6 +3513,12 @@ focus_tree = {
 		x = 1
 		y = 1
 		relative_position_id = MIL_the_economy
+		bypass = {
+			NOT = {	
+				has_character = MIL_Noa
+				has_character = MIL_gkfp	
+			}
+		}
 		completion_reward = {
 			add_ideas = MIL_ministry_economic_development
 			effect_tooltip = {
