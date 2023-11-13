@@ -1259,3 +1259,136 @@ KAI_loan_mission_dec_cat = {
 		}
 	}
 }
+
+KAI_PMC_mil_adviser_dec_cat = { #카이저 PMC
+	KAI_PMC_mil_adviser_dec = { #군사 고문 파견
+		priority = 20
+		icon = GFX_decision_generic_military
+
+		allowed = {
+			tag = KAI
+		}
+
+		target_trigger = {
+			FROM = {
+				has_war = yes
+			}
+		}
+
+		available = {
+			AND = {
+				NOT = { has_war_with = ROOT }
+				FROM = {
+					has_opinion = {
+						target = ROOT
+						value > 50
+					}
+				}
+			}
+		}
+
+		visible = {
+			FROM = {
+				has_war = yes
+			}
+		}
+
+		fire_only_once = no
+
+		custom_cost_trigger = {
+			has_political_power > 50
+			command_power > 15
+		}
+
+		days_remove = 180
+		days_re_enable = 30
+
+		modifier = {
+			experience_gain_army_factor = 0.50
+			production_speed_buildings_factor = 0.05
+		}
+
+		complete_effect = {
+			FROM = {
+				add_timed_idea = {
+					idea = KAI_PMC_military_adviser_idea
+					days = 180
+				}
+				if = {
+					limit = {
+						ROOT = {
+							has_completed_focus = KAI_PMC_war_of_future
+						}
+					}
+					random_list = {
+						33 = {
+							add_doctrine_cost_reduction = {
+								name = land_doc_bonus
+								cost_reduction = 0.5
+								uses = 1
+								category = land_doctrine
+							}
+						}
+						33 = {
+							add_doctrine_cost_reduction = {
+								name = naval_doc_bonus
+								cost_reduction = 0.5
+								uses = 1
+								category = naval_doctrine
+							}
+						}
+						33 = {
+							add_doctrine_cost_reduction = {
+								name = air_doc_bonus
+								cost_reduction = 0.5
+								uses = 1
+								category = air_doctrine
+							}
+						}
+					}
+				}
+			}
+			ROOT = {
+				hidden_effect = {
+					add_political_power = -50
+					add_command_power = -15
+				}
+				if = {
+					limit = {
+						has_completed_focus = KAI_PMC_war_of_future
+					}
+					add_ex
+					random_list = {
+						33 = {
+							army_experience = 50
+							add_doctrine_cost_reduction = {
+								name = land_doc_bonus
+								cost_reduction = 0.5
+								uses = 1
+								category = land_doctrine
+							}
+						}
+						33 = {
+							navy_experience = 50
+							add_doctrine_cost_reduction = {
+								name = naval_doc_bonus
+								cost_reduction = 0.5
+								uses = 1
+								category = naval_doctrine
+							}
+						}
+						33 = {
+							air_experience = 50
+							add_doctrine_cost_reduction = {
+								name = air_doc_bonus
+								cost_reduction = 0.5
+								uses = 1
+								category = air_doctrine
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
