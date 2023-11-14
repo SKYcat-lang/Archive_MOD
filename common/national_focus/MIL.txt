@@ -16,7 +16,7 @@ focus_tree = {
 		id = MIL_railway_connection
 		icon = GFX_goal_generic_construct_infrastructure
 		cost = 5.00
-		x = 6
+		x = 7
 		y = 0
 		completion_reward = {
 			if = {
@@ -200,7 +200,7 @@ focus_tree = {
 		icon = GFX_goal_generic_construct_civ_factory
 		cost = 5.00
 		prerequisite = { focus = MIL_economicintervention }
-		x = 11
+		x = 10
 		y = 1
 		relative_position_id = MIL_economicintervention
 		completion_reward = {
@@ -1032,6 +1032,11 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_redistribution_wealth }
 		mutually_exclusive = { focus = MIL_state_capitalism focus = MIL_megacorp }
+		available = {
+			NOT = {
+				has_completed_focus = MIL_hierarchy
+			}
+		}
 		x = -2
 		y = 5
 		available = {
@@ -1042,6 +1047,9 @@ focus_tree = {
 		}
 		relative_position_id = MIL_soviet_model
 		completion_reward = {
+			hidden_effect = {
+				set_cosmetic_tag = MIL_COM
+			}
 			effect_tooltip = {
 				if = {
 					limit = {
@@ -1145,6 +1153,257 @@ focus_tree = {
 		}	
 	}
 		
+	focus = { #소련과의 외교 조약
+		id = MIL_diplomatic_with_SOV
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		cost = 10.00
+		prerequisite = { focus = MIL_communist_society }
+		x = -1
+		y = 1
+		relative_position_id = MIL_communist_society
+
+		available = {
+			not = {
+				has_war_with = SOU
+			}
+		}
+		
+		bypass = {
+			SOU = {
+				OR = {
+					exists = no
+					has_war_with = SOV
+					is_subject = yes
+				}
+			}
+		}
+		completion_reward = {
+			add_political_power = 50
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+
+			SOV = { country_event = { id = MIL_event.31 hours = 6 random_hours = 2 } }
+			custom_effect_tooltip = if_they_accept_tt
+			SOV = {
+				event_option_tooltip = MIL_event.31.a
+			}
+			MIL = {
+				event_option_tooltip = MIL_event.32.a
+			}
+		}	
+	}
+		
+	focus = { #코민테른 가입
+		id = MIL_join_SOV
+		icon = GFX_goal_support_communism
+		cost = 10.00
+		prerequisite = { focus = MIL_diplomatic_with_SOV }
+		mutually_exclusive = { focus = MIL_hostile_to_SOV }
+		x = 0
+		y = 3
+		relative_position_id = MIL_diplomatic_with_SOV
+		
+		available = {
+			is_in_faction = no
+			not = { has_war_with = SOU }
+			SOV_comintern_joinable = yes 
+		}
+		completion_reward = {
+			SOU = {
+				country_event = generic.2
+			}
+		}	
+	}
+
+	focus = { #행정 재편
+		id = MIL_administrative_reorganization
+		icon = GFX_focus_generic_soviet_politics
+		cost = 10.00
+		prerequisite = { focus = MIL_communist_society }
+		x = 2
+		y = 1
+		relative_position_id = MIL_communist_society
+		completion_reward = {
+			add_timed_idea = {
+				idea = MIL_administrative_reorganization
+				days = 120
+			}
+		}	
+	}
+		
+	focus = { #노조대표법
+		id = MIL_union_representation_act
+		icon = GFX_goal_generic_forceful_treaty
+		cost = 10.00
+		prerequisite = { focus = MIL_administrative_reorganization }
+		x = 0
+		y = 1
+		relative_position_id = MIL_administrative_reorganization
+		completion_reward = {
+			MIL_Resistance_idea_down = yes
+			add_ideas = MIL_union_representation_act
+		}	
+	}
+		
+	focus = { #농업 집산화
+		id = MIL_agricultural_collectivization
+		icon = GFX_focus_prc_agrarian_socialism
+		cost = 10.00
+		prerequisite = { focus = MIL_administrative_reorganization }
+		x = 2
+		y = 1
+		relative_position_id = MIL_administrative_reorganization
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_ideas = { MIL_agricultural_collectivization }
+		}	
+	}
+		
+	focus = { #노동자 평의회
+		id = MIL_council_focus
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		cost = 10.00
+		prerequisite = { focus = MIL_union_representation_act }
+		x = 0
+		y = 1
+		relative_position_id = MIL_union_representation_act
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
+			swap_ideas = {
+				remove_idea = MIL_union_representation_act
+				add_idea = MIL_council_focus
+			}
+		}	
+	}
+		
+	focus = { #소련 반대
+		id = MIL_hostile_to_SOV
+		icon = GFX_focus_spr_masters_of_our_own_fate
+		cost = 10.00
+		prerequisite = { focus = MIL_council_focus }
+		mutually_exclusive = { focus = MIL_join_SOV }
+		x = 0
+		y = 1
+		relative_position_id = MIL_council_focus
+		completion_reward = {
+			if = {
+				limit = {
+					SOV = {
+						has_government = communism
+					}
+				}
+				reverse_add_opinion_modifier = {
+    				target = SOV
+    				modifier = HUN_stubborn_fools
+				}
+			}
+		}	
+	}
+		
+	focus = { #샬레와 함께
+		id = MIL_with_SHE
+		icon = GFX_goal_generic_dangerous_deal
+		cost = 10.00
+		prerequisite = { focus = MIL_hostile_to_SOV }
+		mutually_exclusive = { focus = MIL_ourselves }
+		x = -2
+		y = 1
+		relative_position_id = MIL_hostile_to_SOV
+		
+		available = {
+			is_in_faction = no
+			NOT = { has_war_with = SHE }
+			SHE = { 
+				hidden_trigger = { 
+					exists = yes
+					has_capitulated = no
+				}
+				has_government = communism 
+				is_faction_leader = yes 
+				has_civil_war = no		
+			}
+		}
+		completion_reward = {
+			SHE = {
+				country_event = generic.2
+			}
+		}	
+	}
+		
+	focus = { #우리 스스로
+		id = MIL_ourselves
+		icon = GFX_focus_SOV_proclaim_soviet_hegemony
+		cost = 10.00
+		prerequisite = { focus = MIL_hostile_to_SOV }
+		mutually_exclusive = { focus = MIL_with_SHE }
+		available = {
+			is_in_faction = no
+		}
+		x = 1
+		y = 1
+		relative_position_id = MIL_hostile_to_SOV
+		completion_reward = {
+			set_rule = { can_create_factions = yes }
+			create_faction = MIL_communist_faction
+		}	
+	}
+		
+	focus = { #교육 과정 편성
+		id = MIL_curriculum_organization
+		icon = GFX_focus_generic_socialist_science
+		cost = 10.00
+		prerequisite = { focus = MIL_administrative_reorganization }
+		x = -2
+		y = 1
+		relative_position_id = MIL_administrative_reorganization
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.20
+			}
+			add_war_support = 0.10
+			custom_effect_tooltip = MIL_focused_research_unlock_tt
+			unlock_decision_tooltip = MIL_focused_research_dialectical_materialism
+			custom_effect_tooltip = MIL_focused_research_sup_tt
+			set_country_flag = MIL_focused_research_dialectical_materialism_onflag
+			MIL_unlock_focused_research_slot_effect = yes
+		}	
+	}
+		
 	focus = { #신경제정책
 		id = MIL_NEP
 		icon = GFX_focus_generic_treaty
@@ -1154,6 +1413,7 @@ focus_tree = {
 		y = 3
 		relative_position_id = MIL_state_capitalism
 		completion_reward = {
+			MIL_Resistance_idea_down = yes
 			add_dynamic_modifier = {
 				modifier = MIL_NEP_idea
 			}
@@ -1755,10 +2015,26 @@ focus_tree = {
 				value = 0.20
 				tooltip_side = MIL_Himari_side
 			}
-			set_politics = {
-				ruling_party = neutrality
-    			elections_allowed = no
-    			election_frequency = 48
+			if = {
+				limit = {
+					has_completed_focus = MIL_communist_society
+				}
+				add_country_leader_role = {
+					character = MIL_Himari
+					promote_leader = yes
+					country_leader = {
+						ideology = marxism
+						expire = "1965.1.1.1"
+						traits = { MIL_supreme_leader }
+					}
+				}
+			}
+			else = {
+				set_politics = {
+					ruling_party = neutrality
+					elections_allowed = no
+					election_frequency = 48
+				}
 			}
 			hidden_effect = {
 				remove_dynamic_modifier = { modifier = MIL_semina_idea }
@@ -2078,6 +2354,7 @@ focus_tree = {
 			add_stability = 0.10
 			add_war_support = 0.10
 			add_political_power = 120
+			MIL_unlock_focused_research_slot_effect = yes
 		}	
 	}
 
@@ -2295,6 +2572,7 @@ focus_tree = {
 		relative_position_id = MIL_remove_Veritas
 		completion_reward = {
 			remove_ideas = MIL_seeds_of_conflict
+			MIL_unlock_focused_research_slot_effect = yes
 		}	
 	}
 		
@@ -2424,6 +2702,7 @@ focus_tree = {
 			remove_ideas = MIL_seeds_of_conflict
 			add_stability = 0.10
 			add_political_power = 100
+			MIL_unlock_focused_research_slot_effect = yes
 		}
 	}
 		
@@ -2839,6 +3118,11 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = MIL_promoting_civil_division }
 		mutually_exclusive = { focus = MIL_per_cooperator }
+		available = {
+			NOT = {
+				has_government = communism
+			}
+		}
 		x = -2
 		y = 1
 		relative_position_id = MIL_promoting_civil_division
@@ -3158,6 +3442,7 @@ focus_tree = {
 		relative_position_id = MIL_millennium_science_school
 		completion_reward = {
 			custom_effect_tooltip = MIL_the_fortress_city_of_Eridu_tt
+			remove_ideas = MIL_eridu_broken
 		}	
 	}
 		
