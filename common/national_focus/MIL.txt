@@ -508,6 +508,12 @@ focus_tree = {
 				has_country_flag = MIL_fuck_flag
 			}
 		}
+		bypass = {
+			NOT = {	
+				has_character = MIL_dbdnzk
+				has_character = MIL_chihiro	
+			}
+		}
 		completion_reward = {
 			add_popularity = {
    				ideology = communism
@@ -1057,6 +1063,12 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_redistribution_wealth }
 		mutually_exclusive = { focus = MIL_state_capitalism focus = MIL_megacorp }
+		bypass = {
+			NOT = {	
+				has_character = MIL_dbdnzk
+				has_character = MIL_chihiro	
+			}
+		}
 		available = {
 			NOT = {
 				has_completed_focus = MIL_hierarchy
@@ -1166,15 +1178,51 @@ focus_tree = {
 		
 	focus = { #미래 기업
 		id = MIL_megacorp
-		icon = GFX_focus_generic_the_giant_wakes
+		icon = GFX_goal_generic_consumer_goods
 		cost = 10.00
 		prerequisite = { focus = MIL_expansion_of_financial_industry }
 		mutually_exclusive = { focus = MIL_state_capitalism focus = MIL_communist_society }
+		bypass = {
+			NOT = {	
+				has_character = MIL_Noa
+				has_character = MIL_gkfp	
+			}
+		}
 		x = 2
 		y = 1
 		relative_position_id = MIL_expansion_of_financial_industry
 		completion_reward = {
-			add_ideas = MIL_cryptocurrency_idea
+			effect_tooltip = {
+				if = {
+					limit = {
+						has_completed_focus = MIL_rebuilt_school1
+					}
+					add_trait = {
+						character = MIL_gkfp
+						slot = political_advisor
+						trait = MIL_economist_noa
+					}
+				}
+				else = {
+					add_trait = {
+						character = MIL_Noa
+						slot = political_advisor
+						trait = MIL_economist_noa
+					}
+				}
+			}
+			hidden_effect = {
+				add_trait = {
+					character = MIL_gkfp
+					slot = political_advisor
+					trait = MIL_economist_noa
+				}
+				add_trait = {
+					character = MIL_Noa
+					slot = political_advisor
+					trait = MIL_economist_noa
+				}
+			}
 		}	
 	}
 		
@@ -1338,7 +1386,7 @@ focus_tree = {
 	focus = { #소련 반대
 		id = MIL_hostile_to_SOV
 		icon = GFX_focus_spr_masters_of_our_own_fate
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_council_focus }
 		mutually_exclusive = { focus = MIL_join_SOV }
 		x = 0
@@ -1394,7 +1442,7 @@ focus_tree = {
 		
 	focus = { #우리 스스로
 		id = MIL_ourselves
-		icon = GFX_focus_SOV_proclaim_soviet_hegemony
+		icon = GFX_focus_SWE_refuge_for_revolutionaries
 		cost = 10.00
 		prerequisite = { focus = MIL_hostile_to_SOV }
 		mutually_exclusive = { focus = MIL_with_SHE }
@@ -1486,7 +1534,7 @@ focus_tree = {
 		completion_reward = {
 			add_popularity = {
 				ideology = communism
-				popularity = 0.20
+				popularity = 0.10
 			}
 			add_war_support = 0.10
 			custom_effect_tooltip = MIL_focused_research_unlock_tt
@@ -1502,13 +1550,32 @@ focus_tree = {
 		icon = GFX_focus_spa_the_spanish_miracle
 		cost = 10.00
 		prerequisite = { focus = MIL_state_capitalism }
-		x = -1
+		x = 1
 		y = 1
 		relative_position_id = MIL_state_capitalism
 		completion_reward = {
 			unlock_decision_category_tooltip = MIL_special_economic_zone_categories
 			set_variable = { MIL_special_economic_zone_max_var = 3 }
 			set_variable = { MIL_special_economic_zone_var = 0 }
+		}	
+	}
+
+	focus = { #권력 집중
+		id = MIL_concentration_of_power
+		icon = GFX_goal_generic_demand_territory
+		cost = 10.00
+		prerequisite = { focus = MIL_communist_society focus = MIL_state_capitalism }
+		x = -2
+		y = 1
+		relative_position_id = MIL_state_capitalism
+		completion_reward = {
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.10
+			}
+			custom_effect_tooltip = MIL_concentration_of_power_tt
+			add_to_variable = { MIL_semina_idea_war_support_factor = 0.10 }
+			add_to_variable = { MIL_semina_idea_drift_defence_factor = 0.10 }
 		}	
 	}
 		
@@ -1573,9 +1640,95 @@ focus_tree = {
 		}	
 	}
 		
+	focus = { #밀레니엄 중앙은행
+		id = MIL_millennium_central_bank
+		icon = {
+			trigger = {
+				ROOT = {
+					NOT = {
+						has_completed_focus = MIL_command_to_chaebol
+						has_completed_focus = MIL_soviet_model
+					}
+				}
+			}
+			value = GFX_focus_generic_the_giant_wakes
+		}
+		icon = {
+			trigger = {
+				ROOT = {
+					has_completed_focus = MIL_command_to_chaebol
+				}
+			}
+			value = GFX_focus_generic_the_giant_wakes
+		}
+		icon = {
+			trigger = {
+				ROOT = {
+					has_completed_focus = MIL_soviet_model
+				}
+			}
+			value = GFX_focus_generic_communist_industry
+		}
+		cost = 10.00
+		prerequisite = { focus = MIL_megacorp focus = MIL_state_capitalism }
+		x = -3
+		y = 1
+		relative_position_id = MIL_megacorp
+		completion_reward = {
+			add_ideas = MIL_ministry_economic_idea
+		}	
+	}
+		
+	focus = { #시장 통제
+		id = MIL_market_control
+		icon = GFX_goal_generic_improve_relations
+		cost = 10.00
+		prerequisite = { focus = MIL_special_economic_zone }
+		prerequisite = { focus = MIL_millennium_central_bank }
+		x = -2
+		y = 1
+		relative_position_id = MIL_millennium_central_bank
+		completion_reward = {
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.05
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}	
+	}
+		
 	focus = { #시장 해방
 		id = MIL_market_liberation
-		icon = GFX_focus_generic_the_giant_wakes
+		icon = GFX_focus_ITA_devaluate_the_lire
 		cost = 10.00
 		prerequisite = { focus = MIL_megacorp }
 		x = 1
@@ -1585,18 +1738,46 @@ focus_tree = {
 		}	
 	}
 		
+	focus = { #프랑화 수용
+		id = MIL_acceptance_of_the_franc
+		icon = GFX_focus_fra_devalue_the_franc
+		cost = 10.00
+		prerequisite = { focus = MIL_millennium_central_bank }
+		mutually_exclusive = { focus = MIL_cryptocurrency }
+		x = 1
+		y = 1
+		relative_position_id = MIL_millennium_central_bank
+		completion_reward = {
+			add_political_power = 120
+			add_stability = 0.05
+			add_ideas = MIL_franc
+		}	
+	}
+		
+	focus = { #암호화폐
+		id = MIL_cryptocurrency
+		icon = GFX_focus_ETH_adopt_the_lira
+		cost = 10.00
+		prerequisite = { focus = MIL_millennium_central_bank }
+		prerequisite = { focus = MIL_market_liberation }
+		mutually_exclusive = { focus = MIL_acceptance_of_the_franc }
+		x = 3
+		y = 1
+		relative_position_id = MIL_millennium_central_bank
+		completion_reward = {
+			add_ideas = MIL_cryptocurrency_idea
+		}	
+	}
+		
 	focus = { #밀레니엄 경제
 		id = MIL_millennium_economy
-		icon = GFX_focus_spa_the_spanish_miracle
+		icon = GFX_goal_generic_trade
 		cost = 10.00
 		prerequisite = { focus = MIL_market_liberation }
 		x = 0
 		y = 2
 		relative_position_id = MIL_market_liberation
 		completion_reward = {
-			remove_ideas = MIL_expansion_of_financial_industry_idea
-			remove_ideas = MIL_cryptocurrency_idea
-			add_ideas = MIL_ministry_economic_idea
 		}	
 	}
 
@@ -3869,65 +4050,15 @@ focus_tree = {
 			}
 		}	
 	}
-	focus = { #혼합 경제
-		id = MIL_mixed_economy
-		icon = GFX_goal_generic_consumer_goods
-		cost = 5.00
-		prerequisite = { focus = MIL_the_economy }
-		x = 1
-		y = 1
-		relative_position_id = MIL_the_economy
-		bypass = {
-			NOT = {	
-				has_character = MIL_Noa
-				has_character = MIL_gkfp	
-			}
-		}
-		completion_reward = {
-			add_ideas = MIL_ministry_economic_development
-			effect_tooltip = {
-				if = {
-					limit = {
-						has_completed_focus = MIL_rebuilt_school1
-					}
-					add_trait = {
-						character = MIL_gkfp
-						slot = political_advisor
-						trait = MIL_economist_noa
-					}
-				}
-				else = {
-					add_trait = {
-						character = MIL_Noa
-						slot = political_advisor
-						trait = MIL_economist_noa
-					}
-				}
-			}
-			hidden_effect = {
-				add_trait = {
-					character = MIL_gkfp
-					slot = political_advisor
-					trait = MIL_economist_noa
-				}
-				add_trait = {
-					character = MIL_Noa
-					slot = political_advisor
-					trait = MIL_economist_noa
-				}
-			}
-		}	
-	}
 		
 	focus = { #대도시 투자
 		id = MIL_city_investment
 		icon = GFX_focus_generic_industry_2
 		cost = 10.00
-		prerequisite = { focus = MIL_mixed_economy }
-		prerequisite = { focus = MIL_market_subordination }
-		x = -1
+		prerequisite = { focus = MIL_the_economy }
+		x = 1
 		y = 1
-		relative_position_id = MIL_mixed_economy
+		relative_position_id = MIL_the_economy
 		completion_reward = {
 			random_owned_controlled_state = {
 				prioritize = { 15 19 21 }
@@ -3968,8 +4099,9 @@ focus_tree = {
 		id = MIL_facility_modernization
 		icon = GFX_focus_generic_industry_3
 		cost = 10.00
+		prerequisite = { focus = MIL_market_subordination }
 		prerequisite = { focus = MIL_city_investment }
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = MIL_city_investment
 		completion_reward = {
