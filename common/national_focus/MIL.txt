@@ -1313,13 +1313,16 @@ focus_tree = {
 	focus = { #소련 반대
 		id = MIL_hostile_to_SOV
 		icon = GFX_focus_spr_masters_of_our_own_fate
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_council_focus }
 		mutually_exclusive = { focus = MIL_join_SOV }
 		x = 0
 		y = 1
 		relative_position_id = MIL_council_focus
 		completion_reward = {
+			add_political_power = 100
+			add_war_support = 0.10
+			add_stability = 0.10
 			if = {
 				limit = {
 					SOV = {
@@ -1379,6 +1382,81 @@ focus_tree = {
 		completion_reward = {
 			set_rule = { can_create_factions = yes }
 			create_faction = MIL_communist_faction
+		}	
+	}
+		
+	focus = { #혁명의 적
+		id = MIL_enemy_of_the_revolution
+		icon = GFX_goal_generic_war_with_comintern
+		cost = 10.00
+		prerequisite = { focus = MIL_ourselves }
+		x = 0
+		y = 1
+		relative_position_id = MIL_ourselves
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = MIL_council_focus
+				add_idea = MIL_enemy_of_the_revolution
+			}
+		}	
+	}
+		
+	focus = { #국제 산업
+		id = MIL_international_industry
+		icon = GFX_goal_generic_soviet_construction
+		cost = 10.00
+		prerequisite = { focus = MIL_join_SOV focus = MIL_with_SHE }
+		x = 0
+		y = 2
+		relative_position_id = MIL_join_SOV
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			every_country = {
+				limit = {
+					num_of_factories > 40
+					is_in_faction_with = ROOT
+				}
+				custom_effect_tooltip = MIL_international_industry_tt
+				hidden_effect = {
+					capital_scope = {
+						add_extra_state_shared_building_slots = 2
+						add_building_construction = {	
+							type = industrial_complex
+							level = 2
+							instant_build = yes
+						}
+					}
+				}
+			}
 		}	
 	}
 		
