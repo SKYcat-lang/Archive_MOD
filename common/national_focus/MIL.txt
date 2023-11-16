@@ -1262,9 +1262,8 @@ focus_tree = {
 			SOV = {
 				event_option_tooltip = MIL_event.31.a
 			}
-			MIL = {
-				event_option_tooltip = MIL_event.32.a
-			}
+			custom_effect_tooltip = if_they_accept_tt
+			event_option_tooltip = MIL_event.32.a
 		}	
 	}
 		
@@ -1778,6 +1777,21 @@ focus_tree = {
 		y = 2
 		relative_position_id = MIL_acceptance_of_the_franc
 		completion_reward = {
+			every_country = {
+				limit = {
+					OR = {
+						num_of_factories > 60	
+						num_of_controlled_states > 30
+						has_army_manpower = {
+							size > 1000000
+						}
+					}
+				}
+				add_opinion_modifier = {
+					target = MIL
+					modifier = MIL_diplomatic
+				}
+			}
 		}	
 	}
 		
@@ -1814,6 +1828,18 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_diplomatic_irrigation_improvements
 		completion_reward = {
+			every_country = {
+				limit = {
+					OR = {
+						tag = USA
+						tag = ENG
+					}
+				}
+				add_opinion_modifier = {
+					target = MIL
+					modifier = MIL_atlantic
+				}
+			}
 		}	
 	}
 		
@@ -1826,6 +1852,15 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_atlantic_diplomacy
 		completion_reward = {
+			USA = {
+				country_event = { id = MIL_event.37 }
+			}
+			custom_effect_tooltip = if_they_accept_tt
+			USA = {
+				event_option_tooltip = MIL_event.37.a
+			}
+			custom_effect_tooltip = if_they_accept_tt
+			event_option_tooltip = MIL_event.38.a
 		}	
 	}
 		
@@ -1836,10 +1871,43 @@ focus_tree = {
 		prerequisite = { focus = MIL_atlantic_diplomacy }
 		prerequisite = { focus = MIL_france_isolation }
 		mutually_exclusive = { focus = MIL_hegemony_alliance }
+		available = {
+			is_in_faction = no
+			NOT = { has_war_with = ENG }
+			ENG = { 
+				hidden_trigger = { 
+					exists = yes
+					has_capitulated = no
+				}
+				OR = {
+					is_faction_leader = yes 
+					AND = {
+						has_global_flag = ENG_lose_global_flag
+						is_in_faction = no
+					}
+				}
+				has_civil_war = no		
+			}
+		}
 		x = 2
 		y = 2
 		relative_position_id = MIL_atlantic_diplomacy
 		completion_reward = {
+			if = {
+				limit = {
+					has_global_flag = ENG_lose_global_flag
+				}
+				ENG = {
+					country_event = MIL_event.40
+				}
+				custom_effect_tooltip = if_they_accept_tt
+				event_option_tooltip = MIL_event.41.a
+			}
+			else = {
+				ENG = {
+					country_event = generic.2
+				}
+			}
 		}	
 	}
 		
@@ -1849,10 +1917,27 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_industrial_exchanges_USA }
 		mutually_exclusive = { focus = MIL_treaty_england }
+		available = {
+			is_in_faction = no
+			NOT = { has_war_with = USA }
+			USA = { 
+				hidden_trigger = { 
+					exists = yes
+					has_capitulated = no
+				}
+				is_in_faction = no
+				has_civil_war = no		
+			}
+		}
 		x = 0
 		y = 1
 		relative_position_id = MIL_industrial_exchanges_USA
 		completion_reward = {
+			set_rule = { can_create_factions = yes }
+			create_faction = MIL_hegemony_faction
+			USA = {
+				country_event = generic.5
+			}
 		}	
 	}
 		
