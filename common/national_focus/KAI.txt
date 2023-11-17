@@ -153,7 +153,7 @@ focus_tree = {
 		bypass = {
 			has_government = democratic
 		}
-		x = 3
+		x = 5
 		y = 1
 		relative_position_id = KAI_corp_convention
 		completion_reward = {
@@ -232,7 +232,9 @@ focus_tree = {
 				ideology = democratic
 				popularity = 0.10
 			}
-			#다이내믹 추가 예정
+			add_dynamic_modifier = {
+				modifier = KAI_bussiness_hq_dynamic_modifier
+			}
 		}
 	}
 	focus = { #제 1차 주주총회
@@ -273,6 +275,38 @@ focus_tree = {
 			add_war_support = -0.15
 		}
 	}
+	focus = { #뛰어난 두뇌 고용
+		id = KAI_new_supreme_brains
+		icon = GFX_focus_research
+		prerequisite = {
+			focus = KAI_new_business_place
+		}
+		x = 0
+		y = 1
+		relative_position_id = KAI_new_business_place
+		
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	focus = { #기술공유 프로젝트
+		id = KAI_tech_sharing_project
+		icon = GFX_goal_tfv_generic_tech_sharing
+		prerequisite = {
+			focus = KAI_new_supreme_brains
+		}
+		x = 0
+		y = 1
+		relative_position_id = KAI_new_supreme_brains
+
+		completion_reward = {
+			add_to_tech_sharing_group = KAI_tech_sharing
+			every_other_country = {
+				limit = { is_puppet_of = KAI }
+				add_to_tech_sharing_group = KAI_tech_sharing
+			}
+		}
+	}
 
 	#사내 민주주의
 	focus = { #콩산 카이저
@@ -288,7 +322,7 @@ focus_tree = {
 		bypass = {
 			has_government = communism
 		}
-		x = -3
+		x = -5
 		y = 1
 		relative_position_id = KAI_corp_convention
 		completion_reward = {
@@ -445,7 +479,7 @@ focus_tree = {
 		cost = 5
 		mutually_exclusive = { focus = KAI_corp_convention }
 		available = { has_completed_focus = KAI_FOCUS_8 has_country_flag = GAEBALJUNG }
-		x = 15
+		x = 20
 		y = 0
 		relative_position_id = KAI_corp_convention
 		completion_reward = {
@@ -535,24 +569,14 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_Daeseoyanghamdae
 		completion_reward = {
-			if = {
-				limit = { country_exists = LIB }
-				create_wargoal = {
-					target = LIB
-					type = annex_everything
+			every_country = {
+				limit = {
+					capital = { is_on_continent = africa }
+					is_major = no
+					is_subject = no
 				}
-			}
-			if = {
-				limit = { country_exists = RCG }
 				create_wargoal = {
-					target = RCG
-					type = annex_everything
-				}
-			}
-			if = {
-				limit = { country_exists = COG }
-				create_wargoal = {
-					target = COG
+					target = PREV
 					type = annex_everything
 				}
 			}
@@ -568,12 +592,10 @@ focus_tree = {
 		relative_position_id = KAI_apeurikasingminjihwakbo
 		completion_reward = {
 			every_neighbor_country = { 
-				limit = { 
-					OR = {
-						is_in_faction = no
-						is_major = no
-						is_subject = no
-					}
+				limit = {
+					is_in_faction = no
+					is_major = no
+					is_subject = no
 					NOT = {
 						TAG = CAN
 						TAG = FRA
@@ -778,9 +800,9 @@ focus_tree = {
 		id = KAI_kaiser_corp
 		icon = GFX_focus_jap_strike_south
 		cost = 5
-		x = 50
+		x = 30
 		y = 0
-		relative_position_id = KAI_war_logistics
+		relative_position_id = KAI_corp_fascism
 		available = {
 			NOT = { has_government = neutrality }
 		}
@@ -1271,7 +1293,7 @@ focus_tree = {
 	}
 	focus = { #대공 요새
 		id = KAI_anti_air_fortress
-		icon = GFX_
+		icon = GFX_goal_generic_fortify_city
 		prerequisite = {
 			focus = KAI_construction_effort_2
 		}
