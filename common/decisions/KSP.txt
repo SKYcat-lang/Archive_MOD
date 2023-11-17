@@ -24,53 +24,41 @@ KSP_annex_countries = {
 	}
 }
 KSP_fight_with_wakamo = {
-	KSP_wakamo_sabotage_mission = {
+	KSP_wakamo_sabotage_mission = { # 와카모 테러 행각
 		activation = {
-			has_country_flag = KSP_wakamo_sabotage_activated
+			has_country_flag = KSP_wakamo_sabotage_activated # 재액의 여우가 풀려났음
 			NOT = {
-				34 = {
-					has_state_flag = KSP_no_wakamo_here
-				}
-				937 = {
-					has_state_flag = KSP_no_wakamo_here
-				}
-				948 = {
-					has_state_flag = KSP_no_wakamo_here
-				}
-				938 = {
-					has_state_flag = KSP_no_wakamo_here
-				}
+				34 = { has_state_flag = KSP_no_wakamo_here } # 영향력 감소 플래그
+				937 = { has_state_flag = KSP_no_wakamo_here } # 영향력 감소 플래그
+				948 = { has_state_flag = KSP_no_wakamo_here } # 영향력 감소 플래그
+				938 = { has_state_flag = KSP_no_wakamo_here } # 영향력 감소 플래그
 			}
 		}
 		available = {
-			NOT = {
-				has_country_flag = KSP_wakamo_sabotage_activated
-			}
+			NOT = { has_country_flag = KSP_wakamo_sabotage_activated } # 재액의 여우가 풀려났음 에 해당하지 않음 즉 갇혔다
 		}
 		is_good = no
 		days_mission_timeout = KSP_wakamo_next_sabotage
 		priority = 10
-		timeout_effect = {
+		timeout_effect = { # 영항력 감소 플래그가 꽃혀있지 않은 곳에 건물 피해를 줌
 			random_owned_controlled_state = {
 				limit = { 
-					NOT = {
-						has_state_flag = KSP_no_wakamo_here
-					}
+					NOT = { has_state_flag = KSP_no_wakamo_here } # 영향력 감소 플래그
 				}
 				random_list = {
-					10 = {
+					1 = {
 						damage_building = {
 							type = infrastructure
 							damage = 1
 						}
 					}
-					10 = {
+					1 = {
 						damage_building = {
 							type = industrial_complex
 							damage = 1
 						}
 					}
-					10 = {
+					1 = {
 						damage_building = {
 							type = arms_factory
 							damage = 1
@@ -78,15 +66,15 @@ KSP_fight_with_wakamo = {
 					}
 				}
 			}
-			hidden_effect = {
-				activate_mission = KSP_wakamo_sabotage_mission
-				add_to_variable = { KSP_wakamo_sabotage_number = 1 }
+			hidden_effect = { # 
+				activate_mission = KSP_wakamo_sabotage_mission # 재시작
+				add_to_variable = { KSP_wakamo_sabotage_number = 1 } # 와카모가 사보타지 성공 개수
 			}
 		}
 	}
-	KSP_wakamo_sabotage_increase_mission = {
+	KSP_wakamo_sabotage_increase_mission = { # 와카모 활동 증가
 		activation = {
-			has_country_flag = KSP_wakamo_sabotage_activated
+			has_country_flag = KSP_wakamo_sabotage_activated # 재액의 여우가 풀려났음
 			OR = {
 				has_idea = KSP_wakamo_sabotage_1
 				has_idea = KSP_wakamo_sabotage_2
@@ -95,55 +83,53 @@ KSP_fight_with_wakamo = {
 		}
 		available = {
 			OR = {
-				NOT = {
-					has_country_flag = KSP_wakamo_sabotage_activated
-				}
-				has_idea = KSP_wakamo_sabotage
+				NOT = { has_country_flag = KSP_wakamo_sabotage_activated } # 재액의 여우가 풀려났음 에 해당하지 않음 즉 갇혔다 
+				has_idea = KSP_wakamo_sabotage # 재액의 여우 단계 국민정신이 있다면
 			}
 		}
 		is_good = no
 		days_mission_timeout = 120
 		priority = 9
 		timeout_effect = {
-			if = {
+			if = { # 국민정신 교체 강함 - > 재액
 				limit = { has_idea = KSP_wakamo_sabotage_1 }
 				swap_ideas = {
 					remove_idea = KSP_wakamo_sabotage_1
 					add_idea = KSP_wakamo_sabotage
 				}
 			}
-			if = {
+			if = { # 국민정신 교체 보통 - > 강함
 				limit = { has_idea = KSP_wakamo_sabotage_2 }
 				swap_ideas = {
 					remove_idea = KSP_wakamo_sabotage_2
 					add_idea = KSP_wakamo_sabotage_1
 				}
 			}
-			if = {
+			if = { # 국민정신 교체 약함 - > 보통
 				limit = { has_idea = KSP_wakamo_sabotage_3 }
 				swap_ideas = {
 					remove_idea = KSP_wakamo_sabotage_3
 					add_idea = KSP_wakamo_sabotage_2
 				}
 			}
-			hidden_effect = {
-				activate_mission = KSP_wakamo_sabotage_increase_mission
+			hidden_effect = { 
+				activate_mission = KSP_wakamo_sabotage_increase_mission # 재시작
 				if = {
 					limit = {
 						NOT = {
-							check_variable = { KSP_wakamo_next_sabotage = 7 }
+							check_variable = { KSP_wakamo_next_sabotage = 7 } # 만약 변수가 7 이라면
 						}
 					}
-					add_to_variable = { KSP_wakamo_next_sabotage = -7 }
+					add_to_variable = { KSP_wakamo_next_sabotage = -7 } # 변수에서 7 만큼 제외한다
 				}
 			}
 		}
 	}
-	KSP_suppressing_plan_sustain_de = {
+	KSP_suppressing_plan_sustain_de = { # 진압 작전 지속
 		icon = oppression
 		visible = {
 			OR = {
-				has_completed_focus = KSP_suppressing_plan_sustain
+				has_completed_focus = KSP_suppressing_plan_sustain # ~ 중점을 완료했을 경우
 				is_debug = yes
 			}
 		}
@@ -170,21 +156,21 @@ KSP_fight_with_wakamo = {
 		}
 
 		remove_effect = {
-			if = {
+			if = { # 와카모의 재액의 여우 국민정신 단계가 내려감
 				limit = { has_idea = KSP_wakamo_sabotage_2 }
 				swap_ideas = {
 					remove_idea = KSP_wakamo_sabotage_2
 					add_idea = KSP_wakamo_sabotage_3
 				}
 			}
-			if = {
+			if = { # 와카모의 재액의 여우 국민정신 단계가 내려감
 				limit = { has_idea = KSP_wakamo_sabotage_1 }
 				swap_ideas = {
 					remove_idea = KSP_wakamo_sabotage_1
 					add_idea = KSP_wakamo_sabotage_2
 				}
 			}
-			if = {
+			if = { # 와카모의 재액의 여우 국민정신 단계가 내려감
 				limit = { has_idea = KSP_wakamo_sabotage }
 				swap_ideas = {
 					remove_idea = KSP_wakamo_sabotage
@@ -192,20 +178,20 @@ KSP_fight_with_wakamo = {
 				}
 			}
 			custom_effect_tooltip = KSP_suppressing_plan_sustain_de_ns_tt
-			add_to_variable = { KSP_wakamo_next_sabotage = 7 }
+			add_to_variable = { KSP_wakamo_next_sabotage = 7 } # 그리고 와카모의 공장 테러 일수를 늦춰준다.
 		}
 
 		fire_only_once = yes
 	}
-	KSP_skeban_suppress_de = {
+	KSP_skeban_suppress_de = { # 스케반 진압
 		icon = oppression
 		visible = {
 			OR = {
-				has_completed_focus = KSP_skeban_suppress
+				has_completed_focus = KSP_skeban_suppress # ~ 중점을 완료하면 보임
 				is_debug = yes
 			}
 		}
-		available = {
+		available = { # 재액의 여우 국민정신이 존재할때 사용 ㄱㄴ
 			OR = {
 				has_idea = KSP_wakamo_sabotage
 				has_idea = KSP_wakamo_sabotage_1
@@ -236,7 +222,7 @@ KSP_fight_with_wakamo = {
 			}
 		}
 
-		remove_effect = {
+		remove_effect = {  # 와카모의 재액의 여우 국민정신 단계가 하락함
 			if = {
 				limit = { has_idea = KSP_wakamo_sabotage_2 }
 				swap_ideas = {
