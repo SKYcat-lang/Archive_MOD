@@ -453,9 +453,9 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = KSP_valkyrie_government_tonghap
-		icon = GFX_goal_demand_sudetenland
-		cost = 10
+		id = KSP_teach_students_work
+		icon = none
+		cost = 5
 		prerequisite = {
 			focus = KSP_government_ganghwa
 		}
@@ -466,6 +466,39 @@ focus_tree = {
 		x = -3
 		y = 1
 		relative_position_id = KSP_government_ganghwa
+
+		completion_reward = {
+			if = {
+				limit = { has_country_leader_with_trait = KSP_KANNA_SET0_1 }
+				remove_country_leader_trait = KSP_KANNA_SET0_1
+			}
+			if = {
+				limit = { has_country_leader_with_trait = KSP_KANNA_SET0_0 }
+				swap_ruler_traits = {
+					remove = KSP_KANNA_SET0_0
+					add = KSP_KANNA_SET0_1
+				}
+			}
+			add_power_balance_value = {
+				id = KSP_yunjung_power_balance
+				value = 0.10
+			}
+		}
+	}
+	focus = {
+		id = KSP_valkyrie_government_tonghap
+		icon = GFX_goal_demand_sudetenland
+		cost = 10
+		prerequisite = {
+			focus = KSP_teach_students_work
+		}
+		allow_branch = {
+		
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = KSP_teach_students_work
 
 		completion_reward = {
 			remove_ideas = KSP_sanghwal_safety_bulman
@@ -528,12 +561,12 @@ focus_tree = {
 			}
 		}
 		prerequisite = {
-			focus = KSP_gyeongbiguk_helping
+			focus = KSP_teach_students_work
 		}
 
-		x = 0
-		y = 2
-		relative_position_id = KSP_gyeongbiguk_helping
+		x = -3
+		y = 1
+		relative_position_id = KSP_teach_students_work
 
 		completion_reward = {
 			add_stability = 0.10
@@ -548,16 +581,59 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = KSP_gov_gaepyeon_0
+		icon = none
+		cost = 5
+		prerequisite = {
+			focus = KSP_kanna_gov_empower
+		}
+		
+		x = 0
+		y = 1
+		relative_position_id = KSP_kanna_gov_empower
+	
+		completion_reward = {
+			add_political_power = 25
+			add_stability = 0.05
+			add_power_balance_value = {
+				id = KSP_yunjung_power_balance
+				value = 0.05
+			}
+		}
+	}
+	focus = {
+		id = KSP_gwanleojae_sulgae
+		icon = none
+		cost = 5
+		prerequisite = {
+			focus = KSP_gov_gaepyeon_0
+		}
+		
+		x = 0
+		y = 2
+		relative_position_id = KSP_gov_gaepyeon_0
+	
+		completion_reward = {
+			add_political_power = -50
+			add_stability = -0.05
+			add_ideas = KSP_gwanleojae_idea
+			add_power_balance_value = {
+				id = KSP_yunjung_power_balance
+				value = 0.10
+			}
+		}
+	}
+	focus = {
 		id = KSP_chian_uzi_students
 		icon = GFX_focus_generic_little_entente
 		cost = 10
 		prerequisite = {
-			focus = KSP_kanna_gov_empower
+			focus = KSP_gyeongbiguk_helping
 		}
 
 		x = 0
-		y = 1
-		relative_position_id = KSP_kanna_gov_empower
+		y = 2
+		relative_position_id = KSP_gyeongbiguk_helping
 
 		completion_reward = {
 			add_ideas = KSP_call_students_for_chian
@@ -581,6 +657,9 @@ focus_tree = {
 		prerequisite = {
 			focus = KSP_chian_uzi_students
 		}
+		prerequisite = {
+			focus = KSP_gwanleojae_sulgae
+		}
 		mutually_exclusive = {
 			focus = KSP_students_have_power
 		}
@@ -591,6 +670,10 @@ focus_tree = {
 
 		completion_reward = {
 			add_political_power = 50
+			swap_ideas = {
+				remove_idea = KSP_gwanleojae_idea
+				add_idea = KSP_gwanleojae_idea_1
+			}
 			add_power_balance_value = {
 				id = KSP_yunjung_power_balance
 				value = 0.15
@@ -653,7 +736,84 @@ focus_tree = {
 			}
 		}
 	}
+	focus = {
+		id = KSP_remove_bandaepa
+		icon = GFX_focus_spr_crush_the_revolution
+		cost = 5
+		prerequisite = {
+			focus = KSP_right_wing_tonghap
+		}
 
+		x = 3
+		y = 1
+		relative_position_id = KSP_right_wing_tonghap
+
+		completion_reward = {
+			add_political_power = 25
+			add_stability = -0.10
+			add_war_support = -0.10
+			if = {
+				limit = { has_idea = KSP_belgian_moderate_partys }
+				remove_ideas = KSP_belgian_moderate_partys
+			}
+			if = {
+				limit = { has_idea = KSP_belgian_hardliners }
+				remove_ideas = KSP_belgian_hardliners
+			}
+		}
+	}
+	focus = {
+		id = KSP_belgium_gov_helpers
+		icon = none
+		cost = 5
+		prerequisite = {
+			focus = KSP_remove_bandaepa
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = KSP_remove_bandaepa
+
+		completion_reward = {
+			add_political_power = 25
+			add_stability = 0.10
+			if = {
+				limit = { has_country_leader_with_trait = KSP_KANNA_SET0_1 }
+				remove_country_leader_trait = KSP_KANNA_SET0_1
+			}
+			if = {
+				limit = { has_country_leader_with_trait = KSP_KANNA_SET0_0 }
+				swap_ruler_traits = {
+					remove = KSP_KANNA_SET0_0
+					add = KSP_KANNA_SET0_1
+				}
+			}
+			add_power_balance_value = {
+				id = KSP_yunjung_power_balance
+				value = -0.10
+			}
+		}
+	}
+	focus = {
+		id = KSP_belgium_heart
+		icon = none
+		cost = 5
+		prerequisite = {
+			focus = KSP_belgium_gov_helpers
+		}
+
+		x = 0
+		y = 2
+		relative_position_id = KSP_belgium_gov_helpers
+
+		completion_reward = {
+			add_ideas = KSP_belgium_heart_idea
+			add_power_balance_value = {
+				id = KSP_yunjung_power_balance
+				value = -0.10
+			}
+		}
+	}
 	focus = {
 		id = KSP_stabilize_inside
 		icon = GFX_goal_generic_improve_relations
@@ -678,8 +838,8 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = KSP_remove_bandaepa
-		icon = GFX_focus_spr_crush_the_revolution
+		id = KSP_belgian_simin_help
+		icon = none
 		cost = 5
 		prerequisite = {
 			focus = KSP_stabilize_inside
@@ -688,32 +848,6 @@ focus_tree = {
 		x = 1
 		y = 1
 		relative_position_id = KSP_stabilize_inside
-
-		completion_reward = {
-			add_political_power = 25
-			add_stability = -0.10
-			add_war_support = -0.10
-			if = {
-				limit = { has_idea = KSP_belgian_moderate_partys }
-				remove_ideas = KSP_belgian_moderate_partys
-			}
-			if = {
-				limit = { has_idea = KSP_belgian_hardliners }
-				remove_ideas = KSP_belgian_hardliners
-			}
-		}
-	}
-	focus = {
-		id = KSP_belgian_simin_help
-		icon = none
-		cost = 5
-		prerequisite = {
-			focus = KSP_remove_bandaepa
-		}
-
-		x = 0
-		y = 1
-		relative_position_id = KSP_remove_bandaepa
 
 		completion_reward = {
 			add_political_power = 50
@@ -734,9 +868,12 @@ focus_tree = {
 		prerequisite = {
 			focus = KSP_belgian_simin_help
 		}
+		prerequisite = {
+			focus = KSP_belgium_heart
+		}
 
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = KSP_belgian_simin_help
 
 		completion_reward = {
