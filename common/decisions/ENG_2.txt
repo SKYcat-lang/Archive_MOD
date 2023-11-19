@@ -3,15 +3,11 @@ britian_war = {
 		icon = GFX_decision_generic_nationalism
 		is_good = yes
 		days_mission_timeout = 40
+		priority = 10
 		available = {
 			NOT = {
 				has_idea = ENG_operation_exile
-			}
-			OR = {
-				date > 1937.1.1
-				NOT ={
-					has_war_with = KAI
-				}
+				has_war_with = KAI
 			}
 			
 		}
@@ -26,62 +22,98 @@ britian_war = {
 				activate_mission = give_can_fac
 			}
 			ENG = {
-				random_core_state = {
+				random_core_state ={
 					limit = {
-						is_owned_by = ENG
+						industrial_complex > 0
 					}
 					add_manpower = -500
-					random_list = {
-						1 = {		
-							remove_building = {
-								type = industrial_complex
-								level = 1
-							}
-						}
-						1 = {
-							
-							remove_building = {
-								type = arms_factory
-								level = 1
-							}
-						}
-						1 = {
-							remove_building = {
-								type = infrastructure
-								level = 1
-							}
-						}
+					damage_building = {
+						type = infrastructure
+						damage = 2
+					}
+					damage_building = {
+						type = industrial_complex
+						damage = 3
 					}
 				}
-				
+				random_core_state = {
+					add_manpower = -100
+				}
+				random_core_state = {
+					add_manpower = -100
+				}
 			}
 			CAN = {
-				random_core_state = {
-					add_manpower = 500
-					random_list = {
-						1 = {		
-							hidden_effect={add_extra_state_shared_building_slots = 1}	
-							add_building_construction = {
-								type = industrial_complex
-								level = 1
-							}
-						}
-						1 = {
-							hidden_effect={add_extra_state_shared_building_slots = 1}
-							add_building_construction = {
-								type = arms_factory
-								level = 1
-							}
-						}
-						1 = {
-							add_building_construction = {
-								type = infrastructure
-								level = 1
-							}
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
 						}
 					}
+					add_manpower = 500
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+				random_owned_controlled_state = {
+					add_manpower = 100
+				}
+				random_owned_controlled_state = {
+					add_manpower = 100
 				}
 			}
+		}
+	}
+	ENG_stop_exile_1 = {
+		icon = GFX_decision_hol_draw_up_staff_plans
+
+		ai_will_do = {
+			base = 4000
+		}
+
+		allowed = {
+			original_tag = ENG
+		}
+
+		available = {
+			has_idea = ENG_save_the_liverpool
+		}
+
+		cost = 25
+
+		complete_effect = {
+			swap_ideas = {
+				remove_idea = ENG_operation_exile
+				add_idea = ENG_operation_exile_week
+			}
+			custom_effect_tooltip = ENG_stop_exile_1_tt
+		}
+	}
+	ENG_stop_exile_2 = {
+		icon = GFX_decision_generic_intelligence_operation
+
+		ai_will_do = {
+			base = 4000
+		}
+
+		allowed = {
+			original_tag = ENG
+		}
+
+		available = {
+			has_idea = ENG_operation_exile_week
+			surrender_progress > 0.30
+		}
+
+		cost = 25
+
+		complete_effect = {
+			remove_ideas = ENG_operation_exile_week
 		}
 	}
 }
