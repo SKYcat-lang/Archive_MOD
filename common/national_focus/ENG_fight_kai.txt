@@ -8,6 +8,7 @@ focus_tree = {
 		}
 	}
 	default = no
+	continuous_focus_position = { x = 50 y = 1700 }
 
 	focus = {
 		id = CAN_focus_0 #서늘한 영토
@@ -16,7 +17,7 @@ focus_tree = {
 		allow_branch = {
 			has_global_flag = ENG_lose_global_flag
 		}
-		x = 10
+		x = 15
 		y = 0
 		completion_reward = {
 			country_event = {
@@ -28,7 +29,7 @@ focus_tree = {
 	focus = {
 		id = CAN_focus_1 #영국 망명자들 집결
 		icon = none
-		cost = 5
+		cost = 10
 		prerequisite = {
 			focus = CAN_focus_0
 		}
@@ -41,22 +42,24 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = CAN_focus_2 #망명 육군 재편성
+		id = CAN_focus_2 #꺼지지 않은 불씨
 		icon = none
 		cost = 5
 		prerequisite = {
 			focus = CAN_focus_1
 		}
-		x = -2
+		x = -1
 		y = 1
 		relative_position_id = CAN_focus_1
 		completion_reward = {
 			army_experience = 25
+			navy_experience = 25
+			air_experience = 25
 			random_owned_controlled_state = {
 				limit = {
 					is_core_of = ROOT
 				}
-				prioritize = { 276 }
+				prioritize = { 468 }
 				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = arms_factory
@@ -67,17 +70,168 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = CAN_focus_3 #망명해군 재편성
-		icon = none
+		id = CAN_focus_3 #망명산업 재편
+		icon = GFX_goal_generic_construct_civ_factory
 		cost = 5
 		prerequisite = {
 			focus = CAN_focus_1
 		}
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = CAN_focus_1
 		completion_reward = {
-			
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 276 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CAN_focus_4 #정부 안정화
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 10
+		prerequisite = {
+			focus = CAN_focus_2
+		}
+		prerequisite = {
+			focus = CAN_focus_3
+		}
+		x = 0
+		y = 2
+		relative_position_id = CAN_focus_1
+		completion_reward = {
+			add_political_power = 100
+			remove_ideas = ENG_distorted_gov
+		}
+	}
+	focus = {
+		id = CAN_focus_5 #영국 의회의 캐나다 정착
+		icon = GFX_goal_support_democracy
+		cost = 5
+		prerequisite = {
+			focus = CAN_focus_4
+		}
+		mutually_exclusive = {
+			focus = CAN_focus_6
+		}
+
+		x = -5
+		y = 1
+		relative_position_id = CAN_focus_4
+		completion_reward = {
+			add_political_power = 25
+			add_stability = 0.05
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.10
+			}
+		}
+	}
+	focus = {
+		id = CAN_focus_5_1 #내각 안정화
+		icon = GFX_focus_eng_motion_of_no_confidence
+		cost = 5
+		prerequisite = {
+			focus = CAN_focus_5
+		}
+
+		x = -4
+		y = 1
+		relative_position_id = CAN_focus_5
+		completion_reward = {
+			add_war_support = 0.10
+			promote_character = ENG_winston_churchill
+		}
+	}
+	focus = {
+		id = CAN_focus_6 #국왕의 정치 개입
+		icon = GFX_focus_rom_royal_dictatorship
+		cost = 5
+		bypass = {
+			has_country_flag = edward_viii_married_wallis_simpson
+		}
+		prerequisite = {
+			focus = CAN_focus_4
+		}
+		mutually_exclusive = {
+			focus = CAN_focus_5
+		}
+
+		x = 5
+		y = 1
+		relative_position_id = CAN_focus_4
+		completion_reward = {
+			add_stability = -0.05
+			add_ideas = ENG_edwards_power
+		}
+	}
+	focus = {
+		id = CAN_focus_6_1 #검은 셔츠단 승인
+		icon = GFX_focus_eng_organise_the_blackshirts
+		cost = 5
+		available = {
+			is_subject = no
+		}
+		prerequisite = {
+			focus = CAN_focus_6
+		}
+		mutually_exclusive = {
+			focus = CAN_focus_6_2
+		}
+
+		x = -3
+		y = 1
+		relative_position_id = CAN_focus_6
+		completion_reward = {
+			add_political_power = 100
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.10
+			}
+		}
+	}
+	focus = {
+		id = CAN_focus_6_2 #국왕당
+		icon = GFX_focus_eng_the_kings_party
+		cost = 10
+		available = {
+			has_country_flag = edward_viii_married_wallis_simpson
+			is_subject = no
+			has_war = no
+		}
+		prerequisite = {
+			focus = CAN_focus_6
+		}
+		mutually_exclusive = {
+			focus = CAN_focus_6_1
+		}
+
+		x = 3
+		y = 1
+		relative_position_id = CAN_focus_6
+		completion_reward = {
+			set_rule = { can_send_volunteers = yes }
+			add_ideas = ENG_the_kings_party_idea
+			set_party_name = { ideology = neutrality long_name = ENG_neutrality_party_kings_party_long name = ENG_neutrality_party_kings_party }
+			set_politics = { ruling_party = neutrality elections_allowed = no }
+			add_popularity = { ideology = neutrality popularity = 0.15 }
+			remove_ideas = ENG_king_edward
+			remove_ideas = ENG_edwards_power
+			hidden_effect = { news_event = { id = mtg_news.19 days = 1 } }
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = ENG_winston_churchill
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = ENG_oswald_mosley
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = ENG_david_lloyd_george
 		}
 	}
 

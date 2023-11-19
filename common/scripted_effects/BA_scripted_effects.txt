@@ -68,7 +68,16 @@ TRM_endsieg_effect = {
 }
 
 ENG_lose_effect = {
+	set_global_flag = ENG_lose_global_flag
 	ENG = {
+		leave_faction = yes
+		every_country = {
+			limit = {
+				has_war_with = KAI
+			}
+			white_peace = KAI
+		}
+		mark_focus_tree_layout_dirty = yes
 		set_autonomy = {
 			target = NZL
 			autonomy_state = autonomy_dominion
@@ -80,6 +89,32 @@ ENG_lose_effect = {
 		set_autonomy = {
 			target = SAF
 			autonomy_state = autonomy_dominion
+		}
+		if = {
+			limit = {
+				has_country_leader = {
+					character = ENG_british_army
+					ruling_only = yes
+				}
+			}
+			retire_ideology_leader = neutrality
+		}
+		if = {
+			limit = {
+				is_female = yes
+			}
+			set_party_name = {
+				ideology = neutrality
+				long_name = ENG_neutrality_party_queens_party_long
+				name = ENG_neutrality_party_queens_party
+			}
+		}
+		else = {
+			set_party_name = {
+				ideology = neutrality
+				long_name = ENG_neutrality_party_kings_party_long
+				name = ENG_neutrality_party_kings_party
+			}
 		}
 	}
 	SAF = {
@@ -121,23 +156,20 @@ ENG_lose_effect = {
 			add_state_claim = PREV
 		}
 	}
-
-	create_country_leader = {
-		name = "에드워드 8세"
-		desc = ""
-		picture = "gfx/leaders/ENG/Edward.png"
-		expire = "1965.1.1"
-		ideology = despotism
-		traits = {
-			ENG_british_Emperor
-		}
+	add_popularity = {
+		ideology = democratic
+		popularity = 0.5
 	}
 	add_popularity = {
-		ideology = neutrality
-		popularity = 100
+		ideology = communism
+		popularity = 0.1
+	}
+	add_popularity = {
+		ideology = fascism
+		popularity = 0.1
 	}
 	set_politics = {
-		ruling_party = neutrality
+		ruling_party = democratic
 		last_election = "1936.2.6"
 		election_frequency = 48
 		elections_allowed = no
