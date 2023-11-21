@@ -7,7 +7,7 @@ focus_tree = {
 			tag = IRE
 		}
 	}
-	continuous_focus_position = { x = 5000 y = 1 }  
+	continuous_focus_position = { x = 50 y = 1000 }  
 	default = no
 	focus = {
 		id = IRE_change_the_world
@@ -15,6 +15,9 @@ focus_tree = {
 		cost = 5.00
 		x = 15
 		y = 0
+		available = {
+			has_country_flag = GAEBALJUNG
+		}
 		mutually_exclusive = {
 			focus = IRE_attack_N_ire
 		}
@@ -78,7 +81,7 @@ focus_tree = {
 				popularity = 0.05
 			}
 			add_popularity = {
-				ideology = fascism
+				ideology = neutrality
 				popularity = 0.05
 			}
 			add_popularity = {
@@ -106,7 +109,7 @@ focus_tree = {
 		id = IRE_IRA
 		icon = GFX_focus_ITA_corpo_volontari_della_liberta
 		cost = 5.00
-		x = -3
+		x = -2
 		y = 1
 		relative_position_id = IRE_attack_N_ire
 		available = {
@@ -121,7 +124,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			if = {
-				limit = { has_completed_focus = IRE_republican_reunion }
+				limit = { has_completed_focus = IRE_IRA_leftist_movement }
 				start_civil_war = {
 					ideology = democratic
 					ruling_party = communism
@@ -171,7 +174,7 @@ focus_tree = {
 				}
 				if = {
 					limit = {
-						has_completed_focus = IRE_republican_reunion
+						has_completed_focus = IRE_IRA_leftist_movement
 					}
 					capital_scope = {
 						create_unit = {
@@ -184,6 +187,18 @@ focus_tree = {
 				if = {
 					limit = {
 						has_completed_focus = IRE_last_gamble
+					}
+					capital_scope = {
+						create_unit = {
+							division = "division_template = \"garda dearg\" start_experience_factor = 0.5 start_equipment_factor = 1.0"
+							owner = ROOT
+							count = 1
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_completed_focus = IRE_republican_reunion
 					}
 					capital_scope = {
 						create_unit = {
@@ -251,6 +266,66 @@ focus_tree = {
 
 	}
 	focus = {
+		id = IRE_republic_of_people
+		icon = GFX_focus_SWE_refuge_from_war
+		cost = 5.00
+		x = 0
+		y = 1
+		relative_position_id = IRE_last_gamble
+		available = {
+			has_civil_war = no
+		}
+		mutually_exclusive = {
+
+		}
+		prerequisite = {
+			focus = IRE_last_gamble
+		}
+		completion_reward = {
+			add_political_power = 60
+			add_timed_idea = {
+				idea = IRE_independent
+				days = 200
+			}
+			set_cosmetic_tag = IIRA_win
+		}
+
+	}
+	focus = {
+		id = IRE_left_wing_expulsion
+		icon = GFX_focus_ICE_thungur_hnifur
+		cost = 5.00
+		x = 2
+		y = 2
+		relative_position_id = IRE_last_gamble
+		available = {
+			is_subject = no
+		}
+		mutually_exclusive = {
+			focus = IRE_IRA_leftist_movement
+		}
+		prerequisite = {
+			focus = IRE_last_gamble
+		}
+		completion_reward = {
+			add_political_power = 10
+			add_stability = -0.10
+			add_popularity = {
+				ideology = communism
+				popularity = -0.20
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.15
+			}
+		}
+
+	}
+	focus = {
 		id = IRE_republican_reunion
 		icon = GFX_focus_generic_join_comintern
 		cost = 5.00
@@ -290,7 +365,7 @@ focus_tree = {
 			}
 			custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = Peadar_ODonnell
-			custom_effect_tooltip = IRE_republican_reunion_tt
+			custom_effect_tooltip = IRE_last_gamble_tt
 		}
 
 	}
@@ -298,12 +373,50 @@ focus_tree = {
 		id = IRE_IRA_leftist_movement
 		icon = GFX_goal_generic_war_with_comintern
 		cost = 5.00
-		x = -3
-		y = 1
-		relative_position_id = IRE_last_gamble
+		x = 0
+		y = 2
+		relative_position_id = IRE_republican_reunion
 		available = {
 			is_subject = no
-			has_government = communism
+			if = {
+				limit = { has_completed_focus = IRE_IRA }
+				communism > 0.40
+			}
+		}
+		mutually_exclusive = {
+			focus = IRE_left_wing_expulsion
+		}
+		prerequisite = {
+			focus = IRE_republican_reunion
+		}
+		completion_reward = {
+			add_stability = 0.05
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
+			if = {
+				limit = { has_completed_focus = IRE_IRA }
+				set_politics = {
+					ruling_party = communism
+					elections_allowed = no
+				}
+			}
+			else = {
+				custom_effect_tooltip = IRE_republican_reunion_tt
+			}
+		}
+
+	}
+	focus = {
+		id = IRE_expulsion_of_colonial_culture
+		icon = GFX_goal_generic_more_territorial_claims
+		cost = 5.00
+		x = 0
+		y = 2
+		relative_position_id = IRE_IRA
+		available = {
+			has_civil_war = no
 		}
 		mutually_exclusive = {
 
@@ -311,15 +424,35 @@ focus_tree = {
 		prerequisite = {
 			focus = IRE_IRA
 		}
-		prerequisite = {
-			focus = IRE_republican_reunion
-		}
 		completion_reward = {
-			add_stability = 0.20
+			add_political_power = 120
+			add_stability = -0.10
 			add_popularity = {
-				ideology = communism
+				ideology = ROOT
 				popularity = 0.10
 			}
+			add_ideas = IRE_nationalism
+		}
+
+	}
+	focus = {
+		id = IRE_vanguard
+		icon = GFX_focus_spr_torchbearers_of_tomorrow
+		cost = 5.00
+		x = -1
+		y = 1
+		relative_position_id = IRE_expulsion_of_colonial_culture
+		available = {
+			has_government = communism
+		}
+		mutually_exclusive = {
+
+		}
+		prerequisite = {
+			focus = IRE_expulsion_of_colonial_culture
+		}
+		completion_reward = {
+			add_ideas = FIN_the_red_watch
 		}
 
 	}
