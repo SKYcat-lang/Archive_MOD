@@ -13,10 +13,24 @@ focus_tree = {
 	focus = {
 		id = CAN_focus_0 #영국 임시정부 수립
 		icon = GFX_focus_generic_improve_the_administration
-		cost = 0
+		cost = 10
 		
-		x = 15
+		x = 20
 		y = 0
+		offset = {
+			x = -5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = CAN_focus_2
+					has_completed_focus = CAN_focus_3
+				}
+			}
+		}
 		completion_reward = {
 			add_political_power = 100
 			set_cosmetic_tag = ENG_imsi_gov
@@ -42,6 +56,11 @@ focus_tree = {
 		id = CAN_focus_2 #침로 유지
 		icon = GFX_goal_support_democracy
 		cost = 5
+		allow_branch = {
+			NOT = {
+				has_completed_focus = CAN_focus_3
+			}
+		}
 		prerequisite = {
 			focus = CAN_focus_1
 		}
@@ -49,9 +68,20 @@ focus_tree = {
 			focus = CAN_focus_3
 		}
 
-		x = -5
+		x = -7
 		y = 1
 		relative_position_id = CAN_focus_1
+		offset = {
+			x = 7
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CAN_focus_2
+			}
+		}
 		completion_reward = {
 			add_political_power = 25
 			add_stability = 0.05
@@ -65,15 +95,1639 @@ focus_tree = {
 		id = CAN_focus_2_1 #브리티시 불독
 		icon = GFX_focus_eng_motion_of_no_confidence
 		cost = 5
+		mutually_exclusive = {
+			focus = CAN_focus_2_2
+			focus = CAN_focus_2_3
+		}
+		available = {
+			ENG = {
+				ENG_winston_churchill = {
+					is_country_leader = yes
+				}
+			}
+		}
 		prerequisite = {
 			focus = CAN_focus_2
 		}
 
-		x = -3
+		x = -5
 		y = 1
 		relative_position_id = CAN_focus_2
 		completion_reward = {
 			add_war_support = 0.10
+		}
+	}
+	focus = {
+		id = CAN_focus_2_1_1 #더 이상의 유화책은 없다
+		icon = GFX_focus_generic_strike_at_democracy1
+		cost = 10
+		prerequisite = {
+			focus = CAN_focus_2_1
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = CAN_focus_2_1
+		completion_reward = {
+			add_stability = -0.05
+			custom_effect_tooltip = ENG_no_further_appeasement_tt
+			hidden_effect = {
+				set_rule = { can_declare_war_on_same_ideology = yes }
+				set_rule = { can_puppet = yes }
+			}
+			set_rule = { can_send_volunteers = yes }
+			add_ideas = ENG_no_further_appeasement_idea
+		}
+	}
+	focus = {
+		id = CAN_focus_2_1_2 #불씨 재점화
+		icon = GFX_focus_spr_torchbearers_of_tomorrow
+		cost = 5
+		prerequisite = {
+			focus = CAN_focus_2_1_1
+		}
+
+		x = -1
+		y = 1
+		relative_position_id = CAN_focus_2_1_1
+		completion_reward = {
+			add_ideas = ENG_reignite_the_flames
+		}
+	}
+	focus = {
+		id = CAN_focus_2_1_3 #카이저와의 전쟁을 기억하라
+		icon = GFX_goal_generic_military_sphere
+		cost = 10
+		prerequisite = {
+			focus = CAN_focus_2_1_1
+		}
+
+		x = 1
+		y = 1
+		relative_position_id = CAN_focus_2_1_1
+		completion_reward = {
+			add_war_support = 0.05
+			army_experience = 25
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CAN_focus_2_1_4 #본토를 향한 불꽃
+		icon = none
+		cost = 10
+		prerequisite = {
+			focus = CAN_focus_2_1_2
+		}
+		prerequisite = {
+			focus = CAN_focus_2_1_3
+		}
+
+		x = 0
+		y = 2
+		relative_position_id = CAN_focus_2_1_1
+		completion_reward = {
+			add_timed_idea = {
+				idea = ENG_war_preparation
+				days = 365
+			}
+		}
+	}
+	focus = {
+		id = CAN_focus_2_1_5 #영연방과의 협동작전
+		icon = GFX_focus_chi_british_cooperation
+		cost = 10
+		prerequisite = {
+			focus = CAN_focus_2_1_4
+		}
+		available = {
+			ENG = {
+				is_faction_leader = yes
+			}
+		}
+
+		x = -2
+		y = 1
+		relative_position_id = CAN_focus_2_1_4
+		completion_reward = {
+			every_country = {
+				limit = {
+					is_in_faction_with = ENG
+					NOT = {
+						tag = ENG
+					}
+				}
+				add_ideas = ENG_war_plans_with_britian
+			}
+			add_ideas = ENG_war_plans_with_britian_england
+		}
+	}
+	focus = {
+		id = CAN_focus_4 #영연방 결속
+		icon = GFX_goal_generic_national_unity
+		cost = 10
+
+		available = {
+			NOT = {
+				has_idea = ENG_distorted_gov
+			}
+		}
+
+		x = 40
+		y = 0
+		offset = {
+			x = -5
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				OR = {
+					has_completed_focus = CAN_focus_2
+					has_completed_focus = CAN_focus_3
+				}
+			}
+		}
+		completion_reward = {
+			create_faction = ENG_new_Britain_yunbang
+			AST = {
+				country_event = { id = can.18 }
+			}
+			NZL = {
+				country_event = { id = can.18 }
+			}
+			SAF = {
+				country_event = { id = can.18 }
+			}
+			MAL = {
+				country_event = { id = can.18 }
+			}
+			if = {
+				limit = { 
+					country_exists = RAJ 
+					RAJ = {
+						is_puppet_of = ENG
+					}
+				}
+				RAJ = {
+					country_event = { id = can.18 }
+				}
+			}
+		}
+	}
+	focus = {
+		id = CAN_focus_4_1
+		icon = GFX_focus_research2
+
+		prerequisite = { 
+			focus = CAN_focus_4
+		}
+		available = {
+			
+		} 
+		x = 0
+		y = 1
+		relative_position_id = CAN_focus_4
+		cost = 10
+
+		completion_reward = {
+			add_ideas = ENG_colonial_elite
+		}
+	}
+	focus = {
+		id = CAN_focus_4_2
+		prerequisite = { focus = CAN_focus_4_1 }
+		available = {
+			OR = {
+				any_country = {
+					original_tag = NZL
+					is_in_faction_with = ROOT
+				}
+				any_country = {
+					original_tag = SAF
+					is_in_faction_with = ROOT
+				}
+				any_country = {
+					original_tag = RAJ
+					is_in_faction_with = ROOT
+				}
+				any_country = {
+					original_tag = AST
+					is_in_faction_with = ROOT
+				}
+				any_country = {
+					original_tag = NZL
+					is_in_faction_with = ROOT
+				}
+			}
+		}
+		bypass = {
+			SAF = {
+				exists = no
+			}
+			RAJ = {
+				exists = no
+			}
+			AST = {
+				exists = no
+			}
+			NZL = {
+				exists = no
+			}
+			NOT = {
+				any_state = {
+					OR = {
+						is_core_of = ENG
+						is_core_of = CAN
+						is_core_of = SAF
+						is_core_of = AST
+						is_core_of = NZL
+						is_core_of = RAJ
+					}
+					NOT = { state = 320 }
+					NOT = { state = 321 }
+					OWNER = {
+						NOT = { tag = ENG }
+					}
+				}
+			}
+		}
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		x = 2
+		y = 1
+		relative_position_id = CAN_focus_4_1
+		cost = 10
+
+		completion_reward = {
+			random_country = {
+				limit = {
+					original_tag = AST
+					is_in_faction_with = ROOT
+				}
+				add_opinion_modifier = { target = ENG modifier = ENG_commonwealth_ties }
+			}
+			random_country = {
+				limit = {
+					original_tag = RAJ
+					is_in_faction_with = ROOT
+				}
+				add_opinion_modifier = { target = ENG modifier = ENG_commonwealth_ties }
+			}
+			random_country = {
+				limit = {
+					original_tag = NZL
+					is_in_faction_with = ROOT
+				}
+				add_opinion_modifier = { target = ENG modifier = ENG_commonwealth_ties }
+			}
+			random_country = {
+				limit = {
+					original_tag = SAF
+					is_in_faction_with = ROOT
+				}
+				add_opinion_modifier = { target = ENG modifier = ENG_commonwealth_ties }
+			}
+		}
+	}
+	focus = {
+		id = CAN_focus_4_3
+		prerequisite = { focus = CAN_focus_4_2 }
+		available = {
+			any_country = {
+				original_tag = AST
+				is_in_faction_with = ROOT
+			}
+		}
+
+		bypass = {
+			OR = {
+				AST = { exists = no }
+				AST = {
+					custom_trigger_tooltip = {
+						tooltip = construction_effort_tt
+						all_owned_state = {
+							free_building_slots = {
+								building = industrial_complex
+								size < 1
+								include_locked = yes
+							}
+						}
+					}
+					custom_trigger_tooltip = {
+						tooltip = naval_effort_tt
+						all_owned_state = {
+							free_building_slots = {
+								building = dockyard
+								size < 1
+								include_locked = yes
+							}
+						}
+					}
+				}
+			}
+		}
+		icon = GFX_goal_generic_construct_civilian
+		x = 0
+		y = 1
+		relative_position_id = CAN_focus_4_2
+		cost = 10
+
+		available_if_capitulated = yes
+
+		complete_tooltip = {
+			random_country = {
+				limit = {
+					original_tag = AST
+					is_in_faction_with = ROOT
+				}
+				add_opinion_modifier = { target = ENG modifier = aided_industry }
+				every_state = { limit = { has_state_flag = ENG_uk_australia_focus_1IC }
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+				every_state = { limit = { has_state_flag = ENG_uk_australia_focus_2dockyards }
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = dockyard
+						level = 2
+						instant_build = yes
+					}
+				}
+				every_state = { limit = { has_state_flag = ENG_uk_australia_focus_1dockyard }
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+				}
+				add_autonomy_ratio = {
+					value = -0.05
+					localization = uk_australia_focus
+				}
+			}
+		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		completion_reward = {
+			AST = {
+				add_opinion_modifier = { target = ENG modifier = aided_industry }
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = ENG_uk_australia_focus_1IC
+				}
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = ENG_uk_australia_focus_1IC
+				}
+				random_owned_controlled_state = {
+					limit = {
+						is_coastal = yes
+						free_building_slots = {
+							building = dockyard
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = dockyard
+						level = 2
+						instant_build = yes
+					}
+					set_state_flag = ENG_uk_australia_focus_2dockyards
+				}
+				random_owned_controlled_state = {
+					limit = {
+						is_coastal = yes
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = ENG_uk_australia_focus_1dockyard
+				}
+				add_autonomy_ratio = {
+					value = -0.05
+					localization = uk_australia_focus
+				}
+			}
+		}
+	}
+
+
+	focus = {
+		id = CAN_focus_4_4
+		prerequisite = { focus = CAN_focus_4_3 }
+		available = {
+			any_country = {
+				original_tag = NZL
+				is_in_faction_with = ROOT
+			}
+		}
+		bypass = {
+			OR = {
+				NZL = { exists = no }
+				NZL = {
+					custom_trigger_tooltip = {
+						tooltip = construction_effort_tt
+						all_owned_state = {
+							free_building_slots = {
+								building = industrial_complex
+								size < 1
+								include_locked = yes
+							}
+						}
+					}
+					custom_trigger_tooltip = {
+						tooltip = naval_effort_tt
+						all_owned_state = {
+							free_building_slots = {
+								building = dockyard
+								size < 1
+								include_locked = yes
+							}
+						}
+					}
+				}
+			}
+		}
+		icon = GFX_goal_generic_construction
+		x = 0
+		y = 1
+		relative_position_id = CAN_focus_4_3
+		cost = 10
+
+		available_if_capitulated = yes
+
+		complete_tooltip = {
+			random_country = {
+				limit = {
+					original_tag = NZL
+					is_in_faction_with = ROOT
+				}
+				add_opinion_modifier = { target = ENG modifier = aided_industry }
+				every_state = { limit = { has_state_flag = ENG_uk_new_zealand_focus_1IC }
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+				every_state = { limit = { has_state_flag = ENG_uk_new_zealand_focus_2dockyards }
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = dockyard
+						level = 2
+						instant_build = yes
+					}
+				}
+				every_state = { limit = { has_state_flag = ENG_uk_new_zealand_focus_1dockyard }
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+				}
+				add_autonomy_ratio = {
+					value = -0.05
+					localization = uk_new_zealand_focus
+				}
+			}
+		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		completion_reward = {
+			NZL = {
+				add_opinion_modifier = { target = ENG modifier = aided_industry }
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = ENG_uk_new_zealand_focus_1IC
+				}
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = ENG_uk_new_zealand_focus_1IC
+				}
+				random_owned_controlled_state = {
+					limit = {
+						is_coastal = yes
+						free_building_slots = {
+							building = dockyard
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = dockyard
+						level = 2
+						instant_build = yes
+					}
+					set_state_flag = ENG_uk_new_zealand_focus_2dockyards
+				}
+				random_owned_controlled_state = {
+					limit = {
+						is_coastal = yes
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = ENG_uk_new_zealand_focus_1dockyard
+				}
+				add_autonomy_ratio = {
+					value = -0.05
+					localization = uk_new_zealand_focus
+				}
+			}
+		}
+	}
+
+
+	focus = {
+		id = CAN_focus_4_5
+		prerequisite = { focus = CAN_focus_4_2 }
+		available = {
+			
+		}
+		icon = GFX_goal_generic_construct_civ_factory
+		x = -1
+		y = 3
+		relative_position_id = CAN_focus_4_2
+		cost = 10
+
+		available_if_capitulated = yes
+
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+				set_state_flag = ENG_uk_canada_focus_2IC
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = ENG_uk_canada_focus_1IC
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_coastal = yes
+					free_building_slots = {
+						building = dockyard
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = ENG_uk_canada_focus_1dockyard
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_coastal = yes
+					free_building_slots = {
+						building = dockyard
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = ENG_uk_canada_focus_1dockyard
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_focus_4_6
+		prerequisite = { focus = CAN_focus_4_2 }
+		available = {
+			any_country = {
+				original_tag = SAF
+				is_in_faction_with = ROOT
+			}
+		}
+		bypass = {
+			OR = {
+				SAF = { exists = no }
+				SAF = {
+					custom_trigger_tooltip = {
+						tooltip = construction_effort_tt
+						all_owned_state = {
+							free_building_slots = {
+								building = industrial_complex
+								size < 1
+								include_locked = yes
+							}
+						}
+					}
+					custom_trigger_tooltip = {
+						tooltip = naval_effort_tt
+						all_owned_state = {
+							free_building_slots = {
+								building = dockyard
+								size < 1
+								include_locked = yes
+							}
+						}
+					}
+				}
+			}
+		}
+		icon = GFX_goal_generic_construct_civ_factory
+		x = 1
+		y = 3
+		relative_position_id = CAN_focus_4_2
+		cost = 10
+
+		available_if_capitulated = yes
+
+		complete_tooltip = {
+			random_country = {
+				limit = {
+					original_tag = SAF
+					is_in_faction_with = ROOT
+				}
+				add_opinion_modifier = { target = ENG modifier = aided_industry }
+				every_state = { limit = { has_state_flag = ENG_uk_south_africa_focus_2IC }
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+				every_state = { limit = { has_state_flag = ENG_uk_south_africa_focus_1IC }
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+				every_state = { limit = { has_state_flag = ENG_uk_south_africa_focus_1dockyard }
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+				}
+				add_autonomy_ratio = {
+					value = -0.05
+					localization = uk_south_africa_focus
+				}
+			}
+		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		completion_reward = {
+			SAF = {
+				add_opinion_modifier = { target = ENG modifier = aided_industry }
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+					set_state_flag = ENG_uk_south_africa_focus_2IC
+				}
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = ENG_uk_south_africa_focus_1IC
+				}
+				random_owned_controlled_state = {
+					limit = {
+						is_coastal = yes
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = ENG_uk_south_africa_focus_1dockyard
+				}
+				random_owned_controlled_state = {
+					limit = {
+						is_coastal = yes
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = ENG_uk_south_africa_focus_1dockyard
+				}
+				add_autonomy_ratio = {
+					value = -0.05
+					localization = uk_south_africa_focus
+				}
+			}
+		}
+	}
+	focus = {
+		id = CAN_focus_4_7
+		prerequisite = { focus = CAN_focus_4_5 }
+		prerequisite = { focus = CAN_focus_4_4 }
+		prerequisite = { focus = CAN_focus_4_6 }
+
+		available = {
+			ENG = {
+				has_full_control_of_state = 126
+			}
+			SAF = {
+				OR = {
+					AND = {
+						is_subject_of = ENG
+						has_government = ROOT
+					}
+					exists = no
+				}
+			}
+			AST = {
+				OR = {
+					AND = {
+						is_subject_of = ENG
+						has_government = ROOT
+					}
+					exists = no
+				}
+			}
+			NZL = {
+				OR = {
+					AND = {
+						is_subject_of = ENG
+						has_government = ROOT
+					}
+					exists = no
+				}
+			}
+			NOT = {
+				any_state = {
+					OR = {
+						is_core_of = ENG
+						is_core_of = CAN
+						is_core_of = SAF
+						is_core_of = AST
+						is_core_of = NZL
+					}
+					NOT = { state = 331 }
+					OWNER = {
+						NOT = {
+							OR = {
+								tag = ENG
+								tag = CAN
+								tag = SAF
+								tag = AST
+								tag = NZL
+							}
+						}
+					}
+				}
+			}
+
+		}
+
+		bypass = {
+			SAF = {
+				exists = no
+			}
+			RAJ = {
+				OR = {
+					exists = no
+					NOT = { is_subject_of = ENG }
+				}
+			}
+			AST = {
+				exists = no
+			}
+			NZL = {
+				exists = no
+			}
+			NOT = {
+				any_state = {
+					OR = {
+						is_core_of = ENG
+						is_core_of = CAN
+						is_core_of = SAF
+						is_core_of = AST
+						is_core_of = NZL
+					}
+					OWNER = {
+						NOT = { tag = ENG }
+					}
+				}
+			}
+		}
+
+		continue_if_invalid = no
+
+		icon = GFX_goal_generic_national_unity
+
+		x = 0
+		y = 2
+		relative_position_id = CAN_focus_4_4
+		cost = 10
+		ai_will_do = {
+			factor = 1
+			#modifier = {
+			#	factor = 0
+			#}
+		}
+		search_filters = {FOCUS_FILTER_POLITICAL}	
+		completion_reward = {
+			add_political_power = 120
+			every_country = {
+				limit = {
+					OR = {
+						tag = ENG
+						AND = {
+							is_subject_of = ENG
+							tag = CAN
+						}
+						AND = {
+							is_subject_of = ENG
+							tag = SAF
+						}
+						AND = {
+							is_subject_of = ENG
+							tag = RAJ
+						}
+						AND = {
+							is_subject_of = ENG
+							tag = AST
+						}
+						AND = {
+							is_subject_of = ENG
+							tag = NZL
+						}
+					}
+				}
+				country_event = { id = mtg_britain.82 hours = 6 }
+			}
+			hidden_effect = { news_event = { id = mtg_news.13 days = 1 } }
+			custom_effect_tooltip = ENG_imperial_conference_tt
+			custom_effect_tooltip = ENG_indian_autonomy_tt
+		}
+	}
+
+	focus = {
+		id = CAN_focus_4_8
+		prerequisite = { focus = CAN_focus_4_7 }
+		available = {
+			if = {
+				limit = {
+					has_dlc = "Together for Victory"
+					has_dlc = "Death or Dishonor"
+				}
+				SAF = {
+					OR = {
+						AND = {
+							is_subject_of = ENG
+							OR = {
+								has_autonomy_state = autonomy_integrated_puppet
+								has_autonomy_state = autonomy_reichskommissariat
+							}
+						}
+						AND = {
+							exists = no
+							NOT = {
+								any_state = {
+									is_core_of = SAF
+									NOT = { is_owned_by = ROOT }
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						RAJ = { has_country_flag = ENG_accepted_federation }
+					}
+					RAJ = {
+						OR = {
+							AND = {
+								is_subject_of = ENG
+								OR = {
+									has_autonomy_state = autonomy_integrated_puppet
+									has_autonomy_state = autonomy_reichskommissariat
+									ROOT = { has_country_leader_with_trait = viceroy_emeritus }
+								}
+							}
+							AND = {
+								exists = no
+								NOT = {
+									any_state = {
+										is_core_of = RAJ
+										NOT = { state = 320 }
+										NOT = { state = 321 }
+										NOT = { is_owned_by = ROOT }
+									}
+								}
+							}
+						}
+					}
+				}
+				AST = {
+					OR = {
+						AND = {
+							is_subject_of = ENG
+							OR = {
+								has_autonomy_state = autonomy_integrated_puppet
+								has_autonomy_state = autonomy_reichskommissariat
+							}
+						}
+						AND = {
+							exists = no
+							NOT = {
+								any_state = {
+									is_core_of = AST
+									NOT = { is_owned_by = ROOT }
+								}
+							}
+						}
+					}
+				}
+				NZL = {
+					OR = {
+						AND = {
+							is_subject_of = ENG
+							OR = {
+								has_autonomy_state = autonomy_integrated_puppet
+								has_autonomy_state = autonomy_reichskommissariat
+							}
+						}
+						AND = {
+							exists = no
+							NOT = {
+								any_state = {
+									is_core_of = NZL
+									NOT = { is_owned_by = ROOT }
+								}
+							}
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					has_dlc = "Together for Victory"
+					NOT = { has_dlc = "Death or Dishonor" }
+				}
+				SAF = {
+					OR = {
+						AND = {
+							is_subject_of = ENG
+							has_autonomy_state = autonomy_integrated_puppet
+						}
+						AND = {
+							exists = no
+							NOT = {
+								any_state = {
+									is_core_of = SAF
+									NOT = { is_owned_by = ROOT }
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						RAJ = { has_country_flag = ENG_accepted_federation }
+					}
+					RAJ = {
+						OR = {
+							AND = {
+								is_subject_of = ENG
+								has_autonomy_state = autonomy_integrated_puppet
+							}
+							AND = {
+								exists = no
+								NOT = {
+									any_state = {
+										is_core_of = RAJ
+										NOT = { state = 320 }
+										NOT = { state = 321 }
+										NOT = { is_owned_by = ROOT }
+									}
+								}
+							}
+						}
+					}
+				}
+				AST = {
+					OR = {
+						AND = {
+							is_subject_of = ENG
+							has_autonomy_state = autonomy_integrated_puppet
+						}
+						AND = {
+							exists = no
+							NOT = {
+								any_state = {
+									is_core_of = AST
+									NOT = { is_owned_by = ROOT }
+								}
+							}
+						}
+					}
+				}
+				NZL = {
+					OR = {
+						AND = {
+							is_subject_of = ENG
+							has_autonomy_state = autonomy_integrated_puppet
+						}
+						AND = {
+							exists = no
+							NOT = {
+								any_state = {
+									is_core_of = NZL
+									NOT = { is_owned_by = ROOT }
+								}
+							}
+						}
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = { has_dlc = "Together for Victory" }
+					has_dlc = "Death or Dishonor"
+					has_government = fascism
+				}
+				SAF = {
+					OR = {
+						AND = {
+							is_subject_of = ENG
+							has_autonomy_state = autonomy_reichskommissariat
+						}
+						AND = {
+							exists = no
+							NOT = {
+								any_state = {
+									is_core_of = SAF
+									NOT = { is_owned_by = ROOT }
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						RAJ = { has_country_flag = ENG_accepted_federation }
+					}
+					RAJ = {
+						OR = {
+							AND = {
+								is_subject_of = ENG
+								has_autonomy_state = autonomy_reichskommissariat
+							}
+							AND = {
+								exists = no
+								NOT = {
+									any_state = {
+										is_core_of = RAJ
+										NOT = { state = 320 }
+										NOT = { state = 321 }
+										NOT = { is_owned_by = ROOT }
+									}
+								}
+							}
+						}
+					}
+				}
+				AST = {
+					OR = {
+						AND = {
+							is_subject_of = ENG
+							has_autonomy_state = autonomy_reichskommissariat
+						}
+						AND = {
+							exists = no
+							NOT = {
+								any_state = {
+									is_core_of = AST
+									NOT = { is_owned_by = ROOT }
+								}
+							}
+						}
+					}
+				}
+				NZL = {
+					OR = {
+						AND = {
+							is_subject_of = ENG
+							has_autonomy_state = autonomy_reichskommissariat
+						}
+						AND = {
+							exists = no
+							NOT = {
+								any_state = {
+									is_core_of = NZL
+									NOT = { is_owned_by = ROOT }
+								}
+							}
+						}
+					}
+				}
+			}
+			else = {
+				CAN = {
+					OR = {
+						AND = {
+							is_subject_of = ENG
+							compare_autonomy_progress_ratio < 0.1
+						}
+						AND = {
+							exists = no
+							NOT = {
+								any_state = {
+									is_core_of = CAN
+									NOT = { is_owned_by = ROOT }
+								}
+							}
+						}
+					}
+				}
+				SAF = {
+					OR = {
+						AND = {
+							is_subject_of = ENG
+							compare_autonomy_progress_ratio < 0.1
+						}
+						AND = {
+							exists = no
+							NOT = {
+								any_state = {
+									is_core_of = SAF
+									NOT = { is_owned_by = ROOT }
+								}
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						RAJ = { has_country_flag = ENG_accepted_federation }
+					}
+					RAJ = {
+						OR = {
+							AND = {
+								is_subject_of = ENG
+								compare_autonomy_progress_ratio < 0.1
+							}
+							AND = {
+								exists = no
+								NOT = {
+									any_state = {
+										is_core_of = RAJ
+										NOT = { state = 320 }
+										NOT = { state = 321 }
+										NOT = { is_owned_by = ROOT }
+									}
+								}
+							}
+						}
+					}
+				}
+				AST = {
+					OR = {
+						AND = {
+							is_subject_of = ENG
+							compare_autonomy_progress_ratio < 0.1
+						}
+						AND = {
+							exists = no
+							NOT = {
+								any_state = {
+									is_core_of = AST
+									NOT = { is_owned_by = ROOT }
+								}
+							}
+						}
+					}
+				}
+				NZL = {
+					OR = {
+						AND = {
+							is_subject_of = ENG
+							compare_autonomy_progress_ratio < 0.1
+						}
+						AND = {
+							exists = no
+							NOT = {
+								any_state = {
+									is_core_of = NZL
+									NOT = { is_owned_by = ROOT }
+								}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						CAN = { exists = yes }
+						SAF = { exists = yes }
+						AST = { exists = yes }
+						NZL = { exists = yes }
+					}
+				}
+				has_country_flag = ENG_dominions_accepted_federation
+			}
+		}
+
+		icon = GFX_focus_eng_imperial_federation
+
+		x = 0
+		y = 1
+		relative_position_id = CAN_focus_4_7
+		cost = 10
+		ai_will_do = {
+			factor = 1
+			#modifier = {
+			#	factor = 0
+			#}
+		}
+		search_filters = {FOCUS_FILTER_ANNEXATION}	
+		completion_reward = {
+			if = {
+				limit = {
+					RAJ = {
+						NOT = { is_subject_of = ENG }
+					}
+				}
+				set_cosmetic_tag = ENG_imperial_federation_unified
+				news_event = { id = mtg_news.8 days = 1 }
+			}
+			if = {
+				limit = {
+					RAJ = {
+						is_subject_of = ENG
+					}
+				}
+				set_cosmetic_tag = ENG_imperial_federation_india_unified
+				news_event = { id = mtg_news.9 days = 1 }
+			}
+			CAN = {
+				every_unit_leader = {
+					set_nationality = ENG
+				}
+			}
+			annex_country = {
+			    target = CAN
+			    transfer_troops = yes
+			}
+			every_state = {
+				limit = {
+					is_core_of = CAN
+				}
+				add_core_of = ENG
+			}
+			SAF = {
+				every_unit_leader = {
+					set_nationality = ENG
+				}
+			}
+			annex_country = {
+			    target = SAF
+			    transfer_troops = yes
+			}
+			if = {
+				limit = {
+					SAF = { has_completed_focus = SAF_police_windhoek }
+				}
+				every_state = {
+					limit = {
+						is_core_of = SAF
+						NOT = { state = 275 }
+					}
+					add_core_of = ENG
+				}
+			}
+			if = {
+				limit = {
+					RAJ = { has_country_flag = ENG_accepted_federation }
+				}
+				RAJ = {
+					every_unit_leader = {
+						set_nationality = ENG
+					}
+				}
+				annex_country = {
+				    target = RAJ
+				    transfer_troops = yes
+				}
+				if = {
+					limit = {
+						ROOT = { has_country_leader_with_trait = viceroy_emeritus }
+					}
+					custom_effect_tooltip = viceroy_emeritus_downside_tt
+					every_state = {
+						limit = { 
+							OR = {
+								is_owned_by = ROOT
+								is_owned_by = RAJ #For the tooltip
+							}
+							is_core_of = RAJ 
+							NOT = { is_core_of = ROOT }
+						}
+						add_resistance = 15
+					}
+				}
+			}
+			AST = {
+				every_unit_leader = {
+					set_nationality = ENG
+				}
+			}
+			annex_country = {
+			    target = AST
+			    transfer_troops = yes
+			}
+			every_state = {
+				limit = {
+					is_core_of = AST
+				}
+				add_core_of = ENG
+			}
+			NZL = {
+				every_unit_leader = {
+					set_nationality = ENG
+				}
+			}
+			annex_country = {
+			    target = NZL
+			    transfer_troops = yes
+			}
+			every_state = {
+				limit = {
+					is_core_of = NZL
+				}
+				add_core_of = ENG
+			}
+			MAL = {
+				every_unit_leader = {
+					set_nationality = ENG
+				}
+			}
+			annex_country = {
+			    target = MAL
+			    transfer_troops = yes
+			}
+		}
+	}
+	focus = {
+		id = CAN_focus_4_9 #영연방 공군 협동 계획
+		prerequisite = { focus = CAN_focus_4_2 }
+		icon = GFX_goal_generic_air_fighter2
+		x = -2
+		y = 1
+		relative_position_id = CAN_focus_4_2
+		cost = 10
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+			OR = {
+				SAF = { is_in_faction_with = ENG }
+				RAJ = { is_in_faction_with = ENG }
+				AST = { is_in_faction_with = ENG }
+				NZL = { is_in_faction_with = ENG }
+			}
+		}
+
+		bypass = {
+		}
+
+		completion_reward = {
+			add_ideas = ENG_british_commonwealth_air_training_plan
+			every_country = {
+				limit = {
+					is_subject_of = ROOT
+					NOT = { original_tag = SAF }
+				}
+				add_ideas = ENG_british_commonwealth_air_training_plan
+			}
+			SAF = {
+				if = {
+					limit = {
+						is_subject_of = ROOT
+					}
+					add_ideas = ENG_joint_air_training_scheme
+				}
+			}
+		}
+	}
+	focus = {
+		id = CAN_focus_4_10 #본토 방어에 집중
+		prerequisite = { focus = CAN_focus_4_1 }
+		icon = GFX_goal_generic_defence
+		x = -2
+		y = 1
+		relative_position_id = CAN_focus_4_1
+		cost = 10
+
+		bypass = {
+		}
+
+		completion_reward = {
+			add_ideas = ENG_defend_our_lands
+		}
+	}
+	focus = {
+		id = CAN_focus_2_2 #클레멘트 애틀리
+		icon = none
+		cost = 5
+		mutually_exclusive = {
+			focus = CAN_focus_2_1
+			focus = CAN_focus_2_3
+		}
+		available = {
+			ENG = {
+				ENG_clement_attlee = {
+					is_country_leader = yes
+				}
+			}
+		}
+		prerequisite = {
+			focus = CAN_focus_2
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = CAN_focus_2
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 50
+		}
+	}
+	focus = {
+		id = CAN_focus_2_3 #캐나다인들의 총리
+		icon = none
+		cost = 5
+		mutually_exclusive = {
+			focus = CAN_focus_2_1
+			focus = CAN_focus_2_2
+		}
+		available = {
+			ENG = {
+				CAN_mackenzie_king = {
+					is_country_leader = yes
+				}
+			}
+		}
+		prerequisite = {
+			focus = CAN_focus_2
+		}
+
+		x = 5
+		y = 1
+		relative_position_id = CAN_focus_2
+		completion_reward = {
+			add_stability = 0.05
+			add_political_power = 50
 		}
 	}
 	focus = {
@@ -83,6 +1737,11 @@ focus_tree = {
 		bypass = {
 			has_country_flag = edward_viii_married_wallis_simpson
 		}
+		allow_branch = {
+			NOT = {
+				has_completed_focus = CAN_focus_2
+			}
+		}
 		prerequisite = {
 			focus = CAN_focus_1
 		}
@@ -90,9 +1749,20 @@ focus_tree = {
 			focus = CAN_focus_2
 		}
 
-		x = 5
+		x = 7
 		y = 1
 		relative_position_id = CAN_focus_1
+		offset = {
+			x = -7
+			y = 0
+			trigger = {
+				has_game_rule = {
+					rule = obsolete_focus_branches_visibility
+					option = HIDE
+				}
+				has_completed_focus = CAN_focus_3
+			}
+		}
 		completion_reward = {
 			add_stability = -0.05
 			add_ideas = ENG_edwards_power
@@ -112,7 +1782,7 @@ focus_tree = {
 			focus = CAN_focus_3_2
 		}
 
-		x = -3
+		x = -4
 		y = 1
 		relative_position_id = CAN_focus_3
 		completion_reward = {
