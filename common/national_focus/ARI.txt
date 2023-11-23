@@ -12,142 +12,89 @@ focus_tree = {
 	default = no
 
     focus = {
-        id = ARI_under_the_curtain #장막 아래로
-        icon = GFX_goal_generic_defence
-        cost = 10.00
-		mutually_exclusive = { focus = ARI_use_hanran }
-        x = 17
-        y = 0
-        completion_reward = {
-			add_political_power = 120
-		}
-    }
-
-    focus = {
         id = ARI_quiet_rearmament #조용한 재무장
         icon = GFX_focus_secret_rearmament
         cost = 10.00
-		prerequisite = { focus = ARI_under_the_curtain }
-        x = 0
+		prerequisite = { focus = ARI_use_hanran }
+        x = -3
         y = 1
-		relative_position_id = ARI_under_the_curtain
+		relative_position_id = ARI_use_hanran
         completion_reward = {
-			random_owned_controlled_state = {
-				limit = {
-					free_building_slots = {
-						building = industrial_complex
-						size > 0
-						include_locked = yes
-					}
-				}
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = arms_factory
-					level = 2
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				limit = {
-					free_building_slots = {
-						building = industrial_complex
-						size > 0
-						include_locked = yes
-					}
-				}
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = arms_factory
-					level = 2
-					instant_build = yes
-				}
+			add_manpower = 5000
+			add_equipment_to_stockpile = {
+				type = kivotos_infantry_equipment
+				amount = 2000
 			}
 		}
     }
 
     focus = {
         id = ARI_from_end_to_end #끝에서 끝으로
-        icon = GFX_goal_generic_army_doctrines
+        icon = GFX_goal_generic_political_pressure
         cost = 10.00
 		prerequisite = { focus = ARI_quiet_rearmament }
         x = 1
-        y = 1
-		relative_position_id = ARI_quiet_rearmament
-        completion_reward = {
-		}
-    }
-
-    focus = {
-        id = ARI_generate_external_support #외부 지원 창출
-        icon = GFX_goal_generic_major_alliance
-        cost = 5.00
-		prerequisite = { focus = ARI_quiet_rearmament }
-        x = -2
-        y = 1
-		relative_position_id = ARI_quiet_rearmament
-        completion_reward = {
-		}
-    }
-
-    focus = {
-        id = ARI_german_resistance #독일 저항군
-        icon = GFX_focus_chi_mission_to_germany
-        cost = 5.00
-		mutually_exclusive = { focus = ARI_polish_spy }
-		prerequisite = { focus = ARI_generate_external_support }
-        x = -1
-        y = 1
-		relative_position_id = ARI_generate_external_support
-        completion_reward = {
-		}
-    }
-
-    focus = {
-        id = ARI_polish_spy #폴란드 첩보원
-        icon = GFX_focus_POL_clamp_down_on_danzig
-        cost = 5.00
-		mutually_exclusive = { focus = ARI_german_resistance }
-		prerequisite = { focus = ARI_generate_external_support }
-        x = 1
-        y = 1
-		relative_position_id = ARI_generate_external_support
-        completion_reward = {
-		}
-    }
-
-    focus = {
-        id = ARI_secret_agreement #비밀스러운 협정
-        icon = GFX_focus_chi_mission_to_the_soviet_union
-        cost = 5.00
-		prerequisite = { focus = ARI_generate_external_support }
-        x = -2
         y = 2
-		relative_position_id = ARI_generate_external_support
+		relative_position_id = ARI_quiet_rearmament
         completion_reward = {
+			every_state = {
+				limit = {
+					is_owned_by = TRM
+				}
+				add_claim_by = ROOT
+			}
 		}
     }
 
     focus = {
-        id = ARI_use_hanran #혼란 이용
-        icon = GFX_goal_generic_major_war
-        cost = 10.00
-		mutually_exclusive = { focus = ARI_under_the_curtain }
-        x = 25
-        y = 0
+        id = ARI_deceptive_operation #기만 작전
+        icon = GFX_goal_generic_dangerous_deal
+        cost = 5.00
+		prerequisite = { focus = ARI_quiet_rearmament }
+        x = -2
+        y = 1
+		relative_position_id = ARI_quiet_rearmament
+		available = {
+			NOT = { has_war_with = GEH }
+		}
         completion_reward = {
-			add_political_power = 120
+			add_political_power = 50
 		}
     }
+	focus = {
+		id = ARI_contact_with_azusa #아즈사와 접촉
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		cost = 5
+		prerequisite = {
+			focus = ARI_deceptive_operation
+		}
+		x = 1
+		y = 1
+		relative_position_id = ARI_deceptive_operation
 
-    focus = {
+		available = {
+			TRM = {
+				has_country_flag = TRN_Yurizono_Seia_dead
+			}
+		}
+
+		completion_reward = { 
+			TRM = {
+				TRN_dkwmtk = {
+					set_nationality = ARI
+				}
+			}
+		}
+	}
+	focus = {
         id = ARI_TRM_penetration #트리니티 침투
         icon = GFX_focus_prc_infiltration
         cost = 10.00
-		prerequisite = { focus = ARI_use_hanran }
-        x = 0
-        y = 2
+		prerequisite = { focus = ARI_deceptive_operation }
+        x = -1
+        y = 1
 		will_lead_to_war_with = TRM
-		relative_position_id = ARI_use_hanran
+		relative_position_id = ARI_deceptive_operation
         completion_reward = {
 			unlock_decision_category_tooltip = ARI_penetration
 			763 = {
@@ -160,10 +107,74 @@ focus_tree = {
     }
 
     focus = {
+        id = ARI_use_hanran #혼란 이용
+        icon = GFX_goal_generic_major_war
+        cost = 10.00
+        x = 20
+        y = 0
+        completion_reward = {
+			add_political_power = 120
+		}
+    }
+
+	focus = {
+		id = ARI_nationalize_war_industry #군공 압수
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = {
+			focus = ARI_use_hanran
+		}
+		cost = 10
+		x = 2
+		y = 1
+		relative_position_id = ARI_use_hanran
+		completion_reward = { 
+			random_state = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = ARI_army_expansion #육군 확장
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = {
+			focus = ARI_nationalize_war_industry
+		}
+		cost = 10
+		x = 0
+		y = 1
+		relative_position_id = ARI_nationalize_war_industry
+		completion_reward = { 
+			army_experience = 30
+		}
+	}
+	focus = {
+		id = ARI_vanitas_vanitatum #바니바니
+		icon = GFX_goal_demand_sudetenland
+		prerequisite = {
+			focus = ARI_army_expansion
+		}
+		cost = 10
+		x = 0
+		y = 1
+		relative_position_id = ARI_army_expansion
+		completion_reward = { 
+			add_ideas = ARI_vanitas_vanitatum_idea
+		}
+	}
+
+    focus = {
         id = ARI_war_with_trinity #트리니티와의 전쟁
         icon = GFX_focus_attack_TRN
         cost = 10.00
-		prerequisite = { focus = ARI_from_end_to_end focus = ARI_TRM_penetration }
+		prerequisite = { focus = ARI_from_end_to_end }
+		prerequisite = {
+			focus = ARI_vanitas_vanitatum
+		}
 		available = {
 			date > 1940.1.1
 			NOT = { is_in_faction_with = TRM }
@@ -173,206 +184,14 @@ focus_tree = {
 			has_war_with = TRM
 		}
 
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-        x = 21
-        y = 3
+        x = 20
+        y = 4
         completion_reward = {
 			create_wargoal = {
 				type = annex_everything
 				target = TRM
 				expire = 0
 			}	
-		}
-    }
-	focus = {
-        id = ARI_focus_nuke_1 #눈부신 섬광을 따라
-        cost = 10.00
-		available = {
-			always = no
-		}
-		cancelable = no
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		prerequisite = { focus = ARI_war_with_trinity }
-        x = 4
-        y = 1
-		relative_position_id = ARI_war_with_trinity
-        completion_reward = {
-			
-		}
-    }
-	focus = {
-        id = ARI_focus_nuke_2.5 #끝없는 나눗셈
-        cost = 10.00
-		available = {
-			always = no
-		}
-		cancelable = no
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		relative_position_id = ARI_focus_nuke_1
-        x = 2
-        y = 3
-		prerequisite = {
-			focus = ARI_focus_nuke_3
-		
-			focus = ARI_focus_nuke_5
-		}
-        completion_reward = {
-			
-		}
-    }
-	focus = {
-        id = ARI_focus_nuke_2.1 #느림을 경계하라
-        cost = 10.00
-		available = {
-			always = no
-		}
-		cancelable = no
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		relative_position_id = ARI_focus_nuke_1
-        x = -2
-        y = 1
-		prerequisite = {
-			focus = ARI_focus_nuke_1
-		}
-        completion_reward = {
-			
-		}
-    }
-	focus = {
-        id = ARI_focus_nuke_7 #여러갈래의 길
-        cost = 10.00
-		available = {
-			always = no
-		}
-		cancelable = no
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		relative_position_id = ARI_focus_nuke_1
-        x = -2
-        y = 2
-		prerequisite = {
-			focus = ARI_focus_nuke_2.1
-		}
-        completion_reward = {
-			
-		}
-    }
-	focus = {
-        id = ARI_focus_nuke_4 #빛나는 돌
-        cost = 10.00
-		available = {
-			always = no
-		}
-		cancelable = no
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		relative_position_id = ARI_focus_nuke_1
-        x = -2
-        y = 3
-		prerequisite = {
-			focus = ARI_focus_nuke_7
-		}
-        completion_reward = {
-			
-		}
-    }
-	focus = {
-        id = ARI_focus_nuke_2 #빠름을 경계하라
-        cost = 10.00
-		available = {
-			always = no
-		}
-		cancelable = no
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		relative_position_id = ARI_focus_nuke_1
-        x = 2
-        y = 1
-		prerequisite = {
-			focus = ARI_focus_nuke_1
-		}
-        completion_reward = {
-			
-		}
-    }
-	focus = {
-        id = ARI_focus_nuke_3 #특별한 물
-        cost = 10.00
-		available = {
-			always = no
-		}
-		cancelable = no
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		relative_position_id = ARI_focus_nuke_1
-        x = 1
-        y = 2
-		mutually_exclusive = {
-			focus = ARI_focus_nuke_5
-		}
-		prerequisite = {
-			focus = ARI_focus_nuke_2
-		}
-        completion_reward = {
-			
-		}
-    }
-	focus = {
-        id = ARI_focus_nuke_5 #검은 것
-        cost = 10.00
-		available = {
-			always = no
-		}
-		cancelable = no
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		relative_position_id = ARI_focus_nuke_1
-        x = 3
-        y = 2
-		prerequisite = {
-			focus = ARI_focus_nuke_2
-		}
-		mutually_exclusive = {
-			focus = ARI_focus_nuke_3
-		}
-        completion_reward = {
-			
-		}
-    }
-	focus = {
-        id = ARI_focus_nuke_8 #트리니티 실험
-        cost = 10.00
-		available = {
-			always = no
-		}
-		cancelable = no
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		relative_position_id = ARI_focus_nuke_1
-        x = 0
-        y = 4
-		prerequisite = {
-			focus = ARI_focus_nuke_4
-		}
-		prerequisite ={
-			focus = ARI_focus_nuke_2.5
-		}
-        completion_reward = {
-			
 		}
     }
 }
