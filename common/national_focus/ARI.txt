@@ -16,7 +16,7 @@ focus_tree = {
         icon = GFX_focus_secret_rearmament
         cost = 10.00
 		prerequisite = { focus = ARI_use_hanran }
-        x = -3
+        x = -2
         y = 1
 		relative_position_id = ARI_use_hanran
         completion_reward = {
@@ -37,6 +37,7 @@ focus_tree = {
         y = 2
 		relative_position_id = ARI_quiet_rearmament
         completion_reward = {
+			custom_effect_tooltip = ARI_from_end_to_end_tt
 			every_state = {
 				limit = {
 					is_owned_by = TRM
@@ -55,7 +56,7 @@ focus_tree = {
         y = 1
 		relative_position_id = ARI_quiet_rearmament
 		available = {
-			NOT = { has_war_with = GEH }
+			has_war = no
 		}
         completion_reward = {
 			add_political_power = 50
@@ -74,7 +75,7 @@ focus_tree = {
 
 		available = {
 			TRM = {
-				has_country_flag = TRN_Yurizono_Seia_dead
+				has_completed_focus = TRN_yurijono_seia
 			}
 		}
 
@@ -124,11 +125,11 @@ focus_tree = {
 			focus = ARI_use_hanran
 		}
 		cost = 10
-		x = 2
+		x = 1
 		y = 1
 		relative_position_id = ARI_use_hanran
-		completion_reward = { 
-			random_state = {
+		completion_reward = {
+			random_owned_controlled_state = {
 				add_extra_state_shared_building_slots = 3
 				add_building_construction = {
 					type = arms_factory
@@ -171,10 +172,13 @@ focus_tree = {
         id = ARI_war_with_trinity #트리니티와의 전쟁
         icon = GFX_focus_attack_TRN
         cost = 10.00
-		prerequisite = { focus = ARI_from_end_to_end }
+		prerequisite = { 
+			focus = ARI_from_end_to_end 
+		}
 		prerequisite = {
 			focus = ARI_vanitas_vanitatum
 		}
+
 		available = {
 			date > 1940.1.1
 			NOT = { is_in_faction_with = TRM }
@@ -187,11 +191,16 @@ focus_tree = {
         x = 20
         y = 4
         completion_reward = {
-			create_wargoal = {
+			launch_nuke = {
+				state = capital
+				controller = TRM
+				use_nuke = no
+			}
+			declare_war_on = {
 				type = annex_everything
 				target = TRM
-				expire = 0
-			}	
+			}
+			news_event = { id = BA_news.36 hours = 6 }
 		}
     }
 }
