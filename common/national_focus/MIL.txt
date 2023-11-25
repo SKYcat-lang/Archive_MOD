@@ -266,7 +266,7 @@ focus_tree = {
 		
 	focus = { #자본가 회유
 		id = MIL_backing_capitalist
-		icon = GFX_focus_mex_privatisation
+		icon = GFX_goal_generic_intelligence_exchange
 		cost = 5.00
 		prerequisite = { focus = MIL_market_flexibility }
 		x = 0
@@ -2656,7 +2656,7 @@ focus_tree = {
 			}
 			if = {
 				limit = {
-					has_completed_focus = MIL_communist_society
+					has_government = communism
 				}
 				add_country_leader_role = {
 					character = MIL_Himari
@@ -2719,7 +2719,7 @@ focus_tree = {
 	focus = { # 빅 시스터
 		id = MIL_big_sister
 		icon = GFX_MIL_rio_big_sister
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_Rio_school focus = MIL_maintaining_balance_of_power }
 		x = -1
 		y = 1
@@ -2727,72 +2727,6 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 120
 			add_country_leader_trait = MIL_bigsister
-		}	
-	}
-		
-	focus = { # C&C 재편
-		id = MIL_CnC_reshuffle
-		icon = GFX_focus_secret_rearmament
-		cost = 5.00
-		prerequisite = { focus = MIL_stability_of_the_mil focus = MIL_power_surveillance }
-		available = {
-			has_completed_focus = MIL_direct_bodyguards
-		}
-		x = -3
-		y = 1
-		relative_position_id = MIL_stability_of_the_mil
-		completion_reward = {
-			if = { 
-				limit = { has_idea = MIL_CnC_is_hero }
-				remove_ideas = MIL_CnC_is_hero
-			}
-			swap_ideas = {
-				remove_idea = MIL_bodyguard_idea
-				add_idea = MIL_CnC_bodyguard
-			}
-		}	
-	}
-		
-	focus = { # 부대 확장
-		id = MIL_troop_expansion
-		icon = GFX_goal_generic_army_doctrines
-		cost = 5.00
-		prerequisite = { focus = MIL_CnC_reshuffle }
-		available = {
-			has_completed_focus = MIL_direct_bodyguards
-		}
-		x = 0
-		y = 2
-		relative_position_id = MIL_CnC_reshuffle
-		completion_reward = {
-			custom_effect_tooltip = kivotos_halo_add3_tt
-			hidden_effect = {
-				add_to_variable = { ROOT.halo_infantry_cap = 3 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
-				if = {
-					limit = {
-						has_template = "Halo Infantry Division"
-					}
-					set_division_template_cap = {
-						division_template = "Halo Infantry Division"
-						division_cap = ROOT.halo_infantry_cap
-					}
-				}
-			}
-		}	
-	}
-		
-	focus = { # 밀레니엄의 안정
-		id = MIL_stability_of_the_mil
-		icon = GFX_MIL_millennium_stability
-		cost = 5.00
-		prerequisite = { focus = MIL_internet_censorship }
-		mutually_exclusive = { focus = MIL_power_surveillance }
-		x = 0
-		y = 2
-		relative_position_id = MIL_internet_censorship
-		completion_reward = {
-			remove_ideas = MIL_seeds_of_conflict
-			MIL_unlock_focused_research_slot_effect = yes
 		}	
 	}
 		
@@ -2965,6 +2899,7 @@ focus_tree = {
 		icon = GFX_goal_generic_dangerous_deal
 		cost = 10.00
 		prerequisite = { focus = MIL_big_sister }
+		prerequisite = { focus = MIL_Rio_school }
 		x = 1
 		y = 1
 		relative_position_id = MIL_big_sister
@@ -3052,12 +2987,13 @@ focus_tree = {
 		id = MIL_internet_censorship
 		icon = GFX_focus_CZE_german_puppet
 		cost = 10.00
-		prerequisite = { focus = MIL_central_control_network }
-		prerequisite = { focus = MIL_control_of_everything }
+		prerequisite = { focus = MIL_central_control_network focus = MIL_control_of_everything }
 		x = 1
 		y = 1
 		relative_position_id = MIL_central_control_network
 		completion_reward = {
+			custom_effect_tooltip = MIL_central_control_network_tt
+			add_to_variable = { MIL_conflict_event_var = 20 }
 			set_country_flag = MIL_internet_censorship_flag
 			add_political_power = 50
 		}	
@@ -3111,6 +3047,69 @@ focus_tree = {
 		}
 	}
 		
+	focus = { # 밀레니엄의 안정
+		id = MIL_stability_of_the_mil
+		icon = GFX_MIL_millennium_stability
+		cost = 5.00
+		prerequisite = { focus = MIL_internet_censorship }
+		mutually_exclusive = { focus = MIL_power_surveillance }
+		x = 0
+		y = 2
+		relative_position_id = MIL_internet_censorship
+		completion_reward = {
+			remove_ideas = MIL_seeds_of_conflict
+			MIL_unlock_focused_research_slot_effect = yes
+		}	
+	}
+		
+	focus = { # C&C 재편
+		id = MIL_CnC_reshuffle
+		icon = GFX_focus_secret_rearmament
+		cost = 5.00
+		prerequisite = { focus = MIL_stability_of_the_mil focus = MIL_power_surveillance }
+		available = {
+			has_completed_focus = MIL_direct_bodyguards
+		}
+		x = -4
+		y = 1
+		relative_position_id = MIL_stability_of_the_mil
+		completion_reward = {
+			if = { 
+				limit = { has_idea = MIL_CnC_is_hero }
+				remove_ideas = MIL_CnC_is_hero
+			}
+			swap_ideas = {
+				remove_idea = MIL_bodyguard_idea
+				add_idea = MIL_CnC_bodyguard
+			}
+		}	
+	}
+		
+	focus = { # 부대 확장
+		id = MIL_troop_expansion
+		icon = GFX_goal_generic_army_doctrines
+		cost = 5.00
+		prerequisite = { focus = MIL_CnC_reshuffle }
+		x = 0
+		y = 2
+		relative_position_id = MIL_CnC_reshuffle
+		completion_reward = {
+			custom_effect_tooltip = kivotos_halo_add3_tt
+			hidden_effect = {
+				add_to_variable = { ROOT.halo_infantry_cap = 3 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+				if = {
+					limit = {
+						has_template = "Halo Infantry Division"
+					}
+					set_division_template_cap = {
+						division_template = "Halo Infantry Division"
+						division_cap = ROOT.halo_infantry_cap
+					}
+				}
+			}
+		}	
+	}
+		
 	focus = { # 리오 축출
 		id = MIL_rio_ousted
 		icon = GFX_focus_MIL_depose_rio
@@ -3123,7 +3122,7 @@ focus_tree = {
 			set_country_flag = MIL_Koyuki_revolution_flag
 			if = {
 				limit = {
-					has_completed_focus = MIL_communist_society
+					has_government = communism
 				}
 				add_country_leader_role = {
 					character = MIL_seminar_character
@@ -3153,7 +3152,7 @@ focus_tree = {
 		completion_reward = {
 			if = {
 				limit = {
-					has_completed_focus = MIL_communist_society
+					has_government = communism
 				}
 				add_country_leader_role = {
 					character = MIL_dbdnzk
@@ -3183,7 +3182,7 @@ focus_tree = {
 		completion_reward = {
 			if = {
 				limit = {
-					has_completed_focus = MIL_communist_society
+					has_government = communism
 				}
 				add_country_leader_role = {
 					character = MIL_Noa
@@ -3216,7 +3215,7 @@ focus_tree = {
 		completion_reward = {
 			if = {
 				limit = {
-					has_completed_focus = MIL_communist_society
+					has_government = communism
 				}
 				add_country_leader_role = {
 					character = MIL_Koyuki
@@ -3242,13 +3241,27 @@ focus_tree = {
 		}
 	}
 		
+	focus = { # 비자금 확보
+		id = MIL_securing_slush_funds
+		icon = GFX_focus_mex_privatisation
+		cost = 10.00
+		prerequisite = { focus = MIL_HayaseYuuka focus = MIL_UshioNoa }
+		x = 4
+		y = 1
+		relative_position_id = MIL_HayaseYuuka
+		completion_reward = {
+			custom_effect_tooltip = MIL_securing_slush_funds_tt
+			add_to_variable = { MIL_semina_idea_factory_max_efficiency_factor = 0.10 }
+		}
+	}
+		
 	focus = { # 구조 조직화
 		id = MIL_structure_organization
 		icon = GFX_MIL_structure_organization
 		cost = 10.00
 		x = 0
-		y = 2
-		relative_position_id = MIL_rio_ousted
+		y = 10
+		relative_position_id = MIL_securing_slush_funds
 		completion_reward = {
 			remove_ideas = MIL_seeds_of_conflict
 			add_stability = 0.10
@@ -3281,14 +3294,13 @@ focus_tree = {
 		available = {
 			has_country_flag = {
 				flag = MIL_internet_censorship_flag
-				days > 120
+				days > 180
 			}
 		}
 		x = -2
 		y = 1
 		relative_position_id = MIL_club_balance_adjustment
 		completion_reward = {
-			set_country_flag = MIL_remove_Veritas_flag
 			add_political_power = 120
 			add_popularity = {
 				ideology = neutrality
@@ -3310,12 +3322,6 @@ focus_tree = {
 		mutually_exclusive = { focus = MIL_remove_Veritas focus = MIL_balanced_development }
 		x = 2
 		y = 1
-		available = {
-			has_country_flag = {
-				flag = MIL_remove_Veritas_flag
-				days > 120
-			}
-		}
 		relative_position_id = MIL_club_balance_adjustment
 		completion_reward = {
 			add_political_power = 25
