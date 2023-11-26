@@ -1,15 +1,21 @@
 britian_war = {
 	give_can_fac = {
 		icon = GFX_decision_generic_nationalism
+		activation = {
+			has_war_with = KAI
+			date < 1936.12.1
+		}
 		is_good = yes
-		days_remove = 40
+		days_mission_timeout = 40
 		priority = 10
 		available = {
 			NOT = {
-				has_idea = ENG_operation_exile
+				OR = {
+					has_idea = ENG_operation_exile
+					has_idea = ENG_operation_exile_week
+				}
 				has_war_with = KAI
 			}
-			
 		}
 		allowed = {
 			original_tag = ENG
@@ -18,8 +24,16 @@ britian_war = {
 			has_war_with = KAI
 		}
 		timeout_effect = {
-			hidden_effect = {
-				activate_mission = give_can_fac
+			if = {
+				limit = {
+					date < 1936.12.1
+				}
+				activate_mission = go_to_can
+			}
+			else = {
+				hidden_effect = {
+					activate_mission = give_can_fac
+				}
 			}
 			ENG = {
 				random_core_state ={
@@ -66,6 +80,44 @@ britian_war = {
 				random_owned_controlled_state = {
 					add_manpower = 100
 				}
+			}
+		}
+	}
+	go_to_can = {
+		icon = GFX_decision_oppression
+		activation = {
+			always = no
+		}
+		is_good = no
+		days_mission_timeout = 120
+		selectable_mission = yes
+		priority = 10
+		cancel_trigger = {
+			NOT = {
+				OR = {
+					has_idea = ENG_operation_exile
+					has_idea = ENG_operation_exile_week
+				}
+				has_war_with = KAI
+			}
+		}
+		allowed = {
+			original_tag = ENG
+		}
+		visible = {
+			has_war_with = KAI
+		}
+		timeout_effect = {
+			custom_effect_tooltip = go_to_can_tt
+			hidden_effect = {
+				ENG_lose_effect = yes
+			}
+		}
+		complete_effect = {
+			add_political_power = 120
+			custom_effect_tooltip = go_to_can_tt
+			hidden_effect = {
+				ENG_lose_effect = yes
 			}
 		}
 	}
@@ -165,7 +217,7 @@ britian_promise = {
 	britian_promise_2 = {
 		icon = GFX_decision_eng_trade_unions_support
 
-		days_remove = 180
+		days_mission_timeout = 180
 
 		activation = {
 			always = no
@@ -201,7 +253,7 @@ britian_promise = {
 	britian_promise_3 = {
 		icon = GFX_decision_eng_trade_unions_support
 
-		days_remove = 180
+		days_mission_timeout = 180
 
 		activation = {
 			always = no
@@ -237,14 +289,10 @@ britian_promise = {
 	britian_promise_4 = {
 		icon = GFX_decision_eng_trade_unions_support
 
-		days_remove = 180
+		days_mission_timeout = 180
 
 		activation = {
 			always = no
-		}
-
-		modifier = {
-			consumer_goods_factor = 0.20
 		}
 
 		timeout_effect = {
@@ -260,16 +308,10 @@ britian_promise = {
 	britian_promise_5 = {
 		icon = GFX_decision_eng_trade_unions_support
 
-		days_remove = 180
+		days_mission_timeout = 180
 
 		activation = {
 			always = no
-		}
-
-		modifier = {
-			political_power_factor = 0.15
-			industrial_capacity_factory = 0.05
-			female_random_army_leader_chance = 0.5
 		}
 
 		timeout_effect = {
