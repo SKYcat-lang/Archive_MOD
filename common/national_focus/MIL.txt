@@ -2300,6 +2300,10 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_CnC_is_friend
 		completion_reward = {
+			custom_effect_tooltip = MIL_professional_occupation_tt
+			add_to_variable = { MIL_CnC_dynamic_modifier_conscription = 0.02 }
+			add_to_variable = { MIL_CnC_dynamic_max_command_power = 20 }
+			custom_effect_tooltip = enter_tt
 			custom_effect_tooltip = kivotos_halo_add6_tt
 			hidden_effect = {
 				add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
@@ -2313,9 +2317,6 @@ focus_tree = {
 					}
 				}
 			}
-			custom_effect_tooltip = MIL_professional_occupation_tt
-			add_to_variable = { MIL_CnC_dynamic_modifier_conscription = 0.02 }
-			add_to_variable = { MIL_CnC_dynamic_max_command_power = 20 }
 		}	
 	}
 
@@ -2348,10 +2349,11 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_professional_occupation
 		completion_reward = {
-			remove_ideas = MIL_seeds_of_conflict
 			custom_effect_tooltip = MIL_militaryfirst_politics_tt
 			add_to_variable = { MIL_CnC_dynamic_modifier_conscription = 0.03 }
 			add_to_variable = { MIL_CnC_dynamic_modifier_conscription_factor = 0.10 }
+			custom_effect_tooltip = enter_tt
+			remove_ideas = MIL_seeds_of_conflict
 		}	
 	}
 		
@@ -2749,6 +2751,7 @@ focus_tree = {
 			add_to_variable = { MIL_semina_idea_political_power_factor = -0.10 }
 			add_to_variable = { MIL_semina_idea_drift_defence_factor = -0.20 }
 			add_to_variable = { MIL_semina_idea_production_speed_buildings_factor = 0.10 }
+			custom_effect_tooltip = enter_tt
 			add_power_balance_value = {
 				id = MIL_power_balance
 				value = 0.10
@@ -3094,6 +3097,7 @@ focus_tree = {
 		prerequisite = { focus = MIL_stability_of_the_mil focus = MIL_power_surveillance }
 		available = {
 			has_completed_focus = MIL_direct_bodyguards
+			has_country_flag = MIL_CnC_friend_flag
 		}
 		x = -4
 		y = 1
@@ -3281,7 +3285,8 @@ focus_tree = {
 		relative_position_id = MIL_HayaseYuuka
 		completion_reward = {
 			custom_effect_tooltip = MIL_securing_slush_funds_tt
-			add_to_variable = { MIL_semina_idea_factory_max_efficiency_factor = 0.10 }
+			add_to_variable = { MIL_semina_idea_factory_max_efficiency_factor = 0.05 }
+			add_to_variable = { MIL_semina_idea_consumer_goods_factor = -0.05 }
 		}
 	}
 		
@@ -3308,9 +3313,178 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_semina_rework }
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = MIL_semina_rework
 		completion_reward = {
+		}
+	}
+		
+	focus = { # 재정 긴축
+		id = MIL_fiscal_austerity
+		icon = GFX_goal_generic_forceful_treaty
+		cost = 10.00
+		prerequisite = { focus = MIL_HayaseYuuka }
+		x = 0
+		y = 1
+		relative_position_id = MIL_HayaseYuuka
+		completion_reward = {
+			custom_effect_tooltip = MIL_thorough_administrative_surveillance_tt
+			add_to_variable = { MIL_semina_idea_consumer_goods_factor = -0.05 }
+			custom_effect_tooltip = enter_tt
+			add_political_power = 60
+			add_stability = 0.10
+		}
+	}
+		
+	focus = { # 회계 투명성
+		id = MIL_accounting_transparency
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 10.00
+		prerequisite = { focus = MIL_fiscal_austerity }
+		x = 0
+		y = 3
+		relative_position_id = MIL_fiscal_austerity
+		completion_reward = {
+			custom_effect_tooltip = MIL_accounting_transparency_tt
+			add_to_variable = { MIL_semina_idea_production_speed_buildings_factor = 0.05 }
+			add_to_variable = { MIL_semina_idea_global_building_slots_factor = 0.05 }
+			custom_effect_tooltip = enter_tt
+			custom_effect_tooltip = MIL_central_control_network_tt
+			add_to_variable = { MIL_conflict_event_var = 20 }
+		}
+	}
+		
+	focus = { # 행정 통합
+		id = MIL_central_administrative_system
+		icon = GFX_focus_SOV_merge_plants
+		cost = 10.00
+		prerequisite = { focus = MIL_accounting_transparency }
+		x = -1
+		y = 1
+		relative_position_id = MIL_accounting_transparency
+		completion_reward = {
+			custom_effect_tooltip = MIL_central_administrative_system_tt
+			add_to_variable = { MIL_semina_idea_global_building_slots_factor = 0.05 }
+			add_to_variable = { MIL_semina_idea_consumer_goods_factor = -0.02 }
+		}
+	}
+		
+	focus = { # 철저한 행정 감시
+		id = MIL_thorough_administrative_surveillance
+		icon = GFX_focus_DEN_heavy_regulations
+		cost = 5.00
+		prerequisite = { focus = MIL_fiscal_austerity }
+		prerequisite = { focus = MIL_securing_slush_funds }
+		x = 2
+		y = 1
+		relative_position_id = MIL_fiscal_austerity
+		completion_reward = {
+			custom_effect_tooltip = MIL_thorough_administrative_surveillance_tt
+			add_to_variable = { MIL_semina_idea_political_power_factor = -0.10 }
+			add_to_variable = { MIL_semina_idea_consumer_goods_factor = -0.05 }
+		}
+	}
+		
+	focus = { # 자원 확보
+		id = MIL_secure_resources
+		icon = GFX_focus_generic_steel
+		cost = 10.00
+		prerequisite = { focus = MIL_thorough_administrative_surveillance }
+		mutually_exclusive = { focus = MIL_secure_oil }
+		x = 1
+		y = 1
+		relative_position_id = MIL_thorough_administrative_surveillance
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					has_resources_amount = {
+						resource = steel
+						amount > 50
+					}
+				}
+				add_resource = {
+					type = steel
+					amount = 16
+				}
+				add_resource = {
+					type = tungsten
+					amount = 8
+				}
+				add_resource = {
+					type = chromium
+					amount = 8
+				}
+			}
+		}
+	}
+		
+	focus = { # 석유 확보
+		id = MIL_secure_oil
+		icon = GFX_goal_generic_oil_refinery
+		cost = 10.00
+		prerequisite = { focus = MIL_thorough_administrative_surveillance }
+		mutually_exclusive = { focus = MIL_secure_resources }
+		x = -1
+		y = 1
+		relative_position_id = MIL_thorough_administrative_surveillance
+		completion_reward = {
+			add_tech_bonus = {
+				name = GER_coal_liquidization
+				bonus = 1.5
+				uses = 2
+				category = synth_resources
+			}
+			capital_scope = {
+				add_resource = {
+					type = oil
+					amount = 8
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = synthetic_refinery
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = synthetic_refinery
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = synthetic_refinery
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = synthetic_refinery
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = synthetic_refinery
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = synthetic_refinery
+					level = 1
+					instant_build = yes
+				}
+			}
 		}
 	}
 		
@@ -3323,13 +3497,18 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_UshioNoa
 		completion_reward = {
+			custom_effect_tooltip = MIL_expanding_club_support_tt
+			add_to_variable = { MIL_semina_idea_production_factory_efficiency_gain_factor = 0.05 }
+			add_to_variable = { MIL_semina_idea_consumer_goods_factor = 0.05 }
+			custom_effect_tooltip = enter_tt
+			add_political_power = 120
 		}
 	}
 		
 	focus = { # 밀레니엄 재개발
 		id = MIL_mil_rework
 		icon = GFX_goal_generic_construction2
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_semina_rework }
 		prerequisite = { focus = MIL_expanding_club_support }
 		x = 0
@@ -3337,8 +3516,10 @@ focus_tree = {
 		relative_position_id = MIL_expanding_club_support
 		completion_reward = {
 			custom_effect_tooltip = MIL_mil_rework_tt
-			add_to_variable = { MIL_semina_idea_consumer_goods_factor = -0.05 }
-			
+			add_to_variable = { MIL_semina_idea_political_power_factor = 0.10 }
+			add_to_variable = { MIL_semina_idea_production_speed_buildings_factor = 0.05 }
+			add_to_variable = { MIL_semina_idea_consumer_goods_factor = 0.05 }
+			custom_effect_tooltip = enter_tt
 			random_owned_controlled_state = {
 				limit = {
 					free_building_slots = {
@@ -3359,7 +3540,7 @@ focus_tree = {
 		
 	focus = { # 명령경제 완화
 		id = MIL_command_economy
-		icon = GFX_goal_generic_construction2
+		icon = GFX_focus_DEN_no_regulations
 		cost = 10.00
 		prerequisite = { focus = MIL_mil_rework }
 		x = 1
@@ -3367,8 +3548,7 @@ focus_tree = {
 		relative_position_id = MIL_mil_rework
 		completion_reward = {
 			custom_effect_tooltip = MIL_command_economy_tt
-			add_to_variable = { MIL_semina_idea_consumer_goods_factor = -0.05 }
-			add_to_variable = { production_factory_efficiency_gain_factor = 0.05 }
+			add_to_variable = { MIL_semina_idea_factory_max_efficiency_factor = 0.05 }
 		}
 	}
 		
@@ -3383,9 +3563,14 @@ focus_tree = {
 		completion_reward = {
 			every_owned_state = {
 				limit = {
-					state_population_k > 2500
+					OR = {
+						state = 16
+						state = 946
+						state = 947
+						state = 24
+					}
 				}
-				add_extra_state_shared_building_slots = 1
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = industrial_complex
 					level = 1
@@ -3415,9 +3600,10 @@ focus_tree = {
 		id = MIL_structure_organization
 		icon = GFX_MIL_structure_organization
 		cost = 10.00
+		prerequisite = { focus = MIL_Rio_treatment }
 		x = 0
-		y = 10
-		relative_position_id = MIL_securing_slush_funds
+		y = 2
+		relative_position_id = MIL_Rio_treatment
 		completion_reward = {
 			remove_ideas = MIL_seeds_of_conflict
 			add_stability = 0.10
