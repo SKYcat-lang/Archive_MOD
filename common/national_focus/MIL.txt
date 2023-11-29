@@ -869,9 +869,6 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_destroy_french_market }
 		mutually_exclusive = { focus = MIL_automation_economy focus = MIL_command_to_chaebol }
-		bypass = {
-			has_government = communism
-		}
 		available = {
 			NOT = {
 				has_country_leader = {
@@ -2242,6 +2239,11 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_CnC_issues }
 		mutually_exclusive = { focus = MIL_CnC_admit }
+		available = {
+			NOT = {
+				has_country_flag = MIL_CnC_friend_flag
+			}
+		}
 		x = -1
 		y = 1
 		relative_position_id = MIL_CnC_issues
@@ -2253,7 +2255,7 @@ focus_tree = {
 		
 	focus = { # C&C 인정
 		id = MIL_CnC_admit
-		icon = GFX_focus_secret_rearmament
+		icon = GFX_focus_renounce_the_treaty_of_trianon
 		cost = 5.00
 		prerequisite = { focus = MIL_CnC_issues }
 		prerequisite = { focus = MIL_Himari_intensified }
@@ -2658,7 +2660,10 @@ focus_tree = {
 			}
 			if = {
 				limit = {
-					has_government = communism
+					OR = {
+						has_government = communism
+						has_completed_focus = MIL_soviet_model
+					}
 				}
 				add_country_leader_role = {
 					character = MIL_Himari
@@ -2670,7 +2675,12 @@ focus_tree = {
 					}
 				}
 			}
-			else = {
+			if = {
+				limit = {
+					NOT = {
+						has_government = communism
+					}
+				}
 				set_politics = {
 					ruling_party = neutrality
 					elections_allowed = no
@@ -3156,9 +3166,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_power_surveillance
 		completion_reward = {
+			promote_character = MIL_seminar_character
 			if = {
 				limit = {
-					has_government = communism
+					OR = {
+						has_government = communism
+						has_completed_focus = MIL_soviet_model
+					}
 				}
 				add_country_leader_role = {
 					character = MIL_seminar_character
@@ -3170,9 +3184,6 @@ focus_tree = {
 					}
 				}
 			}
-			else = {
-				promote_character = MIL_seminar_character
-			}
 		}
 	}
 		
@@ -3182,13 +3193,23 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = MIL_rio_ousted }
 		mutually_exclusive = { focus = MIL_UshioNoa focus = MIL_KurosakiKoyuki }
+		available = {
+			has_country_leader = {
+				character = MIL_seminar_character
+				ruling_only = yes
+			}
+		}
 		x = -10
 		y = 1
 		relative_position_id = MIL_rio_ousted
 		completion_reward = {
+			promote_character = MIL_dbdnzk
 			if = {
 				limit = {
-					has_government = communism
+					OR = {
+						has_government = communism
+						has_completed_focus = MIL_soviet_model
+					}
 				}
 				add_country_leader_role = {
 					character = MIL_dbdnzk
@@ -3200,9 +3221,6 @@ focus_tree = {
 					}
 				}
 			}
-			else = {
-				promote_character = MIL_dbdnzk
-			}
 		}
 	}
 		
@@ -3212,13 +3230,23 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = MIL_rio_ousted }
 		mutually_exclusive = { focus = MIL_KurosakiKoyuki focus = MIL_HayaseYuuka }
+		available = {
+			has_country_leader = {
+				character = MIL_seminar_character
+				ruling_only = yes
+			}
+		}
 		x = 0
 		y = 1
 		relative_position_id = MIL_rio_ousted
 		completion_reward = {
+			promote_character = MIL_Noa
 			if = {
 				limit = {
-					has_government = communism
+					OR = {
+						has_government = communism
+						has_completed_focus = MIL_soviet_model
+					}
 				}
 				add_country_leader_role = {
 					character = MIL_Noa
@@ -3229,9 +3257,6 @@ focus_tree = {
 						traits = { MIL_supreme_leader }
 					}
 				}
-			}
-			else = {
-				promote_character = MIL_Noa
 			}
 		}
 	}
@@ -3249,9 +3274,21 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_rio_ousted
 		completion_reward = {
+			add_country_leader_role = {
+				character = MIL_Koyuki
+				promote_leader = yes
+				country_leader = {
+					ideology = technocracy
+					expire = "1965.1.1.1"
+					traits = { MIL_injustice_and_corruption }
+				}
+			}
 			if = {
 				limit = {
-					has_government = communism
+					OR = {
+						has_government = communism
+						has_completed_focus = MIL_soviet_model
+					}
 				}
 				add_country_leader_role = {
 					character = MIL_Koyuki
@@ -3260,17 +3297,6 @@ focus_tree = {
 						ideology = marxism
 						expire = "1965.1.1.1"
 						traits = { MIL_supreme_leader }
-					}
-				}
-			}
-			else = {
-				add_country_leader_role = {
-					character = MIL_Koyuki
-					promote_leader = yes
-					country_leader = {
-						ideology = technocracy
-						expire = "1965.1.1.1"
-						traits = { MIL_injustice_and_corruption }
 					}
 				}
 			}
