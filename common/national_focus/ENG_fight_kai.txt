@@ -49,19 +49,28 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = CAN_Immunizations # 예방접종
-		icon = GFX_goal_medicine
+		id = CAN_focus_l_1 #제국 긴급대책법 초안 발의
+		icon = GFX_focus_eng_the_sun_never_sets
 		cost = 10
+		available = {
+			NOT = {
+				has_country_flag = ENG_great_depression_flag
+				has_idea = ENG_distorted_gov
+			}
+		}
 		prerequisite = {
-			focus = CAN_focus_a_1 
+			focus = CAN_focus_1
 		}
 		
 		x = 0
-		y = 1
-		relative_position_id = CAN_focus_a_1
+		y = 3
+		relative_position_id = CAN_focus_1
+
+		select_effect = {
+			country_event = { id = can.25 days = 1 }
+		}
 		completion_reward = {
-			add_political_power = -150
-			remove_ideas = CAN_british_disease
+			custom_effect_tooltip = ENG_emergency_laws_uk_ns_tt
 		}
 	}
 	focus = {
@@ -224,7 +233,7 @@ focus_tree = {
 		cost = 10
 
 		prerequisite = {
-			focus = CAN_focus_2_1_5
+			focus = CAN_focus_2_1_4
 		}
 
 		x = -3
@@ -251,7 +260,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = CAN_focus_2_1_5
 		completion_reward = {
-			add_stability = -0.10
+			add_stability = -0.05
 			#이라크 괴뢰화 요구 이벤트 넣기
 		}
 	}
@@ -1777,6 +1786,22 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = CAN_Immunizations # 예방접종
+		icon = GFX_goal_medicine
+		cost = 10
+		prerequisite = {
+			focus = CAN_focus_a_1 
+		}
+		
+		x = 0
+		y = 1
+		relative_position_id = CAN_focus_a_1
+		completion_reward = {
+			add_political_power = -150
+			remove_ideas = CAN_british_disease
+		}
+	}
+	focus = {
 		id = CAN_focus_2_2_1 #내부 안정화
 		icon = GFX_goal_generic_major_alliance
 		cost = 10
@@ -1992,7 +2017,7 @@ focus_tree = {
 	focus = {
 		id = CAN_focus_2_i_1 #온타리오 수력 발전
 		icon = GFX_focus_generic_hydroelectric_energy
-		cost = 5
+		cost = 10
 		prerequisite = {
 			focus = CAN_focus_2_i
 		}
@@ -2002,6 +2027,22 @@ focus_tree = {
 		relative_position_id = CAN_focus_2_i
 		completion_reward = {
 			#온타리오에 민공2 + 알루미늄
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 276 }
+				add_resource = {
+					type = aluminium
+					amount = 8
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
 		}
 	}
 	##대공황 대책(민주 공용)
@@ -2077,7 +2118,7 @@ focus_tree = {
 		relative_position_id = CAN_focus_d_2
 		completion_reward = {
 			ENG_great_depression_reduction_major = yes
-			add_stability = -0.10
+			add_stability = -0.15
 			add_ideas = ENG_controlled_inflation
 		}
 	}
@@ -2104,6 +2145,34 @@ focus_tree = {
 					type = infrastructure
 					level = 1
 					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = CAN_focus_d_5 #미국과의 무역
+		icon = GFX_focus_generic_american_investments
+		cost = 10
+		prerequisite = {
+			focus = CAN_focus_d_2
+		}
+
+		x = 0
+		y = 2
+		relative_position_id = CAN_focus_d_2
+		completion_reward = {
+			ENG_great_depression_reduction_minor = yes
+			add_ideas = ENG_american_trade
+			USA = {
+				if = {
+					limit = { 
+						OR = {
+							has_idea = great_depression
+							has_idea = great_depression_2
+							has_idea = great_depression_3
+						}
+					}
+					USA_great_depression_level_down = yes
 				}
 			}
 		}
