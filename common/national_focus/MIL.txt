@@ -2228,7 +2228,7 @@ focus_tree = {
 		icon = GFX_goal_generic_military_sphere
 		cost = 5.00
 		prerequisite = { focus = MIL_intensified_disagreements }
-		x = 11
+		x = 6
 		y = 1
 		relative_position_id = MIL_intensified_disagreements
 		completion_reward = {
@@ -2273,95 +2273,6 @@ focus_tree = {
 				id = MIL_power_balance
 				value = 0.20
 				tooltip_side = MIL_Himari_side
-			}
-		}	
-	}
-
-	focus = { # C&C와 협력
-		id = MIL_CnC_is_friend
-		icon = GFX_MIL_CnC_is_Cooperation
-		cost = 10.00
-		prerequisite = { focus = MIL_CnC_admit }
-		prerequisite = { focus = MIL_rebuilt_school1 }
-		x = 0
-		y = 4
-		relative_position_id = MIL_CnC_admit
-		completion_reward = {
-			remove_ideas = MIL_CnC_is_hero
-			add_dynamic_modifier = {
-				modifier = MIL_CnC_dynamic_modifier
-			}
-			custom_effect_tooltip = MIL_CnC_is_friend_tt
-		}	
-	}
-
-	focus = { # 전문 직업군인
-		id = MIL_professional_occupation
-		icon = GFX_focus_generic_little_entente
-		cost = 5.00
-		prerequisite = { focus = MIL_CnC_is_friend }
-		x = 1
-		y = 1
-		relative_position_id = MIL_CnC_is_friend
-		completion_reward = {
-			custom_effect_tooltip = MIL_professional_occupation_tt
-			add_to_variable = { MIL_CnC_dynamic_modifier_conscription = 0.02 }
-			add_to_variable = { MIL_CnC_dynamic_max_command_power = 20 }
-			custom_effect_tooltip = enter_tt
-			custom_effect_tooltip = kivotos_halo_add6_tt
-			hidden_effect = {
-				add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
-				if = {
-					limit = {
-						has_template = "Halo Infantry Division"
-					}
-					set_division_template_cap = {
-						division_template = "Halo Infantry Division"
-						division_cap = ROOT.halo_infantry_cap
-					}
-				}
-			}
-		}	
-	}
-
-	focus = { # 학생 권리 확대
-		id = MIL_expanded_student_rights
-		icon = GFX_goal_generic_major_alliance
-		cost = 5.00
-		prerequisite = { focus = MIL_CnC_is_friend }
-		x = -1
-		y = 1
-		relative_position_id = MIL_CnC_is_friend
-		completion_reward = {
-			custom_effect_tooltip = MIL_expanded_student_rights_tt
-			add_to_variable = { MIL_CnC_dynamic_modifier_army_core_attack_factor = 0.05 }
-			add_to_variable = { MIL_CnC_dynamic_modifier_army_core_defence_factor = 0.05 }
-		}	
-	}
-
-	focus = { # 선군주의
-		id = MIL_militaryfirst_politics
-		icon = GFX_focus_generic_military_mission
-		cost = 10.00
-		prerequisite = { focus = MIL_professional_occupation }
-		prerequisite = { focus = MIL_expanded_student_rights }
-		mutually_exclusive = { focus = MIL_democracy_on_campus }
-		available = {
-			has_country_flag = MIL_coupdetat_flag
-		}
-		x = -1
-		y = 1
-		relative_position_id = MIL_professional_occupation
-		completion_reward = {
-			custom_effect_tooltip = MIL_militaryfirst_politics_tt
-			add_to_variable = { MIL_CnC_dynamic_modifier_conscription = 0.03 }
-			add_to_variable = { MIL_CnC_dynamic_modifier_conscription_factor = 0.10 }
-			custom_effect_tooltip = enter_tt
-			if = {
-				limit = {
-					has_idea = MIL_seeds_of_conflict
-				}
-				remove_ideas = MIL_seeds_of_conflict
 			}
 		}	
 	}
@@ -2663,6 +2574,7 @@ focus_tree = {
 		y = 4
 		relative_position_id = MIL_Himari_intensified
 		completion_reward = {
+			add_stability = -0.25
 			remove_power_balance = {
 				id = MIL_power_balance
 			}
@@ -2782,14 +2694,57 @@ focus_tree = {
 	focus = { # 히마리 루트
 		id = MIL_Himari_school
 		icon = GFX_goal_generic_dangerous_deal
-		cost = 10.00
-		prerequisite = {focus = MIL_rebuilt_school1 }
-		x = 0
-		y = 1
+		cost = 5.00
+		prerequisite = { focus = MIL_CnC_is_friend focus = MIL_peoples_politics }
+		x = 7
+		y = 2
 		relative_position_id = MIL_rebuilt_school1
 		completion_reward = {
 			add_political_power = 60
 			add_stability = -0.10
+		}	
+	}
+
+	focus = { # C&C와 협력
+		id = MIL_CnC_is_friend
+		icon = GFX_MIL_CnC_is_Cooperation
+		cost = 5.00
+		prerequisite = { focus = MIL_rebuilt_school1 }
+		mutually_exclusive = { focus = MIL_peoples_politics }
+		available = {
+			has_country_flag = MIL_CnC_friend_flag
+		}
+		x = 8
+		y = 1
+		relative_position_id = MIL_rebuilt_school1
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = MIL_seeds_of_conflict
+				}
+				remove_ideas = MIL_seeds_of_conflict
+			}
+			remove_ideas = MIL_CnC_is_hero
+			add_dynamic_modifier = {
+				modifier = MIL_CnC_dynamic_modifier
+			}
+			custom_effect_tooltip = MIL_CnC_is_friend_tt
+		}	
+	}
+
+	focus = { # 대의의 믿음
+		id = MIL_peoples_politics
+		icon = GFX_goal_support_democracy
+		cost = 5.00
+		prerequisite = { focus = MIL_rebuilt_school1 }
+		mutually_exclusive = { focus = MIL_CnC_is_friend }
+		x = 6
+		y = 1
+		relative_position_id = MIL_rebuilt_school1
+		completion_reward = {
+			add_stability = 0.10
+			add_war_support = 0.10
+			add_political_power = 120
 		}	
 	}
 
@@ -2798,10 +2753,8 @@ focus_tree = {
 		icon = GFX_focus_generic_support_the_left_right
 		cost = 10.00
 		prerequisite = { focus = MIL_Himari_school }
-		available = {
-			NOT = {
-				has_country_flag = MIL_coupdetat_flag
-			}
+		bypass = {
+			has_country_flag = MIL_coupdetat_flag
 		}
 		x = 0
 		y = 1
@@ -2825,7 +2778,7 @@ focus_tree = {
 				has_country_flag = MIL_coupdetat_flag
 			}
 		}
-		x = 0
+		x = -5
 		y = 1
 		relative_position_id = MIL_dismantling_authoritarianism
 		completion_reward = {
@@ -2833,15 +2786,139 @@ focus_tree = {
 				remove_idea = MIL_seeds_of_conflict
 				add_idea = MIL_elected_bureaucracy
 			}
-			add_advisor_role = {
-				character = MIL_fldh
-				advisor = {
-					slot = political_advisor
-					cost = 150
-					idea_token = MIL_fldh_political_advisor
-					traits = {
-						b_tpalskchdwo
-						MIL_Rio_union_trait
+		}	
+	}
+
+	focus = { # 동아리 자유화
+		id = MIL_club_liberalization
+		icon = GFX_focus_generic_strike_at_democracy2
+		cost = 5.00
+		prerequisite = { focus = MIL_democracy_on_campus }
+		x = -2
+		y = 1
+		relative_position_id = MIL_democracy_on_campus
+		completion_reward = {
+			custom_effect_tooltip = MIL_semina_idea_start_tt
+			add_to_variable = { MIL_semina_idea_stability_factor = 0.10 }
+			custom_effect_tooltip = enter_tt
+			add_political_power = 60
+		}	
+	}
+
+	focus = { # 선군주의
+		id = MIL_militaryfirst_politics
+		icon = GFX_focus_generic_military_mission
+		cost = 10.00
+		prerequisite = { focus = MIL_dismantling_authoritarianism }
+		mutually_exclusive = { focus = MIL_democracy_on_campus }
+		available = {
+			has_country_flag = MIL_coupdetat_flag
+		}
+		x = 5
+		y = 1
+		relative_position_id = MIL_dismantling_authoritarianism
+		completion_reward = {
+			custom_effect_tooltip = MIL_militaryfirst_politics_tt
+			add_to_variable = { MIL_CnC_dynamic_modifier_conscription = 0.03 }
+			add_to_variable = { MIL_CnC_dynamic_modifier_conscription_factor = 0.10 }
+			custom_effect_tooltip = enter_tt
+		}	
+	}
+
+	focus = { # 학생 권리 확대
+		id = MIL_expanded_student_rights
+		icon = GFX_goal_generic_major_alliance
+		cost = 5.00
+		prerequisite = { focus = MIL_democracy_on_campus focus = MIL_militaryfirst_politics }
+		x = 0
+		y = 2
+		relative_position_id = MIL_dismantling_authoritarianism
+		completion_reward = {
+			custom_effect_tooltip = MIL_expanded_student_rights_tt
+			add_to_variable = { MIL_CnC_dynamic_modifier_army_core_attack_factor = 0.05 }
+			add_to_variable = { MIL_CnC_dynamic_modifier_army_core_defence_factor = 0.05 }
+			custom_effect_tooltip = kivotos_halo_add3_tt
+			hidden_effect = {
+				add_to_variable = { ROOT.halo_infantry_cap = 3 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+				if = {
+					limit = {
+						has_template = "Halo Infantry Division"
+					}
+					set_division_template_cap = {
+						division_template = "Halo Infantry Division"
+						division_cap = ROOT.halo_infantry_cap
+					}
+				}
+			}
+		}	
+	}
+
+	focus = { # 로봇 증강
+		id = MIL_robot_augmentation
+		icon = GFX_goal_production_automatic_focus
+		cost = 5.00
+		prerequisite = { focus = MIL_student_council_President_himari }
+		prerequisite = { focus = MIL_expanded_student_rights }
+		mutually_exclusive = { focus = MIL_professional_occupation focus = MIL_french_volunteer_corps }
+		x = -2
+		y = 1
+		relative_position_id = MIL_expanded_student_rights
+		completion_reward = {
+			custom_effect_tooltip = MIL_robot_augmentation_tt
+			add_to_variable = { MIL_semina_idea_army_core_defence_factor = 0.02 }
+			add_to_variable = { MIL_semina_idea_land_reinforce_rate = 0.05 }
+			add_to_variable = { MIL_semina_idea_mobilization_speed = 0.05 }
+			custom_effect_tooltip = enter_tt
+			add_stability = 0.10
+		}	
+	}
+
+	focus = { # 프랑스 의용대
+		id = MIL_french_volunteer_corps
+		icon = GFX_focus_fra_milice
+		cost = 5.00
+		prerequisite = { focus = MIL_expanded_student_rights }
+		mutually_exclusive = { focus = MIL_professional_occupation focus = MIL_robot_augmentation }
+		available = {
+			NOT = {
+				has_idea = MIL_Resistance_3
+				has_idea = MIL_Resistance_4
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id = MIL_expanded_student_rights
+		completion_reward = {
+			MIL_Resistance_idea_down = yes
+			custom_effect_tooltip = MIL_french_volunteer_corps_tt
+			add_to_variable = { MIL_CnC_dynamic_modifier_conscription = 0.02 }
+		}	
+	}
+
+	focus = { # 전문 직업군인
+		id = MIL_professional_occupation
+		icon = GFX_focus_generic_little_entente
+		cost = 5.00
+		prerequisite = { focus = MIL_expanded_student_rights }
+		mutually_exclusive = { focus = MIL_french_volunteer_corps focus = MIL_robot_augmentation }
+		x = 2
+		y = 1
+		relative_position_id = MIL_expanded_student_rights
+		completion_reward = {
+			custom_effect_tooltip = MIL_professional_occupation_tt
+			add_to_variable = { MIL_CnC_dynamic_modifier_conscription_factor = 0.10 }
+			add_to_variable = { MIL_CnC_dynamic_max_command_power = 20 }
+			custom_effect_tooltip = enter_tt
+			custom_effect_tooltip = kivotos_halo_add6_tt
+			hidden_effect = {
+				add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+				if = {
+					limit = {
+						has_template = "Halo Infantry Division"
+					}
+					set_division_template_cap = {
+						division_template = "Halo Infantry Division"
+						division_cap = ROOT.halo_infantry_cap
 					}
 				}
 			}
@@ -2853,9 +2930,9 @@ focus_tree = {
 		icon = GFX_MIL_President_himari
 		cost = 10.00
 		prerequisite = { focus = MIL_democracy_on_campus focus = MIL_militaryfirst_politics }
-		x = 5
-		y = 3
-		relative_position_id = MIL_Himari_school
+		x = -2
+		y = 2
+		relative_position_id = MIL_dismantling_authoritarianism
 		completion_reward = {
 			if = {
 				limit = {
@@ -2866,37 +2943,6 @@ focus_tree = {
 			else = {
 				add_country_leader_trait = MIL_hero_of_reform
 			}
-		}	
-	}
-
-	focus = { # 동아리 자유화
-		id = MIL_club_liberalization
-		icon = GFX_focus_generic_strike_at_democracy2
-		cost = 5.00
-		prerequisite = { focus = MIL_student_council_President_himari }
-		x = -1
-		y = 1
-		relative_position_id = MIL_student_council_President_himari
-		completion_reward = {
-			custom_effect_tooltip = MIL_semina_idea_start_tt
-			add_to_variable = { MIL_semina_idea_stability_factor = 0.10 }
-			custom_effect_tooltip = enter_tt
-			add_political_power = 60
-		}	
-	}
-
-	focus = { # 대의의 믿음
-		id = MIL_peoples_politics
-		icon = GFX_goal_support_democracy
-		cost = 5.00
-		prerequisite = { focus = MIL_democracy_on_campus }
-		x = -1
-		y = 1
-		relative_position_id = MIL_democracy_on_campus
-		completion_reward = {
-			add_stability = 0.10
-			add_war_support = 0.10
-			add_political_power = 120
 			MIL_unlock_focused_research_slot_effect = yes
 		}	
 	}
@@ -2905,11 +2951,9 @@ focus_tree = {
 		id = MIL_Himari_leader
 		icon = GFX_MIL_leader
 		cost = 10.00
-		prerequisite = { focus = MIL_democracy_on_campus }
-		prerequisite = { focus = MIL_student_council_President_himari }
 		x = 0
 		y = 2
-		relative_position_id = MIL_democracy_on_campus
+		relative_position_id = MIL_student_council_President_himari
 		completion_reward = {
 			if = {
 				limit = {
@@ -2922,6 +2966,18 @@ focus_tree = {
 			}
 			else = {
 				add_country_leader_trait = MIL_hero_of_reform2
+			}
+			add_advisor_role = {
+				character = MIL_fldh
+				advisor = {
+					slot = political_advisor
+					cost = 150
+					idea_token = MIL_fldh_political_advisor
+					traits = {
+						b_tpalskchdwo
+						MIL_Rio_union_trait
+					}
+				}
 			}
 		}	
 	}
