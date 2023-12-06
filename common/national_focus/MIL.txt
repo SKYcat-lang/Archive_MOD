@@ -2705,7 +2705,6 @@ focus_tree = {
 		icon = GFX_goal_generic_dangerous_deal
 		cost = 5.00
 		prerequisite = { focus = MIL_rebuilt_school1 }
-		mutually_exclusive = { focus = MIL_CnC_is_friend }
 		x = 8
 		y = 1
 		relative_position_id = MIL_rebuilt_school1
@@ -2828,12 +2827,24 @@ focus_tree = {
 		}	
 	}
 
+	focus = { # 프랑스와의 타협
+		id = MIL_compromise_with_france
+		icon = GFX_focus_generic_strike_at_democracy2
+		cost = 5.00
+		prerequisite = { focus = MIL_democracy_on_campus }
+		x = -1
+		y = 1
+		relative_position_id = MIL_democracy_on_campus
+		completion_reward = {
+		}	
+	}
+
 	focus = { # 동아리 자유화
 		id = MIL_club_liberalization
 		icon = GFX_focus_generic_strike_at_democracy2
 		cost = 5.00
 		prerequisite = { focus = MIL_democracy_on_campus }
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = MIL_democracy_on_campus
 		completion_reward = {
@@ -2862,7 +2873,15 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = MIL_local_autonomy }
 		mutually_exclusive = { focus = MIL_Himari_leader focus = MIL_rule_discipline }
-		x = 3
+		bypass = {
+			NOT = {
+				has_idea = MIL_military_revolution
+				has_idea = MIL_peoples_revolution3
+				has_idea = MIL_peoples_revolution2
+				has_idea = MIL_peoples_revolution1
+			}
+		}
+		x = 2
 		y = 1
 		relative_position_id = MIL_local_autonomy
 		completion_reward = {
@@ -3055,6 +3074,83 @@ focus_tree = {
 		}	
 	}
 
+	focus = { # 패권 추구
+		id = MIL_pursuit_of_hegemony
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 5.00
+		prerequisite = { focus = MIL_militaryfirst_politics }
+		x = 4
+		y = 1
+		relative_position_id = MIL_militaryfirst_politics
+		completion_reward = {
+			add_war_support = 0.10
+		}	
+	}
+
+	focus = { # 중립 수호
+		id = MIL_defense_of_neutrality
+		icon = GFX_focus_generic_diplomatic_treaty
+		cost = 5.00
+		prerequisite = { focus = MIL_pursuit_of_hegemony }
+		mutually_exclusive = { focus = MIL_threat_exclusion }
+		x = -1
+		y = 1
+		relative_position_id = MIL_pursuit_of_hegemony
+		completion_reward = {
+			custom_effect_tooltip = MIL_defense_of_neutrality_tt
+			add_to_variable = { MIL_semina_idea_army_core_defence_factor = 0.02 }
+			custom_effect_tooltip = enter_tt
+			add_stability = 0.10
+		}	
+	}
+
+	focus = { # 위협 배제
+		id = MIL_threat_exclusion
+		icon = GFX_goal_generic_major_war
+		cost = 5.00
+		prerequisite = { focus = MIL_pursuit_of_hegemony }
+		mutually_exclusive = { focus = MIL_defense_of_neutrality }
+		x = 1
+		y = 1
+		relative_position_id = MIL_pursuit_of_hegemony
+		completion_reward = {
+			custom_effect_tooltip = MMIL_threat_exclusion_tt
+			add_to_variable = { MIL_CnC_dynamic_modifier_army_core_attack_factor = -0.05 }
+			add_to_variable = { MIL_CnC_dynamic_modifier_army_attack_factor = 0.02 }
+			custom_effect_tooltip = enter_tt
+			add_stability = -0.10
+			add_war_support = 0.10
+		}	
+	}
+
+	focus = { # 광기 저지
+		id = MIL_stop_the_madness
+		icon = GFX_focus_generic_anti_fascist_diplomacy
+		cost = 10.00
+		prerequisite = { focus = MIL_threat_exclusion }
+		x = 0
+		y = 1
+		relative_position_id = MIL_threat_exclusion
+		completion_reward = {
+			every_country = {
+				limit = {
+					OR = {
+						AND = {
+							has_government = fascism
+							Kivotos_school_tag = yes
+							is_major = yes
+						}
+						has_added_tension_amount > 10
+					}
+				}
+				create_wargoal = {
+					type = puppet_wargoal_focus
+					target = PREV
+				}
+			}
+		}	
+	}
+
 	focus = { # 혁명적 군국주의
 		id = MIL_revolutionary_militarism
 		icon = GFX_goal_generic_political_pressure
@@ -3189,32 +3285,6 @@ focus_tree = {
 			custom_effect_tooltip = enter_tt
 			if = {
 				limit = {
-					has_idea = MIL_military_revolution
-				}
-				remove_ideas = MIL_military_revolution
-			}
-			else = {
-				if = {
-					limit = {
-						has_idea = MIL_peoples_revolution2
-					}
-					remove_ideas = MIL_peoples_revolution2
-				}
-				else_if = {
-					limit = {
-						has_idea = MIL_peoples_revolution1
-					}
-					remove_ideas = MIL_peoples_revolution1
-				}
-				else = {
-					swap_ideas = {
-						remove_idea = MIL_peoples_revolution3
-						add_idea = MIL_peoples_revolution1
-					}
-				}
-			}
-			if = {
-				limit = {
 					has_country_leader_with_trait = MIL_hero_of_reform
 				}
 				swap_ruler_traits = {
@@ -3222,9 +3292,67 @@ focus_tree = {
 					add = MIL_hero_of_reform2
 				}
 			}
+			else_if = {
+				limit = {
+					has_country_leader_with_trait = MIL_figurehead
+				}
+				swap_ruler_traits = {
+					remove = MIL_figurehead
+					add = MIL_hero_of_reform3
+				}
+			}
 			else = {
 				add_country_leader_trait = MIL_hero_of_reform2
 			}
+		}	
+	}
+
+	focus = { # 권력의 발판
+		id = MIL_foothold_of_power
+		icon = GFX_goal_generic_more_territorial_claims
+		cost = 5.00
+		prerequisite = { focus = MIL_Himari_leader }
+		x = -2
+		y = 1
+		relative_position_id = MIL_Himari_leader
+		completion_reward = {
+		}	
+	}
+
+	focus = { # 유일한 혁명가
+		id = MIL_only_revolutionary
+		icon = GFX_goal_generic_major_alliance
+		cost = 5.00
+		prerequisite = { focus = MIL_Himari_leader }
+		x = 0
+		y = 1
+		relative_position_id = MIL_Himari_leader
+		completion_reward = {
+		}	
+	}
+
+	focus = { # 대의
+		id = MIL_representation
+		icon = GFX_goal_generic_attack_allies
+		cost = 5.00
+		prerequisite = { focus = MIL_Himari_leader }
+		x = 2
+		y = 1
+		relative_position_id = MIL_Himari_leader
+		completion_reward = {
+		}	
+	}
+
+	focus = { # 밀레니엄의 건설자
+		id = MIL_control_only
+		icon = GFX_goal_generic_demand_territory
+		cost = 5.00
+		prerequisite = { focus = MIL_foothold_of_power focus = MIL_representation }
+		prerequisite = { focus = MIL_only_revolutionary }
+		x = 0
+		y = 2
+		relative_position_id = MIL_Himari_leader
+		completion_reward = {
 		}	
 	}
 		
