@@ -2862,6 +2862,7 @@ focus_tree = {
 		y = 2
 		relative_position_id = MIL_Himari_school
 		completion_reward = {
+			set_country_flag = MIL_dismantling_authoritarianism_flag
 			custom_effect_tooltip = MIL_dismantling_authoritarianism_tt
 			add_to_variable = { MIL_semina_idea_stability_factor = MIL_semina_idea_political_power_factor }
 			add_to_variable = { MIL_semina_idea_war_support_factor = MIL_semina_idea_political_power_factor }
@@ -2918,18 +2919,6 @@ focus_tree = {
 		}	
 	}
 
-	focus = { # 프랑스와의 타협
-		id = MIL_compromise_with_france
-		icon = GFX_focus_generic_strike_at_democracy2
-		cost = 5.00
-		prerequisite = { focus = MIL_democracy_on_campus }
-		x = -1
-		y = 1
-		relative_position_id = MIL_democracy_on_campus
-		completion_reward = {
-		}	
-	}
-
 	focus = { # 동아리 자유화
 		id = MIL_club_liberalization
 		icon = GFX_focus_generic_strike_at_democracy2
@@ -2943,6 +2932,27 @@ focus_tree = {
 			add_to_variable = { MIL_semina_idea_stability_factor = 0.10 }
 			custom_effect_tooltip = enter_tt
 			add_political_power = 60
+		}	
+	}
+
+	focus = { # C&C 영향력 억제
+		id = MIL_CnC_control
+		icon = GFX_MIL_CnC_downgraded
+		cost = 5.00
+		prerequisite = { focus = MIL_democracy_on_campus }
+		available = {
+			has_idea = MIL_military_revolution
+			has_stability > 0.75
+			has_country_flag = {
+				flag = MIL_dismantling_authoritarianism_flag
+				days > 240
+			}
+		}
+		x = 4
+		y = 1
+		relative_position_id = MIL_democracy_on_campus
+		completion_reward = {
+			remove_ideas = MIL_military_revolution
 		}	
 	}
 
@@ -2961,7 +2971,7 @@ focus_tree = {
 	focus = { # 제도 혁명
 		id = MIL_institutional_revolution
 		icon = GFX_goal_generic_improve_relations
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_local_autonomy }
 		mutually_exclusive = { focus = MIL_Himari_leader focus = MIL_rule_discipline }
 		bypass = {
@@ -3343,21 +3353,21 @@ focus_tree = {
 	focus = { # 규칙, 규율
 		id = MIL_rule_discipline
 		icon = GFX_focus_ETH_ecole_militaire_haile_selassie_1er
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_remove_opposition }
 		mutually_exclusive = { focus = MIL_Himari_leader }
 		mutually_exclusive = { focus = MIL_institutional_revolution focus = MIL_Himari_leader }
-		bypass = {
-			NOT = {
-				has_idea = MIL_military_revolution
-			}
-		}
 		x = -3
 		y = 1
 		relative_position_id = MIL_remove_opposition
 		completion_reward = {
 			add_stability = -0.05
-			remove_ideas = MIL_military_revolution
+			if = {
+				limit = {
+					has_idea = MIL_military_revolution
+				}
+				remove_ideas = MIL_military_revolution
+			}
 			add_ideas = MIL_military_government
 		}	
 	}
@@ -3404,10 +3414,28 @@ focus_tree = {
 		icon = GFX_goal_generic_more_territorial_claims
 		cost = 5.00
 		prerequisite = { focus = MIL_Himari_leader }
-		x = -2
+		x = 2
 		y = 1
 		relative_position_id = MIL_Himari_leader
 		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						has_completed_focus = MIL_representation
+					}
+				}
+				custom_effect_tooltip = MIL_foothold_of_power_tt
+				add_timed_idea = {
+					idea = MIL_foothold_of_power_idea
+					days = 365
+				}
+			}
+			else = {
+				add_timed_idea = {
+					idea = MIL_foothold_of_power_week_idea
+					days = 365
+				}
+			}
 		}	
 	}
 
@@ -3420,6 +3448,27 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_Himari_leader
 		completion_reward = {
+			if = {
+				limit = {
+					has_country_leader_with_trait = MIL_hero_of_reform2
+				}
+				swap_ruler_traits = {
+					remove = MIL_hero_of_reform2
+					add = MIL_hero_of_reform2_up
+				}
+			}
+			else_if = {
+				limit = {
+					has_country_leader_with_trait = MIL_hero_of_reform3
+				}
+				swap_ruler_traits = {
+					remove = MIL_hero_of_reform3
+					add = MIL_hero_of_reform3_up
+				}
+			}
+			else = {
+				custom_effect_tooltip = MIL_only_revolutionary_trait_tt
+			}
 		}	
 	}
 
@@ -3428,10 +3477,28 @@ focus_tree = {
 		icon = GFX_goal_generic_attack_allies
 		cost = 5.00
 		prerequisite = { focus = MIL_Himari_leader }
-		x = 2
+		x = -2
 		y = 1
 		relative_position_id = MIL_Himari_leader
 		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						has_completed_focus = MIL_foothold_of_power
+					}
+				}
+				custom_effect_tooltip = MIL_representation_tt
+				add_timed_idea = {
+					idea = MIL_representation_idea
+					days = 365
+				}
+			}
+			else = {
+				add_timed_idea = {
+					idea = MIL_representation_week_idea
+					days = 365
+				}
+			}
 		}	
 	}
 
