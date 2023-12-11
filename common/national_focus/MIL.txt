@@ -3062,14 +3062,146 @@ focus_tree = {
 		}	
 	}
 
+	focus = { # 학원 방위
+		id = MIL_academy_defense
+		icon = GFX_goal_generic_defence
+		cost = 5.00
+		prerequisite = { focus = MIL_democracy_on_campus }
+		x = -3
+		y = 1
+		relative_position_id = MIL_democracy_on_campus
+		completion_reward = {
+			add_ideas = MIL_academy_defense_idea
+		}	
+	}
+
+	focus = { # 열성
+		id = MIL_zeal
+		icon = GFX_focus_spr_torchbearers_of_tomorrow
+		cost = 5.00
+		prerequisite = { focus = MIL_academy_defense }
+		mutually_exclusive = { focus = MIL_systematic_training }
+		x = -1
+		y = 1
+		relative_position_id = MIL_academy_defense
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = MIL_academy_defense_idea
+				add_idea = MIL_academy_defense_zeal_idea
+			}
+		}	
+	}
+
+	focus = { # 체계화
+		id = MIL_systematic_training
+		icon = GFX_goal_generic_production2
+		cost = 5.00
+		prerequisite = { focus = MIL_academy_defense }
+		mutually_exclusive = { focus = MIL_zeal }
+		x = 1
+		y = 1
+		relative_position_id = MIL_academy_defense
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = MIL_academy_defense_idea
+				add_idea = MIL_academy_defense_systematic_training_idea
+			}
+		}	
+	}
+
+	focus = { # 밀레니엄 학생군
+		id = MIL_student_infantry
+		icon = GFX_focus_MIL_student_infantry
+		cost = 5.00
+		prerequisite = { focus = MIL_zeal focus = MIL_systematic_training }
+		x = 0
+		y = 2
+		relative_position_id = MIL_academy_defense
+		completion_reward = {
+			add_war_support = 0.10
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.50
+				uses = 1
+				category = land_doctrine
+			}
+			if = {
+				limit = { has_idea = MIL_academy_defense_systematic_training_idea }
+				swap_ideas = {
+					remove_idea = MIL_academy_defense_systematic_training_idea
+					add_idea = MIL_academy_defense_systematic_training_up_idea
+				}
+			}
+			else_if = {
+				limit = { has_idea = MIL_academy_defense_zeal_idea }
+				swap_ideas = {
+					remove_idea = MIL_academy_defense_zeal_idea
+					add_idea = MIL_academy_defense_zeal_up_idea
+				}
+			}
+			else = {
+				custom_effect_tooltip = MIL_student_infantry_idea_tt
+			}
+		}	
+	}
+
+	focus = { # 동아리 자유화
+		id = MIL_club_liberalization
+		icon = GFX_focus_generic_strike_at_democracy2
+		cost = 5.00
+		prerequisite = { focus = MIL_democracy_on_campus }
+		x = 0
+		y = 1
+		relative_position_id = MIL_democracy_on_campus
+		completion_reward = {
+			custom_effect_tooltip = MIL_semina_idea_start_tt
+			add_to_variable = { MIL_semina_idea_stability_factor = 0.10 }
+			custom_effect_tooltip = enter_tt
+			add_political_power = 60
+		}	
+	}
+
+	focus = { # C&C 영향력 억제
+		id = MIL_CnC_control
+		icon = GFX_MIL_CnC_downgraded
+		cost = 5.00
+		prerequisite = { focus = MIL_democracy_on_campus }
+		available = {
+			has_idea = MIL_military_revolution
+			has_stability > 0.75
+			has_country_flag = {
+				flag = MIL_dismantling_authoritarianism_flag
+				days > 240
+			}
+		}
+		x = 4
+		y = 1
+		relative_position_id = MIL_democracy_on_campus
+		completion_reward = {
+			remove_ideas = MIL_military_revolution
+		}	
+	}
+
+	focus = { # 강화된 자치권
+		id = MIL_local_autonomy
+		icon = GFX_focus_generic_treaty
+		cost = 5.00
+		prerequisite = { focus = MIL_club_liberalization }
+		x = 0
+		y = 1
+		relative_position_id = MIL_club_liberalization
+		completion_reward = {
+		}	
+	}
+
 	focus = { # 학원의 새로운 길
 		id = MIL_new_path
 		icon = GFX_goal_generic_position_armies
 		cost = 5.00
-		prerequisite = { focus = MIL_democracy_on_campus }
-		x = -4
-		y = 1
-		relative_position_id = MIL_democracy_on_campus
+		prerequisite = { focus = MIL_local_autonomy }
+		x = 0
+		y = 2
+		relative_position_id = MIL_local_autonomy
 		completion_reward = {
 		}	
 	}
@@ -3138,62 +3270,13 @@ focus_tree = {
 		}	
 	}
 
-	focus = { # 동아리 자유화
-		id = MIL_club_liberalization
-		icon = GFX_focus_generic_strike_at_democracy2
-		cost = 5.00
-		prerequisite = { focus = MIL_democracy_on_campus }
-		x = 2
-		y = 1
-		relative_position_id = MIL_democracy_on_campus
-		completion_reward = {
-			custom_effect_tooltip = MIL_semina_idea_start_tt
-			add_to_variable = { MIL_semina_idea_stability_factor = 0.10 }
-			custom_effect_tooltip = enter_tt
-			add_political_power = 60
-		}	
-	}
-
-	focus = { # C&C 영향력 억제
-		id = MIL_CnC_control
-		icon = GFX_MIL_CnC_downgraded
-		cost = 5.00
-		prerequisite = { focus = MIL_democracy_on_campus }
-		available = {
-			has_idea = MIL_military_revolution
-			has_stability > 0.75
-			has_country_flag = {
-				flag = MIL_dismantling_authoritarianism_flag
-				days > 240
-			}
-		}
-		x = 4
-		y = 1
-		relative_position_id = MIL_democracy_on_campus
-		completion_reward = {
-			remove_ideas = MIL_military_revolution
-		}	
-	}
-
-	focus = { # 강화된 자치권
-		id = MIL_local_autonomy
-		icon = GFX_focus_generic_treaty
-		cost = 5.00
-		prerequisite = { focus = MIL_club_liberalization }
-		x = 0
-		y = 1
-		relative_position_id = MIL_club_liberalization
-		completion_reward = {
-		}	
-	}
-
 	focus = { # 제도 혁명
 		id = MIL_institutional_revolution
 		icon = GFX_goal_generic_improve_relations
 		cost = 10.00
 		prerequisite = { focus = MIL_local_autonomy }
 		mutually_exclusive = { focus = MIL_Himari_leader focus = MIL_rule_discipline }
-		x = 1
+		x = 3
 		y = 1
 		relative_position_id = MIL_local_autonomy
 		completion_reward = {
@@ -3260,6 +3343,7 @@ focus_tree = {
 			add_to_variable = { MIL_CnC_dynamic_modifier_conscription = 0.03 }
 			add_to_variable = { MIL_CnC_dynamic_modifier_conscription_factor = 0.10 }
 			custom_effect_tooltip = enter_tt
+			army_experience = 25
 		}	
 	}
 
@@ -3391,7 +3475,7 @@ focus_tree = {
 		icon = GFX_focus_generic_support_the_left_right
 		cost = 5.00
 		prerequisite = { focus = MIL_militaryfirst_politics }
-		x = 4
+		x = 3
 		y = 1
 		relative_position_id = MIL_militaryfirst_politics
 		completion_reward = {
@@ -3472,6 +3556,12 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_militaryfirst_politics
 		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.50
+				uses = 2
+				category = land_doctrine
+			}
 			add_political_power = 120
 			add_popularity = {
    				ideology = ROOT
