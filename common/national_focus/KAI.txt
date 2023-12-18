@@ -134,14 +134,14 @@ focus_tree = {
 		x = 22
 		y = 0
 		completion_reward = {
-			add_stability = 0.20
+			add_stability = 0.15
 			set_rule = {
 				can_only_justify_war_on_threat_country = yes
 			}
 		}
 	}
-	focus = { #해안방어선 구축
-		id = KAI_frontify
+	focus = { #제 1차 주주총회
+		id = KAI_first_shareholders_meeting
 		icon = GFX_focus_NOR_restore_public_trust_in_the_storting
 		cost = 10
 		prerequisite = {
@@ -156,6 +156,65 @@ focus_tree = {
 		x = 6
 		y = 1
 		relative_position_id = KAI_corp_convention
+		completion_reward = {
+			add_political_power = 200
+			add_ideas = free_trade
+		}
+	}
+	focus = { #세계시장
+		id = KAI_world_market
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 10
+		prerequisite = {
+			focus = KAI_first_shareholders_meeting
+		}
+		x = -2
+		y = 1
+		relative_position_id = KAI_first_shareholders_meeting
+		completion_reward = {
+			add_political_power = 50
+			every_country = {
+				limit = {
+					Kivotos_school_tag = no
+					has_government = democratic
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = TUR_reliable_trade_partner
+				}
+			}
+		}
+	}
+	focus = { #사업전략본부
+		id = KAI_business_hq
+		icon = GFX_focus_generic_national_security
+		cost = 10
+		prerequisite = {
+			focus = KAI_first_shareholders_meeting
+		}
+		x = 2
+		y = 1
+		relative_position_id = KAI_first_shareholders_meeting
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.10
+			}
+			add_dynamic_modifier = {
+				modifier = KAI_bussiness_hq_dynamic_modifier
+			}
+		}
+	}
+	focus = { #해안방어선 구축
+		id = KAI_frontify_the_coast
+		icon = GFX_goal_generic_construct_military
+		cost = 10
+		prerequisite = {
+			focus = KAI_first_shareholders_meeting
+		}
+		x = 0
+		y = 1
+		relative_position_id = KAI_first_shareholders_meeting
 		completion_reward = {
 			126 = { 
 				add_building_construction = {
@@ -202,55 +261,6 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { #세계시장
-		id = KAI_world_market
-		icon = GFX_goal_generic_positive_trade_relations
-		cost = 10
-		prerequisite = {
-			focus = KAI_frontify
-		}
-		x = -2
-		y = 1
-		relative_position_id = KAI_frontify
-		completion_reward = {
-			add_political_power = 50
-			add_ideas = free_trade
-		}
-	}
-	focus = { #사업전략본부
-		id = KAI_business_hq
-		icon = GFX_focus_generic_national_security
-		cost = 10
-		prerequisite = {
-			focus = KAI_frontify
-		}
-		x = 2
-		y = 1
-		relative_position_id = KAI_frontify
-		completion_reward = {
-			add_popularity = {
-				ideology = democratic
-				popularity = 0.10
-			}
-			add_dynamic_modifier = {
-				modifier = KAI_bussiness_hq_dynamic_modifier
-			}
-		}
-	}
-	focus = { #제 1차 주주총회
-		id = KAI_first_shareholders_meeting
-		icon = GFX_focus_NOR_restore_public_trust_in_the_storting
-		cost = 10
-		prerequisite = {
-			focus = KAI_frontify
-		}
-		x = 0
-		y = 1
-		relative_position_id = KAI_frontify
-		completion_reward = {
-			add_political_power = 200
-		}
-	}
 	focus = { #새로운 사업장
 		id = KAI_new_business_place
 		icon = GFX_goal_generic_intelligence_exchange
@@ -259,14 +269,11 @@ focus_tree = {
 			focus = KAI_world_market
 		}
 		prerequisite = {
-			focus = KAI_first_shareholders_meeting
-		}
-		prerequisite = {
 			focus = KAI_business_hq
 		}
 		x = 0
 		y = 1
-		relative_position_id = KAI_first_shareholders_meeting
+		relative_position_id = KAI_frontify_the_coast
 		completion_reward = {
 			set_politics = {
 				ruling_party = democratic
@@ -311,8 +318,8 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { #신자유주의
-		id = KAI_neo_liberalism
+	focus = { #자유무역협정
+		id = KAI_free_trade_agreement
 		icon = GFX_goal_generic_national_unity
 		prerequisite = {
 			focus = KAI_new_business_place
@@ -327,7 +334,7 @@ focus_tree = {
 			set_rule = {
 				can_create_factions = yes
 			}
-			create_faction = "KAI_neo_liberalism_co_sphere"
+			create_faction = "KAI_free_trade_agreement"
 		}
 	}
 
@@ -340,7 +347,7 @@ focus_tree = {
 			focus = KAI_corp_convention
 		}
 		mutually_exclusive = {
-			focus = KAI_frontify
+			focus = KAI_first_shareholders_meeting
 		}
 		bypass = {
 			has_government = communism
@@ -874,7 +881,7 @@ focus_tree = {
 			add_dynamic_modifier = {
 				modifier = KAI_loan_dynamic_modifier_2
 			}
-			custom_effect_tooltip = KAI_kaiser_loan_tt
+			unlock_decision_category_tooltip = KAI_loan_dec_cat
 			#디시전 추가 예정
 		}
 	}
@@ -891,8 +898,8 @@ focus_tree = {
 		relative_position_id = KAI_kaiser_loan
 
 		completion_reward = {
-			add_cic = 150
-			custom_effect_tooltip = KAI_loan_europe_tt
+			add_cic = 300
+			unlock_decision_tooltip = KAI_loan_europe_dec
 		}
 	}
 	focus = { #아시아 지부
@@ -907,8 +914,8 @@ focus_tree = {
 		relative_position_id = KAI_kaiser_loan
 
 		completion_reward = {
-			add_cic = 100
-			custom_effect_tooltip = KAI_loan_asia_tt
+			add_cic = 150
+			unlock_decision_tooltip = KAI_loan_aisa_dec
 		}
 	}
 	focus = { #아프리카 지부
@@ -923,8 +930,8 @@ focus_tree = {
 		relative_position_id = KAI_kaiser_loan
 
 		completion_reward = {
-			add_cic = 50
-			custom_effect_tooltip = KAI_loan_africa_tt
+			add_cic = 75
+			unlock_decision_tooltip = KAI_loan_africa_dec
 		}
 	}
 	focus = { #오세아니아 지부
@@ -939,8 +946,8 @@ focus_tree = {
 		relative_position_id = KAI_kaiser_loan
 
 		completion_reward = {
-			add_cic = 50
-			custom_effect_tooltip = KAI_loan_oceania_tt
+			add_cic = 75
+			unlock_decision_tooltip = KAI_loan_oceania_dec
 		}
 	}
 	focus = { #북미 지부
@@ -955,8 +962,8 @@ focus_tree = {
 		relative_position_id = KAI_kaiser_loan
 
 		completion_reward = {
-			add_cic = 150
-			custom_effect_tooltip = KAI_loan_na_tt
+			add_cic = 300
+			unlock_decision_tooltip = KAI_loan_na_dec
 		}
 	}
 	focus = { #남미 지부
@@ -971,8 +978,8 @@ focus_tree = {
 		relative_position_id = KAI_kaiser_loan
 
 		completion_reward = {
-			add_cic = 100
-			custom_effect_tooltip = KAI_loan_sa_tt
+			add_cic = 150
+			unlock_decision_tooltip = KAI_loan_sa_dec
 		}
 	}
 	focus = { #중동 지부
@@ -987,8 +994,8 @@ focus_tree = {
 		relative_position_id = KAI_kaiser_loan
 
 		completion_reward = {
-			add_cic = 50
-			custom_effect_tooltip = KAI_loan_me_tt
+			add_cic = 75
+			unlock_decision_tooltip = KAI_loan_me_dec
 		}
 	}
 
