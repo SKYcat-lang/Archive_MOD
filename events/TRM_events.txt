@@ -50,14 +50,8 @@ country_event = {
 	picture = GFX_event_tmr_event_1
 	
 	fire_only_once = yes	
-    is_triggered_only = no
+    is_triggered_only = YES
 
-	trigger = {
-		TAG = TRM
-		has_global_flag = NOMOREKUSOARONA
-	}
-
-	
 	option = { 
 		name = TRM_event.2.a
 		add_ideas  = TRM_troll_mika
@@ -1530,8 +1524,35 @@ country_event = {  # 소련 붕괴
 }
 country_event = { 
 	id = TRM_event.71
-	title = TRM_event.71.t
-	desc = TRM_event.71.desc
+	#title = TRM_event.71.t
+	title = {
+		text = TRM_event.71.t
+		trigger = {
+			TRM = { has_completed_focus = TRM_newfocus_0 }
+		}
+	}
+	title = {
+		text = TRM_event.71_2.t
+		trigger = {
+			NOT = {
+				TRM = { has_completed_focus = TRM_newfocus_0 }
+			}
+		}
+	}
+	desc = {
+		text = TRM_event.71.desc
+		trigger = {
+			TRM = { has_completed_focus = TRM_newfocus_0 }
+		}
+	}
+	desc = {
+		text = TRM_event.71_2.desc
+		trigger = {
+			NOT = {
+				TRM = { has_completed_focus = TRM_newfocus_0 }
+			}
+		}
+	}
 	picture = GFX_event_none_picture
 	
 	fire_only_once = yes
@@ -1539,6 +1560,9 @@ country_event = {
 	
 	option = {
 		name = TRM_event.71.a
+		trigger = {
+			TRM = { has_completed_focus = TRM_newfocus_0 }
+		}
 		custom_effect_tooltip = TRM_sanctus_del_tt
 		set_variable = { TRM_internal_factions_remove_var = 1 } #지울 세력 코드
 		TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
@@ -1549,6 +1573,19 @@ country_event = {
 				name = debacle_short
 			}
 		}
+	}
+	option = {
+		name = TRM_event.71.a
+		trigger = {
+			NOT = {
+				TRM = { has_completed_focus = TRM_newfocus_0 }
+			}
+		}
+		custom_effect_tooltip = TRM_sanctus_del_tt
+		custom_effect_tooltip = TRM_filius_del_tt
+		custom_effect_tooltip = TRM_pater_del_tt
+		set_variable = { TRM_internal_factions_remove_var = 1 } #지울 세력 코드
+		TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
 	}
 }
 country_event = {
@@ -3015,6 +3052,9 @@ country_event = {
 			set_country_flag = TRN_country_collapse_yes
 			mark_focus_tree_layout_dirty = yes
 			complete_national_focus = TRM_newfocus_DIE
+			country_event = { id = TRM_event.71 days = 2}
+			set_variable = { TRM_internal_factions_remove_var = 2 } #지울 세력 코드
+			TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
 		}
 	}
 	
@@ -3023,6 +3063,9 @@ country_event = {
 	
 	option = { #
 		name = TRM_event.29.a
+		set_variable = { TRM_internal_factions_remove_var = 0 } #지울 세력 코드
+		TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
+
 		every_state = {
 			limit = {
 				is_owned_by = TRM
