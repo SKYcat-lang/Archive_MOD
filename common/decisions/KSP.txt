@@ -117,10 +117,10 @@ KSP_fight_with_wakamo = {
 				if = {
 					limit = {
 						NOT = {
-							check_variable = { KSP_wakamo_next_sabotage = 7 } # 만약 변수가 7 이라면
+							check_variable = { KSP_wakamo_next_sabotage = 14 } # 만약 변수가 14 이라면
 						}
 					}
-					add_to_variable = { KSP_wakamo_next_sabotage = -7 } # 변수에서 7 만큼 제외한다
+					add_to_variable = { KSP_wakamo_next_sabotage = -14 } # 변수에서 14 만큼 제외한다
 				}
 			}
 		}
@@ -178,7 +178,7 @@ KSP_fight_with_wakamo = {
 				}
 			}
 			custom_effect_tooltip = KSP_suppressing_plan_sustain_de_ns_tt
-			add_to_variable = { KSP_wakamo_next_sabotage = 7 } # 그리고 와카모의 공장 테러 일수를 늦춰준다.
+			add_to_variable = { KSP_wakamo_next_sabotage = 14 } # 그리고 와카모의 공장 테러 일수를 늦춰준다.
 		}
 
 		fire_only_once = yes
@@ -245,7 +245,7 @@ KSP_fight_with_wakamo = {
 				}
 			}
 			custom_effect_tooltip = KSP_suppressing_plan_sustain_de_ns_tt
-			add_to_variable = { KSP_wakamo_next_sabotage = 7 }  # 와카모 공장 테러 일수에 7일 추가
+			add_to_variable = { KSP_wakamo_next_sabotage = 14 }  # 와카모 공장 테러 일수에 7일 추가
 		}
 
 		fire_only_once = yes
@@ -568,7 +568,7 @@ KSP_fight_with_wakamo = {
 					}
 				}
 				random_list = {
-					10 = {
+					20 = {
 						country_event = { id = KSP_event.34 }
 					}
 					10 = {
@@ -684,5 +684,127 @@ KSP_war_plans = {
 		}
 
 		fire_only_once = yes
+	}
+}
+KSP_kanna_health_and_gov_problems = {
+	KSP_getting_used_to_work_gov = { #업무에 익숙해지는 행정부
+		activation = {
+			has_country_flag = KSP_kanna_health_worsen_flag #칸나가 쓰러져 있으면
+			OR = {
+				has_idea = KSP_not_accustomed_to_work_1
+				has_idea = KSP_not_accustomed_to_work_2
+				has_idea = KSP_not_accustomed_to_work_3
+				has_idea = KSP_not_accustomed_to_work_4
+			}
+		}
+		available = {
+			NOT = {
+				has_country_flag = KSP_kanna_health_worsen_flag # 칸나가 쓰러졌음에 해당하지 않음 즉 일어나있다
+			}
+		}
+		is_good = yes
+		days_mission_timeout = 180
+		priority = 10
+		timeout_effect = { # 국민정신 버프
+			if = { # 행정효율 업
+				limit = { has_idea = KSP_not_accustomed_to_work_4 }
+				remove_ideas = KSP_not_accustomed_to_work_4
+			}
+			if = { # 행정효율 업
+				limit = { has_idea = KSP_not_accustomed_to_work_3 }
+				swap_ideas = {
+					remove_idea = KSP_not_accustomed_to_work_3
+					add_idea = KSP_not_accustomed_to_work_4
+				}
+			}
+			if = { # 행정효율 업
+				limit = { has_idea = KSP_not_accustomed_to_work_2 }
+				swap_ideas = {
+					remove_idea = KSP_not_accustomed_to_work_2
+					add_idea = KSP_not_accustomed_to_work_3
+				}
+			}
+			if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_1 }
+				swap_ideas = {
+					remove_idea = KSP_not_accustomed_to_work_1
+					add_idea = KSP_not_accustomed_to_work_2
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = { 
+						NOT = {  
+							OR = {
+								has_idea = KSP_not_accustomed_to_work_1
+								has_idea = KSP_not_accustomed_to_work_2
+								has_idea = KSP_not_accustomed_to_work_3
+								has_idea = KSP_not_accustomed_to_work_4
+							}
+						} 
+					}
+					activate_mission = KSP_getting_used_to_work_gov # 재시작	
+				}
+			}
+		}
+	}
+	KSP_sanghwal_safety_yunghyang_up = { #생활안전국 영향력 증가
+		activation = {
+			has_country_flag = KSP_kanna_health_worsen_flag #칸나가 쓰러져 있으면
+		}
+		available = {
+			NOT = {
+				has_country_flag = KSP_kanna_health_worsen_flag # 칸나가 쓰러졌음에 해당하지 않음 즉 일어나있다
+			}
+		}
+		is_good = no
+		days_mission_timeout = 45
+		priority = 0.1
+		timeout_effect = { # 생활안전국 영향력 확장
+			KSP_sanghwal_safety_level_up = yes
+		}
+	}
+	KSP_gyeongbiguk_yunghyang_up = { #경비국 영향력 증가
+		activation = {
+			has_country_flag = KSP_kanna_health_worsen_flag #칸나가 쓰러져 있으면
+		}
+		available = {
+			NOT = {
+				has_country_flag = KSP_kanna_health_worsen_flag # 칸나가 쓰러졌음에 해당하지 않음 즉 일어나있다
+			}
+		}
+		is_good = no
+		days_mission_timeout = 45
+		priority = 0.1
+		timeout_effect = { # 경비국 영향력 확장
+			if = { # 영향력 증가
+				limit = { has_idea = KSP_gyeongbiguk_power_1 }
+				swap_ideas = {
+					remove_idea = KSP_gyeongbiguk_power_1
+					add_idea = KSP_gyeongbiguk_power
+				}
+			}
+			if = { # 영향력 증가
+				limit = { has_idea = KSP_gyeongbiguk_power_2 }
+				swap_ideas = {
+					remove_idea = KSP_gyeongbiguk_power_2
+					add_idea = KSP_gyeongbiguk_power_1
+				}
+			}
+			if = { # 영향력 증가
+				limit = { has_idea = KSP_gyeongbiguk_power_3 }
+				swap_ideas = {
+					remove_idea = KSP_gyeongbiguk_power_3
+					add_idea = KSP_gyeongbiguk_power_2
+				}
+			}
+			if = { # 영향력 증가
+				limit = { has_idea = KSP_gyeongbiguk_power_4 }
+				swap_ideas = {
+					remove_idea = KSP_gyeongbiguk_power_4
+					add_idea = KSP_gyeongbiguk_power_3
+				}
+			}
+		}
 	}
 }
