@@ -1,6 +1,6 @@
 focus_tree = {
 	id = SAX_focus_tree
-	continuous_focus_position = { x = 2100 y = 800 } 
+	continuous_focus_position = { x = 100 y = 1100 } 
 	country = {
 		factor = 0
 		modifier = {
@@ -12,7 +12,7 @@ focus_tree = {
 		id = SAX_focus_1
 		icon = GFX_goal_generic_war_with_comintern
 		cost = 3
-		x = 8
+		x = 5
 		y = 0
 		completion_reward = {
 			hidden_effect = {
@@ -103,9 +103,9 @@ focus_tree = {
 
 	focus = { #소련 연락
 		id = SAX_focus_2
-		icon = GFX_focus_generic_join_comintern
+		icon = GFX_focus_SOV_mobilization_plan
 		cost = 1
-		x = 8
+		x = 5
 		y = 1
 		prerequisite = {
 			focus = SAX_focus_1
@@ -121,7 +121,7 @@ focus_tree = {
 		id = SAX_focus_3
 		icon = GFX_goal_generic_defence
 		cost = 1
-		x = 6
+		x = 3
 		y = 2
 		prerequisite = {
 			focus = SAX_focus_2
@@ -137,7 +137,7 @@ focus_tree = {
 		id = SAX_focus_4
 		icon = GFX_goal_generic_fortify_city
 		cost = 1
-		x = 5
+		x = 2
 		y = 3
 		prerequisite = {
 			focus = SAX_focus_3
@@ -199,7 +199,7 @@ focus_tree = {
 		id = SAX_focus_5
 		icon = GFX_focus_generic_coastal_fort
 		cost = 1
-		x = 7
+		x = 4
 		y = 3
 		mutually_exclusive = {
 			focus = SAX_focus_4
@@ -256,7 +256,7 @@ focus_tree = {
 		id = SAX_focus_6
 		icon = GFX_focus_ger_great_red_menace
 		cost = 1
-		x = 6
+		x = 3
 		y = 4
 		prerequisite = {
 			focus = SAX_focus_5
@@ -278,7 +278,7 @@ focus_tree = {
 		id = SAX_focus_7
 		icon = GFX_goal_generic_occupy_states_ongoing_war
 		cost = 1
-		x = 10
+		x = 7
 		y = 2
 		prerequisite = {
 			focus = SAX_focus_2
@@ -294,7 +294,7 @@ focus_tree = {
 		id = SAX_focus_8
 		icon = GFX_focus_ETH_freedom_at_gunpoint
 		cost = 1
-		x = 9
+		x = 6
 		y = 3
 		prerequisite = {
 			focus = SAX_focus_7
@@ -333,7 +333,7 @@ focus_tree = {
 		id = SAX_focus_9
 		icon = GFX_focus_generic_little_entente
 		cost = 1
-		x = 11
+		x = 8
 		y = 3
 		mutually_exclusive = {
 			focus = SAX_focus_8
@@ -372,7 +372,7 @@ focus_tree = {
 		id = SAX_focus_10
 		icon = GFX_goal_generic_small_arms
 		cost = 1
-		x = 10
+		x = 7
 		y = 4
 		prerequisite = {
 			focus = SAX_focus_8
@@ -390,7 +390,7 @@ focus_tree = {
 		id = SAX_focus_11
 		icon = GFX_focus_focus_fra_revolution_utmost
 		cost = 1
-		x = 8
+		x = 5
 		y = 5
 		prerequisite = {
 			focus = SAX_focus_10
@@ -404,7 +404,15 @@ focus_tree = {
 		
 		}
 		completion_reward = {
-			load_focus_tree = SAX_win_focus_tree
+			custom_effect_tooltip = SAX_focus_11_tt
+		 	set_global_flag = SAX_win_flag
+			hidden_effect = { #collapse focus tree
+				load_focus_tree = {
+					tree = SAX_focus_tree
+					keep_completed = yes
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 			hidden_effect = {
 				POL = {
 					country_event = {
@@ -413,6 +421,198 @@ focus_tree = {
 					}
 				}
 			}
+		}
+	}
+	focus = { #모든 권력을 소비에트로
+		id = SAX_all_power_to_the_soviets
+		icon = GFX_focus_generic_join_comintern
+		cost = 5
+		allow_branch = {
+			has_global_flag = SAX_win_flag
+		} 
+		x = 20
+		y = 0
+		completion_reward = {
+			set_cosmetic_tag = GER
+			if = {
+				limit = { has_idea = SAX_low_popular_support_1 }
+				add_ideas = SAX_low_popular_support_1
+			}
+			if = {
+				limit = { has_idea = SAX_low_popular_support_2 }
+				swap_ideas = {
+					remove_idea = SAX_low_popular_support_2
+					add_idea = SAX_low_popular_support_1
+				}
+			}
+			if = {
+				limit = { has_idea = SAX_low_popular_support_3 }
+				swap_ideas = {
+					remove_idea = SAX_low_popular_support_3
+					add_idea = SAX_low_popular_support_2
+				}
+			}
+			add_stability = 0.10
+			add_political_power = 60
+		}
+	}
+	focus = { #폐허에서 부활하여
+		id = SAX_auferstanden_aus_ruinen
+		icon = GFX_goal_generic_demand_territory
+		cost = 5
+		prerequisite = { focus = SAX_all_power_to_the_soviets }
+		x = 0
+		y = 2
+		relative_position_id = SAX_all_power_to_the_soviets
+		completion_reward = {
+		}
+	}
+	focus = { #연합 급진화
+		id = SAX_coalition_radicalization
+		icon = GFX_focus_SOV_the_last_purge
+		cost = 5
+		prerequisite = { focus = SAX_auferstanden_aus_ruinen }
+		mutually_exclusive = { focus = SAX_rightwing_opposition }
+		x = -1
+		y = 1
+		relative_position_id = SAX_auferstanden_aus_ruinen
+		completion_reward = {
+			add_war_support = 0.10
+			if = {
+				limit = { has_idea = SAX_conflict_with_the_social_democratic_left }
+				remove_ideas = SAX_conflict_with_the_social_democratic_left
+			}
+			add_timed_idea = {
+				idea = SAX_aftermath_of_the_purge
+				days = 120
+			}
+		}
+	}
+	focus = { #우익반대파
+		id = SAX_rightwing_opposition
+		icon = GFX_goal_generic_political_pressure
+		cost = 5
+		prerequisite = { focus = SAX_auferstanden_aus_ruinen }
+		mutually_exclusive = { focus = SAX_coalition_radicalization }
+		x = 1
+		y = 1
+		relative_position_id = SAX_auferstanden_aus_ruinen
+		completion_reward = {
+			add_war_support = -0.10
+			swap_ideas = {
+				remove_idea = SAX_conflict_with_the_social_democratic_left
+				add_idea = SAX_coalition_split_accelerates
+			}
+		}
+	}
+	focus = { #재건
+		id = SAX_aftermath_recovery
+		icon = GFX_goal_generic_construction2
+		cost = 5
+		prerequisite = { focus = SAX_coalition_radicalization focus = SAX_rightwing_opposition }
+		x = 0
+		y = 2
+		relative_position_id = SAX_auferstanden_aus_ruinen
+		completion_reward = {
+		}
+	}
+	focus = { #대중동원
+		id = SAX_mass_mobilization
+		icon = GFX_focus_YUG_pan_slavic_congress
+		cost = 5
+		prerequisite = { focus = SAX_aftermath_recovery }
+		mutually_exclusive = { focus = SAX_national_land_reconstruction_committee }
+		x = -1
+		y = 1
+		relative_position_id = SAX_aftermath_recovery
+		completion_reward = {
+		}
+	}
+	focus = { #국가재건위원회
+		id = SAX_national_land_reconstruction_committee
+		icon = GFX_goal_generic_soviet_construction
+		cost = 5
+		prerequisite = { focus = SAX_aftermath_recovery }
+		mutually_exclusive = { focus = SAX_mass_mobilization }
+		x = 1
+		y = 1
+		relative_position_id = SAX_aftermath_recovery
+		completion_reward = {
+		}
+	}
+	focus = { #산업 활성화
+		id = SAX_industry_revitalization
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 5
+		prerequisite = { focus = SAX_mass_mobilization focus = SAX_national_land_reconstruction_committee }
+		x = 0
+		y = 2
+		relative_position_id = SAX_aftermath_recovery
+		completion_reward = {
+			if = {
+				limit = { has_idea = SAX_low_popular_support_1 }
+				add_ideas = SAX_low_popular_support_1
+			}
+			if = {
+				limit = { has_idea = SAX_low_popular_support_2 }
+				swap_ideas = {
+					remove_idea = SAX_low_popular_support_2
+					add_idea = SAX_low_popular_support_1
+				}
+			}
+			if = {
+				limit = { has_idea = SAX_low_popular_support_3 }
+				swap_ideas = {
+					remove_idea = SAX_low_popular_support_3
+					add_idea = SAX_low_popular_support_2
+				}
+			}
+		}
+	}
+	focus = { #코민테른 가입
+		id = SAX_join_the_comintern
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		cost = 5
+		available = {
+			is_in_faction = no
+			not = { has_war_with = SOU }
+			SOV_comintern_joinable = yes 
+		}
+		bypass = {
+			is_in_faction_with = SOU
+		}
+		prerequisite = { focus = SAX_coalition_radicalization }
+		mutually_exclusive = { focus = SAX_thelman_ouster }
+		x = -2
+		y = 1
+		relative_position_id = SAX_coalition_radicalization
+		completion_reward = {
+			SOU = {
+				country_event = generic.2
+			}
+		}
+	}
+	focus = { #텔만 축출
+		id = SAX_thelman_ouster
+		icon = GFX_goal_generic_war_with_comintern
+		cost = 5
+		prerequisite = { focus = SAX_coalition_radicalization }
+		mutually_exclusive = { focus = SAX_join_the_comintern }
+		x = -6
+		y = 1
+		relative_position_id = SAX_coalition_radicalization
+		completion_reward = {
+		}
+	}
+	focus = { #국제 외교
+		id = SAX_international_diplomacy
+		icon = GFX_goal_generic_political_pressure
+		cost = 5
+		prerequisite = { focus = SAX_rightwing_opposition }
+		x = 4
+		y = 1
+		relative_position_id = SAX_rightwing_opposition
+		completion_reward = {
 		}
 	}
 }
