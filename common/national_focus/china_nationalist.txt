@@ -1724,47 +1724,6 @@
 	}
 
 	focus = {
-		id = CHI_bureau_of_investigation_and_statistics
-		icon = GFX_goal_generic_intelligence_exchange
-		prerequisite = { focus = CHI_military_affairs_commission }
-		x = 1
-		y = 1
-		relative_position_id = CHI_military_affairs_commission
-
-		cost = 5
-
-		ai_will_do = {
-			factor = 4
-		}
-
-		available = {
-
-		}
-
-		bypass = {
-
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		search_filters = { FOCUS_FILTER_STABILITY }
-		completion_reward = {
-			custom_effect_tooltip = available_political_advisor
-			if = {
-				limit = {
-					has_dlc = "La Resistance"
-				}
-				show_ideas_tooltip = CHI_dai_li_political_advisor
-			}
-			else = {
-				show_ideas_tooltip = CHI_dai_li_wtt_political_advisor
-			}
-		}
-	}
-
-	focus = {
 		id = CHI_60_divisions_plan
 		icon = GFX_goal_generic_axis_build_infantry
 		prerequisite = { focus = CHI_army_reform }
@@ -1799,9 +1758,9 @@
 	focus = {
 		id = CHI_whampoa_military_academy
 		icon = GFX_focus_chi_whampoa_military_academy
-		prerequisite = { focus = CHI_bureau_of_investigation_and_statistics }
+		prerequisite = { focus = CHI_military_affairs_commission }
 		x = 1
-		y = 2
+		y = 1
 		relative_position_id = CHI_military_affairs_commission
 
 		cost = 10
@@ -2432,12 +2391,36 @@
 		}
 	}
 	focus = {
-		id = KMT_cbis
-		icon = GFX_goal_generic_forceful_treaty
+		id = KMT_reinforce_new_life_movement
+		icon = GFX_goal_CHI_new_life_movement
 		prerequisite = { focus = CHI_hunjeong }
 		relative_position_id = CHI_hunjeong
 		x = 0
 		y = 1
+		cost = 5
+
+		ai_will_do = { factor = 4 }
+		available = { }
+ 		bypass = { }
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+		completion_reward = {
+			add_ideas = KMT_new_life
+		}
+	}
+	focus = {
+		id = KMT_cbis
+		icon = GFX_goal_CHI_jongtong
+		prerequisite = { focus = KMT_reinforce_new_life_movement }
+		relative_position_id = CHI_hunjeong
+		x = -1
+		y = 2
 
 		cost = 10
 
@@ -2453,94 +2436,95 @@
 
 		}
 		completion_reward = {
-			add_stability = 0.1
 			add_ideas = KMT_cbis_idea
 		}
 	}
 	focus = {
-		id = KMT_zhonghua_minzu
-		icon = GFX_goal_CHI_chinese_sun
+		id = KMT_strengthen_the_kmt
+		icon = GFX_goal_CHI_jongtong_sectors
 		prerequisite = { focus = KMT_cbis }
-		relative_position_id = KMT_cbis
+		relative_position_id = CHI_hunjeong
+		x = -2
+		y = 3
+
+		cost = 10
+
+		ai_will_do = { factor = 4 }
+		available = { }
+ 		bypass = { }
+
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
-		x = -1
-		y = 1
-		cost = 10
+
+		complete_tooltip = {
+
+		}
 		completion_reward = {
-			add_ideas = KMT_zhonghua_minzu_idea
+			effect_tooltip = {
+				swap_ideas = {
+					add_idea = KMT_cbis_idea_2
+					remove_idea = KMT_cbis_idea
+				}
+			}
+			hidden_effect = {
+			if = {
+				limit = { has_idea = KMT_cbis_idea }
+				swap_ideas = {
+					add_idea = KMT_cbis_idea_2
+					remove_idea = KMT_cbis_idea
+				}
+			}
+			if = {
+				limit = { has_idea = KMT_cbis_indoctrination }
+				swap_ideas = {
+					add_idea = KMT_CBIS_indoctrination_strong
+					remove_idea = KMT_cbis_indoctrination
+				}
+				
+			}
+			}
 		}
 	}
 	focus = {
 		id = KMT_cement_control_on_the_economy
 		icon = GFX_goal_generic_soviet_construction
-		prerequisite = { focus = KMT_cbis }
-		relative_position_id = KMT_cbis
+		prerequisite = { focus = KMT_bureaucracy_reorganization }
+		relative_position_id = CHI_hunjeong
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
-		x = 1
-		y = 1
+		x = 3
+		y = 4
 		cost = 10
 		completion_reward = {
 			add_ideas = KMT_cement_control_on_the_economy
 		}
 	}
 	focus = {
-		id = KMT_bureaucracy_reorganization
-		icon = GFX_focus_generic_conspiracy
-		prerequisite = { focus = KMT_cement_control_on_the_economy }
-		relative_position_id = KMT_cement_control_on_the_economy
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		x = 0
-		y = 1
-		cost = 10
-		completion_reward = {
-			remove_ideas = CHI_ineffective_bureaucracy
-		}
-	}
-	focus = {
 		id = KMT_centralizing_power
 		icon = GFX_focus_generic_court
-		prerequisite = { focus = KMT_bureaucracy_reorganization  }
-		prerequisite = { focus = KMT_Identity  }
+		prerequisite = { focus = KMT_political_indoctrination }
+		prerequisite = { focus = KMT_strengthen_the_kmt }
+		prerequisite = { focus = KMT_bureaucracy_reorganization }
 		available = { 
 			has_country_leader = {
 				character = CHI_chiang_kaishek
 				ruling_only = yes
 			}
 		}
-		relative_position_id = KMT_bureaucracy_reorganization
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		x = -1
-		y = 1
-		cost = 10
-		completion_reward = {
-			add_country_leader_trait = dictator 
-		}
-	}
-	focus = {
-		id = KMT_Identity
-		icon = GFX_focus_spr_torchbearers_of_tomorrow
-		prerequisite = { focus = KMT_zhonghua_minzu  }
-		available = { }
-		relative_position_id = KMT_zhonghua_minzu
+		relative_position_id = CHI_hunjeong
 		cancel_if_invalid = yes
 		continue_if_invalid = no
 		available_if_capitulated = no
 		x = 0
-		y = 1
+		y = 4
 		cost = 10
 		completion_reward = {
-			swap_ideas = {
-				add_idea = KMT_zhonghua_minzu_II_idea
-				remove_idea = KMT_zhonghua_minzu_idea
+			add_country_leader_trait = dictator 
+			add_popularity = {
+				ideology = neutrality
+				popularity = 1
 			}
 		}
 	}
@@ -2558,7 +2542,7 @@
 		relative_position_id = KMT_centralizing_power
 		x = 2
 		y = 1
-		cost = 10
+		cost = 5
 		completion_reward = {
 			add_political_power = 25
 			add_stability = 0.1
@@ -2577,7 +2561,9 @@
 				608 = { is_controlled_by = ROOT }
 				613 = { is_controlled_by = ROOT }
 				620 = { is_controlled_by = ROOT }
+				has_completed_focus = KMT_peace_agreement_japan
 			}
+			surrender_progress > 0.5
 		}
 		relative_position_id = KMT_walking_the_tiger
 		x = -2
@@ -2589,16 +2575,106 @@
 	}
 	focus = {
 		id = KMT_inheritor_of_the_mantle_of_SunWen
-		icon = GFX_focus_generic_support_the_left_right
+		icon = GFX_goal_CHI_chinese_sun
 		prerequisite = { focus = KMT_walking_the_tiger }
 		available = { }
 		relative_position_id = KMT_walking_the_tiger
 		x = 0
-		y = 1
-		cost = 10
+		y = 2
+		cost = 5
 		completion_reward = {
 			add_war_support = 0.05
-			add_country_leader_trait = BA_CHI_inheritor_of_Sunwen
+			swap_ruler_traits = {
+				remove = BA_CHI_Great_commander
+				add = BA_CHI_Great_Great_commander_1
+			}
+		}
+	} # 
+	focus = {
+		id = KMT_New_koumintang
+		icon = GFX_goal_CHI_blueshirts_coup
+		prerequisite = { focus = KMT_inheritor_of_the_mantle_of_SunWen }
+		available = { }
+		relative_position_id = KMT_inheritor_of_the_mantle_of_SunWen
+		x = -1
+		y = 1
+		cost = 5
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = KMT_assume_intra_party_leadership
+		icon = GFX_goal_CHI_assume_intra_party_leadership
+		prerequisite = { focus = KMT_inheritor_of_the_mantle_of_SunWen }
+		available = { }
+		relative_position_id = KMT_inheritor_of_the_mantle_of_SunWen
+		x = 1
+		y = 1
+		cost = 5
+		completion_reward = {
+
+		}
+	}
+	focus = {
+		id = KMT_political_indoctrination
+		icon = GFX_goal_CHI_party_net
+		prerequisite = { focus = KMT_cbis }
+		available = { }
+		relative_position_id = CHI_hunjeong
+		x = -0
+		y = 3
+		cost = 5
+		completion_reward = {
+			effect_tooltip = {
+				swap_ideas = {
+					add_idea = KMT_cbis_indoctrination
+					remove_idea = KMT_cbis_idea
+				}
+			}
+			hidden_effect = {
+			if = {
+				limit = { has_idea = KMT_cbis_idea }
+				swap_ideas = {
+					add_idea = KMT_cbis_indoctrination
+					remove_idea = KMT_cbis_idea
+				}
+			}
+			if = {
+				limit = { has_idea = KMT_cbis_idea_2 }
+				swap_ideas = {
+					add_idea = KMT_CBIS_indoctrination_strong
+					remove_idea = KMT_cbis_idea_2
+				}
+			}
+			}
+		}
+	}
+	focus = {
+		id = KMT_declare_martial_law_focus
+		icon = GFX_focus_usa_voter_registration_act
+		prerequisite = { focus = KMT_New_koumintang }
+		prerequisite = { focus = KMT_assume_intra_party_leadership }
+		available = { }
+		relative_position_id = KMT_inheritor_of_the_mantle_of_SunWen
+		x = 0
+		y = 2
+		cost = 5
+		completion_reward = {
+			add_ideas = KMT_authoritarianism
+		}
+	}
+	focus = {
+		id = KMT_father_of_nations
+		icon = GFX_goal_CHI_number_one_of_kmt
+		prerequisite = { focus = KMT_declare_martial_law_focus }
+		available = { }
+		relative_position_id = KMT_declare_martial_law_focus
+		x = 0
+		y = 2
+		select_effect = { play_song = "warofresistance" }
+		cost = 10
+		completion_reward = {
+
 		}
 	}
 	focus = {
@@ -2663,6 +2739,19 @@
 		}
 	}
 	focus = {
+		id = KMT_denounce_Chiang_kai_shek_crimes
+		icon = GFX_goal_generic_dangerous_deal
+		prerequisite = { focus = KMT_RCA }
+		available = { }
+		relative_position_id = KMT_RCA
+		x = 0
+		y = 1
+		cost = 10
+		completion_reward = {
+
+		}
+	}
+	focus = {
 		id = KMT_Right
 		icon = GFX_focus_chi_cooperation_with_the_nationalists
 		prerequisite = { focus = KMT_broken_Chiang_Wang_Cooperation }
@@ -2720,8 +2809,70 @@
 			JAP = { 
 				country_event = { id = BA_generic_event.5 }
 			}
+			if = { 
+				limit = {
+					has_idea = KMT_revange_of_Najing
+				}
+				remove_ideas = KMT_revange_of_Najing
+			}
 			#add_stability = -0.25
 			#add_war_support = -0.25
+		}
+	}
+	focus = {
+		id = CHI_bureau_of_investigation_and_statistics
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = { focus = KMT_reinforce_new_life_movement }
+		x = 1
+		y = 2
+		relative_position_id = CHI_hunjeong
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			custom_effect_tooltip = available_political_advisor
+			if = {
+				limit = {
+					has_dlc = "La Resistance"
+				}
+				show_ideas_tooltip = CHI_dai_li_political_advisor
+			}
+			else = {
+				show_ideas_tooltip = CHI_dai_li_wtt_political_advisor
+			}
+		}
+	}
+	focus = {
+		id = KMT_bureaucracy_reorganization
+		icon = GFX_focus_generic_conspiracy
+		prerequisite = { focus = CHI_bureau_of_investigation_and_statistics }
+		relative_position_id = CHI_hunjeong
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		x = 2
+		y = 3
+		cost = 10
+		completion_reward = {
+			remove_ideas = CHI_ineffective_bureaucracy
 		}
 	}
 	
