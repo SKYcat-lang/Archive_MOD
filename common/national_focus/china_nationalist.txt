@@ -384,7 +384,7 @@
 		available_if_capitulated = no
 
 		complete_tooltip = {
-
+			add_political_power = 120
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
@@ -422,6 +422,14 @@
 		search_filters = { FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
 			add_war_support = 0.1
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.6
+			}
+			set_politics = { ruling_party = democratic }
+			CHI_weng_wenhao = {
+				add_country_leader_trait = BA_CHI_demo_leader
+			}
 		}
 	}
 
@@ -987,6 +995,48 @@
 			}
 		}
 	}
+	focus = {
+		id = KMT_SHX_offer
+		icon = GFX_goal_anschluss
+		prerequisite = { focus = CHI_prioritize_the_interior }
+		available = {
+			is_subject = no
+			SHX = {
+				exists = yes
+				NOT = {
+					has_war_with = ROOT
+				}
+				OR = {
+					is_in_faction = no
+					is_in_faction_with = CHI
+				}
+			}
+		}
+		cancel = {
+			OR = {
+				is_subject = yes
+				SHX = { exists = no }
+				has_war_with = SHX
+				SHX = { is_subject = yes }
+			}
+		}
+		bypass = {
+			OR = {
+				original_tag = SHX
+				SHX = { exists = no }
+				SHX = { is_subject = yes }
+			}
+		}
+		
+		x = 0
+		y = 1
+		relative_position_id = CHI_prioritize_the_interior
+		cost = 5
+		completion_reward = {
+			#SHX = { country_event = { id = kmt.1  hours = 8 }}
+			SHX = { country_event = { id = wtt_china.1 } }
+		}
+	}
 
 	focus = {
 		id = CHI_subjugate_the_warlords
@@ -1373,10 +1423,9 @@
 	focus = {
 		id = CHI_fortify_shanghai
 		icon = GFX_goal_generic_fortify_city
-		prerequisite = { focus = CHI_military_affairs_commission }
-		x = -2
+		prerequisite = { focus = CHI_foreign_threats }
+		x = 5
 		y = 1
-		relative_position_id = CHI_military_affairs_commission
 
 		cost = 10
 
@@ -1484,9 +1533,9 @@
 		id = CHI_the_chinese_hindenburg_line
 		icon = GFX_goal_generic_construct_military
 		prerequisite = { focus = CHI_fortify_shanghai }
-		x = -2
-		y = 2
-		relative_position_id = CHI_military_affairs_commission
+		x = 0
+		y = 1
+		relative_position_id = CHI_fortify_shanghai
 
 		cost = 10
 
@@ -1647,7 +1696,7 @@
 		id = CHI_army_reform
 		icon = GFX_focus_chi_army_reform
 		prerequisite = { focus = CHI_military_affairs_commission }
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = CHI_military_affairs_commission
 
@@ -1678,11 +1727,11 @@
 		id = CHI_bureau_of_investigation_and_statistics
 		icon = GFX_goal_generic_intelligence_exchange
 		prerequisite = { focus = CHI_military_affairs_commission }
-		x = 2
+		x = 1
 		y = 1
 		relative_position_id = CHI_military_affairs_commission
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 4
@@ -1702,7 +1751,6 @@
 
 		search_filters = { FOCUS_FILTER_STABILITY }
 		completion_reward = {
-			add_stability = 0.1
 			custom_effect_tooltip = available_political_advisor
 			if = {
 				limit = {
@@ -1720,7 +1768,7 @@
 		id = CHI_60_divisions_plan
 		icon = GFX_goal_generic_axis_build_infantry
 		prerequisite = { focus = CHI_army_reform }
-		x = 0
+		x = -1
 		y = 2
 		relative_position_id = CHI_military_affairs_commission
 
@@ -1752,7 +1800,7 @@
 		id = CHI_whampoa_military_academy
 		icon = GFX_focus_chi_whampoa_military_academy
 		prerequisite = { focus = CHI_bureau_of_investigation_and_statistics }
-		x = 2
+		x = 1
 		y = 2
 		relative_position_id = CHI_military_affairs_commission
 
@@ -2251,7 +2299,7 @@
 		id = CHI_hunjeong
 		icon = GFX_goal_CHI_power_to_the_blueshirts
 		mutually_exclusive = { focus = CHI_three_principles_of_the_people }
-		x = 22
+		x = 24
 		y = 0
 
 		cost = 10
@@ -2276,51 +2324,9 @@
 
 		}
 
-		search_filters = { FOCUS_FILTER_STABILITY }
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT }
 		completion_reward = {
-			add_stability = 0.05
-		}
-	}
-	focus = {
-		id = KMT_SHX_offer
-		icon = GFX_goal_anschluss
-		prerequisite = { focus = CHI_prioritize_the_interior }
-		available = {
-			is_subject = no
-			SHX = {
-				exists = yes
-				NOT = {
-					has_war_with = ROOT
-				}
-				OR = {
-					is_in_faction = no
-					is_in_faction_with = CHI
-				}
-			}
-		}
-		cancel = {
-			OR = {
-				is_subject = yes
-				SHX = { exists = no }
-				has_war_with = SHX
-				SHX = { is_subject = yes }
-			}
-		}
-		bypass = {
-			OR = {
-				original_tag = SHX
-				SHX = { exists = no }
-				SHX = { is_subject = yes }
-			}
-		}
-		
-		x = 0
-		y = 1
-		relative_position_id = CHI_prioritize_the_interior
-		cost = 5
-		completion_reward = {
-			#SHX = { country_event = { id = kmt.1  hours = 8 }}
-			SHX = { country_event = { id = wtt_china.1 } }
+			add_war_support = 0.05
 		}
 	}
 	focus = {
@@ -2355,74 +2361,6 @@
 					}
 				}
 				add_ideas = KMT_propaganda
-			}
-		}
-	}
-	focus = {
-		id = KMT_fortify_land
-		icon = GFX_goal_generic_fortify_city
-		prerequisite = { focus = CHI_foreign_threats }
-		available = {
-			NOT = {
-				has_war_with = PRC
-				has_war_with = SHX
-				has_war_with = GXC
-				has_war_with = XSM
-				has_war_with = YUN
-				is_in_faction_with = JAP
-			}
-		}
-		bypass = {
-			OR = {
-				NOT = {
-					608 = {
-						is_fully_controlled_by = ROOT
-					}
-					613 = {
-						is_fully_controlled_by = ROOT
-					}
-				}
-				is_in_faction_with = JAP
-			}
-		}
-		
-		x = 2
-		y = 1
-		relative_position_id = CHI_foreign_threats
-		cost = 10
-		completion_reward = {
-			army_experience = 10
-			if = {
-				limit = {
-					608 = {
-						is_fully_controlled_by = ROOT
-					}
-				}
-				608 = {
-					add_building_construction = {
-						type = bunker
-						level = 3
-						province = 9843
-						instant_build = yes
-					}
-					add_building_construction = {
-						type = bunker
-						level = 3
-						province = 11761
-						instant_build = yes
-					}
-					add_building_construction = {
-						type = bunker
-						level = 3
-						province = 10068
-						instant_build = yes
-					}
-					add_building_construction = {
-						type = anti_air_building
-						level = 3
-						instant_build = yes
-					}
-				}
 			}
 		}
 	}
@@ -2493,4 +2431,298 @@
 			}
 		}
 	}
+	focus = {
+		id = KMT_cbis
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = CHI_hunjeong }
+		relative_position_id = CHI_hunjeong
+		x = 0
+		y = 1
+
+		cost = 10
+
+		ai_will_do = { factor = 4 }
+		available = { }
+ 		bypass = { }
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		complete_tooltip = {
+
+		}
+		completion_reward = {
+			add_stability = 0.1
+			add_ideas = KMT_cbis_idea
+		}
+	}
+	focus = {
+		id = KMT_zhonghua_minzu
+		icon = GFX_goal_CHI_chinese_sun
+		prerequisite = { focus = KMT_cbis }
+		relative_position_id = KMT_cbis
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		x = -1
+		y = 1
+		cost = 10
+		completion_reward = {
+			add_ideas = KMT_zhonghua_minzu_idea
+		}
+	}
+	focus = {
+		id = KMT_cement_control_on_the_economy
+		icon = GFX_goal_generic_soviet_construction
+		prerequisite = { focus = KMT_cbis }
+		relative_position_id = KMT_cbis
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		x = 1
+		y = 1
+		cost = 10
+		completion_reward = {
+			add_ideas = KMT_cement_control_on_the_economy
+		}
+	}
+	focus = {
+		id = KMT_bureaucracy_reorganization
+		icon = GFX_focus_generic_conspiracy
+		prerequisite = { focus = KMT_cement_control_on_the_economy }
+		relative_position_id = KMT_cement_control_on_the_economy
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		x = 0
+		y = 1
+		cost = 10
+		completion_reward = {
+			remove_ideas = CHI_ineffective_bureaucracy
+		}
+	}
+	focus = {
+		id = KMT_centralizing_power
+		icon = GFX_focus_generic_court
+		prerequisite = { focus = KMT_bureaucracy_reorganization  }
+		prerequisite = { focus = KMT_Identity  }
+		available = { 
+			has_country_leader = {
+				character = CHI_chiang_kaishek
+				ruling_only = yes
+			}
+		}
+		relative_position_id = KMT_bureaucracy_reorganization
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		x = -1
+		y = 1
+		cost = 10
+		completion_reward = {
+			add_country_leader_trait = dictator 
+		}
+	}
+	focus = {
+		id = KMT_Identity
+		icon = GFX_focus_spr_torchbearers_of_tomorrow
+		prerequisite = { focus = KMT_zhonghua_minzu  }
+		available = { }
+		relative_position_id = KMT_zhonghua_minzu
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		x = 0
+		y = 1
+		cost = 10
+		completion_reward = {
+			swap_ideas = {
+				add_idea = KMT_zhonghua_minzu_II_idea
+				remove_idea = KMT_zhonghua_minzu_idea
+			}
+		}
+	}
+	focus = {
+		id = KMT_walking_the_tiger
+		icon = GFX_goal_CHI_Walking_the_tiger
+		prerequisite = { focus = KMT_centralizing_power  }
+		mutually_exclusive = { focus = KMT_hunt_of_tiger }
+		available = { 
+			has_country_leader = {
+				character = CHI_chiang_kaishek
+				ruling_only = yes
+			}
+		}
+		relative_position_id = KMT_centralizing_power
+		x = 2
+		y = 1
+		cost = 10
+		completion_reward = {
+			add_political_power = 25
+			add_stability = 0.1
+			swap_ruler_traits = {
+				add = BA_CHI_Great_commander
+				remove = generallissimo
+			}
+		}
+	}
+	focus = {
+		id = KMT_huisaengdojeo_hangjeondojeo
+		icon = GFX_goal_CHI_hangjeondojeo
+		prerequisite = { focus = KMT_walking_the_tiger focus = KMT_hunt_of_tiger }
+		available = { 
+			NOT = {
+				608 = { is_controlled_by = ROOT }
+				613 = { is_controlled_by = ROOT }
+				620 = { is_controlled_by = ROOT }
+			}
+		}
+		relative_position_id = KMT_walking_the_tiger
+		x = -2
+		y = 1
+		cost = 10
+		completion_reward = {
+			add_ideas = KMT_revange_of_Najing
+		}
+	}
+	focus = {
+		id = KMT_inheritor_of_the_mantle_of_SunWen
+		icon = GFX_focus_generic_support_the_left_right
+		prerequisite = { focus = KMT_walking_the_tiger }
+		available = { }
+		relative_position_id = KMT_walking_the_tiger
+		x = 0
+		y = 1
+		cost = 10
+		completion_reward = {
+			add_war_support = 0.05
+			add_country_leader_trait = BA_CHI_inheritor_of_Sunwen
+		}
+	}
+	focus = {
+		id = KMT_hunt_of_tiger
+		icon = GFX_focus_prc_remove_chiang_kai_shek
+		prerequisite = { focus = KMT_centralizing_power  }
+		mutually_exclusive = { focus = KMT_walking_the_tiger }
+		available = { 
+			has_country_leader = {
+				character = CHI_chiang_kaishek
+				ruling_only = yes
+			}
+		}
+		relative_position_id = KMT_centralizing_power
+		x = -2
+		y = 1
+		cost = 10
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = -0.1
+		}
+	}
+	focus = {
+		id = KMT_broken_Chiang_Wang_Cooperation
+		icon = GFX_focus_attack_china
+		prerequisite = { focus = KMT_hunt_of_tiger  }
+		available = { }
+		relative_position_id = KMT_hunt_of_tiger
+		x = 0
+		y = 1
+		cost = 10
+		completion_reward = {
+			add_political_power = 50
+			add_stability = 0.05
+			add_war_support = 0.05
+			CHI_chiang_kaishek = {
+				remove_country_leader_role = {
+					ideology = despotism
+				}
+			}
+		}
+	}
+	focus = {
+		id = KMT_RCA
+		icon = GFX_focus_generic_china1
+		prerequisite = { focus = KMT_broken_Chiang_Wang_Cooperation }
+		available = { }
+		relative_position_id = KMT_broken_Chiang_Wang_Cooperation
+		mutually_exclusive = { focus = KMT_Right }
+		x = -1
+		y = 1
+		cost = 10
+		completion_reward = {
+			create_country_leader = {
+				name = SOV_supreme_soviet
+				desc = "POLITICS_JOSEF_TERBOVEN_DESC"
+				picture = GFX_portrait_SOV_supreme_soviet
+				expire = "1965.1.1"
+				ideology = despotism
+				traits = { strong_party_discipline }
+			}
+		}
+	}
+	focus = {
+		id = KMT_Right
+		icon = GFX_focus_chi_cooperation_with_the_nationalists
+		prerequisite = { focus = KMT_broken_Chiang_Wang_Cooperation }
+		available = { }
+		relative_position_id = KMT_broken_Chiang_Wang_Cooperation
+		mutually_exclusive = { focus = KMT_RCA }
+		x = 1
+		y = 1
+		cost = 10
+		completion_reward = {
+			hidden_effect = {
+				GXC = { 
+					every_unit_leader = { 
+						set_nationality = CHI 
+					} 
+				}
+			}
+			annex_country = { 
+				target = GXC
+				transfer_troops = yes 
+			}
+			add_field_marshal_role = {
+				character = "CHI_li_zongren"
+				traits = { defensive_doctrine fast_planner }
+				skill = 4
+				attack_skill = 3
+				defense_skill = 4
+				planning_skill = 3
+				logistics_skill = 3		
+			}
+			add_country_leader_role = {
+				character = CHI_li_zongren
+				promote_leader = yes
+				country_leader = {
+					ideology = despotism
+					expire = 1965.1.1.1
+					traits =  {	generallissimo }
+				}
+			}
+		}
+	}
+	focus = {
+		id = KMT_peace_agreement_japan
+		icon = GFX_focus_CZE_german_puppet
+		prerequisite = { focus = KMT_hunt_of_tiger  }
+		available = { 
+			has_war_with = JAP
+			surrender_progress > 0.5
+		}
+		relative_position_id = KMT_hunt_of_tiger
+		x = -2
+		y = 1
+		cost = 10
+		completion_reward = {
+			JAP = { 
+				country_event = { id = BA_generic_event.5 }
+			}
+			#add_stability = -0.25
+			#add_war_support = -0.25
+		}
+	}
+	
 }
