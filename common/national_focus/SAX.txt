@@ -522,9 +522,15 @@ focus_tree = {
 		relative_position_id = SAX_auferstanden_aus_ruinen
 		completion_reward = {
 			add_war_support = -0.10
-			swap_ideas = {
-				remove_idea = SAX_conflict_with_the_social_democratic_left
-				add_idea = SAX_coalition_split_accelerates
+			if = {
+				limit = { has_idea = SAX_conflict_with_the_social_democratic_left }
+				swap_ideas = {
+					remove_idea = SAX_conflict_with_the_social_democratic_left
+					add_idea = SAX_coalition_split_accelerates
+				}
+			}
+			else = {
+				add_ideas = SAX_coalition_split_accelerates
 			}
 		}
 	}
@@ -541,6 +547,56 @@ focus_tree = {
 				idea = SAX_social_reconstruction
 				days = 180
 			}
+			hidden_effect = {
+				random_owned_controlled_state = {
+					limit = {
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+						NOT = { has_state_flag = SAX_industry_revitalization_flag }
+					}
+					set_state_flag = SAX_industry_revitalization_flag
+				}
+				random_owned_controlled_state = {
+					limit = {
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+						NOT = { has_state_flag = SAX_industry_revitalization_flag }
+					}
+					set_state_flag = SAX_industry_revitalization_flag
+				}
+				random_owned_controlled_state = {
+					limit = {
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+						NOT = { has_state_flag = SAX_industry_revitalization_flag }
+					}
+					set_state_flag = SAX_industry_revitalization_flag
+				}
+				random_owned_controlled_state = {
+					limit = {
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+						NOT = { has_state_flag = SAX_industry_revitalization_flag }
+					}
+					set_state_flag = SAX_industry_revitalization_flag
+				}
+			}
 		}
 	}
 	focus = { #대중동원
@@ -555,6 +611,7 @@ focus_tree = {
 		completion_reward = {
 			add_ideas = SAX_great_leap_forward
 			unlock_decision_tooltip = SAX_stop_great_leap_forward
+			set_country_flag = SAX_mass_mobilization_flag
 		}
 	}
 	focus = { #국가재건위원회
@@ -597,6 +654,39 @@ focus_tree = {
 					add_idea = SAX_low_popular_support_2
 				}
 			}
+
+			if = {
+				limit = {
+					any_owned_state = {
+						is_controlled_by = ROOT 
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+						has_state_flag = SAX_industry_revitalization_flag
+					}
+				}
+				every_owned_state = {
+					limit = {
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+						has_state_flag = SAX_industry_revitalization_flag
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					clr_state_flag = SAX_industry_revitalization_flag
+				}
+			}
 		}
 	}
 	focus = { #코민테른 가입
@@ -613,7 +703,7 @@ focus_tree = {
 		}
 		prerequisite = { focus = SAX_coalition_radicalization }
 		mutually_exclusive = { focus = SAX_thelman_ouster }
-		x = -2
+		x = -3
 		y = 1
 		relative_position_id = SAX_coalition_radicalization
 		completion_reward = {
@@ -628,7 +718,7 @@ focus_tree = {
 		cost = 5
 		prerequisite = { focus = SAX_coalition_radicalization }
 		mutually_exclusive = { focus = SAX_join_the_comintern }
-		x = -6
+		x = -7
 		y = 1
 		relative_position_id = SAX_coalition_radicalization
 		completion_reward = {
@@ -638,11 +728,11 @@ focus_tree = {
 		id = SAX_ML_line
 		icon = GFX_focus_SOV_the_path_of_marxism_leninism
 		cost = 10
-		prerequisite = { focus = SAX_thelman_ouster focus = SAX_join_the_comintern }
+		prerequisite = { focus = SAX_join_the_comintern }
 		mutually_exclusive = { focus = SAX_marxist_liberation }
-		x = 2
+		x = 0
 		y = 1
-		relative_position_id = SAX_thelman_ouster
+		relative_position_id = SAX_join_the_comintern
 		completion_reward = {
 		}
 	}
@@ -650,11 +740,60 @@ focus_tree = {
 		id = SAX_marxist_liberation
 		icon = GFX_focus_eng_liberate_the_home_of_marx
 		cost = 10
-		prerequisite = { focus = SAX_thelman_ouster }
+		prerequisite = { focus = SAX_thelman_ouster focus = SAX_join_the_comintern }
 		mutually_exclusive = { focus = SAX_ML_line }
-		x = -2
+		x = 1
 		y = 1
 		relative_position_id = SAX_thelman_ouster
+		completion_reward = {
+			add_ideas = SAX_starting_point_of_revolution
+		}
+	}
+	focus = { #반혁명 제거
+		id = SAX_eliminate_counterrevolution
+		icon = GFX_goal_generic_secret_weapon
+		cost = 5
+		prerequisite = { focus = SAX_thelman_ouster }
+		x = -1
+		y = 1
+		relative_position_id = SAX_thelman_ouster
+		completion_reward = {
+			add_timed_idea = {
+				idea = SAX_take_control_of_politics
+				days = 365
+			}
+		}
+	}
+	focus = { #왼쪽으로!
+		id = SAX_the_left
+		icon = GFX_focus_SOV_the_glory_of_the_red_army_communism
+		cost = 10
+		prerequisite = { focus = SAX_eliminate_counterrevolution }
+		prerequisite = { focus = SAX_marxist_liberation }
+		mutually_exclusive = { focus = SAX_rosa_luxembourg_succession }
+		available = {
+			has_idea = SAX_great_leap_forward
+			has_country_flag = {
+				flag = SAX_mass_mobilization_flag
+				days > 100
+			}
+			communism > 0.90
+		}
+		x = -4
+		y = 1
+		relative_position_id = SAX_marxist_liberation
+		completion_reward = {
+		}
+	}
+	focus = { #로자 룩셈부르크 계승
+		id = SAX_rosa_luxembourg_succession
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 10
+		prerequisite = { focus = SAX_marxist_liberation }
+		mutually_exclusive = { focus = SAX_the_left }
+		x = 0
+		y = 1
+		relative_position_id = SAX_marxist_liberation
 		completion_reward = {
 		}
 	}
@@ -662,10 +801,10 @@ focus_tree = {
 		id = SAX_workers_state
 		icon = GFX_focus_eng_concessions_to_the_trade_unions
 		cost = 10
-		prerequisite = { focus = SAX_join_the_comintern focus = SAX_thelman_ouster }
-		x = 0
+		prerequisite = { focus = SAX_coalition_radicalization }
+		x = -1
 		y = 1
-		relative_position_id = SAX_join_the_comintern
+		relative_position_id = SAX_coalition_radicalization
 		completion_reward = {
 		}
 	}
@@ -675,7 +814,7 @@ focus_tree = {
 		cost = 10
 		prerequisite = { focus = SAX_workers_state }
 		x = 0
-		y = 2
+		y = 3
 		relative_position_id = SAX_workers_state
 		completion_reward = {
 		}
