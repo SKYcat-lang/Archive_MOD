@@ -1082,7 +1082,7 @@ focus_tree = {
 		cost = 2
 		x = 3
 		y = 10
-		icon = GFX_focus_attack_france
+		icon = GFX_focus_generic_provoke_border_clashes
 		ai_will_do = {
 			factor = 100
 		}
@@ -1517,6 +1517,9 @@ focus_tree = {
 		cost = 2
 		x = 24
 		y = 3
+		mutually_exclusive = {
+			focus = FRA_focus_resist_3.5
+		}
 		prerequisite = {
 			focus = FRA_focus_resist_3
 		}
@@ -2210,11 +2213,41 @@ focus_tree = {
 		}
 	}
 	focus = {
+		#구국위원회
+		id = FRA_focus_resist_3.5
+		icon = GFX_focus_POL_complete_april_constitution
+		cost = 2.9
+		x = 30
+		y = 3
+		ai_will_do = {
+			base = 1000
+			modifier = {
+				has_country_flag = FRA_ai_henri
+				add = 100
+			}
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_koup_0
+		}
+		prerequisite = {
+			focus = FRA_focus_resist_3
+		}
+		available = {
+			FRA_henri = {
+				is_country_leader = yes
+			}
+		}
+		completion_reward = {
+			add_political_power = 50
+			add_ideas = FRA_rescue_committee
+		}
+	}
+	focus = {
 		#권위주의자 숙청
 		id = FRA_focus_resist_6
 		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
-		cost = 4.4
-		x = 26
+		cost = 2.9
+		x = 27
 		y = 4
 		ai_will_do = {
 			base = 1000
@@ -2224,20 +2257,15 @@ focus_tree = {
 			}
 		}
 		prerequisite = {
-			focus = FRA_focus_resist_3
+			focus = FRA_focus_resist_3.5
 		}
 		prerequisite = {
 			focus = FRA_focus_resist_5
 		}
-		available = {
-			FRA_henri = {
-				is_country_leader = yes
-			}
-		}
 		completion_reward = {
 			add_timed_idea = {
 				idea = FRA_purge
-				days = 300
+				days = 200
 			}
 			army_experience = -50
 		}
@@ -2247,7 +2275,7 @@ focus_tree = {
 		id = FRA_focus_resist_7
 		icon = GFX_focus_spr_torchbearers_of_tomorrow
 		cost = 4.4
-		x = 27
+		x = 28
 		y = 5
 		prerequisite = {
 			focus = FRA_focus_resist_6
@@ -2256,7 +2284,14 @@ focus_tree = {
 			focus = FRA_focus_resist_8
 		}
 		completion_reward = {
-			add_ideas = FRA_assembly
+			swap_ideas = {
+				remove_idea = FRA_rescue_committee
+				add_idea = FRA_rescue_committee_1
+			}
+			country_event = {
+				id = FRA_prov_event.64
+				days = 3
+			}
 		}
 	}
 	focus = {
@@ -2264,215 +2299,63 @@ focus_tree = {
 		icon = GFX_goal_generic_improve_relations
 		id = FRA_focus_resist_8
 		cost = 4.4
-		x = 28
+		x = 29
 		y = 4
 		prerequisite = {
 			focus = FRA_focus_resist_5
 		}
-		available = {
-			FRA_henri = {
-				is_country_leader = yes
-			}
+		prerequisite = {
+			focus = FRA_focus_resist_3.5
 		}
 		completion_reward = {
 			add_stability = 0.1
-			add_political_power = 10
 			add_popularity = {
 				ideology = neutrality
 				popularity = 0.05
 			}
+			swap_ideas = {
+				remove_idea = FRA_resist_request
+				add_idea = FRA_less_working
+			}
 		}
 	}
 	focus = {
-		#알제리인 시민권 부여
+		#정치적 권리 확대
 		icon = GFX_focus_generic_treaty
 		id = FRA_focus_resist_9
-		cost = 4.4
-		x = 28
+		cost = 2.9
+		x = 29
 		y = 6
-		prerequisite = {
-			focus = FRA_focus_resist_8
-		}
 		prerequisite = {
 			focus = FRA_focus_resist_7
 		}
 		completion_reward = {
 			add_ideas = FRA_alg_civil
-			459 = {
-				add_core_of = FRA
-			}
-			hidden_effect = {
-				country_event = {
-					id = FRA_prov_event.64
-					days = 10
-				}
-			}
 		}
 	}
 	focus = {
-		#아프리카 자치구 설립
+		#보편 복지
 		id = FRA_focus_resist_10
-		icon = GFX_goal_anschluss
+		icon = GFX_goal_generic_national_unity
 		cost = 4.4
-		x = 26
+		x = 27
 		y = 6
 		prerequisite = {
 			focus = FRA_focus_resist_6
 		}
-		prerequisite = {
-			focus = FRA_focus_resist_7
-		}
 		completion_reward = {
-			custom_effect_tooltip = FRA_focus_resist_10_tt
-			hidden_effect = {
-				MOR = {
-					every_core_state = {
-						limit = {
-							is_owned_by = FRA
-						}
-						transfer_state_to = MOR
-					}
-					create_country_leader = {
-						name = FRA_borough
-						ideology = liberalism
-						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
-						expire = "1965.1.1"
-						traits = {
-							FRA_weak_auto
-						}
-					}
-					set_variable = {
-						collaboration_formed_by = ROOT
-					}
-				}
-				MRT = {
-					every_state = {
-						limit = {
-							is_owned_by = fra
-							is_on_continent = africa
-							NOT = {
-								state = 459
-								state = 460
-								state = 513
-								state = 514
-							}
-						}
-						transfer_state_to = MRT
-						add_core_of = MRT
-					}
-					create_country_leader = {
-						name = FRA_borough
-						ideology = liberalism
-						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
-						expire = "1965.1.1"
-						traits = {
-							FRA_weak_auto
-						}
-					}
-					set_variable = {
-						collaboration_formed_by = ROOT
-					}
-				}
-				MAD = {
-					transfer_state = 543
-					transfer_state = 706
-					transfer_state = 708
-					create_country_leader = {
-						name = FRA_borough
-						ideology = liberalism
-						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
-						expire = "1965.1.1"
-						traits = {
-							FRA_weak_auto
-						}
-					}
-					set_variable = {
-						collaboration_formed_by = ROOT
-					}
-				}
-				TUN = {
-					transfer_state = 458
-					transfer_state = 665
-					create_country_leader = {
-						name = FRA_borough
-						ideology = liberalism
-						picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
-						expire = "1965.1.1"
-						traits = {
-							FRA_weak_auto
-						}
-					}
-					set_variable = {
-						collaboration_formed_by = ROOT
-					}
-				}
-				FRA = {
-					set_autonomy = {
-						target = MOR
-						autonomy_state = autonomy_collaboration_government
-					}
-					set_autonomy = {
-						target = MRT
-						autonomy_state = autonomy_collaboration_government
-					}
-					set_autonomy = {
-						target = MAD
-						autonomy_state = autonomy_collaboration_government
-					}
-					set_autonomy = {
-						target = TUN
-						autonomy_state = autonomy_collaboration_government
-					}
-				}
-				MRT = {
-					set_cosmetic_tag = MRT_FRA
-					set_politics = {
-						ruling_party = democratic
-						elections_allowed = no
-					}
-					set_popularities = {
-						democratic = 100
-					}
-				}
-				MOR = {
-					set_cosmetic_tag = MOR_FRA
-					set_politics = {
-						ruling_party = democratic
-						elections_allowed = no
-					}
-					set_popularities = {
-						democratic = 100
-					}
-				}
-				MAD = {
-					set_cosmetic_tag = MAD_FRA
-					set_politics = {
-						ruling_party = democratic
-						elections_allowed = no
-					}
-					set_popularities = {
-						democratic = 100
-					}
-				}
-				TUN = {
-					set_cosmetic_tag = TUN_FRA
-					set_politics = {
-						ruling_party = democratic
-						elections_allowed = no
-					}
-					set_popularities = {
-						democratic = 100
-					}
-				}
+			swap_ideas = {
+				remove_idea = FRA_less_working
+				add_idea = FRA_less_working_1
 			}
 		}
 	}
 	focus = {
-		#자유로운 프랑스!
+		#봉사와 헌신
 		icon = GFX_focus_generic_the_giant_wakes
 		id = FRA_focus_resist_11
-		cost = 4.4
-		x = 27
+		cost = 2.9
+		x = 30
 		y = 7
 		prerequisite = {
 			focus = FRA_focus_resist_9
@@ -2480,10 +2363,100 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_resist_10
 		}
+		prerequisite = {
+			focus = FRA_focus_resist_14
+		}
+		prerequisite = {
+			focus = FRA_focus_resist_15
+		}
+		completion_reward = {
+			clr_country_flag = FRA_emergency_flag
+			swap_ideas = {
+				remove_idea = FRA_rescue_committee_2
+				add_idea = FRA_rescue_committee_3
+			}
+			swap_ruler_traits = {
+				remove = FRA_democratic_trait
+				add = FRA_democratic_trait_1
+			}
+			custom_effect_tooltip = FRA_focus_resist_11_tt
+		}
+	}
+	focus = {
+		#정책과 전략
+		icon = GFX_goal_generic_political_pressure
+		id = FRA_focus_resist_12
+		cost = 2.9
+		x = 32
+		y = 4
+		prerequisite = {
+			focus = FRA_focus_resist_3.5
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.1
+			}
+			add_political_power = 100
+			add_stability = 0.1
+		}
+	}
+	focus = {
+		#자급을 향해
+		icon = GFX_goal_generic_consumer_goods
+		id = FRA_focus_resist_13
+		cost = 4.4
+		x = 31
+		y = 5
+		prerequisite = {
+			focus = FRA_focus_resist_12
+		}
+		completion_reward = {
+			add_resource = {
+				type = steel
+				amount = 5
+				state = 458
+			}
+			458 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
+	}
+	focus = {
+		#전쟁 채권
+		icon = GFX_focus_SWI_issue_war_bonds
+		id = FRA_focus_resist_14
+		cost = 4.4
+		x = 33
+		y = 6
+		prerequisite = {
+			focus = FRA_focus_resist_12
+		}
+		completion_reward = {
+			add_ideas = FRA_MEFO
+		}
+	}
+	focus = {
+		#시민영웅주의
+		icon = GFX_focus_focus_fra_revolution_utmost
+		id = FRA_focus_resist_15
+		cost = 4.4
+		x = 31
+		y = 6
+		prerequisite = {
+			focus = FRA_focus_resist_7
+			focus = FRA_focus_resist_13
+		}
 		completion_reward = {
 			add_war_support = 0.1
-			clr_country_flag = FRA_emergency_flag
-			custom_effect_tooltip = FRA_focus_resist_11_tt
+			swap_ideas = {
+				remove_idea = FRA_rescue_committee_1
+				add_idea = FRA_rescue_committee_2
+			}
 		}
 	}
 	focus = {
