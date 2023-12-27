@@ -493,7 +493,7 @@ focus_tree = {
 		icon = GFX_goal_unknown
 		prerequisite = { focus = HYA_focus_1 }
 		#mutually_exclusive = { focus = HYA_focus_ }
-		x = -5
+		x = -6
 		y = 1
 		cost = 2
 		available = {
@@ -571,6 +571,41 @@ focus_tree = {
 				slot = political_advisor
 				trait = Captain_of_Industry
 		   }
+		}
+	}
+	focus = { #
+		relative_position_id = HYA_focus_20
+		id = HYA_focus_9
+		icon = GFX_goal_unknown
+		prerequisite = { focus = HYA_focus_20 }
+		#mutually_exclusive = { focus = HYA_focus_ }
+		x = 1
+		y = 1
+		cost = 10
+		available = {
+		}   
+		bypass = {
+		}
+		completion_reward = {
+			add_ideas = HYA_dhkfkznrhdwnsla
+		}
+	}
+	focus = { #
+		relative_position_id = HYA_focus_9
+		id = HYA_focus_11
+		icon = GFX_goal_generic_trade
+		prerequisite = { focus = HYA_focus_9 }
+		#mutually_exclusive = { focus = HYA_focus_ }
+		x = 0
+		y = 1
+		cost = 10
+		available = {
+		}   
+		bypass = {
+		}
+		completion_reward = {
+			add_stability = -0.05
+			add_ideas = HYA_dkvus
 		}
 	}
 	focus = { #
@@ -725,7 +760,7 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { #음양부
+	focus = { #신임위원회
 		relative_position_id = HYA_focus_1
 		id = HYA_focus_3
 		icon = GFX_goal_unknown
@@ -740,6 +775,61 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_political_power = 75
+			add_ideas = HYA_trust_committee
+		}
+	}
+	focus = { #수행부
+		relative_position_id = HYA_focus_3
+		id = HYA_focus_4
+		icon = GFX_goal_unknown
+		prerequisite = { focus = HYA_focus_3 }
+		#mutually_exclusive = { focus = HYA_focus_ }
+		x = 2
+		y = 1
+		cost = 2
+		available = {
+		}   
+		bypass = {
+		}
+		completion_reward = {
+			add_war_support = 0.05
+			if = {
+				limit = {
+					has_idea = HYA_trust_committee_1
+				}
+				swap_ideas = {
+					add_idea = HYA_trust_committee_3
+					remove_idea = HYA_trust_committee_1
+				}
+			}
+			else = {
+				swap_ideas = {
+					add_idea = HYA_trust_committee_2
+					remove_idea = HYA_trust_committee
+				}
+			}
+		}
+	}
+	focus = {
+		relative_position_id = HYA_focus_4
+		id = HYA_focus_27
+		icon = GFX_focus_generic_military_dictatorship
+		prerequisite = { focus = HYA_focus_4 }
+		#mutually_exclusive = { focus = HYA_focus_ }
+		x = 0
+		y = 1
+		cost = 10
+		available = {
+		}   
+		bypass = {
+		}
+		completion_reward = {
+			add_stability = 0.05
+			add_trait = {
+				character = HYA_TSUBAKI
+				slot = political_advisor
+				trait = HYA_T8a
+		   }
 		}
 	}
 	focus = { #
@@ -761,6 +851,21 @@ focus_tree = {
 				ideology = democratic
 				popularity = 0.10
 			}
+			if = {
+				limit = {
+					has_idea = HYA_trust_committee_2
+				}
+				swap_ideas = {
+					add_idea = HYA_trust_committee_3
+					remove_idea = HYA_trust_committee_2
+				}
+			}
+			else = {
+				swap_ideas = {
+					add_idea = HYA_trust_committee_1
+					remove_idea = HYA_trust_committee
+				}
+			}
 		}
 	}
 	focus = { #
@@ -778,23 +883,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_stability = 0.10
-		}
-	}
-	focus = { #
-		relative_position_id = HYA_focus_3
-		id = HYA_focus_9
-		icon = GFX_goal_unknown
-		prerequisite = { focus = HYA_focus_8 }
-		#mutually_exclusive = { focus = HYA_focus_ }
-		x = -1
-		y = 3
-		cost = 10
-		available = {
-		}   
-		bypass = {
-		}
-		completion_reward = {
-			add_ideas = HYA_dhkfkznrhdwnsla
+			swap_ruler_traits = { remove = HYA_T1a add = HYA_T1a_up }
 		}
 	}
 	focus = { #
@@ -823,59 +912,67 @@ focus_tree = {
 	}
 	focus = { #
 		relative_position_id = HYA_focus_3
-		id = HYA_focus_11
-		icon = GFX_goal_generic_trade
-		prerequisite = { focus = HYA_focus_9 }
+		id = HYA_focus_46
+		icon = GFX_focus_generic_diplomatic_treaty
+		prerequisite = { focus = HYA_focus_8 }
+		prerequisite = { focus = HYA_focus_27 }
 		#mutually_exclusive = { focus = HYA_focus_ }
-		x = -2
-		y = 4
+		x = 0
+		y = 3
 		cost = 10
 		available = {
 		}   
 		bypass = {
 		}
 		completion_reward = {
-			add_stability = -0.05
-			add_ideas = HYA_dkvus
+			add_timed_idea = {
+				idea = HYA_public_justice
+				days = 180
+			}
+			if = {
+				limit = { has_idea = HYA_flower_bird_wind_moon_club }
+				custom_effect_tooltip = HYA_focus_46_tt
+				remove_ideas = HYA_flower_bird_wind_moon_club
+				if = {
+					limit = { fascism > 0.15 }
+					start_civil_war = {
+						ideology = fascism
+						size = 0.2
+						army_ratio = 0.4
+						navy_ratio = 0
+						air_ratio = 0
+						keep_all_characters = yes
+						PREV = {
+							HYA_Coquelico = {
+								set_nationality = PREV.PREV
+							}
+							HYA_Shuro = {
+								set_nationality = PREV.PREV
+							}
+						}
+						promote_character = HYA_Coquelico
+						set_cosmetic_tag = HYA_flower_bird_wind_moon_club_cosmetic
+						has_country_flag = flower_bird_flag
+					}
+				}
+			}
 		}
 	}
-	focus = { #수행부
-		relative_position_id = HYA_focus_1
-		id = HYA_focus_4
-		icon = GFX_goal_unknown
-		prerequisite = { focus = HYA_focus_1 }
+	focus = { #
+		relative_position_id = HYA_focus_46
+		id = HYA_focus_47
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = HYA_focus_46 }
 		#mutually_exclusive = { focus = HYA_focus_ }
-		x = 5
-		y = 1
-		cost = 2
-		available = {
-		}   
-		bypass = {
-		}
-		completion_reward = {
-			add_war_support = 0.05
-		}
-	}
-	focus = {
-		relative_position_id = HYA_focus_4
-		id = HYA_focus_27
-		icon = GFX_focus_generic_military_dictatorship
-		prerequisite = { focus = HYA_focus_4 }
-		#mutually_exclusive = { focus = HYA_focus_ }
-		x = -2
+		x = 0
 		y = 2
 		cost = 10
 		available = {
+			NOT = { has_idea = HYA_public_justice }
 		}   
 		bypass = {
 		}
 		completion_reward = {
-			add_stability = 0.05
-			add_trait = {
-				character = HYA_TSUBAKI
-				slot = political_advisor
-				trait = HYA_T8a
-		   }
 		}
 	}
 	focus = {
