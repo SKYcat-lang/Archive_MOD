@@ -690,12 +690,7 @@ KSP_kanna_health_and_gov_problems = {
 	KSP_getting_used_to_work_gov = { #업무에 익숙해지는 행정부
 		activation = {
 			has_country_flag = KSP_kanna_health_worsen_flag #칸나가 쓰러져 있으면
-			OR = {
-				has_idea = KSP_not_accustomed_to_work_1
-				has_idea = KSP_not_accustomed_to_work_2
-				has_idea = KSP_not_accustomed_to_work_3
-				has_idea = KSP_not_accustomed_to_work_4
-			}
+			has_country_flag = KSP_kanna_health_and_gov_problems_start #행정 붕괴와 관련된 일 시작
 		}
 		available = {
 			NOT = {
@@ -703,83 +698,42 @@ KSP_kanna_health_and_gov_problems = {
 			}
 		}
 		is_good = yes
-		days_mission_timeout = 180
+		days_mission_timeout = KSP_getting_used_to_work_gov_var
 		priority = 10
 		timeout_effect = { # 국민정신 버프
-			if = { # 행정효율 업
-				limit = { has_idea = KSP_not_accustomed_to_work_4 }
-				remove_ideas = KSP_not_accustomed_to_work_4
-			}
-			if = { # 행정효율 업
-				limit = { has_idea = KSP_not_accustomed_to_work_3 }
-				swap_ideas = {
-					remove_idea = KSP_not_accustomed_to_work_3
-					add_idea = KSP_not_accustomed_to_work_4
-				}
-			}
-			if = { # 행정효율 업
-				limit = { has_idea = KSP_not_accustomed_to_work_2 }
-				swap_ideas = {
-					remove_idea = KSP_not_accustomed_to_work_2
-					add_idea = KSP_not_accustomed_to_work_3
-				}
-			}
-			if = { # 행정효율 업
-			limit = { has_idea = KSP_not_accustomed_to_work_1 }
-				swap_ideas = {
-					remove_idea = KSP_not_accustomed_to_work_1
-					add_idea = KSP_not_accustomed_to_work_2
-				}
-			}
+			KSP_not_accustomed_to_work_lower = yes
+			add_to_variable = { KSP_gov_hangjung_disorder_var = -1 }
+			clamp_variable = { var = KSP_gov_hangjung_disorder_var max = 10 min = 0 }
+			custom_effect_tooltip = KSP_getting_used_to_work_gov_tt
 			hidden_effect = {
 				if = {
 					limit = { 
-						NOT = {  
-							OR = {
-								has_idea = KSP_not_accustomed_to_work_1
-								has_idea = KSP_not_accustomed_to_work_2
-								has_idea = KSP_not_accustomed_to_work_3
-								has_idea = KSP_not_accustomed_to_work_4
-							}
-						} 
+						OR = {
+							has_idea = KSP_not_accustomed_to_work_1
+							has_idea = KSP_not_accustomed_to_work_2
+							has_idea = KSP_not_accustomed_to_work_3
+							has_idea = KSP_not_accustomed_to_work_4
+							has_idea = KSP_not_accustomed_to_work_5
+							has_idea = KSP_not_accustomed_to_work_6
+							has_idea = KSP_not_accustomed_to_work_7
+							has_idea = KSP_not_accustomed_to_work_8
+							has_idea = KSP_not_accustomed_to_work_9
+							has_idea = KSP_not_accustomed_to_work_10
+							has_idea = KSP_hangjung_mabi
+							has_idea = KSP_not_accustomed_to_work_2m
+							has_idea = KSP_not_accustomed_to_work_3m
+							has_idea = KSP_not_accustomed_to_work_4m
+							has_idea = KSP_not_accustomed_to_work_5m
+							has_idea = KSP_not_accustomed_to_work_6m
+							has_idea = KSP_not_accustomed_to_work_7m
+							has_idea = KSP_not_accustomed_to_work_8m
+							has_idea = KSP_not_accustomed_to_work_9m
+							has_idea = KSP_not_accustomed_to_work_10m
+						}
 					}
 					activate_mission = KSP_getting_used_to_work_gov # 재시작	
 				}
 			}
-		}
-	}
-	KSP_sanghwal_safety_yunghyang_up = { #생활안전국 영향력 증가
-		activation = {
-			has_country_flag = KSP_kanna_health_worsen_flag #칸나가 쓰러져 있으면
-		}
-		available = {
-			NOT = {
-				has_country_flag = KSP_kanna_health_worsen_flag # 칸나가 쓰러졌음에 해당하지 않음 즉 일어나있다
-			}
-			has_country_flag = KSP_gyeongbiguk_is_leader #경비국이 먼저 쿠데타 갈김
-		}
-		is_good = no
-		days_mission_timeout = 45
-		priority = 0.1
-		timeout_effect = { # 생활안전국 영향력 확장
-			KSP_sanghwal_safety_level_up = yes
-		}
-	}
-	KSP_gyeongbiguk_yunghyang_up = { #경비국 영향력 증가
-		activation = {
-			has_country_flag = KSP_kanna_health_worsen_flag #칸나가 쓰러져 있으면
-		}
-		available = {
-			NOT = {
-				has_country_flag = KSP_kanna_health_worsen_flag # 칸나가 쓰러졌음에 해당하지 않음 즉 일어나있다
-			}
-			has_country_flag = KSP_sanghwal_safety_is_leader #생활안전국이 먼저 쿠데타 갈김
-		}
-		is_good = no
-		days_mission_timeout = 45
-		priority = 0.1
-		timeout_effect = { # 경비국 영향력 확장
-			KSP_gyeongbiguk_level_up = yes
 		}
 	}
 }
