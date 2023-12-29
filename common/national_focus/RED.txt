@@ -157,9 +157,12 @@ focus_tree = {
 				instant_build = yes
 				}
 			}
-			add_timed_idea = {
-				idea = RED_economy_recover_idea
-				days = 180
+			if = {
+				limit = {has_idea = RED_doomed_economy_idea }
+				swap_ideas = {
+					remove_idea = RED_doomed_economy_idea 
+					add_idea = RED_economy_recover_idea
+				}
 			}
 		}
 	}
@@ -250,26 +253,26 @@ focus_tree = {
 
 		completion_reward = {
 			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 				type = industrial_complex
-				level = 2
+				level = 1
 				instant_build = yes
 				}
 			}
 			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 				type = industrial_complex
-				level = 2
+				level = 1
 				instant_build = yes
 				}
 			}
 			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 				type = industrial_complex
-				level = 2
+				level = 1
 				instant_build = yes
 				}
 			}
@@ -531,19 +534,9 @@ focus_tree = {
 		completion_reward = {
 			random_owned_controlled_state = {
 				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-				type = industrial_complex
-				level = 2
-				instant_build = yes
-				}
 			}
 			random_owned_controlled_state = {
 				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-				type = industrial_complex
-				level = 2
-				instant_build = yes
-				}
 			}
 			add_timed_idea = {
 				idea = RED_industrial_futurization_idea
@@ -572,7 +565,7 @@ focus_tree = {
 				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 				type = arms_factory
-				level = 2
+				level = 1
 				instant_build = yes
 				}
 			}
@@ -580,7 +573,7 @@ focus_tree = {
 				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 				type = arms_factory
-				level = 2
+				level = 1
 				instant_build = yes
 				}
 			}
@@ -588,17 +581,17 @@ focus_tree = {
 				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 				type = arms_factory
-				level = 2
+				level = 1
 				instant_build = yes
 				}
 			}
 			add_tech_bonus = {
-				bonus = 1
+				bonus = 0.75
 				uses = 2
 				category = cat_production
 			}
 			add_tech_bonus = {
-				bonus = 1
+				bonus = 0.75
 				uses = 2
 				category = artillery
 			}
@@ -627,9 +620,15 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = RED_doomed_economy_idea 
-				add_idea = RED_miracle_economy_idea
+			if = {
+				limit = {has_idea = RED_economy_recover_idea }
+				swap_ideas = {
+					remove_idea = RED_economy_recover_idea 
+					add_idea = RED_miracle_economy_idea
+				}
+			}
+			else = {
+				add_ideas = RED_miracle_economy_idea
 			}
 		}
 	}
@@ -729,8 +728,8 @@ focus_tree = {
 
 		completion_reward = {
 			add_tech_bonus = {
-				ahead_reduction = 10
-				uses = 3
+				ahead_reduction = 1
+				uses = 2
 				category = nuclear
 			}
 		}
@@ -753,8 +752,8 @@ focus_tree = {
 
 		completion_reward = {
 			add_tech_bonus = {
-				ahead_reduction = 10
-				uses = 6
+				ahead_reduction = 2
+				uses = 2
 				category = rocketry
 			}
 		}
@@ -2950,15 +2949,12 @@ focus_tree = {
 			has_war = no
 		}
 
+		bypass = {
+			NOT = { has_idea = RED_doomed_army_idea }
+		}
+
 		completion_reward = {
-			custom_effect_tooltip = RED_winterarmy_advance_tt
-			add_to_variable = { RED_army_org_factor = 0.05 }
-			if = {
-				limit = {
-					has_idea = RED_doomed_army_idea
-				}
-				remove_ideas = RED_doomed_army_idea
-			}
+			remove_ideas = RED_doomed_army_idea
 		}
 	}
 
@@ -2981,8 +2977,6 @@ focus_tree = {
 			custom_effect_tooltip = RED_winterarmy_advance_tt
 			add_to_variable = { RED_unit_infantry_design_cost_factor = -0.1 }
 			add_to_variable = { RED_unit_artillery_brigade_design_cost_factor = -0.1 }
-
-			remove_ideas = RED_doomed_army_idea
 
 			army_experience = 50
 			add_command_power = 25
@@ -3030,9 +3024,9 @@ focus_tree = {
 
 		completion_reward = {
 			custom_effect_tooltip = RED_winterarmy_advance_tt
-			add_to_variable = { RED_heat_attrition_factor = -0.1 }
-			add_to_variable = { RED_winter_attrition_factor = -0.1 }
-			add_to_variable = { RED_terrain_penalty_reduction = 0.15 }
+			add_to_variable = { RED_heat_attrition_factor = -0.05 }
+			add_to_variable = { RED_winter_attrition_factor = -0.10 }
+			add_to_variable = { RED_terrain_penalty_reduction = 0.10 }
 		}
 	}
 
