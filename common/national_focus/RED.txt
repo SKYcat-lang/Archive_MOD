@@ -25,35 +25,35 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 
 		completion_reward = {
-			110 = { # 외스틀란데트
+			141 = {
 				add_building_construction = {
 					type = infrastructure
 					level = 1
 					instant_build = yes
 				}
 			}
-			140 = { #베스테르예틀란드
+			913 = {
 				add_building_construction = {
 					type = infrastructure
 					level = 1
 					instant_build = yes
 				}
 			}
-			139 = { #스몰란드
+			139 = {
 				add_building_construction = {
 					type = infrastructure
 					level = 1
 					instant_build = yes
 				}
 			}
-			99 = { #유틀란드
+			138 = {
 				add_building_construction = {
 					type = infrastructure
 					level = 1
 					instant_build = yes
 				}
 			}
-			37 = { #덴마크
+			99 = {
 				add_building_construction = {
 					type = infrastructure
 					level = 1
@@ -73,24 +73,24 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 
 		completion_reward = {
-			141 = { # 스베알란드
+			38 = { 
 				add_building_construction = {
 					type = infrastructure
 					level = 2
 					instant_build = yes
 				}
 			}
-			38 = { # 노를란드
+			918 = { 
 				add_building_construction = {
 					type = infrastructure
 					level = 2
 					instant_build = yes
 				}
 			}
-			666 = { #라플란드
+			666 = { 
 				add_building_construction = {
 					type = infrastructure
-					level = 2
+					level = 1
 					instant_build = yes
 				}
 			}
@@ -847,7 +847,9 @@ focus_tree = {
 		}
 
 		available = {
-			is_major = yes
+			threat > 0.15
+			is_subject = no
+			has_country_flag = RED_route_confirmed
 		}
 
 		bypass = {
@@ -885,6 +887,80 @@ focus_tree = {
 			add_to_variable = {
 				RED_operative_slot = 1
 			}
+		}
+	}
+
+	focus = { #트로츠키주의 선동 
+		id = RED_communist_instigation
+		icon = GFX_focus_NOR_a_new_norway_Trotsky_communism
+		cost = 10
+		x = 1
+		y = 1
+		relative_position_id = RED_new_inteligence_agency
+		prerequisite = {
+			focus = RED_new_inteligence_agency
+		}
+		available = {
+			has_war = no
+			is_subject = no
+			is_major = yes
+		}
+		completion_reward = {
+			every_country = {
+				limit = {
+					is_neighbor_of = SOV
+					is_subject = no
+					is_major = no
+				}
+				add_timed_idea = {
+					idea = communist_pressure
+					days = 365
+				}
+				hidden_effect = {
+					country_event = { id = generic.1 }
+				} 
+			}
+		}
+	}
+
+	focus = { #소련에 침투
+		id = RED_infiltrate_the_sov
+		icon = GFX_focus_SWE_reclaiming_the_rus
+		cost = 10
+		x = 1
+		y = 1
+		relative_position_id = RED_an_additional_operator
+		prerequisite = {
+			focus = RED_an_additional_operator
+		}
+		prerequisite = {
+			focus = RED_communist_instigation
+		}
+		available = {
+			NOT = { has_war_with = SOV }
+			num_operative_slots > 1
+		}
+		completion_reward = { 
+			if = {
+				limit = { 
+					has_done_agency_upgrade = upgrade_crypto_strength
+					country_exists = SOV
+				}
+				add_decryption = {
+					target = SOV
+					ratio = 0.5
+				}
+			}
+			else = {
+				add_intel = {
+					target = SOV
+					civilian_intel = 3
+					army_intel = 2
+					navy_intel = 1
+					airforce_intel = 2
+				}
+			}
+			custom_effect_tooltip = RED_unlock_operation_soviet_sabotage_tt
 		}
 	}
 
@@ -1128,6 +1204,7 @@ focus_tree = {
 			add_political_power = 25
 
 			every_country = {
+				add_political_power = 50
 				limit = {
 					NOT = { is_in_faction_with = ROOT }
 					Kivotos_school_tag = yes
@@ -1453,7 +1530,7 @@ focus_tree = {
 			base = 10
 			modifier = {
 				factor = 10
-				threat > 0.20
+				has_idea = RED_doomed_army_idea
 			}
 		}
 
@@ -1483,7 +1560,7 @@ focus_tree = {
 			base = 10
 			modifier = {
 				factor = 10
-				threat > 0.20
+				has_dynamic_modifier = { modifier = RED_winter_army_dynamic_modifier }
 			}
 		}
 		
@@ -2578,7 +2655,9 @@ focus_tree = {
 			factor = 1
 		}
 		
-		search_filters = {}
+		available = {
+			has_country_flag = RED_route_confirmed
+		}
 
 		completion_reward = {
 			add_manpower = 100000
@@ -2813,7 +2892,7 @@ focus_tree = {
 		cost = 10
 
 		available = {
-
+			has_war = no
 		}
 		
 		search_filters = {}
@@ -2835,6 +2914,7 @@ focus_tree = {
 		cost = 10
 
 		available = {
+			has_war = no
 		}
 		
 		search_filters = {}
@@ -2856,13 +2936,18 @@ focus_tree = {
 		cost = 10
 
 		available = {
+			has_war = no
 		}
-		
-		search_filters = {}
 
 		completion_reward = {
 			custom_effect_tooltip = RED_winterarmy_advance_tt
 			add_to_variable = { RED_army_org_factor = 0.05 }
+			if = {
+				limit = {
+					has_idea = RED_doomed_army_idea
+				}
+				remove_ideas = RED_doomed_army_idea
+			}
 		}
 	}
 
@@ -2894,23 +2979,25 @@ focus_tree = {
 	}
 
 	focus = {
-		id = RED_ready_for_war
+		id = RED_raid_alert
 		icon = GFX_goal_generic_more_territorial_claims
 		prerequisite = { focus = RED_strengthen_the_mobilization_plan }
 		x = 3
 		y = 2
 		relative_position_id = RED_strengthen_the_mobilization_plan
-		cost = 10
+		cost = 5
 
 		available = {
+			has_war = yes
 		}
-		
-		search_filters = {}
 
 		completion_reward = {
 			add_timed_idea = {
-				idea = RED_ready_for_war_idea
-				days = 365
+				idea = RED_raid_alert_idea
+				days = 140
+			}
+			hidden_effect = {
+				country_event = { id = RED_event.10 days = 140 }
 			}
 		}
 	}
@@ -2918,10 +3005,10 @@ focus_tree = {
 	focus = {
 		id = RED_an_adaptable_army
 		icon = GFX_focus_prc_infiltration
-		prerequisite = { focus = RED_rehabilitated_military focus = RED_ready_for_war }
+		prerequisite = { focus = RED_rehabilitated_military focus = RED_raid_alert }
 		x = -1
 		y = 1
-		relative_position_id = RED_ready_for_war
+		relative_position_id = RED_raid_alert
 		cost = 10
 
 		available = {
@@ -2941,10 +3028,10 @@ focus_tree = {
 	focus = {
 		id = RED_penal_battalions
 		icon = GFX_focus_SOV_penal_battalions
-		prerequisite = { focus = RED_rehabilitated_military focus = RED_ready_for_war }
+		prerequisite = { focus = RED_rehabilitated_military focus = RED_raid_alert }
 		x = 1
 		y = 1
-		relative_position_id = RED_ready_for_war
+		relative_position_id = RED_raid_alert
 		cost = 10
 
 		available = {

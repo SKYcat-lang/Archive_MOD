@@ -1,0 +1,185 @@
+operation_soviet_sabotage = { #소련 사보타주
+	icon = GFX_operations_targeted_sabotage
+	map_icon = GFX_operations_targeted_sabotage_map
+	name = operation_soviet_sabotage
+	desc = operation_soviet_sabotage_desc
+	priority = 1
+	
+	days = 90
+	network_strength = 25
+	operatives = 2
+
+	visible = {
+		num_of_operatives > 1
+		network_national_coverage = {
+			target = FROM
+			value > 0
+		}
+		country_exists = SOV
+	}
+
+	selection_target = {
+		targets = { SOV }
+	}
+
+	equipment = {
+		
+	}
+
+	risk_chance = 0.2
+	experience = 2
+	outcome_extra_chance = 0.25
+	outcome_modifiers = { target_sabotage_factor operation_risk }
+	risk_modifiers = { target_sabotage_risk operation_outcome }
+	cost_modifiers = { target_sabotage_cost operation_cost }
+	outcome_execute = {
+		SOV = {
+			random_owned_controlled_state = {
+				random_list = {
+					15 = {
+						damage_building = {
+							type = arms_factory
+							damage = 1
+						}
+					}
+					15 = {
+						damage_building = {
+							type = industrial_complex
+							damage = 1
+						}
+					}
+					10 = {
+						damage_building = {
+							type = infrastructure
+							damage = 1
+						}
+					}
+					10 = {
+						damage_building = {
+							type = fuel_silo
+							damage = 1
+						}
+					}
+					10 = {
+						damage_building = {
+							type = rail_way
+							damage = 2
+						}
+					}
+					10 = {
+						damage_building = {
+							type = dockyard
+							damage = 1
+						}
+					}
+				}
+			}
+			custom_effect_tooltip = soviet_sabotage_outcome_excute_tt
+		}
+	}
+	outcome_extra_execute = { # SCOPE_OPERATION
+		
+		SOV = {
+			random_owned_controlled_state = {
+				random_list = {
+					15 = {
+						damage_building = {
+							type = arms_factory
+							damage = 2
+						}
+					}
+					15 = {
+						damage_building = {
+							type = industrial_complex
+							damage = 2
+						}
+					}
+					10 = {
+						damage_building = {
+							type = infrastructure
+							damage = 2
+						}
+					}
+					10 = {
+						damage_building = {
+							type = fuel_silo
+							damage = 2
+						}
+					}
+					10 = {
+						damage_building = {
+							type = rail_way
+							damage = 4
+						}
+					}
+					10 = {
+						damage_building = {
+							type = dockyard
+							damage = 2
+						}
+					}
+				}
+			}
+			custom_effect_tooltip = soviet_sabotage_outcome_excute_tt
+		}		
+	}
+
+	outcome_potential = {
+		custom_effect_tooltip = soviet_sabotage_outcome_potential_tt
+	}
+
+	phases = { #infiltration
+		infiltration_border = { base = 15 }
+		infiltration_submarine = { base = 15 }
+		infiltration_paradrop = { 
+			base = 15 
+			modifier = {
+				ROOT = { 
+					has_equipment = {
+						transport_plane_equipment < 1
+					}
+				}
+				factor = 0
+			}
+		}
+		infiltration_diplomatic = {
+			base = 25
+			modifier = {
+				factor = 20
+				ROOT = { has_war = no }
+				FROM = {
+					has_war = no
+				}
+			}
+			modifier = {
+				FROM = {
+					has_war_with = ROOT
+				}
+				factor = 0
+			}
+		}
+	}
+	phases = { #exfiltration
+		targeted_sabotage_plant_explosives = { base = 60 }
+		targeted_sabotage_burn_storage = { base = 40 }
+		targeted_sabotage_destroy_bridge = { base = 40 }
+		targeted_sabotage_collapse_tunnel = { base = 40 }
+		targeted_sabotage_immobilize_rolling_stock = { base = 40 }
+	}
+	phases = { #exfiltration
+		exfiltration_air_pickup = { 
+			base = 15
+			modifier = {
+				ROOT = { 
+					has_equipment = {
+						transport_plane_equipment < 1
+					}
+				}
+				factor = 0
+			}
+		}
+		exfiltration_border = { base = 20 }
+		exfiltration_go_to_ground = { base = 20 }
+		exfiltration_submarine_pickup = { base = 10 }
+	}
+}
