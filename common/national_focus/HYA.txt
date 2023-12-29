@@ -66,7 +66,7 @@ focus_tree = {
 		prerequisite = { focus = HYA_focus_41 }
 		prerequisite = { focus = HYA_focus_48 }
 		#mutually_exclusive = { focus = HYA_focus_ }
-		x = -2
+		x = -1
 		y = 1
 		cost = 10
 		bypass = {
@@ -1180,7 +1180,7 @@ focus_tree = {
 		icon = GFX_goal_generic_construction
 		#prerequisite = { focus = HYA_focus_ }
 		#mutually_exclusive = { focus = HYA_focus_ }
-		x = 4
+		x = 5
 		y = 0
 		cost = 10
 		available = {
@@ -1355,15 +1355,31 @@ focus_tree = {
 		id = HYA_focus_39
 		icon = GFX_goal_generic_construct_civ_factory
 		prerequisite = { focus = HYA_focus_38 }
-		#mutually_exclusive = { focus = HYA_focus_ }
+		mutually_exclusive = { focus = HYA_focus_60 }
 		x = 0
-		y = 4
+		y = 5
 		cost = 10
 		available = {
 		}   
 		bypass = {
 		}
 		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
 			random_owned_state = {
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
@@ -1405,29 +1421,157 @@ focus_tree = {
 		}
 		completion_reward = {
 			random_owned_state = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
+				limit = { 
+					is_core_of = ROOT 
+					infrastructure < 5
+					not = { has_state_flag = HYA_autoroutes_target }
 				}
-			}
-			random_owned_state = {
-				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = infrastructure
 					level = 1
 					instant_build = yes
 				}
+				set_state_flag = HYA_autoroutes_target
 			}
 			random_owned_state = {
-				add_extra_state_shared_building_slots = 1
+				limit = { 
+					is_core_of = ROOT 
+					infrastructure < 5
+					not = { has_state_flag = HYA_autoroutes_target }
+				}
 				add_building_construction = {
 					type = infrastructure
 					level = 1
 					instant_build = yes
 				}
+				set_state_flag = HYA_autoroutes_target
 			}
+			random_owned_state = {
+				limit = { 
+					is_core_of = ROOT 
+					infrastructure < 5
+					not = { has_state_flag = HYA_autoroutes_target }
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = HYA_autoroutes_target
+			}
+		}
+	}
+	focus = {
+		relative_position_id = HYA_focus_34
+		id = HYA_focus_57
+		icon = GFX_focus_generic_modernize_industry
+		prerequisite = { focus = HYA_focus_38 }
+		#mutually_exclusive = { focus = HYA_focus_ }
+		x = -4
+		y = 3
+		cost = 5
+		available = {
+		}   
+		bypass = {
+		}
+		completion_reward = {
+			every_owned_state = {
+				add_extra_state_shared_building_slots = 2
+			}
+		}
+	}
+	focus = {
+		relative_position_id = HYA_focus_57
+		id = HYA_focus_58
+		icon = GFX_focus_generic_mining_industry
+		prerequisite = { focus = HYA_focus_57 }
+		#mutually_exclusive = { focus = HYA_focus_ }
+		x = -1
+		y = 1
+		cost = 10
+		available = {
+		}   
+		bypass = {
+		}
+		completion_reward = {
+			if = {
+				limit = { owns_state = 75 }
+				75 = {
+					add_resource = {
+						type = oil
+						amount = 8
+					}
+				}
+			}
+			every_owned_state = {
+				limit = {
+					is_core_of = HYA
+					has_resources_amount = {
+						resource = steel
+						amount > 1
+					}
+				}
+				add_resource = {
+					type = steel
+					amount = 8
+				}
+			}
+			
+			add_tech_bonus = {
+				name = HYA_focus_58
+				bonus = 1.0
+				uses = 2
+				category = excavation_tech
+			}
+		}
+	}
+	focus = {
+		relative_position_id = HYA_focus_57
+		id = HYA_focus_59
+		icon = GFX_focus_FIN_weapon_caches
+		prerequisite = { focus = HYA_focus_57 }
+		#mutually_exclusive = { focus = HYA_focus_ }
+		x = 1
+		y = 1
+		cost = 10
+		available = {
+		}   
+		bypass = {
+		}
+		completion_reward = {
+			capital_scope = {
+				add_extra_state_shared_building_slots = 3
+			}
+		}
+	}
+	focus = {
+		relative_position_id = HYA_focus_57
+		id = HYA_focus_60
+		icon = GFX_focus_generic_railroad
+		prerequisite = { focus = HYA_focus_57 }
+		mutually_exclusive = { focus = HYA_focus_39 }
+		x = 2
+		y = 2
+		cost = 10
+		available = {
+		}   
+		bypass = {
+		}
+		completion_reward = {
+			if = {
+				limit = { has_tech = railway_gun }
+				custom_effect_tooltip = TRN_mobilize_railway_guns_tt
+				hidden_effect = {
+					create_railway_gun = {
+						equipment = railway_gun_equipment_1
+						name = "Ghost 24 II"
+					}
+				}
+			}
+			else = {
+				set_technology = { railway_gun = 1 }
+			}
+			add_ideas = HYA_railway_network
 		}
 	}
 	focus = {
