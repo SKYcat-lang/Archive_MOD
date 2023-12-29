@@ -123,6 +123,9 @@ TRN_internal_factions_categories = {
 
 		activation = {
 			tag = TRM
+			NOT = {
+				has_completed_focus = TRM_newfocus_DIE
+			}
 	 	}
 
 		available = {
@@ -715,7 +718,7 @@ TRN_internal_factions_categories = {
 		}
 		
 		fire_only_once = yes
-		
+
 		complete_effect = {
 			custom_effect_tooltip = TRM_gerarmy_create_tt
 			set_variable = { TRM_internal_factions_add_var = 3 } #넣을 세력 코드
@@ -725,6 +728,7 @@ TRN_internal_factions_categories = {
 			set_variable = { TRM_gerarmy_popularity = 30 }
 			TRM_internal_factions_loyalty_change = yes
 			TRM_internal_factions_popularity_change = yes
+			country_event = TRM_event.99 # 시스터후드를 화나게 하는 미소노 미카
         }
 	}
 	
@@ -1231,7 +1235,10 @@ TRN_Seia_problem_decisions = {
 				has_country_flag = TRN_who_is_criminal_flag_3
 				has_country_flag = TRN_who_is_criminal_flag_4
 			}
-			has_completed_focus = TRM_JoJo_mika
+			OR = {
+				has_completed_focus = TRM_JoJo_mika
+				has_completed_focus = TRN_nazi_oppression
+			}
     	} 
 
 		visible = { 
@@ -1935,54 +1942,32 @@ TRM_war_plan_decisions = {
 					has_country_flag = ALREADY_START_PLAN
 				}
 			}
-			ai_will_do = {
-				base = 100
-			}
-			visible = {
-				has_war = yes
-			} 
-			days_remove = 30
+			ai_will_do = { base = 100 }
+			visible = {  has_war = yes } 
 			fire_only_once = yes
-			days_re_enable = 90
 			complete_effect = {
 				add_timed_idea = {
 					idea = TRM_war_plan_first
 					days = 30
 				}
-				set_country_flag = ALREADY_START_PLAN
 				}
-				remove_effect = {
-				clr_country_flag = ALREADY_START_PLAN
-				set_country_flag = TRM_war_plan_first_complete
-			}
-	}
+		}
 	TRM_war_plan_second = {
 		icon = generic_form_nation
 			available = {
 				has_war = yes
-				NOT = {
-					has_country_flag = ALREADY_START_PLAN
+				NOT = { 
+					has_country_flag = ALREADY_START_PLAN 
 				}
 			}
-			ai_will_do = {
-				base = 100
-			}
-			visible = {
-				has_war = yes
-			} 
-			days_remove = 30	
+			ai_will_do = { base = 100 }
+			visible = { has_war = yes }
 			fire_only_once = yes
-			days_re_enable = 90
 			complete_effect = {
 				add_timed_idea = {
 					idea = TRM_war_plan_second
 					days = 30
 				}
-				set_country_flag = ALREADY_START_PLAN
-			}
-			remove_effect = {
-				clr_country_flag = ALREADY_START_PLAN
-				set_country_flag = TRM_war_plan_second_complete
 			}
 	}
 	TRM_war_plan_third = {
@@ -1993,25 +1978,14 @@ TRM_war_plan_decisions = {
 					has_country_flag = ALREADY_START_PLAN
 				}
 			}
-			ai_will_do = {
-				base = 100
-			}
-			visible = {
-				has_war = yes
-			} 
-			days_remove = 30	
+			ai_will_do = { base = 100 }
+			visible = { has_war = yes }
 			fire_only_once = yes
-			days_re_enable = 90
 			complete_effect = {
 				add_timed_idea = {
 					idea = TRM_war_plan_third
 					days = 30
 				}
-				set_country_flag = ALREADY_START_PLAN
-			}
-			remove_effect = {
-				clr_country_flag = ALREADY_START_PLAN
-				set_country_flag = TRM_war_plan_third_complete
 			}
 	}
 	TRM_war_plan_fourth = {
@@ -2034,7 +2008,6 @@ TRM_war_plan_decisions = {
 			} 
 			days_remove = 30
 			fire_only_once = yes
-			days_re_enable = 180
 			complete_effect = {
 				add_timed_idea = {
 					idea = TRM_war_plan_fourth
@@ -2073,6 +2046,10 @@ TRM_kivotos_core_states_categories = {
 					target = TRS
 					transfer_troops = yes
 				}
+				annex_country = {
+					target = TRU
+					transfer_troops = yes
+				}
 			}
         }
 
@@ -2100,14 +2077,12 @@ TRM_kivotos_core_states_categories = {
 	TRN_POLAND_HOLY_MANDATE = {
 		allowed = { }
 		available = { 
-			TRM ={
-				controls_state = 10
-				controls_state = 92
-				controls_state = 90
-				controls_state = 88
-				controls_state = 91
-				controls_state = 89
-			}
+			controls_state = 10
+			controls_state = 92
+			controls_state = 90
+			controls_state = 88
+			controls_state = 91
+			controls_state = 89
 		}
 		visible = { }
 		cost = 200
@@ -2118,7 +2093,6 @@ TRM_kivotos_core_states_categories = {
 			civilian_factory_use = 1
 		}
 		complete_effect = {
-			# country_event = 
 		}
 		remove_effect = {
 			POL = {
@@ -2139,47 +2113,327 @@ TRM_kivotos_core_states_categories = {
 			}
         } 
 	}
-}
-ARI_Trinity_core_states_catagories = {
-	ARI_Trinity_core_states_decisions = {
-		allowed = {
-		}
+	TRM_MIL_Reichskommissariat = {
 		available = {
-			has_political_power > 100
-			custom_trigger_tooltip = {
-   			tooltip = ARI_trinity_core_tt		
-  			any_state = {
-			is_core_of = TRM
-			is_controlled_by = ARI
-				}
-  		 		
+			controls_state = 16
+			controls_state = 17
+			controls_state = 15
+			controls_state = 785
+			controls_state = 30
+			controls_state = 23
+			controls_state = 25
+			controls_state = 33
+			controls_state = 26
+			controls_state = 20
+			controls_state = 32
+			controls_state = 21
+			controls_state = 939
+			controls_state = 851
+			controls_state = 31
+			controls_state = 806
+			controls_state = 19
+			controls_state = 946
+			controls_state = 947
+			controls_state = 14
+		}
+		visible = { }
+		cost = 150
+		days_remove = 50
+		ai_will_do = { factor = 1 }
+		fire_only_once = YES
+		modifier = { civilian_factory_use = 3 }
+		complete_effect = {
+			hidden_effect = {
+				SRT = { set_cosmetic_tag = TRM_KAI }
+				TRC = { set_cosmetic_tag = MIL_TRN }
 			}
 		}
-		
-
-		visible = {
-		}
-		cost = 100
-		days_remove = 10
-		
-		fire_only_once = yes
-
-
-		modifier = {
-			civilian_factory_use = 8
-		}
-		complete_effect = {
-			add_stability = -0.15
-		}
-		
-
 		remove_effect = {
+		SRT = {
+				SRT = { set_cosmetic_tag = TRM_KAI }
+			transfer_state = 30
+			transfer_state = 15
+			transfer_state = 23
+			transfer_state = 14
+			add_state_core = 30
+			add_state_core = 15
+			add_state_core = 23
+			hidden_effect = {
+			create_country_leader = {
+				name = "TRN_dkdhahfl_alsp"
+				desc = ""
+				picture = "gfx/leaders/TRN/TRN_Aomori_Mine_Portrait.tga"
+				expire = "1965.1.1"
+				ideology = pater_nazism
+				traits = {
+					TRN_aomori_mine
+				}
+			}
+			}
+		}	
+		TRC = {
+			transfer_state = 785
+			transfer_state = 16
+			transfer_state = 946
+			transfer_state = 18
+			transfer_state = 27
+			transfer_state = 17
+			transfer_state = 947
+			transfer_state = 24
 			every_state = {
 				limit = {
-					is_core_of = TRM
+					is_controlled_by = TRC
 				}
-				add_core_of = ARI
+				add_core_of = TRC
 			}
+			add_ideas = MIL_neutrality_idea
+			set_capital = { state = 16 }
+			hidden_effect = {
+				create_country_leader = {
+					name = "uyi"
+					desc = ""
+					picture = "gfx/leaders/TRN/TRN_Kozeki_Ui_Portrait.tga"
+					expire = "1965.1.1"
+					ideology = pater_nazism
+					traits = {
+						TRN_economist_ui
+						kozeki_ui_trait
+					}
+				}
+			}
+		}
+		create_dynamic_country = {
+			original_tag = MIL
+			copy_tag = FRA
+			set_cosmetic_tag = TRM_FRA
+			add_political_power = 100
+			transfer_state = 26
+			transfer_state = 20
+			transfer_state = 32
+			transfer_state = 939
+			transfer_state = 851
+			transfer_state = 21
+			transfer_state = 22
+			transfer_state = 31
+			transfer_state = 19
+			transfer_state = 806
+			transfer_state = 25
+			transfer_state = 33
+			set_capital = { state = 26 }
+			hidden_effect = {
+				create_country_leader = {
+					name = "TRN_tmwmal"
+					desc = ""
+					picture = "gfx/leaders/TRN/TRN_Morizuki_Suzumi_Portrait.tga"
+					expire = "1965.1.1"
+					ideology = pater_nazism
+					traits = {
+						TRN_suzume_trait
+					}
+				}
+			}
+		TRM = {
+			puppet = PREV
+			puppet = TRC
+			puppet = SRT
+		}
+		}
+		every_state = {
+			limit = { is_core_of = MIL }
+			set_demilitarized_zone = no
+		}
+		}
+	}
+	TRM_RED_Reichskommissariat = {
+		available = {
+			any_state = { 
+				is_core_of = RED
+				is_controlled_by = TRM
+			}
+		}
+		visible = { }
+		cost = 100
+		days_remove = 50
+		ai_will_do = { factor = 1 }
+		fire_only_once = YES
+		modifier = { civilian_factory_use = 2 }
+		complete_effect = { }
+		remove_effect = {
+			custom_effect_tooltip = Trinity_Scandinavia_Puppet
+			hidden_effect = {
+			create_dynamic_country = {
+				original_tag = NOR
+				copy_tag = NOR
+				add_political_power = 100
+				set_cosmetic_tag = TRN_NOR
+				every_state = {
+					limit = { 
+						OR = {
+							is_core_of = NOR 
+							is_core_of = SWE
+						}
+						NOT = {
+							state = 138
+							state = 139
+							state = 140
+							state = 915
+							state = 919
+							state = 141
+							state = 913
+							state = 110
+							state = 920
+							state = 142
+							state = 921
+							state = 922
+							state = 916
+						}
+					}
+					transfer_state_to = PREV
+				}
+				every_state = {
+					limit = { is_core_of = SWE }
+					add_core_of = PREV
+				}
+				create_country_leader = {
+					name = "Josef_Terboven_Name"
+					desc = ""
+					picture = "gfx/leaders/TRN/Z_TRN_Josef_Terboven_Portrait.tga"
+					expire = "1965.1.1"
+					ideology = pater_nazism
+					traits = { }
+				}
+				TRM = { puppet = PREV }
+			}
+			create_dynamic_country = {
+				original_tag = RED
+				copy_tag = RED
+				add_political_power = 100
+				transfer_state = 141
+				transfer_state = 138
+				transfer_state = 139
+				transfer_state = 140
+				transfer_state = 915
+				transfer_state = 919
+				transfer_state = 141
+				transfer_state = 913
+				transfer_state = 110
+				transfer_state = 920
+				transfer_state = 142
+				transfer_state = 921
+				transfer_state = 922
+				transfer_state = 916
+				set_cosmetic_tag = TRN_RED
+				set_capital = { state = 37 }
+				set_party_name = {
+					ideology = fascism
+					long_name = "fascism_noun"
+					name = "fascism"
+				}
+				create_country_leader = {
+					name = "RED_minori"
+					desc = ""
+					picture = "gfx/leaders/RED/RED_Yasumori_Minori_Portrait.tga"
+					expire = "1965.1.1"
+					ideology = pater_nazism
+					traits = { }
+				}
+				TRM = { puppet = PREV }
+			}
+			TRM = {
+				transfer_state = 99
+				transfer_state = 911
+				transfer_state = 37
+			}
+			}
+		}
+	}
+	TRM_SPR_Reichskommissariat = {
+		available = {
+			has_war = no
+			any_state = { 
+				is_core_of = SPR
+				is_controlled_by = TRM
+			}
+		}
+		visible = { }
+		cost = 100
+		days_remove = 25
+		ai_will_do = { factor = 1 }
+		fire_only_once = YES
+		modifier = { civilian_factory_use = 2 }
+		complete_effect = { }
+		remove_effect = {
+			custom_effect_tooltip = Trinity_Iberian_Puppet
+			hidden_effect = {
+			create_dynamic_country = {
+				original_tag = SPR
+				copy_tag = SPR
+				add_political_power = 100
+				set_cosmetic_tag = TRN_SPR
+				every_state = {
+					limit = { 
+						OR = {
+							is_core_of = SPR 
+							is_core_of = POR
+						}
+						NOT = {
+							state = 697
+							state = 178
+							state = 698
+						}
+					}
+					transfer_state_to = PREV
+				}
+				every_state = {
+					limit = {
+						OR = {
+							is_core_of = SPR 
+							is_core_of = POR
+						} 
+						NOT = {
+							state = 697
+							state = 178
+							state = 698
+						}
+					}
+					add_core_of = PREV
+				}
+				create_country_leader = {
+					name = "TRN_military_junta_name"
+					desc = ""
+					picture = "gfx/leaders/TRN/Z_TRN_military_junta.tga"
+					expire = "1965.1.1"
+					ideology = pater_nazism
+					traits = { }
+				}
+				TRM = { 
+					puppet = PREV 
+					transfer_state = 118
+				}
+			}
+
+			}
+		}
+	}
+}
+political_actions = {
+	TRM_surrender = {
+		allowed = { original_tag = TRM }
+		icon = GFX_decision_eng_trade_unions_support
+	 	priority = 9999
+	 	 ai_will_do = { base = 10 }
+		available = {
+			surrender_progress > 0.7
+			is_subject = no
+			has_war_with = SOV
+		}
+		visible = {
+			surrender_progress > 0.7
+	  		SOV = { controls_state = 64 }
+			has_completed_focus = TRN_GO_TO_EAST
+		}
+		complete_effect = {
+			SOV_WIN_Great_Patriotic_War = YES
 		}
 	}
 }

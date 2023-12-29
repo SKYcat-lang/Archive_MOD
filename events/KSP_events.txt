@@ -477,9 +477,18 @@ country_event = {
 	option = {
 		name = KSP_event.27.a
 	}
-	#option = {
-	#	name = KSP_event.27.b
-	#}
+	option = {
+		name = KSP_event.27.b
+		KSP_Paul_Henri_Spaak = {
+			add_country_leader_role = {
+				promote_leader = yes
+				country_leader = {
+					ideology = marxism
+					expire = "1965.1.1.1"
+				}
+			}
+		}
+	}
 }
 country_event = {
 	id = KSP_event.28 #새 지도자-우익
@@ -587,23 +596,23 @@ country_event = {
 			}
 		}
 	}
-	option = {
-		name = KSP_event.30.c
-		hidden_effect = {
-			if = {
-				limit = {
-					has_country_flag = KSP_gukwangdang_selected
-				}
-				country_event = {id = KSP_event.31 days = 1}
-			}
-			if = {
-				limit = {
-					has_country_flag = KSP_fascism_rule_selected
-				}
-				country_event = {id = KSP_event.32 days = 1}
-			}
-		}
-	}
+	#option = {
+	#	name = KSP_event.30.c
+	#	hidden_effect = {
+	#		if = {
+	#			limit = {
+	#				has_country_flag = KSP_gukwangdang_selected
+	#			}
+	#			country_event = {id = KSP_event.31 days = 1}
+	#		}
+	#		if = {
+	#			limit = {
+	#				has_country_flag = KSP_fascism_rule_selected
+	#			}
+	#			country_event = {id = KSP_event.32 days = 1}
+	#		}
+	#	}
+	#}
 }
 country_event = {
 	id = KSP_event.31
@@ -637,7 +646,6 @@ country_event = {
 	desc = KSP_event.33.d
 	picture = none
 
-	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = {
@@ -679,7 +687,6 @@ country_event = {
 	desc = KSP_event.34.d
 	picture = none
 
-	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = {
@@ -717,7 +724,7 @@ country_event = {
 
 	trigger = {
 		tag = KSP
-		check_variable = { KSP_wakamo_sabotage_number > 4 }
+		check_variable = { KSP_wakamo_sabotage_number > 24 }
 	}
 	mean_time_to_happen = { days = 2 }
 	fire_only_once = yes
@@ -725,6 +732,134 @@ country_event = {
 	option = {
 		name = KSP_event.35.a
 		add_ideas = KSP_damaged_country
+	}
+}
+country_event = {
+	id = KSP_event.36 #총학 통합
+	title = KSP_event.36.t
+	desc = KSP_event.36.d
+	picture = none
+
+	trigger = {
+		tag = KSP
+		7 = {
+			is_owned_and_controlled_by = KSP
+		}
+		35 = {
+			is_owned_and_controlled_by = KSP
+		}
+		6 = {
+			is_owned_and_controlled_by = KSP
+		}
+		29 = {
+			is_owned_and_controlled_by = KSP
+		}
+		36 = {
+			is_owned_and_controlled_by = KSP
+		}
+	}
+	mean_time_to_happen = { days = 2 }
+	fire_only_once = yes
+	
+	option = {
+		name = KSP_event.36.a
+		add_state_claim = 7
+        7 = {
+             set_state_flag = SHE_war_cou_flag
+        }
+        add_state_claim = 35
+        35 = {
+            set_state_flag = SHE_war_cou_flag
+        }
+		add_state_claim = 6
+        6 = {
+            set_state_flag = SHE_war_cou_flag
+        }
+        add_state_claim = 29
+        29 = {
+            set_state_flag = SHE_war_cou_flag
+        }
+		add_state_claim = 36
+        36 = {
+            set_state_flag = SHE_war_cou_flag
+        }
+	}
+}
+country_event = {
+	id = KSP_event.37 #블끼야아악 칸나가 쓰러졌다
+	title = KSP_event.37.t
+	desc = KSP_event.37.d
+	picture = none
+
+	trigger = {
+		tag = KSP
+		has_completed_focus = KSP_belgium_ukje
+		has_completed_focus = KSP_gov_gaepyeon
+	}
+	mean_time_to_happen = { days = 21 }
+	fire_only_once = yes
+	
+	option = {
+		name = KSP_event.37.a
+		add_stability = -0.25
+		add_political_power = -50
+		add_ideas = KSP_hangjung_mabi
+		add_ideas = KSP_other_factions_growing
+		add_ideas = KSP_sanghwal_safety_power_4
+		add_ideas = KSP_gyeongbiguk_power_4
+		swap_ruler_traits = {
+			remove = KSP_KANNA_SET0_0
+			add = KSP_kanna_healing
+		}
+		complete_national_focus = KSP_kanna_health_problems
+		custom_effect_tooltip = KSP_event_37_cst
+		set_country_flag = KSP_kanna_health_worsen_flag
+		hidden_effect = {
+			country_event = { id = KSP_event.38 days = 7 }
+		}
+	}
+}
+country_event = {
+	id = KSP_event.38 #...행정 왜 잘 돌아감?
+	title = KSP_event.38.t
+	desc = KSP_event.38.d
+	picture = none
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = KSP_event.38.a
+		swap_ideas = {
+			remove_idea = KSP_hangjung_mabi
+			add_idea = KSP_not_accustomed_to_work_1
+		}
+		set_country_flag = KSP_kanna_health_and_gov_problems_start
+	}
+}
+country_event = {
+	id = KSP_event.39 #생활안전국의 쿠데타
+	title = KSP_event.39.t
+	desc = KSP_event.39.d
+	picture = none
+
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = KSP_event.39.a
+		remove_ideas = KSP_sanghwal_safety_power
+		add_ideas = KSP_conflict_within_sanghwal_safety
+		add_stability = -0.25
+		set_politics = {
+			ruling_party = communism
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = communism
+			popularity = 0.10
+		}
+		set_country_flag = KSP_sanghwal_safety_is_leader
 	}
 }
 country_event = {

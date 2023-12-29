@@ -722,6 +722,23 @@ FRA_urbanization = {
 		ai_will_do = {
 			base = 10
 		}
+		remove_effect = {
+			513 = {
+				BA_increase_state_category_by_one_level = yes
+			}
+			462 = {
+				BA_increase_state_category_by_one_level = yes
+			}
+			780 = {
+				BA_increase_state_category_by_one_level = yes
+			}
+			665 = {
+				BA_increase_state_category_by_one_level = yes
+			}
+			780 = {
+				BA_increase_state_category_by_one_level = yes
+			}
+		}
 	}
 	FRA_support_bour = {
 		#자본가 정착 지원
@@ -737,6 +754,14 @@ FRA_urbanization = {
 		fire_only_once = yes
 		ai_will_do = {
 			base = 10
+		}
+		remove_effect = {
+			459 = {
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
 		}
 	}
 }
@@ -862,8 +887,8 @@ FRA_war_dec = {
 			always = no
 		}
 		available = {
-			660 = {
-				is_controlled_by = FRA
+			CAR = {
+				has_capitulated = yes
 			}
 		}
 		visible = {
@@ -886,10 +911,17 @@ FRA_war_dec = {
 			transfer_state = 901
 			transfer_state = 900
 			every_country = {
-				FRA = {
-					white_peace = CAN
-					white_peace = CAR
+				limit = {
+					has_war_with = FRA
+					is_ally_with = ENG
 				}
+				white_peace = FRA
+			}
+			every_country = {
+				limit = {
+					is_ally_with = FRA
+				}
+				white_peace = ENG
 			}
 			clear_variable = FRA_war_eng
 		}
@@ -902,6 +934,12 @@ FRA_war_dec = {
 					is_ally_with = ENG
 				}
 				white_peace = FRA
+			}
+			every_country = {
+				limit = {
+					is_ally_with = FRA
+				}
+				white_peace = ENG
 			}
 			clear_variable = FRA_war_eng
 		}
@@ -1665,6 +1703,32 @@ FRA_prepare_war = {
 }
 
 FRA_ally = { #외교 정책
+	FRA_ita_surrender = { #이탈리아에 항복
+		icon = GFX_decision_eng_trade_unions_support
+		visible = {
+			has_war_with = ITA
+			MIL = {
+				exists = yes
+			}
+			has_completed_focus = FRA_focus_war_1
+		}
+		cost = 30
+		fire_only_once = yes
+		ai_will_do = {
+			base = 0
+		}
+		days_remove = 15
+		complete_effect = {
+			add_war_support = -0.15
+		}
+		remove_effect = {
+			ITA = {
+				country_event = {
+					id = FRA_prov_event.142
+				}
+			}
+		}
+	}
 	FRA_ally_comintern = {
 		#코민테른 가입
 		icon = GFX_decision_eng_trade_unions_support
@@ -1924,7 +1988,7 @@ FRA_political_wigi = {
 			always = no
 		}
 		available = {
-			always = no
+			has_completed_focus = FRA_focus_fas_3
 		}
 		visible = {
 			has_completed_focus = FRA_focus_fas_2
@@ -1949,7 +2013,7 @@ FRA_political_wigi = {
 		}
 		available = {
 			FRA = {
-				has_completed_focus = FRA_focus_resist_6
+				has_completed_focus = FRA_focus_resist_3.5
 			}
 		}
 		visible = {
@@ -2604,6 +2668,7 @@ FRA_great_FRA = {
 				ITA = {
 					transfer_state = 163
 					transfer_state = 103
+					transfer_state = 950
 					transfer_state = 853
 				}
 				UKR = {
@@ -2846,8 +2911,9 @@ FRA_propaganda = {
 		days_remove = 120
 		cost = 15
 		modifier = {
-			compliance_growth = 0.30
-			resistance_growth = -0.30
+			compliance_growth = 0.80
+			resistance_growth = -0.80
+			industry_repair_factor = 1
 		}
 		available = {
 			custom_trigger_tooltip = {

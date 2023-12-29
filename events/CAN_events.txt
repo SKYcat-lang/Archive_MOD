@@ -169,19 +169,12 @@ country_event = { #서인도 연방
 		name = can.4.a
 		hidden_effect = {
 			JAM = {
-				generate_character = { #마크 영
-					token_base = ZAM_mark
+				create_country_leader = { #마크 영
 					name = ZAM_mark
-					portraits={
-						civilian={
-							large="gfx/leaders/ZAM/ZAM_mark.dds"
-						}
-					}
-					country_leader = {
-						ideology = despotism
-						traits = {
-							CAR_governer
-						}
+					picture = "gfx/leaders/ZAM/ZAM_mark.dds"
+					ideology = conservatism
+					traits = {
+						CAR_governer
 					}
 				}
 				set_politics = {
@@ -255,6 +248,8 @@ country_event = { #서늘한 영토
 			electronic_mechanical_engineering = 1
 			mechanical_computing = 1
 		}
+		add_ideas = ENG_exile_shock
+		add_ideas = CAN_british_disease
 	}
 }
 country_event = { #망명정부 승인
@@ -282,6 +277,7 @@ country_event = { #망명정부 승인
 				target = CAN
 				transfer_troops = yes
 			}
+			add_ideas = ENG_distorted_gov
 		}
 		hidden_effect = {
 			ENG = {
@@ -289,12 +285,17 @@ country_event = { #망명정부 승인
 					id = can.3
 					days = 10
 				}
+				country_event = {
+					id = can.12
+					days = 2
+				}
+				set_capital = {
+					state = 276
+					remember_old_capital = no
+				}
 			}
 		}
-		set_capital = {
-			state = 276
-			remember_old_capital = no
-		}
+		every_character = { set_nationality = ENG }
 	}
 	option = { #그없
 		name = can.13.b
@@ -351,5 +352,325 @@ country_event = { #이제 캐나다에 정착했는데...엄...
 	option = {
 		name = can.16.a
 		set_country_flag = ENG_CAN_start
+	}
+}
+country_event = { #스탠리 볼드윈의 사임
+	id = can.17
+	title = can.17.t
+	desc = can.17.d
+	fire_only_once = yes
+	hidden = no
+	trigger = {
+		tag = ENG
+		ENG = {
+			has_completed_focus = CAN_focus_1
+		}
+	}
+
+	mean_time_to_happen = { days = 14 }
+
+	option = {
+		name = can.17.a
+		retire_country_leader = yes
+		add_war_support = 0.05
+		promote_character = ENG_winston_churchill
+	}
+	option = {
+		name = can.17.b
+		retire_country_leader = yes
+		add_stability = 0.10
+		promote_character = ENG_clement_attlee
+		set_party_name = {
+			ideology = democratic
+			long_name = ENG_the_workers_party_long
+			name = ENG_the_workers_party
+		}
+	}
+	option = {
+		name = can.17.c
+		retire_country_leader = yes
+		add_political_power = 50
+		add_stability = 0.05
+		promote_character = CAN_mackenzie_king
+		set_party_name = {
+			ideology = democratic
+			long_name = ENG_canada_party_long
+			name = ENG_canada_party
+		}
+	}
+}
+country_event = { #영연방으로 오시오!
+	id = can.18
+	title = can.18.t
+	desc = can.18.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = {
+		name = can.18.a
+		ENG = { add_to_faction = ROOT }
+	}
+}
+country_event = { #영국의 복속 요구
+	id = can.19
+	title = can.19.t
+	desc = can.19.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = {
+		name = can.19.a #지랄 ㄴ
+		add_stability = -0.10
+		ENG = {
+			create_wargoal = {
+				target = IRE
+				type = puppet_wargoal_focus
+			}
+		}
+	}
+	option = {
+		name = can.19.b #주권 인정해주면 세력 들감
+		ENG = {
+			country_event = { id = can.20 }
+		}
+	}
+	option = {
+		name = can.19.c #...알았워
+		ENG = {
+			country_event = { id = can.21 }
+		}
+	}
+}
+country_event = { #아일랜드가 주권 인정해달래
+	id = can.20
+	title = can.20.t
+	desc = can.20.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = {
+		name = can.20.a #콜
+		add_to_faction = IRE
+	}
+	option = {
+		name = can.20.b #ㅈ까 넌 우리 괴뢰국이야
+		create_wargoal = {
+			target = IRE
+			type = puppet_wargoal_focus
+		}
+	}
+}
+country_event = { #아일랜드 동무가 무릎을 꿇었소.
+	id = can.21
+	title = can.21.t
+	desc = can.21.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = {
+		name = can.21.a #맛있네~
+		set_autonomy = {
+			target = IRE
+			autonomy_state = autonomy_puppet
+			end_wars = yes
+			end_civil_wars = yes
+		}
+	}
+}
+country_event = { #영연방으로의 초대
+	id = can.22
+	title = can.22.t
+	desc = can.22.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = {
+		name = can.22.a #수락
+		ENG = { add_to_faction = POR }
+	}
+	option = {
+		name = can.22.b #거절
+	}
+}
+country_event = { #어라 야발 캐나다의 경제가??
+	id = can.23
+	title = can.23.t
+	desc = can.23.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = {
+		name = can.23.a
+		swap_ideas = {
+			remove_idea = ENG_exile_shock
+			add_idea = ENG_great_depression
+		}
+		set_country_flag = ENG_great_depression_flag
+	}
+}
+country_event = { # 약속한대요
+	id = can.24
+	title = can.24.t
+	desc = can.24.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = {
+		name = can.24.a
+		activate_mission = britian_promise_2
+		set_country_flag = CAN_promise_1
+	}
+	option = {
+		name = can.24.b
+		activate_mission = britian_promise_3
+		set_country_flag = CAN_promise_2
+	}
+	option = {
+		name = can.24.n
+		activate_mission = britian_promise_4
+		set_country_flag = CAN_promise_3
+	}
+	option = {
+		name = can.24.m
+		activate_mission = britian_promise_5
+		set_country_flag = CAN_promise_4
+	}
+}
+country_event = { # 연합왕국 긴급대책법 초안 발의
+	id = can.25
+	title = can.25.t
+	desc = can.25.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = {
+		name = can.25.a
+	}
+}
+country_event = { #영국의 복속 요구-이라크
+	id = can.26
+	title = can.26.t
+	desc = can.26.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = {
+		name = can.26.a #지랄 ㄴ
+		add_stability = -0.10
+		ENG = {
+			create_wargoal = {
+				target = IRE
+				type = puppet_wargoal_focus
+			}
+		}
+	}
+	option = {
+		name = can.26.b #ㅇㅋ
+		ENG = {
+			country_event = { id = can.26 }
+		}
+	}
+}
+country_event = { #이라크 동무가 무릎을 꿇었소.
+	id = can.27
+	title = can.27.t
+	desc = can.27.d
+	fire_only_once = yes
+	hidden = no
+	is_triggered_only = yes
+	option = {
+		name = can.27.a #맛있네~
+		set_autonomy = {
+			target = IRQ
+			autonomy_state = autonomy_puppet
+			end_wars = yes
+			end_civil_wars = yes
+		}
+	}
+}
+
+country_event = { #영토 반환 요구
+	id = can.28
+	title = can.28.t
+	desc = can.28.d
+
+	is_triggered_only = yes
+
+	option = { #수락
+		name = can.28.a
+		ROOT = {
+			if = {
+				limit = {
+					tag = IRE
+				}
+				transfer_state = 119
+				transfer_state = 134
+				transfer_state = 113
+				transfer_state = 135
+			}
+			else = {
+				every_owned_state = {
+					limit = {
+						is_core_of = FROM
+					}
+					transfer_state_to = FROM
+				}
+			}
+		}
+		FROM = {
+			country_event = can.29
+		}
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 70
+				original_tag = IRE
+				GEI = {
+					has_cosmetic_tag = GEI_The_Colour
+				}
+			}
+			modifier = {
+				add = -20
+				OR = {
+					is_major = yes
+					tag = GEI
+					Kivotos_school_tag = yes
+				}
+			}
+		}
+	}
+	option = { #거절
+		name = can.28.b
+		FROM = {
+			country_event = can.30
+		}
+		ai_chance = {
+			base = 40
+		}
+	}
+}
+country_event = { #수락함
+	id = can.29
+	title = can.29.t
+	desc = can.29.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = can.29.a
+	}
+}
+country_event = { #거절당함
+	id = can.30
+	title = can.30.t
+	desc = can.30.d
+
+	is_triggered_only = yes
+
+	option = {
+		name = can.30.a
+		declare_war_on = {
+			target = FROM
+		}
 	}
 }

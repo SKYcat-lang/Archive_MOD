@@ -51,6 +51,225 @@ country_event = {
 		set_global_flag = GFLAG_BAKSANWAR_END
 	}
 }
+country_event = {
+	id = HYA_event.3
+	title = HYA_event.3.t
+	desc = HYA_event.3.desc
+	picture = GFX_event_HYA_flower_bird_wind_moon_club_event	
+	
+	fire_only_once = yes
+
+	trigger = {
+		tag = HYA
+		OR = {
+			fascism > 0.10
+			has_stability < 0.05
+		}
+		date > 1936.6.1
+	}
+
+	option = {
+		name = HYA_event.3.a
+		swap_ideas = {
+			remove_idea = HYA_urban_legend
+			add_idea = HYA_flower_bird_wind_moon_club
+		}
+	}
+}
+country_event = {
+	id = HYA_event.4
+
+	is_triggered_only = yes
+	hidden = yes
+	trigger = {
+		has_war = no
+		has_idea = HYA_urban_legend
+	}
+	immediate = {
+		random_list = {
+			25 = { country_event = { id = HYA_event.5 days = 8 random_days = 6 } } #armory raided
+			10 = { country_event = { id = HYA_event.6 days = 8 random_days = 6 } } #state refuses to transfer funds
+			#10 = { #general resigns
+			#	random_unit_leader = {
+			#		unit_leader_event = { id = mtg_usa_civil_war_fascists.12 } #days = 5 random_days = 6 } 
+			#	}
+			#} 
+			35 = { country_event = { id = HYA_event.7 days = 8 random_days = 6 } } #governor mobilizes national guard
+			20 = { country_event = { id = HYA_event.8 days = 8 random_days = 6 } } #soldiers desert
+		}
+	}
+}
+country_event = {
+	id = HYA_event.5
+	title = HYA_event.5.t
+	desc = HYA_event.5.desc
+	picture = GFX_report_event_desertion_poster	
+
+	is_triggered_only = yes
+
+	option = {
+		name = HYA_event.5.a
+		if = {
+			limit = {
+				has_equipment = {
+					infantry_equipment > 999
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = -1000
+			}
+		}
+		else = {
+			add_stability = -0.05
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.05
+		}
+		
+		hidden_effect = {
+			country_event = {
+				id = HYA_event.4
+				days = 20
+				random_days = 5
+			}
+		}
+	}
+}
+country_event = {
+	id = HYA_event.6
+	title = HYA_event.6.t
+	desc = HYA_event.6.desc
+	picture = GFX_report_event_physics_lab_02	
+
+	is_triggered_only = yes
+
+	option = {
+		name = HYA_event.6.a
+		random_owned_state = {
+			limit = {
+				not = { is_csa_state = yes }
+				arms_factory > 0
+			}
+			damage_building = {
+				type = arms_factory
+				damage = 1.2
+			}
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.05
+		}
+		
+		hidden_effect = {
+			country_event = {
+				id = HYA_event.4
+				days = 20
+				random_days = 5
+			}
+		}
+	}
+}
+country_event = {
+	id = HYA_event.7
+	title = HYA_event.7.t
+	desc = HYA_event.7.desc
+	picture = GFX_report_event_FIN_petsamo_melting_plant	
+
+	is_triggered_only = yes
+
+	option = {
+		name = HYA_event.7.a
+		random_owned_state = {
+			limit = {
+				not = { is_csa_state = yes }
+				infrastructure > 3
+			}
+			damage_building = {
+				type = infrastructure
+				damage = 2
+			}
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.02
+		}
+		
+		hidden_effect = {
+			country_event = {
+				id = HYA_event.4
+				days = 20
+				random_days = 5
+			}
+		}
+	}
+}
+country_event = {
+	id = HYA_event.8
+	title = HYA_event.8.t
+	desc = HYA_event.8.desc
+	picture = GFX_report_event_radar_01	
+
+	is_triggered_only = yes
+
+	option = {
+		name = HYA_event.8.a
+		add_stability = -0.02
+		add_manpower = -10
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.02
+		}
+		
+		hidden_effect = {
+			country_event = {
+				id = HYA_event.4
+				days = 20
+				random_days = 5
+			}
+		}
+	}
+}
+country_event = {
+	id = HYA_event.9
+	title = HYA_event.9.t
+	desc = HYA_event.9.desc
+	picture = GFX_event_HYA_flower_bird_wind_moon_club_event	
+	
+	fire_only_once = yes
+
+	trigger = {
+		tag = HYA
+		fascism > 0.30
+		has_idea = HYA_flower_bird_wind_moon_club
+	}
+
+	option = {
+		name = HYA_event.9.a
+		remove_ideas = HYA_flower_bird_wind_moon_club
+		
+		start_civil_war = {
+			ideology = fascism
+			size = 0.5
+			army_ratio = 0.5
+			navy_ratio = 0
+			air_ratio = 0
+			keep_all_characters = yes
+			PREV = {
+				HYA_Coquelico = {
+					set_nationality = PREV.PREV
+				}
+				HYA_Shuro = {
+					set_nationality = PREV.PREV
+				}
+			}
+			promote_character = HYA_Coquelico
+			set_cosmetic_tag = HYA_flower_bird_wind_moon_club_cosmetic
+			set_country_flag = flower_bird_flag
+		}
+	}
+}
 news_event = {
 	id = HYA_news.1
 	title = HYA_news.1.t
@@ -81,6 +300,7 @@ news_event = {
 			KSP = {
 				set_country_flag = KSP_wakamo_sabotage_activated
 				complete_national_focus = KSP_wakamo_problem
+				add_ideas = KSP_wakamo_sabotage
 			}
 		}
 	}

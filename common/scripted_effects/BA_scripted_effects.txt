@@ -13,6 +13,7 @@ TRM_won_the_gehenna_effect = {
 		}
 	}
 }
+
 BA_puppet_on_action_effect = {
 	custom_effect_tooltip = BA_puppet_on_action_effect_tt
 	hidden_effect = {
@@ -29,7 +30,9 @@ BA_puppet_on_action_effect = {
 					limit = {
 						has_template = "Halo Infantry Division"
 					}
-					add_to_variable = { ROOT.halo_infantry_cap = 2 }
+					add_to_variable = {
+						ROOT.halo_infantry_cap = 2
+					}
 					set_division_template_cap = {
 						division_template = "Halo Infantry Division"
 						division_cap = ROOT.halo_infantry_cap
@@ -48,18 +51,18 @@ TRM_endsieg_effect = {
 			}
 			add_country_leader_role = {
 				country_leader = {
-				expire = "1965.1.1"
-				ideology = pater_nazism
-				desc = "TRN_alzk_DESC_2"
-				traits = {
-					TRN_mika_trait_4 
-					TRM_gloy_leader 
-					TRN_mika_trait_2
+					expire = "1965.1.1"
+					ideology = pater_nazism
+					desc = "TRN_alzk_DESC_2"
+					traits = {
+						TRN_mika_trait_4
+						TRM_gloy_leader
+						TRN_mika_trait_2
+					}
 				}
+				promote_leader = yes
 			}
-			promote_leader = yes
 		}
-	}
 		country_event = {
 			id = TRM_event.26
 			days = 3
@@ -69,6 +72,18 @@ TRM_endsieg_effect = {
 
 ENG_lose_effect = {
 	ENG = {
+		news_event = {
+			id = BA_news.6
+		}
+		leave_faction = yes
+		every_country = {
+			limit = {
+				has_war_with = KAI
+			}
+			white_peace = KAI
+		}
+		mark_focus_tree_layout_dirty = yes
+		end_puppet = EGY
 		set_autonomy = {
 			target = NZL
 			autonomy_state = autonomy_dominion
@@ -81,6 +96,32 @@ ENG_lose_effect = {
 			target = SAF
 			autonomy_state = autonomy_dominion
 		}
+		if = {
+			limit = {
+				has_country_leader = {
+					character = ENG_british_army
+					ruling_only = yes
+				}
+			}
+			retire_ideology_leader = neutrality
+		}
+		if = {
+			limit = {
+				is_female = yes
+			}
+			set_party_name = {
+				ideology = neutrality
+				long_name = ENG_neutrality_party_queens_party_long
+				name = ENG_neutrality_party_queens_party
+			}
+		}
+		else = {
+			set_party_name = {
+				ideology = neutrality
+				long_name = ENG_neutrality_party_kings_party_long
+				name = ENG_neutrality_party_kings_party
+			}
+		}
 	}
 	SAF = {
 		set_politics = {
@@ -91,10 +132,8 @@ ENG_lose_effect = {
 		set_politics = {
 			ruling_party = democratic
 		}
-
 	}
 	NZL = {
-		
 		set_politics = {
 			ruling_party = democratic
 		}
@@ -121,52 +160,58 @@ ENG_lose_effect = {
 			add_state_claim = PREV
 		}
 	}
-
-	create_country_leader = {
-		name = "에드워드 8세"
-		desc = ""
-		picture = "gfx/leaders/ENG/Edward.png"
-		expire = "1965.1.1"
-		ideology = despotism
-		traits = {
-			ENG_british_Emperor
-		}
+	add_popularity = {
+		ideology = democratic
+		popularity = 0.5
 	}
 	add_popularity = {
-		ideology = neutrality
-		popularity = 100
+		ideology = communism
+		popularity = 0.1
+	}
+	add_popularity = {
+		ideology = fascism
+		popularity = 0.1
 	}
 	set_politics = {
-		ruling_party = neutrality
+		ruling_party = democratic
 		last_election = "1936.2.6"
 		election_frequency = 48
 		elections_allowed = no
 	}
-	country_event = { id = can.1 hours = 8 }
+	country_event = {
+		id = can.1
+		hours = 100
+	}
 	CAN = {
-		country_event = { id = can.13 hours = 48 }
+		country_event = {
+			id = can.13
+			hours = 48
+		}
 	}
 	delete_unit_template_and_units = {
 		division_template = "Infantry Division"
-		disband = yes #will refund equipment and manpower
+		disband = yes		#will refund equipment and manpower
 	}
 	delete_unit_template_and_units = {
 		division_template = "Cavalry Brigade"
-		disband = yes #will refund equipment and manpower
+		disband = yes		#will refund equipment and manpower
 	}
 	delete_unit_template_and_units = {
 		division_template = "Tank Brigade"
-		disband = yes #will refund equipment and manpower
+		disband = yes		#will refund equipment and manpower
 	}
 	delete_unit_template_and_units = {
 		division_template = "Home Guard"
-		disband = yes #will refund equipment and manpower
+		disband = yes		#will refund equipment and manpower
 	}
-	
+}
+
+ENG_lose_effect_other_country = {
+	set_global_flag = ENG_lose_global_flag	
+	EGY = {
+		set_cosmetic_tag = EGY_NOT_ENG
+	}
 	KAI = {
-		news_event = {
-			id = BA_news.6
-		}
 		transfer_state = 123
 		transfer_state = 122
 		transfer_state = 132
@@ -192,7 +237,10 @@ ENG_lose_effect = {
 		add_state_core = 121
 	}
 	IRE = {
-		country_event = { id = BA_generic_event.11 days = 5 }
+		country_event = {
+			id = BA_generic_event.11
+			days = 5
+		}
 	}
 	ITA = {
 		country_event = {
@@ -326,10 +374,8 @@ TRM_THE_NEW_ORDER = {
 		}
 	}
 	ALB = {
-		transfer_state = 105
 		transfer_state = 802
 		add_state_core = 802
-		add_state_core = 105
 	}
 	ROM = {
 		transfer_state = 834
@@ -353,6 +399,8 @@ TRM_THE_NEW_ORDER = {
 		transfer_state = 835
 		transfer_state = 836
 		transfer_state = 837
+		transfer_state = 950
+		transfer_state = 105
 		puppet = ALB
 		puppet = CRO
 		puppet = GRE
@@ -367,6 +415,7 @@ TRM_THE_NEW_ORDER = {
 			NOT = {
 				state = 852
 				state = 163
+				state = 950
 			}
 		}
 		transfer_state_to = CRO
@@ -478,7 +527,6 @@ TRM_NEW_ORDER_SOV_LOSE = {
 		transfer_state = 244
 		transfer_state = 208
 		transfer_state = 263
-
 		add_state_core = 264
 		add_state_core = 195
 		add_state_core = 244
@@ -500,7 +548,6 @@ TRM_NEW_ORDER_SOV_LOSE = {
 		transfer_state = 238
 		transfer_state = 237
 		transfer_state = 236
-		
 		add_state_core = 217
 		add_state_core = 237
 		add_state_core = 265
@@ -517,7 +564,6 @@ TRM_NEW_ORDER_SOV_LOSE = {
 		transfer_state = 250
 		transfer_state = 829
 		transfer_state = 401
-		
 		add_state_core = 255
 		add_state_core = 239
 		add_state_core = 250
@@ -627,7 +673,7 @@ TRM_NEW_ORDER_SIBERIA = {
 		transfer_state = 256
 		transfer_state = 249
 		transfer_state = 251
-		transfer_state = 652	
+		transfer_state = 652
 		transfer_state = 651
 		transfer_state = 582
 		transfer_state = 398
@@ -641,7 +687,7 @@ TRM_NEW_ORDER_SIBERIA = {
 		transfer_state = 403
 		transfer_state = 571
 		set_politics = {
-			ruling_party =  communism
+			ruling_party = communism
 		}
 		add_popularity = {
 			ideology = communism
@@ -761,71 +807,165 @@ TRM_CZE_PUPPET = {
 			state = 7
 		}
 	}
-	country_event = { id = TRM_event.3000 }
-	SRT = {
-		transfer_state = 30
-		transfer_state = 15
-		transfer_state = 23
-		transfer_state = 14
-		add_state_core = 30
-		add_state_core = 15
-		add_state_core = 23
-		set_cosmetic_tag = TRM_KAI
-		create_country_leader = {
-			name = "TRN_dkdhahfl_alsp"
-			desc = ""
-			picture = "gfx/leaders/TRN/TRN_Aomori_Mine_Portrait.tga"
-			expire = "1965.1.1"
-			ideology = pater_nazism
-			traits = {
-				TRN_aomori_mine
+	country_event = {
+		id = TRM_event.3000
+	}
+		SRT = {
+				SRT = { set_cosmetic_tag = TRM_KAI }
+			transfer_state = 30
+			transfer_state = 15
+			transfer_state = 23
+			transfer_state = 14
+			add_state_core = 30
+			add_state_core = 15
+			add_state_core = 23
+			hidden_effect = {
+			create_country_leader = {
+				name = "TRN_dkdhahfl_alsp"
+				desc = ""
+				picture = "gfx/leaders/TRN/TRN_Aomori_Mine_Portrait.tga"
+				expire = "1965.1.1"
+				ideology = pater_nazism
+				traits = {
+					TRN_aomori_mine
+				}
+			}
+			}
+		}	
+		TRC = {
+			set_cosmetic_tag = MIL_TRN
+			transfer_state = 785
+			transfer_state = 16
+			transfer_state = 946
+			transfer_state = 18
+			transfer_state = 27
+			transfer_state = 17
+			transfer_state = 947
+			transfer_state = 24
+			every_state = {
+				limit = {
+					is_controlled_by = TRC
+				}
+				add_core_of = TRC
+			}
+			add_ideas = MIL_neutrality_idea
+			set_capital = { state = 16 }
+			hidden_effect = {
+				create_country_leader = {
+					name = "uyi"
+					desc = ""
+					picture = "gfx/leaders/TRN/TRN_Kozeki_Ui_Portrait.tga"
+					expire = "1965.1.1"
+					ideology = pater_nazism
+					traits = {
+						TRN_economist_ui
+						kozeki_ui_trait
+					}
+				}
 			}
 		}
-	}
-	TRC = {
-		set_cosmetic_tag = MIL_TRN
-		transfer_state = 785
-		transfer_state = 16
-		transfer_state = 946
-		transfer_state = 18
-		transfer_state = 27
-		transfer_state = 17
-		transfer_state = 947
-		transfer_state = 24
-		transfer_state = 33
+		create_dynamic_country = {
+			original_tag = MIL
+			copy_tag = FRA
+			set_cosmetic_tag = TRM_FRA
+			add_political_power = 100
+			transfer_state = 26
+			transfer_state = 20
+			transfer_state = 32
+			transfer_state = 939
+			transfer_state = 851
+			transfer_state = 21
+			transfer_state = 22
+			transfer_state = 31
+			transfer_state = 19
+			transfer_state = 806
+			transfer_state = 25
+			transfer_state = 33
+			set_capital = { state = 26 }
+			hidden_effect = {
+				create_country_leader = {
+					name = "TRN_tmwmal"
+					desc = ""
+					picture = "gfx/leaders/TRN/TRN_Morizuki_Suzumi_Portrait.tga"
+					expire = "1965.1.1"
+					ideology = pater_nazism
+					traits = {
+						TRN_suzume_trait
+					}
+				}
+			}
+		TRM = {
+			puppet = PREV
+			puppet = TRC
+			puppet = SRT
+			}
+		}
+		POL = {
+			transfer_state = 10
+			transfer_state = 92
+			transfer_state = 90
+			transfer_state = 88
+			transfer_state = 91
+			transfer_state = 89
+			set_cosmetic_tag = TRN_POL
+		}
+			every_state = {
+				limit = {
+					is_core_of = POL
+					NOT = { is_controlled_by = POL }
+				}
+				remove_core_of = POL
+			}
 		every_state = {
-			limit = {
-				is_controlled_by = TRC
+			limit = { is_core_of = MIL }
+			set_demilitarized_zone = no
+		}
+			create_dynamic_country = {
+				original_tag = SPR
+				copy_tag = SPR
+				add_political_power = 100
+				set_cosmetic_tag = TRN_SPR
+				every_state = {
+					limit = { 
+						OR = {
+							is_core_of = SPR 
+							is_core_of = POR
+						}
+						NOT = {
+							state = 697
+							state = 178
+							state = 698
+						}
+					}
+					transfer_state_to = PREV
+				}
+				every_state = {
+					limit = {
+						OR = {
+							is_core_of = SPR 
+							is_core_of = POR
+						} 
+						NOT = {
+							state = 697
+							state = 178
+							state = 698
+						}
+					}
+					add_core_of = PREV
+				}
+				create_country_leader = {
+					name = "TRN_military_junta_name"
+					desc = ""
+					picture = "gfx/leaders/TRN/Z_TRN_military_junta.tga"
+					expire = "1965.1.1"
+					ideology = pater_nazism
+					traits = { }
+				}
+				TRM = { 
+					puppet = PREV 
+					transfer_state = 118
+				}
 			}
-			add_core_of = TRC
-		}
-		add_ideas = MIL_neutrality_idea
-		set_capital = {
-			state = 16
-		}
-		create_country_leader = {
-			name = "uyi"
-			desc = ""
-			picture = "gfx/leaders/TRN/TRN_Kozeki_Ui_Portrait.tga"
-			expire = "1965.1.1"
-			ideology = pater_nazism
-			traits = {
-				TRN_economist_ui kozeki_ui_trait 
-			}
-		}
-	}
-	18 = { set_demilitarized_zone = no }
-	27 = { set_demilitarized_zone = no }
-	17 = { set_demilitarized_zone = no }
-	19 = { set_demilitarized_zone = yes }
-	25 = { set_demilitarized_zone = yes }
-	26 = { set_demilitarized_zone = yes }
-	20 = { set_demilitarized_zone = yes }
-	TRM = {
-		puppet = COU
-		puppet = SRT
-		puppet = TRC
-	}
 }
 
 TRN_KAI_PUPPET = {
@@ -854,74 +994,308 @@ TRN_KAI_PUPPET = {
 			name = "Justice_Task_Force"
 		}
 	}
-	RED = {
-		set_cosmetic_tag = TRN_RED
-		set_capital = {
-			state = 37
-		}
-		create_country_leader = {
-			name = "RED_minori"
-			desc = ""
-			picture = "gfx/leaders/RED/RED_Yasumori_Minori_Portrait.tga"
-			expire = "1965.1.1"
-			ideology = pater_nazism
-			traits = {
-				#
+			create_dynamic_country = {
+				original_tag = NOR
+				copy_tag = NOR
+				add_political_power = 100
+				set_cosmetic_tag = TRN_NOR
+				every_state = {
+					limit = { 
+						OR = {
+							is_core_of = NOR 
+							is_core_of = SWE
+						}
+						NOT = {
+							state = 138
+							state = 139
+							state = 140
+							state = 915
+							state = 919
+							state = 141
+							state = 913
+							state = 110
+							state = 920
+							state = 142
+							state = 921
+							state = 922
+							state = 916
+						}
+					}
+					transfer_state_to = PREV
+				}
+				every_state = {
+					limit = { is_core_of = SWE }
+					add_core_of = PREV
+				}
+				create_country_leader = {
+					name = "Josef_Terboven_Name"
+					desc = ""
+					picture = "gfx/leaders/TRN/Z_TRN_Josef_Terboven_Portrait.tga"
+					expire = "1965.1.1"
+					ideology = pater_nazism
+					traits = { }
+				}
+				TRM = { puppet = PREV }
 			}
-		}
-	}
-	every_state = {
-		limit = {
-			is_core_of = NOR
-		}
-		transfer_state_to = NOR
-	}
-	NOR = {
-		set_cosmetic_tag = TRN_NOR
-		create_country_leader = {
-			name = "Josef_Terboven_Name"
-			desc = ""
-			picture = "gfx/leaders/TRN/Z_TRN_Josef_Terboven_Portrait.tga"
-			expire = "1965.1.1"
-			ideology = pater_nazism
-			traits = {
-				#
+			create_dynamic_country = {
+				original_tag = RED
+				copy_tag = RED
+				add_political_power = 100
+				transfer_state = 141
+				transfer_state = 138
+				transfer_state = 139
+				transfer_state = 140
+				transfer_state = 915
+				transfer_state = 919
+				transfer_state = 141
+				transfer_state = 913
+				transfer_state = 110
+				transfer_state = 920
+				transfer_state = 142
+				transfer_state = 921
+				transfer_state = 922
+				transfer_state = 916
+				set_cosmetic_tag = TRN_RED
+				set_capital = { state = 37 }
+				set_party_name = {
+					ideology = fascism
+					long_name = "fascism_noun"
+					name = "fascism"
+				}
+				create_country_leader = {
+					name = "RED_minori"
+					desc = ""
+					picture = "gfx/leaders/RED/RED_Yasumori_Minori_Portrait.tga"
+					expire = "1965.1.1"
+					ideology = pater_nazism
+					traits = { }
+				}
+				TRM = { puppet = PREV }
 			}
-		}
-	}
-	every_state = {
-		limit = {
-			is_core_of = SWE 
-			NOT = { 
-				state = 138
-				state = 124
+			TRM = {
+				puppet = KAI
+				transfer_state = 99
+				transfer_state = 911
+				transfer_state = 37
 			}
-		}
-		transfer_state_to = SWE
-	}
-	SWE = {
-		set_cosmetic_tag = TRN_SWE
-	}
-	GEN = {
-		set_cosmetic_tag = TRN_GEN
-		transfer_state = 124
-	}
 	every_country = {
 		limit = {
 			is_puppet_of = TRM
 		}
 		add_ideas = GEH_slave_of_the_trm
 	}
-	TRM = { puppet = KAI puppet = RED puppet = NOR puppet = SWE puppet = GEN }
 }
+TRM_ditalia_puppet = {
+	create_dynamic_country = {
+		copy_tag = ITA
+		original_tag = ITA
+		add_political_power = 100
+		transfer_state = 2
+		transfer_state = 114
+		transfer_state = 158
+		transfer_state = 159
+		transfer_state = 160
+		transfer_state = 161
+		transfer_state = 162
+		transfer_state = 157
+		transfer_state = 2
+		#transfer_state = 117
+		#transfer_state = 849
+		#transfer_state = 156
+		#transfer_state = 115
+		every_state = {
+			limit = {
+				is_core_of = PREV
+				NOT = {
+					is_controlled_by = PREV
+				}
+			}
+			remove_core_of = PREV
+		}
+		create_country_leader = {
+			name = "TRN_military_junta_name"
+			desc = ""
+			picture = "gfx/leaders/TRN/Z_TRN_military_junta.tga"
+			expire = "1965.1.1"
+			ideology = pater_nazism
+			traits = { }
+		}
+		set_cosmetic_tag = TRN_ITA
+		TRM = { puppet = PREV }
+	}
+	create_dynamic_country = {
+		copy_tag = TTS
+		original_tag = TTS
+		add_political_power = 100
+		transfer_state = 117
+		transfer_state = 849
+		transfer_state = 156
+		transfer_state = 115
+		create_country_leader = {
+			name = "TRN_military_junta_name"
+			desc = ""
+			picture = "gfx/leaders/TRN/Z_TRN_military_junta.tga"
+			expire = "1965.1.1"
+			ideology = pater_nazism
+			traits = { }
+		}
+		set_cosmetic_tag = TRN_TTS
+		TRM = { puppet = PREV }
+	}
+	26 = {
+		owner = {
+			transfer_state = 735
+			transfer_state = 940
+		}
+	}
+	TRM = {
+		transfer_state = 39
+		transfer_state = 850
+		transfer_state = 853
+		transfer_state = 950
+		transfer_state = 736
+		transfer_state = 852
+		transfer_state = 102
+	}
+}
+TRM_Balkan_puppet = {
+	create_dynamic_country = {
+		copy_tag = SER
+		original_tag = SER
+		add_political_power = 100
+		transfer_state = 104
+		transfer_state = 804
+		every_state = {
+			limit = {
+				is_core_of = SER
+				NOT = {
+					state = 852
+					state = 163
+					state = 950
+					state = 803
+					state = 45
+				}
+			}
+			transfer_state_to = PREV
+			add_core_of = PREV
+		}
+		set_cosmetic_tag = SER_TRN_PUPPET
+		TRM = { puppet = PREV }
+	}
+	create_dynamic_country = {
+		copy_tag = CRO
+		original_tag = CRO
+		add_political_power = 100
+		transfer_state = 104
+		transfer_state = 804
+		every_state = {
+			limit = {
+				is_core_of = CRO
+				NOT = {
+					state = 852
+					#state = 163
+					state = 950
+				}
+			}
+			transfer_state_to = PREV
+			add_core_of = PREV
+		}
+		create_country_leader = {
+			name = "Ante Pavelic"
+			desc = "ANTE_PAVELIC_DESC"
+			picture = GFX_portrait_Ante_Pavelic
+			expire = "1965.1.1"
+			ideology = pater_nazism
+			traits = {
+				#
+			}
+		}
+		set_cosmetic_tag = TRN_CRO
+		TRM = { puppet = PREV }
+	}
+	every_state = {
+		limit = {
+			OR = {
+				is_core_of = ALB
+				state = 105
+				state = 802
+			}
+		}
+		transfer_state_to = ALB
+	}
+	ALB = { set_cosmetic_tag = TRN_ALB}
+	SLO = {
+		transfer_state = 71
+		transfer_state = 70
+		add_state_core = 71
+		add_state_core = 70
+		set_cosmetic_tag = TRN_SLO
+	}
+	HUN = {
+		transfer_state = 664
+		transfer_state = 155
+		transfer_state = 43
+		transfer_state = 154
+		transfer_state = 45
+		transfer_state = 76
+		transfer_state = 73
+	}
+	ROM = {
+		transfer_state = 82
+		transfer_state = 83
+		transfer_state = 84
+		transfer_state = 81
+		transfer_state = 46
+		transfer_state = 79
+		transfer_state = 80
+		transfer_state = 78
+		transfer_state = 766
+		transfer_state = 834
+	}
+	BUL = {
+		transfer_state = 48
+		transfer_state = 801
+		transfer_state = 211
+		transfer_state = 77
+		transfer_state = 212
+		transfer_state = 106
+		transfer_state = 803
+		transfer_state = 731
+		transfer_state = 184
+	}
+	GRE = {
+		transfer_state = 185
+		transfer_state = 47
+		transfer_state = 186
+		transfer_state = 187
+		transfer_state = 182
+	}
+	TRM = { 
+		puppet = ALB 
+		puppet = SLO
+		puppet = HUN
+		puppet = ROM
+		puppet = BUL
+		puppet = GRE
+	}
+}
+TRM_Finland_puppet = {
+	FIN = { set_cosmetic_tag = TRN_FIN }
+	TRM = { puppet = FIN }
+}
+
 BRAVE_NEW_WORLD = {
-	TIB = { 
-		transfer_state = 601 
+	TIB = {
+		transfer_state = 601
 		transfer_state = 604
 		transfer_state = 434
 	}
-	MAN = { transfer_state = 745 }
-	CHI = { transfer_state = 609 }
+	MAN = {
+		transfer_state = 745
+	}
+	CHI = {
+		transfer_state = 609
+	}
 	SHX = {
 		transfer_state = 622
 		transfer_state = 744
@@ -940,15 +1314,23 @@ BRAVE_NEW_WORLD = {
 		transfer_state = 603
 		transfer_state = 751
 	}
-	XSM = { transfer_state = 752 }
+	XSM = {
+		transfer_state = 752
+	}
 	VIN = {
 		transfer_state = 671
 		transfer_state = 286
 	}
-	LAO = { transfer_state = 670 }
-	CAM = { transfer_state = 741 }
-	INS = { transfer_state = 335 }
-	BRM = { 
+	LAO = {
+		transfer_state = 670
+	}
+	CAM = {
+		transfer_state = 741
+	}
+	INS = {
+		transfer_state = 335
+	}
+	BRM = {
 		transfer_state = 288
 		transfer_state = 640
 	}
@@ -992,7 +1374,7 @@ BRAVE_NEW_WORLD = {
 		transfer_state = 629
 		transfer_state = 655
 	}
-	USA = { 
+	USA = {
 		create_faction = USA_NATO_FACTION
 		add_to_faction = CAN
 		add_to_faction = SAF
@@ -1074,6 +1456,695 @@ BRAVE_NEW_WORLD = {
 		add_state_core = 700
 		hidden_effect = {
 			load_oob = CAR
+		}
+		set_politics = {
+			ruling_party = neutrality
+		}
+		set_popularities = {
+			neutrality = 100
+		}
+	}
+}
+
+ENG_great_depression_reduction_major = {
+	ENG = {
+		if = {
+			limit = {
+				has_idea = ENG_great_depression_9
+			}
+			remove_ideas = ENG_great_depression_9
+			clr_country_flag = ENG_great_depression_flag
+		}
+		if = {
+			limit = {
+				has_idea = ENG_great_depression_8
+			}
+			remove_ideas = ENG_great_depression_8
+			clr_country_flag = ENG_great_depression_flag
+		}
+		if = {
+			limit = {
+				has_idea = ENG_great_depression_7
+			}
+			swap_ideas = {
+				remove_idea = ENG_great_depression_7
+				add_idea = ENG_great_depression_9
+			}
+		}
+		if = {
+			limit = {
+				has_idea = ENG_great_depression_6
+			}
+			swap_ideas = {
+				remove_idea = ENG_great_depression_6
+				add_idea = ENG_great_depression_8
+			}
+		}
+		if = {
+			limit = {
+				has_idea = ENG_great_depression_5
+			}
+			swap_ideas = {
+				remove_idea = ENG_great_depression_5
+				add_idea = ENG_great_depression_7
+			}
+		}
+		if = {
+			limit = {
+				has_idea = ENG_great_depression_4
+			}
+			swap_ideas = {
+				remove_idea = ENG_great_depression_4
+				add_idea = ENG_great_depression_6
+			}
+		}
+		if = {
+			limit = {
+				has_idea = ENG_great_depression_3
+			}
+			swap_ideas = {
+				remove_idea = ENG_great_depression_3
+				add_idea = ENG_great_depression_5
+			}
+		}
+		if = {
+			limit = {
+				has_idea = ENG_great_depression_2
+			}
+			swap_ideas = {
+				remove_idea = ENG_great_depression_2
+				add_idea = ENG_great_depression_4
+			}
+		}
+		if = {
+			limit = {
+				has_idea = ENG_great_depression_1
+			}
+			swap_ideas = {
+				remove_idea = ENG_great_depression_1
+				add_idea = ENG_great_depression_3
+			}
+		}
+		if = {
+			limit = {
+				has_idea = ENG_great_depression
+			}
+			swap_ideas = {
+				remove_idea = ENG_great_depression
+				add_idea = ENG_great_depression_2
+			}
+		}
+	}
+}
+
+POL_win_of_intermarium = {
+	POL = {
+		transfer_state = 97
+		transfer_state = 94
+		transfer_state = 95
+		transfer_state = 93
+	}
+	if = {
+		limit = {
+			ROM = {
+				is_ally_with = POL
+			}
+		}
+		ROM = {
+			transfer_state = 834
+			add_state_core = 834
+		}
+	}
+	else = {
+		UKR = {
+			transfer_state = 834
+		}
+		if = {
+			limit = {
+				78 = {
+					is_owned_by = SOV
+				}
+			}
+			MOL = {
+				transfer_state = 78
+				transfer_state = 766
+			}
+			POL = {
+				transfer_state = 80
+				set_autonomy = {
+					target = MOL
+					autonomy_state = autonomy_supervised_state
+				}
+			}
+		}
+	}
+	UKR = {
+		every_core_state = {
+			limit = {
+				is_owned_by = SOV
+			}
+			transfer_state_to = UKR
+		}
+	}
+	BLR = {
+		every_core_state = {
+			limit = {
+				is_owned_by = SOV
+			}
+			transfer_state_to = BLR
+		}
+	}
+	SOV = {
+		release = LIT
+		release = LAT
+		release = EST
+	}
+	if = {
+		limit = {
+			FIN = {
+				is_ally_with = POL
+			}
+		}
+		FIN = {
+			transfer_state = 213
+			transfer_state = 215
+			transfer_state = 216
+			add_state_core = 213
+			add_state_core = 215
+			add_state_core = 216
+		}
+		195 = {
+			set_demilitarized_zone = yes
+		}
+	}
+	if = {
+		limit = {
+			TUR = {
+				is_ally_with = POL
+			}
+		}
+		GEO = {
+			every_state = {
+				limit = {
+					is_owned_by = SOV
+					OR = {
+						is_core_of = GEO
+						is_core_of = ARM
+						is_core_of = AZR
+					}
+				}
+				transfer_state_to = GEO
+				add_core_of = GEO
+			}
+			set_cosmetic_tag = intermarium_geo
+		}
+		SOV = {
+			transfer_state = 826
+		}
+		TUR = {
+			set_autonomy = {
+				target = GEO
+				autonomy_state = autonomy_supervised_state
+			}
+		}
+	}
+	POL = {
+		set_autonomy = {
+			target = BLR
+			autonomy_state = autonomy_supervised_state
+		}
+	}
+	POL = {
+		set_autonomy = {
+			target = UKR
+			autonomy_state = autonomy_supervised_state
+		}
+	}
+	POL = {
+		transfer_state = 93
+	}
+	137 = {
+		set_demilitarized_zone = yes
+	}
+}
+SOV_WIN_Great_Patriotic_War = {
+	SOV = {
+		annex_country = {
+			target = TRM
+		}
+	}
+	news_event = { id = BA_news.41 }
+}
+SOV_WIN_Great_Patriotic_War_2 = {
+	SOV = {
+		transfer_state = 188
+		transfer_state = 763
+		transfer_state = 89
+		transfer_state = 91
+		transfer_state = 5
+		annex_country = {
+			target = BLR
+		}
+		annex_country = {
+			target = UKR
+		}
+		every_state = {
+			limit = { 
+				is_core_of = POL
+			}
+			transfer_state_to = SOV
+		}
+	}
+	#POL = {
+	#	every_state = {
+	#		limit = { 
+	#			is_core_of = POL
+	#			NOT = {
+	#				state = 97
+	#				state = 784
+	#				state = 96
+	#				state = 95
+	#				state = 94
+	#				state = 93
+	#				state = 91
+	#				state = 89
+	#			}
+	#		}
+	#		transfer_state_to = POL
+	#	}
+	#	transfer_state = 5
+	#	transfer_state = 63
+	#	transfer_state = 68
+	#	transfer_state = 66
+	#	transfer_state = 67
+	#	transfer_state = 726
+	#}
+	CZE = {
+		every_state = {
+			limit = { 
+				is_core_of = CZE
+				NOT = { is_core_of = SLO }
+			}
+			transfer_state_to = CZE
+		}
+	}
+	AUS = { 
+		every_state = {
+			limit = { is_core_of = AUS }
+			transfer_state_to = AUS
+		}
+	}
+	DDR = {
+		every_state = {
+			limit = { 
+				is_core_of = GER 
+				NOT = {
+					state = 763
+					state = 5
+				}
+			}
+			transfer_state_to = PREV
+		}
+	}
+	LUX = {
+		every_state = {
+			limit = {
+				OR = {
+					is_core_of = HOL
+					is_core_of = BEL
+					is_core_of = LUX
+				}
+			}
+			transfer_state_to = PREV
+		}
+		set_cosmetic_tag = UNL_UNIFIED
+	}
+	create_dynamic_country = {
+		original_tag = FRA
+		copy_tag = FRA
+		add_political_power = 100
+		every_state = {
+			limit = {
+				OR ={
+					is_core_of = MIL
+					state = 28
+					state = 943
+					state = 938
+					state = 29
+					state = 14
+				}
+				NOT = {
+					state = 735
+					state = 940
+				}
+			}
+			transfer_state_to = PREV
+		}
+		SOV = { puppet = PREV }
+	}
+	if = {
+		limit = {
+			TRM = {
+				has_completed_focus = TRM_war_with_str
+				controls_state = 125
+			}
+		}
+	create_dynamic_country = {
+		original_tag = ENG
+		copy_tag = ENG
+		add_political_power = 100
+		every_state = {
+			limit = {
+				OR = {
+					is_core_of = KAI
+					state = 132
+					state = 122
+					state = 123
+					state = 931
+					state = 131
+				}
+			}
+			transfer_state_to = PREV
+		}
+		set_province_name = {
+			id = 6103
+			name = BA_London
+		}
+		set_capital = { state = 126 }
+		SOV = { puppet = PREV }
+	}
+	}
+	create_dynamic_country = {
+		original_tag = SWE
+		copy_tag = SWE
+		add_political_power = 100
+		set_cosmetic_tag = SCA_UNIFIED
+		every_state = {
+			limit = {
+				is_core_of = RED
+			}
+			transfer_state_to = PREV
+		}
+		SOV = { puppet = PREV }
+	}
+	SOV = {
+		puppet = DDR
+		puppet = POL
+		puppet = CZE
+		puppet = AUS
+		puppet = LUX
+	}
+}
+KSP_sanghwal_safety_level_up = {
+	KSP = {
+		if = { # 영향력 증가
+			limit = { has_idea = KSP_sanghwal_safety_power_1 }
+			swap_ideas = {
+				remove_idea = KSP_sanghwal_safety_power_1
+				add_idea = KSP_sanghwal_safety_power
+			}
+		}
+			if = { # 영향력 증가
+			limit = { has_idea = KSP_sanghwal_safety_power_2 }
+				swap_ideas = {
+				remove_idea = KSP_sanghwal_safety_power_2
+				add_idea = KSP_sanghwal_safety_power_1
+			}
+		}
+		if = { # 영향력 증가
+			limit = { has_idea = KSP_sanghwal_safety_power_3 }
+			swap_ideas = {
+				remove_idea = KSP_sanghwal_safety_power_3
+				add_idea = KSP_sanghwal_safety_power_2
+			}
+		}
+		if = { # 영향력 증가
+			limit = { has_idea = KSP_sanghwal_safety_power_4 }
+			swap_ideas = {
+				remove_idea = KSP_sanghwal_safety_power_4
+				add_idea = KSP_sanghwal_safety_power_3
+				}
+		}
+		if = {
+			limit = { 
+				has_idea = KSP_sanghwal_safety_power 
+				NOT = { has_country_flag = KSP_sanghwal_safety_no_coup_flag }
+			}
+			custom_effect_tooltip = KSP_sanghwal_safety_coup_balsang
+			hidden_effect = {
+				country_event = { id = KSP_event.39 days = 1 }
+			}
+		}
+	}
+}
+KSP_sanghwal_safety_level_down = {
+	KSP = {
+		if = { # 영향력 감소
+			limit = { has_idea = KSP_sanghwal_safety_power_3 }
+			swap_ideas = {
+				remove_idea = KSP_sanghwal_safety_power_3
+				add_idea = KSP_sanghwal_safety_power_4
+			}
+		}
+		if = { # 영향력 감소
+			limit = { has_idea = KSP_sanghwal_safety_power_2 }
+				swap_ideas = {
+				remove_idea = KSP_sanghwal_safety_power_2
+				add_idea = KSP_sanghwal_safety_power_3
+			}
+		}
+		if = { # 영향력 감소
+			limit = { has_idea = KSP_sanghwal_safety_power_1 }
+			swap_ideas = {
+				remove_idea = KSP_sanghwal_safety_power_1
+				add_idea = KSP_sanghwal_safety_power_2
+			}
+		}
+		if = { # 영향력 감소
+			limit = { has_idea = KSP_sanghwal_safety_power }
+			swap_ideas = {
+				remove_idea = KSP_sanghwal_safety_power
+				add_idea = KSP_sanghwal_safety_power_1
+				}
+		}
+	}
+}
+KSP_gyeongbiguk_level_up = {
+	KSP = {
+		if = { # 영향력 증가
+			limit = { has_idea = KSP_gyeongbiguk_power_1 }
+			swap_ideas = {
+				remove_idea = KSP_gyeongbiguk_power_1
+				add_idea = KSP_gyeongbiguk_power
+			}
+		}
+		if = { # 영향력 증가
+			limit = { has_idea = KSP_gyeongbiguk_power_2 }
+			swap_ideas = {
+				remove_idea = KSP_gyeongbiguk_power_2
+				add_idea = KSP_gyeongbiguk_power_1
+			}
+		}
+		if = { # 영향력 증가
+			limit = { has_idea = KSP_gyeongbiguk_power_3 }
+			swap_ideas = {
+				remove_idea = KSP_gyeongbiguk_power_3
+				add_idea = KSP_gyeongbiguk_power_2
+			}
+		}
+		if = { # 영향력 증가
+			limit = { has_idea = KSP_gyeongbiguk_power_4 }
+			swap_ideas = {
+				remove_idea = KSP_gyeongbiguk_power_4
+				add_idea = KSP_gyeongbiguk_power_3
+			}
+		}
+	}
+}
+KSP_gyeongbiguk_level_down = {
+	KSP = {
+		if = { # 영향력 감소
+			limit = { has_idea = KSP_gyeongbiguk_power_3 }
+			swap_ideas = {
+				remove_idea = KSP_gyeongbiguk_power_3
+				add_idea = KSP_gyeongbiguk_power_4
+			}
+		}
+		if = { # 영향력 감소
+			limit = { has_idea = KSP_gyeongbiguk_power_2 }
+			swap_ideas = {
+				remove_idea = KSP_gyeongbiguk_power_2
+				add_idea = KSP_gyeongbiguk_power_3
+			}
+		}
+		if = { # 영향력 감소
+			limit = { has_idea = KSP_gyeongbiguk_power_1 }
+			swap_ideas = {
+				remove_idea = KSP_gyeongbiguk_power_1
+				add_idea = KSP_gyeongbiguk_power_2
+			}
+		}
+		if = { # 영향력 감소
+			limit = { has_idea = KSP_gyeongbiguk_power }
+			swap_ideas = {
+				remove_idea = KSP_gyeongbiguk_power
+				add_idea = KSP_gyeongbiguk_power_1
+			}
+		}
+	}
+}
+KSP_not_accustomed_to_work_lower = {
+	KSP = {
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_10 }
+			remove_ideas = KSP_not_accustomed_to_work_10
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_9 }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_9
+				add_idea = KSP_not_accustomed_to_work_10
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_8 }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_8
+				add_idea = KSP_not_accustomed_to_work_9
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_7 }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_7
+				add_idea = KSP_not_accustomed_to_work_8
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_6 }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_6
+				add_idea = KSP_not_accustomed_to_work_7
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_5 }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_5
+				add_idea = KSP_not_accustomed_to_work_6
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_4 }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_4
+				add_idea = KSP_not_accustomed_to_work_5
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_4 }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_4
+				add_idea = KSP_not_accustomed_to_work_5
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_3 }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_3
+				add_idea = KSP_not_accustomed_to_work_4
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_2 }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_2
+				add_idea = KSP_not_accustomed_to_work_3
+			}
+		}
+		if = { # 행정효율 업
+		limit = { has_idea = KSP_not_accustomed_to_work_1 }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_1
+				add_idea = KSP_not_accustomed_to_work_2
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_10m }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_10m
+				add_idea = KSP_not_accustomed_to_work_1
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_9m }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_9m
+				add_idea = KSP_not_accustomed_to_work_10m
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_8m }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_8m
+				add_idea = KSP_not_accustomed_to_work_9m
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_7m }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_7m
+				add_idea = KSP_not_accustomed_to_work_8m
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_6m }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_6m
+				add_idea = KSP_not_accustomed_to_work_7m
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_5m }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_5m
+				add_idea = KSP_not_accustomed_to_work_6m
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_4m }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_4m
+				add_idea = KSP_not_accustomed_to_work_5m
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_4m }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_4m
+				add_idea = KSP_not_accustomed_to_work_5m
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_3m }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_3m
+				add_idea = KSP_not_accustomed_to_work_4m
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_not_accustomed_to_work_2m }
+			swap_ideas = {
+				remove_idea = KSP_not_accustomed_to_work_2m
+				add_idea = KSP_not_accustomed_to_work_3m
+			}
+		}
+		if = { # 행정효율 업
+			limit = { has_idea = KSP_hangjung_mabi }
+			swap_ideas = {
+				remove_idea = KSP_hangjung_mabi
+				add_idea = KSP_not_accustomed_to_work_2m
+			}
 		}
 	}
 }

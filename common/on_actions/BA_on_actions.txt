@@ -9,6 +9,17 @@ on_actions = {
 					days = 3
 				}
 			}
+			HYA = {
+				country_event = { id = HYA_event.4 days = 20 }
+			}
+			SHA = {
+				set_power_balance = {
+					id = SHA_power_balance
+					left_side = SHA_KISAKI_side
+					right_side = SHA_ROUMI_side
+					set_default = yes
+				}
+			}
 			set_variable = {
 				var = global.BA_resistance_n_var
 				value = 1 #잠김
@@ -56,14 +67,6 @@ on_actions = {
 					add_opinion_modifier = {
 						target = PREV
 						modifier = can_japanese
-					}
-				}
-				SHA = {
-					set_power_balance = {
-						id = SHA_power_balance
-						left_side = SHA_KISAKI_side
-						right_side = SHA_ROUMI_side
-						set_default = yes
 					}
 				}
 			}
@@ -144,6 +147,69 @@ on_actions = {
 	
 	on_state_control_changed = {
 		effect = {
+			if = {
+				limit = {
+					SAX = {
+						has_full_control_of_state = 58
+					}
+				}
+				SAX = {
+					country_event = {
+						id = SAX.4
+						days = 3
+					}
+				}
+			}
+			if = {
+				limit = {
+					SAX = {
+						controls_state = 52
+					}
+				}
+				SAX = {
+					country_event = {
+						id = SAX.5
+						days = 3
+					}
+				}
+			}
+			if = {
+				limit = {
+					SAX = {
+						controls_state = 763
+					}
+				}
+				SAX = {
+					country_event = {
+						id = SAX.6
+						days = 3
+					}
+				}
+			}
+			if = {
+				limit = {
+					SAX = {
+						controls_state = 64
+					}
+				}
+				SAX = {
+					country_event = {
+						id = SAX.3
+						days = 3
+					}
+				}
+			}
+			if = {
+				limit = {
+					POL = {
+						controls_state = 219
+					}
+					has_global_flag = sov_pol_war_superevent_trigger_flag
+				}
+				POL = {
+					country_event = {id = BA_pol_event.6 days = 3}
+				}
+			}
 			if = {
 				limit = {
 					any_country = {
@@ -257,7 +323,7 @@ on_actions = {
 				}
 				set_province_name = {
 					id = 6103
-					name = "런던"
+					name = "BA_London"
 				}
 				ENG = { set_capital = { state = 126 } }
 			}
@@ -269,63 +335,72 @@ on_actions = {
 				}
 				INS = { set_capital = { state = 335 } }
 			}
-			if = {
-				limit = {
-					original_tag = TRM
-					has_completed_focus = TRN_GO_TO_EAST
-					has_war_with = SOV
-					195 = {
-						is_controlled_by = TRM
-					}
-					219 = {
-						is_controlled_by = TRM
-					}
-					217 = {
-						is_controlled_by = TRM
-					}
-				}
-				TRM = {
-					country_event = { id = TRM_event.68 days = 20 }
-				}
-			}
-			if = { 
-				limit = {
-					JAP = { 
-						has_war_with = CHI 
-						has_completed_focus = JAP_intervene_in_china
-					}
-					613 = { is_controlled_by = JAP }
-					608 = { is_controlled_by = JAP }
-				}
-				JAP = { country_event = { id = BA_generic_event.5 } }
-				CHI = { country_event = { id = BA_generic_event.6 }}
-			}
-			if = {
-				limit = { 
-					GEH = {
-						has_completed_focus = GEH_kick_HEU
-						has_full_control_of_state = 8
-						has_war_with = HEU
-						has_country_flag = GOODBYE_HEU
-					}
-				}
-				GEH = {
-					annex_country = {
-						target = HEU
-						transfer_troops = no
-					}
-					add_state_core = 8
-					remove_ideas = GEH_HEU_attack
-					clr_country_flag = GOODBYE_HEU
-				}
-				HEU = {
-					remove_ideas = HEU_YOU_CANT_WIN_GEHENNA
-				}
-			}
 		}
 	}
  	on_capitulation = {
 		effect = {
+			if = {
+				limit = {
+					tag = FRA
+					has_war_with = MIL
+					FRA = {
+						has_completed_focus = FRA_focus_war_1
+					}
+				}
+				every_state = {
+					limit = {
+						is_on_continent = africa
+						is_owned_by = FRA
+					}
+					transfer_state_to = MIL
+				}
+				if = {
+					limit = {
+						FRA = {
+							has_war_with = ITA
+						}
+					}
+					1 = {
+						transfer_state_to = ITA
+					}
+					458 = {
+						transfer_state_to = ITA
+					}
+					665 = {
+						transfer_state_to = ITA
+					}
+				}
+				IVO = {
+					transfer_state = 779
+					set_politics = {
+						ruling_party = neutrality
+					}
+					retire_country_leader = yes
+					set_cosmetic_tag = IVO_fra
+					change_tag_from = FRA
+				}
+				###########
+				IVO = {
+					annex_country = {
+						target = FRA
+						transfer_troops = no
+					}
+				}
+				if = {
+					limit = {
+						CAR = {
+							exists = yes
+						}
+					}
+					every_state = {
+						limit = {
+							is_core_of = CAR
+							is_owned_by = MIL
+						}
+						transfer_state_to = CAR
+					}
+				}
+			}
 			if = {
 				limit = {
 					tag = SOV
@@ -367,18 +442,46 @@ on_actions = {
             if = {
 				limit = {
                     TAG = ENG
+					OR = {
+						has_idea = ENG_operation_exile
+						has_idea = ENG_operation_exile_week
+					}
                     has_war_with = KAI
 				}
-				leave_faction = yes
-				every_country = {
-					limit = {
-						has_war_with = KAI
-					}
-					white_peace = KAI
-				}
                 ENG_lose_effect = yes
-				set_global_flag = ENG_lose_global_flag
-				mark_focus_tree_layout_dirty = yes
+				ENG_lose_effect_other_country = yes
+			}
+            if = {
+				limit = {
+                    TAG = ENG
+					NOT = {
+						OR = {
+							has_idea = ENG_operation_exile
+							has_idea = ENG_operation_exile_week
+						}
+					}
+                    has_war_with = KAI
+				}
+				ENG = {
+					every_country = {
+						limit = {
+							has_war_with = KAI
+						}
+						white_peace = KAI
+					}
+				}
+				CAN = {
+                    annex_country = {
+						target = ENG
+						transfer_troops = no
+					}
+					country_event = {
+						id = ENG_british_warning_event.7
+						days = 15
+					}
+					add_ideas = ENG_exiled_royal_family
+				}
+				ENG_lose_effect_other_country = yes
 			}
             if = {
 				limit = {
@@ -495,6 +598,20 @@ on_actions = {
 					}
 				}
 				GEH = { country_event = { id = GEH_event.38 hours = 1} }
+			}
+			if = {
+				limit = {
+                    TAG = TRM
+                    has_war_with = GEH
+				}
+				GEH = {
+					set_country_flag = GEH_WIN_Trinity
+					complete_national_focus = GEH_Pax_Gehennia
+					annex_country = {
+						target = TRM
+						transfer_troops = no
+					}
+				}
 			}
         }
 	}

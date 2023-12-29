@@ -1,6 +1,6 @@
 capital = 132
 set_cosmetic_tag = ENG_democratic
-
+country_lock_all_division_template = yes
 if = {
 	limit = {
 		NOT = {
@@ -55,8 +55,6 @@ if = {
 		}
 	}
 }
-
-load_oob = "ENG_Motorized"
 
 set_research_slots = 4
 
@@ -169,10 +167,18 @@ if = {
 	}
 }
 
-set_variable = { var = eng_gateway_to_europe_influence value = 0 }
+add_command_power = 40
 
+set_variable = { eng_isolate_isles_influence = 0 }
+set_variable = { kai_isolate_isles_influence = 0 }
+
+add_timed_idea = {
+	idea = ENG_under_surprise_attack
+	days = 100
+}
 add_ideas = {
 	PASTA_signatories_of_the_stresa_idea
+	ENG_operation_exile
 	stiff_upper_lip
 	ENG_the_war_to_end_all_wars
 	george_v
@@ -188,6 +194,10 @@ if = {
 			has_dlc = "Together for Victory"
 			has_dlc = "Man the Guns"
 		}
+	}
+	set_autonomy = {
+		target = EGY
+		autonomous_state = autonomy_integrated_puppet
 	}
 	set_autonomy = {
 		target = MAL
@@ -218,9 +228,27 @@ if = {
 		autonomous_state = autonomy_dominion
 		freedom_level = 0.2
 	}
+	release = SUD
+	EGY = {
+		set_autonomy = {
+			target = SUD
+			autonomous_state = autonomy_personal_union
+		}
+		add_ideas = EGY_Binah
+	}
 	else = {
 		puppet = MAL
 		puppet = RAJ
+	}
+}
+SUD = {
+	create_country_leader = {
+	name = "eng_egy_sudan"
+	desc = "eng_egy_sudan_desc"
+	picture = "gfx/leaders/ZZZ_BlueArchive/eng_egy_sudan.tga"
+	expire = "1965.1.1"
+	ideology = oligarchism
+	traits = { }
 	}
 }
 
@@ -229,212 +257,6 @@ if = {
 	limit = { has_dlc = "Together for Victory" }
 
 	add_to_tech_sharing_group = commonwealth_research
-}
-
-1939.1.1 = {
-
-	add_political_power = 1198
-	add_command_power = 100
-	
-	#adding ministers
-	add_ideas = {
-		ENG_ernest_bevin
-		bernard_montgomery
-		rsaf_enfield
-		archibald_wavell
-		charles_portal
-		english_electric		
-
-		#laws
-		partial_economic_mobilisation
-		limited_conscription
-
-		ENG_george_vi
-	}
-
-	recruit_character = ENG_neville_chamberlain
-	promote_character = ENG_neville_chamberlain
-	retire_character = ENG_stanley_baldwin
-	remove_ideas = george_v #Dead
-
-	complete_national_focus = limited_rearmament_focus
-	complete_national_focus = air_defense_focus
-	complete_national_focus = radar_focus
-	complete_national_focus = shadow_scheme_focus
-	complete_national_focus = uk_empire_focus
-	complete_national_focus = uk_service_focus
-	complete_national_focus = uk_colonial_focus
-	complete_national_focus = uk_mediterranean_focus
-	complete_national_focus = uk_asia_focus
-	complete_national_focus = uk_commonwealth_focus
-
-	give_guarantee = POL
-	if = {
-		limit = {
-			NOT = {
-				has_dlc = "No Step Back"
-			}
-		}
-		set_oob = "ENG_1939"
-	}
-	if = {
-		limit = {
-			has_dlc = "No Step Back"
-		}
-		set_oob = "ENG_1939_nsb"
-	}
-	if = {
-		limit = {
-			has_dlc = "Man the Guns"
-		}
-		set_naval_oob = "ENG_1939_Naval"
-		else = {
-			set_naval_oob = "ENG_1939_Naval_Legacy"
-		}
-	}
-	if = {
-		limit = { has_dlc = "By Blood Alone" }
-		set_air_oob = "ENG_1939_air_bba"
-		set_technology = {
-			basic_small_airframe = 1
-			improved_small_airframe = 1
-			basic_medium_airframe = 1
-			basic_large_airframe = 1
-			aa_cannon_1 = 1
-			engines_3 = 1
-			range_improvements = 1
-		}
-		else = {
-			set_air_oob = "ENG_1939_air_legacy"
-			set_technology = {
-				fighter1 = 1
-				fighter2 = 1
-				heavy_fighter1 = 1
-				heavy_fighter2 = 1
-				CAS2 = 1
-				naval_bomber2 = 1
-				tactical_bomber1 = 1
-				tactical_bomber2 = 1
-				strategic_bomber1 = 1
-				cv_CAS1 = 1
-				cv_fighter1 = 1
-			}
-		}
-}
-
-	set_technology = {
-		
-		interwar_artillery = 1
-		interwar_antitank = 1
-		infantry_weapons2 = 1
-		support_weapons = 1
-		support_weapons2 = 1
-		
-
-		#doctrines
-		#Air
-		air_superiority = 1
-		home_defence = 1
-		naval_strike_tactics = 1
-
-			grand_battle_plan = 1
-
-		prepared_defense = 1
-		battlefleet_concentration = 1
-		subsidiary_carrier_role = 1
-		convoy_sailing = 1
-		convoy_escorts = 1
-		submarine_operations = 1
-
-		#electronics
-		electronic_mechanical_engineering = 1
-		radio = 1
-		radio_detection = 1
-		decimetric_radar = 1
-		mechanical_computing = 1
-		computing_machine = 1
-		basic_encryption = 1
-		basic_decryption = 1
-
-		#industry
-		basic_machine_tools = 1
-		improved_machine_tools = 1
-		advanced_machine_tools = 1
-		synth_oil_experiments = 1
-		oil_processing = 1
-		fuel_refining2 = 1
-		construction1 = 1
-		construction2 = 1
-		construction3 = 1
-		dispersed_industry = 1
-		dispersed_industry2 = 1
-		dispersed_industry3 = 1
-	}
-
-	if = {
-		limit = {
-			NOT = {
-				has_dlc = "No Step Back"
-			}
-		}
-		set_technology = {
-			improved_light_tank = 1
-			basic_medium_tank = 1
-			basic_heavy_tank = 1
-		}
-	}
-	if = {
-		limit = {
-			
-			has_dlc = "No Step Back"
-			
-		}
-		set_technology = {
-			improved_light_tank_chassis = 1
-			basic_medium_tank_chassis = 1
-			basic_heavy_tank_chassis = 1
-			armor_tech_1 = 1
-			engine_tech_1 = 1
-		}
-	}
-	if = {
-		limit = {
-			not = { has_dlc = "Man the Guns"}
-		}
-		set_technology = {
-			basic_submarine = 1
-			improved_submarine = 1
-			improved_destroyer = 1
-			basic_light_cruiser = 1
-			improved_light_cruiser = 1
-			basic_battleship = 1
-			basic_carrier = 1
-			improved_carrier = 1
-		}
-		
-	}
-	if = {
-		limit = {
-			has_dlc = "Man the Guns"
-		}
-		set_technology = {
-			basic_ship_hull_submarine = 1
-			improved_ship_hull_submarine = 1
-			improved_ship_hull_light = 1
-			improved_ship_hull_cruiser = 1
-			basic_ship_hull_heavy = 1
-			
-			improved_ship_hull_carrier = 1
-			advanced_dp_light_battery = 1
-			improved_sonar = 1
-		}
-		remove_ideas = MTG_naval_treaty_adherent
-		add_ideas = MTG_naval_treaty_adherent_reduced
-		clr_global_flag = MTG_second_london_conference
-		modify_global_flag = { flag = MTG_naval_treaty_signatories value = -2 }
-	}
-
-	set_convoys = 200
 }
 
 set_politics = {
@@ -561,7 +383,9 @@ recruit_character = ENG_stewart_menzies
 recruit_character = ENG_maxwell_aitken
 recruit_character = ENG_thomas_moore
 
-
+recruit_character = ENG_edward_VIII
+recruit_character = ENG_george_VI
+recruit_character = ENG_elizabeth_II
 
 if = {
 	limit = {

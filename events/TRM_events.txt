@@ -22,23 +22,55 @@ country_event = {
 			}
 			set_portraits = {
 				character = TRN_alzk
-				civilian = { 
-					large = GFX_TRN_Misono_Mika_Portrait_Fan_made
-				}
+				civilian = { large = GFX_TRN_Misono_Mika_Portrait_Fan_made }
 			}
 		}
-		else_if = {
+		if = {
 			limit = {
 				has_game_rule = {
 					rule = Trinity_Misono_Mika_Portrait_Rule
-					option = Trinity_Mika_Portrait_rule_off
+					option = Trinity_Mika_Portrait_ON_2
 				}
 			}
 			set_portraits = {
 				character = TRN_alzk
-				civilian = { 
-					large = GFX_TRN_Misono_Mika_Portrait_Official
+				civilian = { large = GFX_TRN_Misono_Mika_Portrait_Fan_made_2 }
+			}
+		}
+		if = {
+			limit = {
+				has_game_rule = {
+					rule = Trinity_Misono_Mika_Portrait_Rule
+					option = Trinity_Mika_Portrait_ON_3
 				}
+			}
+			set_portraits = {
+				character = TRN_alzk
+				civilian = { large = GFX_TRN_Misono_Mika_Portrait_Kon_ka }
+			}
+		}
+		if = {
+			limit = {
+				has_game_rule = {
+					rule = Trinity_Nagisa_Portrait_Rule
+					option = Trinity_Nagisa_Portrait_ON
+				}
+			}
+			set_portraits = {
+				character = TRN_skrltk
+				civilian = { large = GFX_TRN_Kirihuji_Nagisa_Portrait_Kon_ka }
+			}
+		}
+		if = {
+			limit = {
+				has_game_rule = {
+					rule = Trinity_Seia_Portrait_Rule
+					option = Trinity_Seia_Portrait_ON
+				}
+			}
+			set_portraits = {
+				character = TRN_tpdldk
+				civilian = { large = GFX_TRN_Yurizono_Seia_Portrait_Kon_ka }
 			}
 		}
 	}
@@ -50,14 +82,8 @@ country_event = {
 	picture = GFX_event_tmr_event_1
 	
 	fire_only_once = yes	
-    is_triggered_only = no
+    is_triggered_only = YES
 
-	trigger = {
-		TAG = TRM
-		has_global_flag = NOMOREKUSOARONA
-	}
-
-	
 	option = { 
 		name = TRM_event.2.a
 		add_ideas  = TRM_troll_mika
@@ -653,8 +679,8 @@ country_event = { #
 		set_country_flag = TRN_arius_squad_smash_decision_visible
 	}
 }
-country_event = { #
-	id = TRM_event.32
+country_event = { # 안씀
+	id = TRM_event.32 
 	title = TRM_event.32.t
 	desc = TRM_event.32.desc
 	picture = GFX_event_trm_event_32
@@ -665,10 +691,9 @@ country_event = { #
 	
 	option = {
 		name = TRM_event.32.a
-		set_country_flag = TRN_arius_squad_smash_success
 	}
 }
-country_event = { 
+country_event = { # 안씀
 	id = TRM_event.33
 	title = TRM_event.33.t
 	desc = TRM_event.33.desc
@@ -752,13 +777,6 @@ country_event = {
 		name = TRM_event.36.a
 		set_country_flag = TRN_Trinity_hwa
 	}
-	option = { #
-		name = TRM_event.36.a
-		trigger = {
-			is_debug = yes
-		}
-		clr_country_flag = TRN_Trinity_hwa
-	}
 }
 country_event = { 
 	id = TRM_event.37
@@ -840,14 +858,53 @@ country_event = {
 country_event = { 
 	id = TRM_event.42
 	title = TRM_event.42.t
-	desc = TRM_event.42.desc
+	desc = {
+		text = TRM_event.42.desc
+		trigger = {
+			GEM = { 
+				has_completed_focus = GEM_big_problem
+			}
+			GEH = {
+				NOT = { has_completed_focus = GEH_hina_is_goat }
+			}
+		}
+	}
+	desc = {
+		text = TRM_event.42_2.desc
+		trigger = {
+			GEH = { 
+				has_completed_focus = GEH_hina_is_goat
+			}
+			GEM = { 
+				NOT = { has_completed_focus = GEM_big_problem }
+			}
+		}
+	}
 	picture = GFX_event_none_picture
 	
 	is_triggered_only = yes
 	
 	option = { #
 		name = TRM_event.42.a
-		
+		trigger = {
+			GEM = { 
+				has_completed_focus = GEM_big_problem
+			}
+			GEH = {
+				NOT = { has_completed_focus = GEH_hina_is_goat }
+			}
+		}
+	}
+	option = { #
+		name = TRM_event.42.b
+		trigger = {
+			GEH = { 
+				has_completed_focus = GEH_hina_is_goat
+			}
+			GEM = { 
+				NOT = { has_completed_focus = GEM_big_problem }
+			}
+		}
 	}
 }
 country_event = { 
@@ -1289,9 +1346,12 @@ country_event = {  # 세이아 괴롭힌 놈 누군데!! # 신들의 황혼
 	option = { #
 		name = TRM_event.66.a
 		custom_effect_tooltip = TRN_Nomore_Heydrich_tt
-		hidden_effect = {
-			load_oob = "TRM_focus_1"
-			set_country_flag = GOODBYENAGISA
+		if = {
+			limit = { has_completed_focus = TRM_newfocus_7 }
+			hidden_effect = {
+				load_oob = "TRM_focus_1"
+				set_country_flag = GOODBYENAGISA
+			}
 		}
 	}
 }
@@ -1326,14 +1386,14 @@ country_event = {  # 미카를 무시하면 안되는 이유;
 	desc = TRM_event.68.desc
 	picture = GFX_report_event_vienna_award_hungary
 	
+	
 	is_triggered_only = yes
 	fire_only_once = yes
 	
 	option = { #
 		name = TRM_event.68.a
-		SOV = {
-			retire_country_leader = yes
-		}
+		SOV = { retire_country_leader = yes }
+		set_global_flag = SOVIET_LOSE_GLOBAL_FLAG
 		white_peace = POL
 		white_peace = SOV
 				transfer_state = 10
@@ -1467,6 +1527,8 @@ country_event = {  # 국판부 세울꺼임?
 		set_country_flag = TRM_NEW_ORDER_SOV_LOSE_flag
 		hidden_effect = {
 			TRM_NEW_ORDER_SOV_LOSE = yes
+			SRT = { set_cosmetic_tag = TRM_KAI }
+			TRC = { set_cosmetic_tag = MIL_TRN }
 		}
 	}
 	option = { # ㄴㄴ
@@ -1493,8 +1555,35 @@ country_event = {  # 소련 붕괴
 }
 country_event = { 
 	id = TRM_event.71
-	title = TRM_event.71.t
-	desc = TRM_event.71.desc
+	#title = TRM_event.71.t
+	title = {
+		text = TRM_event.71.t
+		trigger = {
+			TRM = { has_completed_focus = TRM_newfocus_0 }
+		}
+	}
+	title = {
+		text = TRM_event.71_2.t
+		trigger = {
+			NOT = {
+				TRM = { has_completed_focus = TRM_newfocus_0 }
+			}
+		}
+	}
+	desc = {
+		text = TRM_event.71.desc
+		trigger = {
+			TRM = { has_completed_focus = TRM_newfocus_0 }
+		}
+	}
+	desc = {
+		text = TRM_event.71_2.desc
+		trigger = {
+			NOT = {
+				TRM = { has_completed_focus = TRM_newfocus_0 }
+			}
+		}
+	}
 	picture = GFX_event_none_picture
 	
 	fire_only_once = yes
@@ -1502,6 +1591,9 @@ country_event = {
 	
 	option = {
 		name = TRM_event.71.a
+		trigger = {
+			TRM = { has_completed_focus = TRM_newfocus_0 }
+		}
 		custom_effect_tooltip = TRM_sanctus_del_tt
 		set_variable = { TRM_internal_factions_remove_var = 1 } #지울 세력 코드
 		TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
@@ -1512,6 +1604,19 @@ country_event = {
 				name = debacle_short
 			}
 		}
+	}
+	option = {
+		name = TRM_event.71.a
+		trigger = {
+			NOT = {
+				TRM = { has_completed_focus = TRM_newfocus_0 }
+			}
+		}
+		custom_effect_tooltip = TRM_sanctus_del_tt
+		custom_effect_tooltip = TRM_filius_del_tt
+		custom_effect_tooltip = TRM_pater_del_tt
+		set_variable = { TRM_internal_factions_remove_var = 1 } #지울 세력 코드
+		TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
 	}
 }
 country_event = {
@@ -2130,34 +2235,138 @@ country_event = {
 	id = TRM_event.97
 	title = TRM_event.97.t
 	desc = TRM_event.97.desc
-	picture = GFX_TRM_event_73
+	picture = GFX_report_event_czech_soldiers_01
 	
 	fire_only_once = yes	
     is_triggered_only = yes
 	
 	option = { 
 		name = TRM_event.97.a
-		ai_chance = {
-			factor = 100
+		GEH = {
+			every_character = {
+				limit = {
+					OR = {
+						is_character = GEH_hina
+						is_character = GEH_dldhfl
+						is_character = GEH_chinatsu
+						is_character = GEH_dkzh
+					}
+				}
+				set_nationality = TRM
+			}
+			}
+			add_advisor_role = {
+				character = GEH_dkzh
+				advisor={	
+					slot = high_command
+					idea_token = GEH_dkzh
+					traits = { army_infantry_3 }
+					cost = 100
+					ai_will_do = { factor = 1.000 }
+				}
+			}
+			add_advisor_role = {
+				character = GEH_dkzh 
+				advisor={
+				slot = political_advisor
+				idea_token = GEH_dkzh_idea 
+					cost = 100
+				traits = {
+					war_industrialist 
+					captain_of_industry
+				}
+				ai_will_do = { factor = 1.000 }
+				}
+			}
+			add_advisor_role = {
+				character = GEH_hina 
+				advisor={
+					slot = political_advisor
+					idea_token = GEH_hina
+					cost = 100
+					traits = { b_tjsehqnwkd }
+					ai_will_do = { factor = 24.000 }
+				}
+			}
+			add_advisor_role = {
+				character = GEH_hina 
+				advisor={
+					slot = army_chief
+					idea_token = GEH_hina_idea
+					cost = 100
+					traits = { army_chief_offensive_2 }
+					ai_will_do = { factor = 24.000 }
+				}
+			}
+			add_advisor_role = {
+				character = GEH_dldhfl 
+				advisor={
+					slot = political_advisor
+					idea_token = GEH_dldhfl_idea
+					cost = 100
+					traits = { prince_of_terror }
+					ai_will_do = { factor = 24.000 }
+				}
+			}
+			add_advisor_role = {
+				character = GEH_dldhfl 
+				advisor={
+					slot = high_command
+					ledger = army
+					idea_token = GEH_dldhfl_high_command
+					traits = { army_chief_drill_2 }
+					cost = 100
+					ai_will_do = { factor = 24.000 }
+				}
+			}
+			add_advisor_role = {
+				character = GEH_chinatsu 
+				advisor={
+					slot = political_advisor
+					idea_token = GEH_chinatsu_idea
+					traits = { GEH_Emergency_Medicine_Club }
+					cost = 100
+					ai_will_do = { factor = 24.000 }
+				}
+			}
 		}
-		# 모스크바의 고리키랑 사라토프 합병
-		
-	}
+		option = { 
+			name = TRM_event.97.b
+			add_stability = -0.01
+		}
 }
-country_event = {
+country_event = { # 국민정신 끝나면 알려줌
 	id = TRM_event.98
-	title = TRM_event.97.t
+	title = TRM_event.98.t
 	desc = TRM_event.98.desc
-	picture = GFX_TRM_event_73
+	picture = GFX_report_event_british_inspect_troops
 	
-	fire_only_once = yes	
     is_triggered_only = yes
+	fire_only_once = no
 	
 	option = { 
 		name = TRM_event.98.a
-		ai_chance = {
-			factor = 100
-		}
+	}
+}
+country_event = { # 구호기사단의 정계 개입
+	id = TRM_event.99
+	title = TRM_event.99.t
+	desc = TRM_event.99.desc
+	picture = GFX_report_event_gre_political_march
+	
+    is_triggered_only = yes
+	fire_only_once = no
+	
+	option = {
+		name = TRM_event.99.a
+			custom_effect_tooltip = TRM_sh_create_tt
+			set_variable = { TRM_internal_factions_add_var = 4 } #넣을 세력 코드
+			TRM_internal_factions_slot_add = yes #추가하는 스크립티드이펙트
+
+			set_variable = { TRM_rk_loyalty = 30 }
+			set_variable = { TRM_rk_popularity = 30 }
+			TRM_internal_factions_loyalty_change = yes
+			TRM_internal_factions_popularity_change = yes
 	}
 }
 add_namespace = TRN_opposition
@@ -2315,7 +2524,7 @@ country_event = { #사오리 체포
 		name = TRN_opposition.31.2.a
 		add_political_power = 100
 		add_stability = 0.015
-				set_country_flag = TRN_arius_squad_smash_success
+		set_country_flag = TRN_arius_squad_smash_success
 	}
 }
 country_event = { # 사오리 국외추방
@@ -2637,8 +2846,6 @@ country_event = {  # 디버그 이벤트
 	}
 	option = { #
 		name = TRM_event.1000.d
-		TRM = { set_cosmetic_tag = TRN_ROME }
-
 		}
 	}
 	country_event = {  # 디버그 이벤트
@@ -2674,7 +2881,7 @@ country_event = {  # 디버그 이벤트
 			}
 		}
 
-		country_event = { # 디버그 이벤트
+	country_event = { # 디버그 이벤트
 		id = TRM_event.2000
 		title = TRM_event.2000.t
 		desc = TRM_event.2000.desc
@@ -2710,11 +2917,7 @@ country_event = {  # 디버그 이벤트
 			name = TRM_event.2000.d
 			TRM_CZE_PUPPET = yes 
 			TRN_KAI_PUPPET = yes 
-		}
-		option = { #
-			name = TRM_event.2000.e
-			#BRAVE_NEW_WORLD = YES 
-			ENG_lose_effect = YES 
+
 		}
 	}
 country_event = { # 디버그 이벤트
@@ -2728,6 +2931,91 @@ country_event = { # 디버그 이벤트
 	option = { #
 		name = TRM_event.2002.a 
 		BRAVE_NEW_WORLD = YES
+	}
+	option = {
+		name = TRM_event.2002.b
+		SOV_WIN_Great_Patriotic_War = yes
+	}
+	option = {
+		name = TRM_event.2002.c
+		SOV_WIN_Great_Patriotic_War_2 = yes
+	}
+	option = {
+		name = TRM_event.2002.d
+            ENG_lose_effect = yes
+			ENG_lose_effect_other_country = yes
+	}
+}
+country_event = { # 디버그 이벤트
+	id = TRM_event.2003
+	title = TRM_event.2003.t
+	desc = TRM_event.2003.desc
+	picture = GFX_event_none_picture
+	
+	is_triggered_only = yes
+	
+	option = { #
+		name = TRM_event.2003.a
+			set_portraits = {
+				character = TRN_alzk
+				civilian = { 
+					large = GFX_TRN_Misono_Mika_Portrait_Official
+				}
+			}
+	}
+	option = {
+		name = TRM_event.2003.b
+			set_portraits = {
+				character = TRN_alzk
+				civilian = { 
+					large = GFX_TRN_Misono_Mika_Portrait_Fan_made
+				}
+			}
+	}
+	option = {
+		name = TRM_event.2003.c
+			set_portraits = {
+				character = TRN_alzk
+				civilian = { 
+					large = GFX_TRN_Misono_Mika_Portrait_Fan_made_2
+				}
+			}
+	}
+	option = {
+		name = TRM_event.2003.d
+			set_portraits = {
+				character = TRN_alzk
+				civilian = { 
+					large = GFX_TRN_Misono_Mika_Portrait_Kon_ka
+				}
+			}
+	}
+}
+
+country_event = {  # 디버그 이벤트
+	id = TRM_event.2004
+	title = TRM_event.2000.t
+	desc = TRM_event.2000.desc
+	picture = GFX_event_none_picture
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	
+	option = { #
+		name = TRM_event.2004.a
+		TRM_ditalia_puppet = YES
+	}
+	option = { #
+		name = TRM_event.2004.b
+		TRM_Balkan_puppet = YES
+		TRM_Finland_puppet = YES
+	}
+	option = { #
+		name = TRM_event.2004.c
+	}
+	option = { #
+		name = TRM_event.2004.d
 	}
 }
 country_event = { # 디버그 이벤트
@@ -2816,7 +3104,7 @@ country_event = {  # 디버그 이벤트
 	option = { #
 		name = TRM_event.350.b
 		set_cosmetic_tag =  TRN_ROME 
-	}
+		}
 	option = { #
 		name = TRM_event.350.c
 		create_country_leader = {
@@ -2862,6 +3150,9 @@ country_event = {
 			set_country_flag = TRN_country_collapse_yes
 			mark_focus_tree_layout_dirty = yes
 			complete_national_focus = TRM_newfocus_DIE
+			country_event = { id = TRM_event.71 days = 2}
+			set_variable = { TRM_internal_factions_remove_var = 2 } #지울 세력 코드
+			TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
 		}
 	}
 	
@@ -2870,6 +3161,9 @@ country_event = {
 	
 	option = { #
 		name = TRM_event.29.a
+		set_variable = { TRM_internal_factions_remove_var = 0 } #지울 세력 코드
+		TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
+
 		every_state = {
 			limit = {
 				is_owned_by = TRM
@@ -3012,93 +3306,45 @@ country_event = {
 	fire_only_once = yes 
 	is_triggered_only = yes
 	
-	option = { #
-		name = TRM_event.355.a
+	immediate = {
 		hidden_effect = {
 			61 = { set_demilitarized_zone = no }
 			62 = { set_demilitarized_zone = no }
-			SIL = {
-				transfer_state = 86
-				transfer_state = 66
-				transfer_state = 67
-			}
+			SAX_country_creation_effect = yes
+			SIL_country_creation_effect = yes
+			country_event={id=TRM_event.356 days=20}
 			SAX = {
-				transfer_state = 61
-				transfer_state = 65
+				country_event={id=TRM_event.356 days=20}
 			}
 			SIL = {
-				set_cosmetic_tag = SIL_naz
-				set_politics = {
-					ruling_party = fascism
-				}
-				set_popularities = {
-					fascism = 100
-				}
-				add_country_leader_role = {
-					character = SIL_heydrich
-					promote_leader = yes
-					country_leader = {
-						ideology = nazism
-						traits={dictator}
-						expire="1965.1.1.1"
-					}
-				}
+				country_event={id=TRM_event.356 days=20}
 			}
-			SAX = {
-				set_cosmetic_tag = SAX_kpd
-				set_politics = {
-					ruling_party = communism
-				}
-				set_popularities = {
-					communism = 100
-				}
-				hidden_effect = {
-					add_country_leader_role = {
-						character = SAX_thalman
-						promote_leader = yes
-						country_leader = {
-							ideology = stalinism
-							traits={ }
-							expire="1965.1.1.1"
-						}
-					}
-					create_corps_commander = {
-						name = SAX_elected_officer
-						gfx = "GFX_Elected_Officer"
-						traits = {
-							BA_elected_officer
-						}
-						skill = 1
-						attack_skill = 2
-						defense_skill = 2
-						planning_skill = 0
-						logistics_skill = 0
-					}
-					create_corps_commander = {
-						name = SAX_elected_officer_1
-						gfx = "GFX_Elected_Officer"
-						traits = {
-							BA_elected_officer
-						}
-						skill = 1
-						attack_skill = 2
-						defense_skill = 2
-						planning_skill = 0
-						logistics_skill = 0
-					}
-				}
-			}
-			every_state = {
-				limit = {
-					is_core_of = GER
-				}
-				add_core_of = SIL
-				add_core_of = SAX
-			}
-			
-			
 		}
-		country_event={id=TRM_event.356 days=20}
+	}
+	
+	option = { #
+		name = TRM_event.355.a
+		add_stability = -0.10
+	}
+	
+	option = { #
+		name = TRM_event.355.b
+		ai_chance = {
+			factor = 0
+		}
+		SAX = {
+			change_tag_from = ROOT
+		}
+	}
+	
+	option = { #
+		name = TRM_event.355.c
+		ai_chance = {
+			factor = 0
+		}
+		SIL = {
+			change_tag_from = ROOT
+		}
 	}
 }
 country_event = { # "서로 싸워라"
@@ -3111,22 +3357,6 @@ country_event = { # "서로 싸워라"
 	
 	option = { #
 		name = TRM_event.356.a
-		activate_mission = TRM_calm_storm
-	}
-	option = { #
-	SAX = {
-		change_tag_from = TRM
-	}
-		name = TRM_event.356.b
-		
-		activate_mission = TRM_calm_storm
-	}
-	option = { #
-		name = TRM_event.356.c
-		SIL = {
-			change_tag_from = TRM
-		}
-		
 		activate_mission = TRM_calm_storm
 	}
 }

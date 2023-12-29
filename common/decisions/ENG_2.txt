@@ -1,16 +1,23 @@
 britian_war = {
 	give_can_fac = {
 		icon = GFX_decision_generic_nationalism
+		activation = {
+			has_war_with = KAI
+			date < 1936.12.1
+		}
 		is_good = yes
 		days_mission_timeout = 40
+		priority = 10
 		available = {
-			OR = {
-				date > 1937.1.1
-				NOT ={
-					has_war_with = KAI
-				}
+			NOT = {
+				has_idea = ENG_operation_exile
+				has_idea = ENG_operation_exile_week
 			}
-			
+		}
+		cancel_trigger = {
+			NOT = {
+				has_war_with = KAI
+			}
 		}
 		allowed = {
 			original_tag = ENG
@@ -19,66 +26,709 @@ britian_war = {
 			has_war_with = KAI
 		}
 		timeout_effect = {
-			hidden_effect = {
-				activate_mission = give_can_fac
+			if = {
+				limit = {
+					date < 1936.12.1
+				}
+				activate_mission = go_to_can
+			}
+			else = {
+				hidden_effect = {
+					activate_mission = give_can_fac
+				}
 			}
 			ENG = {
-				random_core_state = {
+				random_core_state ={
 					limit = {
-						is_owned_by = ENG
+						industrial_complex > 0
 					}
 					add_manpower = -500
-					random_list = {
-						1 = {		
-							remove_building = {
-								type = industrial_complex
-								level = 1
-							}
-						}
-						1 = {
-							
-							remove_building = {
-								type = arms_factory
-								level = 1
-							}
-						}
-						1 = {
-							remove_building = {
-								type = infrastructure
-								level = 1
-							}
-						}
+					damage_building = {
+						type = infrastructure
+						damage = 2
+					}
+					damage_building = {
+						type = industrial_complex
+						damage = 3
 					}
 				}
-				
+				random_core_state = {
+					add_manpower = -100
+				}
+				random_core_state = {
+					add_manpower = -100
+				}
 			}
 			CAN = {
-				random_core_state = {
-					add_manpower = 500
-					random_list = {
-						1 = {		
-							hidden_effect={add_extra_state_shared_building_slots = 1}	
-							add_building_construction = {
-								type = industrial_complex
-								level = 1
-							}
-						}
-						1 = {
-							hidden_effect={add_extra_state_shared_building_slots = 1}
-							add_building_construction = {
-								type = arms_factory
-								level = 1
-							}
-						}
-						1 = {
-							add_building_construction = {
-								type = infrastructure
-								level = 1
-							}
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
 						}
 					}
+					add_manpower = 500
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+				random_owned_controlled_state = {
+					add_manpower = 100
+				}
+				random_owned_controlled_state = {
+					add_manpower = 100
 				}
 			}
 		}
 	}
+	go_to_can = {
+		icon = GFX_decision_oppression
+		is_good = yes
+		days_mission_timeout = 120
+		selectable_mission = yes
+		priority = 10
+		activation = {
+			always = no
+		}
+		cancel_trigger = {
+			OR = {
+				NOT = {
+					has_idea = ENG_operation_exile
+					has_idea = ENG_operation_exile_week
+				}
+				NOT = {
+					has_war_with = KAI
+				}
+			}
+		}
+		allowed = {
+			original_tag = ENG
+		}
+		visible = {
+			has_war_with = KAI
+		}
+		timeout_effect = {
+			custom_effect_tooltip = go_to_can_tt
+			hidden_effect = {
+				ENG_lose_effect = yes
+				ENG_lose_effect_other_country = yes
+			}
+		}
+		complete_effect = {
+			add_political_power = 120
+			custom_effect_tooltip = go_to_can_tt
+			hidden_effect = {
+				ENG_lose_effect = yes
+				ENG_lose_effect_other_country = yes
+			}
+		}
+	}
+	ENG_stop_exile_1 = {
+		icon = GFX_decision_hol_draw_up_staff_plans
+
+		ai_will_do = {
+			base = 4000
+		}
+
+		allowed = {
+			original_tag = ENG
+		}
+		visible = {
+			has_idea = ENG_operation_exile
+		}
+		available = {
+			has_idea = ENG_save_the_liverpool
+		}
+
+		cost = 25
+
+		complete_effect = {
+			swap_ideas = {
+				remove_idea = ENG_operation_exile
+				add_idea = ENG_operation_exile_week
+			}
+			custom_effect_tooltip = ENG_stop_exile_1_tt
+		}
+	}
+	ENG_stop_exile_2 = {
+		icon = GFX_decision_generic_intelligence_operation
+
+		ai_will_do = {
+			base = 4000
+		}
+
+		allowed = {
+			original_tag = ENG
+		}
+		visible = {
+			OR = {
+				has_idea = ENG_operation_exile
+				has_idea = ENG_operation_exile_week
+			}
+		}
+
+		available = {
+			has_idea = ENG_operation_exile_week
+			surrender_progress < 0.50
+			surrender_progress > 0.25
+		}
+
+		cost = 25
+
+		complete_effect = {
+			remove_ideas = ENG_operation_exile_week
+		}
+	}
+}
+britian_promise = {
+	britian_promise_1 = {
+		icon = GFX_decision_eng_propaganda_campaigns
+
+		ai_will_do = {
+			base = 40
+		}
+
+		allowed= {
+			original_tag = ENG
+		}
+
+		available = {
+			has_completed_focus = CAN_focus_5
+			NOT = {
+				OR = {
+					custom_trigger_tooltip = {
+						tooltip = CAN_promise_1_tt
+						has_country_flag = CAN_promise_1
+					}
+					custom_trigger_tooltip = {
+						tooltip = CAN_promise_2_tt
+						has_country_flag = CAN_promise_2
+					}
+					custom_trigger_tooltip = {
+						tooltip = CAN_promise_3_tt
+						has_country_flag = CAN_promise_3
+					}
+					custom_trigger_tooltip = {
+						tooltip = CAN_promise_4_tt
+						has_country_flag = CAN_promise_4
+					}
+				}
+			}
+		}
+
+		cost = 50
+
+		complete_effect = {
+			country_event = {
+				id = can.24
+				hours = 0
+			}
+		}
+	}
+	britian_promise_2 = {
+		icon = GFX_decision_eng_trade_unions_support
+
+		days_mission_timeout = 180
+
+		activation = {
+			always = no
+		}
+
+		available = {
+			has_built = {
+				type = arms_factory
+    			value > 3
+			}
+		}
+
+		cancel_effect = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+			add_stability = 0.03
+			add_war_support = 0.03
+			clr_country_flag = CAN_promise_1
+		}
+
+		timeout_effect = {
+			add_popularity = {
+				ideology = communism
+				popularity = -0.03
+			}
+			add_stability = -0.05
+			add_war_support = -0.05
+			clr_country_flag = CAN_promise_1
+		}
+	}
+	britian_promise_3 = {
+		icon = GFX_decision_eng_trade_unions_support
+
+		days_mission_timeout = 180
+
+		activation = {
+			always = no
+		}
+
+		available = {
+			has_built = {
+				type = industrial_complex
+    			value > 3
+			}
+		}
+
+		cancel_effect = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+			add_stability = 0.03
+			add_war_support = 0.03
+			clr_country_flag = CAN_promise_2
+		}
+
+		timeout_effect = {
+			add_popularity = {
+				ideology = communism
+				popularity = -0.03
+			}
+			add_stability = -0.05
+			add_war_support = -0.05
+			clr_country_flag = CAN_promise_2
+		}
+	}
+	britian_promise_4 = {
+		icon = GFX_decision_eng_trade_unions_support
+
+		days_mission_timeout = 180
+
+		activation = {
+			always = no
+		}
+
+		timeout_effect = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.03
+			}
+			add_stability = 0.3
+			clr_country_flag = CAN_promise_3
+		}
+	}
+
+	britian_promise_5 = {
+		icon = GFX_decision_eng_trade_unions_support
+
+		days_mission_timeout = 180
+
+		activation = {
+			always = no
+		}
+
+		timeout_effect = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.03
+			}
+			add_stability = 0.05
+			clr_country_flag = CAN_promise_4
+		}
+	}
+
+}
+CAN_isolate_britain_isles_dec_cat = {
+	CAN_placate_the_british = { #영국과 제휴
+
+		icon = eng_trade_unions_support
+
+		available = {
+			country_exists = ENG
+		}
+
+		target_trigger = {
+			tag = ENG
+		}
+
+		days_remove = 10
+
+		cost = 10
+
+		fire_only_once = no
+
+		ai_will_do = {
+			base = 40
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = ENG
+					value > 40
+				}
+			}
+			modifier = {
+				factor = 0.5
+				has_opinion = {
+					target = ENG
+					value < 0
+				}
+			}
+		}
+
+		complete_effect = {
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = get_5_points_tt
+			add_to_variable = { eng_isolate_isles_influence = 5 } 
+		}
+	}
+
+	CAN_placate_the_kaiser = { #카이저와 제휴
+
+		icon = eng_trade_unions_support
+
+		available = {
+			country_exists = KAI
+		}
+
+		target_trigger = {
+			tag = KAI
+		}
+
+		days_remove = 10
+
+		cost = 10
+
+		fire_only_once = no
+
+		ai_will_do = {
+			base = 40
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = KAI
+					value > 40
+				}
+			}
+			modifier = {
+				factor = 0.5
+				has_opinion = {
+					target = ENG
+					value < 0
+				}
+			}
+		}
+
+		complete_effect = {
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = get_5_points_tt
+			add_to_variable = { kai_isolate_isles_influence = 5 }
+		}
+	}
+}
+CAN_isolate_britain_isles_eng_dec_cat = {
+	CAN_demand_trade_with_eng = { #무역 영향력 강화
+
+		icon = eng_trade_unions_demand
+
+		available = {
+			has_war = no
+		}
+
+		days_remove = 20
+
+		cost = 50
+
+		fire_only_once = no
+
+		ai_will_do = {
+			base = 80
+		}
+
+		complete_effect = {
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = get_5_points_tt
+			add_to_variable = { eng_isolate_isles_influence = 5 }
+		}
+	}
+}
+CAN_isolate_britain_isles_kai_dec_cat = {
+	CAN_demand_trade_with_kai = { #무역 영향력 강화
+
+		icon = eng_trade_unions_demand
+
+		available = {
+			has_war = no
+		}
+
+		days_remove = 20
+
+		cost = 50
+
+		fire_only_once = no
+
+		ai_will_do = {
+			base = 80
+		}
+
+		complete_effect = {
+		}
+
+		remove_effect = {
+			custom_effect_tooltip = get_5_points_tt
+			add_to_variable = { kai_isolate_isles_influence = 5 }
+		}
+	}
+}
+CAN_move_to_secure_the_dominions_dec_cat = {
+	
+	CAN_impose_martial_law = { #계엄령
+
+		icon = generic_civil_support
+
+		allowed = {
+			tag = ENG
+		}
+
+		available = {
+
+		}
+
+		targets_dynamic = yes
+
+		target_root_trigger = {
+			has_completed_focus = CAN_move_to_secure_the_dominions
+		}
+
+		target_trigger = {
+			FROM = {
+				is_subject_of = ROOT
+			}
+		}
+
+		cost = 100
+
+		fire_only_once = yes
+
+		days_remove = 180
+
+		visible = {
+			OR = {
+				has_government = communism
+				has_government = fascism
+			}
+			has_completed_focus = CAN_move_to_secure_the_dominions
+			NOT = { has_country_flag = ENG_secure_the_dominions_backed_down_against_USA }
+			FROM = {
+				is_subject_of = ROOT
+				
+				NOT = { has_government = ROOT }
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		modifier = {
+			political_power_factor = -0.1
+		}
+
+		remove_effect = {
+		}
+
+		complete_effect = {
+			FROM = {
+				add_political_power = -120
+				country_event = { id = mtg_britain.63 }
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+	}
+
+	CAN_propaganda_campaigns = { #선전운동
+
+		icon = eng_propaganda_campaigns
+
+		allowed = {
+			tag = ENG
+		}
+
+		available = {
+			
+		}
+
+		targets_dynamic = yes
+
+		target_root_trigger = {
+			has_completed_focus = CAN_move_to_secure_the_dominions
+		}
+
+		target_trigger = {
+			FROM = {
+				is_subject_of = ROOT
+			}
+		}
+
+		cost = 50 
+
+		fire_only_once = yes
+
+		days_remove = 90
+
+		visible = {
+			OR = {
+				has_government = communism
+				has_government = fascism
+			}
+			has_completed_focus = CAN_move_to_secure_the_dominions
+			NOT = { has_country_flag = ENG_secure_the_dominions_backed_down_against_USA }
+			FROM = {
+				is_subject_of = ROOT
+				
+				NOT = { has_government = ROOT }
+			}
+		}
+
+		cancel_if_not_visible = yes
+
+		complete_effect = {
+			if = {
+				limit = {
+					has_government = fascism
+				}
+				FROM = { add_timed_idea = { idea = ENG_dominion_fascist_propaganda days = 90 } }
+			}
+			else_if = {
+				limit = {
+					has_government = communism
+				}
+				FROM = { add_timed_idea = { idea = ENG_dominion_communist_propaganda days = 90 } }
+			}
+			FROM = { country_event = { id = mtg_britain.64 } }
+		}
+
+		remove_effect = {
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+	}
+
+	CAN_replace_government_fascism = { #정권을 파시즘으로
+
+		icon = eng_install_government
+
+		allowed = {
+			tag = ENG
+		}
+
+		available = {
+			FROM = { 
+				fascism > 0.35
+			}
+		}
+
+		targets_dynamic = yes
+
+		target_root_trigger = {
+			has_completed_focus = CAN_move_to_secure_the_dominions
+		}
+
+		target_trigger = {
+			FROM = {
+				is_subject = yes
+			}
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		visible = {
+			has_government = fascism
+			has_completed_focus = CAN_move_to_secure_the_dominions
+			FROM = {
+				is_subject_of = ROOT
+				NOT = { has_government = ROOT }
+			}
+		}
+
+		complete_effect = {
+			FROM = {
+				set_politics = { ruling_party = fascism elections_allowed = no }
+				add_popularity = { ideology = fascism popularity = 0.20 }
+				add_timed_idea = { idea = fascist_influence days = 730 }
+				country_event = { id = mtg_britain.65 }
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+	}
+
+	CAN_replace_government_communism = { #정권을 공산주의로
+
+		icon = eng_install_government
+
+		allowed = {
+			tag = ENG
+		}
+
+		available = {
+			FROM = {
+				communism > 0.35
+			}
+		}
+		
+		targets_dynamic = yes
+
+		target_root_trigger = {
+			has_completed_focus = CAN_move_to_secure_the_dominions
+		}
+
+		target_trigger = {
+			FROM = {
+				is_subject_of = ROOT
+			}
+		}
+
+		cost = 50
+
+		fire_only_once = yes
+
+		visible = {
+			has_government = communism
+			has_completed_focus = CAN_move_to_secure_the_dominions
+			NOT = { has_country_flag = ENG_secure_the_dominions_backed_down_against_USA }
+			FROM = {
+				is_subject_of = ROOT
+				NOT = { has_government = ROOT }
+			}
+		}
+
+		complete_effect = {
+			FROM = {
+				set_politics = { ruling_party = communism elections_allowed = no }
+				add_popularity = { ideology = communism popularity = 0.20 }
+				add_timed_idea = { idea = communist_influence days = 730 }
+				country_event = { id = mtg_britain.65 }
+			}
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+	}
+
 }
