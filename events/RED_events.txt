@@ -19,7 +19,10 @@ country_event = { # 고틀란드냐 전쟁이냐
 		ai_chance = {
 			base = 40
 			modifier = {
-				tag = GEH
+				OR = {
+					Kivotos_school_tag = yes
+					is_in_faction_with = FROM
+				}
 				add = 60
 			}
 		}
@@ -189,7 +192,7 @@ country_event = { #현지인 문제
 	id = RED_event.4
 	title = RED_event.4.t
 	desc = RED_event.4.d
-	picture = GFX_report_event_communists_in_riga
+	picture = GFX_report_event_worker_protests
 
 	is_triggered_only = yes
 	fire_only_once = yes
@@ -230,6 +233,88 @@ country_event = { #이딴게 투표?
 	option = {
 		name = RED_event.6.a
 		add_stability = -0.05
+	}
+}
+
+country_event = { #너, 내 동료가 돼라
+	id = RED_event.7
+	title = RED_event.7.t
+	desc = RED_event.7.d
+	picture = GFX_report_event_military_planning
+
+	is_triggered_only = yes
+
+	option = { #좋다
+		name = RED_event.7.a
+		add_war_support = 0.10
+		FROM = {
+			add_to_faction = ROOT
+		}
+		ai_chance = {
+			base = 40
+			modifier = {
+				add = 40
+				has_opinion = {
+					target = FROM
+					value > 0
+				}
+			}
+			modifier = {
+				add = -40
+				has_opinion = {
+					target = SOV
+					value > 30
+				}
+			}
+		}
+	}
+	option = { #싫다
+		name = RED_event.7.b
+		add_opinion_modifier = {
+			target = FROM
+			modifier = refused_anti_comintern_pact_opinion
+		}
+		ai_chance = {
+			base = 40
+			modifier = {
+				add = 40
+				has_opinion = {
+					target = SOV
+					value > 30
+				}
+			}
+			modifier = {
+				add = -40
+				has_opinion = {
+					target = FROM
+					value > 0
+				}
+			}
+		}
+	}
+}
+country_event = { #동맹 수락
+	id = RED_event.8
+	title = RED_event.8.t
+	desc = RED_event.8.d
+	picture = GFX_report_event_generic_sign_treaty1
+
+	is_triggered_only = yes
+
+	option = {
+		name = RED_event.8.a
+	}
+}
+country_event = { #동맹 거절
+	id = RED_event.9
+	title = RED_event.9.t
+	desc = RED_event.9.d
+	picture = GFX_report_event_czech_soldiers_01
+
+	is_triggered_only = yes
+
+	option = {
+		name = RED_event.9.a
 	}
 }
 
