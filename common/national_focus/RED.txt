@@ -691,7 +691,24 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
-			add_ideas = RED_for_knowledge_idea
+			if = {
+				limit = {
+					has_idea = RED_knowledge_liberation_idea
+				}
+				swap_ideas = {
+					remove_idea = RED_knowledge_liberation_idea
+					add_idea = RED_for_knowledge_idea
+				}
+			}
+			else = {
+				add_ideas = RED_for_knowledge_idea
+			}
+			if = {
+				limit = { 
+					has_idea = RED_invest_frontline_idea
+				}
+				remove_ideas = RED_invest_frontline_idea
+			}
 		}
 	}
 	focus = { # 강력한 한방
@@ -2221,7 +2238,7 @@ focus_tree = {
 		id = RED_army_production_improve
 
 		icon = GFX_goal_generic_defence
-		x = 12
+		x = 13
 		y = 0
 		cost = 10
 
@@ -2824,59 +2841,53 @@ focus_tree = {
 		search_filters = {}
 
 		completion_reward = {
-			if = {
-				limit = {
-					has_full_control_of_state = 141 #스베알란드
+			141 = { #스베알란드
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
 				}
-				141 = { #스베알란드
-					add_building_construction = {
-						type = anti_air_building
-						level = 1
-						instant_build = yes
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
 					}
-					add_building_construction = {
-						type = coastal_bunker
-						level = 3
-						province = 6050
-						instant_build = yes
-					}
+					instant_build = yes
 				}
 			}
-			if = {
-				limit = {
-					has_full_control_of_state = 139 #스몰란드
+			139 = { #스몰란드
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
 				}
-				139 = { #스몰란드
-					add_building_construction = {
-						type = anti_air_building
-						level = 1
-						instant_build = yes
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
 					}
-					add_building_construction = {
-						type = coastal_bunker
-						level = 3
-						province = 11380
-						instant_build = yes
-					}
+					instant_build = yes
 				}
 			}
 
-			if = {
-				limit = {
-					has_full_control_of_state = 138 #스코네
+			138 = { #스코네
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+					instant_build = yes
 				}
-				138 = { #스코네
-					add_building_construction = {
-						type = anti_air_building
-						level = 1
-						instant_build = yes
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
 					}
-					add_building_construction = {
-						type = coastal_bunker
-						level = 3
-						province = 11215
-						instant_build = yes
-					}
+					instant_build = yes
 				}
 			}
 		}
@@ -3134,13 +3145,13 @@ focus_tree = {
 	}
 
 #해군 개편 중점	
-	focus = {
-		id = RED_naval_rearmament
+	focus = { #노르웨이 장갑함 재취역
+		id = RED_cruiser_question
 		icon = GFX_goal_generic_build_navy
 		x = 26
 		y = 0
 
-		cost = 5
+		cost = 10
 		ai_will_do = {
 			factor = 1
 		}
@@ -3148,280 +3159,528 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_INDUSTRY }
 
 		completion_reward = {
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = dockyard
-					level = 2
-					instant_build = yes
-				}
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				create_ship = { type = ship_hull_cruiser_coastal_defense_ship equipment_variant = "Norge Class" name = "KNM Harald Haarfagre" }
+				create_ship = { type = ship_hull_cruiser_coastal_defense_ship equipment_variant = "Norge Class" name = "KNM Tordenskjold" }
+				create_ship = { type = ship_hull_cruiser_coastal_defense_ship equipment_variant = "Norge Class" name = "KNM Eidsvold" }
+				create_ship = { type = ship_hull_cruiser_coastal_defense_ship equipment_variant = "Norge Class" name = "KNM Norge" }
 			}
-			random_owned_controlled_state = {
+			else = {
+				create_ship = { type = heavy_cruiser_1 equipment_variant = "Weltkrieg Heavy Cruiser" name = "KNM Harald Haarfagre" }
+				create_ship = { type = heavy_cruiser_1 equipment_variant = "Weltkrieg Heavy Cruiser" name = "KNM Tordenskjold" }
+				create_ship = { type = heavy_cruiser_1 equipment_variant = "Weltkrieg Heavy Cruiser" name = "KNM Eidsvold" }
+				create_ship = { type = heavy_cruiser_1 equipment_variant = "Weltkrieg Heavy Cruiser" name = "KNM Norge" }
+			}
+		}
+	}
+	focus = { #민간 수송선 확보
+		id = RED_nortraship
+		icon = GFX_focus_POL_develop_polish_shipbuilding
+		cost = 5
+
+		relative_position_id = RED_cruiser_question
+		x = -2
+		y = 1
+
+		prerequisite = { focus = RED_cruiser_question }
+
+		available = {
+			has_political_power > 50
+		}
+
+		ai_will_do = { factor = 1 }
+
+		completion_reward = {
+			add_political_power = -50
+			add_equipment_to_stockpile = {
+				type = convoy
+				amount = 100
+			}
+		}
+	}
+	focus = { #해군 재무장
+		id = RED_naval_rearmament
+		icon = GFX_focus_generic_refit_civilian_ships
+		cost = 6
+
+		relative_position_id = RED_cruiser_question
+		x = 0
+		y = 1
+
+		available = {
+			controls_state = 110
+			controls_state = 142
+			controls_state = 141
+			controls_state = 37
+		}
+		prerequisite = { focus = RED_cruiser_question }
+
+		ai_will_do = { factor = 1 }
+
+		completion_reward = {
+			110 = {
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = dockyard
 					level = 1
 					instant_build = yes
 				}
-			}
-		}
-	}
-	focus = {
-		id = RED_naval_effort
-		text = naval_effort
-		icon = GFX_goal_generic_navy_doctrines_tactics
-		prerequisite = { focus = RED_naval_rearmament }
-		x = 0
-		y = 1
-		relative_position_id = RED_naval_rearmament
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-
-		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
-
-		completion_reward = {
-			navy_experience = 25
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
-					type = dockyard
-					level = 2
+					type = naval_base
+					level = 1
+					province = 6115
 					instant_build = yes
 				}
 			}
-			add_tech_bonus = {
-				name = dd_bonus
-				bonus = 2.0
-				uses = 1
-				category = dd_tech
+			142 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 1
+					province = 122
+					instant_build = yes
+				}
+			}
+			141 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 1
+					province = 6050
+					instant_build = yes
+				}
+			}
+			37 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = naval_base
+					level = 1
+					province = 6287
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { #서해안요새 확장
+		id = RED_coastal_artillery
+		icon = GFX_focus_generic_coastal_fort
+		cost = 6
+
+		relative_position_id = RED_cruiser_question
+		x = 2
+		y = 1
+
+		prerequisite = { focus = RED_cruiser_question }
+
+		available = {
+			controls_state = 142
+			controls_state = 110
+			controls_state = 921
+			controls_state = 922
+		}
+
+		ai_will_do = { factor = 1 }
+
+		completion_reward = {
+			142 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
+					}
+					instant_build = yes
+				}
+			}
+			110 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
+					}
+					instant_build = yes
+				}
+			}
+			921 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
+					}
+					instant_build = yes
+				}
+			}
+			922 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = {
+						all_provinces = yes
+						limit_to_naval_base = yes
+					}
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { #대형함 중점
+		id = RED_large_navy
+		icon = GFX_goal_generic_navy_battleship
+		cost = 6
+
+		relative_position_id = RED_cruiser_question
+		x = -1
+		y = 2
+
+		prerequisite = { focus = RED_naval_rearmament }
+		mutually_exclusive = { focus = RED_small_navy }
+
+		ai_will_do = { factor = 1 }
+
+		completion_reward = {
+			navy_experience = 10
+			add_doctrine_cost_reduction = {
+				name = RED_large_navy
+				cost_reduction = 0.5
+				uses = 2
+				category = naval_doctrine
 			}
 			add_tech_bonus = {
-				name = cr_bonus
-				bonus = 2.0
+				name = RED_large_navy
+				bonus = 1
 				uses = 1
 				category = cl_tech
+			}
+			add_tech_bonus = {
+				name = RED_large_navy
+				bonus = 1
+				uses = 1
 				category = ca_tech
 			}
 		}
 	}
-	focus = {
-		id = RED_naval_effort2
-		icon = GFX_goal_generic_construct_naval_dockyard
-		prerequisite = { focus = RED_naval_effort }
-		x = 0
-		y = 1
-		relative_position_id = RED_naval_effort
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
+	focus = { #경순양함 건조
+		id = RED_light_cruisers
+		icon = GFX_goal_generic_navy_cruiser
+		cost = 6
 
-		search_filters = { FOCUS_FILTER_INDUSTRY }
-
-		completion_reward = {
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = dockyard
-					level = 2
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = dockyard
-					level = 2
-					instant_build = yes
-				}
-			}
-		}
-	}
-	focus = {
-		id = RED_warship_production
-		icon = GFX_goal_generic_navy_battleship
-		prerequisite = { focus = RED_naval_effort }
+		relative_position_id = RED_cruiser_question
 		x = -1
-		y = 2
-		relative_position_id = RED_naval_effort
-		cost = 10
-		ai_will_do = {
-			factor = 0.25
-		}	
+		y = 3
 
-		search_filters = { FOCUS_FILTER_RESEARCH FOCUS_FILTER_INDUSTRY }
-
-		completion_reward = {
-			navy_experience = 50
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = dockyard
-					level = 2
-					instant_build = yes
-				}
+		available = {
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				has_tech = basic_ship_hull_cruiser
 			}
-			add_tech_bonus = {
-				name = bc_bonus
-				bonus = 2.0
-				uses = 1
-				category = bc_tech
-			}
-			add_tech_bonus = {
-				name = bb_bonus
-				bonus = 2.0
-				uses = 1
-				category = bb_tech
-				category = shbb_tech
-			}
-			add_tech_bonus = {
-				name = cv_bonus
-				bonus = 2.0
-				uses = 1
-				category = cv_tech
+			else = {
+				has_tech = basic_light_cruiser
 			}
 		}
-	}
-	focus = {
-		id = RED_submarine_effort
-		icon = GFX_goal_generic_navy_submarine
-		prerequisite = { focus = RED_naval_effort }
-		x = 1
-		y = 2
-		relative_position_id = RED_naval_effort
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-		
-		search_filters = { FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH }
+		prerequisite = { focus = RED_large_navy }
+
+		ai_will_do = { factor = 1 }
 
 		completion_reward = {
 			navy_experience = 25
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = dockyard
-					level = 2
-					instant_build = yes
+			create_equipment_variant = {
+				name = "Falsen Class"
+				type = ship_hull_cruiser_2
+				name_group = NOR_CL_HISTORICAL
+				modules = {
+					fixed_ship_battery_slot = ship_light_medium_battery_2
+					fixed_ship_anti_air_slot = ship_anti_air_1
+					fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+					fixed_ship_radar_slot = empty
+					fixed_ship_engine_slot = cruiser_ship_engine_2
+					fixed_ship_armor_slot = ship_armor_cruiser_2
+					front_1_custom_slot = ship_anti_air_1
+					mid_1_custom_slot = ship_torpedo_1
+					mid_2_custom_slot = ship_light_medium_battery_2
+					rear_1_custom_slot = ship_airplane_launcher_1
 				}
 			}
-			add_tech_bonus = {
-				name = RED_submarine_effort
-				bonus = 2.0
-				uses = 1
-				category = ss_tech
+			add_equipment_production = {
+				equipment = {
+					type = ship_hull_cruiser_2
+					version_name = "Falsen Class"
+				}
+				requested_factories = 1
+				progress = 0.5
+				amount = 1
 			}
+			add_equipment_production = {
+				equipment = {
+					type = ship_hull_cruiser_2
+					version_name = "Falsen Class"
+				}
+				requested_factories = 1
+				progress = 0.5
+				amount = 1
+			}
+		}
+	}
+
+	focus = { #장갑함 건조
+		id = RED_heavy_cruisers
+		icon = GFX_focus_generic_cruiser2
+		cost = 6
+
+		relative_position_id = RED_cruiser_question
+		x = -1
+		y = 4
+
+		prerequisite = { focus = RED_light_cruisers }
+
+		ai_will_do = { factor = 1 }
+
+		completion_reward = {
+			navy_experience = 40
 			if = {
 				limit = {
 					has_dlc = "Man the Guns"
+					NOT = { has_tech = panzerschiffe }
 				}
-				set_technology = { cruiser_submarines = 1 }
+				set_technology = { panzerschiffe = 1 popup = no }
+			}
+			create_equipment_variant = {
+				name = "Kristiania Class"
+				type = ship_hull_cruiser_panzerschiff
+				name_group = NOR_CA_HISTORICAL
+				parent_version = 0
+				modules = {
+					fixed_ship_anti_air_slot = ship_anti_air_1
+					fixed_ship_battery_slot = ship_heavy_battery_1
+					fixed_ship_secondaries_slot = ship_secondaries_1
+					fixed_ship_armor_slot = ship_armor_cruiser_1
+					fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+					fixed_ship_engine_slot = cruiser_ship_engine_1
+					rear_1_custom_slot = ship_torpedo_1
+					mid_1_custom_slot = ship_airplane_launcher_1
+				}
+			}
+			add_equipment_production = {
+				equipment = {
+					type = ship_hull_cruiser_panzerschiff
+					version_name = "Kristiania Class"
+				}
+				requested_factories = 1
+				progress = 0.35
+				amount = 1
 			}
 		}
 	}
-	focus = {
-		id = RED_trade_interdiction
-		icon = GFX_goal_generic_wolf_pack
-		prerequisite = { focus = RED_submarine_effort }
-		x = 0
-		y = 1
-		relative_position_id = RED_submarine_effort
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
 
-		search_filters = { FOCUS_FILTER_RESEARCH }
+	focus = { #소형함 중점
+		id = RED_small_navy
+		icon = GFX_goal_generic_navy_anti_submarine
+		cost = 6
 
-		completion_reward = {
-			add_doctrine_cost_reduction = {
-				name = ti_bonus
-				name = RED_trade_interdiction
-				cost_reduction = 0.25
-				uses = 3 
-				category = trade_interdiction_tree
-			}
-		}
-	}
-	focus = {
-		id = RED_modular_construction
-		icon = GFX_goal_generic_construct_naval_dockyard
-		prerequisite = { focus = RED_trade_interdiction }
-		x = 0
-		y = 1
-		relative_position_id = RED_trade_interdiction
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-
-		search_filters = { FOCUS_FILTER_INDUSTRY }
-
-		completion_reward = {
-			add_ideas = RED_modular_construction_idea
-		}
-	}
-	focus = {
-		id = RED_crossing_the_atlantic
-		icon = GFX_focus_SOV_reinforce_northern_naval_bases
-		prerequisite = { focus = RED_controller_of_baltic focus = RED_modular_construction }
-		available = {
-		}
-		x = -1
+		relative_position_id = RED_cruiser_question
+		x = 1
 		y = 2
-		relative_position_id = RED_modular_construction
-		cost = 10
-		ai_will_do = {
-			factor = 10
-		}
-		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		prerequisite = { focus = RED_naval_rearmament }
+		mutually_exclusive = { focus = RED_large_navy }
+
+		ai_will_do = { factor = 1 }
+
 		completion_reward = {
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = dockyard
-					level = 2
-					instant_build = yes
-				}
+			navy_experience = 10
+			add_doctrine_cost_reduction = {
+				name = RED_small_navy
+				cost_reduction = 0.5
+				uses = 2
+				category = submarine_doctrine
 			}
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = dockyard
-					level = 2
-					instant_build = yes
-				}
+			add_tech_bonus = {
+				name = RED_destroyers
+				bonus = 1
+				uses = 1
+				category = dd_tech
 			}
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = dockyard
-					level = 2
-					instant_build = yes
-				}
+			add_tech_bonus = {
+				name = RED_small_navy
+				bonus = 1
+				uses = 1
+				category = ss_tech
 			}
 		}
 	}
+	focus = { #잠수함 건조
+		id = RED_submarines
+		icon = GFX_goal_generic_navy_submarine
+		cost = 6
+
+		relative_position_id = RED_cruiser_question
+		x = 1
+		y = 3
+
+		available = {
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				has_tech = basic_ship_hull_submarine
+			}
+			else = {
+				has_tech = basic_submarine
+			}
+		}
+		prerequisite = { focus = RED_small_navy }
+
+		ai_will_do = { factor = 1 }
+
+		completion_reward = {
+			navy_experience = 25
+			create_equipment_variant = {
+				name = "U Class"
+				type = ship_hull_submarine_2
+				parent_version = 0
+				name_group = NOR_SS_HISTORICAL
+				modules = {
+					fixed_ship_torpedo_slot = ship_torpedo_sub_2
+					fixed_ship_engine_slot = sub_ship_engine_2
+					rear_1_custom_slot = ship_torpedo_sub_2
+				}
+			}
+			add_equipment_production = {
+				equipment = {
+					type = ship_hull_submarine_2
+					version_name = "U Class"
+				}
+				requested_factories = 1
+				progress = 0.4
+				amount = 1
+			}
+			add_equipment_production = {
+				equipment = {
+					type = ship_hull_submarine_2
+					version_name = "U Class"
+				}
+				requested_factories = 1
+				progress = 0.4
+				amount = 1
+			}
+			add_equipment_production = {
+				equipment = {
+					type = ship_hull_submarine_2
+					version_name = "U Class"
+				}
+				requested_factories = 1
+				progress = 0.4
+				amount = 1
+			}
+		}
+	}
+
+	focus = { #구축함 건조
+		id = RED_destroyers
+		icon = GFX_focus_generic_destroyer
+		cost = 6
+
+		relative_position_id = RED_cruiser_question
+		x = 1
+		y = 4
+
+		available = {
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				has_tech = basic_ship_hull_light
+				has_tech = basic_depth_charges
+			}
+			else = {
+				has_tech = basic_destroyer
+			}
+		}
+		prerequisite = { focus = RED_submarines }
+
+		ai_will_do = { factor = 1 }
+
+		completion_reward = {
+			navy_experience = 40
+			create_equipment_variant = {
+				name = "Balder Class"
+				type = ship_hull_light_2
+				parent_version = 0
+				name_group = NOR_DD_HISTORICAL
+				modules = {
+					fixed_ship_battery_slot = ship_light_battery_2
+					fixed_ship_anti_air_slot = ship_anti_air_1
+					fixed_ship_fire_control_system_slot = ship_fire_control_system_0
+					fixed_ship_radar_slot = empty
+					fixed_ship_engine_slot = light_ship_engine_2
+					fixed_ship_torpedo_slot = ship_torpedo_1
+					mid_1_custom_slot = ship_torpedo_1
+					rear_1_custom_slot = ship_depth_charge_1
+				}
+			}
+			add_equipment_production = {
+				equipment = {
+					type = ship_hull_light_2
+					version_name = "Balder Class"
+				}
+				requested_factories = 1
+				progress = 0.4
+				amount = 1
+			}
+			add_equipment_production = {
+				equipment = {
+					type = ship_hull_light_2
+					version_name = "Balder Class"
+				}
+				requested_factories = 1
+				progress = 0.4
+				amount = 1
+			}
+			add_equipment_production = {
+				equipment = {
+					type = ship_hull_light_2
+					version_name = "Balder Class"
+				}
+				requested_factories = 1
+				progress = 0.4
+				amount = 1
+			}
+		}
+	}
+
 	focus = { # 발트해의 지배자
 		id =  RED_controller_of_baltic
 		icon = GFX_focus_SOV_reinforce_western_naval_bases
-		prerequisite = { focus = RED_warship_production focus = RED_submarine_effort }
-		x = 0
-		y = 2
-		relative_position_id = RED_warship_production
-
 		cost = 10
-
-		search_filters = {FOCUS_FILTER_POLITICAL}
-
+		x = 1
+		y = 1
+		relative_position_id = RED_heavy_cruisers
+		prerequisite = {
+			focus = RED_heavy_cruisers
+			focus = RED_destroyers
+		}
 		completion_reward = {
 			custom_effect_tooltip = RED_winterarmy_advance_tt
 			add_ideas = RED_controller_of_baltic_idea
 		}
 	}
+
 	focus = { #새 평의회 구성 
 		id = RED_new_council
 		icon = GFX_goal_unknown
