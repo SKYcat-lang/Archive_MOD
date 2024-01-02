@@ -3682,6 +3682,147 @@ focus_tree = {
 	}
 
 	focus = {
+		id = CAN_tackle_fascism
+		prerequisite = { focus = CAN_focus_5_5 }
+		mutually_exclusive = { focus = ENG_tackle_capitalism }
+		available = {
+			is_subject = no
+			OR = {
+				country_exists = GER
+				country_exists = ITA
+			}
+			OR = {
+				GER = { has_government = fascism }
+				ITA = { has_government = fascism }
+			}
+		}
+		icon = GFX_focus_generic_anti_fascist_diplomacy
+		x = -3
+		y = 1
+		relative_position_id = CAN_focus_5_5
+		cost = 10
+		search_filters = {FOCUS_FILTER_POLITICAL}	
+		completion_reward = {
+			if = {
+				limit = {
+					TRM = { has_government = fascism }
+					ITA = { has_government = fascism }
+				}
+				add_ideas = ENG_tackle_fascism_idea_1
+				TRM = { add_opinion_modifier = { target = ENG modifier = ENG_tackle_fascism } }
+				ITA = { add_opinion_modifier = { target = ENG modifier = ENG_tackle_fascism } }
+			}
+			if = {
+				limit = {
+					TRM = { has_government = fascism }
+					NOT = { ITA = { has_government = fascism } }
+				}
+				add_ideas = ENG_tackle_fascism_idea_2
+				TRM = { add_opinion_modifier = { target = ENG modifier = ENG_tackle_fascism } }
+			}
+			if = {
+				limit = {
+					NOT = { TRM = { has_government = fascism } }
+					ITA = { has_government = fascism }
+				}
+				add_ideas = ENG_tackle_fascism_idea_3
+				ITA = { add_opinion_modifier = { target = ENG modifier = ENG_tackle_fascism } }
+			}
+			hidden_effect = { news_event = { id = mtg_news.39 days = 1 } }
+		}
+	}
+
+	focus = {
+		id = CAN_preparing_the_second_front
+		prerequisite = { focus = CAN_tackle_fascism }
+		available = {
+
+		}
+		icon = GFX_goal_generic_amphibious_assault
+		x = 0
+		y = 1
+		relative_position_id = CAN_tackle_fascism
+		cost = 10
+		search_filters = {FOCUS_FILTER_RESEARCH}	
+		completion_reward = {
+			add_tech_bonus = {
+				name = ENG_preparing_the_second_front
+				bonus = 1.0
+				uses = 1
+				category = marine_tech
+			}
+			add_tech_bonus = {
+				name = ENG_preparing_the_second_front
+				bonus = 1.0
+				uses = 1
+				category = tp_tech
+			}
+		}
+	}
+
+	focus = {
+		id = CAN_tackle_capitalism
+		prerequisite = { focus = CAN_focus_5_5 }
+		mutually_exclusive = { focus = CAN_tackle_fascism }
+		available = {
+			is_subject = no
+			country_exists = USA
+			USA = { has_government = democratic }
+		}
+		icon = GFX_focus_generic_strike_at_democracy3
+		x = -1
+		y = 1
+		relative_position_id = CAN_focus_5_5
+		cost = 10
+		search_filters = {FOCUS_FILTER_POLITICAL}	
+		completion_reward = {
+			add_ideas = ENG_tackle_capitalism_idea
+			USA = { add_opinion_modifier = { target = ENG modifier = ENG_tackle_capitalism } }
+			hidden_effect = { news_event = { id = mtg_news.40 days = 1 } }
+		}
+	}
+
+	focus = {
+		id = CAN_bermuda_invasion_launch_point
+		prerequisite = { focus = CAN_tackle_capitalism }
+		available = {
+			has_full_control_of_state = 696
+		}
+		icon = GFX_goal_generic_position_armies
+		x = 0
+		y = 1
+		relative_position_id = CAN_tackle_capitalism
+		cost = 10
+		completion_reward = {
+			# Bermuda
+			696 = {
+				if = {
+					limit = {
+						is_controlled_by = ROOT
+					}
+					add_building_construction = {
+						type = infrastructure
+						level = 2
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = air_base
+						level = 5
+						instant_build = yes
+					}
+					# Bermuda
+					add_building_construction = {
+						type = naval_base
+						level = 5
+						province = 13010
+						instant_build = yes
+					}
+				}								
+			}
+		}
+	}
+
+	focus = {
 		id = CAN_focus_5_6_1 # 민간산업
 		icon = GFX_goal_generic_construct_civ_factory
 		cost = 10.00
