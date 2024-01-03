@@ -447,7 +447,7 @@ focus_tree = {
 		allow_branch = {
 			has_global_flag = SAX_win_flag
 		} 
-		x = 20
+		x = 33
 		y = 0
 		completion_reward = {
 			set_cosmetic_tag = GER
@@ -737,6 +737,8 @@ focus_tree = {
 					}
 				}
 			}
+			
+			custom_effect_tooltip = SAX_industry_tt
 		}
 	}
 	focus = { #코민테른 가입
@@ -981,6 +983,7 @@ focus_tree = {
 		prerequisite = { focus = SAX_atlantic_trade }
 		x = -1
 		y = 1
+		search_filters = {FOCUS_FILTER_RESEARCH}
 		relative_position_id = SAX_atlantic_trade
 		completion_reward = {
 			add_research_slot = 1
@@ -1006,6 +1009,7 @@ focus_tree = {
 		prerequisite = { focus = SAX_german_army_reconstruction }
 		x = 1
 		y = 1
+		search_filters = {FOCUS_FILTER_RESEARCH}
 		relative_position_id = SAX_treaty_with_the_soviet_union
 		completion_reward = {
 		}
@@ -1038,6 +1042,362 @@ focus_tree = {
 					add_idea = SAX_low_popular_support_2
 				}
 			}
+		}
+	}
+	focus = { #기반시설 회복
+		id = SAX_infrastructure_recovery
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 5
+		allow_branch = {
+			has_global_flag = SAX_win_flag
+		} 
+		x = 14
+		y = 0
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		complete_tooltip = {
+			every_state = {
+				limit = { has_state_flag = SAX_infrastructure_effort_1Inf }
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		completion_reward = {if = {
+			limit = {
+				all_owned_state = {
+					infrastructure > 2
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 1
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes						
+				}
+				set_state_flag = SAX_infrastructure_effort_1Inf
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 1
+					}
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = SAX_infrastructure_effort_1Inf
+			}				
+		}
+		random_owned_controlled_state = {
+			limit = {
+				infrastructure < 4
+			}
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+			set_state_flag = SAX_infrastructure_effort_1Inf	
+		}
+		random_owned_controlled_state = {
+			limit = {
+				infrastructure < 4
+			}
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+			set_state_flag = SAX_infrastructure_effort_1Inf	
+		}
+		random_owned_controlled_state = {
+			limit = {
+				infrastructure < 3
+			}
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+			set_state_flag = SAX_infrastructure_effort_1Inf	
+		}
+		random_owned_controlled_state = {
+			limit = {
+				infrastructure < 3
+			}
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+				instant_build = yes
+			}
+			set_state_flag = SAX_infrastructure_effort_1Inf	
+		}
+		}
+	}
+	focus = { #중공업
+		id = SAX_heavy_industry
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 5
+		allow_branch = {
+			has_global_flag = SAX_win_flag
+		} 
+		x = 2
+		y = 0
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_infrastructure_recovery
+		complete_tooltip = {
+			every_state = {
+				limit = { 
+					has_state_flag = SAX_finish_five_year_plan_1IC 
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		completion_reward = {
+			IF = {
+				limit = {
+					any_owned_state = {
+						is_controlled_by = ROOT 
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+						NOT = { has_state_flag = SAX_finish_five_year_plan_1IC }
+					}
+				}
+				random_owned_controlled_state = {
+					limit = {
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = SAX_finish_five_year_plan_1IC
+				}
+			}
+			ELSE = {
+				random_owned_controlled_state = {
+					limit = {
+						# industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = SAX_finish_five_year_plan_1IC
+				}
+			}
+			IF = {
+				limit = {
+					check_variable = { num_owned_states > 1}
+					any_owned_state = {
+						is_controlled_by = ROOT 
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+						NOT = { has_state_flag = SAX_finish_five_year_plan_1IC }
+					}
+				}
+				random_owned_controlled_state = {
+					limit = {
+						industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+						NOT = { has_state_flag = SAX_finish_five_year_plan_1IC }
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = SAX_finish_five_year_plan_1IC
+				}
+			}
+			ELSE_IF = {
+				limit = {
+					check_variable = { num_owned_states > 1 }
+				}
+				random_owned_controlled_state = {
+					limit = {
+						# industrial_complex > 0
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+						NOT = { has_state_flag = SAX_finish_five_year_plan_1IC }
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					set_state_flag = SAX_finish_five_year_plan_1IC
+				}
+			}
+		}
+	}
+	focus = { #1차 5개년 계획
+		id = SAX_1st_five_year_plan
+		icon = GFX_focus_generic_industry_1
+		cost = 5
+		allow_branch = {
+			has_global_flag = SAX_win_flag
+		} 
+		available = {
+			num_of_controlled_factories > 60
+			has_completed_focus = SAX_industry_revitalization
+		}
+		x = -3
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_infrastructure_recovery
+		completion_reward = {
+		}
+	}
+	focus = { #독일 국영철도
+		id = SAX_deutsche_reichsbahn
+		icon = GFX_focus_generic_railroad
+		cost = 5
+		prerequisite = { focus = SAX_infrastructure_recovery }
+		prerequisite = { focus = SAX_heavy_industry }
+		x = 1
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_infrastructure_recovery
+		completion_reward = {
+		}
+	}
+	focus = { #독일-소련 경제협력
+		id = SAX_GS_economic_cooperation
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		cost = 5
+		prerequisite = { focus = SAX_deutsche_reichsbahn }
+		mutually_exclusive = { focus = SAX_proprietary_technology }
+		x = 1
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_deutsche_reichsbahn
+		completion_reward = {
+		}
+	}
+	focus = { #독자 기술
+		id = SAX_proprietary_technology
+		icon = GFX_goal_generic_consumer_goods
+		cost = 5
+		prerequisite = { focus = SAX_deutsche_reichsbahn }
+		mutually_exclusive = { focus = SAX_GS_economic_cooperation }
+		x = 3
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_deutsche_reichsbahn
+		completion_reward = {
+		}
+	}
+	focus = { #대학 재건
+		id = SAX_university_reconstruction
+		icon = GFX_focus_research
+		cost = 5
+		prerequisite = { focus = SAX_GS_economic_cooperation focus = SAX_proprietary_technology }
+		x = 2
+		y = 3
+		search_filters = {FOCUS_FILTER_RESEARCH}
+		relative_position_id = SAX_deutsche_reichsbahn
+		completion_reward = {
+			add_ideas = SAX_leipzig_karl_marx_university
+		}
+	}
+	focus = { #국가계획위원회
+		id = SAX_staatliche_plankommission
+		icon = GFX_goal_generic_production2
+		cost = 5
+		prerequisite = { focus = SAX_1st_five_year_plan }
+		prerequisite = { focus = SAX_deutsche_reichsbahn }
+		x = 1
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_1st_five_year_plan
+		completion_reward = {
+		}
+	}
+	focus = { #산업부
+		id = SAX_industrieministerien
+		icon = GFX_goal_generic_soviet_construction
+		cost = 5
+		prerequisite = { focus = SAX_staatliche_plankommission }
+		x = 0
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_staatliche_plankommission
+		completion_reward = {
+		}
+	}
+	focus = { #기업에 양보
+		id = SAX_concessions_to_companies
+		icon = GFX_goal_generic_construction
+		cost = 5
+		prerequisite = { focus = SAX_staatliche_plankommission }
+		mutually_exclusive = { focus = SAX_collectivization }
+		x = 2
+		y = 2
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_staatliche_plankommission
+		completion_reward = {
+		}
+	}
+	focus = { #집산화
+		id = SAX_collectivization
+		icon = GFX_focus_generic_communist_industry
+		cost = 5
+		prerequisite = { focus = SAX_staatliche_plankommission }
+		mutually_exclusive = { focus = SAX_concessions_to_companies }
+		x = -2
+		y = 2
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_staatliche_plankommission
+		completion_reward = {
 		}
 	}
 }
