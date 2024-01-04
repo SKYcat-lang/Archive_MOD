@@ -1289,6 +1289,10 @@ focus_tree = {
 		available = {
 			num_of_controlled_factories > 50
 			has_completed_focus = SAX_industry_revitalization
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
 		}
 		x = -3
 		y = 1
@@ -1346,11 +1350,11 @@ focus_tree = {
 		relative_position_id = SAX_deutsche_reichsbahn
 		completion_reward = {
 			add_tech_bonus = {
-				name = SAX_collectivization
+				name = SAX_proprietary_technology
+				ahead_reduction = 2
 				bonus = 1.0
-				uses = 2
+				uses = 1
 				category = industry
-				category = electronics
 			}
 		}
 	}
@@ -1359,12 +1363,25 @@ focus_tree = {
 		icon = GFX_focus_research
 		cost = 10
 		prerequisite = { focus = SAX_GS_economic_cooperation focus = SAX_proprietary_technology }
-		x = 2
+		x = 1
 		y = 3
 		search_filters = {FOCUS_FILTER_RESEARCH}
 		relative_position_id = SAX_deutsche_reichsbahn
 		completion_reward = {
 			add_ideas = SAX_leipzig_karl_marx_university
+		}
+	}
+	focus = { #국제 무역
+		id = SAX_international_trade
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 5
+		prerequisite = { focus = SAX_GS_economic_cooperation focus = SAX_proprietary_technology }
+		x = 3
+		y = 3
+		search_filters = {FOCUS_FILTER_RESEARCH}
+		relative_position_id = SAX_deutsche_reichsbahn
+		completion_reward = {
+			add_ideas = SAX_intershop
 		}
 	}
 	focus = { #국가계획위원회
@@ -1375,6 +1392,10 @@ focus_tree = {
 		prerequisite = { focus = SAX_deutsche_reichsbahn }
 		available = {
 			num_of_controlled_factories > 60
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
 		}
 		x = 1
 		y = 1
@@ -1398,6 +1419,12 @@ focus_tree = {
 		icon = GFX_goal_generic_soviet_construction
 		cost = 5
 		prerequisite = { focus = SAX_staatliche_plankommission }
+		available = {
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+		}
 		x = 0
 		y = 1
 		search_filters = {FOCUS_FILTER_INDUSTRY}
@@ -1409,14 +1436,18 @@ focus_tree = {
 			custom_effect_tooltip = SAX_industrieministerien_tt
 		}
 	}
-	focus = { #기업에 양보
-		id = SAX_concessions_to_companies
-		icon = GFX_goal_generic_construction
+	focus = { #독립 경제 계획
+		id = SAX_independent_economic_plan
+		icon = GFX_focus_spr_masters_of_our_own_fate
 		cost = 10
 		prerequisite = { focus = SAX_staatliche_plankommission }
-		mutually_exclusive = { focus = SAX_collectivization }
+		mutually_exclusive = { focus = SAX_soviet_economic_advisor }
 		available = {
 			num_of_controlled_factories > 70
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
 		}
 		x = 2
 		y = 2
@@ -1430,22 +1461,33 @@ focus_tree = {
 			}
 			add_to_variable = { SAX_fyp_industrial_concern_cost_factor = -0.15 }
 			add_to_variable = { SAX_fyp_production_speed_industrial_complex_factor = 0.05 }
-			custom_effect_tooltip = SAX_concessions_to_companies_tt
+			custom_effect_tooltip = SAX_independent_economic_plan_tt
 			add_political_power = -20
 			add_popularity = {
-				ideology = democratic
-				popularity = 0.1
+				ideology = communism
+				popularity = -0.05
+			}
+			add_tech_bonus = {
+				name = SAX_independent_economic_plan
+				bonus = 1.0
+				uses = 2
+				category = industry
+				category = electronics
 			}
 		}
 	}
-	focus = { #집산화
-		id = SAX_collectivization
-		icon = GFX_focus_generic_communist_industry
+	focus = { #소련 경제 고문 초청
+		id = SAX_soviet_economic_advisor
+		icon = GFX_focus_generic_soviet_politics
 		cost = 10
 		prerequisite = { focus = SAX_staatliche_plankommission }
-		mutually_exclusive = { focus = SAX_concessions_to_companies }
+		mutually_exclusive = { focus = SAX_independent_economic_plan }
 		available = {
 			num_of_controlled_factories > 70
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
 		}
 		x = -2
 		y = 2
@@ -1459,11 +1501,253 @@ focus_tree = {
 			}
 			add_to_variable = { SAX_fyp_consumer_goods_factor = -0.02 }
 			add_to_variable = { production_speed_arms_factory_factor = 0.05 }
-			custom_effect_tooltip = SAX_collectivization_tt
+			custom_effect_tooltip = SAX_soviet_economic_advisor_tt
 			add_stability = -0.05
 			add_popularity = {
 				ideology = communism
 				popularity = 0.1
+			}
+
+			add_tech_bonus = {
+				name = SAX_collectivization
+				bonus = 1
+				uses = 2
+				category = cat_production
+			}
+		}
+	}
+	focus = { #집산화
+		id = SAX_collectivization
+		icon = GFX_focus_prc_agrarian_socialism
+		cost = 10
+		prerequisite = { focus = SAX_soviet_economic_advisor }
+		mutually_exclusive = { focus = SAX_NEP_copy focus = SAX_nazi_personnel_reappointed }
+		available = {
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+		}
+		x = 0
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_soviet_economic_advisor
+		completion_reward = {
+			add_to_variable = { SAX_fyp_consumer_goods_factor = -0.02 }
+			add_to_variable = { SAX_fyp_global_building_slots_factor = 0.10 }
+			custom_effect_tooltip = SAX_collectivization_tt
+			add_stability = -0.05
+			add_war_support = -0.05
+			if = { #Target a rural state with no civs
+				limit = {
+					any_owned_state = {
+						OR = {
+							has_state_category = town #Developed Rural Region
+							has_state_category = rural #Rural Region
+						}
+						is_fully_controlled_by = ROOT
+						arms_factory < 1
+						dockyard < 1
+						free_building_slots = {
+							building = industrial_complex
+							size > 1
+							include_locked = yes
+						}
+					}
+				}
+				random_owned_state = {
+					limit = {
+						OR = {
+							has_state_category = town #Developed Rural Region
+							has_state_category = rural #Rural Region
+						}
+						is_fully_controlled_by = ROOT
+						arms_factory < 1
+						dockyard < 1
+						free_building_slots = {
+							building = industrial_complex
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			else = {
+				random_owned_state = {
+					limit = {
+						OR = {
+							has_state_category = town #Developed Rural Region
+							has_state_category = rural #Rural Region
+						}
+						is_fully_controlled_by = ROOT
+						free_building_slots = {
+							building = industrial_complex
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	focus = { #신경제정책 모방
+		id = SAX_NEP_copy
+		icon = GFX_focus_generic_treaty
+		cost = 10
+		prerequisite = { focus = SAX_soviet_economic_advisor focus = SAX_independent_economic_plan }
+		mutually_exclusive = { focus = SAX_collectivization focus = SAX_nazi_personnel_reappointed }
+		available = {
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+		}
+		x = -2
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_independent_economic_plan
+		completion_reward = {
+		}
+	}
+	focus = { #나치 인사 재등용
+		id = SAX_nazi_personnel_reappointed
+		icon = GFX_focus_generic_german_trade
+		cost = 10
+		prerequisite = { focus = SAX_independent_economic_plan }
+		mutually_exclusive = { focus = SAX_collectivization focus = SAX_NEP_copy }
+		available = {
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+		}
+		x = 0
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_independent_economic_plan
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = -0.10
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			add_war_support = -0.05
+		}
+	}
+	focus = { #중앙 계획적 경제 구조
+		id = SAX_centrally_planned_economic_structure
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 10
+		prerequisite = { focus = SAX_collectivization }
+		available = {
+			num_of_controlled_factories > 80
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+		}
+		x = 0
+		y = 2
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_collectivization
+		completion_reward = {
+		}
+	}
+	focus = { #국영기업 투자
+		id = SAX_sponsorship_of_stateowned_enterprises
+		icon = GFX_focus_generic_modernize_industry
+		cost = 10
+		prerequisite = { focus = SAX_nazi_personnel_reappointed }
+		available = {
+			num_of_controlled_factories > 80
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+		}
+		x = 0
+		y = 2
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_nazi_personnel_reappointed
+		completion_reward = {
+		}
+	}
+	focus = { #5개년 계획 종료
+		id = SAX_1st_five_year_plan_end
+		icon = GFX_focus_generic_industry_2
+		cost = 10
+		prerequisite = { focus = SAX_centrally_planned_economic_structure focus = SAX_sponsorship_of_stateowned_enterprises }
+		available = {
+			num_of_controlled_factories > 100
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+		}
+		x = 0
+		y = 6
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_staatliche_plankommission
+		completion_reward = {
+		}
+	}
+	focus = { #제2차 5개년 계획
+		id = SAX_2st_five_year_plan
+		icon = GFX_focus_generic_industry_3
+		cost = 10
+		prerequisite = { focus = SAX_1st_five_year_plan_end }
+		available = {
+			num_of_controlled_factories > 150
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+		}
+		x = 0
+		y = 7
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_staatliche_plankommission
+		completion_reward = {
+			add_to_variable = { SAX_fyp_consumer_goods_factor = -0.02 } #Bonus to CG
+			add_to_variable = { SAX_fyp_production_factory_max_efficiency_factor = 0.05 } #Bonus to max efficicency
+			custom_effect_tooltip = SAX_2st_five_year_plan_tt
+		}
+	}
+	focus = { #전자공학 투자
+		id = SAX_electronics_investment
+		icon = GFX_goal_generic_radar
+		cost = 5
+		prerequisite = { focus = SAX_university_reconstruction }
+		prerequisite = { focus = SAX_international_trade }
+		x = 1
+		y = 3
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_university_reconstruction
+		completion_reward = {
+			add_tech_bonus = {
+				name = SAX_independent_economic_plan
+				bonus = 1.0
+				uses = 2
+				category = electronics
 			}
 		}
 	}
