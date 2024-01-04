@@ -1287,7 +1287,7 @@ focus_tree = {
 			has_global_flag = SAX_win_flag
 		} 
 		available = {
-			num_of_controlled_factories > 60
+			num_of_controlled_factories > 50
 			has_completed_focus = SAX_industry_revitalization
 		}
 		x = -3
@@ -1295,6 +1295,8 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_infrastructure_recovery
 		completion_reward = {
+			remove_ideas = SAX_economic_vacuum
+			add_dynamic_modifier = { modifier = SAX_second_five_year_plan }
 		}
 	}
 	focus = { #독일 국영철도
@@ -1343,12 +1345,19 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_deutsche_reichsbahn
 		completion_reward = {
+			add_tech_bonus = {
+				name = SAX_collectivization
+				bonus = 1.0
+				uses = 2
+				category = industry
+				category = electronics
+			}
 		}
 	}
 	focus = { #대학 재건
 		id = SAX_university_reconstruction
 		icon = GFX_focus_research
-		cost = 5
+		cost = 10
 		prerequisite = { focus = SAX_GS_economic_cooperation focus = SAX_proprietary_technology }
 		x = 2
 		y = 3
@@ -1361,14 +1370,27 @@ focus_tree = {
 	focus = { #국가계획위원회
 		id = SAX_staatliche_plankommission
 		icon = GFX_goal_generic_production2
-		cost = 5
+		cost = 10
 		prerequisite = { focus = SAX_1st_five_year_plan }
 		prerequisite = { focus = SAX_deutsche_reichsbahn }
+		available = {
+			num_of_controlled_factories > 60
+		}
 		x = 1
 		y = 1
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_1st_five_year_plan
 		completion_reward = {
+			add_to_variable = { SAX_fyp_production_factory_efficiency_gain_factor = 0.05 }
+			add_to_variable = { SAX_fyp_production_factory_max_efficiency_factor = 0.05 }
+			add_to_variable = { SAX_fyp_consumer_goods_factor = 0.05 }
+			add_to_variable = { SAX_fyp_industry_repair_factor = -0.10 }
+			custom_effect_tooltip = SAX_staatliche_plankommission_tt
+			hidden_effect = {
+				#Swap dynamic modifier to change icon
+				remove_dynamic_modifier = { modifier = SAX_second_five_year_plan }
+				add_dynamic_modifier = { modifier = SAX_second_five_year_plan_up }
+			}
 		}
 	}
 	focus = { #산업부
@@ -1381,32 +1403,68 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_staatliche_plankommission
 		completion_reward = {
+			add_to_variable = { SAX_fyp_industry_repair_factor = -0.10 }
+			add_to_variable = { SAX_fyp_industrial_concern_cost_factor = -0.15 }
+			add_to_variable = { SAX_fyp_production_speed_industrial_complex_factor = 0.05 }
+			custom_effect_tooltip = SAX_industrieministerien_tt
 		}
 	}
 	focus = { #기업에 양보
 		id = SAX_concessions_to_companies
 		icon = GFX_goal_generic_construction
-		cost = 5
+		cost = 10
 		prerequisite = { focus = SAX_staatliche_plankommission }
 		mutually_exclusive = { focus = SAX_collectivization }
+		available = {
+			num_of_controlled_factories > 70
+		}
 		x = 2
 		y = 2
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_staatliche_plankommission
 		completion_reward = {
+			hidden_effect = {
+				#Swap dynamic modifier to change icon
+				remove_dynamic_modifier = { modifier = SAX_second_five_year_plan_up }
+				add_dynamic_modifier = { modifier = SAX_second_five_year_plan_right }
+			}
+			add_to_variable = { SAX_fyp_industrial_concern_cost_factor = -0.15 }
+			add_to_variable = { SAX_fyp_production_speed_industrial_complex_factor = 0.05 }
+			custom_effect_tooltip = SAX_concessions_to_companies_tt
+			add_political_power = -20
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.1
+			}
 		}
 	}
 	focus = { #집산화
 		id = SAX_collectivization
 		icon = GFX_focus_generic_communist_industry
-		cost = 5
+		cost = 10
 		prerequisite = { focus = SAX_staatliche_plankommission }
 		mutually_exclusive = { focus = SAX_concessions_to_companies }
+		available = {
+			num_of_controlled_factories > 70
+		}
 		x = -2
 		y = 2
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_staatliche_plankommission
 		completion_reward = {
+			hidden_effect = {
+				#Swap dynamic modifier to change icon
+				remove_dynamic_modifier = { modifier = SAX_second_five_year_plan_up }
+				add_dynamic_modifier = { modifier = SAX_second_five_year_plan_left }
+			}
+			add_to_variable = { SAX_fyp_consumer_goods_factor = -0.02 }
+			add_to_variable = { production_speed_arms_factory_factor = 0.05 }
+			custom_effect_tooltip = SAX_collectivization_tt
+			add_stability = -0.05
+			add_popularity = {
+				ideology = communism
+				popularity = 0.1
+			}
 		}
 	}
 }
