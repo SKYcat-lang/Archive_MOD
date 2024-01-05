@@ -1051,7 +1051,7 @@ focus_tree = {
 		allow_branch = {
 			has_global_flag = SAX_win_flag
 		} 
-		x = 14
+		x = 16
 		y = 0
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		complete_tooltip = {
@@ -1420,6 +1420,7 @@ focus_tree = {
 		cost = 5
 		prerequisite = { focus = SAX_staatliche_plankommission }
 		available = {
+			num_of_controlled_factories > 150
 			NOT = {
 				has_idea = SAX_great_leap_forward
 				has_completed_focus = SAX_the_left
@@ -1436,102 +1437,43 @@ focus_tree = {
 			custom_effect_tooltip = SAX_industrieministerien_tt
 		}
 	}
-	focus = { #독립 경제 계획
-		id = SAX_independent_economic_plan
-		icon = GFX_focus_spr_masters_of_our_own_fate
-		cost = 10
+	focus = { #토지 개혁
+		id = SAX_land_reform
+		icon = GFX_focus_generic_agricultural_subsidies
+		cost = 5
 		prerequisite = { focus = SAX_staatliche_plankommission }
-		mutually_exclusive = { focus = SAX_soviet_economic_advisor }
 		available = {
-			num_of_controlled_factories > 70
 			NOT = {
 				has_idea = SAX_great_leap_forward
 				has_completed_focus = SAX_the_left
 			}
 		}
-		x = 2
-		y = 2
+		x = -4
+		y = 1
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_staatliche_plankommission
 		completion_reward = {
-			hidden_effect = {
-				#Swap dynamic modifier to change icon
-				remove_dynamic_modifier = { modifier = SAX_second_five_year_plan_up }
-				add_dynamic_modifier = { modifier = SAX_second_five_year_plan_right }
-			}
-			add_to_variable = { SAX_fyp_industrial_concern_cost_factor = -0.15 }
 			add_to_variable = { SAX_fyp_production_speed_industrial_complex_factor = 0.05 }
-			custom_effect_tooltip = SAX_independent_economic_plan_tt
-			add_political_power = -20
-			add_popularity = {
-				ideology = communism
-				popularity = -0.05
-			}
-			add_tech_bonus = {
-				name = SAX_independent_economic_plan
-				bonus = 1.0
-				uses = 2
-				category = industry
-				category = electronics
-			}
-		}
-	}
-	focus = { #소련 경제 고문 초청
-		id = SAX_soviet_economic_advisor
-		icon = GFX_focus_generic_soviet_politics
-		cost = 10
-		prerequisite = { focus = SAX_staatliche_plankommission }
-		mutually_exclusive = { focus = SAX_independent_economic_plan }
-		available = {
-			num_of_controlled_factories > 70
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
-		}
-		x = -2
-		y = 2
-		search_filters = {FOCUS_FILTER_INDUSTRY}
-		relative_position_id = SAX_staatliche_plankommission
-		completion_reward = {
-			hidden_effect = {
-				#Swap dynamic modifier to change icon
-				remove_dynamic_modifier = { modifier = SAX_second_five_year_plan_up }
-				add_dynamic_modifier = { modifier = SAX_second_five_year_plan_left }
-			}
-			add_to_variable = { SAX_fyp_consumer_goods_factor = -0.02 }
-			add_to_variable = { production_speed_arms_factory_factor = 0.05 }
-			custom_effect_tooltip = SAX_soviet_economic_advisor_tt
-			add_stability = -0.05
-			add_popularity = {
-				ideology = communism
-				popularity = 0.1
-			}
-
-			add_tech_bonus = {
-				name = SAX_collectivization
-				bonus = 1
-				uses = 2
-				category = cat_production
-			}
+			add_to_variable = { SAX_fyp_global_building_slots_factor = 0.05 }
+			custom_effect_tooltip = SAX_land_reform_tt
 		}
 	}
 	focus = { #집산화
 		id = SAX_collectivization
 		icon = GFX_focus_prc_agrarian_socialism
 		cost = 10
-		prerequisite = { focus = SAX_soviet_economic_advisor }
-		mutually_exclusive = { focus = SAX_NEP_copy focus = SAX_nazi_personnel_reappointed }
+		prerequisite = { focus = SAX_land_reform }
+		mutually_exclusive = { focus = SAX_NEP_copy }
 		available = {
 			NOT = {
 				has_idea = SAX_great_leap_forward
 				has_completed_focus = SAX_the_left
 			}
 		}
-		x = 0
-		y = 1
+		x = -1
+		y = 2
 		search_filters = {FOCUS_FILTER_INDUSTRY}
-		relative_position_id = SAX_soviet_economic_advisor
+		relative_position_id = SAX_land_reform
 		completion_reward = {
 			add_to_variable = { SAX_fyp_consumer_goods_factor = -0.02 }
 			add_to_variable = { SAX_fyp_global_building_slots_factor = 0.10 }
@@ -1606,69 +1548,184 @@ focus_tree = {
 		id = SAX_NEP_copy
 		icon = GFX_focus_generic_treaty
 		cost = 10
-		prerequisite = { focus = SAX_soviet_economic_advisor focus = SAX_independent_economic_plan }
-		mutually_exclusive = { focus = SAX_collectivization focus = SAX_nazi_personnel_reappointed }
+		prerequisite = { focus = SAX_land_reform }
+		mutually_exclusive = { focus = SAX_collectivization }
 		available = {
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+		}
+		x = 1
+		y = 2
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_land_reform
+		completion_reward = {
+			add_to_variable = { SAX_fyp_consumer_goods_factor = -0.20 }
+			add_to_variable = { SAX_fyp_production_speed_industrial_complex_factor = -0.15 }
+			add_to_variable = { SAX_fyp_production_speed_arms_factory_factor = -0.15 }
+			custom_effect_tooltip = SAX_NEP_copy_tt
+		}
+	}
+	focus = { #독립 경제 계획
+		id = SAX_independent_economic_plan
+		icon = GFX_focus_spr_masters_of_our_own_fate
+		cost = 10
+		prerequisite = { focus = SAX_staatliche_plankommission }
+		mutually_exclusive = { focus = SAX_soviet_economic_advisor }
+		available = {
+			num_of_controlled_factories > 70
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+		}
+		x = 2
+		y = 2
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_staatliche_plankommission
+		completion_reward = {
+			hidden_effect = {
+				#Swap dynamic modifier to change icon
+				remove_dynamic_modifier = { modifier = SAX_second_five_year_plan_up }
+				add_dynamic_modifier = { modifier = SAX_second_five_year_plan_right }
+			}
+			add_to_variable = { SAX_fyp_industrial_concern_cost_factor = -0.15 }
+			add_to_variable = { SAX_fyp_production_speed_industrial_complex_factor = 0.05 }
+			custom_effect_tooltip = SAX_independent_economic_plan_tt
+			add_political_power = -20
+			add_popularity = {
+				ideology = communism
+				popularity = -0.05
+			}
+			add_tech_bonus = {
+				name = SAX_independent_economic_plan
+				bonus = 1.0
+				uses = 2
+				category = industry
+				category = electronics
+			}
+		}
+	}
+	focus = { #소련 경제 고문 초청
+		id = SAX_soviet_economic_advisor
+		icon = GFX_focus_generic_soviet_politics
+		cost = 10
+		prerequisite = { focus = SAX_staatliche_plankommission }
+		mutually_exclusive = { focus = SAX_independent_economic_plan }
+		available = {
+			num_of_controlled_factories > 70
 			NOT = {
 				has_idea = SAX_great_leap_forward
 				has_completed_focus = SAX_the_left
 			}
 		}
 		x = -2
+		y = 2
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_staatliche_plankommission
+		completion_reward = {
+			hidden_effect = {
+				#Swap dynamic modifier to change icon
+				remove_dynamic_modifier = { modifier = SAX_second_five_year_plan_up }
+				add_dynamic_modifier = { modifier = SAX_second_five_year_plan_left }
+			}
+			add_to_variable = { SAX_fyp_consumer_goods_factor = -0.02 }
+			add_to_variable = { SAX_fyp_production_speed_arms_factory_factor = 0.05 }
+			custom_effect_tooltip = SAX_soviet_economic_advisor_tt
+			add_stability = -0.05
+			add_popularity = {
+				ideology = communism
+				popularity = 0.1
+			}
+
+			add_tech_bonus = {
+				name = SAX_collectivization
+				bonus = 1
+				uses = 2
+				category = cat_production
+			}
+		}
+	}
+	focus = { #체제의 토대
+		id = SAX_foundation_of_the_system
+		icon = GFX_focus_generic_strike_at_democracy2
+		cost = 10
+		prerequisite = { focus = SAX_soviet_economic_advisor focus = SAX_independent_economic_plan }
+		available = {
+		}
+		x = -2
 		y = 1
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_independent_economic_plan
 		completion_reward = {
+			add_stability = 0.05
+		}
+	}
+	focus = { #반파시즘 투쟁
+		id = SAX_antifascism_struggle
+		icon = GFX_focus_focus_fra_fascist_threat
+		cost = 5
+		prerequisite = { focus = SAX_foundation_of_the_system }
+		mutually_exclusive = { focus = SAX_nazi_personnel_reappointed }
+		available = {
+		}
+		x = 1
+		y = 2
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_soviet_economic_advisor
+		completion_reward = {
+			add_political_power = 60
+			add_stability = -0.05
+			add_war_support = 0.10
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.25
+			}
 		}
 	}
 	focus = { #나치 인사 재등용
 		id = SAX_nazi_personnel_reappointed
 		icon = GFX_focus_generic_german_trade
-		cost = 10
-		prerequisite = { focus = SAX_independent_economic_plan }
-		mutually_exclusive = { focus = SAX_collectivization focus = SAX_NEP_copy }
+		cost = 5
+		prerequisite = { focus = SAX_foundation_of_the_system }
+		mutually_exclusive = { focus = SAX_antifascism_struggle }
 		available = {
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
 		}
-		x = 0
-		y = 1
+		x = -1
+		y = 2
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_independent_economic_plan
 		completion_reward = {
-			add_popularity = {
-				ideology = communism
-				popularity = -0.10
-			}
+			add_war_support = -0.10
 			add_popularity = {
 				ideology = fascism
 				popularity = 0.05
 			}
 			add_popularity = {
-				ideology = democratic
-				popularity = 0.05
+				ideology = communism
+				popularity = -0.10
 			}
-			add_war_support = -0.05
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = SAX_ernst_grosmann_idea
 		}
 	}
 	focus = { #중앙 계획적 경제 구조
 		id = SAX_centrally_planned_economic_structure
 		icon = GFX_focus_generic_support_the_left_right
 		cost = 10
-		prerequisite = { focus = SAX_collectivization }
+		prerequisite = { focus = SAX_soviet_economic_advisor }
 		available = {
-			num_of_controlled_factories > 80
+			num_of_controlled_factories > 90
 			NOT = {
 				has_idea = SAX_great_leap_forward
 				has_completed_focus = SAX_the_left
 			}
 		}
 		x = 0
-		y = 2
+		y = 3
 		search_filters = {FOCUS_FILTER_INDUSTRY}
-		relative_position_id = SAX_collectivization
+		relative_position_id = SAX_soviet_economic_advisor
 		completion_reward = {
 		}
 	}
@@ -1676,18 +1733,18 @@ focus_tree = {
 		id = SAX_sponsorship_of_stateowned_enterprises
 		icon = GFX_focus_generic_modernize_industry
 		cost = 10
-		prerequisite = { focus = SAX_nazi_personnel_reappointed }
+		prerequisite = { focus = SAX_independent_economic_plan }
 		available = {
-			num_of_controlled_factories > 80
+			num_of_controlled_factories > 90
 			NOT = {
 				has_idea = SAX_great_leap_forward
 				has_completed_focus = SAX_the_left
 			}
 		}
 		x = 0
-		y = 2
+		y = 3
 		search_filters = {FOCUS_FILTER_INDUSTRY}
-		relative_position_id = SAX_nazi_personnel_reappointed
+		relative_position_id = SAX_independent_economic_plan
 		completion_reward = {
 		}
 	}
@@ -1697,7 +1754,7 @@ focus_tree = {
 		cost = 10
 		prerequisite = { focus = SAX_centrally_planned_economic_structure focus = SAX_sponsorship_of_stateowned_enterprises }
 		available = {
-			num_of_controlled_factories > 100
+			num_of_controlled_factories > 120
 			NOT = {
 				has_idea = SAX_great_leap_forward
 				has_completed_focus = SAX_the_left
@@ -1749,6 +1806,8 @@ focus_tree = {
 				uses = 2
 				category = electronics
 			}
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = SAX_Robotron
 		}
 	}
 }
