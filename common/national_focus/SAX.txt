@@ -469,8 +469,25 @@ focus_tree = {
 					add_idea = SAX_low_popular_support_2
 				}
 			}
-			add_stability = 0.10
 			add_political_power = 60
+			add_stability = 0.10
+		}
+	}
+	focus = { #자유독일노동조합연맹
+		id = SAX_workers_state
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		cost = 5
+		prerequisite = { focus = SAX_all_power_to_the_soviets }
+		x = -1
+		y = 1
+		relative_position_id = SAX_all_power_to_the_soviets
+		completion_reward = {
+			add_political_power = 75
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
+			add_war_support = 0.15
 		}
 	}
 	focus = { #폐허에서 부활하여
@@ -853,25 +870,14 @@ focus_tree = {
 		completion_reward = {
 		}
 	}
-	focus = { #노동자의 국가
-		id = SAX_workers_state
-		icon = GFX_focus_eng_concessions_to_the_trade_unions
-		cost = 10
-		prerequisite = { focus = SAX_coalition_radicalization }
-		x = -1
-		y = 1
-		relative_position_id = SAX_coalition_radicalization
-		completion_reward = {
-		}
-	}
 	focus = { #생산 수단의 사회화
 		id = SAX_socialization_of_means_of_production
 		icon = GFX_focus_spr_class_war
 		cost = 10
-		prerequisite = { focus = SAX_workers_state }
-		x = 0
+		prerequisite = { focus = SAX_coalition_radicalization }
+		x = -1
 		y = 3
-		relative_position_id = SAX_workers_state
+		relative_position_id = SAX_coalition_radicalization
 		completion_reward = {
 		}
 	}
@@ -882,7 +888,7 @@ focus_tree = {
 		prerequisite = { focus = SAX_socialization_of_means_of_production }
 		mutually_exclusive = { focus = SAX_german_peoples_army }
 		x = -1
-		y = 1
+		y = 2
 		relative_position_id = SAX_socialization_of_means_of_production
 		completion_reward = {
 		}
@@ -894,7 +900,7 @@ focus_tree = {
 		prerequisite = { focus = SAX_socialization_of_means_of_production }
 		mutually_exclusive = { focus = SAX_maintenance_of_dislocation_tissue }
 		x = 1
-		y = 1
+		y = 2
 		relative_position_id = SAX_socialization_of_means_of_production
 		completion_reward = {
 		}
@@ -1416,7 +1422,7 @@ focus_tree = {
 	}
 	focus = { #산업부
 		id = SAX_industrieministerien
-		icon = GFX_goal_generic_soviet_construction
+		icon = GFX_focus_spa_the_spanish_miracle
 		cost = 5
 		prerequisite = { focus = SAX_staatliche_plankommission }
 		available = {
@@ -1475,7 +1481,7 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_land_reform
 		completion_reward = {
-			add_to_variable = { SAX_fyp_consumer_goods_factor = -0.02 }
+			add_to_variable = { SAX_fyp_consumer_goods_factor = 0.02 }
 			add_to_variable = { SAX_fyp_global_building_slots_factor = 0.10 }
 			custom_effect_tooltip = SAX_collectivization_tt
 			add_stability = -0.05
@@ -1561,10 +1567,73 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_land_reform
 		completion_reward = {
-			add_to_variable = { SAX_fyp_consumer_goods_factor = -0.20 }
+			add_to_variable = { SAX_fyp_consumer_goods_factor = -0.25 }
 			add_to_variable = { SAX_fyp_production_speed_industrial_complex_factor = -0.15 }
 			add_to_variable = { SAX_fyp_production_speed_arms_factory_factor = -0.15 }
 			custom_effect_tooltip = SAX_NEP_copy_tt
+			add_stability = 0.10
+			add_war_support = 0.10
+			add_popularity = {
+				ideology = communism
+				popularity = -0.05
+			}
+		}
+	}
+	focus = { #농업생산협동조합
+		id = SAX_landwirtschaftliche_produktionsgenossenschaft
+		icon = GFX_goal_generic_soviet_construction
+		cost = 10
+		prerequisite = { focus = SAX_collectivization }
+		available = {
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+		}
+		x = 0
+		y = 2
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_collectivization
+		completion_reward = {
+			add_to_variable = { SAX_fyp_global_building_slots_factor = 0.05 }
+			add_to_variable = { SAX_fyp_production_factory_efficiency_gain_factor = 0.05 }
+			custom_effect_tooltip = SAX_landwirtschaftliche_produktionsgenossenschaft_tt
+			add_stability = -0.05
+			add_war_support = -0.05
+			random_owned_state = {
+				limit = {
+					is_fully_controlled_by = ROOT
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_fully_controlled_by = ROOT
+					arms_factory < 1
+					dockyard < 1
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
 		}
 	}
 	focus = { #독립 경제 계획
@@ -1752,6 +1821,7 @@ focus_tree = {
 		id = SAX_1st_five_year_plan_end
 		icon = GFX_focus_generic_industry_2
 		cost = 10
+		prerequisite = { focus = SAX_landwirtschaftliche_produktionsgenossenschaft }
 		prerequisite = { focus = SAX_centrally_planned_economic_structure focus = SAX_sponsorship_of_stateowned_enterprises }
 		available = {
 			num_of_controlled_factories > 120
