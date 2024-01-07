@@ -338,6 +338,81 @@ on_actions = {
 				}
 				INS = { set_capital = { state = 335 } }
 			}
+            if = {
+                limit = {
+                    FROM = {
+                        original_tag = TRM
+                        has_power_balance = { id = TRM_power_balance }
+						is_power_balance_side_active = {
+							id = TRM_power_balance
+							side = TRM_SIS_side
+						}
+                    }
+					FROM.FROM = {
+						is_owned_by = TRM
+					}
+                }
+				if = { # 핵심주를 잃어버렸을때
+					limit = {
+						FROM.FROM = {
+							is_core_of = TRM
+						}
+					}
+					if = { # 처음 한번만 이벤트로 언급 됨
+						limit = {
+							FROM = { check_variable = { TRM_lost_core = 0 } }
+						}
+						FROM = {
+							set_variable = { TRM_lost_core = FROM.FROM }
+							country_event = { id = TRM_event.101 hours = 1 }
+						}
+					}
+					else = { # 다음번에는 그냥 잃어버림 아 ㅋㅋ
+		                add_power_balance_value = {
+		                    id = TRM_power_balance
+    	                    value = 0.15
+	                    }
+					}
+					#log = "-20% BoP due to losing core [FROM.FROM.GetName]"
+				}
+            }
+			else_if = { # 트리니티가 핵심주를 되찾았을때
+				limit = {
+					ROOT = {
+                        original_tag = TRM
+                        has_power_balance = { id = TRM_power_balance }
+						is_power_balance_side_active = {
+							id = TRM_power_balance
+							side = TRM_SIS_side
+						}
+					}
+					FROM.FROM = {
+						is_owned_by = TRM
+					}
+				}
+				if = {
+					limit = {
+						FROM.FROM = {
+							is_core_of = TRM
+						}
+					}
+					if = { # 처음에는 알려줌
+						limit = {
+							check_variable = { TRM_reclaimed_core = 0 }
+						}
+						# 오직 한번만 
+						set_variable = { TRM_reclaimed_core = FROM.FROM }
+						country_event = { id = TRM_event.102 hours = 1 }
+					}
+					else = {
+		                add_power_balance_value = {
+		                    id = TRM_power_balance
+    	                    value = -0.15
+	                    }
+						#log = "Reducing BoP modifier penalty due to getting back core [FROM.FROM.GetName]"
+					}
+				}
+			}
 		}
 	}
  	on_capitulation = {
