@@ -447,7 +447,7 @@ focus_tree = {
 		allow_branch = {
 			has_global_flag = SAX_win_flag
 		} 
-		x = 33
+		x = 35
 		y = 0
 		completion_reward = {
 			set_cosmetic_tag = GER
@@ -521,6 +521,10 @@ focus_tree = {
 		relative_position_id = SAX_auferstanden_aus_ruinen
 		completion_reward = {
 			add_war_support = 0.10
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
 			if = {
 				limit = { has_idea = SAX_conflict_with_the_social_democratic_left }
 				remove_ideas = SAX_conflict_with_the_social_democratic_left
@@ -528,6 +532,16 @@ focus_tree = {
 			add_timed_idea = {
 				idea = SAX_aftermath_of_the_purge
 				days = 120
+			}
+			set_party_name = {
+				ideology = communism
+				long_name = SAX_coalition_radicalization_communism_party
+				name = SAX_coalition_radicalization_communism_party
+			}
+			set_party_name = {
+				ideology = democratic
+				long_name = SAX_coalition_radicalization_democratic_party
+				name = SAX_coalition_radicalization_democratic_party
 			}
 		}
 	}
@@ -537,11 +551,18 @@ focus_tree = {
 		cost = 5
 		prerequisite = { focus = SAX_auferstanden_aus_ruinen }
 		mutually_exclusive = { focus = SAX_coalition_radicalization }
+		available = {
+			has_country_flag = GAEBALJUNG
+		}
 		x = 1
 		y = 1
 		relative_position_id = SAX_auferstanden_aus_ruinen
 		completion_reward = {
 			add_war_support = -0.10
+			add_popularity = {
+				ideology = communism
+				popularity = -0.10
+			}
 			if = {
 				limit = { has_idea = SAX_conflict_with_the_social_democratic_left }
 				swap_ideas = {
@@ -552,6 +573,8 @@ focus_tree = {
 			else = {
 				add_ideas = SAX_coalition_split_accelerates
 			}
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = SAX_kurt_schumacher_idea
 		}
 	}
 	focus = { #재건
@@ -766,6 +789,10 @@ focus_tree = {
 		icon = GFX_focus_chi_mission_to_the_soviet_union
 		cost = 5
 		available = {
+			has_country_leader = {
+				character = SAX_thalman
+				ruling_only = yes
+			}
 			is_in_faction = no
 			not = { has_war_with = SOU }
 			SOV_comintern_joinable = yes 
@@ -774,8 +801,8 @@ focus_tree = {
 			is_in_faction_with = SOU
 		}
 		prerequisite = { focus = SAX_coalition_radicalization }
-		mutually_exclusive = { focus = SAX_thelman_ouster }
-		x = -3
+		mutually_exclusive = { focus = SAX_marxist_liberation }
+		x = -4
 		y = 1
 		relative_position_id = SAX_coalition_radicalization
 		completion_reward = {
@@ -788,12 +815,21 @@ focus_tree = {
 		id = SAX_thelman_ouster
 		icon = GFX_goal_generic_war_with_comintern
 		cost = 5
-		prerequisite = { focus = SAX_coalition_radicalization }
-		mutually_exclusive = { focus = SAX_join_the_comintern }
-		x = -7
+		prerequisite = { focus = SAX_auferstanden_aus_ruinen }
+		x = -8
 		y = 1
-		relative_position_id = SAX_coalition_radicalization
+		relative_position_id = SAX_auferstanden_aus_ruinen
 		completion_reward = {
+			add_country_leader_role = {
+				character = SAX_walter
+				promote_leader = yes
+				country_leader = {
+					ideology = stalinism
+					traits={ SAX_low_political_power }
+					expire="1965.1.1.1"
+				}
+			}
+			add_ideas = SAX_political_turmoil
 		}
 	}
 	focus = { #마르크스-레닌주의
@@ -801,7 +837,6 @@ focus_tree = {
 		icon = GFX_focus_SOV_the_path_of_marxism_leninism
 		cost = 10
 		prerequisite = { focus = SAX_join_the_comintern }
-		mutually_exclusive = { focus = SAX_marxist_liberation }
 		x = 0
 		y = 1
 		relative_position_id = SAX_join_the_comintern
@@ -811,13 +846,14 @@ focus_tree = {
 	focus = { #마르크스주의 해방
 		id = SAX_marxist_liberation
 		icon = GFX_focus_eng_liberate_the_home_of_marx
-		cost = 10
-		prerequisite = { focus = SAX_thelman_ouster focus = SAX_join_the_comintern }
-		mutually_exclusive = { focus = SAX_ML_line }
+		cost = 5
+		prerequisite = { focus = SAX_thelman_ouster }
+		mutually_exclusive = { focus = SAX_join_the_comintern }
 		x = 1
 		y = 1
 		relative_position_id = SAX_thelman_ouster
 		completion_reward = {
+			add_political_power = 120
 			add_ideas = SAX_starting_point_of_revolution
 		}
 	}
@@ -841,23 +877,30 @@ focus_tree = {
 		icon = GFX_focus_SOV_the_glory_of_the_red_army_communism
 		cost = 10
 		prerequisite = { focus = SAX_eliminate_counterrevolution }
-		prerequisite = { focus = SAX_marxist_liberation }
 		mutually_exclusive = { focus = SAX_rosa_luxembourg_succession }
 		available = {
 			has_idea = SAX_great_leap_forward
 			has_country_flag = {
 				flag = SAX_mass_mobilization_flag
-				days > 100
+				days > 120
 			}
 			communism > 0.90
 		}
-		x = -4
+		x = -3
 		y = 1
-		relative_position_id = SAX_marxist_liberation
+		relative_position_id = SAX_eliminate_counterrevolution
 		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = -0.15
+			}
 			swap_ideas = {
 				remove_idea = SAX_great_leap_forward
 				add_idea = SAX_great_leap_forward_2
+			}
+			if = {
+				limit = { has_idea = SAX_take_control_of_politics }
+				remove_ideas = SAX_take_control_of_politics
 			}
 		}
 	}
@@ -865,9 +908,9 @@ focus_tree = {
 		id = SAX_rosa_luxembourg_succession
 		icon = GFX_focus_generic_support_the_left_right
 		cost = 10
-		prerequisite = { focus = SAX_marxist_liberation }
+		prerequisite = { focus = SAX_marxist_liberation focus = SAX_eliminate_counterrevolution }
 		mutually_exclusive = { focus = SAX_the_left }
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = SAX_marxist_liberation
 		completion_reward = {
