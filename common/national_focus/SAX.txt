@@ -471,6 +471,10 @@ focus_tree = {
 			}
 			add_political_power = 60
 			add_stability = 0.10
+			set_province_name = {
+				id = 6521
+				name = SAX_BERLIN
+			}
 		}
 	}
 	focus = { #자유독일노동조합연맹
@@ -641,6 +645,7 @@ focus_tree = {
 					set_state_flag = SAX_industry_revitalization_flag
 				}
 			}
+			country_event = SAX.8
 		}
 	}
 	focus = { #대중동원
@@ -843,6 +848,12 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAX_join_the_comintern
 		completion_reward = {
+			add_dynamic_modifier = { modifier = SOV_the_politburo_good_dynamic_modifier }
+			add_political_power = 60
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
 		}
 	}
 	focus = { #마르크스주의 해방
@@ -919,6 +930,178 @@ focus_tree = {
 		y = 1
 		relative_position_id = SAX_marxist_liberation
 		completion_reward = {
+		}
+	}
+	focus = { #사회주의 헌법
+		id = SAX_socialist_constitution
+		icon = GFX_goal_support_communism
+		cost = 5
+		prerequisite = { focus = SAX_rosa_luxembourg_succession focus = SAX_ML_line }
+		x = -2
+		y = 1
+		relative_position_id = SAX_ML_line
+		completion_reward = {
+			add_political_power = 120
+			add_stability = 0.10
+		}
+	}
+	focus = { #전선 국가
+		id = SAX_front_country
+		icon = GFX_focus_generic_combined_arms
+		cost = 10
+		prerequisite = { focus = SAX_socialist_constitution }
+		x = 0
+		y = 2
+		relative_position_id = SAX_socialist_constitution
+		completion_reward = {
+			custom_effect_tooltip = SOV_war_economy_stability_tt
+			if = {
+				limit = {
+					has_war = no
+				}
+				add_stability = -0.1
+			}
+			else = {
+				custom_effect_tooltip = SOV_war_economy_stability_war_tt
+			}
+			if = {
+				limit = {
+					NOT = { has_idea = war_economy }
+					NOT = { has_idea = tot_economic_mobilisation }
+				}
+				add_ideas = war_economy
+			}
+			random_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { #행정 중앙화
+		id = SAX_central_administrative_concentration
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 10
+		prerequisite = { focus = SAX_ML_line }
+		x = 0
+		y = 1
+		relative_position_id = SAX_ML_line
+		completion_reward = {
+			add_to_variable = { SOV_the_politburo_political_power_factor = 0.05 }
+			add_to_variable = { SOV_the_politburo_drift_defence_factor = 0.05 } 
+			custom_effect_tooltip = SOV_the_stalin_constitution_ns_tt
+		}
+	}
+	focus = { #프롤레타리아 독재
+		id = SAX_proletarian_dictatorship
+		icon = GFX_focus_spr_masters_of_our_own_fate
+		cost = 10
+		prerequisite = { focus = SAX_socialist_constitution }
+		prerequisite = { focus = SAX_central_administrative_concentration }
+		x = -1
+		y = 1
+		relative_position_id = SAX_central_administrative_concentration
+		completion_reward = {
+			add_to_variable = { SOV_the_politburo_political_power_factor = 0.05 }
+			add_to_variable = { SOV_the_politburo_max_surrender_limit_offset = 0.05 }
+			custom_effect_tooltip = SOV_the_workers_dictatorship_ns_tt
+
+			add_political_power = 50
+		}
+	}
+	focus = { #모스크바 추종
+		id = SAX_moscow_follow
+		icon = GFX_focus_NOR_moscows_education_centers
+		cost = 10
+		prerequisite = { focus = SAX_central_administrative_concentration }
+		x = 1
+		y = 1
+		relative_position_id = SAX_central_administrative_concentration
+		completion_reward = {
+			add_to_variable = { SOV_the_politburo_communism_drift = 0.05 }
+			add_to_variable = { SOV_the_politburo_drift_defence_factor = 0.05 } 
+			add_to_variable = { SOV_the_politburo_defensive_war_stability_factor = 0.25 } 
+			custom_effect_tooltip = SOV_socialism_in_one_country_ns_tt
+			add_war_support = 0.05
+		}
+	}
+	focus = { #베를린 조약기구
+		id = SAX_berlin_treaty_organization
+		icon = GFX_goal_generic_alliance
+		cost = 5
+		prerequisite = { focus = SAX_front_country }
+		mutually_exclusive = { focus = SAX_internationalism }
+		available = {
+			is_in_faction_with = SOU
+		}
+		x = 0
+		y = 1
+		relative_position_id = SAX_front_country
+		completion_reward = {
+			add_war_support = 0.05 
+			news_event = BA_news.50
+			every_country = {
+				limit = { 
+					is_in_faction_with = ROOT 
+					OR = { 
+						is_subject = no
+						has_autonomy_state = autonomy_dominion
+					}
+				}
+				add_ideas = SAX_berlin_pact_ratified
+			}
+			if = {
+				limit = { is_in_faction = yes }
+				set_faction_name = berlin_pact
+			}
+			set_global_flag = berlin_pact_suggested
+		}
+	}
+	focus = { #국제주의
+		id = SAX_internationalism
+		icon = GFX_goal_generic_attack_allies
+		cost = 10
+		prerequisite = { focus = SAX_front_country }
+		prerequisite = { focus = SAX_proletarian_dictatorship focus = SAX_moscow_follow }
+		mutually_exclusive = { focus = SAX_berlin_treaty_organization }
+		x = 0
+		y = 3
+		relative_position_id = SAX_central_administrative_concentration
+		completion_reward = {
+			add_stability = -0.15
+			add_war_support = -0.15
+			every_country = {
+				limit = {
+					is_in_faction_with = ROOT
+					is_faction_leader = yes
+				}
+				puppet = ROOT
+			}
 		}
 	}
 	focus = { #생산 수단의 사회화
