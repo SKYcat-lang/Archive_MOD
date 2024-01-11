@@ -1574,11 +1574,23 @@ focus_tree = {
 		cost = 5
 		prerequisite = { focus = SAX_deutsche_reichsbahn }
 		mutually_exclusive = { focus = SAX_proprietary_technology }
+		available = {
+			NOT = { has_war_with = SOU }
+			SOU = {
+				has_government = ROOT
+			}
+			is_in_faction_with = SOU
+		}
 		x = 1
 		y = 1
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_deutsche_reichsbahn
 		completion_reward = {
+			SOU = {
+				country_event = SAX.9
+			}
+			custom_effect_tooltip = if_they_accept_tt
+			event_option_tooltip = SAX.10.a
 		}
 	}
 	focus = { #독자 기술
@@ -1617,7 +1629,7 @@ focus_tree = {
 	focus = { #국제 무역
 		id = SAX_international_trade
 		icon = GFX_goal_generic_positive_trade_relations
-		cost = 5
+		cost = 10
 		prerequisite = { focus = SAX_GS_economic_cooperation focus = SAX_proprietary_technology }
 		x = 3
 		y = 3
@@ -1697,7 +1709,6 @@ focus_tree = {
 		relative_position_id = SAX_staatliche_plankommission
 		completion_reward = {
 			add_to_variable = { SAX_fyp_production_speed_industrial_complex_factor = 0.05 }
-			add_to_variable = { SAX_fyp_global_building_slots_factor = 0.05 }
 			custom_effect_tooltip = SAX_land_reform_tt
 		}
 	}
@@ -1718,8 +1729,8 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_land_reform
 		completion_reward = {
-			add_to_variable = { SAX_fyp_consumer_goods_factor = 0.02 }
-			add_to_variable = { SAX_fyp_global_building_slots_factor = 0.10 }
+			add_to_variable = { SAX_fyp_consumer_goods_factor = -0.02 }
+			add_to_variable = { SAX_fyp_global_building_slots_factor = 0.05 }
 			custom_effect_tooltip = SAX_collectivization_tt
 			add_stability = -0.05
 			add_war_support = -0.05
@@ -1827,7 +1838,7 @@ focus_tree = {
 				has_completed_focus = SAX_the_left
 			}
 		}
-		x = 0
+		x = 1
 		y = 2
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_collectivization
@@ -1946,7 +1957,7 @@ focus_tree = {
 			}
 
 			add_tech_bonus = {
-				name = SAX_collectivization
+				name = SAX_soviet_economic_advisor
 				bonus = 1
 				uses = 2
 				category = cat_production
@@ -2034,6 +2045,9 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_soviet_economic_advisor
 		completion_reward = {
+			add_to_variable = { SAX_fyp_industrial_capacity_factory = 0.05 }
+			add_to_variable = { SAX_fyp_industrial_capacity_dockyard = 0.05 }
+			custom_effect_tooltip = SAX_centrally_planned_economic_structure_tt
 		}
 	}
 	focus = { #국영기업 투자
@@ -2053,6 +2067,11 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_independent_economic_plan
 		completion_reward = {
+			add_to_variable = { SAX_fyp_consumer_goods_factor = 0.02 }
+			add_to_variable = { SAX_fyp_production_speed_industrial_complex_factor = 0.05 }
+			add_to_variable = { SAX_fyp_line_change_production_efficiency_factor = 0.05 }
+			custom_effect_tooltip = SAX_sponsorship_of_stateowned_enterprises_tt
+
 		}
 	}
 	focus = { #5개년 계획 종료
@@ -2116,6 +2135,132 @@ focus_tree = {
 			}
 			custom_effect_tooltip = available_designer
 			show_ideas_tooltip = SAX_Robotron
+		}
+	}
+	focus = { #경공업 전환
+		id = SAX_light_industrial_transition
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 10
+		prerequisite = { focus = SAX_2st_five_year_plan }
+		prerequisite = { focus = SAX_electronics_investment }
+		x = -1
+		y = 3
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_electronics_investment
+		completion_reward = {
+			add_tech_bonus = {
+				name = SAX_independent_economic_plan
+				bonus = 1.0
+				uses = 2
+				category = industry
+				category = electronics
+			}
+			random_owned_state = {
+				limit = {
+					is_fully_controlled_by = ROOT
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = { #노동자 확보
+		id = SAX_securing_the_workforce
+		icon = GFX_focus_generic_workers_and_farmers_rise
+		cost = 10
+		prerequisite = { focus = SAX_2st_five_year_plan }
+		prerequisite = { focus = SAX_electronics_investment }
+		x = 1
+		y = 3
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_electronics_investment
+		completion_reward = {
+		}
+	}
+	focus = { #계획 경제 개선
+		id = SAX_planned_economic_improvement
+		icon = GFX_focus_SOV_organize_wreckers
+		cost = 10
+		prerequisite = { focus = SAX_2st_five_year_plan }
+		x = 0
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_2st_five_year_plan
+		completion_reward = {
+		}
+	}
+	focus = { #소련 비난
+		id = SAX_soviet_condemnation
+		icon = GFX_focus_attack_soviet
+		cost = 5
+		prerequisite = { focus = SAX_2st_five_year_plan }
+		prerequisite = { focus = SAX_landwirtschaftliche_produktionsgenossenschaft }
+		mutually_exclusive = { focus = SAX_partial_market_economy }
+		available = {
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+			SOU = {
+				has_completed_focus = SOV_back_to_the_nep
+			}
+		}
+		x = -5
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_2st_five_year_plan
+		completion_reward = {
+			add_to_variable = { SAX_fyp_consumer_goods_factor = -0.02 }
+			add_to_variable = { SAX_fyp_industrial_capacity_factory = 0.05 }
+			custom_effect_tooltip = SAX_soviet_condemnation_tt
+			add_opinion_modifier = {
+				target = SOU
+				modifier = SAX_the_stalinist
+			}
+		}
+	}
+	focus = { #부분 시장 경제
+		id = SAX_partial_market_economy
+		icon = GFX_focus_SOV_rebuild_the_savior_cathedral
+		cost = 5
+		prerequisite = { focus = SAX_2st_five_year_plan }
+		prerequisite = { focus = SAX_landwirtschaftliche_produktionsgenossenschaft }
+		mutually_exclusive = { focus = SAX_soviet_condemnation }
+		available = {
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+			SOU = {
+				OR = {
+					has_completed_focus = SOV_back_to_the_nep
+					NOT = {
+						has_country_leader = {
+							character = SOV_iosif_stalin
+							ruling_only = yes
+						}
+					}
+				}
+			}
+		}
+		x = -3
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		relative_position_id = SAX_2st_five_year_plan
+		completion_reward = {
+			add_to_variable = { SAX_fyp_consumer_goods_factor = 0.05 }
+			add_to_variable = { SAX_fyp_production_speed_industrial_complex_factor = 0.05 }
+			add_to_variable = { SAX_fyp_production_speed_arms_factory_factor = 0.10 }
+			custom_effect_tooltip = SAX_partial_market_economy_tt
 		}
 	}
 }
