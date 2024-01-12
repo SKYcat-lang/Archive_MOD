@@ -447,8 +447,9 @@ focus_tree = {
 		allow_branch = {
 			has_global_flag = SAX_win_flag
 		} 
-		x = 36
+		x = 45
 		y = 0
+		search_filters = {FOCUS_FILTER_POLITICAL}
 		completion_reward = {
 			set_cosmetic_tag = TRM_collapse_win
 			if = {
@@ -485,6 +486,7 @@ focus_tree = {
 		x = -1
 		y = 1
 		relative_position_id = SAX_all_power_to_the_soviets
+		search_filters = {FOCUS_FILTER_POLITICAL}
 		completion_reward = {
 			add_political_power = 25
 			add_popularity = {
@@ -505,6 +507,7 @@ focus_tree = {
 		x = 0
 		y = 2
 		relative_position_id = SAX_all_power_to_the_soviets
+		search_filters = {FOCUS_FILTER_POLITICAL}
 		completion_reward = {
 			add_timed_idea = {
 				idea = SAX_fever_of_victory
@@ -1140,6 +1143,9 @@ focus_tree = {
 		y = 2
 		relative_position_id = SAX_socialization_of_means_of_production
 		completion_reward = {
+			add_war_support = 0.10
+			army_experience = 25
+			custom_effect_tooltip = SAX_army_tt
 		}
 	}
 	focus = { #국제 외교
@@ -1262,9 +1268,9 @@ focus_tree = {
 		icon = GFX_focus_ger_oppose_hitler
 		cost = 10
 		prerequisite = { focus = SAX_industry_revitalization }
-		prerequisite = { focus = SAX_german_soviet_military_cooperation focus = SAX_market_activation focus = SAX_maintenance_of_dislocation_tissue focus = SAX_german_peoples_army }
+		prerequisite = { focus = SAX_german_soviet_military_cooperation focus = SAX_market_activation focus = SAX_maintenance_of_dislocation_tissue focus = SAX_german_peoples_army focus = SAX_berlin_treaty_organization }
 		x = 0
-		y = 5
+		y = 6
 		relative_position_id = SAX_aftermath_recovery
 		completion_reward = {
 			if = {
@@ -1575,11 +1581,7 @@ focus_tree = {
 		prerequisite = { focus = SAX_deutsche_reichsbahn }
 		mutually_exclusive = { focus = SAX_proprietary_technology }
 		available = {
-			NOT = { has_war_with = SOU }
-			SOU = {
-				has_government = ROOT
-			}
-			is_in_faction_with = SOU
+			SOV_will_support = yes
 		}
 		x = 1
 		y = 1
@@ -1633,7 +1635,7 @@ focus_tree = {
 		prerequisite = { focus = SAX_GS_economic_cooperation focus = SAX_proprietary_technology }
 		x = 3
 		y = 3
-		search_filters = {FOCUS_FILTER_RESEARCH}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_deutsche_reichsbahn
 		completion_reward = {
 			add_ideas = SAX_intershop
@@ -1703,7 +1705,7 @@ focus_tree = {
 				has_completed_focus = SAX_the_left
 			}
 		}
-		x = -4
+		x = -3
 		y = 1
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_staatliche_plankommission
@@ -1724,7 +1726,7 @@ focus_tree = {
 				has_completed_focus = SAX_the_left
 			}
 		}
-		x = -1
+		x = 0
 		y = 2
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_land_reform
@@ -1810,7 +1812,7 @@ focus_tree = {
 				has_completed_focus = SAX_the_left
 			}
 		}
-		x = 1
+		x = -2
 		y = 2
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_land_reform
@@ -1838,8 +1840,8 @@ focus_tree = {
 				has_completed_focus = SAX_the_left
 			}
 		}
-		x = 1
-		y = 2
+		x = 0
+		y = 3
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		relative_position_id = SAX_collectivization
 		completion_reward = {
@@ -2078,7 +2080,6 @@ focus_tree = {
 		id = SAX_1st_five_year_plan_end
 		icon = GFX_focus_generic_industry_2
 		cost = 10
-		prerequisite = { focus = SAX_landwirtschaftliche_produktionsgenossenschaft }
 		prerequisite = { focus = SAX_centrally_planned_economic_structure focus = SAX_sponsorship_of_stateowned_enterprises }
 		available = {
 			num_of_controlled_factories > 120
@@ -2098,6 +2099,7 @@ focus_tree = {
 		id = SAX_2st_five_year_plan
 		icon = GFX_focus_generic_industry_3
 		cost = 10
+		prerequisite = { focus = SAX_landwirtschaftliche_produktionsgenossenschaft }
 		prerequisite = { focus = SAX_1st_five_year_plan_end }
 		available = {
 			num_of_controlled_factories > 150
@@ -2191,6 +2193,12 @@ focus_tree = {
 		icon = GFX_focus_SOV_organize_wreckers
 		cost = 10
 		prerequisite = { focus = SAX_2st_five_year_plan }
+		available = {
+			NOT = {
+				has_idea = SAX_great_leap_forward
+				has_completed_focus = SAX_the_left
+			}
+		}
 		x = 0
 		y = 1
 		search_filters = {FOCUS_FILTER_INDUSTRY}
@@ -2203,7 +2211,6 @@ focus_tree = {
 		icon = GFX_focus_attack_soviet
 		cost = 5
 		prerequisite = { focus = SAX_2st_five_year_plan }
-		prerequisite = { focus = SAX_landwirtschaftliche_produktionsgenossenschaft }
 		mutually_exclusive = { focus = SAX_partial_market_economy }
 		available = {
 			NOT = {
@@ -2233,7 +2240,6 @@ focus_tree = {
 		icon = GFX_focus_SOV_rebuild_the_savior_cathedral
 		cost = 5
 		prerequisite = { focus = SAX_2st_five_year_plan }
-		prerequisite = { focus = SAX_landwirtschaftliche_produktionsgenossenschaft }
 		mutually_exclusive = { focus = SAX_soviet_condemnation }
 		available = {
 			NOT = {
@@ -2261,6 +2267,362 @@ focus_tree = {
 			add_to_variable = { SAX_fyp_production_speed_industrial_complex_factor = 0.05 }
 			add_to_variable = { SAX_fyp_production_speed_arms_factory_factor = 0.10 }
 			custom_effect_tooltip = SAX_partial_market_economy_tt
+		}
+	}
+	focus = { #육군 수립
+		id = SAX_establishing_an_army
+		icon = GFX_goal_generic_army_doctrines
+		cost = 10
+		allow_branch = {
+			has_global_flag = SAX_win_flag
+		} 
+		available = {
+			OR = {
+				has_completed_focus = SAX_german_peoples_army
+				has_completed_focus = SAX_german_army_reconstruction
+			}
+		}
+		x = 29
+		y = 0
+		search_filters = {FOCUS_FILTER_ARMY_XP}
+		completion_reward = {
+		}
+	}
+	focus = { #독일의 붉은 군대
+		id = SAX_germany_red_army
+		icon = GFX_focus_SOV_mobilization_plan
+		cost = 10
+		prerequisite = { focus = SAX_establishing_an_army }
+		mutually_exclusive = { focus = SAX_prussian_army }
+		available = {
+		}
+		relative_position_id = SAX_establishing_an_army
+		x = -1
+		y = 1
+		search_filters = {FOCUS_FILTER_ARMY_XP}
+		completion_reward = {
+		}
+	}
+	focus = { #프로이센 군국주의
+		id = SAX_prussian_army
+		icon = GFX_focus_generic_military_mission
+		cost = 10
+		prerequisite = { focus = SAX_establishing_an_army }
+		mutually_exclusive = { focus = SAX_germany_red_army }
+		available = {
+		}
+		relative_position_id = SAX_establishing_an_army
+		x = 1
+		y = 1
+		search_filters = {FOCUS_FILTER_ARMY_XP}
+		completion_reward = {
+		}
+	}
+	focus = { #군 내 계급 도입
+		id = SAX_introduction_of_ranks_within_the_military
+		icon = GFX_goal_generic_small_arms
+		cost = 10
+		prerequisite = { focus = SAX_germany_red_army focus = SAX_prussian_army }
+		available = {
+		}
+		relative_position_id = SAX_establishing_an_army
+		x = 0
+		y = 2
+		search_filters = {FOCUS_FILTER_ARMY_XP}
+		completion_reward = {
+		}
+	}
+	focus = { #독일 국방위원회
+		id = SAX_german_NVR
+		icon = GFX_goal_generic_defence
+		cost = 10
+		prerequisite = { focus = SAX_heavy_industry }
+		prerequisite = { focus = SAX_establishing_an_army }
+		available = {
+		}
+		relative_position_id = SAX_establishing_an_army
+		x = -5
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		completion_reward = {
+			add_dynamic_modifier = { modifier = SOV_defense_industry_dynamic_modifier }
+		}
+	}
+	focus = { #방위산업체
+		id = SAX_defense_industry
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 10
+		prerequisite = { focus = SAX_german_NVR }
+		available = {
+		}
+		relative_position_id = SAX_german_NVR
+		x = -1
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH}
+		completion_reward = {
+			add_to_variable = { SOV_defense_industry_production_factory_max_efficiency_factor = 0.05 }
+			add_to_variable = { SOV_defense_industry_production_factory_efficiency_gain_factor = -0.05 }
+			custom_effect_tooltip = SOV_pc_of_mechanical_engineering_ns_tt
+
+			add_tech_bonus = {
+				name = SAX_defense_industry
+				bonus = 1
+				uses = 2
+				category = motorized_equipment
+				category = infantry_weapons
+			}
+			if = {
+				limit = {
+					capital_scope = {
+						free_building_slots = {
+							building = arms_factory
+							size > 2
+							include_locked = yes
+						}
+						is_owned_by = SAX
+					}
+
+				}
+				capital_scope = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			else = {
+				random_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+				random_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	focus = { #소련 라이센스
+		id = SAX_soviet_tank_design
+		icon = GFX_goal_generic_production2
+		cost = 5
+		prerequisite = { focus = SAX_german_NVR }
+		available = {
+			SOV_will_support = yes
+		}
+		relative_position_id = SAX_german_NVR
+		x = 1
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH FOCUS_FILTER_ARMY_XP}
+		completion_reward = {
+			add_to_variable = { SOV_defense_industry_production_factory_efficiency_gain_factor = 0.05 }
+			custom_effect_tooltip = SAX_soviet_tank_design_tt
+			army_experience = 15
+			add_tech_bonus = {
+				name = SAX_german_tank_industry
+				bonus = 0.75
+				uses = 2
+				category = armor
+			}
+		}
+	}
+	focus = { #독일 전차 공단
+		id = SAX_german_tank_industry
+		icon = GFX_goal_generic_army_tanks
+		cost = 10
+		prerequisite = { focus = SAX_defense_industry }
+		available = {
+		}
+		relative_position_id = SAX_soviet_tank_design
+		x = -3
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		completion_reward = {
+			add_to_variable = { SOV_defense_industry_land_equipment_upgrade_xp_cost = -0.1 }
+			custom_effect_tooltip = SOV_development_of_tankograd_ns_tt
+
+			if = {
+				limit = {
+					capital_scope = {
+						free_building_slots = {
+							building = arms_factory
+							size > 2
+							include_locked = yes
+						}
+						is_owned_by = SAX
+					}
+
+				}
+				capital_scope = {
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+				}
+			}
+			else = {
+				random_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+				random_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 1
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	focus = { #독일-소련 합동연구
+		id = SAX_german_soviet_joint_research
+		icon = GFX_focus_research
+		cost = 5
+		prerequisite = { focus = SAX_soviet_tank_design }
+		available = {
+		}
+		relative_position_id = SAX_soviet_tank_design
+		x = 1
+		y = 1
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		completion_reward = {
+			set_variable = { SOV_defense_industry_tank_manufacturer_cost_factor = -0.25 }
+			custom_effect_tooltip = SOV_superior_war_machines_ns_tt
+			unlock_military_industrial_organization_tooltip = mio:SOV_morozov_design_bureau_organization
+			unlock_military_industrial_organization_tooltip = mio:SOV_kirov_organization
+		}
+	}
+	focus = { #국산 장비 시험
+		id = SAX_domestic_equipment_testing
+		icon = GFX_goal_generic_army_artillery
+		cost = 10
+		prerequisite = { focus = SAX_defense_industry focus = SAX_soviet_tank_design }
+		available = {
+		}
+		relative_position_id = SAX_soviet_tank_design
+		x = -1
+		y = 1
+		search_filters = {FOCUS_FILTER_RESEARCH}
+		completion_reward = {
+			add_to_variable = { SOV_defense_industry_breakthrough_factor = 0.05 }
+			add_to_variable = { SOV_defense_industry_army_artillery_defence_factor = 0.05 }
+			custom_effect_tooltip = SOV_pc_of_mortar_armament_ns_tt
+
+			add_tech_bonus = {
+				name = SAX_domestic_equipment_testing
+				bonus = 0.75
+				uses = 2
+				category = artillery
+				category = support_tech
+			}
+		}
+	}
+	focus = { #독일 방위산업
+		id = SAX_german_defense_industry
+		icon = GFX_focus_generic_tank_production
+		cost = 10
+		prerequisite = { focus = SAX_german_tank_industry focus = SAX_german_soviet_joint_research focus = SAX_domestic_equipment_testing }
+		available = {
+		}
+		relative_position_id = SAX_soviet_tank_design
+		x = -1
+		y = 2
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+		completion_reward = {
+			add_to_variable = { SOV_defense_industry_breakthrough_factor = 0.05 }
+			add_to_variable = { SOV_defense_industry_line_change_production_efficiency_factor = 0.05 }
+			custom_effect_tooltip = SAX_german_defense_industry_tt
+			random_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
 		}
 	}
 }
