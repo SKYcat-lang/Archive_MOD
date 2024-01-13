@@ -1007,6 +1007,10 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 120
 			add_stability = 0.10
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
 		}
 	}
 	focus = { #전선 국가
@@ -2372,9 +2376,10 @@ focus_tree = {
 			add_to_variable = { SAX_army_mobilization_speed = 0.05 }
 			add_to_variable = { SAX_army_army_org_factor = -0.05 }
 			add_to_variable = { SAX_army_experience_gain_army_factor = -0.10 }
-			add_to_variable = { SAX_army_experience_loss_factor = -0.25 }
+			add_to_variable = { SAX_army_experience_loss_factor = -0.15 }
 			add_to_variable = { SAX_army_mobilization_laws_cost_factor = -0.20 }
 			custom_effect_tooltip = SAX_germany_red_army_tt
+			add_political_power = 60
 		}
 	}
 	focus = { #프로이센 군국주의
@@ -2390,6 +2395,21 @@ focus_tree = {
 		y = 1
 		search_filters = {FOCUS_FILTER_ARMY_XP}
 		completion_reward = {
+			hidden_effect = {
+				remove_dynamic_modifier = { modifier = SAX_army_dynamic_modifier }
+				add_dynamic_modifier = { modifier = SAX_prussian_army_dynamic_modifier }
+			}
+			add_to_variable = { SAX_army_mobilization_speed = -0.05 }
+			add_to_variable = { SAX_army_conscription = 0.02 }
+			add_to_variable = { SAX_army_army_org_factor = 0.05 }
+			add_to_variable = { SAX_army_experience_loss_factor = -0.25 }
+			add_to_variable = { SAX_army_mobilization_laws_cost_factor = -0.10 }
+			custom_effect_tooltip = SAX_prussian_army_tt
+			add_stability = -0.05
+			add_popularity = {
+				ideology = communism
+				popularity = -0.10
+			}
 		}
 	}
 	focus = { #군 내 계급 도입
@@ -2411,6 +2431,9 @@ focus_tree = {
 			}
 		}
 		completion_reward = {
+			add_to_variable = { SAX_army_experience_loss_factor = -0.10 }
+			add_to_variable = { SAX_army_max_command_power_mult = 0.10 }
+			custom_effect_tooltip = SAX_introduction_of_ranks_within_the_military_tt
 			if = {
 				limit = {
 					has_idea = SAX_no_rank_army
@@ -2461,6 +2484,26 @@ focus_tree = {
 			add_ideas = SAX_peoples_defense_corps_idea
 		}
 	}
+	focus = { #소련 영토 적응
+		id = SAX_joint_military_training
+		icon = GFX_focus_prc_infiltration
+		cost = 10
+		prerequisite = { focus = SAX_disbanding_the_militia focus = SAX_peoples_defense_corps }
+		available = {
+			SOV_will_support = yes
+		}
+		relative_position_id = SAX_disbanding_the_militia
+		x = -2
+		y = 1
+		search_filters = {FOCUS_FILTER_ARMY_XP}
+		completion_reward = {
+			add_to_variable = { SAX_army_winter_attrition_factor = -0.05 }
+			add_to_variable = { SAX_army_acclimatization_cold_climate_gain_factor = 0.10 }
+			add_to_variable = { SAX_army_acclimatization_hot_climate_gain_factor = 0.05 }
+			add_to_variable = { SAX_army_terrain_penalty_reduction = 0.05 }
+			custom_effect_tooltip = SAX_joint_military_training_tt
+		}
+	}
 	focus = { #전위대 해산
 		id = SAX_vanguard_disbanded
 		icon = GFX_goal_generic_war_with_comintern
@@ -2473,6 +2516,9 @@ focus_tree = {
 		y = 2
 		search_filters = {FOCUS_FILTER_ARMY_XP}
 		completion_reward = {
+			add_to_variable = { SAX_army_conscription_factor = 0.03 }
+			add_to_variable = { SAX_army_training_time_factor = -0.05 }
+			custom_effect_tooltip = SAX_vanguard_disbanded_tt
 			delete_unit_template_and_units = {
 				division_template = "Vanguard"
 				disband = yes #will refund equipment and manpower
@@ -2511,7 +2557,7 @@ focus_tree = {
 	focus = { #군 부패 금지
 		id = SAX_no_military_corruption
 		icon = GFX_goal_generic_secret_weapon
-		cost = 10
+		cost = 5
 		prerequisite = { focus = SAX_officer_promotion }
 		mutually_exclusive = { focus = SAX_discipline_comes_first }
 		available = {
@@ -2521,12 +2567,21 @@ focus_tree = {
 		y = 1
 		search_filters = {FOCUS_FILTER_ARMY_XP}
 		completion_reward = {
+			add_to_variable = { SAX_army_conscription_factor = 0.03 }
+			add_to_variable = { SAX_army_army_org_regain = 0.10 }
+			add_to_variable = { SAX_army_experience_loss_factor = -0.10 }
+			custom_effect_tooltip = SAX_no_military_corruption_tt
+			add_stability = 0.05
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
 		}
 	}
 	focus = { #규율 우선
 		id = SAX_discipline_comes_first
 		icon = GFX_focus_secret_rearmament
-		cost = 10
+		cost = 5
 		prerequisite = { focus = SAX_officer_promotion }
 		mutually_exclusive = { focus = SAX_no_military_corruption }
 		available = {
@@ -2536,6 +2591,9 @@ focus_tree = {
 		y = 1
 		search_filters = {FOCUS_FILTER_ARMY_XP}
 		completion_reward = {
+			add_to_variable = { SAX_army_army_org_factor = 0.05 }
+			add_to_variable = { SAX_army_experience_loss_factor = -0.25 }
+			custom_effect_tooltip = SAX_discipline_comes_first_tt
 		}
 	}
 	focus = { #국가인민군
@@ -2641,6 +2699,9 @@ focus_tree = {
 		y = 1
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 		completion_reward = {
+			add_to_variable = { SAX_army_unit_infantry_design_cost_factor = -0.1 }
+			add_to_variable = { SAX_army_unit_artillery_brigade_design_cost_factor = -0.1 }
+			custom_effect_tooltip = SAX_german_NVR_tt
 			add_dynamic_modifier = { modifier = SOV_defense_industry_dynamic_modifier }
 		}
 	}
