@@ -1,5 +1,6 @@
 name="Blue Archive MOD"
 replace_path="gfx/loadingscreens"
+replace_path="common/bookmarks"
 replace_path="common/national_focus/france.txt"
 replace_path="common/national_focus/hungary.txt"
 replace_path="common/ai_strategy_plans/FRA_historical_strategy_plan.txt"
