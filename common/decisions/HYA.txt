@@ -44,3 +44,185 @@ HYA_d_rnseorogur = {
 		}
 	}
 }
+HYA_anarchism = {
+	HYA_demobilization = {
+		priority = 100
+		icon = GFX_decision_generic_political_rally
+		activation = {
+			OR = {
+				has_idea = limited_conscription
+				has_idea = extensive_conscription
+				has_idea = service_by_requirement
+				has_idea = all_adults_serve
+				has_idea = scraping_the_barrel
+			}
+		}
+		available = {
+			NOT = {
+				OR = {
+					has_idea = limited_conscription
+					has_idea = extensive_conscription
+					has_idea = service_by_requirement
+					has_idea = all_adults_serve
+					has_idea = scraping_the_barrel
+				}
+			}
+		}
+		is_good = no
+		days_mission_timeout = 2
+		ai_will_do = {
+			factor = 1000
+		}
+		timeout_effect = {
+			add_power_balance_value = {
+				id = HYA_anarch_power_balance
+				value = -0.30
+			}
+			if = {
+				limit = { has_idea = SPR_collectivized_society }
+				add_ideas = civilian_economy
+			}
+			if = {
+				limit = { check_variable = { HYA_anarch_state_drift_defence_factor > -1.00 } }
+				custom_effect_tooltip = HYA_anarchism1__tt
+				add_to_variable = { HYA_anarch_state_drift_defence_factor = -0.30 }
+			}
+			if = {
+				limit = { check_variable = { HYA_anarch_state_production_speed_buildings_factor > -0.80 } }
+				custom_effect_tooltip = HYA_anarchism2__tt
+				add_to_variable = { HYA_anarch_state_production_speed_buildings_factor = -0.10 }
+			}
+			if = {
+				limit = { check_variable = { HYA_anarch_state_conscription > -0.03 } }
+				custom_effect_tooltip = HYA_anarchism3__tt
+				add_to_variable = { HYA_anarch_state_conscription = -0.010 }
+			}
+		}
+	}
+	HYA_collectivized_society = {
+		icon = GFX_decision_generic_merge_plant_materiel
+		available = {
+			power_balance_value = {
+				id = HYA_anarch_power_balance
+				value > 0.50
+			}
+			NOT = { has_idea = SPR_collectivized_society }
+		}
+		ai_will_do = {
+			factor = 1000
+		}
+		cost = 200
+		days_remove = 70
+		modifier = {
+			political_power_cost = 1.00
+		}
+		remove_effect = {
+			add_ideas = SPR_collectivized_society
+		}
+	}
+	HYA_anarchism_education = {
+		icon = GFX_decision_eng_propaganda_campaigns
+		ai_will_do = {
+			factor = 1000
+		}
+		available = {
+			check_variable = {
+				HYA_anarch_state_drift_defence_factor < 0.00
+			}
+		}
+		cost = 75
+		days_remove = 30
+		modifier = {
+			political_power_cost = 0.25
+		}
+		remove_effect = {
+			custom_effect_tooltip = HYA_anarchism1_tt
+			add_to_variable = { HYA_anarch_state_drift_defence_factor = 0.05 }
+			add_power_balance_value = {
+				id = HYA_anarch_power_balance
+				value = 0.03
+			}
+		}
+	}
+	HYA_socialization_production = {
+		icon = GFX_decision_generic_construction
+		ai_will_do = {
+			factor = 1000
+		}
+		available = {
+			check_variable = {
+				HYA_anarch_state_production_speed_buildings_factor < 0.10
+			}
+		}
+		cost = 75
+		days_remove = 30
+		modifier = {
+			political_power_cost = 0.25
+		}
+		
+		remove_effect = {
+			custom_effect_tooltip = HYA_anarchism2_tt
+			add_to_variable = { HYA_anarch_state_production_speed_buildings_factor = 0.05 }
+			add_power_balance_value = {
+				id = HYA_anarch_power_balance
+				value = 0.03
+			}
+		}
+	}
+	HYA_strengthening_the_militia = {
+		icon = GFX_decision_generic_military
+		ai_will_do = {
+			factor = 1000
+		}
+		available = {
+			check_variable = {
+				HYA_anarch_state_conscription < 0.08
+			}
+		}
+		cost = 75
+		days_remove = 30
+		modifier = {
+			political_power_cost = 0.25
+		}
+		
+		remove_effect = {
+			custom_effect_tooltip = HYA_anarchism3_tt
+			add_to_variable = { HYA_anarch_state_conscription = 0.005 }
+			add_power_balance_value = {
+				id = HYA_anarch_power_balance
+				value = 0.03
+			}
+		}
+	}
+	HYA_improving_social_structure = {
+		icon = GFX_decision_generic_operation
+		ai_will_do = {
+			factor = 1000
+		}
+		available = {
+			NOT = {
+				check_variable = {
+					HYA_anarch_state_production_speed_buildings_factor < 0.10
+				}
+				check_variable = {
+					HYA_anarch_state_production_speed_buildings_factor < 0.10
+				}
+				check_variable = {
+					HYA_anarch_state_conscription < 0.08
+				}
+			}
+		}
+		cost = 50
+		days_remove = 20
+		modifier = {
+			political_power_cost = 0.25
+		}
+		
+		remove_effect = {
+			add_power_balance_value = {
+				id = HYA_anarch_power_balance
+				value = 0.05
+			}
+		}
+	}
+}
