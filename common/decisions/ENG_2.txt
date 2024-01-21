@@ -757,19 +757,94 @@ political_actions = {
 		cost = 25
 	
 		complete_effect = {
-			random_country = {
+			if = {
 				limit = {
-					has_war_with = GEI
-					is_major = yes
-					is_ally_with = ROOT
+					any_country = {
+						has_war_with = GEI
+						is_major = yes
+						is_ally_with = ROOT
+						NOT = { tag = ENG }
+					}
 				}
-				set_autonomy = {
-					target = ROOT
-					autonomous_state = autonomy_supervised_state
-					end_wars = no
-					end_civil_wars = no
+				random_country = {
+					limit = {
+						has_war_with = GEI
+						is_major = yes
+						is_ally_with = ROOT
+						NOT = { tag = ENG }
+					}
+					set_autonomy = {
+						target = ROOT
+						autonomous_state = autonomy_supervised_state
+						end_wars = no
+						end_civil_wars = no
+					}
 				}
 			}
+			else = {
+				USA = {
+					set_autonomy = {
+						target = ROOT
+						autonomous_state = autonomy_supervised_state
+						end_wars = no
+						end_civil_wars = no
+					}
+				}
+			}
+		}
+	}
+}
+war_measures = {
+
+	USA_no_retreat = {
+
+		icon = GFX_decision_generic_assassination
+
+		allowed = {
+			original_tag = USA
+		}
+
+		available = {
+			any_state = {
+				is_core_of = USA
+				NOT = {
+					is_controlled_by = USA
+				}
+			}
+			has_civil_war = no
+			surrender_progress > 0.50
+		}
+
+		cost = 25
+		fire_only_once = yes
+		ai_will_do = {
+			factor = 400
+		}
+
+		visible = {
+			has_defensive_war = yes
+			CSA = {
+				exists = no
+			}
+			CSB = {
+				exists = yes
+			}
+		}
+
+		complete_effect = {
+			if = {
+				limit = {
+					has_stability < 0.3
+				}
+				set_stability = 0.3
+			}
+			if = {
+				limit = {
+					has_war_support < 0.8
+				}
+				set_war_support = 0.8
+			}
+			add_ideas = USA_no_retreat
 		}
 	}
 }
