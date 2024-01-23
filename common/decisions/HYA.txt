@@ -226,3 +226,272 @@ HYA_anarchism = {
 		}
 	}
 }
+HYA_centralization_power_balance_decisions = {
+
+	HYA_compromise_with_cantons = {
+		
+		icon = GFX_decision_SWI_focus_on_swiss_unity
+
+		priority = 99 
+
+		allowed = { original_tag = HYA }
+
+		visible = {
+			always = yes
+		}
+
+		available = {
+			is_power_balance_in_range = {
+				id = HYA_centralization_bop
+				range = HYA_centralization_bop_balanced
+			}
+		}
+
+		days_remove = 30 	
+
+		complete_effect = {
+			add_power_balance_value = {
+				id = HYA_centralization_bop
+				value = 0.2
+			}		
+		}
+
+		remove_effect = {
+			add_political_power = 150
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 150
+				is_ai = yes 
+				is_historical_focus_on = yes 
+				#AND = {
+					#is_ai = yes 
+					#OR = {
+						#AND = {
+							#is_historical_focus_on = yes 
+							#has_game_rule = {
+							#	rule = SWI_AI_BEHAVIOR
+							#	option = DEFAULT
+							#}
+						#}
+						#has_country_flag = SWI_AI_RANDOM_HISTORICAL
+						#has_game_rule = {
+						#	rule = SWI_ai_behavior
+						#	option = HISTORICAL
+						#}
+					#}	
+				#}
+				NOT = {
+					is_power_balance_in_range  = {
+						id = HYA_centralization_bop
+						range = HYA_centralization_bop_fully_splits
+					}
+				}
+			}
+			modifier = {
+				factor = 5 
+				power_balance_value = {
+					id = HYA_centralization_bop
+					value < 0
+				}	
+			}
+		}
+	}
+
+	HYA_consolidate_council_power = {
+
+		icon = GFX_decision_SWI_consolidate_council_power
+
+		priority = 98 
+
+		allowed = { original_tag = HYA }
+
+		visible = {
+			always = yes
+			has_completed_focus = HYA_focus_47
+		}
+
+		available = {
+			is_power_balance_in_range = {
+				id = HYA_centralization_bop
+				range < HYA_centralization_bop_balanced
+			}
+		}
+
+		days_remove = 30 	
+
+		cost = 80
+
+		complete_effect = {
+		
+		}
+
+		remove_effect = {
+			add_power_balance_value = {
+				id = HYA_centralization_bop
+				value = -0.2
+			}			
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 50
+				is_ai = yes 
+				is_historical_focus_on = yes 
+			}
+			modifier = {
+				add = 50
+				NOT = {
+					is_power_balance_in_range  = {
+						id = HYA_centralization_bop
+						range = HYA_centralization_bop_fully_authority
+					}
+				}
+			}
+			modifier = {
+				add = 100 
+				is_power_balance_in_range  = {
+					id = HYA_centralization_bop
+					range = HYA_centralization_bop_fully_splits
+				}
+			}
+			modifier = {
+				add = 200 
+				has_political_power > 700
+			}
+		}	
+	}
+
+	HYA_push_for_centralization = {
+	
+		icon = GFX_decision_SWI_elect_confederation_president
+
+		priority = 97
+		
+		days_remove = 45 
+
+		cost = 100
+
+		available = {
+			is_power_balance_in_range = {
+				id = HYA_centralization_bop
+				range = HYA_centralization_bop_balanced
+			}
+		}
+
+		complete_effect = {
+			add_stability = -0.3
+		}
+
+		remove_Effect = {
+			add_power_balance_value = {
+				id = HYA_centralization_bop
+				value = -0.4
+			}
+		}
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 50
+				is_ai = yes 
+				is_historical_focus_on = no 
+			}
+		}		
+	}
+
+	HYA_strengthen_military_high_command = {
+
+		icon = GFX_decision_SWI_guisan_speech
+
+		priority = 96 
+
+		days_remove = 30
+
+		cost = 150
+
+		remove_effect = {	
+			add_power_balance_value = {
+				id = HYA_centralization_bop
+				value = -0.30
+			}
+			add_command_power = 50
+			army_experience = 25
+		}
+
+		ai_will_do = {
+			base = 50
+			modifier = {
+				add = 50
+				is_ai = yes 
+				is_historical_focus_on = yes 
+			}
+			modifier = {
+				add = 200 
+				has_political_power > 400
+			}
+			modifier = {
+				add = 100
+				NOT = {
+					has_completed_focus = HYA_focus_31
+				}
+			}
+			modifier = {
+				factor = 0.3
+				is_power_balance_in_range  = {
+					id = HYA_centralization_bop
+					range = HYA_centralization_bop_fully_authority
+				}	
+			}
+		}
+	}
+
+	HYA_rally_cantonal_defense = { #Make it available only when certain ranges are active. 
+		
+		icon = GFX_decision_eng_propaganda_campaigns
+
+		priority = 95 
+
+		available = {
+			NOT = {
+				is_power_balance_in_range = {
+					id = HYA_centralization_bop
+					range = HYA_centralization_bop_fully_authority
+				}
+			}
+		} 
+		days_remove = 30
+
+		cost = 50  
+		
+		remove_effect = {
+			add_power_balance_value = {
+				id = HYA_centralization_bop
+				value = 0.15
+			}
+			add_command_power = 25
+		}
+
+		ai_will_do = {
+			base = 0
+			modifier = {
+				add = 100
+				is_ai = yes 
+				is_historical_focus_on = yes 
+			}
+			modifier = {
+				add = 150 
+				has_political_power > 700
+			}
+			modifier = {
+				factor = 0 
+				is_power_balance_in_range = {
+					id = HYA_centralization_bop
+					range = HYA_centralization_bop_fully_splits
+				}
+			}
+		}
+	}
+}

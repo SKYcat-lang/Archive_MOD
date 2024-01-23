@@ -526,6 +526,7 @@ focus_tree = {
 		cost = 10
 		available = {
 			has_global_flag = KIABOTOS_Escape
+			has_character = HYA_WAKAMO
 		}   
 		bypass = {
 		}
@@ -703,6 +704,10 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 60
 			add_stability = 0.10
+			set_power_balance = {
+				id = HYA_centralization_bop
+				set_default = yes
+			}
 		}
 	}
 	focus = { #
@@ -796,6 +801,7 @@ focus_tree = {
 		y = 1
 		cost = 10
 		available = {
+			has_character = HYA_SHIZUKO
 		}   
 		bypass = {
 		}
@@ -1099,6 +1105,10 @@ focus_tree = {
 		bypass = {
 		}
 		completion_reward = {
+			add_power_balance_value = {
+				id = HYA_centralization_bop
+				value = -0.1 
+			}
 			add_popularity = {
 				ideology = neutrality
 				popularity = 0.05
@@ -1113,7 +1123,6 @@ focus_tree = {
 		id = HYA_focus_67
 		icon = GFX_focus_generic_annex_country
 		prerequisite = { focus = HYA_focus_68 }
-		prerequisite = { focus = HYA_focus_69 }
 		#mutually_exclusive = { focus = HYA_focus_ }
 		x = 0
 		y = 3
@@ -1164,20 +1173,55 @@ focus_tree = {
 		x = -1
 		y = 1
 		cost = 10
-		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY}
 		available = {
+			OR = {
+				has_government = neutrality
+				neutrality > 0.25
+			}
+			is_power_balance_in_range = {
+				id = HYA_centralization_bop
+				range < HYA_centralization_bop_very_splits  
+			}
 		}   
 		bypass = {
 		}
 		completion_reward = {
-			add_political_power = 60
-			add_stability = 0.10
-			add_popularity = {
-				ideology = neutrality
-				popularity = 0.05
+			if = {
+				limit = {
+					NOT = {
+						is_power_balance_in_range = {
+							id = HYA_centralization_bop
+							range < HYA_centralization_bop_very_splits  
+						}
+					}
+				}
+				custom_effect_tooltip = HYA_focus_69_tt
+				add_stability  = -0.10
 			}
-			custom_effect_tooltip = HYA_focus_69_tt
-			add_to_variable = { HYA_hyakkayouran_conflict_resolution_council_max_command_power = 15 }
+			if = {
+				limit = {
+					has_idea = HYA_nojukeunggundae3
+				}
+				remove_ideas = HYA_nojukeunggundae3
+			}
+			if = {
+				limit = {
+					has_idea = HYA_nojukeunggundae2
+				}
+				swap_ideas = {
+					remove_idea = HYA_nojukeunggundae2
+					add_idea = HYA_nojukeunggundae3
+				}
+			}
+			if = {
+				limit = {
+					has_idea = HYA_nojukeunggundae
+				}
+				swap_ideas = {
+					remove_idea = HYA_nojukeunggundae
+					add_idea = HYA_nojukeunggundae2
+				}
+			}
 		}
 	}
 	focus = { #화조풍월부 토벌
@@ -1185,9 +1229,10 @@ focus_tree = {
 		id = HYA_focus_65
 		icon = GFX_focus_generic_anti_fascist_diplomacy
 		prerequisite = { focus = HYA_focus_67 }
+		prerequisite = { focus = HYA_focus_69 }
 		#mutually_exclusive = { focus = HYA_focus_ }
-		x = 0
-		y = 5
+		x = -1
+		y = 4
 		cost = 10
 		search_filters = {FOCUS_FILTER_POLITICAL}
 		available = {
@@ -1195,13 +1240,17 @@ focus_tree = {
 		bypass = {
 		}
 		completion_reward = {
+			add_power_balance_value = {
+				id = HYA_centralization_bop
+				value = -0.1 
+			}
 			add_popularity = {
 				ideology = neutrality
 				popularity = 0.15
 			}
 			custom_effect_tooltip = HYA_focus_65_tt2
 			if = {
-				limit = { neutrality > 0.50 }
+				limit = { neutrality > 0.45 }
 				set_politics = {
 					ruling_party = neutrality
 					elections_allowed = no
@@ -1239,6 +1288,93 @@ focus_tree = {
 			}
 			custom_effect_tooltip = HYA_focus_65_tt3
 			add_to_variable = { HYA_hyakkayouran_conflict_resolution_council_neutrality_drift = -0.02 }
+		}
+	}
+	focus = { #백귀야행 최고사령부
+		relative_position_id = HYA_focus_64
+		id = HYA_focus_95
+		icon = GFX_goal_demand_sudetenland
+		prerequisite = { focus = HYA_focus_68 }
+		#mutually_exclusive = { focus = HYA_focus_ }
+		x = 1
+		y = 4
+		cost = 5
+		search_filters = {FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY}
+		available = {
+		}   
+		bypass = {
+		}
+		completion_reward = {
+			add_power_balance_value = {
+				id = HYA_centralization_bop
+				value = -0.1 
+			}
+			add_political_power = 60
+			add_stability = 0.10
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.05
+			}
+			custom_effect_tooltip = HYA_focus_95_tt
+			add_to_variable = { HYA_hyakkayouran_conflict_resolution_council_max_command_power = 15 }
+		}
+	}
+	focus = { #유연한 동아리 체제
+		relative_position_id = HYA_focus_64
+		id = HYA_focus_96
+		icon = GFX_goal_generic_improve_relations
+		prerequisite = { focus = HYA_focus_61 focus = HYA_focus_65 focus = HYA_focus_95 }
+		mutually_exclusive = { focus = HYA_focus_97 }
+		x = -2
+		y = 5
+		cost = 10
+		available = {
+		}   
+		bypass = {
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #백귀야행국
+		relative_position_id = HYA_focus_64
+		id = HYA_focus_97
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		prerequisite = { focus = HYA_focus_65 focus = HYA_focus_95 }
+		mutually_exclusive = { focus = HYA_focus_96 }
+		x = 1
+		y = 5
+		cost = 10
+		available = {
+			OR = {
+				has_government = neutrality
+				neutrality > 0.40
+			}
+		}   
+		bypass = {
+		}
+		completion_reward = {
+			add_political_power = 60
+			add_stability = -0.05
+			add_war_support = -0.05
+			if = {
+				limit = { 
+					NOT = { has_government = neutrality }
+				}
+				set_politics = {
+					ruling_party = neutrality
+					elections_allowed = no
+					election_frequency = 48
+				}
+			}
+			add_trait = {
+				character = HYA_Nagusa
+				ideology = moderatism
+				trait = dictator
+		   	}
+			if = {
+				limit = { has_idea = HYA_yuyeonhandongali }
+				remove_ideas = HYA_yuyeonhandongali
+			}
 		}
 	}
 	focus = { #수행부
@@ -1500,7 +1636,7 @@ focus_tree = {
 		icon = GFX_focus_generic_support_the_left_right
 		#prerequisite = { focus = HYA_focus_ }
 		mutually_exclusive = { focus = HYA_focus_1 }
-		x = 44
+		x = 45
 		y = 0
 		cost = 10
 		search_filters = {FOCUS_FILTER_POLITICAL}
@@ -2593,8 +2729,7 @@ focus_tree = {
 			custom_effect_tooltip = HYA_focus_90_tt
 			set_power_balance = {
 				id = HYA_anarch_power_balance
-				left_side = HYA_criminal_side
-				right_side = HYA_anarch_side
+				set_default = yes
 			}
 		}
 	}
@@ -3181,6 +3316,7 @@ focus_tree = {
 		cost = 10
 		search_filters = {FOCUS_FILTER_RESEARCH}
 		available = {
+			has_character = HYA_MICHIRU
 		}   
 		bypass = {
 		}
