@@ -7,15 +7,152 @@ focus_tree = {
 			tag = GEM
 		}
 	}
-	continuous_focus_position = { x = 5000 y = 1 } 
+	continuous_focus_position = { x = 50 y = 1100 } 
+	initial_show_position = {
+		x = 10
+		y = 0
+	}
 	shared_focus = BA_new_world_technology
 	default = no
+	focus = {
+		id = GEH_warning_wuiongwuiong
+		icon = GFX_goal_GEH_pandemonium_society
+		cost = 5
+		x = 6
+		y = 0
+		completion_reward = {
+			add_political_power = 120
+			country_event = { id = GEH_event.1 }
+		}
+	}
+	focus = {
+		id = GEH_hyungzipa_ak
+		icon = GFX_goal_GEH_Local_research
+		cost = 5
+		prerequisite = {
+			focus = GEH_warning_wuiongwuiong
+		}
+		available = {
+			has_country_flag = GAEBALJUNG
+		}
+		x = -5
+		y = 1
+		relative_position_id = GEH_warning_wuiongwuiong
+		completion_reward = {	
+			country_event = { id = GEH_event.2 }
+		}
+	}
+	focus = {
+		id = GEH_gukbanggun_problem
+		icon = GFX_goal_GEH_heer_problem
+		cost = 5
+		prerequisite = {
+			focus = GEH_warning_wuiongwuiong
+		}
+		x = 5
+		y = 1
+		relative_position_id = GEH_warning_wuiongwuiong
+		completion_reward = {
+			country_event = { id = GEH_event.3 }
+		}
+
+	}
+	focus = {
+		id = GEH_warning_sunjun
+		icon = GFX_goal_GEH_warning_Emergency
+		cost = 5
+		prerequisite = {
+			focus = GEH_warning_wuiongwuiong
+		}
+		available = {
+			has_country_flag = GAEBALJUNG
+		}
+		x = 0
+		y = 1
+		relative_position_id = GEH_warning_wuiongwuiong
+		completion_reward = {
+			country_event = { id = GEH_event.4 }
+		}
+	}
+	focus = {
+		id = GEH_nego_whit_wehrmacht_new
+		icon = GFX_focus_POL_beck_ribbentrop
+		cost = 15
+		prerequisite = {
+			focus = GEH_warning_sunjun
+			focus = GEH_gukbanggun_problem
+		}
+		available = {
+			has_country_flag = GAEBALJUNG
+		}
+		mutually_exclusive = { focus = GEH_subjugation }
+		x = -3
+		y = 1
+		relative_position_id = GEH_gukbanggun_problem
+		select_effect ={
+			country_event = { id = GEH_event.5 }
+		}
+		completion_reward = {
+			effect_tooltip = {
+				country_event = { id = GEH_event.5 }
+				unlock_decision_category_tooltip = GEH_nego_wehrmacht_decisions
+			}
+		}
+
+	}
+	focus = {
+		id = GEH_subjugation
+		icon = GFX_focus_attack_germany
+		cost = 5
+		prerequisite = {
+			focus = GEH_gukbanggun_problem
+		}
+		mutually_exclusive = { focus = GEH_nego_whit_wehrmacht_new }
+		x = 3
+		y = 1
+		relative_position_id = GEH_gukbanggun_problem
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = GEH_ucantusefactory
+					}
+				}
+				if = {
+					limit = {
+						NOT = { is_core_of = GEM }
+					}
+					add_resistance = 100
+				}
+				remove_dynamic_modifier = {
+					modifier = GEH_ucantusefactory
+				}
+				add_dynamic_modifier = {
+					modifier = GEH_ucantusefactory_2
+				}
+			}
+			every_owned_state = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = GEH_ucantusefactory_2
+					}
+				}
+				remove_dynamic_modifier = {
+					modifier = GEH_ucantusefactory_2
+				}
+			}
+		}
+
+	}
 	focus = {
 		id = GEM_makoto_war
 		icon = GFX_goal_unknown
 		cost = 1.00
 		x = 36
 		y = 0
+		available = {
+			has_country_flag = GAEBALJUNG
+		}
 		select_effect = {
 		}
 		completion_reward = {
