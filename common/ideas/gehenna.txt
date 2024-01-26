@@ -9,6 +9,101 @@ ideas = {
 		}
 	}
 	country = {
+		
+		BA_a_divided_academy = { #분열된 학원
+			picture = tfv_can_conscription_crisis
+			# YUG_federal_defense_council
+			# generic_victors_of_ww1
+			# generic_pp_unity_bonus
+			# generic_morale_bonus
+			allowed = {
+				always = no
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			on_add = {
+				add_to_variable = { ROOT.halo_infantry_cap = -6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+				if = {
+					limit = {
+						has_template = "Halo Infantry Division"
+					}
+					set_division_template_cap = {
+						division_template = "Halo Infantry Division"
+						division_cap = ROOT.halo_infantry_cap
+					}
+				}
+			}
+
+			on_remove = {
+				add_to_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+				if = {
+					limit = {
+						has_template = "Halo Infantry Division"
+					}
+					set_division_template_cap = {
+						division_template = "Halo Infantry Division"
+						division_cap = ROOT.halo_infantry_cap
+					}
+				}
+			}
+
+			removal_cost = -1
+		
+			modifier = {
+				custom_modifier_tooltip = kivotos_halo_remove6_tt
+			}
+		}
+
+		GEH_great_horn = { #대혼돈
+			picture = usa_great_depression_3
+			allowed = {
+				always = no
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+			
+			modifier = {
+				stability_weekly = -0.02
+				surrender_limit = -0.50
+				political_power_cost = 1
+				drift_defence_factor = -0.8
+				resistance_target = 0.20
+				
+				research_speed_factor = -2.00
+			}
+		}
+
+		GEM_geh_leadership = { #선도부의 치안 유지
+			picture = generic_neutrality_drift_bonus
+			allowed = {
+				always = no
+			}
+
+			allowed_civil_war = {
+				always = yes
+			}
+
+			removal_cost = -1
+
+			modifier = {
+				political_power_gain = 0.5
+				stability_weekly = 0.018
+				resistance_target = -0.10
+				resistance_damage_to_garrison = -0.10
+			}
+			targeted_modifier = {
+				tag = GEH
+				cic_to_target_factor = 0.30
+				mic_to_target_factor = 0.30
+			}
+		}
 
 		GEM_attack_order_idea = { #공격 명령
 			picture = generic_disjointed_gov
@@ -43,11 +138,10 @@ ideas = {
 			removal_cost = -1
 
 			modifier = {
-				army_attack_factor = -0.5
-				army_speed_factor = -0.35
-				army_attack_speed_factor = -0.35
-				army_defence_factor = 0.35
-				army_org_factor = -0.25
+				army_attack_factor = -0.30
+				army_defence_factor = -0.30
+				army_speed_factor = -0.50
+				army_org_factor = -0.20
 			}
 
 
@@ -58,7 +152,6 @@ ideas = {
 			allowed = {
 				always = no
 			}
-
 			allowed_civil_war = {
 				always = yes
 			}
@@ -66,103 +159,25 @@ ideas = {
 			removal_cost = -1
 
 			modifier = {
-				army_attack_factor = -0.1
-				army_speed_factor = -0.1
-				army_defence_factor = 0.1
+				army_attack_factor = -0.10
+				army_defence_factor = -0.10
+				army_speed_factor = -0.15
 				army_org_factor = -0.05
 			}
-
-
 		}
 
-
-		GEH_great_horn = { #대혼돈
-			picture = usa_great_depression_3
-			allowed = {
-				always = no
-			}
-
-			allowed_civil_war = {
-				always = yes
-			}
-
-			removal_cost = -1
+		GEH_Manmajun_Bupae = { # 만마전 부패
+			allowed = { always = no }
+			allowed_civil_war = { always = yes 	} 
 			
 			modifier = {
-				stability_factor = -1
-				research_speed_factor = -0.95
-				surrender_limit = -0.5
-				non_core_manpower = -0.7
-				political_power_cost = 1
-				drift_defence_factor = -0.8
-				resistance_damage_to_garrison = 0.25 
+				political_power_cost = 0.25
+				stability_factor = -0.25
+				consumer_goods_factor = 0.35
+				production_speed_buildings_factor = -0.25
 				disabled_ideas = 1
 			}
 		}
-		GEH_great_horn_1 = { #대혼돈(1차 완화)
-			picture = usa_great_depression_2
-			allowed = {
-				always = no
-			}
-
-			allowed_civil_war = {
-				always = yes
-			}
-
-			removal_cost = -1
-
-			on_remove = {
-				set_rule = {
-					can_not_declare_war = no
-				}
-			}
-			
-			modifier = {
-				stability_factor = -0.8
-				research_speed_factor = -0.4
-				surrender_limit = -0.25
-				non_core_manpower = -0.7
-				political_power_cost = 0.5
-				drift_defence_factor = -0.75
-				resistance_damage_to_garrison = 0.2 
-				disabled_ideas = 1
-			}
-		} 
-
-		GEH_great_horn_2 = { #대혼돈(2차 완화)
-		picture = usa_great_depression
-		allowed = {
-			always = no
-		}
-
-		allowed_civil_war = {
-			always = yes
-		}
-
-		removal_cost = -1
-		
-		modifier = {
-			stability_factor = -0.5
-			research_speed_factor = -0.1
-			surrender_limit = -0.1
-			non_core_manpower = -0.7
-			political_power_cost = 0.25
-			drift_defence_factor = -0.4
-			resistance_damage_to_garrison = 0.1
-			custom_modifier_tooltip = BUL_army_restrictions_mobilization_law_tt
-		}
-	}
-	GEH_Manmajun_Bupae = { # 만마전 부패
-		allowed = { always = no }
-		allowed_civil_war = { always = yes 	} 
-		
-		modifier = {
-			political_power_cost = 0.25
-			stability_factor = -0.25
-			consumer_goods_factor = 0.25
-			production_speed_buildings_factor = -0.25
-		}
-	}
 		GEH_oncheongaebalbudongwon_idea = {
 			name = GEH_anarchist_society
 			picture = HSD_icon
