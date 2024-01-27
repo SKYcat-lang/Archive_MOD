@@ -882,11 +882,11 @@ focus_tree = {
 		}
 	}
 
-	focus = { #첩보원 추가 고용
-		id = RED_an_additional_operator
+	focus = { #잠입 전문가
+		id = RED_professioner_undercover
 		icon = GFX_focus_SWI_embrace_rote_drei
 		cost = 10
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = RED_new_inteligence_agency
 		prerequisite = {
@@ -896,10 +896,31 @@ focus_tree = {
 			has_intelligence_agency = yes
 		}
 		completion_reward = {
-			custom_effect_tooltip = RED_an_additional_operator_tt
+			custom_effect_tooltip = RED_advance_intel_tt
 			add_to_variable = {
 				RED_operative_slot = 1
 			}
+			add_to_variable = {
+				RED_intel_network_gain = 0.10
+			}
+		}
+	}
+
+	focus = { #비밀 경찰
+		id = RED_fraktiya
+		icon = GFX_focus_NOR_continue_nygaardsvold_government
+		cost = 10
+		prerequisite = {
+			focus = RED_new_inteligence_agency
+		}
+
+		relative_position_id = RED_new_inteligence_agency
+		x = -1
+		y = 1
+
+		completion_reward = {
+			custom_effect_tooltip = RED_advance_intel_tt
+			add_to_variable = { RED_compliance_gain = 0.015 }
 		}
 	}
 
@@ -909,7 +930,7 @@ focus_tree = {
 		cost = 10
 
 		relative_position_id = RED_redbear_editorial
-		x = -1
+		x = -2
 		y = 1
 
 		prerequisite = {
@@ -962,7 +983,7 @@ focus_tree = {
 		ai_will_do = { base = 15 }
 
 		completion_reward = {
-			add_political_power = 200
+			add_political_power = 300
 			add_stability = -0.20
 		}
 	}
@@ -1102,7 +1123,7 @@ focus_tree = {
 		cost = 10
 
 		relative_position_id = RED_the_fourth_international
-		x = 3
+		x = 4
 		y = 1
 
 		prerequisite = {
@@ -1130,6 +1151,13 @@ focus_tree = {
 		relative_position_id = RED_redwinter_office
 		cost = 5
 
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = RED_num_of_propaganda_tt
+				check_variable = { RED_num_of_propaganda = 5 compare = greater_than_or_equals }
+			}
+		}
+
 		completion_reward = {
 			add_political_power = 25
 			unlock_decision_category_tooltip = RED_redbear_dec_cat
@@ -1148,6 +1176,7 @@ focus_tree = {
 		mutually_exclusive = { focus = RED_collectivist_propaganda }
 
 		completion_reward = {
+			#이벤트 발생
 			add_war_support = 0.05
 			add_ideas = RED_heroism_propaganda_idea
 			#custom_effect_tooltip = available_military_high_command
@@ -1157,29 +1186,27 @@ focus_tree = {
 		}
 	}
 
-	focus = { # 대충 운동
-		id = RED_the_something_movement
+	focus = {
+		id = RED_no_focus
 		icon = GFX_goal_italy_establish_the_sme
 		prerequisite = { focus = RED_heroism_propaganda }
 		x = 0
 		y = 1
 		relative_position_id = RED_heroism_propaganda
 		cost = 10
-		
-		search_filters = {FOCUS_FILTER_INDUSTRY}
 
 		completion_reward = {
-			add_ideas = RED_the_something_movement_idea
+			
 		}
 	}
 
 	focus = { #전쟁 영웅
 		id = RED_war_hero
 		icon = GFX_goal_generic_army_doctrines
-		prerequisite = { focus = RED_the_something_movement }
+		prerequisite = { focus = RED_no_focus }
 		x = 0
 		y = 1
-		relative_position_id = RED_the_something_movement
+		relative_position_id = RED_no_focus
 		cost = 10
 
 		completion_reward = {
@@ -1216,16 +1243,17 @@ focus_tree = {
 		mutually_exclusive = { focus = RED_heroism_propaganda }
 
 		completion_reward = {
-			add_political_power = 25
+			#이벤트 발생
+			add_stability = 0.05 
 			add_ideas = RED_collectivist_propaganda_idea
 
 			#unlock_decision_tooltip = 
 		}
 	}
 
-	focus = { #
-		id = RED_socialist_emulation
-		icon = GFX_goal_generic_soviet_construction
+	focus = { # 생산을 위한 투쟁
+		id = RED_the_production_movement
+		icon = GFX_goal_italy_establish_the_sme
 		prerequisite = { focus = RED_collectivist_propaganda }
 		x = 0
 		y = 1
@@ -1233,17 +1261,17 @@ focus_tree = {
 		cost = 10
 
 		completion_reward = {
-			
+			add_ideas = RED_the_production_movement_idea
 		}
 	}
 
 	focus = { #
 		id = RED_socialist_realism
 		icon = GFX_focus_YUG_pan_slavic_congress
-		prerequisite = { focus = RED_socialist_emulation }
+		prerequisite = { focus = RED_the_production_movement }
 		x = 0
 		y = 1
-		relative_position_id = RED_socialist_emulation
+		relative_position_id = RED_the_production_movement
 		cost = 10
 
 		completion_reward = {
@@ -1262,7 +1290,7 @@ focus_tree = {
 
 		completion_reward = {
 			add_political_power = 70
-			add_stability = 0.10
+			add_war_support = 0.10
 			add_ideas = RED_new_redwinter_woman_idea
 		}
 	}
@@ -1698,7 +1726,9 @@ focus_tree = {
 		}
 		
 		completion_reward = {
-			#이벤트 발생
+			FIN = {
+				#이벤트 발생
+			}
 		}
 	}
 
