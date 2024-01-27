@@ -61,7 +61,18 @@ country_event = { #국방군에서의 교신
 country_event = { #북부 독일 수립
 	id = GEN_event.4
 	title = GEN_event.4.t
-	desc = GEN_event.4.desc
+	desc = { 
+		text = GEN_event.4.desc
+		trigger = {
+			has_completed_focus = GEN_communication_with_the_mainland
+		}
+	}
+	desc = { 
+		text = GEN_event.4.bad_desc
+		trigger = {
+			NOT = { has_completed_focus = GEN_communication_with_the_mainland }
+		}
+	}
 	picture = GFX_event_none_picture
 
 	fire_only_once = yes
@@ -102,6 +113,37 @@ country_event = { #북부 독일 수립
 		}
 		complete_national_focus = GEN_get_in_touch
 		set_cosmetic_tag = GEN_BAY
+
+		if = {
+			limit = {
+				NOT = { has_template = "Nationale Miliz" }
+			}
+			division_template = {
+				name = "Nationale Miliz"
+				priority = 0
+				division_names_group = GER_INF_01
+				regiments = {
+					militia = { x = 0 y = 0 }
+					militia = { x = 0 y = 1 }
+					militia = { x = 0 y = 2 }
+					
+					militia = { x = 1 y = 0 }
+					militia = { x = 1 y = 1 }
+					militia = { x = 1 y = 2 }
+				}
+			}
+		}
+		every_state = {
+			limit = {
+				has_state_flag = GEN_state_flag
+			}
+			create_unit = {
+				division = "division_template = \"Nationale Miliz\" start_experience_factor = 0.1 start_equipment_factor = 0.6" 
+				owner = ROOT
+				allow_spawning_on_enemy_provs = yes
+			}
+			clr_state_flag = GEN_state_flag
+		}
 	}
 
 	option = { 
