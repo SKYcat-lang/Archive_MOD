@@ -57,17 +57,73 @@ country_event = { # 비상사태 선언
 country_event = { # 국방군과 협상 - 시작
 	id = GEH_event.5
 	title = GEH_event.5.t
-	desc = GEH_event.5.desc
+	desc = { 
+		text = GEH_event.5.desc
+		trigger = {
+			tag = GEM
+		}
+	}
+	desc = { 
+		text = GEH_event.5.good_desc
+		trigger = {
+			OR = {
+				tag = GEA
+				tag = GEN
+			}
+		}
+	}
+	desc = { 
+		text = GEH_event.5.bad_desc
+		trigger = {
+			NOT = {
+				OR = {
+					tag = GEM
+					tag = GEA
+					tag = GEN
+				}
+			}
+		}
+	}
 	picture = GFX_event_none_picture
 	
     is_triggered_only = yes
 	
 	option = { 
 		name = GEH_event.5.a
+		trigger = {
+			tag = GEM
+		}
 		set_country_flag = GEH_start_nego
 		unlock_decision_category_tooltip = GEH_nego_wehrmacht_decisions
 		set_variable = { global.geh_nego_wehrmacht_decisions_value = 20 }
 		set_variable = { global.gea_nego_wehrmacht_decisions_value = 80 }
+	}
+	
+	option = { 
+		name = GEH_event.5.b
+		trigger = {
+			OR = {
+				tag = GEA
+				tag = GEN
+			}
+		}
+		add_stability = 0.05
+		unlock_decision_category_tooltip = GEH_nego_wehrmacht_decisions
+	}
+	
+	option = {
+		name = GEH_event.5.c
+		trigger = {
+			NOT = {
+				OR = {
+					tag = GEM
+					tag = GEA
+					tag = GEN
+				}
+			}
+		}
+		add_stability = -0.05
+		unlock_decision_category_tooltip = GEH_nego_wehrmacht_decisions
 	}
 }
 country_event = { # 국방군과 협상 - 학생 상해사건
