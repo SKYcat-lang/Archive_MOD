@@ -551,6 +551,37 @@ country_event = { # 협상 끝
 				}
 			}
 		}
+		else_if = {
+			limit = {
+				has_country_flag = GEH_federal_unification_flag
+			}
+			if = {
+				limit = {
+					country_exists = GEA
+				}
+				annex_country = {
+					target = GEA
+					transfer_troops = yes
+				}
+			}
+			every_state = {
+				limit = {
+					is_core_of = GEA
+				}
+				add_core_of = GEM
+				if = {
+					limit = {
+						has_dynamic_modifier = {
+							modifier = GEH_ucantusefactory
+						}
+					}
+					remove_dynamic_modifier = {
+						modifier = GEH_ucantusefactory
+					}
+				}
+			}
+			set_cosmetic_tag = GEM_german
+		}
 		else = {
 			country_event = GEH_event.45
 		}
@@ -1061,10 +1092,104 @@ country_event = { # 국방군 독립
 	
 	option = { 
 		name = GEH_event.45.a
-		trigger = {
-			tag = GEN
-		}
 		add_stability = -0.05
+	}
+}
+country_event = { # 연방 국가 제안
+	id = GEH_event.46
+	title = GEH_event.46.t
+	desc = GEH_event.46.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEH_event.46.a
+		trigger = {
+			GEN = {
+				has_completed_focus = GEN_communication_with_the_mainland
+			}
+		}
+		ai_chance = {
+			factor = 20
+		}
+		GEN = {
+			country_event = { id = GEH_event.49 hours = 24 }
+		}
+	}
+	option = { 
+		name = GEH_event.46.b
+		ai_chance = {
+			factor = 6
+		}
+		GEM = {
+			country_event = { id = GEH_event.47 hours = 8 }
+		}
+	}
+	option = { 
+		name = GEH_event.46.c
+		ai_chance = {
+			factor = 2
+		}
+		GEM = {
+			country_event = { id = GEH_event.48 hours = 8 }
+		}
+	}
+}
+country_event = { # 연방 국가 제안 - 수락
+	id = GEH_event.47
+	title = GEH_event.47.t
+	desc = GEH_event.47.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEH_event.47.a
+		add_political_power = 20
+		add_stability = 0.05
+		set_country_flag = GEH_federal_unification_flag
+	}
+}
+country_event = { # 연방 국가 제안 - 거절
+	id = GEH_event.48
+	title = GEH_event.48.t
+	desc = GEH_event.48.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEH_event.48.a
+		add_political_power = -20
+		add_stability = -0.05
+	}
+}
+country_event = { # 연방 국가 제안 - 전쟁해군 의견
+	id = GEH_event.49
+	title = GEH_event.49.t
+	desc = GEH_event.49.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEH_event.49.a
+		ai_chance = {
+			factor = 10
+		}
+		GEM = {
+			country_event = { id = GEH_event.47 hours = 24 }
+		}
+	}
+	option = { 
+		name = GEH_event.49.a
+		ai_chance = {
+			factor = 6
+		}
+		GEM = {
+			country_event = { id = GEH_event.48 hours = 24 }
+		}
 	}
 }
 country_event = { # 협력
