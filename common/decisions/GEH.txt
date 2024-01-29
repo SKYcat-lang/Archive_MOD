@@ -16,7 +16,7 @@ GEH_nego_wehrmacht_decisions = {
 		
 		fire_only_once = yes
 		complete_effect = {
-			set_country_flag = GEH_start_nego_22
+			set_country_flag = GEH_start_nego
 			country_event = { id = GEH_event.9  }
 			country_event = { id = GEH_event.10  }
 			country_event = { id = GEH_event.11  }
@@ -198,17 +198,33 @@ GEH_nego_wehrmacht_decisions = {
 			factor = 200
 		}
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = GEH_transfer_to_gehenna_academy_tooltip
-				check_variable = {
-					global.gea_nego_wehrmacht_decisions_value < 10
+			if = {
+				limit = {
+					country_exists = GEA
+				}
+				custom_trigger_tooltip = {
+					tooltip = GEH_transfer_to_gehenna_academy_tooltip2
+					check_variable = {
+						global.gea_nego_wehrmacht_decisions_value < 1
+					}
+				}
+				NOT = {
+					has_country_flag = GEH_northern_demands_flag
 				}
 			}
-			NOT = {
-				has_country_flag = HINA_DISAGREE_CONTROLLED
-				any_controlled_state = {
-					has_dynamic_modifier = {
-						modifier = GEH_ucantusefactory_2
+			else = {
+				custom_trigger_tooltip = {
+					tooltip = GEH_transfer_to_gehenna_academy_tooltip
+					check_variable = {
+						global.gea_nego_wehrmacht_decisions_value < 15
+					}
+				}
+				NOT = {
+					has_country_flag = GEH_northern_demands_flag
+					any_controlled_state = {
+						has_dynamic_modifier = {
+							modifier = GEH_ucantusefactory_2
+						}
 					}
 				}
 			}
@@ -226,6 +242,17 @@ GEH_nego_wehrmacht_decisions = {
 		complete_effect = {
 			custom_effect_tooltip = GEH_transfer_to_gehenna_academy_tt
 			set_country_flag = GEH_transfer_to_gehenna_academy_flag
+			every_country = {
+				limit = {
+					OR = {
+						tag = GEH
+						tag = GEA
+						tag = GEN
+					}
+					exists = yes
+				}
+				country_event = GEH_event.43
+			}
 		}
 	}
 	GEH_request_withdrawal_from = {
@@ -261,6 +288,9 @@ GEH_nego_wehrmacht_decisions = {
 					global.gea_nego_wehrmacht_decisions_value < 50
 				}
 			}
+			NOT = {
+				has_country_flag = GEH_northern_demands_flag
+			}
 		} 
 		
 		cost = 50
@@ -287,6 +317,7 @@ GEH_nego_wehrmacht_decisions = {
 						country_event = { id = GEH_event.7 hours = 8}
 					}
 				}
+				set_state_flag = GEH_request_withdrawal_from_flag
 			}
 			if = {
 				limit = {
@@ -318,14 +349,14 @@ GEH_nego_wehrmacht_decisions = {
 			}
 		} 
 
-		days_remove = 28
+		days_remove = 56
 
 		visible = {
 			tag = GEH
 		}
 		
 		remove_effect = {
-			add_political_power = 60
+			add_political_power = 120
 			custom_effect_tooltip = GEH_expansion_of_intelligence_network_tt
 			add_to_variable = { global.geh_nego_wehrmacht_decisions_value = 5 }
 
@@ -361,7 +392,7 @@ GEH_nego_wehrmacht_decisions = {
 			}
 		} 
 		
-		cost = 15
+		cost = 25
 		days_remove = 28
 
 		visible = {
@@ -400,8 +431,8 @@ GEH_nego_wehrmacht_decisions = {
 			}
 		} 
 		
-		cost = 15
-		days_remove = 28
+		cost = 25
+		days_remove = 14
 
 		visible = {
 			tag = GEH
@@ -487,6 +518,47 @@ GEH_nego_wehrmacht_decisions = {
 		}
 	}
 	#국방군
+	GEH_securing_german_army_influence = {
+		icon = GFX_decision_generic_army_support
+
+		days_mission_timeout = 20
+		priority = 99
+   		activation = {
+			always = no
+    	}
+    	available = {
+			has_country_flag = GEH_nege_end
+    	}
+    	cancel_trigger = {
+			OR = {
+				country_exists = GEA
+				GEN = {
+					has_country_flag = GEH_negotiation_intervention_flag
+				}
+				has_country_flag = HINA_DISAGREE
+			}
+    	}
+		visible = {
+		}
+		
+		timeout_effect = {
+			hidden_effect = {
+				country_event = { id = GEH_hidden_event.1 random_days = 5 days = 10 }
+			}
+
+			custom_effect_tooltip = GEH_securing_german_army_influence_tt
+			add_to_variable = { global.gea_nego_wehrmacht_decisions_value = 5 }
+
+			clamp_variable = {
+				var = global.geh_nego_wehrmacht_decisions_value
+				min = 0
+			}
+			clamp_variable = {
+				var = global.gea_nego_wehrmacht_decisions_value
+				min = 0
+			}
+		}
+	}
 	#전쟁해군
 	GEH_negotiation_intervention = {
 		icon = GFX_decision_SWI_support_humanitarian_efforts
@@ -513,6 +585,162 @@ GEH_nego_wehrmacht_decisions = {
 				country_event = GEH_event.21
 			}
 			set_country_flag = GEH_negotiation_intervention_flag
+		}
+	}
+	GEH_securing_german_navy_influence = {
+		icon = GFX_decision_eng_propaganda_campaigns
+		allowed = {
+		}
+		ai_will_do = {
+			factor = 200
+		}
+		available = {
+		} 
+		
+		cost = 35
+		days_remove = 14
+
+		visible = {
+			tag = GEN
+			has_country_flag = GEH_negotiation_intervention_flag
+		}
+		modifier = {
+			political_power_cost = 0.25
+		}
+		
+		remove_effect = {
+			custom_effect_tooltip = GEH_securing_german_army_influence_tt
+			add_to_variable = { global.gea_nego_wehrmacht_decisions_value = 5 }
+
+			clamp_variable = {
+				var = global.geh_nego_wehrmacht_decisions_value
+				min = 0
+			}
+			clamp_variable = {
+				var = global.gea_nego_wehrmacht_decisions_value
+				min = 0
+			}
+		}
+	}
+	GEH_land_return = {
+		icon = GFX_decision_hol_draw_up_staff_plans
+		highlight_states = {
+			highlight_state_targets = {
+				state = FROM
+			}
+			highlight_color_while_active = 3
+			highlight_color_before_active = 2
+		}
+		target_array = GEM.controlled_states
+		target_array = GEA.controlled_states
+		state_target = yes
+		target_trigger = {
+			FROM = {
+				has_state_flag = GEH_request_withdrawal_from_flag
+			}
+		}
+		on_map_mode = map_and_decisions_view
+		ai_will_do = {
+			factor = 4000
+		}
+		visible = {
+			tag = GEN
+			has_country_flag = GEH_negotiation_intervention_flag
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GEH_land_return_tooltip
+				check_variable = {
+					global.gea_nego_wehrmacht_decisions_value > 50
+				}
+			}
+			NOT = {
+				GEM = {
+					has_country_flag = GEH_transfer_to_gehenna_academy_flag
+				}
+			}
+		} 
+		
+		cost = 50
+		
+		complete_effect = {
+			FROM = {
+				add_dynamic_modifier = {
+					modifier = GEH_ucantusefactory_2
+				}
+				if = {
+					limit = {
+						country_exists = GEM
+					}
+					GEM = {
+						country_event = { id = GEH_event.7 hours = 8}
+					}
+				}
+				clr_state_flag = GEH_request_withdrawal_from_flag
+			}
+			if = {
+				limit = {
+					any_state = {
+						is_core_of = GEM
+						is_controlled_by = GEA
+					}
+				}
+				GEA = {
+					transfer_state = FROM
+				}
+			}
+			if = {
+				limit = {
+					any_state = {
+						is_core_of = GEM
+						is_controlled_by = GEN
+					}
+				}
+				transfer_state = FROM
+			}
+		}
+	}
+	GEH_northern_demands = {
+		icon = GFX_decision_ger_reichskommissariats
+		allowed = {
+		}
+		ai_will_do = {
+			factor = 4000
+		}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = GEH_northern_demands_tooltip
+				check_variable = {
+					global.gea_nego_wehrmacht_decisions_value > 85
+				}
+			}
+			NOT = {
+				any_state = {
+					has_state_flag = GEH_request_withdrawal_from_flag
+				}
+				GEM = {
+					has_country_flag = GEH_transfer_to_gehenna_academy_flag
+				}
+			}
+		} 
+		
+		cost = 100
+
+		visible = {
+			tag = GEN
+			NOT = {
+				GEM = {
+					has_country_flag = GEH_northern_demands_flag
+				}
+			}
+			has_country_flag = GEH_negotiation_intervention_flag
+		}
+		
+		complete_effect = {
+			custom_effect_tooltip = GEH_northern_demands_tt
+			GEM = {
+				set_country_flag = GEH_northern_demands_flag
+			}
 		}
 	}
 }

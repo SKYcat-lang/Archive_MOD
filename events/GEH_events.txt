@@ -1,5 +1,5 @@
 add_namespace = GEH_event
-
+add_namespace = GEH_hidden_event
 
 country_event = { # 우리의 상황
 	id = GEH_event.1
@@ -176,6 +176,7 @@ country_event = { # 국방군과 협상 -  히나가 협상안 거부 함
 		add_war_support = 0.05
 		add_stability = -0.01
 		set_country_flag = HINA_DISAGREE
+		custom_effect_tooltip = GEH_event_8_tt
 		country_event = { id = GEH_event.14 days = 4}
 	}
 	
@@ -320,11 +321,36 @@ country_event = { # 독일 수립됨
 				add_state_core = 58
 				add_state_core = 59
 				add_state_core = 56
+				every_owned_state = {
+					limit = {
+						has_dynamic_modifier = {
+							modifier = GEH_ucantusefactory
+						}
+					}
+					remove_dynamic_modifier = {
+						modifier = GEH_ucantusefactory
+					}
+				}
+				every_owned_state = {
+					limit = {
+						has_dynamic_modifier = {
+							modifier = GEH_ucantusefactory_2
+						}
+					}
+					remove_dynamic_modifier = {
+						modifier = GEH_ucantusefactory_2
+					}
+				}
 			}
 		}
 	}
 	option = {
 		add_stability = -0.10
+		trigger = {
+			NOT = {
+				has_country_flag = HINA_DISAGREE_CONTROLLED
+			}
+		}
 		create_wargoal = {
 			target = GEA
 			type = annex_everything
@@ -341,7 +367,7 @@ country_event = { # 독일 수립됨
 	}
 	option = {
 		add_stability = -0.10
-		add_war_support = -0.20
+		add_war_support = -0.30
 		name = GEH_event.14.c
 	}
 }
@@ -431,6 +457,8 @@ country_event = { # 협상 끝
 	option = { 
 		name = GEH_event.20.a
 		add_stability = 0.05
+		clr_country_flag = GEH_start_nego
+		set_country_flag = GEH_nege_end
 		if = {
 			limit = {
 				has_country_flag = GEH_transfer_to_gehenna_academy_flag
@@ -460,6 +488,86 @@ country_event = { # 협상 끝
 					}
 				}
 			}
+		}
+		else_if = {
+			limit = {
+				has_country_flag = GEH_northern_demands_flag
+			}
+			GEA = {
+				transfer_state = 909
+				transfer_state = 58
+				transfer_state = 59
+				transfer_state = 56
+				transfer_state = 56
+				transfer_state = 57
+				transfer_state = 51
+				transfer_state = 944
+				
+				add_state_core = 909
+				add_state_core = 58
+				add_state_core = 59
+				add_state_core = 56
+				add_state_core = 56
+				add_state_core = 57
+				add_state_core = 51
+				add_state_core = 944
+				every_owned_state = {
+					limit = {
+						has_dynamic_modifier = {
+							modifier = GEH_ucantusefactory
+						}
+					}
+					remove_dynamic_modifier = {
+						modifier = GEH_ucantusefactory
+					}
+				}
+				every_owned_state = {
+					limit = {
+						has_dynamic_modifier = {
+							modifier = GEH_ucantusefactory_2
+						}
+					}
+					remove_dynamic_modifier = {
+						modifier = GEH_ucantusefactory_2
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				country_exists = GEA
+			}
+			every_owned_state = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = GEH_ucantusefactory
+					}
+				}
+				remove_dynamic_modifier = {
+					modifier = GEH_ucantusefactory
+				}
+				GEA = {
+					transfer_state = PREV
+					add_state_core = PREV
+				}
+			}
+			every_owned_state = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = GEH_ucantusefactory_2
+					}
+				}
+				remove_dynamic_modifier = {
+					modifier = GEH_ucantusefactory_2
+				}
+				GEA = {
+					transfer_state = PREV
+					add_state_core = PREV
+				}
+			}
+		}
+		else = {
+			country_event = GEH_event.43
 		}
 	}
 }
@@ -857,6 +965,112 @@ country_event = { # So Long
 		name = GEH_event.42.a
 	}
 }
+country_event = { # 국방군 병합
+	id = GEH_event.43
+	title = GEH_event.43.t
+	desc = GEH_event.43.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEH_event.43.a
+		trigger = {
+			tag = GEN
+		}
+		add_stability = -0.10
+		add_war_support = -0.10
+	}
+	
+	option = { 
+		name = GEH_event.43.a
+		trigger = {
+			tag = GEA
+		}
+	}
+	
+	option = { 
+		name = GEH_event.43.a
+		trigger = {
+			tag = GEH
+		}
+		add_war_support = -0.05
+	}
+}
+country_event = { # 게헨나-국방군 협상 파기
+	id = GEH_event.44
+	title = GEH_event.44.t
+	desc = GEH_event.44.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEH_event.44.a
+		add_stability = -0.05
+		if = {
+			limit = {
+				tag = GEM
+			}
+			country_event = GEH_event.14
+		}
+	}
+}
+country_event = { # 국방군 독립
+	id = GEH_event.45
+	title = GEH_event.45.t
+	desc = GEH_event.45.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			every_owned_state = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = GEH_ucantusefactory
+					}
+				}
+				remove_dynamic_modifier = {
+					modifier = GEH_ucantusefactory
+				}
+				GEA = {
+					transfer_state = PREV
+					add_state_core = PREV
+				}
+			}
+			every_owned_state = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = GEH_ucantusefactory_2
+					}
+				}
+				remove_dynamic_modifier = {
+					modifier = GEH_ucantusefactory_2
+				}
+				GEA = {
+					transfer_state = PREV
+					add_state_core = PREV
+				}
+			}
+			GEM = {
+				set_truce = {
+					target = GEA
+					days = 365
+				}
+			}
+		}
+	}
+	
+	option = { 
+		name = GEH_event.45.a
+		trigger = {
+			tag = GEN
+		}
+		add_stability = -0.05
+	}
+}
 country_event = { # 협력
 	id = GEH_event.255
 	title = GEH_event.255.t
@@ -881,5 +1095,29 @@ country_event = { # 협력
 	option = { 
 		name = GEH_event.256.a 
 		load_focus_tree = GEH_hina_focustree
+	}
+}
+
+country_event = { # 국방군 영향력 올라가는 이벤트
+	id = GEH_hidden_event.1
+	title = GEH_hidden_event.1.t
+	desc = GEH_hidden_event.1.desc
+
+	trigger = {
+		NOT = {
+			OR = {
+				country_exists = GEA
+				GEN = {
+					has_country_flag = GEH_negotiation_intervention_flag
+				}
+			}
+		}
+	}
+	hidden = yes
+    is_triggered_only = yes
+	
+	option = { 
+		activate_mission = GEH_securing_german_army_influence
+		name = GEH_hidden_event.1.a 
 	}
 }
