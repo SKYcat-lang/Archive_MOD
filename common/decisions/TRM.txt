@@ -853,184 +853,6 @@ TRN_after_war_decisions = {
 		} 
 	} 
 }
-TRM_library_committee_decisions = {
-	no_remove_library_committee_club = {
-		icon = GFX_decisions_ui_icon
-		allowed = {
-		}
-		available = {
-			always = no
-		}
-
-		visible = {
-		}
-		ai_will_do = {
-			factor = 1
-		}
-		
-		fire_only_once = no
-		
-		complete_effect = {
-		}
-		remove_effect = {
-        }
-	}
-	writing_book = {
-		icon = GFX_decisions_ui_icon
-		allowed = {
-		}
-		available = {
-			NOT = {
-				has_country_flag = writing_book_2_flag
-			}
-		}
-
-		visible = {
-		}
-		cost = 30
-		days_re_enable = 200
-		ai_will_do = {
-			base = 100
-		}
-		days_remove = 100
-		
-		fire_only_once = no
-		
-		modifier = {
-
-		}
-		complete_effect = {
-			add_ideas = TRM_library_committee
-			set_country_flag = writing_book_flag
-		}
-		remove_effect = {
-			remove_ideas = TRM_library_committee
-			clr_country_flag = writing_book_flag
-        }
-	}
-	writing_book_2 = {
-		icon = GFX_decisions_ui_icon
-		allowed = {
-		}
-		available = {
-			NOT = {
-				has_country_flag = writing_book_flag
-			}
-		}
-
-		visible = {
-		}
-		cost = 30
-		days_re_enable = 200
-		ai_will_do = {
-			factor = 1
-		}
-		days_remove = 100
-		
-		fire_only_once = no
-
-		modifier = {
-		}
-		complete_effect = {
-			add_ideas = TRM_library_committee
-			set_country_flag = writing_book_2_flag
-		}
-		remove_effect = {
-			remove_ideas = TRM_library_committee
-			clr_country_flag = writing_book_2_flag
-        }
-	}
-}
-TRM_after_school_sweets_club = {
-	no_remove_sweets_club = {
-		allowed = {
-		}
-		available = {
-			always = no
-		}
-		visible = {
-		}
-		ai_will_do = {
-			factor = 1
-		}
-		complete_effect = {
-		}
-		
-
-		remove_effect = {
-        }
-	}
-	make_cake = {
-		allowed = {
-		}
-		available = {
-			NOT = {
-			has_country_flag = make_cake
-			has_country_flag = make_icecream
-			}
-			has_political_power > 40
-		}
-
-		visible = {
-		}
-		cost = 40
-		days_remove = 5
-		ai_will_do = {
-			base = 100
-		}
-		
-		fire_only_once = no
-		days_re_enable = 15
-
-
-		modifier = {
-		}
-		complete_effect = {
-			set_country_flag = make_cake
-		}
-		
-
-		remove_effect = {
-			country_event = { id = TRM_event.56 }
-			clr_country_flag = make_cake
-        }
-	}
-	make_icecream = {
-		allowed = {
-		}
-		available = {
-			NOT = {
-			has_country_flag = make_cake
-			has_country_flag = make_icecream
-			}
-			has_political_power > 40
-		}
-
-		visible = {
-		}
-		cost = 40
-		days_remove = 5
-		ai_will_do = {
-			factor = 1
-		}
-		
-		fire_only_once = no
-		days_re_enable = 15
-
-		modifier = {
-		}
-		complete_effect = {
-			set_country_flag = make_icecream
-		}
-		
-
-		remove_effect = {
-			country_event = { id = TRM_event.57 }
-			clr_country_flag = make_icecream
-        }
-	}
-
-}
 TRN_Seia_problem_decisions = {
 	TRN_who_is_criminal	= {
 		icon = GFX_decision_generic_arrest
@@ -1185,6 +1007,27 @@ TRN_Seia_problem_decisions = {
 	}
 }
 TRN_arius_squad_smash_decision = {
+    TRM_debug_arius_squad_smash_decision = {
+		available = {
+			is_debug = yes 
+		}
+
+		visible = {
+			is_debug = yes 
+		}
+
+		cost = 0
+
+		ai_will_do = {
+			factor = 0
+		}
+
+		fire_only_once = no
+
+		complete_effect = {
+            clr_country_flag = TRM_switch_roe
+		}
+    }
 	TRN_switch_roe = {
 		available = {
 			has_country_flag = TRN_arius_squad_smash_decision_visible
@@ -1194,16 +1037,17 @@ TRN_arius_squad_smash_decision = {
 			has_country_flag = TRN_arius_squad_smash_decision_visible
 		}
 
-		cost = 5
+		cost = 0
 
 		ai_will_do = {
 			factor = 1
 		}
 
-		fire_only_once = no
+		fire_only_once = YES
 
 		complete_effect = {
 			custom_effect_tooltip = TRN_switch_roe_tt
+            set_country_flag = TRM_switch_roe
 			hidden_effect = {
 				country_event = {
 					id = TRN_opposition.100
@@ -1249,7 +1093,7 @@ TRN_arius_squad_smash_decision = {
 		available = { }
 
 		visible = {
-			has_country_flag = TRN_arius_squad_smash_decision_visible
+			has_country_flag = TRM_switch_roe
 			NOT = {
 				has_country_flag = TRN_saori_Active
 			}
@@ -1313,6 +1157,7 @@ TRN_arius_squad_smash_decision = {
 
 		remove_effect = {
 			custom_effect_tooltip = KOM_launch_operation_against_stalina_tt
+            set_country_flag = TRN_arius_squad_smash_success
 			hidden_effect = {
 				if = {
 					limit = {
@@ -1364,31 +1209,6 @@ TRN_arius_squad_smash_decision = {
 						}
 					}
 				}
-				else_if = {
-					limit = {
-						has_country_flag = KOM_Exile_Opposition
-					}
-					random_list = {
-						98 = {
-							country_event = {
-								id = TRN_opposition.11 # 국외추방
-								days = 1
-							}
-						}
-						1 = {
-							country_event = {
-								id = TRN_opposition.31 # 체포
-								days = 1
-							}
-						}
-						1 = {
-							country_event = {
-								id = TRN_opposition.21 # 사살
-								days = 1
-							}
-						}
-					}
-				}
 			}
 		}
 	}
@@ -1397,7 +1217,7 @@ TRN_arius_squad_smash_decision = {
 		available = { }
 
 		visible = {
-			has_country_flag = TRN_arius_squad_smash_decision_visible
+			has_country_flag = TRM_switch_roe
 			NOT = {
 				has_country_flag = TRN_atsuko_Active
 			}
@@ -1439,7 +1259,7 @@ TRN_arius_squad_smash_decision = {
 
 		visible = {
 			has_country_flag = TRN_atsuko_Active # KOM_Stalina_Active
-			has_country_flag = TRN_arius_squad_smash_decision_visible
+			has_country_flag = TRM_switch_roe
 		}
 
 		days_remove = 15
@@ -1461,6 +1281,7 @@ TRN_arius_squad_smash_decision = {
 
 		remove_effect = {
 			custom_effect_tooltip = TRN_launch_operation_against_atsuko_tt
+            set_country_flag = TRN_arius_squad_smash_success_2
 			hidden_effect = {
 				if = {
 					limit = {
@@ -1512,31 +1333,6 @@ TRN_arius_squad_smash_decision = {
 						}
 					}
 				}
-				else_if = {
-					limit = {
-						has_country_flag = KOM_Exile_Opposition
-					}
-					random_list = {
-						98 = {
-							country_event = {
-								id = TRN_opposition.13
-								days = 1
-							}
-						}
-						1 = {
-							country_event = {
-								id = TRN_opposition.33
-								days = 1
-							}
-						}
-						1 = {
-							country_event = {
-								id = TRN_opposition.23
-								days = 1
-							}
-						}
-					}
-				}
 			}
 		}
 	}
@@ -1545,7 +1341,7 @@ TRN_arius_squad_smash_decision = {
 		available = { }
 
 		visible = {
-			has_country_flag = TRN_arius_squad_smash_decision_visible
+			has_country_flag = TRM_switch_roe
 			NOT = {
 				has_country_flag = TRN_Misaki_Active
 			}
@@ -1609,6 +1405,7 @@ TRN_arius_squad_smash_decision = {
 
 		remove_effect = {
 			custom_effect_tooltip = TRN_launch_operation_against_Misaki_tt
+            set_country_flag = TRN_arius_squad_smash_success_3
 			hidden_effect = {
 				if = {
 					limit = {
@@ -1693,7 +1490,7 @@ TRN_arius_squad_smash_decision = {
 		available = { }
 
 		visible = {
-			has_country_flag = TRN_arius_squad_smash_decision_visible
+			has_country_flag = TRM_switch_roe
 			NOT = {
 				has_country_flag = TRN_Hiyori_Active
 			}
@@ -1757,6 +1554,7 @@ TRN_arius_squad_smash_decision = {
 
 		remove_effect = {
 			custom_effect_tooltip = TRN_launch_operation_against_Hiyori_tt
+            set_country_flag = TRN_arius_squad_smash_success_4
 			hidden_effect = {
 				if = {
 					limit = {
@@ -2359,6 +2157,184 @@ political_actions = {
 	        news_event = { id = BA_news.41 hours = 5 }
 		}
 	}
+}
+TRM_library_committee_decisions = {
+	no_remove_library_committee_club = {
+		icon = GFX_decisions_ui_icon
+		allowed = {
+		}
+		available = {
+			always = no
+		}
+
+		visible = {
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		
+		fire_only_once = no
+		
+		complete_effect = {
+		}
+		remove_effect = {
+        }
+	}
+	writing_book = {
+		icon = GFX_decisions_ui_icon
+		allowed = {
+		}
+		available = {
+			NOT = {
+				has_country_flag = writing_book_2_flag
+			}
+		}
+
+		visible = {
+		}
+		cost = 30
+		days_re_enable = 200
+		ai_will_do = {
+			base = 100
+		}
+		days_remove = 100
+		
+		fire_only_once = no
+		
+		modifier = {
+
+		}
+		complete_effect = {
+			add_ideas = TRM_library_committee
+			set_country_flag = writing_book_flag
+		}
+		remove_effect = {
+			remove_ideas = TRM_library_committee
+			clr_country_flag = writing_book_flag
+        }
+	}
+	writing_book_2 = {
+		icon = GFX_decisions_ui_icon
+		allowed = {
+		}
+		available = {
+			NOT = {
+				has_country_flag = writing_book_flag
+			}
+		}
+
+		visible = {
+		}
+		cost = 30
+		days_re_enable = 200
+		ai_will_do = {
+			factor = 1
+		}
+		days_remove = 100
+		
+		fire_only_once = no
+
+		modifier = {
+		}
+		complete_effect = {
+			add_ideas = TRM_library_committee
+			set_country_flag = writing_book_2_flag
+		}
+		remove_effect = {
+			remove_ideas = TRM_library_committee
+			clr_country_flag = writing_book_2_flag
+        }
+	}
+}
+TRM_after_school_sweets_club = {
+	no_remove_sweets_club = {
+		allowed = {
+		}
+		available = {
+			always = no
+		}
+		visible = {
+		}
+		ai_will_do = {
+			factor = 1
+		}
+		complete_effect = {
+		}
+		
+
+		remove_effect = {
+        }
+	}
+	make_cake = {
+		allowed = {
+		}
+		available = {
+			NOT = {
+			has_country_flag = make_cake
+			has_country_flag = make_icecream
+			}
+			has_political_power > 40
+		}
+
+		visible = {
+		}
+		cost = 40
+		days_remove = 5
+		ai_will_do = {
+			base = 100
+		}
+		
+		fire_only_once = no
+		days_re_enable = 15
+
+
+		modifier = {
+		}
+		complete_effect = {
+			set_country_flag = make_cake
+		}
+		
+
+		remove_effect = {
+			country_event = { id = TRM_event.56 }
+			clr_country_flag = make_cake
+        }
+	}
+	make_icecream = {
+		allowed = {
+		}
+		available = {
+			NOT = {
+			has_country_flag = make_cake
+			has_country_flag = make_icecream
+			}
+			has_political_power > 40
+		}
+
+		visible = {
+		}
+		cost = 40
+		days_remove = 5
+		ai_will_do = {
+			factor = 1
+		}
+		
+		fire_only_once = no
+		days_re_enable = 15
+
+		modifier = {
+		}
+		complete_effect = {
+			set_country_flag = make_icecream
+		}
+		
+
+		remove_effect = {
+			country_event = { id = TRM_event.57 }
+			clr_country_flag = make_icecream
+        }
+	}
+
 }
 
 
