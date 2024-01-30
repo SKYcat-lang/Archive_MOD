@@ -3606,21 +3606,19 @@ focus_tree = {
 			factor = 1
 		}
 
-		search_filters = { FOCUS_FILTER_INDUSTRY }
-
 		completion_reward = {
 			if = {
 				limit = { has_dlc = "Man the Guns" }
-				create_ship = { type = ship_hull_cruiser_coastal_defense_ship equipment_variant = "Norge Class" name = "KNM Harald Haarfagre" }
-				create_ship = { type = ship_hull_cruiser_coastal_defense_ship equipment_variant = "Norge Class" name = "KNM Tordenskjold" }
-				create_ship = { type = ship_hull_cruiser_coastal_defense_ship equipment_variant = "Norge Class" name = "KNM Eidsvold" }
-				create_ship = { type = ship_hull_cruiser_coastal_defense_ship equipment_variant = "Norge Class" name = "KNM Norge" }
+				create_ship = { type = ship_hull_cruiser_coastal_defense_ship equipment_variant = "Norge Class" name = "RWFA Harald Haarfagre" }
+				create_ship = { type = ship_hull_cruiser_coastal_defense_ship equipment_variant = "Norge Class" name = "RWFA Tordenskjold" }
+				create_ship = { type = ship_hull_cruiser_coastal_defense_ship equipment_variant = "Norge Class" name = "RWFA Eidsvold" }
+				create_ship = { type = ship_hull_cruiser_coastal_defense_ship equipment_variant = "Norge Class" name = "RWFA Norge" }
 			}
 			else = {
-				create_ship = { type = heavy_cruiser_1 equipment_variant = "Weltkrieg Heavy Cruiser" name = "KNM Harald Haarfagre" }
-				create_ship = { type = heavy_cruiser_1 equipment_variant = "Weltkrieg Heavy Cruiser" name = "KNM Tordenskjold" }
-				create_ship = { type = heavy_cruiser_1 equipment_variant = "Weltkrieg Heavy Cruiser" name = "KNM Eidsvold" }
-				create_ship = { type = heavy_cruiser_1 equipment_variant = "Weltkrieg Heavy Cruiser" name = "KNM Norge" }
+				create_ship = { type = heavy_cruiser_1 equipment_variant = "Weltkrieg Heavy Cruiser" name = "RWFA Harald Haarfagre" }
+				create_ship = { type = heavy_cruiser_1 equipment_variant = "Weltkrieg Heavy Cruiser" name = "RWFA Tordenskjold" }
+				create_ship = { type = heavy_cruiser_1 equipment_variant = "Weltkrieg Heavy Cruiser" name = "RWFA Eidsvold" }
+				create_ship = { type = heavy_cruiser_1 equipment_variant = "Weltkrieg Heavy Cruiser" name = "RWFA Norge" }
 			}
 		}
 	}
@@ -4132,12 +4130,12 @@ focus_tree = {
 	}
 
 # 공군 개편 중점
-	focus = {
-		id = RED_some_focus
-		icon = GFX_goal_unknown
-		cost = 10
+	focus = { #설계사를 위한 투자금
+		id = RED_invest_only_one_mio
+		icon = GFX_focus_DEN_unify_flyvevabnet
+		cost = 5
 
-		x = 32
+		x = 31
 		y = 0
 
 		available = {
@@ -4146,33 +4144,24 @@ focus_tree = {
 		ai_will_do = { factor = 0.25 }
 
 		completion_reward = {
-			air_experience = 10
-			add_equipment_to_stockpile = {
-				type = small_plane_airframe
-				amount = 40
-				producer = USA
-			}
+			#이벤트 발생
 		}
 	}
 
-	focus = {
-		id = RED_some_focus_1
-		icon = GFX_goal_unknown
-		cost = 10
+	focus = { #공군 양성 프로젝트
+		id = RED_airforce_training_project
+		icon = GFX_focus_generic_copy_plane_designs
+		cost = 5
 
-		relative_position_id = RED_some_focus
+		relative_position_id = RED_invest_only_one_mio
 		x = 2
 		y = 0
 
 		ai_will_do = { factor = 0.25 }
 
 		completion_reward = {
-			air_experience = 10
-			add_equipment_to_stockpile = {
-				type = small_plane_naval_bomber_airframe
-				amount = 30
-				producer = ITA
-			}
+			air_experience = 15
+			#이벤트 발생
 		}
 	}
 
@@ -4181,12 +4170,12 @@ focus_tree = {
 		icon = GFX_goal_generic_air_doctrine
 		cost = 5
 
-		relative_position_id = RED_some_focus
+		relative_position_id = RED_invest_only_one_mio
 		x = 1
 		y = 1
 
-		prerequisite = { focus = RED_some_focus }
-		prerequisite = { focus = RED_some_focus_1 }
+		prerequisite = { focus = RED_invest_only_one_mio }
+		prerequisite = { focus = RED_airforce_training_project }
 
 		ai_will_do = { factor = 1 }
 
@@ -4212,11 +4201,11 @@ focus_tree = {
 		icon = GFX_focus_generic_air_bases
 		cost = 10
 
-		relative_position_id = RED_some_focus
+		relative_position_id = RED_invest_only_one_mio
 		x = -1
 		y = 1
 
-		prerequisite = { focus = RED_some_focus focus = RED_some_focus_1 }
+		prerequisite = { focus = RED_invest_only_one_mio focus = RED_airforce_training_project }
 
 		available = {
 			controls_state = 141
@@ -4245,144 +4234,196 @@ focus_tree = {
 		}
 	}
 
-	focus = { #뇌격기 투자
-		id = RED_naval_planes
-		icon = GFX_goal_generic_air_naval_bomber
+	focus = { #교리 확립
+		id = RED_air_doctrine_focus
+		icon = GFX_goal_generic_build_airforce
 		cost = 10
 
-		relative_position_id = RED_some_focus_1
+		relative_position_id = RED_airforce_training_project
 		x = 1
 		y = 1
 
-		prerequisite = { focus = RED_some_focus focus = RED_some_focus_1 }
+		prerequisite = { focus = RED_invest_only_one_mio focus = RED_airforce_training_project }
+
+		ai_will_do = { factor = 1 }
+
+		completion_reward = {
+			air_experience = 25
+			#이벤트 발생
+		}
+	}
+
+	focus = { #전략적 파괴
+		id = RED_offensive_airforce
+		icon = GFX_focus_SWE_marauder_bombers
+		cost = 10
+
+		relative_position_id = RED_invest_only_one_mio
+		x = 0
+		y = 2
+
+		prerequisite = { focus = RED_extend_air_bases }
+		mutually_exclusive = { focus = RED_defensive_airforce }
 
 		ai_will_do = { factor = 1 }
 
 		completion_reward = {
 			air_experience = 20
-			add_tech_bonus = {
-				name = RED_selectable_doctrine
-				bonus = 1
-				uses = 1
-				category = naval_bomber
+			if = {
+				limit = {
+				has_dlc = "By Blood Alone"
+				}
+				create_equipment_variant = {
+					name = "Fairey Battle" 
+					type = small_plane_cas_airframe_1
+					modules = {
+						fixed_main_weapon_slot = small_bomb_bay
+						fixed_auxiliary_weapon_slot_1 = bomb_locks
+						engine_type_slot = engine_2_1x
+						special_type_slot_1 = empty
+					}
+					icon = "GFX_ENG_light_plane_1_medium"
+				}
+				create_equipment_variant = {
+					name = "HP Hampden" 
+					type = medium_plane_airframe_1
+					modules = {
+						fixed_main_weapon_slot = medium_bomb_bay
+						fixed_auxiliary_weapon_slot_1 = torpedo_mounting
+						engine_type_slot = engine_2_2x
+						special_type_slot_1 = lmg_defense_turret
+					}
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					name = RED_offensive_airforce
+					bonus = 1
+					uses = 1
+					category = cas_bomber
+					category = tactical_bomber
+				}
 			}
 		}
 	}
 
-	focus = { #공중지원 중점
-		id = RED_air_support_planes
-		icon = GFX_focus_generic_multi_role_aircraft
+	focus = { #공중전 특화
+		id = RED_defensive_airforce
+		icon = GFX_goal_generic_air_fighter2
 		cost = 10
 
-		relative_position_id = RED_some_focus
-		x = 0
+		relative_position_id = RED_invest_only_one_mio
+		x = 2
 		y = 2
 
 		prerequisite = { focus = RED_extend_air_bases }
-		mutually_exclusive = { focus = RED_air_fighter_planes }
+		mutually_exclusive = { focus = RED_offensive_airforce }
 
 		ai_will_do = { factor = 1 }
 
 		completion_reward = {
-			air_experience = 10
-			add_tech_bonus = {
-				name = RED_air_support_planes
-				bonus = 1
-				uses = 1
-				category = cas_bomber
-				category = tactical_bomber
+			air_experience = 20
+			if = {
+				limit = {
+				has_dlc = "By Blood Alone"
+				}
+				create_equipment_variant = {
+					name = "Hawker Hurricane" 
+					type = small_plane_airframe_1
+					modules = {
+						fixed_main_weapon_slot = light_mg_4x
+						fixed_auxiliary_weapon_slot_1 = light_mg_4x
+						engine_type_slot = engine_2_1x
+						special_type_slot_1 = empty
+					}
+					icon = "GFX_ENG_fighter1_medium"
+				}
+				create_equipment_variant = {
+					name = "Bristol Blenheim IF" 
+					type = medium_plane_fighter_airframe_1
+					modules = {
+						fixed_main_weapon_slot = light_mg_4x
+						engine_type_slot = engine_2_2x
+						special_type_slot_1 = lmg_defense_turret
+					}
+					icon = "GFX_ENG_heavy_fighter1_medium"
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					name = RED_defensive_airforce
+					bonus = 1
+					uses = 1
+					category = light_fighter
+					category = cat_heavy_fighter
+				}
 			}
 		}
 	}
 
-	focus = { #전장지원 교리
-		id = RED_battlefield_support_doctrine
+	
+
+	focus = { #
+		id = RED_production_first
 		icon = GFX_focus_NORDIC_dem_selector_airforce
 		cost = 5
 
-		relative_position_id = RED_some_focus
+		relative_position_id = RED_invest_only_one_mio
 		x = 0
 		y = 3
 
-		prerequisite = { focus = RED_air_support_planes }
+		prerequisite = { focus = RED_offensive_airforce focus = RED_defensive_airforce }
+		mutually_exclusive = { focus = RED_quality_first }
 
 		ai_will_do = { factor = 1 }
 
 		completion_reward = {
-			air_experience = 10
-			add_doctrine_cost_reduction = {
-				name = RED_battlefield_support_doctrine
-				uses = 2
-				cost_reduction = 0.50
-				category = battlefield_support_tree
-			}
+			
 		}
 	}
 
-	focus = { #공중우세 중점
-		id = RED_air_fighter_planes
-		icon = GFX_focus_generic_cas_aircraft
-		cost = 10
-
-		relative_position_id = RED_some_focus
-		x = 2
-		y = 2
-
-		prerequisite = { focus = RED_extend_air_bases }
-		mutually_exclusive = { focus = RED_air_support_planes }
-
-		ai_will_do = { factor = 1 }
-
-		completion_reward = {
-			air_experience = 10
-			add_tech_bonus = {
-				name = RED_air_fighter_planes
-				bonus = 1
-				uses = 1
-				category = light_fighter
-				category = cat_heavy_fighter
-			}
-		}
-	}
-
-	focus = { #선택적 교리
-		id = RED_selectable_doctrine
+	focus = { #
+		id = RED_quality_first
 		icon = GFX_focus_NORDIC_dem_airforce
 		cost = 5
 
-		relative_position_id = RED_some_focus
+		relative_position_id = RED_invest_only_one_mio
 		x = 2
 		y = 3
 
-		prerequisite = { focus = RED_air_fighter_planes }
+		prerequisite = { focus = RED_offensive_airforce focus = RED_defensive_airforce }
+		mutually_exclusive = { focus = RED_production_first }
 
 		ai_will_do = { factor = 1 }
 
 		completion_reward = {
-			air_experience = 10
-			add_doctrine_cost_reduction = {
-				name = RED_selectable_doctrine
-				uses = 1
-				cost_reduction = 0.50
-			}
+			
 		}
 	}
 
-	focus = {
-		id = RED_some_focus_9
+	focus = { #붉은겨울 항공대
+		id = RED_redwinter_airforce
 		icon = GFX_focus_FIN_expand_air_force_academy
 		cost = 10
 
-		relative_position_id = RED_some_focus
+		relative_position_id = RED_invest_only_one_mio
 		x = 1
 		y = 4
 
-		prerequisite = { focus = RED_battlefield_support_doctrine focus = RED_selectable_doctrine }
+		prerequisite = { focus = RED_production_first focus = RED_quality_first }
 
 		ai_will_do = { factor = 1 }
 
 		completion_reward = {
-			#국민정신 추가
+			if = {
+				limit = { 
+					has_completed_focus = RED_offensive_airforce
+				}
+				add_ideas = RED_redwinter_airforce_idea_1
+			}
+			else = {
+				add_ideas = RED_redwinter_airforce_idea_2
+			}
 		}
 	}
 }
