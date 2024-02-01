@@ -25,6 +25,8 @@ focus_tree = {
 			country_event = { id = GEH_event.1 }
 			activate_mission = GEH_gourmet_research_society_up
 			activate_mission = GEH_hot_spring_department_up
+			unlock_decision_tooltip = GEH_gourmet_research_society_down
+			unlock_decision_tooltip = GEH_hot_spring_department_down
 		}
 	}
 	focus = {
@@ -137,6 +139,10 @@ focus_tree = {
 		prerequisite = {
 			focus = GEH_gukbanggun_problem
 		}
+		prerequisite = {
+			focus = GEM_maintaining_dictatorship
+			focus = GEM_natsume_iroha
+		}
 		cancel = {
 			has_country_flag = HINA_DISAGREE
 		}
@@ -144,7 +150,7 @@ focus_tree = {
 			has_country_flag = GEH_nege_end
 		}
 		mutually_exclusive = { focus = GEH_subjugation }
-		x = -1
+		x = 5
 		y = 1
 		relative_position_id = GEH_gukbanggun_problem
 		select_effect ={
@@ -195,8 +201,8 @@ focus_tree = {
 				has_country_flag = GEH_federal_unification_flag
 			}
 		}
-		x = -1
-		y = 2
+		x = -4
+		y = 1
 		relative_position_id = GEH_nego_whit_wehrmacht_new
 		completion_reward = {
 		}
@@ -210,7 +216,7 @@ focus_tree = {
 			focus = GEH_gukbanggun_problem
 		}
 		mutually_exclusive = { focus = GEH_nego_whit_wehrmacht_new }
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = GEH_gukbanggun_problem
 		completion_reward = {
@@ -336,9 +342,69 @@ focus_tree = {
 		y = 3
 		relative_position_id = GEH_hyungzipa_ak
 		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.05
 			custom_effect_tooltip = GEM_club_of_gehenna_tt
 			add_to_variable = { GEH_gourmet_research_society_up_days = 60 }
 			add_to_variable = { GEH_hot_spring_department_up_days = 60 }
+		}
+	}
+	focus = {
+		id = GEM_maintaining_dictatorship
+		icon = GFX_goal_unknown
+		cost = 10.00
+		mutually_exclusive = { focus = GEM_Neutralize_Makoto }
+		x = 16
+		y = 0
+		completion_reward = {
+			add_stability = -0.10
+			add_political_power = 25
+		}
+	}
+	focus = {
+		id = GEM_Neutralize_Makoto
+		icon = GFX_goal_unknown
+		cost = 5.00
+		mutually_exclusive = { focus = GEM_maintaining_dictatorship }
+		x = 24
+		y = 0
+		completion_reward = {
+			add_country_leader_trait = {
+				ideology = nazism
+				trait = GEM_Neutralize
+			}
+		}
+	}
+	focus = {
+		id = GEM_natsume_iroha
+		icon = GFX_goal_unknown
+		cost = 5.00
+		prerequisite = { focus = GEM_Neutralize_Makoto }
+		mutually_exclusive = {
+			focus = GEM_group_leadership_system
+		}
+		available = {
+		}
+		x = -3
+		y = 1
+		relative_position_id = GEM_Neutralize_Makoto
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_group_leadership_system
+		icon = GFX_goal_unknown
+		cost = 5.00
+		prerequisite = { focus = GEM_Neutralize_Makoto }
+		mutually_exclusive = {
+			focus = GEM_natsume_iroha
+		}
+		available = {
+		}
+		x = 3
+		y = 1
+		relative_position_id = GEM_Neutralize_Makoto
+		completion_reward = {
 		}
 	}
 	focus = {
@@ -364,6 +430,91 @@ focus_tree = {
 			}
 		}
 
+	}
+	focus = {
+		id = GEM_union_state
+		icon = GFX_focus_ger_reichskommisariats
+		cost = 2.00
+		prerequisite = { focus = GEH_nego_whit_wehrmacht_new }
+		mutually_exclusive = {
+			focus = GEM_german_wehrmacht
+		}
+		available = {
+		}
+		x = -2
+		y = 1
+		relative_position_id = GEH_nego_whit_wehrmacht_new
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_german_wehrmacht
+		icon = GFX_focus_chi_mission_to_germany
+		cost = 2.00
+		prerequisite = { focus = GEH_nego_whit_wehrmacht_new }
+		mutually_exclusive = {
+			focus = GEM_union_state
+		}
+		available = {
+		}
+		x = 2
+		y = 1
+		relative_position_id = GEH_nego_whit_wehrmacht_new
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_luftwaffe
+		icon = GFX_goal_generic_build_airforce
+		cost = 2.00
+		prerequisite = { focus = GEM_german_wehrmacht focus = GEM_union_state }
+		available = {
+		}
+		x = -2
+		y = 1
+		relative_position_id = GEM_german_wehrmacht
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_general_staff
+		icon = GFX_goal_generic_axis_build_infantry
+		cost = 2.00
+		prerequisite = { focus = GEM_german_wehrmacht focus = GEM_union_state }
+		available = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = GEM_german_wehrmacht
+		completion_reward = {
+			add_ideas = general_staff
+		}
+	}
+	focus = {
+		id = GEM_systematic_training_system
+		icon = GFX_focus_chi_army_reform
+		cost = 2.00
+		prerequisite = { focus = GEM_general_staff }
+		available = {
+		}
+		x = 1
+		y = 1
+		relative_position_id = GEM_general_staff
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_german_officer_corps
+		icon = GFX_goal_generic_dangerous_deal
+		cost = 2.00
+		prerequisite = { focus = GEM_general_staff }
+		available = {
+		}
+		x = -1
+		y = 1
+		relative_position_id = GEM_general_staff
+		completion_reward = {
+		}
 	}
 	focus = {
 		id = GEM_attack_order
@@ -400,28 +551,10 @@ focus_tree = {
 
 	}
 	focus = {
-		id = GEM_Neutralize_Makoto
-		icon = GFX_goal_unknown
-		cost = 2.00
-		prerequisite = { focus = GEM_attack_order }
-		x = -1
-		y = 1
-		relative_position_id = GEM_attack_order
-		completion_reward = {
-			add_country_leader_trait = {
-				ideology = nazism
-				trait = GEM_Neutralize
-			}
-			remove_ideas = GEM_attack_order_idea
-		}
-
-	}
-	focus = {
 		id = GEM_Makoto_win
 		icon = GFX_goal_unknown
 		cost = 2.00
 		prerequisite = { focus = GEM_Army_Absorption }
-		prerequisite = { focus = GEM_Neutralize_Makoto }
 		available = {
 			has_civil_war = no
 		}
@@ -453,38 +586,6 @@ focus_tree = {
 				remove_ideas = GEH_individualism_low
 				remove_ideas = GEH_Emergency
 			}
-		}
-	}
-	focus = {
-		id = GEM_natsume_iroha
-		icon = GFX_goal_unknown
-		cost = 2.00
-		prerequisite = { focus = GEM_big_problem }
-		mutually_exclusive = {
-			focus = GEM_group_leadership_system
-		}
-		available = {
-		}
-		x = -5
-		y = 1
-		relative_position_id = GEM_big_problem
-		completion_reward = {
-		}
-	}
-	focus = {
-		id = GEM_group_leadership_system
-		icon = GFX_goal_unknown
-		cost = 2.00
-		prerequisite = { focus = GEM_big_problem }
-		mutually_exclusive = {
-			focus = GEM_natsume_iroha
-		}
-		available = {
-		}
-		x = 5
-		y = 1
-		relative_position_id = GEM_big_problem
-		completion_reward = {
 		}
 	}
 }
