@@ -74,43 +74,6 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = GEM_gehenna_academy
-		icon = GFX_goal_generic_propaganda
-		cost = 10
-		prerequisite = {
-			focus = GEH_warning_sunjun
-		}
-		x = 0
-		y = 1
-		relative_position_id = GEH_warning_sunjun
-		completion_reward = {
-			add_political_power = 120
-			add_stability = 0.10
-		}
-
-	}
-	focus = {
-		id = GEM_working_with_the_perfect_team
-		icon = GFX_goal_HEU_geh_c
-		cost = 10
-		prerequisite = {
-			focus = GEM_gehenna_academy
-		}
-		available = {
-			NOT = {
-				has_country_leader = {
-					character = GEH_akzhxh
-					ruling_only = yes
-				}
-			}
-		}
-		x = -1
-		y = 1
-		relative_position_id = GEM_gehenna_academy
-		completion_reward = {
-		}
-	}
-	focus = {
 		id = GEH_nego_whit_wehrmacht_new
 		icon = GFX_focus_POL_beck_ribbentrop
 		cost = 20
@@ -128,7 +91,7 @@ focus_tree = {
 		bypass = {
 			has_country_flag = GEH_nege_end
 		}
-		mutually_exclusive = { focus = GEH_subjugation }
+		mutually_exclusive = { focus = GEH_subjugation focus = GEM_gehenna_academy }
 		x = 5
 		y = 1
 		relative_position_id = GEH_gukbanggun_problem
@@ -364,7 +327,7 @@ focus_tree = {
 		icon = GFX_goal_unknown
 		cost = 5.00
 		mutually_exclusive = { focus = GEM_maintaining_dictatorship }
-		x = 24
+		x = 26
 		y = 0
 		completion_reward = {
 			add_country_leader_trait = {
@@ -406,65 +369,116 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = GEM_makoto_war
-		icon = GFX_goal_unknown
-		cost = 1.00
-		x = 36
-		y = 0
+		id = GEM_pandemonium_reform
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 5.00
+		prerequisite = { focus = GEM_natsume_iroha focus = GEM_group_leadership_system }
 		available = {
-			has_country_flag = GAEBALJUNG
 		}
-		select_effect = {
-		}
+		x = 0
+		y = 2
+		relative_position_id = GEM_Neutralize_Makoto
 		completion_reward = {
-			add_war_support = 0.3
-			swap_ideas = {
-				remove_idea = GEH_individualism
-				add_idea = GEH_individualism_low
-			}
-			hidden_effect = {
-				#add_ideas = GEH_dongari_problem
-				add_ideas = GEH_anarchist_society_2
-			}
+		}
+	}
+	focus = {
+		id = GEM_gehenna_academy
+		icon = GFX_goal_generic_propaganda
+		cost = 5
+		prerequisite = {
+			focus = GEM_natsume_iroha
+			focus = GEM_group_leadership_system
+		}
+		mutually_exclusive = { focus = GEH_nego_whit_wehrmacht_new }
+		x = -6
+		y = 2
+		relative_position_id = GEM_Neutralize_Makoto
+		completion_reward = {
+			add_political_power = 60
+			add_stability = 0.05
 		}
 
 	}
 	focus = {
+		id = GEM_working_with_the_perfect_team
+		icon = GFX_goal_HEU_geh_c
+		cost = 10
+		prerequisite = {
+			focus = GEM_gehenna_academy
+		}
+		available = {
+			NOT = {
+				has_country_leader = {
+					character = GEH_akzhxh
+					ruling_only = yes
+				}
+			}
+			is_subject = no
+			is_in_faction = no
+		}
+		x = 0
+		y = 1
+		relative_position_id = GEM_gehenna_academy
+		completion_reward = {
+			GEM = {
+				set_rule = { can_create_factions = yes }
+				create_faction = GEH_Federation
+			}
+			GEH = {
+				country_event = generic.5
+			}
+		}
+	}
+	focus = {
 		id = GEM_union_state
 		icon = GFX_focus_ger_reichskommisariats
-		cost = 2.00
+		cost = 5.00
 		prerequisite = { focus = GEH_nego_whit_wehrmacht_new }
 		mutually_exclusive = {
 			focus = GEM_german_wehrmacht
 		}
 		available = {
+			has_country_flag = GEH_federal_unification_flag
 		}
 		x = -2
 		y = 1
 		relative_position_id = GEH_nego_whit_wehrmacht_new
 		completion_reward = {
+			GEA = {
+				every_character = {
+					set_nationality = ROOT
+				}
+			}
 		}
 	}
 	focus = {
 		id = GEM_german_wehrmacht
 		icon = GFX_focus_chi_mission_to_germany
-		cost = 2.00
+		cost = 5.00
 		prerequisite = { focus = GEH_nego_whit_wehrmacht_new }
 		mutually_exclusive = {
 			focus = GEM_union_state
 		}
 		available = {
+			has_country_flag = GEH_transfer_to_gehenna_academy_flag
 		}
 		x = 2
 		y = 1
 		relative_position_id = GEH_nego_whit_wehrmacht_new
 		completion_reward = {
+			army_experience = 25
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.25
+				uses = 1
+				category = land_doctrine
+			}
 		}
 	}
 	focus = {
 		id = GEM_luftwaffe
 		icon = GFX_goal_generic_build_airforce
-		cost = 2.00
+		cost = 10.00
 		prerequisite = { focus = GEM_german_wehrmacht focus = GEM_union_state }
 		available = {
 		}
@@ -477,7 +491,7 @@ focus_tree = {
 	focus = {
 		id = GEM_general_staff
 		icon = GFX_goal_generic_axis_build_infantry
-		cost = 2.00
+		cost = 5.00
 		prerequisite = { focus = GEM_german_wehrmacht focus = GEM_union_state }
 		available = {
 		}
@@ -491,98 +505,119 @@ focus_tree = {
 	focus = {
 		id = GEM_systematic_training_system
 		icon = GFX_focus_chi_army_reform
-		cost = 2.00
+		cost = 5.00
 		prerequisite = { focus = GEM_general_staff }
 		available = {
-		}
-		x = 1
-		y = 1
-		relative_position_id = GEM_general_staff
-		completion_reward = {
-		}
-	}
-	focus = {
-		id = GEM_german_officer_corps
-		icon = GFX_goal_generic_dangerous_deal
-		cost = 2.00
-		prerequisite = { focus = GEM_general_staff }
-		available = {
+			has_idea = GEH_individualism
 		}
 		x = -1
 		y = 1
 		relative_position_id = GEM_general_staff
 		completion_reward = {
+			remove_ideas = GEH_individualism
+			add_dynamic_modifier = {
+				modifier = GEM_army_wehrmacht
+			}
+			set_variable = { GEM_army_wehrmacht_army_attack_factor = -0.10 }
+			set_variable = { GEM_army_wehrmacht_army_defence_factor = -0.10 }
+			set_variable = { GEM_army_wehrmacht_army_speed_factor = -0.15 }
+			set_variable = { GEM_army_wehrmacht_army_org_factor = -0.10 }
+			set_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_attack_factor = -0.30 }
+			set_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_defence_factor = -0.30 }
+			set_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_org_recovery_cap_factor = -0.30 }
+			set_variable = { GEM_army_wehrmacht_army_morale_factor = 0 }
+			set_variable = { GEM_army_wehrmacht_land_doctrine_cost_factor = 0 }
 		}
 	}
 	focus = {
-		id = GEM_attack_order
-		icon = GFX_goal_unknown
-		cost = 1.50
-		prerequisite = { focus = GEM_makoto_war }
-		x = 0
+		id = GEM_creation_of_the_gehenna_wehrmacht
+		icon = GFX_focus_generic_little_entente
+		cost = 5.00
+		prerequisite = { focus = GEM_systematic_training_system }
+		x = -1
 		y = 1
-		relative_position_id = GEM_makoto_war
-		select_effect = {
-		}
+		relative_position_id = GEM_systematic_training_system
 		completion_reward = {
-			add_war_support = 0.05
-			add_ideas = GEM_attack_order_idea
+			custom_effect_tooltip = GEM_creation_of_the_gehenna_wehrmacht_tt
+			add_to_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_attack_factor = 0.15 }
+			add_to_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_defence_factor = 0.15 }
+			add_to_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_org_recovery_cap_factor = 0.20 }
 		}
-
 	}
 	focus = {
-		id = GEM_Army_Absorption
-		icon = GFX_focus_ETH_freedom_at_gunpoint
-		cost = 2.00
-		prerequisite = { focus = GEM_attack_order }
+		id = GEM_joint_staff
+		icon = GFX_focus_generic_treaty
+		cost = 5.00
+		prerequisite = { focus = GEM_systematic_training_system }
 		x = 1
 		y = 1
-		relative_position_id = GEM_attack_order
+		relative_position_id = GEM_systematic_training_system
 		completion_reward = {
-			add_manpower = 12000
-			add_equipment_to_stockpile = {
-                type = infantry_equipment
-                amount = 5000
-          	}
-
+			custom_effect_tooltip = GEM_joint_staff_tt
+			add_to_variable = { GEM_army_wehrmacht_army_attack_factor = 0.10 }
+			add_to_variable = { GEM_army_wehrmacht_army_defence_factor = 0.10 }
+			add_to_variable = { GEM_army_wehrmacht_army_speed_factor = 0.05 }
+			add_to_variable = { GEM_army_wehrmacht_army_org_factor = 0.05 }
 		}
-
 	}
 	focus = {
-		id = GEM_Makoto_win
-		icon = GFX_goal_unknown
-		cost = 2.00
-		prerequisite = { focus = GEM_Army_Absorption }
-		available = {
-			has_civil_war = no
-		}
-		x = 0
-		y = 2
-		relative_position_id = GEM_attack_order
-		completion_reward = {
-			country_event = { id = GEH_event.32 hours = 1 }  
-		}
-
-	}
-	focus = {
-		id = GEM_big_problem
-		icon = GFX_goal_unknown
-		cost = 2.00
-		prerequisite = { focus = GEM_Makoto_win }
+		id = GEM_gehenna_militarism
+		icon = GFX_goal_generic_forceful_treaty
+		cost = 5.00
+		prerequisite = { focus = GEM_creation_of_the_gehenna_wehrmacht focus = GEM_joint_staff }
 		available = {
 		}
-		x = 0
+		x = 1
 		y = 1
-		relative_position_id = GEM_Makoto_win
+		relative_position_id = GEM_creation_of_the_gehenna_wehrmacht
 		completion_reward = {
-			set_cosmetic_tag = GEH_Sundobu
-			country_event = { id = GEH_event.39 hours = 8 }
-			hidden_effect = {
-				#add_ideas = GEH_dongari_problem
-				#add_ideas = GEH_anarchist_society_2
-				remove_ideas = GEH_individualism
-				remove_ideas = GEH_individualism_low
-				remove_ideas = GEH_Emergency
+			custom_effect_tooltip = GEM_gehenna_militarism_tt
+			add_to_variable = { GEM_army_wehrmacht_army_speed_factor = 0.10 }
+			add_to_variable = { GEM_army_wehrmacht_army_org_factor = 0.05 }
+			add_to_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_attack_factor = 0.05 }
+			add_to_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_defence_factor = 0.05 }
+		}
+	}
+	focus = {
+		id = GEM_solitary_force
+		icon = GFX_focus_generic_manpower
+		cost = 5.00
+		prerequisite = { focus = GEM_systematic_training_system }
+		available = {
+		}
+		x = 3
+		y = 1
+		relative_position_id = GEM_systematic_training_system
+		completion_reward = {
+			custom_effect_tooltip = GEM_solitary_force_tt
+			add_to_variable = { GEM_army_wehrmacht_army_morale_factor = 0.10 }
+			add_to_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_org_recovery_cap_factor = 0.05 }
+		}
+	}
+	focus = {
+		id = GEM_german_officer_corps
+		icon = GFX_goal_generic_dangerous_deal
+		cost = 5.00
+		prerequisite = { focus = GEM_general_staff }
+		available = {
+		}
+		x = 1
+		y = 1
+		relative_position_id = GEM_general_staff
+		completion_reward = {
+			GEA = {
+				random_army_leader = {
+					set_nationality = ROOT
+				}
+				random_army_leader = {
+					set_nationality = ROOT
+				}
+				random_army_leader = {
+					set_nationality = ROOT
+				}
+				random_army_leader = {
+					set_nationality = ROOT
+				}
 			}
 		}
 	}
