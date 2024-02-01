@@ -153,15 +153,77 @@ HND_army_reform_decision_category = {
 	}
 }
 HND_fas_occupy_dec = {
+	HND_end_war_dec = {
+		ai_will_do = {
+			base = 10
+		}
+		icon = GFX_decision_hol_war_on_pacifism
+		visible = {
+			OR = {
+				has_completed_focus = HND_fas_out_4
+				has_completed_focus = HND_fas_out_3
+			}
+		}
+		fire_only_once = yes
+		available = {
+			has_war_with = ENG
+			all_core_state = {
+				is_controlled_by_ROOT_or_ally = yes
+			}
+		}
+		complete_effect = {
+			every_country = {
+				limit = {
+					has_war_with = HND
+				}
+				white_peace = HND
+			}
+			every_core_state = {
+				transfer_state_to = HND
+			}
+		}
+	}
+	HND_fas_eat_pak = {
+		icon = GFX_decision_generic_political_discourse
+		visible = {
+			has_completed_focus = HND_fas_out_7
+		}
+		available = {
+			PAK = {
+				all_core_state = {
+					is_owned_by = HND
+					compliance > 50
+				}
+			}
+		}
+		days_remove = 120
+		modifier = {
+			political_power_factor = -0.15
+			conscription_factor = -0.05
+		}
+		ai_will_do = {
+			base = 10
+		}
+		remove_effect = {
+			PAK = {
+				every_core_state = {
+					add_core_of = HND
+				}
+			}
+		}
+		fire_only_once = yes
+	}
 	HND_fas_eat_burma = {
 		icon = GFX_decision_generic_political_discourse
 		visible = {
 			has_completed_focus = HND_fas_out_7
 		}
 		available = {
-			all_state = {
-				is_core_of = BRM	
-				is_owned_by = HND
+			BRM = {
+				all_core_state = {
+					is_owned_by = HND
+					compliance > 50
+				}
 			}
 		}
 		days_remove = 120
@@ -179,6 +241,7 @@ HND_fas_occupy_dec = {
 				}
 			}
 		}
+		fire_only_once = yes
 	}
 	HND_fas_eat_yun = {
 		icon = GFX_decision_generic_nationalism
@@ -207,5 +270,6 @@ HND_fas_occupy_dec = {
 				}
 			}
 		}
+		fire_only_once = yes
 	}
 }
