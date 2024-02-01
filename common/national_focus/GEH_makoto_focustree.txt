@@ -432,12 +432,13 @@ focus_tree = {
 	focus = {
 		id = GEM_union_state
 		icon = GFX_focus_ger_reichskommisariats
-		cost = 2.00
+		cost = 5.00
 		prerequisite = { focus = GEH_nego_whit_wehrmacht_new }
 		mutually_exclusive = {
 			focus = GEM_german_wehrmacht
 		}
 		available = {
+			has_country_flag = GEH_federal_unification_flag
 		}
 		x = -2
 		y = 1
@@ -448,23 +449,31 @@ focus_tree = {
 	focus = {
 		id = GEM_german_wehrmacht
 		icon = GFX_focus_chi_mission_to_germany
-		cost = 2.00
+		cost = 5.00
 		prerequisite = { focus = GEH_nego_whit_wehrmacht_new }
 		mutually_exclusive = {
 			focus = GEM_union_state
 		}
 		available = {
+			has_country_flag = GEH_transfer_to_gehenna_academy_flag
 		}
 		x = 2
 		y = 1
 		relative_position_id = GEH_nego_whit_wehrmacht_new
 		completion_reward = {
+			army_experience = 25
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.25
+				uses = 1
+				category = land_doctrine
+			}
 		}
 	}
 	focus = {
 		id = GEM_luftwaffe
 		icon = GFX_goal_generic_build_airforce
-		cost = 2.00
+		cost = 10.00
 		prerequisite = { focus = GEM_german_wehrmacht focus = GEM_union_state }
 		available = {
 		}
@@ -477,7 +486,7 @@ focus_tree = {
 	focus = {
 		id = GEM_general_staff
 		icon = GFX_goal_generic_axis_build_infantry
-		cost = 2.00
+		cost = 5.00
 		prerequisite = { focus = GEM_german_wehrmacht focus = GEM_union_state }
 		available = {
 		}
@@ -491,24 +500,103 @@ focus_tree = {
 	focus = {
 		id = GEM_systematic_training_system
 		icon = GFX_focus_chi_army_reform
-		cost = 2.00
+		cost = 5.00
 		prerequisite = { focus = GEM_general_staff }
+		available = {
+			has_idea = GEH_individualism
+		}
+		x = -1
+		y = 1
+		relative_position_id = GEM_general_staff
+		completion_reward = {
+			remove_ideas = GEH_individualism
+			add_dynamic_modifier = {
+				modifier = GEM_army_wehrmacht
+			}
+			set_variable = { GEM_army_wehrmacht_army_attack_factor = -0.10 }
+			set_variable = { GEM_army_wehrmacht_army_defence_factor = -0.10 }
+			set_variable = { GEM_army_wehrmacht_army_speed_factor = -0.15 }
+			set_variable = { GEM_army_wehrmacht_army_org_factor = -0.10 }
+			set_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_attack_factor = -0.30 }
+			set_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_defence_factor = -0.30 }
+			set_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_org_recovery_cap_factor = -0.30 }
+			set_variable = { GEM_army_wehrmacht_army_morale_factor = 0 }
+			set_variable = { GEM_army_wehrmacht_land_doctrine_cost_factor = 0 }
+		}
+	}
+	focus = {
+		id = GEM_creation_of_the_gehenna_wehrmacht
+		icon = GFX_focus_generic_little_entente
+		cost = 5.00
+		prerequisite = { focus = GEM_systematic_training_system }
+		x = -1
+		y = 1
+		relative_position_id = GEM_systematic_training_system
+		completion_reward = {
+			custom_effect_tooltip = GEM_creation_of_the_gehenna_wehrmacht_tt
+			add_to_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_attack_factor = 0.15 }
+			add_to_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_defence_factor = 0.15 }
+			add_to_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_org_recovery_cap_factor = 0.20 }
+		}
+	}
+	focus = {
+		id = GEM_joint_staff
+		icon = GFX_focus_generic_treaty
+		cost = 5.00
+		prerequisite = { focus = GEM_systematic_training_system }
+		x = 1
+		y = 1
+		relative_position_id = GEM_systematic_training_system
+		completion_reward = {
+			custom_effect_tooltip = GEM_joint_staff_tt
+			add_to_variable = { GEM_army_wehrmacht_army_attack_factor = 0.10 }
+			add_to_variable = { GEM_army_wehrmacht_army_defence_factor = 0.10 }
+			add_to_variable = { GEM_army_wehrmacht_army_speed_factor = 0.05 }
+			add_to_variable = { GEM_army_wehrmacht_army_org_factor = 0.05 }
+		}
+	}
+	focus = {
+		id = GEM_gehenna_militarism
+		icon = GFX_goal_generic_forceful_treaty
+		cost = 5.00
+		prerequisite = { focus = GEM_creation_of_the_gehenna_wehrmacht focus = GEM_joint_staff }
 		available = {
 		}
 		x = 1
 		y = 1
-		relative_position_id = GEM_general_staff
+		relative_position_id = GEM_creation_of_the_gehenna_wehrmacht
 		completion_reward = {
+			custom_effect_tooltip = GEM_gehenna_militarism_tt
+			add_to_variable = { GEM_army_wehrmacht_army_speed_factor = 0.10 }
+			add_to_variable = { GEM_army_wehrmacht_army_org_factor = 0.05 }
+			add_to_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_attack_factor = 0.05 }
+			add_to_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_defence_factor = 0.05 }
+		}
+	}
+	focus = {
+		id = GEM_solitary_force
+		icon = GFX_focus_generic_manpower
+		cost = 5.00
+		prerequisite = { focus = GEM_systematic_training_system }
+		available = {
+		}
+		x = 3
+		y = 1
+		relative_position_id = GEM_systematic_training_system
+		completion_reward = {
+			custom_effect_tooltip = GEM_solitary_force_tt
+			add_to_variable = { GEM_army_wehrmacht_army_morale_factor = 0.10 }
+			add_to_variable = { GEM_army_wehrmacht_modifier_army_sub_unit_halo_infantry_org_recovery_cap_factor = 0.05 }
 		}
 	}
 	focus = {
 		id = GEM_german_officer_corps
 		icon = GFX_goal_generic_dangerous_deal
-		cost = 2.00
+		cost = 5.00
 		prerequisite = { focus = GEM_general_staff }
 		available = {
 		}
-		x = -1
+		x = 1
 		y = 1
 		relative_position_id = GEM_general_staff
 		completion_reward = {
