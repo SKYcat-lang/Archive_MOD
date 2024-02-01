@@ -268,14 +268,8 @@ KSP_fight_with_wakamo = {
 				has_country_flag = KSP_doing_decisions_wakamo
 			}
 		}
-		custom_cost_trigger = {
-			has_political_power > 24
-			has_equipment = {
-				infantry_equipment > 199
-			}
 
-		}
-		custom_cost_text = KSP_suppress_wakamo_in_n_cost
+		cost = 25
 		days_remove = 90
 
 		highlight_states = {
@@ -291,14 +285,6 @@ KSP_fight_with_wakamo = {
 		}
 
 		complete_effect = {
-			hidden_effect = {
-				add_political_power = -25
-				add_equipment_to_stockpile = {
-					type = infantry_equipment
-  					amount = -200
-  				  	producer = KSP
-				}
-			}
 			set_country_flag = KSP_doing_decisions_wakamo
 			34 = {
 				set_state_flag = KSP_no_wakamo_here
@@ -336,14 +322,8 @@ KSP_fight_with_wakamo = {
 				has_country_flag = KSP_doing_decisions_wakamo
 			}
 		}
-		custom_cost_trigger = {
-			has_political_power > 24
-			has_equipment = {
-				infantry_equipment > 199
-			}
-
-		}
-		custom_cost_text = KSP_suppress_wakamo_in_n_cost
+		
+		cost = 25
 		days_remove = 90
 
 		highlight_states = {
@@ -359,14 +339,6 @@ KSP_fight_with_wakamo = {
 		}
 
 		complete_effect = {
-			hidden_effect = {
-				add_political_power = -25
-				add_equipment_to_stockpile = {
-					type = infantry_equipment
-  					amount = -200
-  				  	producer = KSP
-				}
-			}
 			set_country_flag = KSP_doing_decisions_wakamo
 			937 = {
 				set_state_flag = KSP_no_wakamo_here
@@ -404,14 +376,7 @@ KSP_fight_with_wakamo = {
 				has_country_flag = KSP_doing_decisions_wakamo
 			}
 		}
-		custom_cost_trigger = {
-			has_political_power > 24
-			has_equipment = {
-				infantry_equipment > 199
-			}
-
-		}
-		custom_cost_text = KSP_suppress_wakamo_in_n_cost
+		cost = 25
 		days_remove = 90
 
 		highlight_states = {
@@ -427,14 +392,6 @@ KSP_fight_with_wakamo = {
 		}
 
 		complete_effect = {
-			hidden_effect = {
-				add_political_power = -25
-				add_equipment_to_stockpile = {
-					type = infantry_equipment
-  					amount = -200
-  				  	producer = KSP
-				}
-			}
 			set_country_flag = KSP_doing_decisions_wakamo
 			948 = {
 				set_state_flag = KSP_no_wakamo_here
@@ -473,14 +430,7 @@ KSP_fight_with_wakamo = {
 				has_country_flag = KSP_doing_decisions_wakamo
 			}
 		}
-		custom_cost_trigger = {
-			has_political_power > 24
-			has_equipment = {
-				infantry_equipment > 199
-			}
-
-		}
-		custom_cost_text = KSP_suppress_wakamo_in_n_cost
+		cost = 25
 		days_remove = 90
 
 		highlight_states = {
@@ -496,14 +446,6 @@ KSP_fight_with_wakamo = {
 		}
 
 		complete_effect = {
-			hidden_effect = {
-				add_political_power = -25
-				add_equipment_to_stockpile = {
-					type = infantry_equipment
-  					amount = -200
-  				  	producer = KSP
-				}
-			}
 			set_country_flag = KSP_doing_decisions_wakamo
 			938 = {
 				set_state_flag = KSP_no_wakamo_here
@@ -538,56 +480,26 @@ KSP_fight_with_wakamo = {
 				has_idea = KSP_wakamo_sabotage_2
 			}
 		}
-		custom_cost_trigger = {
-			command_power > 24
-		}
-		custom_cost_text = KSP_suppress_wakamo_all_cost
+		cost = 50
 		days_remove = 60
 
 		modifier = {
 			political_power_cost = 0.50
 		}
-		
 
 		ai_will_do = {
 			base = 40
 		}
 
 		complete_effect = {
-			hidden_effect = {
-				add_command_power = -25
-			}
+			
 		}
 
 		remove_effect = {
-			if = {
-				limit = {
-					NOT = {
-						has_idea = KSP_wakamo_sabotage
-						is_ai = yes
-					}
-				}
-				random_list = {
-					20 = {
-						country_event = { id = KSP_event.34 }
-					}
-					10 = {
-						country_event = { id = KSP_event.33 }
-					}
-				}
-			}
-			if = {
-				limit = {
-					OR = {
-						has_idea = KSP_wakamo_sabotage
-						is_ai = yes
-					}
-				}
-				country_event = { id = KSP_event.34 }
-			}
+			country_event = { id = KSP_event.34 }
 		}
 
-		days_re_enable = 20
+		days_re_enable = 40
 	}
 	KSP_wakamo_showdown = {
 		icon = generic_ignite_civil_war
@@ -739,15 +651,23 @@ KSP_kanna_health_and_gov_problems = {
 	}
 	KSP_sanghwal_safety_coup_activate = { #대황키리노님의 쿠데타데스
 		activation = {
+			check_variable = {
+				KSP_gov_hangjung_disorder_var > 15
+			}
 			has_country_flag = KSP_kanna_health_and_gov_problems_start
 			has_idea = KSP_sanghwal_safety_power
+		}
+		available = {
+			NOT = {
+				has_idea = KSP_sanghwal_safety_power
+			}
 		}
 		is_good = no
 		days_mission_timeout = 30
 		priority = 0.01
 		timeout_effect = { #이제 이 나라는 빨개진다 ㅅㄱ
 			hidden_effect = {
-				#국가전복 만들어라 리기야
+				country_event = { id = KSP_event.39 }
 			}
 			custom_effect_tooltip = KSP_sanghwal_safety_coup_activate_ns_tt
 		}
@@ -758,6 +678,9 @@ KSP_kanna_health_and_gov_problems = {
 		available = {
 			has_country_flag = KSP_kanna_health_and_gov_problems_start #행정 붕괴와 관련된 일 시작
 		}
+		visible = {
+			has_country_flag = KSP_kanna_health_and_gov_problems_start #행정 붕괴와 관련된 일 시작
+		}
 
 		ai_will_do = {
 			factor = 1
@@ -766,6 +689,7 @@ KSP_kanna_health_and_gov_problems = {
 		remove_effect = {
 			KSP_sanghwal_safety_level_up = yes
 			KSP_not_accustomed_to_work_lower = yes
+			custom_effect_tooltip = KSP_getting_used_to_work_gov_tt
 		}
 
 		days_re_enable = 120
@@ -776,6 +700,9 @@ KSP_kanna_health_and_gov_problems = {
 		available = {
 			has_country_flag = KSP_kanna_health_and_gov_problems_start #행정 붕괴와 관련된 일 시작
 		}
+		visible = {
+			has_country_flag = KSP_kanna_health_and_gov_problems_start #행정 붕괴와 관련된 일 시작
+		}
 
 		ai_will_do = {
 			factor = 1
@@ -784,6 +711,7 @@ KSP_kanna_health_and_gov_problems = {
 		remove_effect = {
 			KSP_gyeongbiguk_level_up = yes
 			KSP_not_accustomed_to_work_lower = yes
+			custom_effect_tooltip = KSP_getting_used_to_work_gov_tt
 		}
 
 		days_re_enable = 120
