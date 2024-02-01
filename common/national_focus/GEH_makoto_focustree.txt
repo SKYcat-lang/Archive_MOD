@@ -74,43 +74,6 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = GEM_gehenna_academy
-		icon = GFX_goal_generic_propaganda
-		cost = 10
-		prerequisite = {
-			focus = GEH_warning_sunjun
-		}
-		x = 0
-		y = 1
-		relative_position_id = GEH_warning_sunjun
-		completion_reward = {
-			add_political_power = 120
-			add_stability = 0.10
-		}
-
-	}
-	focus = {
-		id = GEM_working_with_the_perfect_team
-		icon = GFX_goal_HEU_geh_c
-		cost = 10
-		prerequisite = {
-			focus = GEM_gehenna_academy
-		}
-		available = {
-			NOT = {
-				has_country_leader = {
-					character = GEH_akzhxh
-					ruling_only = yes
-				}
-			}
-		}
-		x = -1
-		y = 1
-		relative_position_id = GEM_gehenna_academy
-		completion_reward = {
-		}
-	}
-	focus = {
 		id = GEH_nego_whit_wehrmacht_new
 		icon = GFX_focus_POL_beck_ribbentrop
 		cost = 20
@@ -128,7 +91,7 @@ focus_tree = {
 		bypass = {
 			has_country_flag = GEH_nege_end
 		}
-		mutually_exclusive = { focus = GEH_subjugation }
+		mutually_exclusive = { focus = GEH_subjugation focus = GEM_gehenna_academy }
 		x = 5
 		y = 1
 		relative_position_id = GEH_gukbanggun_problem
@@ -364,7 +327,7 @@ focus_tree = {
 		icon = GFX_goal_unknown
 		cost = 5.00
 		mutually_exclusive = { focus = GEM_maintaining_dictatorship }
-		x = 24
+		x = 26
 		y = 0
 		completion_reward = {
 			add_country_leader_trait = {
@@ -406,28 +369,65 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = GEM_makoto_war
-		icon = GFX_goal_unknown
-		cost = 1.00
-		x = 36
-		y = 0
+		id = GEM_pandemonium_reform
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 5.00
+		prerequisite = { focus = GEM_natsume_iroha focus = GEM_group_leadership_system }
 		available = {
-			has_country_flag = GAEBALJUNG
 		}
-		select_effect = {
-		}
+		x = 0
+		y = 2
+		relative_position_id = GEM_Neutralize_Makoto
 		completion_reward = {
-			add_war_support = 0.3
-			swap_ideas = {
-				remove_idea = GEH_individualism
-				add_idea = GEH_individualism_low
-			}
-			hidden_effect = {
-				#add_ideas = GEH_dongari_problem
-				add_ideas = GEH_anarchist_society_2
-			}
+		}
+	}
+	focus = {
+		id = GEM_gehenna_academy
+		icon = GFX_goal_generic_propaganda
+		cost = 5
+		prerequisite = {
+			focus = GEM_natsume_iroha
+			focus = GEM_group_leadership_system
+		}
+		mutually_exclusive = { focus = GEH_nego_whit_wehrmacht_new }
+		x = -6
+		y = 2
+		relative_position_id = GEM_Neutralize_Makoto
+		completion_reward = {
+			add_political_power = 60
+			add_stability = 0.05
 		}
 
+	}
+	focus = {
+		id = GEM_working_with_the_perfect_team
+		icon = GFX_goal_HEU_geh_c
+		cost = 10
+		prerequisite = {
+			focus = GEM_gehenna_academy
+		}
+		available = {
+			NOT = {
+				has_country_leader = {
+					character = GEH_akzhxh
+					ruling_only = yes
+				}
+			}
+			is_subject = no
+			is_in_faction = no
+		}
+		x = 0
+		y = 1
+		relative_position_id = GEM_gehenna_academy
+		completion_reward = {
+			GEM = {
+				set_rule = { can_create_factions = yes }
+				create_faction = GEH_Federation
+			}
+			GEH = {
+				country_event = generic.5
+			}
+		}
 	}
 	focus = {
 		id = GEM_union_state
@@ -600,78 +600,6 @@ focus_tree = {
 		y = 1
 		relative_position_id = GEM_general_staff
 		completion_reward = {
-		}
-	}
-	focus = {
-		id = GEM_attack_order
-		icon = GFX_goal_unknown
-		cost = 1.50
-		prerequisite = { focus = GEM_makoto_war }
-		x = 0
-		y = 1
-		relative_position_id = GEM_makoto_war
-		select_effect = {
-		}
-		completion_reward = {
-			add_war_support = 0.05
-			add_ideas = GEM_attack_order_idea
-		}
-
-	}
-	focus = {
-		id = GEM_Army_Absorption
-		icon = GFX_focus_ETH_freedom_at_gunpoint
-		cost = 2.00
-		prerequisite = { focus = GEM_attack_order }
-		x = 1
-		y = 1
-		relative_position_id = GEM_attack_order
-		completion_reward = {
-			add_manpower = 12000
-			add_equipment_to_stockpile = {
-                type = infantry_equipment
-                amount = 5000
-          	}
-
-		}
-
-	}
-	focus = {
-		id = GEM_Makoto_win
-		icon = GFX_goal_unknown
-		cost = 2.00
-		prerequisite = { focus = GEM_Army_Absorption }
-		available = {
-			has_civil_war = no
-		}
-		x = 0
-		y = 2
-		relative_position_id = GEM_attack_order
-		completion_reward = {
-			country_event = { id = GEH_event.32 hours = 1 }  
-		}
-
-	}
-	focus = {
-		id = GEM_big_problem
-		icon = GFX_goal_unknown
-		cost = 2.00
-		prerequisite = { focus = GEM_Makoto_win }
-		available = {
-		}
-		x = 0
-		y = 1
-		relative_position_id = GEM_Makoto_win
-		completion_reward = {
-			set_cosmetic_tag = GEH_Sundobu
-			country_event = { id = GEH_event.39 hours = 8 }
-			hidden_effect = {
-				#add_ideas = GEH_dongari_problem
-				#add_ideas = GEH_anarchist_society_2
-				remove_ideas = GEH_individualism
-				remove_ideas = GEH_individualism_low
-				remove_ideas = GEH_Emergency
-			}
 		}
 	}
 }
