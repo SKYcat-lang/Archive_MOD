@@ -2559,7 +2559,7 @@ focus_tree = {
 		#지주 공격
 		id = HND_fas_focus_1
 		icon = GFX_focus_eng_move_to_secure_the_dominions
-		cost = 5
+		cost = 2
 		x = -6
 		y = 1
 		relative_position_id = HND_fas_focus_0
@@ -2768,7 +2768,7 @@ focus_tree = {
 		#외국의 투자
 		id = HND_fas_focus_9
 		icon = GFX_focus_befriend_italy
-		cost = 5
+		cost = 2
 		x = -4
 		y = 3
 		relative_position_id = HND_fas_focus_0
@@ -2998,7 +2998,7 @@ focus_tree = {
 		#노동자 보호
 		id = HND_fas_focus_18.5
 		icon = GFX_focus_eng_concessions_to_the_trade_unions
-		cost = 5
+		cost = 2
 		x = 4
 		y = 2
 		relative_position_id = HND_fas_focus_0
@@ -3234,7 +3234,7 @@ focus_tree = {
 		#바라트 자유 헌법
 		id = HND_fas_focus_29
 		icon = GFX_focus_generic_fascist_propaganda
-		cost = 5
+		cost = 2
 		x = 0
 		y = 6
 		relative_position_id = HND_fas_focus_0
@@ -3259,7 +3259,7 @@ focus_tree = {
 		#시장주의 담론
 		id = HND_fas_focus_30
 		icon = GFX_goal_generic_trade
-		cost = 5
+		cost = 2
 		x = -2
 		y = 7
 		relative_position_id = HND_fas_focus_0
@@ -3287,7 +3287,7 @@ focus_tree = {
 		#국제파 논쟁
 		id = HND_fas_focus_31
 		icon = GFX_goal_anti_comintern_pact
-		cost = 5
+		cost = 2
 		x = 0
 		y = 7
 		relative_position_id = HND_fas_focus_0
@@ -3305,7 +3305,7 @@ focus_tree = {
 		#집산주의 논의
 		id = HND_fas_focus_32
 		icon = GFX_focus_generic_communist_industry
-		cost = 5
+		cost = 2
 		x = 2
 		y = 7
 		relative_position_id = HND_fas_focus_0
@@ -3446,7 +3446,7 @@ focus_tree = {
 	}
 	focus = {
 		#군제 개혁을 향해
-		id = HND_fas_focus_37
+		id = HND_fas_army_0
 		icon = GFX_goal_generic_army_doctrines
 		cost = 5
 		x = 0
@@ -3467,6 +3467,233 @@ focus_tree = {
 			}
 			set_country_flag = HND_army_fix
 			unlock_decision_tooltip = HND_army_reform
+		}
+	}
+	focus = {
+		#인도 국민군 설립
+		id = HND_fas_army_1
+		icon = GFX_focus_chi_army_reform
+		cost = 5
+		x = 1
+		y = 10
+		relative_position_id = HND_fas_focus_0
+		prerequisite = {
+			focus = HND_fas_army_0
+		}
+		mutually_exclusive = {
+			focus = HND_fas_army_2
+		}
+		available = {
+			has_idea = HND_not_good_army_4
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = HND_not_good_army_4
+				add_idea = HND_national_army
+			}
+		}
+	}
+	focus = {
+		#자유 바라트 군단 강화
+		id = HND_fas_army_2
+		icon = GFX_focus_generic_manpower
+		cost = 5
+		x = -1
+		y = 10
+		relative_position_id = HND_fas_focus_0
+		prerequisite = {
+			focus = HND_fas_army_0
+		}
+		mutually_exclusive = {
+			focus = HND_fas_army_1
+		}
+		available = {
+			has_idea = HND_not_good_army_4
+		}
+		completion_reward = {
+			remove_ideas = HND_not_good_army_4
+			if = {
+				limit = {
+					has_idea = HND_free_army_1
+				}
+				swap_ideas = {
+					remove_idea = HND_free_army_1
+					add_idea = HND_free_army_3
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = HND_free_army
+					add_idea = HND_free_army_2
+				}
+			}
+		}
+	}
+	focus = {
+		#해군 건설
+		id = HND_fas_army_3
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		cost = 5
+		x = -2
+		y = 9
+		relative_position_id = HND_fas_focus_0
+		prerequisite = {
+			focus = HND_fas_focus_33
+			focus = HND_fas_focus_35
+		}
+		prerequisite = {
+			focus = HND_fas_focus_36
+			focus = HND_fas_focus_34
+		}
+		completion_reward = {
+			navy_experience = 50
+			add_tech_bonus = {
+				category = ship_modules_tech
+				bonus = 0.5
+				uses = 2
+			}
+		}
+	}
+	focus = {
+		#남부 조선소
+		id = HND_fas_army_4
+		icon = GFX_goal_generic_construct_naval_dockyard
+		cost = 5
+		x = -2
+		y = 11
+		relative_position_id = HND_fas_focus_0
+		prerequisite = {
+			focus = HND_fas_army_3
+		}
+		available = {
+			941 = {
+				is_owned_by = HND
+			}
+		}
+		completion_reward = {
+			425 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+				}
+			}
+			424 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+				}
+			}
+			941 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+				}
+			}
+			423 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+				}
+			}
+			942 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+				}
+			}
+		}
+	}
+	focus = {
+		#공군 건설
+		id = HND_fas_army_5
+		icon = GFX_goal_generic_air_doctrine
+		cost = 5
+		x = 2
+		y = 9
+		relative_position_id = HND_fas_focus_0
+		prerequisite = {
+			focus = HND_fas_focus_33
+			focus = HND_fas_focus_35
+		}
+		prerequisite = {
+			focus = HND_fas_focus_36
+			focus = HND_fas_focus_34
+		}
+		completion_reward = {
+			air_experience = 50
+			add_tech_bonus = {
+				category = air_equipment
+				uses = 3
+				bonus = 0.2
+			}
+		}
+	}
+	focus = {
+		#전투기를 위한 공장
+		id = HND_fas_army_6
+		icon = GFX_focus_generic_aircraft_production
+		cost = 5
+		x = 2
+		y =11
+		relative_position_id = HND_fas_focus_0
+		prerequisite = {
+			focus = HND_fas_army_5
+		}
+		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = air_base
+					level = 1
+				}add_building_construction = {
+					type = arms_factory
+					level = 2
+				}
+			}
+		}
+	}
+	focus = {
+		#전차 개발
+		id = HND_fas_army_7
+		icon = GFX_goal_generic_army_tanks
+		cost = 5
+		x = 0
+		y = 11
+		relative_position_id = HND_fas_focus_0
+		prerequisite = {
+			focus = HND_fas_army_2
+			focus = HND_fas_army_1
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				category = armor
+				bonus = 0.5
+				uses = 2
+			}
+		}
+	}
+	focus = {
+		#의지의 우월성
+		id = HND_fas_army_8
+		icon = GFX_goal_demand_sudetenland
+		cost = 5
+		x = 0
+		y = 12
+		relative_position_id = HND_fas_focus_0
+		prerequisite = {
+			focus = HND_fas_army_4
+		}prerequisite = {
+			focus = HND_fas_army_7
+		}prerequisite = {
+			focus = HND_fas_army_6
+		}
+		completion_reward = {
+			add_ideas = JAP_superior_will
 		}
 	}
 	focus = {
@@ -3739,7 +3966,7 @@ focus_tree = {
 		#두 번째 투자
 		id = HND_fas_ind_10
 		icon = GFX_focus_chi_collaboration_with_the_japanese
-		cost = 5
+		cost = 2
 		x = -7
 		y = 12
 		relative_position_id = HND_fas_focus_0
@@ -3785,7 +4012,7 @@ focus_tree = {
 		#민족 부흥의 길
 		id = HND_fas_out_1
 		icon = GFX_focus_generic_support_the_left_right
-		cost = 5
+		cost = 2
 		x = 5
 		y = 8
 		relative_position_id = HND_fas_focus_0
@@ -3804,7 +4031,7 @@ focus_tree = {
 		#국제 파시즘 연대
 		id = HND_fas_out_2
 		icon = GFX_focus_FIN_national_fanatism
-		cost = 5
+		cost = 2
 		x = 7
 		y = 8
 		relative_position_id = HND_fas_focus_0
@@ -3812,9 +4039,20 @@ focus_tree = {
 			focus = HND_fas_out_0
 		}
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = HND_free_army
-				add_idea = HND_free_army_1
+			if = {
+				limit = {
+					has_idea = HND_free_army_2
+				}
+				swap_ideas = {
+					remove_idea = HND_free_army_2
+					add_idea = HND_free_army_3
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = HND_free_army
+					add_idea = HND_free_army_1
+				}
 			}
 			country_event = {
 				id = HND.29
@@ -3837,6 +4075,24 @@ focus_tree = {
 			focus = HND_fas_out_1
 		}
 		completion_reward = {
+			MAI = {
+				country_event = {
+					id = HND.30
+					days = 3
+				}
+			}
+			HDR = {
+				country_event = {
+					id = HND.30
+					days = 3
+				}
+			}
+			RJP = {
+				country_event = {
+					id = HND.30
+					days = 3
+				}
+			}
 		}
 	}
 	focus = {
@@ -3854,6 +4110,18 @@ focus_tree = {
 			focus = HND_fas_out_1
 		}
 		completion_reward = {
+			declare_war_on = {
+				target = RJP
+				type = annex_everything
+			}
+			declare_war_on = {
+				target = HDR
+				type = annex_everything
+			}
+			declare_war_on = {
+				target = MAI
+				type = annex_everything
+			}
 		}
 	}
 	focus = {
@@ -3868,6 +4136,18 @@ focus_tree = {
 			focus = HND_fas_out_2
 		}
 		completion_reward = {
+			POR = {
+				country_event = {
+					id =  HND.15
+					days = 3
+				}
+			}
+			FRA = {
+				country_event = {
+					id =  HND.15
+					days = 3
+				}
+			}
 		}
 	}
 	focus = {
@@ -3883,6 +4163,10 @@ focus_tree = {
 			focus = HND_fas_out_4
 		}
 		completion_reward = {
+			country_event = {
+				id = HND.31
+				days = 5
+			}
 		}
 	}
 	focus = {
@@ -3898,6 +4182,11 @@ focus_tree = {
 			focus = HND_fas_out_4
 		}
 		completion_reward = {
+			create_wargoal = {
+				target = BRM
+				type = annex_everything
+			}
+			unlock_decision_tooltip = HND_fas_eat_burma
 		}
 	}
 	focus = {
@@ -3912,6 +4201,9 @@ focus_tree = {
 			focus = HND_fas_out_5
 		}
 		completion_reward = {
+			JAP = {
+				add_to_faction = HND
+			}
 		}
 	}
 	focus = {
@@ -3932,40 +4224,109 @@ focus_tree = {
 			focus = HND_fas_out_6
 		}
 		completion_reward = {
+			declare_war_on = {
+				target = YUN
+				type = puppet_wargoal_focus
+			}
+			unlock_decision_tooltip = HND_fas_eat_yun
+		}
+	}
+	focus = {
+		#햇살 아래의 바퀴
+		id = HND_fas_out_10
+		icon = GFX_focus_jap_pacific_guardian
+		cost = 5
+		x = 6
+		y = 12
+		relative_position_id = HND_fas_focus_0
+		prerequisite = {
+			focus = HND_fas_out_9
+		}
+		completion_reward = {
+			remove_ideas = HND_revolution_hurt
+			add_timed_idea = {
+				idea = HND_with_jap
+				days = 365
+			}
+		}
+	}
+	focus = {
+		#아대륙의 기상
+		id = HND_fas_end_0
+		icon = GFX_focus_generic_fascist_troops
+		cost = 5
+		x = 0
+		y = 13
+		relative_position_id = HND_fas_focus_0
+		available = {
+			has_war = no
+		}
+		prerequisite = {
+			focus = HND_fas_ind_10
+		}
+		prerequisite = {
+			focus = HND_fas_army_8
+		}
+		prerequisite = {
+			focus = HND_fas_out_10
+		}
+		completion_reward = {
+			set_rule = {
+				can_create_factions = yes
+			}
+			swap_ideas = {
+				remove_idea = JAP_superior_will
+				add_idea = HND_superior_will
+			}
 		}
 	}
 	focus = {
 		#종신집권으로
-		id = HND_fas_out_10
-		icon = GFX_focus_generic_diplomatic_treaty
+		id = HND_fas_end_1
+		icon = GFX_focus_usa_voter_registration_act
 		cost = 5
-		x = 5
-		y = 12
+		x = -1
+		y = 14
+		mutually_exclusive = {
+			focus = HND_fas_end_2
+		}
 		relative_position_id = HND_fas_focus_0
 		prerequisite = {
-			focus = HND_fas_out_9
-		}
-		mutually_exclusive = {
-			focus = HND_fas_out_11
+			focus = HND_fas_end_0
 		}
 		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.1
+			}
+			add_country_leader_trait = national_integralist
 		}
 	}
 	focus = {
 		#대평의회에 의한 통치
-		id = HND_fas_out_11
+		id = HND_fas_end_2
 		icon = GFX_focus_SWI_embrace_panoramaheim
 		cost = 5
-		x = 7
-		y = 12
+		x = 1
+		y = 14
+		mutually_exclusive = {
+			focus = HND_fas_end_1
+		}
 		relative_position_id = HND_fas_focus_0
 		prerequisite = {
-			focus = HND_fas_out_9
-		}
-		mutually_exclusive = {
-			focus = HND_fas_out_10
+			focus = HND_fas_end_0
 		}
 		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+			retire_country_leader = yes
+			create_country_leader = {
+				name = HND_fas_soviet
+				picture = "gfx/leaders/ZZZ_BlueArchive/Portrait_HND_council.png"
+				ideology = fascism_ideology
+			}
 		}
 	}
 }
