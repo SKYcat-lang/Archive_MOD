@@ -739,12 +739,12 @@ TRN_internal_factions_categories = {
 	
 }
 TRN_after_war_decisions = {
-	TRN_after_war = {
+	TRN_after_war = { # 군정 실시
 		icon = GFX_decision_generic_break_treaty
 		allowed = {
 		}
     	available = {
-			has_completed_focus = TRM_after_war
+            has_completed_focus = TRM_anti_gehenna_focus_3
 			has_war = no
     	} 
 		ai_will_do = {
@@ -756,100 +756,34 @@ TRN_after_war_decisions = {
 		}
 		
 		fire_only_once = yes
-		complete_effect = { 
-			hidden_effect = {
-				TR1 = {
-				every_state = {
-					limit = {
-						is_core_of = GEH
-						is_controlled_by = TRM
-						NOT	= { 
-							state = 59
-							state = 58
-							state = 909
-						}
-					}
-					transfer_state_to = TR1
-				}
-				every_state = {
-					limit = {
-						is_controlled_by = TR1
-					}
-					add_core_of = TR1
-				}
-	
-						add_popularity = {
-							ideology = fascism
-							popularity = 0.99
-						}
-						add_ideas = GEH_slave_of_the_trm
-						set_cosmetic_tag = trm_puppet_geh
-						load_focus_tree = GEH_lose_focus_tree
-				}
-			}
-			TRM = {
-				puppet = TR1
-			}
+		complete_effect = {
+            every_state = {
+                limit = {
+                    OR = {
+                        is_core_of = GER
+                        is_core_of = FRM
+                    }
+                    NOT = {
+                        is_core_of = TRM
+                    }
+                }
+                add_dynamic_modifier = { modifier = TRM_Military_occupation }
+            }
 		}
-	}
-	TRN_after_war_3 = {
-		icon = GFX_decision_generic_break_treaty
-		allowed = {
-		}
-    	available = {
-			always = no
-    	} 
-		ai_will_do = {
-			base = 100
-		}
-		activation = {
-			has_country_flag = TRN_Trinity_hwa
-		}
-		
-
-		visible = {
-		}
-		days_mission_timeout = 105
-		timeout_effect = {
-			every_state = {
-				limit = {
-					is_core_of = GEH
-				}
-				add_core_of = TRM
-			}
-			clr_country_flag = TRN_Trinity_hwa
-		}
-		
-		fire_only_once = yes
-		complete_effect = { 
-			
-		} 
 	}
 	TRN_after_war_4 = {
 		icon = GFX_decision_generic_break_treaty
-		allowed = {
-			original_tag = TRM
-
-		}
-    	available = {
-			has_war = no
-			country_exists = GEN
-    	} 
-		ai_will_do = {
-			base = 100
-		}
-
-		
-		
-
-		visible = {
-		}
+		allowed = { }
+    	available = { } 
+		ai_will_do = { 
+            base = 100
+        }
+        visible = { }
 		
 		fire_only_once = yes
-		complete_effect = { 
-			GEN = {
-				country_event = { id = TRM_event.50 days = 1}
-			}
+		
+        complete_effect = {
+
 		} 
 	} 
 }
@@ -1635,7 +1569,6 @@ TRN_arius_squad_smash_decision = {
 		}
 	}
 }
-
 TRM_war_plan_decisions = {
 	this_is_fake = {
 		icon = generic_tank 
