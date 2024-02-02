@@ -9,6 +9,9 @@ country_event = { #마코토-아루 조약
 
 	option = { 
 		name = HEU_event.1.a 
+		ai_chance = {
+			base = 100
+		}
 		HEU = {
 			give_guarantee = GEM
 			diplomatic_relation = { 
@@ -36,9 +39,14 @@ country_event = { #마코토-아루 조약
 			}
 		}
 	}
+	option = {
+		name = HEU_event.1.b
+		ai_chance = {
+			base = 0
+		}
+	}
 }
-
-country_event = { #습격당한 시로미 이오리!
+country_event = { #마코토-아루 조약
 	id = HEU_event.2
 	title = HEU_event.2.t
 	desc = HEU_event.2.desc
@@ -46,7 +54,18 @@ country_event = { #습격당한 시로미 이오리!
     is_triggered_only = yes
 
 	option = { 
-		name = HEU_event.2.a 
+		name = HEU_event.1.a 
+	}
+}
+country_event = { #습격당한 시로미 이오리!
+	id = HEU_event.3
+	title = HEU_event.3.t
+	desc = HEU_event.3.desc
+	picture = GFX_report_event_Problem_Solver_68
+    is_triggered_only = yes
+
+	option = { 
+		name = HEU_event.3.a 
 		add_timed_idea = {
 			idea = HEU_ioli_gong_gyeog_idea
 			days = 360
@@ -59,5 +78,170 @@ country_event = { #습격당한 시로미 이오리!
 			add_attack = -1
 			add_defense = -1
 		}
+		hidden_effect = {
+			news_event = {
+				id = BA_news.52
+			}
+		}
+	}
+}
+
+country_event = { #국경분쟁 승리
+	id = HEU_event.4
+	title = HEU_event.4.t
+	desc = HEU_event.4.desc
+	picture = GFX_report_event_soviet_german_soldier_handshake
+    is_triggered_only = yes
+
+	option = { 
+		name = HEU_event.4.a 
+		if = {
+			limit = {
+				tag = HEU
+			}
+			add_political_power = 100
+			transfer_state = var:var_HEU_rnrrudqnswod_state
+		}
+		if = {
+			limit = {
+				tag = GEM
+			}
+			add_political_power = 150
+			army_experience = 30
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.25
+				uses = 1
+				category = land_doctrine
+			}
+		}
+	}
+}
+country_event = { #국경분쟁 패배
+	id = HEU_event.5
+	title = HEU_event.5.t
+	desc = HEU_event.5.desc
+	picture = GFX_report_event_spr_civil_war_faction_defeated
+    is_triggered_only = yes
+
+	option = { 
+		name = HEU_event.5.a 
+		add_war_support = -0.05
+	}
+}
+country_event = { #진전 없는 국경 분쟁
+	id = HEU_event.6
+	title = HEU_event.6.t
+	desc = HEU_event.6.desc
+	picture = GFX_report_event_military_planning
+    is_triggered_only = yes
+
+	option = { 
+		name = HEU_event.6.a 
+	}
+}
+country_event = { #마코토-아루 조약
+	id = HEU_event.7
+	title = HEU_event.7.t
+	desc = HEU_event.7.desc
+	picture = GFX_report_event_Problem_Solver_68
+    is_triggered_only = yes
+
+	option = { 
+		name = HEU_event.1.a 
+		ai_chance = {
+			base = 100
+		}
+		HEU = {
+			give_guarantee = GEH
+			diplomatic_relation = { 
+				country = GEH
+				relation = non_aggression_pact 
+			}
+			diplomatic_relation = { 
+				country = GEH
+				relation = military_access 
+			}
+			diplomatic_relation = { 
+				country = GEH
+				relation = docking_rights 
+			}
+		}
+		GEH = {
+			give_guarantee = HEU
+			diplomatic_relation = { 
+				country = HEU
+				relation = military_access 
+			}
+			diplomatic_relation = { 
+				country = HEU
+				relation = docking_rights 
+			}
+		}
+	}
+	option = {
+		name = HEU_event.1.b
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+country_event = { #지도권 이양
+	id = HEU_event.8
+	title = HEU_event.8.t
+	desc = HEU_event.8.desc
+	picture = GFX_report_event_Problem_Solver_68
+    is_triggered_only = yes
+
+	option = { 
+		name = HEU_event.8.a 
+		ai_chance = {
+			base = 1000
+		}
+		every_country = {
+			limit = { has_war_with = ROOT }
+			HEU = { add_to_war = { targeted_alliance = GEM enemy = PREV hostility_reason = asked_to_join } }
+		}
+		HEU = {
+			annex_country = {
+				target = GEM
+				transfer_troops = yes
+			}
+		}
+		custom_effect_tooltip = GAME_OVER_TT
+		hidden_effect = {
+			news_event = {
+				id = BA_news.53
+			}
+		}
+	}
+	option = {
+		name = HEU_event.8.b
+		ai_chance = {
+			base = 0
+		}
+		if = {
+			limit = {
+				is_faction_leader = yes
+				is_in_faction_with = HEU
+			}
+			every_country = {
+				limit = { is_in_faction_with = GEM }
+				GEM = { remove_from_faction = HEU }
+			}
+		}
+		else_if = {
+			limit = {
+				is_in_faction_with = HEU
+			}
+			random_country = {
+				limit = { is_in_faction_with = HEU }
+				remove_from_faction = GEM
+			}
+		}
+		declare_war_on = { 
+			target = HEU 
+			type = annex_everything 
+		}
+		add_ideas = CHI_illegal_regime
 	}
 }
