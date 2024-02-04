@@ -544,7 +544,6 @@ KSP_war_plans = {
 		available = {
 			has_defensive_war = yes
 		}
-		days_remove = 0
 
 		ai_will_do = {
 			base = 0
@@ -600,6 +599,41 @@ KSP_war_plans = {
 		}
 
 		fire_only_once = yes
+	}
+	KSP_train_new_students = {
+		icon = none
+		cost = 0
+		available = {
+			OR = {
+				has_war = yes
+				is_debug = yes
+			}
+		}
+		days_remove = 1
+
+		modifier = {
+			political_power_cost = 0.50
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		remove_effect = {
+			if = {
+				limit = { check_variable = { KSP_spread_out_officers_conscription_factor > 0.05 } }
+				add_to_variable = { KSP_spread_out_officers_conscription_factor = 0.05 }
+				custom_effect_tooltip = KSP_train_new_students_ns_tt
+			}
+			if = {
+				limit = { check_variable = { KSP_spread_out_officers_conscription_factor = 0.05 } }
+				remove_dynamic_modifier = {
+					modifier = KSP_spread_out_officers #이게 작동 안하는거같음 히스토리에서 0.05로 세팅해놓고 실험중인데  +  이거 '사태 대응' 중점인가 찍어야 국민정신에서 다이나믹으로 바뀌니까 디버그에서 테스트할때 유의할 것
+				}
+			}
+		}
+
+		days_re_enable = 20
 	}
 }
 KSP_kanna_health_and_gov_problems = {
