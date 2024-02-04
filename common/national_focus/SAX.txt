@@ -1027,6 +1027,17 @@ focus_tree = {
 		completion_reward = {
 		}
 	}
+	focus = { #생산 수단의 사회화
+		id = SAX_socialization_of_means_of_production
+		icon = GFX_focus_spr_class_war
+		cost = 5
+		prerequisite = { focus = SAX_rosa_luxembourg_succession focus = SAX_the_left }
+		x = -2
+		y = 1
+		relative_position_id = SAX_rosa_luxembourg_succession
+		completion_reward = {
+		}
+	}
 	focus = { #사회주의 헌법
 		id = SAX_socialist_constitution
 		icon = GFX_goal_support_communism
@@ -1204,44 +1215,6 @@ focus_tree = {
 				}
 				puppet = ROOT
 			}
-		}
-	}
-	focus = { #생산 수단의 사회화
-		id = SAX_socialization_of_means_of_production
-		icon = GFX_focus_spr_class_war
-		cost = 5
-		prerequisite = { focus = SAX_coalition_radicalization }
-		x = -1
-		y = 3
-		relative_position_id = SAX_coalition_radicalization
-		completion_reward = {
-		}
-	}
-	focus = { #전위 조직 유지
-		id = SAX_maintenance_of_dislocation_tissue
-		icon = GFX_focus_spr_torchbearers_of_tomorrow
-		cost = 10
-		prerequisite = { focus = SAX_socialization_of_means_of_production }
-		mutually_exclusive = { focus = SAX_german_peoples_army }
-		x = -1
-		y = 2
-		relative_position_id = SAX_socialization_of_means_of_production
-		completion_reward = {
-		}
-	}
-	focus = { #독일인민군
-		id = SAX_german_peoples_army
-		icon = GFX_goal_generic_axis_build_infantry
-		cost = 10
-		prerequisite = { focus = SAX_socialization_of_means_of_production }
-		mutually_exclusive = { focus = SAX_maintenance_of_dislocation_tissue }
-		x = 1
-		y = 2
-		relative_position_id = SAX_socialization_of_means_of_production
-		completion_reward = {
-			add_war_support = 0.10
-			army_experience = 25
-			custom_effect_tooltip = SAX_army_tt
 		}
 	}
 	focus = { #국제 외교
@@ -2368,23 +2341,31 @@ focus_tree = {
 	focus = { #육군 수립
 		id = SAX_establishing_an_army
 		icon = GFX_goal_generic_army_doctrines
-		cost = 5
+		cost = 10
 		allow_branch = {
 			has_global_flag = SAX_win_flag
 		} 
-		available = {
-			OR = {
-				has_completed_focus = SAX_german_peoples_army
-				has_completed_focus = SAX_german_army_reconstruction
-			}
-		}
+		mutually_exclusive = { focus = SAX_maintenance_of_dislocation_tissue }
 		x = 30
 		y = 0
 		search_filters = {FOCUS_FILTER_ARMY_XP}
 		completion_reward = {
+			army_experience = 25
 			add_dynamic_modifier = {
 				modifier = SAX_army_dynamic_modifier
 			}
+		}
+	}
+	focus = { #전위 조직 유지
+		id = SAX_maintenance_of_dislocation_tissue
+		icon = GFX_focus_spr_torchbearers_of_tomorrow
+		cost = 10
+		mutually_exclusive = { focus = SAX_establishing_an_army }
+		x = -6
+		y = 0
+		relative_position_id = SAX_establishing_an_army
+		completion_reward = {
+			add_war_support = 0.10
 		}
 	}
 	focus = { #독일의 붉은 군대
@@ -2724,7 +2705,7 @@ focus_tree = {
 		icon = GFX_goal_generic_defence
 		cost = 10
 		prerequisite = { focus = SAX_heavy_industry }
-		prerequisite = { focus = SAX_establishing_an_army }
+		prerequisite = { focus = SAX_establishing_an_army focus = SAX_maintenance_of_dislocation_tissue }
 		available = {
 		}
 		relative_position_id = SAX_establishing_an_army
@@ -2736,6 +2717,7 @@ focus_tree = {
 			add_to_variable = { SAX_army_unit_artillery_brigade_design_cost_factor = -0.1 }
 			custom_effect_tooltip = SAX_german_NVR_tt
 			add_dynamic_modifier = { modifier = SOV_defense_industry_dynamic_modifier }
+			add_war_support = 0.10
 		}
 	}
 	focus = { #방위산업체
