@@ -1,61 +1,669 @@
-RED_redbear_dec_cat = {
-    #붉은곰 편집부
-    icon = SOV_propaganda
-    allowed = {
-        original_tag = RED
-    }
-    scripted_gui = red_redbear_edit_ui
-    priority = 10
-    visible = {
-        has_completed_focus = RED_redbear_editorial
-    }
+
+
+
+RED_redbear_dec_cat = { #붉은곰 편집부 디시전
+	RED_propaganda_motherland_calls = { # ID = 1
+		priority = 1
+
+		icon = eng_propaganda_campaigns
+
+		allowed = {
+			tag = RED
+		}
+
+		available = {
+			has_war = yes
+			check_variable = { RED_propaganda_empty_slot_index > 0 }
+		}
+
+		visible = {
+			has_completed_focus = RED_redbear_editorial
+		}
+
+		days_remove = 180
+
+		days_re_enable = 90
+
+		cost = RED_propaganda_motherland_calls_cost
+
+		modifier = {
+			weekly_manpower = 1000
+			training_time_factor = -0.10
+			minimum_training_level = -0.10
+		}
+
+		complete_effect = {
+			subtract_from_variable = { RED_propaganda_empty_slot_index = 1 }
+			set_variable = { RED_new_propaganda_campaign = 1 }
+			RED_pick_propaganda_campaign_slot_effect = yes
+		}
+
+		remove_effect = {
+			multiply_variable = { RED_propaganda_motherland_calls_cost = 2 }
+			add_to_variable = { RED_propaganda_empty_slot_index = 1 }
+			add_to_variable = { RED_num_of_propaganda = 1 }
+			set_variable = { RED_propaganda_campaign_to_remove = 1 }
+			RED_reset_propaganda_campaign_slot_effect = yes
+		}
+	}
+	RED_propaganda_victory_at_hand = { # ID = 2
+		priority = 2
+
+		icon = eng_propaganda_campaigns
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 0.1
+				check_variable = { RED_propaganda_victory_at_hand_cost > 30 } #Less likely to do it a third time
+			}
+			modifier = {
+				factor = 0.1
+				check_variable = { RED_propaganda_victory_at_hand_cost > 45 } #Even less likely to do it a fourth time
+			}
+			modifier = {
+				factor = 0
+				check_variable = { RED_propaganda_victory_at_hand_cost > 90 } #Shouldn't even consider doing it a fifth time
+			}
+		}
+
+		allowed = {
+			tag = RED
+		}
+
+		available = {
+			has_war = yes
+			surrender_progress < 0.01
+			check_variable = { RED_propaganda_empty_slot_index > 0 }
+		}
+
+		visible = {
+			has_completed_focus = RED_redbear_editorial
+		}
+
+		days_remove = 180
+
+		days_re_enable = 90
+
+		cost = RED_propaganda_victory_at_hand_cost
+
+		modifier = {
+			army_attack_factor = 0.05
+			army_speed_factor = 0.1
+			org_loss_when_moving = -0.05
+		}
+
+		complete_effect = {
+			subtract_from_variable = { RED_propaganda_empty_slot_index = 1 }
+			set_variable = { RED_new_propaganda_campaign = 2 }
+			RED_pick_propaganda_campaign_slot_effect = yes
+		}
+
+		remove_effect = {
+			multiply_variable = { RED_propaganda_victory_at_hand_cost = 2 }
+			add_to_variable = { RED_propaganda_empty_slot_index = 1 }
+			add_to_variable = { RED_num_of_propaganda = 1 }
+			set_variable = { RED_propaganda_campaign_to_remove = 2 }
+			RED_reset_propaganda_campaign_slot_effect = yes
+		}
+	}
+	RED_propaganda_fight_to_the_last = { # ID = 3
+		priority = 3
+
+		icon = eng_propaganda_campaigns
+
+		allowed = {
+			tag = RED
+		}
+
+		available = {
+			has_war = yes
+			surrender_progress > 0.1
+			check_variable = { RED_propaganda_empty_slot_index > 0 }
+		}
+
+		visible = {
+			has_completed_focus = RED_redbear_editorial
+		}
+
+		days_remove = 180
+
+		days_re_enable = 90
+
+		cost = RED_propaganda_fight_to_the_last_cost
+
+		modifier = {
+			army_org_factor = 0.05
+			out_of_supply_factor = -0.1
+			no_supply_grace = 70
+		}
+
+		complete_effect = {
+			subtract_from_variable = { RED_propaganda_empty_slot_index = 1 }
+			set_variable = { RED_new_propaganda_campaign = 3 }
+			RED_pick_propaganda_campaign_slot_effect = yes
+		}
+
+		remove_effect = {
+			multiply_variable = { RED_propaganda_fight_to_the_last_cost = 2 }
+			add_to_variable = { RED_propaganda_empty_slot_index = 1 }
+			add_to_variable = { RED_num_of_propaganda = 1 }
+			set_variable = { RED_propaganda_campaign_to_remove = 3 }
+			RED_reset_propaganda_campaign_slot_effect = yes
+		}
+	}
+	RED_propaganda_hit_of_hammer = { # ID = 4
+		priority = 4
+
+		icon = eng_propaganda_campaigns
+
+		allowed = {
+			tag = RED
+		}
+
+		available = {
+			check_variable = { RED_propaganda_empty_slot_index > 0 }
+			has_war = yes
+		}
+
+		visible = {
+			has_completed_focus = RED_redbear_editorial
+		}
+
+		days_remove = 180
+
+		days_re_enable = 90
+
+		cost = RED_propaganda_hit_of_hammer_cost
+
+		modifier = {
+			industrial_capacity_factory = 0.05
+			industrial_capacity_dockyard = 0.05
+		}
+
+		complete_effect = {
+			subtract_from_variable = { RED_propaganda_empty_slot_index = 1 }
+			set_variable = { RED_new_propaganda_campaign = 4 }
+			RED_pick_propaganda_campaign_slot_effect = yes
+		}
+
+		remove_effect = {
+			multiply_variable = { RED_propaganda_hit_of_hammer_cost = 2 }
+			add_to_variable = { RED_propaganda_empty_slot_index = 1 }
+			add_to_variable = { RED_num_of_propaganda = 1 }
+			set_variable = { RED_propaganda_campaign_to_remove = 4 }
+			RED_reset_propaganda_campaign_slot_effect = yes
+		}
+	}
+	RED_propaganda_transport = { # ID = 5
+		priority = 5
+
+		icon = eng_propaganda_campaigns
+
+		ai_will_do = {
+			base = 0.7
+			modifier = {
+				factor = 0.1
+				check_variable = { RED_propaganda_transport_cost > 30 } #Less likely to do it a third time
+			}
+			modifier = {
+				factor = 0.1
+				check_variable = { RED_propaganda_transport_cost > 45 } #Even less likely to do it a fourth time
+			}
+			modifier = {
+				factor = 0
+				check_variable = { RED_propaganda_transport_cost > 90 } #Shouldn't even considered doing it a fifth time
+			}
+		}
+
+		allowed = {
+			tag = RED
+		}
+
+		available = {
+			check_variable = { RED_propaganda_empty_slot_index > 0 }
+		}
+
+
+		visible = {
+			has_completed_focus = RED_redbear_editorial
+		}
+
+		days_remove = 180
+
+		days_re_enable = 90
+
+		cost = RED_propaganda_transport_cost
+
+		modifier = {
+			production_speed_supply_node_factor = 0.15
+			production_speed_rail_way_factor = 0.15
+			supply_consumption_factor = -0.1
+		}
+
+		complete_effect = {
+			subtract_from_variable = { RED_propaganda_empty_slot_index = 1 }
+			set_variable = { RED_new_propaganda_campaign = 5 }
+			RED_pick_propaganda_campaign_slot_effect = yes
+		}
+
+		remove_effect = {
+			multiply_variable = { RED_propaganda_transport_cost = 2 }
+			add_to_variable = { RED_propaganda_empty_slot_index = 1 }
+			add_to_variable = { RED_num_of_propaganda = 1 }
+			set_variable = { RED_propaganda_campaign_to_remove = 5 }
+			RED_reset_propaganda_campaign_slot_effect = yes
+		}
+	}
+	RED_propaganda_oil_for_the_motherland = { # ID = 6
+		priority = 6
+
+		icon = eng_propaganda_campaigns
+
+		allowed = {
+			tag = RED
+		}
+
+		available = {
+			check_variable = { RED_propaganda_empty_slot_index > 0 }
+
+			any_controlled_state = {
+				has_resources_amount = {
+					resource = oil
+					amount > 0
+				}
+			}
+		}
+
+		visible = {
+			has_completed_focus = RED_redbear_editorial
+		}
+
+		days_remove = 180
+
+		days_re_enable = 90
+
+		cost = RED_propaganda_oil_for_the_motherland_cost
+
+		modifier = {
+			fuel_gain_factor = 0.1
+			army_fuel_consumption_factor = -0.1
+			air_fuel_consumption_factor = -0.1
+		}
+
+		complete_effect = {
+			subtract_from_variable = { RED_propaganda_empty_slot_index = 1 }
+			set_variable = { RED_new_propaganda_campaign = 6 }
+			RED_pick_propaganda_campaign_slot_effect = yes
+		}
+
+		remove_effect = {
+			multiply_variable = { RED_propaganda_oil_for_the_motherland_cost = 2 }
+			add_to_variable = { RED_propaganda_empty_slot_index = 1 }
+			add_to_variable = { RED_num_of_propaganda = 1 }
+			set_variable = { RED_propaganda_campaign_to_remove = 6 }
+			RED_reset_propaganda_campaign_slot_effect = yes
+		}
+	}
+	RED_propaganda_high_yield = { # ID = 7
+		priority = 7
+
+		icon = eng_propaganda_campaigns
+
+		allowed = {
+			tag = RED
+		}
+
+		available = {
+			check_variable = { RED_propaganda_empty_slot_index > 0 }
+
+			surrender_progress < 0.15
+		}
+
+		visible = {
+			has_completed_focus = RED_redbear_editorial
+		}
+
+		days_remove = 180
+
+		days_re_enable = 90
+
+		cost = RED_propaganda_high_yield_cost
+
+		modifier = {
+			consumer_goods_factor = -0.15
+		}
+
+		complete_effect = {
+			subtract_from_variable = { RED_propaganda_empty_slot_index = 1 }
+			set_variable = { RED_new_propaganda_campaign = 7 }
+			RED_pick_propaganda_campaign_slot_effect = yes
+		}
+
+		remove_effect = {
+			multiply_variable = { RED_propaganda_high_yield_cost = 2 }
+			add_to_variable = { RED_propaganda_empty_slot_index = 1 }
+			add_to_variable = { RED_num_of_propaganda = 1 }
+			set_variable = { RED_propaganda_campaign_to_remove = 7 }
+			RED_reset_propaganda_campaign_slot_effect = yes
+		}
+	}
+	RED_propaganda_for_the_motherland = { # ID = 8
+		priority = 8
+
+		icon = eng_propaganda_campaigns
+
+		ai_will_do = {
+			base = 1
+			modifier = {
+				factor = 10
+				has_manpower < 300000
+			}
+			modifier = {
+				factor = 2
+				OR = {
+					command_power < 25
+					has_army_experience < 25
+				}
+			}
+			modifier = {
+				factor = 0.1
+				check_variable = { RED_propaganda_for_the_motherland_cost > 30 } #Less likely to do it a third time
+			}
+			modifier = {
+				factor = 0.1
+				check_variable = { RED_propaganda_for_the_motherland_cost > 45 } #Even less likely to do it a fourth time
+			}
+			modifier = {
+				factor = 0
+				check_variable = { RED_propaganda_for_the_motherland_cost > 90 } #Shouldn't even considered doing it a fifth time
+			}
+		}
+
+		allowed = {
+			tag = RED
+		}
+
+		available = {
+			check_variable = { RED_propaganda_empty_slot_index > 0 }
+
+			has_war = yes
+		}
+
+		visible = {
+			has_completed_focus = RED_redbear_editorial
+		}
+
+		days_remove = 180
+
+		days_re_enable = 90
+
+		cost = RED_propaganda_for_the_motherland_cost
+
+		modifier = {
+			experience_gain_army_factor = 0.1
+			command_power_gain_mult = 0.15
+			breakthrough_factor = 0.075
+		}
+
+		complete_effect = {
+			subtract_from_variable = { RED_propaganda_empty_slot_index = 1 }
+			set_variable = { RED_new_propaganda_campaign = 8 }
+			RED_pick_propaganda_campaign_slot_effect = yes
+		}
+
+		remove_effect = {
+			multiply_variable = { RED_propaganda_for_the_motherland_cost = 2 }
+			add_to_variable = { RED_propaganda_empty_slot_index = 1 }
+			add_to_variable = { RED_num_of_propaganda = 1 }
+			set_variable = { RED_propaganda_campaign_to_remove = 8 }
+			RED_reset_propaganda_campaign_slot_effect = yes
+		}
+	}
+	
 }
 
-RED_locals_problem_dec_cat = {
-    #현지인 문제
-    icon = generic
-    picture = GFX_decision_cat_generic_scandinavia
-    allowed = {
-        original_tag = RED
-    }
-    priority = 60
-    visible = {
-        has_completed_focus = RED_locals_problem
-        check_variable = {
-            RED_locals_problem_stack < 5
-        }
-    }
+RED_locals_problem_dec_cat = { #현지인 문제
+	RED_rally_public_support = { #대중 지지 확보
+		icon = generic_civil_support
+
+		available = {
+			has_stability < 1.0
+			OR = {
+				political_power_daily > 0.25
+				has_political_power > 30
+			}
+			check_variable = { RED_locals_problem_in_progress = 0 }
+			check_variable = { RED_locals_problem_stack < 5 }
+		}
+
+		visible = { 
+			has_completed_focus = RED_locals_problem
+		}
+
+		remove_trigger = {
+			has_political_power < 30
+		}
+
+		fire_only_once = no
+
+		modifier = {
+			stability_weekly = 0.005
+			political_power_cost = 0.30
+		}
+
+		days_remove = 30
+		days_re_enable = 60
+
+		cost = 75
+		
+		remove_effect = {
+			set_variable = { RED_locals_problem_in_progress = 1 }
+		}
+
+		complete_effect = {
+			add_to_variable = { RED_locals_problem_stack = 1 }
+			set_variable = { RED_locals_problem_in_progress = 0 }
+		}
+	}
+	RED_promise_peace = { #평화 약속
+		icon = generic_decision
+
+		available = {
+			has_war = no
+			has_war_support > 0.20
+			has_stability < 1
+			check_variable = { RED_locals_problem_in_progress = 0 }
+			check_variable = { RED_locals_problem_stack < 5 }
+		}
+
+		visible = {
+			has_completed_focus = RED_locals_problem
+		}
+
+		remove_trigger = {
+			has_war = yes
+			has_war_support < 0.05
+		}
+
+		fire_only_once = no
+
+		modifier = {
+			stability_weekly = 0.005
+			war_support_weekly = -0.01
+			political_power_gain = -0.5
+		}
+
+		days_remove = 30
+		days_re_enable = 60
+
+		cost = 75
+
+		remove_effect = {
+			set_variable = { RED_locals_problem_in_progress = 1 }
+		}
+
+		complete_effect = {
+			add_to_variable = { RED_locals_problem_stack = 1 }
+			set_variable = { RED_locals_problem_in_progress = 0 }
+		}
+	}
+	RED_suppress_protest = { #시위 진압
+		icon = oppression
+
+		available = {
+			has_stability > 0.05
+			has_war_support < 1
+			check_variable = { RED_locals_problem_in_progress = 0 }
+			check_variable = { RED_locals_problem_stack < 5 }
+		}
+
+		visible = { 
+			has_completed_focus = RED_locals_problem
+		}
+
+		remove_trigger = {
+			has_stability < 0.05
+		}
+
+		fire_only_once = no
+
+		modifier = {
+			stability_weekly = -0.005
+			war_support_weekly = 0.005
+		}
+
+		days_remove = 30
+		days_re_enable = 60
+
+		cost = 15
+
+		remove_effect = {
+			set_variable = { RED_locals_problem_in_progress = 1 }
+		}
+
+		complete_effect = {
+			add_to_variable = { RED_locals_problem_stack = 1 }
+			set_variable = { RED_locals_problem_in_progress = 0 }
+		}
+	}
+	RED_mobilize_military_force = { #군사 동원
+		icon = generic_army_support
+
+		available = {
+			has_stability > 0.05
+			command_power > 10
+			has_war_support < 1
+			check_variable = { RED_locals_problem_in_progress = 0 }
+			check_variable = { RED_locals_problem_stack < 5 }
+		}
+
+		visible = {
+			has_completed_focus = RED_locals_problem
+		}
+
+		remove_trigger = {
+			has_stability < 0.05
+			command_power < 3
+		}
+
+		fire_only_once = no
+
+		modifier = {
+			political_power_gain = 0.5
+			war_support_weekly = 0.005
+			stability_weekly = -0.01
+			command_power_gain = -0.5
+		}
+
+		days_remove = 30
+		days_re_enable = 60
+
+		cost = 15
+
+		remove_effect = {
+			set_variable = { RED_locals_problem_in_progress = 1 }
+		}
+
+		complete_effect = {
+			add_to_variable = { RED_locals_problem_stack = 1 }
+			set_variable = { RED_locals_problem_in_progress = 0 }
+		}
+	}
 }
 
-RED_seek_allies_dec_cat = {
-    #동맹 모색
-    icon = GFX_decision_category_SOV_civil_war
-    allowed = {
-        original_tag = RED
-    }
-    priority = 70
-    visible = {
-        is_faction_leader = yes
-        has_completed_focus = RED_seek_allies
-    }
+RED_seek_allies_dec_cat = { #동맹 모색
+	RED_seek_allies_dec = { #공산주의 동맹
+		icon = generic_civil_support
+
+		target_trigger = {
+			FROM = {
+				communism > 30
+			}
+		}
+
+		available = {
+			FROM = {
+				is_subject = no
+				is_in_faction = no
+				NOT = { has_war_with = RED }
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+
+		complete_effect = {
+			FROM = {
+				country_event = { id = RED_event.7 days = 2 }
+			}
+		}
+	}
+	RED_anti_sov_diplo_dec = { #반소비에트 동맹
+		icon = generic_civil_support
+
+		target_trigger = {
+			FROM = {
+				is_neighbor_of = SOV
+			}
+		}
+
+		available = {
+			FROM = {
+				is_subject = no
+				is_in_faction = no
+				NOT = { has_war_with = RED }
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+
+		complete_effect = {
+			FROM = {
+				country_event = { id = RED_event.7 days = 2 }
+			}
+		}
+	}
 }
 
-RED_invite_trokists_dec_cat = {
-    #트로츠키 주의자 초대
-    icon = GFX_decision_category_generic_communism
-    scripted_gui = red_soviet_alert_scripted_gui
-    
+RED_invite_trokists_dec_cat = { #트로츠키 주의자 초대
+	RED_dummy_dec = { #임시 더미 디시전
+		icon = generic_civil_support
+
+		available = {
+			
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+
+		complete_effect = {
+			
+		}
+	}
 }
-RED_youngyuk_cat = {
-    icon = GFX_decision_category_generic_crisis
-    allowed = {
-        original_tag = RED
-    }
-    priority = 50
-    visible = {
-        has_completed_focus = RED_invite_trotskists
-        visible = {
-            has_completed_focus
-        }
-    }
-}
+
