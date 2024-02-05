@@ -2,7 +2,6 @@
 =============
 **\[미완성 버전입니다! (현재 버전 : v6.3)]**   
 **모든 DLC를 소유하고 있어야 정상적으로 작동합니다!**
--------------
 
 이 모드는 넥슨게임즈의 서브컬쳐 게임, "[블루 아카이브](https://steamcommunity.com/linkfilter/?u=https%3A%2F%2Fbluearchive.nexon.com%2Fhome)" 를 토대로 만든 모드입니다.
 
