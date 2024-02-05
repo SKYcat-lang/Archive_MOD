@@ -1248,7 +1248,7 @@ news_event = { #제4인터내셔널 뉴스 이벤트
 		trigger = {
 			NOT = {	tag = RED }
 			OR = {
-				communism < 0.1
+				NOT = { has_government = communism }
 				has_country_flag = banned_communism_flag
 			}
 		}
@@ -1258,13 +1258,14 @@ news_event = { #제4인터내셔널 뉴스 이벤트
 			value = 5
 		}
 	}
-	option = { # 붉은겨울 외 공산주의 지지율 10%이상 국가의 반응
-		name = BA_news.30.d
-		trigger = { 
-			NOT = {	tag = RED }
-			NOT = { has_government = communism }
-			communism > 0.1
-			NOT = { has_country_flag = banned_communism_flag }
+	option = { #붉은겨울의 반응
+		name = BA_news.30.b
+		trigger = { tag = RED }
+		if = {
+			limit = {
+				has_completed_focus = RED_the_fourth_international
+			}
+			add_timed_idea = { idea = RED_the_fourth_international_idea days = 720 }
 		}
 	}
 	option = { # 붉은겨울 외 스탈린주의 공산주의 국가의 반응
@@ -1295,8 +1296,8 @@ news_event = { #제4인터내셔널 뉴스 이벤트
 			value = 5
 		}
 	}
-	option = { # 붉은겨울 외 비 스탈린주의 공산주의 국가의 반응
-		name = BA_news.30.a
+	option = { # 붉은겨울 외 비스탈린주의 공산주의 국가의 반응
+		name = BA_news.30.d
 		trigger = { 
 			NOT = {	tag = RED }
 			NOT = { has_country_leader_ideology = stalinism }
@@ -1305,7 +1306,7 @@ news_event = { #제4인터내셔널 뉴스 이벤트
 		}
 		add_popularity = {
 			ideology = communism
-			popularity = 0.1
+			popularity = 0.05
 		}
 		add_opinion_modifier = {
 			target = FROM
@@ -1318,25 +1319,9 @@ news_event = { #제4인터내셔널 뉴스 이벤트
 			}
 		}
 		add_ai_strategy = {
-			type = befriend
-			id = FROM
-			value = 5
-		}
-		add_ai_strategy = {
 			type = alliance
 			id = FROM
 			value = 5
-		}
-	}
-	option = { #붉은겨울의 반응
-		name = BA_news.30.b
-		trigger = { tag = RED }
-
-		if = {
-			limit = {
-				has_completed_focus = RED_the_fourth_international
-			}
-			add_timed_idea = { idea = RED_the_fourth_international_idea days = 720 }
 		}
 	}
 }
