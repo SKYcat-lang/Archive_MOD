@@ -27,10 +27,8 @@
 - SRT 특수학원
 
 ## 모드
-**필수 적용 모드** : [한국어 모드](https://steamcommunity.com/sharedfiles/filedetails/?id=2743487021)
-
-**추천 적용 모드** : [블루 아카이브 OST 모드](https://steamcommunity.com/sharedfiles/filedetails/?id=3012479903), [FPS MAP](https://steamcommunity.com/sharedfiles/filedetails/?id=2404689961)
-
+**필수 적용 모드** : [한국어 모드](https://steamcommunity.com/sharedfiles/filedetails/?id=2743487021)   
+**추천 적용 모드** : [블루 아카이브 OST 모드](https://steamcommunity.com/sharedfiles/filedetails/?id=3012479903), [FPS MAP](https://steamcommunity.com/sharedfiles/filedetails/?id=2404689961)   
 **사용 불가능한 모드** : 프로빈스와 주를 수정하는 모드, 기타 대형모드
 
 ## 언어 패치 | Language patch
