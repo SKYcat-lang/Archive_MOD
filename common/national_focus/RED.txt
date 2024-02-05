@@ -697,13 +697,30 @@ focus_tree = {
 		}
 	}
 
-# 붉은겨울 정치 중점(체리노 루트)
+# 붉은겨울 정치 중점(사무국 루트)
+	focus = { #우리의 영도자 체리노
+		id = RED_our_leader_cherino
+		icon = GFX_focus_cherino_the_leader
+		mutually_exclusive = {
+			focus = RED_dipose_cherino
+		}
+		cost = 5
+		x = 52
+		y = 0
+		completion_reward = { 
+			
+		}
+	}
 	focus = { # 트로츠키주의 수용
 		id = RED_accept_trotskism
 		icon = GFX_focus_fra_loyalty_trotzky
-		mutually_exclusive = { focus = RED_ivan_kupla }
+		prerequisite = {
+			focus = RED_our_leader_cherino
+		}
+
 		x = 41
-		y = 0
+		y = 1
+
 		cost = 10
 		
 		ai_will_do = {
@@ -713,18 +730,6 @@ focus_tree = {
 		available = {
 		}
 		
-		allow_branch = {
-			if = {
-				limit = {
-					has_game_rule = {
-						rule = obsolete_focus_branches_visibility
-						option = HIDE
-					}
-				}
-				NOT = { has_completed_focus = RED_ivan_kupla }
-			}
-		}
-
 		completion_reward = {
 			custom_effect_tooltip = RED_accept_trotskism_tt
 			hidden_effect = {
@@ -1779,19 +1784,21 @@ focus_tree = {
 		}
 	}
 
-# 붉은겨울 정치중점(반체리노 루트)
+# 마리나 루트
 	focus = { # 이반 쿠팔라
 		id = RED_ivan_kupla
 		icon = GFX_goal_generic_war_with_comintern
-		mutually_exclusive = { focus = RED_accept_trotskism }
-		x = 25
-		y = 0
-		relative_position_id = RED_accept_trotskism
+		prerequisite = {
+			focus = RED_our_leader_cherino
+		}
+
+		x = 63
+		y = 1
 
 		cost = 10
 
 		offset = {
-			x = -25
+			x = -30
 			y = 0
 			trigger = {
 				has_game_rule = {
@@ -1811,6 +1818,7 @@ focus_tree = {
 					}
 				}
 				NOT = { has_completed_focus = RED_accept_trotskism }
+				NOT = { has_completed_focus = RED_dipose_cherino }
 			}
 		}
 
@@ -1825,69 +1833,17 @@ focus_tree = {
 			add_political_power = 25
 		}
 	}
-	focus = { # 체리노 축출
-		id = RED_dipose_cherino
-		icon = GFX_focus_generic_workers_and_farmers_rise
-		prerequisite = { focus = RED_ivan_kupla }
-		relative_position_id = RED_ivan_kupla
-		x = 0
-		y = 1
-		
-		cost = 5
-
-		bypass = {
-			NOT = {
-				has_character = RED_cherino
-			}
-		}
-
-		select_effect = {
-			
-		}
-
-		completion_reward = {
-			add_political_power = 50
-			promote_character = RED_minori
-			set_party_name = {
-				ideology = communism
-				long_name = PublicWorksDepartment
-				name = LaborParty
-			}
-			if = {
-				limit = { 
-					has_idea = RED_threat_of_coup
-				}
-				remove_ideas = RED_threat_of_coup
-			}
-			hidden_effect = {
-				#뉴스 이벤트
-			}
-		}
-	}
-
-# 마리나 루트
 	focus = { # 사무국의 반발
 		id = RED_office_disagree
 		icon = GFX_goal_demand_sudetenland
-		prerequisite = { focus = RED_dipose_cherino }
-		mutually_exclusive = { focus = RED_labor_world }
-		relative_position_id = RED_dipose_cherino
-		x = 8
+		prerequisite = {
+			focus = RED_ivan_kupla
+		}
+		x = 0
 		y = 1
+		relative_position_id = RED_ivan_kupla
 
 		cost = 5
-
-		offset = {
-			x = -8
-			y = 0
-			trigger = {
-				has_game_rule = {
-					rule = obsolete_focus_branches_visibility
-					option = HIDE
-				}
-				has_completed_focus = RED_labor_world
-			}
-		}
 
 		allow_branch = {
 			if = {
@@ -2419,42 +2375,54 @@ focus_tree = {
 		}
 	}
 
-# 미노리 루트
+# 체리노 축출 루트
+	focus = { # 체리노 축출
+		id = RED_dipose_cherino
+		icon = GFX_focus_generic_workers_and_farmers_rise
+
+		mutually_exclusive = {
+			focus = RED_our_leader_cherino
+		}
+
+		x = 75
+		y = 0
+
+		cost = 10
+
+		bypass = {
+			NOT = {
+				has_character = RED_cherino
+			}
+		}
+
+		completion_reward = {
+			add_political_power = 50
+			promote_character = RED_minori
+			set_party_name = {
+				ideology = communism
+				long_name = PublicWorksDepartment
+				name = LaborParty
+			}
+			if = {
+				limit = { 
+					has_idea = RED_threat_of_coup
+				}
+				remove_ideas = RED_threat_of_coup
+			}
+			hidden_effect = {
+				#뉴스 이벤트
+			}
+		}
+	}
 	focus = { # 노동자 세상
 		id =  RED_labor_world
 		icon = GFX_focus_SOV_breadbasket_of_the_union
 		prerequisite = { focus = RED_dipose_cherino }
-		mutually_exclusive = { focus = RED_office_disagree }
-		x = -8
+		x = 0
 		y = 1
 		relative_position_id = RED_dipose_cherino
 
 		cost = 10
-
-		offset = {
-			x = 8
-			y = 0
-			trigger = {
-				has_game_rule = {
-					rule = obsolete_focus_branches_visibility
-					option = HIDE
-				}
-				has_completed_focus = RED_office_disagree
-			}
-		}
-
-		allow_branch = {
-			if = {
-				limit = {
-					has_game_rule = {
-						rule = obsolete_focus_branches_visibility
-						option = HIDE
-					}
-				}
-				NOT = { has_completed_focus = RED_office_disagree }
-				NOT = { has_completed_focus = RED_accept_trotskism }
-			}
-		}
 
 		completion_reward = {
 			add_stability = 0.30
@@ -3344,7 +3312,7 @@ focus_tree = {
 
 	focus = {
 		id = RED_restore_cossack_units
-		icon = GFX_focus_SOV_the_glory_of_the_red_army_communism
+		icon = GFX_focus_NORDIC_com_army
 		prerequisite = { focus = RED_strengthen_the_mobilization_plan }
 		x = -1
 		y = 1
@@ -3535,7 +3503,7 @@ focus_tree = {
 
 	focus = {
 		id = RED_the_glory_of_the_red_army
-		icon = GFX_focus_cherino_the_leader
+		icon = GFX_focus_SOV_the_glory_of_the_red_army_communism
 		prerequisite = { focus = RED_trench_exp }
 		prerequisite = { focus = RED_shock_troops }
 		x = 1
