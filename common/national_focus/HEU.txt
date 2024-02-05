@@ -1935,7 +1935,6 @@ focus_tree = {
 		relative_position_id = HEU_foc_4
 		id = HEU_foc_4-12
 		icon = GFX_focus_research
-		prerequisite = { focus = HEU_foc_4-3 }
 		prerequisite = { focus = HEU_foc_4-4 }
 		#mutually_exclusive = { focus = HEU_foc_4- }
 		cost = 10.00
@@ -2159,14 +2158,6 @@ focus_tree = {
 		bypass = {
 		}
 		completion_reward = {
-			random_owned_state = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = arms_factory
-					level = 1
-					instant_build = yes
-				}
-			}
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
 				amount = 900
@@ -2187,6 +2178,7 @@ focus_tree = {
 				type = support_equipment
 				amount = 120
 			}
+			add_research_slot = 1
 		}
 	}
 	focus = { #
@@ -2287,16 +2279,11 @@ focus_tree = {
 		y = 11
 		available = {
 			has_army_manpower = {
-				size > 50000
+				size > 100000
 			}
 		}
 		bypass = {
-			GEM = {
-				exists = no
-			}
-			GEH = {
-				exists = no
-			}
+			owns_state = 55
 		}
 		completion_reward = {
 			if = {
@@ -2319,6 +2306,27 @@ focus_tree = {
 				create_wargoal = {
 					type = annex_everything
 					target = GEH
+				}
+			}
+			if = {
+				limit = {
+					GEM = {
+						exists = no
+					}
+					GEH = {
+						exists = no
+					}
+				}
+				random_country = {
+					limit = {
+						owns_state = 55
+					}
+					HEU = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV
+						}
+					}
 				}
 			}
 		}
@@ -2540,6 +2548,34 @@ focus_tree = {
 			add_state_core = 61
 			add_state_core = 62
 			add_state_core = 64
+		}
+	}
+	focus = { #
+		relative_position_id = HEU_foc_4
+		id = HEU_foc_4-32
+		icon = GFX_focus_attack_france
+		prerequisite = { focus = HEU_foc_4-13 }
+		#mutually_exclusive = { focus = HEU_foc_4- }
+		cost = 10.00
+		x = 3
+		y = 8
+		available = {
+			has_army_manpower = {
+				size > 50000
+			}
+		}	
+		bypass = {
+			FRM = {
+				exists = no
+			}
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = FRM
+			}
+			add_state_core = 28
+			add_state_core = 943
 		}
 	}
 	##########
