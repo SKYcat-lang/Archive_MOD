@@ -1,6 +1,7 @@
 **우리들의 기적 같은 이야기, 블루 아카이브**
 =============
-**\[미완성 버전입니다! (현재 버전 : v6.3)]**\n
+**\[미완성 버전입니다! (현재 버전 : v6.3)]**
+
 **모든 DLC를 소유하고 있어야 정상적으로 작동합니다!**
 -------------
 
@@ -28,7 +29,9 @@
 
 ## 모드
 **필수 적용 모드** : [한국어 모드](https://steamcommunity.com/sharedfiles/filedetails/?id=2743487021)
+
 **추천 적용 모드** : [블루 아카이브 OST 모드](https://steamcommunity.com/sharedfiles/filedetails/?id=3012479903), [FPS MAP](https://steamcommunity.com/sharedfiles/filedetails/?id=2404689961)
+
 **사용 불가능한 모드** : 프로빈스와 주를 수정하는 모드, 기타 대형모드
 
 ## 언어 패치 | Language patch
