@@ -1,20 +1,50 @@
 SAX_unify_german = { #독일 수복 전쟁
-	SAX_attack_WGR = { #서독 수복
+	SAX_attack_german = { #수복전쟁
+	
+		icon = GFX_decision_hol_draw_up_staff_plans
+
 		visible = {
-			has_completed_focus = SAX_war_of_reconquest_of_germany
+			ROOT = {
+				has_completed_focus = SAX_war_of_reconquest_of_germany
+			}
 		}
+
+		allowed = {
+			original_tag = SAX
+		}
+
+		target_trigger = {
+			FROM = {
+				exists = yes
+				NOT = { is_in_faction_with = ROOT }
+				NOT = { tag = ROOT }
+				any_controlled_state = {
+					OR = {
+						is_core_of = GER
+						is_core_of = SAX
+						is_core_of = GEA
+					}
+				}
+			}
+		}
+
+		available = {
+			ROOT = {
+				is_neighbor_of = FROM
+			}
+		}
+
 		ai_will_do = {
 			base = 10
 		}
-		cost = 20
-		days_remove = 20
+		cost = 75
+		days_remove = 50
 		remove_effect = {
-			declare_war_on = {
-				target = GEH
+			create_wargoal = {
+				target = FROM
 				type = annex_everything
 			}
 		}
-		icon = GFX_decision_hol_draw_up_staff_plans
 	}
 }
 political_actions = {
