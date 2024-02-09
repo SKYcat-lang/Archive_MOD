@@ -180,7 +180,7 @@ country_event = { # 국방군과 협상 -  히나가 협상안 거부 함
 		country_event = { id = GEH_event.14 days = 4}
 	}
 	
-	option = { 
+	option = {
 		name = GEH_event.8.b
 		add_popularity = {
 			ideology = neutrality
@@ -189,7 +189,14 @@ country_event = { # 국방군과 협상 -  히나가 협상안 거부 함
 		add_war_support = -0.10
 		add_stability = -0.05
 		set_country_flag = HINA_DISAGREE_CONTROLLED
-		country_event = { id = GEH_event.14 days = 4}
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = GEH_transfer_to_gehenna_academy_flag
+				}
+			}
+			country_event = { id = GEH_event.14 days = 4}
+		}
 	}
 }
 country_event = { # 선도 이벤트 
@@ -511,6 +518,7 @@ country_event = { # 협상 끝
 					}
 				}
 			}
+			load_oob = "BAY_event"
 		}
 		else_if = {
 			limit = {
@@ -594,7 +602,26 @@ country_event = { # 협상 끝
 					}
 				}
 			}
+			if = {
+				limit = {
+					GEN = {
+						exists = yes
+						has_country_flag = german_navy_unified_flag
+					}
+				}
+				annex_country = {
+					target = GEA
+					transfer_troops = yes
+				}
+				every_state = {
+					limit = {
+						is_core_of = GEN
+					}
+					add_core_of = GEN
+				}
+			}
 			set_cosmetic_tag = GEM_german
+			load_oob = "BAY_event"
 		}
 		else = {
 			country_event = GEH_event.45
@@ -1196,6 +1223,7 @@ country_event = { # 연방 국가 제안 - 전쟁해군 의견
 		ai_chance = {
 			factor = 10
 		}
+		set_country_flag = german_navy_unified_flag
 		GEM = {
 			country_event = { id = GEH_event.47 hours = 24 }
 		}
@@ -1228,7 +1256,25 @@ country_event = { # 쟤네 협상 끝남
 			}
 		}
 		ai_chance = {
-			factor = 20
+			factor = 0.5
+			modifier = {
+				GEM = {
+					has_country_flag = HINA_DISAGREE_CONTROLLED
+				}
+				factor = 10
+			}
+			modifier = {
+				GEM = {
+					has_country_flag = GEH_federal_unification_flag
+				}
+				factor = 20
+			}
+			modifier = {
+				GEM = {
+					has_country_flag = GEH_transfer_to_gehenna_academy_flag
+				}
+				factor = 20
+			}
 		}
 		add_political_power = 20
 		custom_effect_tooltip = GEH_discipline_enforcement_tt
