@@ -337,4 +337,196 @@ country_event = {
 		custom_effect_tooltip = BA_pol_event.11_tt
 	}
 }
+country_event = {
+	#시장 통합 하실?
+	id = BA_pol_event.12
+	title = BA_pol_event.12.t
+	desc = BA_pol_event.12.d
+	is_triggered_only = yes
+	option = { #ㅇㅋ
+		name = BA_pol_event.12.a
+		add_political_power = -30
+		swap_ideas = {
+			remove_idea = POL_economic_cooperation
+			add_idea = POL_economic_cooperation_1
+		}
+	}
+	option = { #ㄴㄴ
+		name = BA_pol_event.12.b
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+country_event = {
+	#화폐 통합 하실?
+	id = BA_pol_event.13
+	title = BA_pol_event.13.t
+	desc = BA_pol_event.13.d
+	is_triggered_only = yes
+	option = { #ㅇㅋ
+		name = BA_pol_event.12.a
+		add_political_power = -30
+		swap_ideas = {
+			remove_idea = POL_economic_cooperation_1
+			add_idea = POL_economic_cooperation_2
+		}
+	}
+	option = { #ㄴㄴ
+		name = BA_pol_event.12.a
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+country_event = {
+	#국민들이 폴란드에 통합되길 원하다
+	id = BA_pol_event.14
+	title = BA_pol_event.14.t
+	desc = BA_pol_event.14.d
+	trigger = {
+		NOT = {
+			has_country_flag = BA_POL_I_WANT_IN_POL
+		}
+		has_idea = POL_desire_of_unity_1
+		has_war_support > 0.99
+		has_stability > 0.99
+		is_ally_with = POL
+		is_neighbor_of = POL
+		NOT = {
+			tag = POL			
+		}
+	}
+	immediate = {
+		hidden_effect = {
+			set_country_flag = BA_POL_I_WANT_IN_POL
+		}
+	}
+	option = { #국민투표를 실시하자
+		name = BA_pol_event.14.a
+		random_list = {
+			6 = {
+				country_event = {
+					id = BA_pol_event.15
+					days = 5
+				}
+			}
+			4 = {
+				country_event = {
+					id = BA_pol_event.16
+					days = 5
+				}
+			}
+		}
+	}
+	option = { #ㄴㄴ
+		name = BA_pol_event.14.b
+		ai_chance = {
+			base = 0
+		}
+		add_stability = -0.1
+		hidden_effect = {
+			country_event = {
+				id = BA_pol_event.17
+				days = 200
+			}
+		}
+	}
+}
+country_event = {
+	#국민투표 성공
+	id = BA_pol_event.15
+	title = BA_pol_event.15.t
+	desc = BA_pol_event.15.d
+	is_triggered_only = yes
+	option = { #굿
+		name = BA_pol_event.15.a
+		POL = {
+			country_event = {
+				id = BA_pol_event.18
+				days = 10
+			}
+		}
+	}
+}
+country_event = {
+	#국민투표 실패
+	id = BA_pol_event.16
+	title = BA_pol_event.16.t
+	desc = BA_pol_event.16.d
+	is_triggered_only = yes
+	option = { #ㄲㅂ
+		name = BA_pol_event.16.a
+		hidden_effect = {
+			country_event = {
+				id = BA_pol_event.17
+				days = 200
+			}
+		}
+	}
+}
+country_event = {
+	#플래그지우는이벤트
+	id = BA_pol_event.17
+	is_triggered_only = yes
+	option = {
+		clr_country_flag = BA_POL_I_WANT_IN_POL
+	}
+}
+country_event = {
+	#폴란드야 통합하자
+	id = BA_pol_event.18
+	title = BA_pol_event.18.t
+	desc = BA_pol_event.18.d
+	is_triggered_only = yes
+	option = { #ㅇㅋ
+		name = BA_pol_event.18.a
+		annex_country = {
+			target = FROM
+			transfer_troops = yes
+		}
+		FROM = {
+			every_owned_state = {
+				limit = {
+					is_core_of = FROM
+				}
+				add_core_of = POL
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					has_cosmetic_tag = POL_intermarium
+				}
+			}
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				has_country_flag = POL_intermarium_expand
+				add = 10
+			}
+		}
+	}
+	option = { #ㄴㄴ
+		name = BA_pol_event.18.b
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_country_flag = POL_intermarium_expand
+				add = -10
+			}
+		}
+	}
+}
+country_event = {
+	#거절당한 통합
+	id = BA_pol_event.19
+	title = BA_pol_event.19.t
+	desc = BA_pol_event.19.d
+	is_triggered_only = yes
+	option = { #ㄲㅂ
+		add_stability = -0.1
+	}
+}
 
