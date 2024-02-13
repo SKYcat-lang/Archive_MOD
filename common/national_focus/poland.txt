@@ -17515,17 +17515,25 @@ focus_tree = {
 		y = 9
 		cost = 5
 		available = {
-			any_owned_state = {
-				is_core_of = CZE
+			CZE = {
+				capital_scope = {
+					is_owned_by = POL
+				}
 			}
-			any_owned_state = {
-				is_core_of = SLO
+			SLO = {
+				capital_scope = {
+					is_owned_by = POL
+				}
 			}
-			any_owned_state = {
-				is_core_of = BLR
+			BLR = {
+				capital_scope = {
+					is_owned_by = POL
+				}
 			}
-			any_owned_state = {
-				is_core_of = UKR
+			UKR = {
+				capital_scope = {
+					is_owned_by = POL
+				}
 			}
 		}
 		prerequisite = {
@@ -17543,10 +17551,15 @@ focus_tree = {
 		completion_reward = {
 			every_owned_state = {
 				limit = {
-					is_core_of = CZE
+					OR = {
+						is_core_of = CZE
+						is_core_of = SLO
+						is_core_of = BLR
+						is_core_of = UKR
+					}
 				}
+				add_compliance = 30
 			}
-			add_compliance = 30
 		}
 	}
 	focus = {
@@ -17561,32 +17574,76 @@ focus_tree = {
 			focus = POL_inter_9
 		}
 		available = {
-			any_owned_state = {
-				is_core_of = CZE
-				OR = {
-					compliance > 50
-					is_core_of = POL
+			custom_trigger_tooltip = {
+				tooltip = POL_inter_21_trigger_tt4
+	
+				if = {
+					limit = {
+						any_owned_state = {
+							is_core_of = UKR
+							NOT = { is_core_of = POL }
+						}
+					}
+					NOT = {
+						any_owned_state = {
+							is_core_of = UKR
+							compliance < 50
+						}
+					}
 				}
 			}
-			any_owned_state = {
-				is_core_of = SLO
-				OR = {
-					compliance > 50
-					is_core_of = POL
+			custom_trigger_tooltip = {
+				tooltip = POL_inter_21_trigger_tt3
+	
+				if = {
+					limit = {
+						any_owned_state = {
+							is_core_of = BLR
+							NOT = { is_core_of = POL }
+						}
+					}
+					NOT = {
+						any_owned_state = {
+							is_core_of = BLR
+							compliance < 50
+						}
+					}
 				}
 			}
-			any_owned_state = {
-				is_core_of = BLR
-				OR = {
-					compliance > 50
-					is_core_of = POL
+			custom_trigger_tooltip = {
+				tooltip = POL_inter_21_trigger_tt2
+	
+				if = {
+					limit = {
+						any_owned_state = {
+							is_core_of = SLO
+							NOT = { is_core_of = POL }
+						}
+					}
+					NOT = {
+						any_owned_state = {
+							is_core_of = SLO
+							compliance < 50
+						}
+					}
 				}
 			}
-			any_owned_state = {
-				is_core_of = UKR
-				OR = {
-					compliance > 50
-					is_core_of = POL
+			custom_trigger_tooltip = {
+				tooltip = POL_inter_21_trigger_tt1
+
+				if = {
+					limit = {
+						any_owned_state = {
+							is_core_of = CZE
+							NOT = { is_core_of = POL }
+						}
+					}
+					NOT = {
+						any_owned_state = {
+							is_core_of = CZE
+							compliance < 50
+						}
+					}
 				}
 			}
 		}
@@ -17594,20 +17651,17 @@ focus_tree = {
 			factor = 10
 		}
 		completion_reward = {
-			UKR = {
-				every_core_state = {
-					add_core_of = POL
+			every_state = {
+				limit = {
+					OR = {
+						is_core_of = UKR
+						is_core_of = BLR
+						is_core_of = CZE
+						is_core_of = SLO
+					}
+					is_owned_by = POL
 				}
-			}
-			BLR = {
-				every_core_state = {
-					add_core_of = POL
-				}
-			}
-			CZE = {
-				every_core_state = {
-					add_core_of = POL
-				}
+				add_core_of = POL
 			}
 			set_cosmetic_tag = POL_zapado
 			unlock_decision_category_tooltip = POL_reinforce_intermarium
