@@ -653,6 +653,7 @@ focus_tree = {
 			every_state = {
 				limit = {
 					is_owned_by = FRA
+					has_resistance = yes
 				}
 				add_resistance = -100
 			}
@@ -661,6 +662,18 @@ focus_tree = {
 					id = FRA_prov_event.114
 					days = 3
 				}
+			}
+			add_popularity = {
+				ideology = var:current_party_ideology_group
+				popularity = 0.2
+			}
+			if = {
+				limit = {
+					FRA_military_conference = {
+						is_country_leader = yes
+					}
+				}
+				custom_effect_tooltip = BA_FRA_no_change_tt
 			}
 		}
 	}
@@ -996,9 +1009,9 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#새로운 기술
+		#차량화 전술
 		id = FRA_focus_arm_11
-		icon = GFX_goal_generic_army_tanks
+		icon = GFX_goal_generic_army_motorized
 		cost = 4.4
 		x = 18
 		y = 7
@@ -1013,7 +1026,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_tech_bonus = {
-				category = armor
+				category = motorized_equipment
 				uses = 2
 				bonus = 0.4
 			}
@@ -1497,14 +1510,25 @@ focus_tree = {
 			always = no
 		}
 		completion_reward = {
+			set_country_flag = FRA_strong_resist
 			add_political_power = -100
 			set_country_flag = FRA_emergency_flag
+			hidden_effect = {
+				load_focus_tree = {
+					tree = FRA_focus
+					keep_completed = yes
+				}
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 	focus = {
 		#해결책
 		id = FRA_focus_resist_2
 		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		allow_branch = {
+			has_country_flag = FRA_strong_resist
+		}
 		cost = 2
 		x = 36
 		y = 1
