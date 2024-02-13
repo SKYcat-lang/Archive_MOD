@@ -180,7 +180,7 @@ country_event = { # 국방군과 협상 -  히나가 협상안 거부 함
 		country_event = { id = GEH_event.14 days = 4}
 	}
 	
-	option = { 
+	option = {
 		name = GEH_event.8.b
 		add_popularity = {
 			ideology = neutrality
@@ -189,7 +189,14 @@ country_event = { # 국방군과 협상 -  히나가 협상안 거부 함
 		add_war_support = -0.10
 		add_stability = -0.05
 		set_country_flag = HINA_DISAGREE_CONTROLLED
-		country_event = { id = GEH_event.14 days = 4}
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = GEH_transfer_to_gehenna_academy_flag
+				}
+			}
+			country_event = { id = GEH_event.14 days = 4}
+		}
 	}
 }
 country_event = { # 선도 이벤트 
@@ -311,6 +318,7 @@ country_event = { # 선도 이벤트
 	
 	option = { 
 		name = GEH_event.13.a
+		remove_ideas = GEM_geh_leadership
 	}
 }
 country_event = { # 독일 수립됨
@@ -511,6 +519,9 @@ country_event = { # 협상 끝
 					}
 				}
 			}
+			load_oob = "BAY_event"
+
+			add_ideas = GEH_unstable_integration_idea
 		}
 		else_if = {
 			limit = {
@@ -594,7 +605,28 @@ country_event = { # 협상 끝
 					}
 				}
 			}
+			if = {
+				limit = {
+					GEN = {
+						exists = yes
+						has_country_flag = german_navy_unified_flag
+					}
+				}
+				annex_country = {
+					target = GEA
+					transfer_troops = yes
+				}
+				every_state = {
+					limit = {
+						is_core_of = GEN
+					}
+					add_core_of = GEN
+				}
+			}
 			set_cosmetic_tag = GEM_german
+			load_oob = "BAY_event"
+
+			add_ideas = GEH_unstable_integration_idea
 		}
 		else = {
 			country_event = GEH_event.45
@@ -1196,6 +1228,7 @@ country_event = { # 연방 국가 제안 - 전쟁해군 의견
 		ai_chance = {
 			factor = 10
 		}
+		set_country_flag = german_navy_unified_flag
 		GEM = {
 			country_event = { id = GEH_event.47 hours = 24 }
 		}
@@ -1228,7 +1261,25 @@ country_event = { # 쟤네 협상 끝남
 			}
 		}
 		ai_chance = {
-			factor = 20
+			factor = 0.5
+			modifier = {
+				GEM = {
+					has_country_flag = HINA_DISAGREE_CONTROLLED
+				}
+				factor = 10
+			}
+			modifier = {
+				GEM = {
+					has_country_flag = GEH_federal_unification_flag
+				}
+				factor = 20
+			}
+			modifier = {
+				GEM = {
+					has_country_flag = GEH_transfer_to_gehenna_academy_flag
+				}
+				factor = 20
+			}
 		}
 		add_political_power = 20
 		custom_effect_tooltip = GEH_discipline_enforcement_tt
@@ -1274,6 +1325,94 @@ country_event = { # 마코토 재신임투표 탈락
 		add_political_power = 60
 		add_stability = 0.05
 		remove_ideas = GEH_shadow_of_makoto
+	}
+}
+country_event = { # 독일인의 지도자
+	id = GEH_event.52
+	title = GEH_event.52.t
+	desc = GEH_event.52.desc
+	picture = GFX_report_event_german_troops
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEH_event.52.a
+		trigger = {
+			has_character = GER_gerd_von_rundstedt
+		}
+		add_country_leader_role = {
+			character = GER_gerd_von_rundstedt
+			promote_leader = yes
+			country_leader = {
+				ideology = nazism
+				expire = "1965.1.1.1"
+				traits = { GEH_land_officer }
+			}
+		}
+	}
+	
+	option = { 
+		name = GEH_event.52.b
+		trigger = {
+			has_character = GER_karl_donitz
+		}
+		add_country_leader_role = {
+			character = GER_karl_donitz
+			promote_leader = yes
+			country_leader = {
+				ideology = nazism
+				expire = "1965.1.1.1"
+				traits = { GEH_naval_officer }
+			}
+		}
+	}
+	
+	option = { 
+		name = GEH_event.52.c
+		trigger = {
+			NOT = {
+				has_character = GER_gerd_von_rundstedt
+				has_character = GER_karl_donitz
+			}
+		}
+		if = {
+			limit = { has_character = GER_albert_speer }
+			add_country_leader_role = {
+				character = GER_albert_speer
+				promote_leader = yes
+				country_leader = {
+					ideology = nazism
+					expire = "1965.1.1.1"
+					traits = { armaments_organizer }
+				}
+			}
+		}
+		else = {
+			create_country_leader = {
+				name = GER_albert_speer
+				picture = "GFX_portrait_albert_speer"
+				ideology = nazism
+				traits = { armaments_organizer }
+			}
+		}
+	}
+}
+country_event = { # 나츠메 이로하의 사임
+	id = GEH_event.53
+	title = GEH_event.53.t
+	desc = GEH_event.53.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = GEH_event.53.a
+		add_political_power = -30
+		add_stability = -0.10
+		remove_advisor_role = {
+			character = GEH_dlfhgk
+			slot = political_advisor
+		}
 	}
 }
 country_event = { # 협력
@@ -1324,5 +1463,30 @@ country_event = { # 국방군 영향력 올라가는 이벤트
 	option = { 
 		activate_mission = GEH_securing_german_army_influence
 		name = GEH_hidden_event.1.a 
+	}
+}
+add_namespace = NextPhase
+country_event = { # 중점 바뀌고 만마전에 선전포고
+	id = NextPhase.1
+	title = NextPhase.1.t
+	desc = NextPhase.1.desc
+	picture = GFX_report_event_generic_riot
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = NextPhase.1.a 
+		declare_war_on = {
+			target = GEM
+			type = annex_everything
+        }
+        set_country_flag = GEH_phase_one_begins_flag
+        hidden_effect = {
+		load_focus_tree = {
+			tree = Sundobu_focus
+    		keep_completed = yes
+		}
+		mark_focus_tree_layout_dirty = yes
+        }
 	}
 }

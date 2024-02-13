@@ -118,6 +118,50 @@ GEH_nego_wehrmacht_decisions = {
 			}
 		}
 	}
+	GEH_securing_pandemonium_influence_2 = {
+		icon = GFX_decision_eng_propaganda_campaigns
+		allowed = {
+		}
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_political_power > 100
+				factor = 20
+			}
+			modifier = {
+				has_political_power > 120
+				factor = 50
+			}
+			modifier = {
+				has_political_power > 140
+				factor = 100
+			}
+		}
+		available = {
+		} 
+		
+		cost = 100
+		days_re_enable = 7
+
+		visible = {
+			tag = GEM
+		}
+		
+		remove_effect = {
+			custom_effect_tooltip = GEH_securing_pandemonium_influence_2_tt
+			add_to_variable = { global.geh_nego_wehrmacht_decisions_value = -10 }
+			add_to_variable = { global.gea_nego_wehrmacht_decisions_value = -10 }
+
+			clamp_variable = {
+				var = global.geh_nego_wehrmacht_decisions_value
+				min = 0
+			}
+			clamp_variable = {
+				var = global.gea_nego_wehrmacht_decisions_value
+				min = 0
+			}
+		}
+	}
 	GEH_give_way_to_the_perfect_team = {
 		icon = GFX_decision_eng_trade_unions_support
 		allowed = {
@@ -129,7 +173,7 @@ GEH_nego_wehrmacht_decisions = {
 			
 		} 
 		
-		days_remove = 35
+		days_remove = 50
 
 		visible = {
 			tag = GEM
@@ -165,7 +209,7 @@ GEH_nego_wehrmacht_decisions = {
 			
 		} 
 		
-		days_remove = 35
+		days_remove = 50
 
 		visible = {
 			tag = GEM
@@ -353,6 +397,16 @@ GEH_nego_wehrmacht_decisions = {
 		on_map_mode = map_and_decisions_view
 		ai_will_do = {
 			factor = 200
+			modifier = {
+				FROM = { state = 59 }
+				any_state = {
+					NOT = { state = 59 }
+					has_dynamic_modifier = {
+						modifier = GEH_ucantusefactory_2
+					}
+				}
+				factor = 0
+			}
 		}
 		visible = {
 			tag = GEM
@@ -388,7 +442,7 @@ GEH_nego_wehrmacht_decisions = {
 					limit = {
 						GEN = {
 							exists = yes
-							has_completed_focus = GEN_communication_with_the_mainland
+							has_country_flag = GEN_communication_with_the_mainland_flag
 						}
 					}
 					GEN = {
@@ -503,8 +557,8 @@ GEH_nego_wehrmacht_decisions = {
 			}
 		} 
 		
-		cost = 25
-		days_remove = 28
+		cost = 50
+		days_remove = 14
 
 		visible = {
 			tag = GEH
@@ -542,8 +596,9 @@ GEH_nego_wehrmacht_decisions = {
 			}
 		} 
 		
-		cost = 25
-		days_remove = 14
+		cost = 100
+
+		days_re_enable = 7
 
 		visible = {
 			tag = GEH
@@ -554,7 +609,7 @@ GEH_nego_wehrmacht_decisions = {
 			}
 		}
 		
-		remove_effect = {
+		complete_effect = {
 			custom_effect_tooltip = GEH_increased_leading_activities_tt
 			add_to_variable = { global.geh_nego_wehrmacht_decisions_value = 10 }
 
@@ -674,7 +729,7 @@ GEH_nego_wehrmacht_decisions = {
 			factor = 4000
 		}
 		available = {
-			has_completed_focus = GEN_communication_with_the_mainland
+			has_country_flag = GEN_communication_with_the_mainland_flag
 		} 
 		
 		cost = 100
@@ -1115,6 +1170,54 @@ GEM_club_problem_decision = {
 	}
 
 }
+GEM_state_government_takeover_categorie = {
+	GEM_state_government_takeover = {
+		icon = GFX_decision_eng_trade_unions_support
+		highlight_states = {
+			highlight_state_targets = {
+				state = FROM
+			}
+			highlight_color_while_active = 3
+			highlight_color_before_active = 2
+		}
+		target_array = GEM.controlled_states
+		state_target = yes
+		target_trigger = {
+			FROM = {
+				has_dynamic_modifier = {
+					modifier = GEH_state_government
+				}
+			}
+		}
+		on_map_mode = map_and_decisions_view
+		ai_will_do = {
+			factor = 200
+		}
+		visible = {
+			tag = GEM
+		}
+		available = {
+			political_power_daily > 0
+		}
+		
+		cost = 5
+		
+		days_remove = 24
+
+		modifier = {
+			political_power_cost = 0.35
+		}
+		
+		remove_effect = {
+			add_stability = 0.01
+			FROM = {
+				remove_dynamic_modifier = {
+					modifier = GEH_state_government
+				}
+			}
+		}
+	}
+}
  GEH_kick_HEU_categories = {
 	GEH_attack_heu_decision = {
 		icon = GFX_decision_revolt
@@ -1151,28 +1254,6 @@ GEM_club_problem_decision = {
 
 	}
 }
-GEH_hina_sundobu_upgrade_plan_categories = {
-	GEH_this_is_fake = {
-		icon = GFX_decision_generic_army_support 
-		available = {
-			always = NO
-		}
-		allowed = {
-			
-		}
-
-		ai_will_do = {
-			factor = -100
-		}
-		visible = {
-		}
-		allowed = {
-		}
-		complete_effect = {
-			custom_effect_tooltip = GEH_this_is_fake_tt
-		}
-	}
-}
 GEH_war_defence_category = {
 	GEH_defense = {
 		icon = GFX_decision_generic_form_nation
@@ -1203,7 +1284,7 @@ GEH_war_defence_category = {
 		remove_effect = {
 			clr_country_flag = defense_in_GEHENNA_NORTHE
 			FROM = { remove_dynamic_modifier = { modifier = GEH_defend_states } }
-		 }
+		}
 	}
 	GEH_restoration = {
 		icon = GFX_decision_generic_nationalism

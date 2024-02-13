@@ -18,7 +18,7 @@ focus_tree = {
 
 		x = 8
 		y = 0
-		cost = 10
+		cost = 5
 		bypass = {
 			NOT = { has_war_with = ENG }
 		}
@@ -77,7 +77,7 @@ focus_tree = {
 	}
 	focus = { #사자 내쫓기
 		id = KAI_FOCUS_1
-		icon = GFX_focus_eng_move_to_secure_the_dominions
+		icon = GFX_focus_ger_break_anglo_french_colonial_hegemony
 		cost = 10
 		prerequisite = { focus = KAI_war_logistics }
 		x = 0
@@ -100,7 +100,7 @@ focus_tree = {
 	focus = { #기업의 승리
 		id = KAI_FOCUS_8
 		icon = GFX_focus_POL_beck_ribbentrop
-		cost = 10
+		cost = 1
 		prerequisite = {
 			focus = KAI_FOCUS_1
 		}
@@ -111,9 +111,14 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_FOCUS_1
 		completion_reward = {
-			add_ideas = civilian_economy
+			if = {
+				limit = {
+					NOT = { has_idea = civilian_economy }
+				}
+				add_ideas = civilian_economy
+			}
 			add_stability = -0.10
-			add_war_support = -0.70
+			add_war_support = -0.50
 			custom_effect_tooltip = KAI_add_navy_tt
 			hidden_effect = {
 				load_oob = KAI_1936_naval
@@ -158,50 +163,8 @@ focus_tree = {
 		relative_position_id = KAI_corp_convention
 		completion_reward = {
 			add_political_power = 200
-			add_ideas = free_trade
-		}
-	}
-	focus = { #세계시장
-		id = KAI_world_market
-		icon = GFX_goal_generic_positive_trade_relations
-		cost = 10
-		prerequisite = {
-			focus = KAI_first_shareholders_meeting
-		}
-		x = -2
-		y = 1
-		relative_position_id = KAI_first_shareholders_meeting
-		completion_reward = {
-			add_political_power = 50
-			every_country = {
-				limit = {
-					Kivotos_school_tag = no
-					has_government = democratic
-				}
-				add_opinion_modifier = {
-					target = ROOT
-					modifier = TUR_reliable_trade_partner
-				}
-			}
-		}
-	}
-	focus = { #사업전략본부
-		id = KAI_business_hq
-		icon = GFX_focus_generic_improve_the_administration
-		cost = 10
-		prerequisite = {
-			focus = KAI_first_shareholders_meeting
-		}
-		x = 2
-		y = 1
-		relative_position_id = KAI_first_shareholders_meeting
-		completion_reward = {
-			add_popularity = {
-				ideology = democratic
-				popularity = 0.10
-			}
-			add_dynamic_modifier = {
-				modifier = KAI_bussiness_hq_dynamic_modifier
+			set_politics = {
+				ruling_party = democratic
 			}
 		}
 	}
@@ -261,25 +224,160 @@ focus_tree = {
 			}
 		}
 	}
+	focus = { #금권정치
+		id = KAI_money_politics
+		icon = GFX_focus_usa_reestablish_the_gold_standard
+		prerequisite = {
+			focus = KAI_first_shareholders_meeting
+		}
+		cost = 10
+		x = -1
+		y = 2
+		relative_position_id = KAI_first_shareholders_meeting
+		completion_reward = {
+			#이벤트 발생
+		}
+	}
+	focus = { #사업전략본부
+		id = KAI_bussiness_hq
+		icon = GFX_focus_generic_improve_the_administration
+		cost = 10
+		prerequisite = {
+			focus = KAI_first_shareholders_meeting
+		}
+		x = 1
+		y = 2
+		relative_position_id = KAI_first_shareholders_meeting
+		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.10
+			}
+			add_dynamic_modifier = {
+				modifier = KAI_bussiness_hq_dynamic_modifier
+			}
+		}
+	}
+	focus = { #상류 계층 설득
+		id = KAI_persuade_local_rich
+		icon = GFX_focus_generic_the_giant_wakes
+		prerequisite = {
+			focus = KAI_first_shareholders_meeting
+		}
+		cost = 10
+		x = 2
+		y = 1
+		relative_position_id = KAI_first_shareholders_meeting
+		completion_reward = {
+			add_stability = 0.10
+			add_war_support = 0.10
+		}
+	}
+	focus = { #투자 유도
+		id = KAI_induce_investment
+		icon = GFX_focus_generic_concessions
+		prerequisite = {
+			focus = KAI_persuade_local_rich
+		}
+		cost = 10
+		x = 1
+		y = 1
+		relative_position_id = KAI_persuade_local_rich
+		completion_reward = { 
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { has_state_flag = KAI_invested }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = KAI_invested
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { has_state_flag = KAI_invested }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = KAI_invested
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { has_state_flag = KAI_invested }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = KAI_invested
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { has_state_flag = KAI_invested }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = KAI_invested
+			}
+		}
+	}
 	focus = { #새로운 사업장
 		id = KAI_new_business_place
 		icon = GFX_goal_generic_intelligence_exchange
 		cost = 10
 		prerequisite = {
-			focus = KAI_world_market
+			focus = KAI_money_politics
 		}
 		prerequisite = {
-			focus = KAI_business_hq
+			focus = KAI_bussiness_hq
 		}
 		x = 0
-		y = 1
-		relative_position_id = KAI_frontify_the_coast
+		y = 3
+		relative_position_id = KAI_first_shareholders_meeting
 		completion_reward = {
-			set_politics = {
-				ruling_party = democratic
+			
+		}
+	}
+	focus = { #세계시장
+		id = KAI_world_market
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 10
+		prerequisite = {
+			focus = KAI_new_business_place
+		}
+		x = 1
+		y = 1
+		relative_position_id = KAI_new_business_place
+		completion_reward = {
+			if = {
+				limit = { 
+					NOT = { has_idea = free_trade }
+				}
+				add_ideas = free_trade
 			}
-			add_stability = 0.30 
-			add_war_support = -0.15
+			every_country = {
+				limit = {
+					Kivotos_school_tag = no
+					has_government = democratic
+				}
+				add_opinion_modifier = {
+					target = KAI
+					modifier = TUR_reliable_trade_partner
+				}
+			}
 		}
 	}
 	focus = { #뛰어난 두뇌 고용
@@ -288,14 +386,14 @@ focus_tree = {
 		prerequisite = {
 			focus = KAI_new_business_place
 		}
-		x = 1
+		x = 3
 		y = 1
 		relative_position_id = KAI_new_business_place
 
 		cost = 10
 		
 		completion_reward = {
-			add_research_slot = 1
+			#디시전 해금
 		}
 	}
 	focus = { #카이저 기술 협약
@@ -304,7 +402,7 @@ focus_tree = {
 		prerequisite = {
 			focus = KAI_new_supreme_brains
 		}
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = KAI_new_supreme_brains
 		
@@ -316,6 +414,7 @@ focus_tree = {
 				limit = { is_puppet_of = KAI }
 				add_to_tech_sharing_group = KAI_tech_sharing
 			}
+			#디시전 해금
 		}
 	}
 	focus = { #자유무역협정
@@ -325,16 +424,14 @@ focus_tree = {
 			focus = KAI_new_business_place
 		}
 		x = -1
-		y = 2
+		y = 1
 		relative_position_id = KAI_new_business_place
 
 		cost = 10
 		
 		completion_reward = {
-			set_rule = {
-				can_create_factions = yes
-			}
-			create_faction = "KAI_free_trade_agreement"
+			#뉴스 발생
+			#디시전 해금
 		}
 	}
 
@@ -859,6 +956,9 @@ focus_tree = {
 		available = {
 			NOT = { has_government = neutrality }
 		}
+		ai_will_do = {
+			factor = 2
+		}
 		completion_reward = {
 			#디시전 추가 예정
 		}
@@ -868,7 +968,7 @@ focus_tree = {
 	focus = { #카이저 론
 		id = KAI_kaiser_loan
 		icon = GFX_focus_mex_privatisation
-		cost = 10
+		cost = 5
 		prerequisite = {
 			focus = KAI_kaiser_corp
 		}
@@ -876,13 +976,16 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_kaiser_corp
 
+		ai_will_do = {
+			factor = 2
+		}
+
 		completion_reward = {
 			add_political_power = 120
 			add_dynamic_modifier = {
 				modifier = KAI_loan_dynamic_modifier_2
 			}
 			unlock_decision_category_tooltip = KAI_loan_dec_cat
-			#디시전 추가 예정
 		}
 	}
 
@@ -1003,7 +1106,7 @@ focus_tree = {
 	focus = { #카이저 PMC
 		id = KAI_kaiser_PMC
 		icon = GFX_goal_generic_army_doctrines
-		cost = 10
+		cost = 5
 		prerequisite = {
 			focus = KAI_kaiser_corp
 		}
@@ -1011,7 +1114,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_kaiser_corp
 		completion_reward = {
-			add_manpower = 10000
+			add_manpower = 50000
 			add_dynamic_modifier = {
 				modifier = KAI_PMC_dynamic_modifier
 			}
@@ -1071,10 +1174,10 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = KAI_advance_PMC_tt
 			add_to_variable = {
-				KAI_PMC_consumer_goods_factor = 0.25
+				KAI_PMC_consumer_goods_factor = 0.20
 			}
 			add_to_variable = {
-				KAI_PMC_weekly_manpower = 50000
+				KAI_PMC_weekly_manpower = 20000
 			}
 		}
 	}
@@ -1131,7 +1234,7 @@ focus_tree = {
 	focus = { #카이저 컨스트럭션
 		id = KAI_kaiser_construction
 		icon = GFX_focus_POL_warsaw_main_station
-		cost = 10
+		cost = 5
 		prerequisite = {
 			focus = KAI_kaiser_corp
 		}
@@ -1392,7 +1495,7 @@ focus_tree = {
 			126 = {
 				add_building_construction = {
 					type = anti_air_building
-					level = 1
+					level = 3
 				}
 				add_building_construction = {
 					type = radar_station
@@ -1420,11 +1523,41 @@ focus_tree = {
 				}
 				set_state_flag = KAI_antiaired
 			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { has_state_flag = KAI_antiaired }
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+				}
+				set_state_flag = KAI_antiaired
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { has_state_flag = KAI_antiaired }
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+				}
+				set_state_flag = KAI_antiaired
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { has_state_flag = KAI_antiaired }
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 1
+				}
+				set_state_flag = KAI_antiaired
+			}
 		}
 	}
 
-	focus = { # 경제 호황
-		id = KAI_economy_boom
+	focus = { # 산업개발 특이점
+		id = KAI_industry_dev_singularity
 		icon = GFX_focus_generic_industry_3
 		prerequisite = { focus = KAI_construction_effort_3 }
 		prerequisite = { focus = KAI_resource_dev_singularity }
@@ -1434,10 +1567,7 @@ focus_tree = {
 		cost = 10
 
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = KAI_eco_impact
-				add_idea = KAI_eco_boom
-			}
+			add_ideas = KAI_industry_dev_singularity_idea
 		}
 	}
 
@@ -1445,7 +1575,7 @@ focus_tree = {
 	focus = { #카이저 인더스트리
 		id = KAI_kaiser_industry
 		icon = GFX_focus_generic_combined_arms
-		cost = 10
+		cost = 5
 		prerequisite = {
 			focus = KAI_kaiser_corp
 		}
@@ -1453,7 +1583,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_kaiser_corp
 		completion_reward = {
-			army_experience = 50
+			army_experience = 30
 			add_dynamic_modifier = {
 				modifier = KAI_industry_dynamic_modifier
 			}
