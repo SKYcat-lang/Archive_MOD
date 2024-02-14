@@ -626,24 +626,44 @@ country_event = {
 		name = SAX.15.a
 		trigger = {
 			check_variable = {
-				var = SAX_election_communism_pop
-				value = SAX_election_democratic_pop
-				compare = greater_than
+				SAX_election_communism_pop > SAX_election_democratic_pop
+			}
+			check_variable = {
+				SAX_election_communism_pop > SAX_election_rightwing_pop
 			}
 		}
+		set_country_flag = SAX_all_power_to_the_soviets_flag
 		add_political_power = 30
+		mark_focus_tree_layout_dirty = yes
 	}
 	option = {
-		#우익
-		name = SAX.15.a
+		#사회민주당
+		name = SAX.15.b
 		trigger = {
 			check_variable = {
-				var = SAX_election_democratic_pop
-				value = SAX_election_communism_pop
-				compare = greater_than
+				SAX_election_democratic_pop > SAX_election_communism_pop
+			}
+			check_variable = {
+				SAX_election_democratic_pop > SAX_election_rightwing_pop
+			}
+		}
+		set_country_flag = SAX_rightwing_opposition_flag
+		add_political_power = 30
+		mark_focus_tree_layout_dirty = yes
+	}
+	option = {
+		#우익 블럭
+		name = SAX.15.c
+		trigger = {
+			check_variable = {
+				SAX_election_rightwing_pop > SAX_election_communism_pop
+			}
+			check_variable = {
+				SAX_election_rightwing_pop > SAX_election_democratic_pop
 			}
 		}
 		add_political_power = 30
+		mark_focus_tree_layout_dirty = yes
 	}
 }
 
@@ -660,15 +680,19 @@ country_event = {
 		name = SAX.16.a
 		add_popularity = {
 			ideology = neutrality
-			popularity = 0.02
+			popularity = 0.10
 		}
 		add_popularity = {
 			ideology = fascism
-			popularity = 0.02
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = communism
+			popularity = -0.05
 		}
 		add_popularity = {
 			ideology = democratic
-			popularity = 0.05
+			popularity = -0.05
 		}
 		add_stability = 0.01
 		hidden_effect = {
@@ -683,11 +707,15 @@ country_event = {
 		name = SAX.16.b
 		add_popularity = {
 			ideology = neutrality
-			popularity = 0.03
+			popularity = 0.01
 		}
 		add_popularity = {
 			ideology = fascism
-			popularity = 0.03
+			popularity = 0.01
+		}
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.05
 		}
 		hidden_effect = {
 			country_event = {
@@ -710,11 +738,11 @@ country_event = {
 		name = SAX.17.a
 		add_popularity = {
 			ideology = democratic
-			popularity = 0.05
+			popularity = 0.10
 		}
 		add_popularity = {
 			ideology = communism
-			popularity = 0.03
+			popularity = 0.05
 		}
 		hidden_effect = {
 			country_event = {
@@ -727,8 +755,12 @@ country_event = {
 		#단일화에 실패했다!
 		name = SAX.17.b
 		add_popularity = {
+			ideology = communism
+			popularity = -0.03
+		}
+		add_popularity = {
 			ideology = democratic
-			popularity = 0.02
+			popularity = -0.03
 		}
 		hidden_effect = {
 			country_event = {
@@ -751,13 +783,29 @@ country_event = {
 		name = SAX.18.a
 		add_popularity = {
 			ideology = fascism
-			popularity = 0.01
+			popularity = 0.02
 		}
 		add_popularity = {
 			ideology = neutrality
-			popularity = 0.01
+			popularity = 0.04
 		}
 		add_stability = -0.03
+	}
+	option = {
+		#죽여
+		name = SAX.18.b
+		trigger = {
+			has_completed_focus = SAX_focus_12
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = -0.01
+		}
+		add_popularity = {
+			ideology = neutrality
+			popularity = -0.02
+		}
+		add_stability = -0.08
 	}
 }
 country_event = {
@@ -770,7 +818,7 @@ country_event = {
 	is_triggered_only = yes
 	option = { #접점이네
 		name = SAX.19.a
-		add_stability = 0.01
+		add_stability = 0.03
 		hidden_effect = {
 			country_event = {
 				id = SAX.18

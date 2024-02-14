@@ -445,7 +445,7 @@ focus_tree = {
 		completion_reward = {
 			add_popularity = {
 				ideology = communism
-				popularity = 0.05
+				popularity = 0.10
 			}
 			60 = {
 				create_unit = {
@@ -479,7 +479,7 @@ focus_tree = {
 		completion_reward = {
 			add_popularity = {
 				ideology = democratic
-				popularity = 0.05
+				popularity = 0.10
 			}
 			62 = {
 				
@@ -547,6 +547,16 @@ focus_tree = {
 					}
 				}
 			}
+			add_timed_idea = {
+				idea = SAX_fever_of_victory
+				days = 240
+			}
+			hidden_effect = {
+				country_event = {
+					id = SAX.13
+					days = 10
+				}
+			}
 		}
 	}
 	focus = {
@@ -556,6 +566,9 @@ focus_tree = {
 		cost = 5
 		allow_branch = {
 			has_global_flag = SAX_win_flag
+			has_country_flag = SAX_all_power_to_the_soviets_flag
+		}
+		available = {
 		}
 		x = 50
 		y = 0
@@ -594,6 +607,47 @@ focus_tree = {
 				id = 6521
 				name = SAX_BERLIN
 			}
+		}
+	}
+	focus = {
+		#우익반대파
+		id = SAX_rightwing_opposition
+		icon = GFX_goal_support_democracy
+		cost = 5
+		allow_branch = {
+			has_global_flag = SAX_win_flag
+			has_country_flag = SAX_rightwing_opposition_flag
+		}
+		prerequisite = {
+			focus = SAX_auferstanden_aus_ruinen
+		}
+		available = {
+		}
+		x = 50
+		y = 0
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			add_war_support = -0.1
+			add_popularity = {
+				ideology = communism
+				popularity = -0.1
+			}
+			if = {
+				limit = {
+					has_idea = SAX_conflict_with_the_social_democratic_left
+				}
+				swap_ideas = {
+					remove_idea = SAX_conflict_with_the_social_democratic_left
+					add_idea = SAX_coalition_split_accelerates
+				}
+			}
+			else = {
+				add_ideas = SAX_coalition_split_accelerates
+			}
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = SAX_kurt_schumacher_idea
 		}
 	}
 	focus = {
@@ -644,12 +698,6 @@ focus_tree = {
 			}
 			add_stability = 0.1
 			add_war_support = 0.1
-			hidden_effect = {
-				country_event = {
-					id = SAX.13
-					days = 3
-				}
-			}
 		}
 	}
 	focus = {
@@ -660,23 +708,9 @@ focus_tree = {
 		prerequisite = {
 			focus = SAX_auferstanden_aus_ruinen
 		}
-		mutually_exclusive = {
-			focus = SAX_rightwing_opposition
-		}
-		x = -1
+		x = 5
 		y = 1
 		available = {
-			NOT = {
-				has_idea = SAX_waiting_for_election
-			}
-			custom_trigger_tooltip = {
-				tooltip = SAX_election_complete_tt_com
-				check_variable = {
-					var = SAX_election_communism_pop
-					value = SAX_election_democratic_pop
-					compare = greater_than
-				}
-			}
 		}
 		relative_position_id = SAX_auferstanden_aus_ruinen
 		completion_reward = {
@@ -712,918 +746,6 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#우익반대파
-		id = SAX_rightwing_opposition
-		icon = GFX_goal_generic_political_pressure
-		cost = 5
-		prerequisite = {
-			focus = SAX_auferstanden_aus_ruinen
-		}
-		mutually_exclusive = {
-			focus = SAX_coalition_radicalization
-		}
-		available = {
-			has_country_flag = GAEBALJUNG
-			NOT = {
-				has_idea = SAX_waiting_for_election
-			}
-			custom_trigger_tooltip = {
-				tooltip = SAX_election_complete_tt_dem
-				check_variable = {
-					var = SAX_election_democratic_pop
-					value = SAX_election_communism_pop
-					compare = greater_than
-				}
-			}
-		}
-		x = 1
-		y = 1
-		relative_position_id = SAX_auferstanden_aus_ruinen
-		completion_reward = {
-			add_war_support = -0.1
-			add_popularity = {
-				ideology = communism
-				popularity = -0.1
-			}
-			if = {
-				limit = {
-					has_idea = SAX_conflict_with_the_social_democratic_left
-				}
-				swap_ideas = {
-					remove_idea = SAX_conflict_with_the_social_democratic_left
-					add_idea = SAX_coalition_split_accelerates
-				}
-			}
-			else = {
-				add_ideas = SAX_coalition_split_accelerates
-			}
-			custom_effect_tooltip = available_political_advisor
-			show_ideas_tooltip = SAX_kurt_schumacher_idea
-		}
-	}
-	focus = {
-		#재건
-		id = SAX_aftermath_recovery
-		icon = GFX_goal_generic_construction2
-		cost = 10
-		prerequisite = {
-			focus = SAX_coalition_radicalization
-			focus = SAX_rightwing_opposition
-		}
-		x = 0
-		y = 2
-		relative_position_id = SAX_auferstanden_aus_ruinen
-		completion_reward = {
-			add_timed_idea = {
-				idea = SAX_social_reconstruction
-				days = 180
-			}
-			hidden_effect = {
-				random_owned_controlled_state = {
-					limit = {
-						industrial_complex > 0
-						free_building_slots = {
-							building = industrial_complex
-							size > 0
-							include_locked = yes
-						}
-						NOT = {
-							has_state_flag = SAX_industry_revitalization_flag
-						}
-					}
-					set_state_flag = SAX_industry_revitalization_flag
-				}
-				random_owned_controlled_state = {
-					limit = {
-						industrial_complex > 0
-						free_building_slots = {
-							building = industrial_complex
-							size > 0
-							include_locked = yes
-						}
-						NOT = {
-							has_state_flag = SAX_industry_revitalization_flag
-						}
-					}
-					set_state_flag = SAX_industry_revitalization_flag
-				}
-				random_owned_controlled_state = {
-					limit = {
-						industrial_complex > 0
-						free_building_slots = {
-							building = industrial_complex
-							size > 0
-							include_locked = yes
-						}
-						NOT = {
-							has_state_flag = SAX_industry_revitalization_flag
-						}
-					}
-					set_state_flag = SAX_industry_revitalization_flag
-				}
-				random_owned_controlled_state = {
-					limit = {
-						industrial_complex > 0
-						free_building_slots = {
-							building = industrial_complex
-							size > 0
-							include_locked = yes
-						}
-						NOT = {
-							has_state_flag = SAX_industry_revitalization_flag
-						}
-					}
-					set_state_flag = SAX_industry_revitalization_flag
-				}
-			}
-			country_event = SAX.8
-		}
-	}
-	focus = {
-		#대중동원
-		id = SAX_mass_mobilization
-		icon = GFX_focus_YUG_pan_slavic_congress
-		cost = 10
-		prerequisite = {
-			focus = SAX_aftermath_recovery
-		}
-		mutually_exclusive = {
-			focus = SAX_national_land_reconstruction_committee
-		}
-		x = -1
-		y = 1
-		relative_position_id = SAX_aftermath_recovery
-		completion_reward = {
-			add_ideas = SAX_great_leap_forward
-			unlock_decision_tooltip = SAX_stop_great_leap_forward
-			set_country_flag = SAX_mass_mobilization_flag
-		}
-	}
-	focus = {
-		#국가재건위원회
-		id = SAX_national_land_reconstruction_committee
-		icon = GFX_goal_generic_soviet_construction
-		cost = 10
-		prerequisite = {
-			focus = SAX_aftermath_recovery
-		}
-		mutually_exclusive = {
-			focus = SAX_mass_mobilization
-		}
-		x = 1
-		y = 1
-		relative_position_id = SAX_aftermath_recovery
-		completion_reward = {
-			add_ideas = SAX_national_reconstruction_committee
-		}
-	}
-	focus = {
-		#산업 활성화
-		id = SAX_industry_revitalization
-		icon = GFX_goal_generic_construct_civ_factory
-		cost = 10
-		prerequisite = {
-			focus = SAX_mass_mobilization
-			focus = SAX_national_land_reconstruction_committee
-		}
-		x = 0
-		y = 2
-		relative_position_id = SAX_aftermath_recovery
-		completion_reward = {
-			if = {
-				limit = {
-					has_idea = SAX_low_popular_support_1
-				}
-				remove_ideas = SAX_low_popular_support_1
-			}
-			if = {
-				limit = {
-					has_idea = SAX_low_popular_support_2
-				}
-				swap_ideas = {
-					remove_idea = SAX_low_popular_support_2
-					add_idea = SAX_low_popular_support_1
-				}
-			}
-			if = {
-				limit = {
-					has_idea = SAX_low_popular_support_3
-				}
-				swap_ideas = {
-					remove_idea = SAX_low_popular_support_3
-					add_idea = SAX_low_popular_support_2
-				}
-			}
-			if = {
-				limit = {
-					any_owned_state = {
-						is_controlled_by = ROOT
-						industrial_complex > 0
-						free_building_slots = {
-							building = industrial_complex
-							size > 0
-							include_locked = yes
-						}
-						has_state_flag = SAX_industry_revitalization_flag
-					}
-				}
-				every_owned_state = {
-					limit = {
-						industrial_complex > 0
-						free_building_slots = {
-							building = industrial_complex
-							size > 0
-							include_locked = yes
-						}
-						has_state_flag = SAX_industry_revitalization_flag
-					}
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = industrial_complex
-						level = 1
-						instant_build = yes
-					}
-					clr_state_flag = SAX_industry_revitalization_flag
-				}
-			}
-			else = {
-				random_owned_controlled_state = {
-					limit = {
-						industrial_complex > 0
-						free_building_slots = {
-							building = industrial_complex
-							size > 0
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = industrial_complex
-						level = 1
-						instant_build = yes
-					}
-				}
-				random_owned_controlled_state = {
-					limit = {
-						industrial_complex > 0
-						free_building_slots = {
-							building = industrial_complex
-							size > 0
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = industrial_complex
-						level = 1
-						instant_build = yes
-					}
-				}
-				random_owned_controlled_state = {
-					limit = {
-						industrial_complex > 0
-						free_building_slots = {
-							building = industrial_complex
-							size > 0
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = industrial_complex
-						level = 1
-						instant_build = yes
-					}
-				}
-			}
-			custom_effect_tooltip = SAX_industry_tt
-		}
-	}
-	focus = {
-		#코민테른 가입
-		id = SAX_join_the_comintern
-		icon = GFX_focus_chi_mission_to_the_soviet_union
-		cost = 5
-		available = {
-			has_country_leader = {
-				character = SAX_thalman
-				ruling_only = yes
-			}
-			is_in_faction = no
-			not = {
-				has_war_with = SOU
-			}
-			SOV_comintern_joinable = yes
-		}
-		bypass = {
-			is_in_faction_with = SOU
-		}
-		prerequisite = {
-			focus = SAX_coalition_radicalization
-		}
-		mutually_exclusive = {
-			focus = SAX_marxist_liberation
-		}
-		x = -4
-		y = 1
-		relative_position_id = SAX_coalition_radicalization
-		completion_reward = {
-			SOU = {
-				country_event = generic.2
-			}
-		}
-	}
-	focus = {
-		#텔만 축출
-		id = SAX_thelman_ouster
-		icon = GFX_goal_generic_war_with_comintern
-		cost = 5
-		prerequisite = {
-			focus = SAX_auferstanden_aus_ruinen
-		}
-		x = -9
-		y = 1
-		relative_position_id = SAX_auferstanden_aus_ruinen
-		completion_reward = {
-			add_country_leader_role = {
-				character = SAX_walter
-				promote_leader = yes
-				country_leader = {
-					ideology = stalinism
-					traits = {
-						SAX_low_political_power
-					}
-					expire = "1965.1.1.1"
-				}
-			}
-			add_ideas = SAX_political_turmoil
-		}
-	}
-	focus = {
-		#마르크스-레닌주의
-		id = SAX_ML_line
-		icon = GFX_focus_SOV_the_path_of_marxism_leninism
-		cost = 10
-		prerequisite = {
-			focus = SAX_join_the_comintern
-		}
-		mutually_exclusive = {
-			focus = SAX_the_left
-			focus = SAX_rosa_luxembourg_succession
-		}
-		x = 0
-		y = 1
-		relative_position_id = SAX_join_the_comintern
-		completion_reward = {
-			add_dynamic_modifier = {
-				modifier = SOV_the_politburo_good_dynamic_modifier
-			}
-			add_political_power = 60
-			add_popularity = {
-				ideology = communism
-				popularity = 0.1
-			}
-		}
-	}
-	focus = {
-		#마르크스주의 해방
-		id = SAX_marxist_liberation
-		icon = GFX_focus_eng_liberate_the_home_of_marx
-		cost = 5
-		prerequisite = {
-			focus = SAX_thelman_ouster
-		}
-		mutually_exclusive = {
-			focus = SAX_join_the_comintern
-		}
-		x = 1
-		y = 1
-		relative_position_id = SAX_thelman_ouster
-		completion_reward = {
-			add_political_power = 120
-			add_ideas = SAX_starting_point_of_revolution
-		}
-	}
-	focus = {
-		#반혁명 제거
-		id = SAX_eliminate_counterrevolution
-		icon = GFX_goal_generic_secret_weapon
-		cost = 5
-		prerequisite = {
-			focus = SAX_thelman_ouster
-		}
-		x = -1
-		y = 1
-		relative_position_id = SAX_thelman_ouster
-		completion_reward = {
-			add_timed_idea = {
-				idea = SAX_take_control_of_politics
-				days = 365
-			}
-		}
-	}
-	focus = {
-		#왼쪽으로!
-		id = SAX_the_left
-		icon = GFX_focus_SOV_the_glory_of_the_red_army_communism
-		cost = 10
-		prerequisite = {
-			focus = SAX_eliminate_counterrevolution
-		}
-		mutually_exclusive = {
-			focus = SAX_ML_line
-			focus = SAX_rosa_luxembourg_succession
-		}
-		available = {
-			has_idea = SAX_great_leap_forward
-			has_country_flag = {
-				flag = SAX_mass_mobilization_flag
-				days > 120
-			}
-			communism > 0.9
-		}
-		x = -3
-		y = 1
-		relative_position_id = SAX_eliminate_counterrevolution
-		completion_reward = {
-			add_popularity = {
-				ideology = communism
-				popularity = -0.15
-			}
-			swap_ideas = {
-				remove_idea = SAX_great_leap_forward
-				add_idea = SAX_great_leap_forward_2
-			}
-			if = {
-				limit = {
-					has_idea = SAX_take_control_of_politics
-				}
-				remove_ideas = SAX_take_control_of_politics
-			}
-		}
-	}
-	focus = {
-		#로자 룩셈부르크 계승
-		id = SAX_rosa_luxembourg_succession
-		icon = GFX_focus_generic_support_the_left_right
-		cost = 10
-		prerequisite = {
-			focus = SAX_marxist_liberation
-			focus = SAX_eliminate_counterrevolution
-		}
-		mutually_exclusive = {
-			focus = SAX_the_left
-			focus = SAX_ML_line
-		}
-		available = {
-			has_country_flag = GAEBALJUNG
-		}
-		x = -1
-		y = 1
-		relative_position_id = SAX_marxist_liberation
-		completion_reward = {
-		}
-	}
-	focus = {
-		#생산 수단의 사회화
-		id = SAX_socialization_of_means_of_production
-		icon = GFX_focus_spr_class_war
-		cost = 5
-		prerequisite = {
-			focus = SAX_rosa_luxembourg_succession
-			focus = SAX_the_left
-		}
-		x = -2
-		y = 1
-		relative_position_id = SAX_rosa_luxembourg_succession
-		completion_reward = {
-		}
-	}
-	focus = {
-		#사회주의 헌법
-		id = SAX_socialist_constitution
-		icon = GFX_goal_support_communism
-		cost = 5
-		prerequisite = {
-			focus = SAX_rosa_luxembourg_succession
-			focus = SAX_ML_line
-		}
-		x = -2
-		y = 1
-		relative_position_id = SAX_ML_line
-		completion_reward = {
-			add_political_power = 120
-			add_stability = 0.1
-			add_popularity = {
-				ideology = communism
-				popularity = 0.1
-			}
-		}
-	}
-	focus = {
-		#전선 국가
-		id = SAX_front_country
-		icon = GFX_focus_generic_combined_arms
-		cost = 10
-		prerequisite = {
-			focus = SAX_socialist_constitution
-		}
-		x = 0
-		y = 2
-		relative_position_id = SAX_socialist_constitution
-		completion_reward = {
-			custom_effect_tooltip = SOV_war_economy_stability_tt
-			if = {
-				limit = {
-					has_war = no
-				}
-				add_stability = -0.1
-			}
-			else = {
-				custom_effect_tooltip = SOV_war_economy_stability_war_tt
-			}
-			if = {
-				limit = {
-					NOT = {
-						has_idea = war_economy
-					}
-					NOT = {
-						has_idea = tot_economic_mobilisation
-					}
-				}
-				add_ideas = war_economy
-			}
-			random_controlled_state = {
-				limit = {
-					free_building_slots = {
-						building = arms_factory
-						size > 1
-						include_locked = yes
-					}
-				}
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = arms_factory
-					level = 2
-					instant_build = yes
-				}
-			}
-			random_controlled_state = {
-				limit = {
-					free_building_slots = {
-						building = arms_factory
-						size > 1
-						include_locked = yes
-					}
-				}
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = arms_factory
-					level = 2
-					instant_build = yes
-				}
-			}
-		}
-	}
-	focus = {
-		#행정 중앙화
-		id = SAX_central_administrative_concentration
-		icon = GFX_goal_generic_neutrality_focus
-		cost = 10
-		prerequisite = {
-			focus = SAX_ML_line
-		}
-		x = 0
-		y = 1
-		relative_position_id = SAX_ML_line
-		completion_reward = {
-			add_to_variable = {
-				SOV_the_politburo_political_power_factor = 0.05
-			}
-			add_to_variable = {
-				SOV_the_politburo_drift_defence_factor = 0.05
-			}
-			custom_effect_tooltip = SOV_the_stalin_constitution_ns_tt
-		}
-	}
-	focus = {
-		#프롤레타리아 독재
-		id = SAX_proletarian_dictatorship
-		icon = GFX_focus_spr_masters_of_our_own_fate
-		cost = 10
-		prerequisite = {
-			focus = SAX_socialist_constitution
-		}
-		prerequisite = {
-			focus = SAX_central_administrative_concentration
-		}
-		x = -1
-		y = 1
-		relative_position_id = SAX_central_administrative_concentration
-		completion_reward = {
-			add_to_variable = {
-				SOV_the_politburo_political_power_factor = 0.05
-			}
-			add_to_variable = {
-				SOV_the_politburo_max_surrender_limit_offset = 0.05
-			}
-			custom_effect_tooltip = SOV_the_workers_dictatorship_ns_tt
-			add_political_power = 50
-		}
-	}
-	focus = {
-		#모스크바 추종
-		id = SAX_moscow_follow
-		icon = GFX_focus_NOR_moscows_education_centers
-		cost = 10
-		prerequisite = {
-			focus = SAX_central_administrative_concentration
-		}
-		x = 1
-		y = 1
-		relative_position_id = SAX_central_administrative_concentration
-		completion_reward = {
-			add_to_variable = {
-				SOV_the_politburo_communism_drift = 0.05
-			}
-			add_to_variable = {
-				SOV_the_politburo_drift_defence_factor = 0.05
-			}
-			add_to_variable = {
-				SOV_the_politburo_defensive_war_stability_factor = 0.25
-			}
-			custom_effect_tooltip = SOV_socialism_in_one_country_ns_tt
-			add_war_support = 0.05
-		}
-	}
-	focus = {
-		#베를린 조약기구
-		id = SAX_berlin_treaty_organization
-		icon = GFX_focus_SWE_the_threat_of_the_iron_curtain
-		cost = 5
-		prerequisite = {
-			focus = SAX_front_country
-		}
-		mutually_exclusive = {
-			focus = SAX_internationalism
-		}
-		available = {
-			is_in_faction_with = SOU
-		}
-		x = 0
-		y = 1
-		relative_position_id = SAX_front_country
-		completion_reward = {
-			add_war_support = 0.05
-			news_event = BA_news.50
-			every_country = {
-				limit = {
-					is_in_faction_with = ROOT
-					OR = {
-						is_subject = no
-						has_autonomy_state = autonomy_dominion
-					}
-				}
-				add_ideas = SAX_berlin_pact_ratified
-			}
-			if = {
-				limit = {
-					is_in_faction = yes
-				}
-				set_faction_name = berlin_pact
-			}
-			set_global_flag = berlin_pact_suggested
-		}
-	}
-	focus = {
-		#국제주의
-		id = SAX_internationalism
-		icon = GFX_goal_generic_attack_allies
-		cost = 10
-		prerequisite = {
-			focus = SAX_front_country
-		}
-		prerequisite = {
-			focus = SAX_proletarian_dictatorship
-			focus = SAX_moscow_follow
-		}
-		mutually_exclusive = {
-			focus = SAX_berlin_treaty_organization
-		}
-		available = {
-			is_in_faction_with = SOU
-		}
-		x = 0
-		y = 3
-		relative_position_id = SAX_central_administrative_concentration
-		completion_reward = {
-			add_stability = -0.15
-			add_war_support = -0.15
-			every_country = {
-				limit = {
-					is_in_faction_with = ROOT
-					is_faction_leader = yes
-				}
-				puppet = ROOT
-			}
-		}
-	}
-	focus = {
-		#국제 외교
-		id = SAX_international_diplomacy
-		icon = GFX_goal_generic_political_pressure
-		cost = 5
-		prerequisite = {
-			focus = SAX_rightwing_opposition
-		}
-		x = 4
-		y = 2
-		relative_position_id = SAX_rightwing_opposition
-		completion_reward = {
-		}
-	}
-	focus = {
-		#동방 외교
-		id = SAX_eastern_diplomacy
-		icon = GFX_goal_generic_alliance
-		cost = 5
-		prerequisite = {
-			focus = SAX_international_diplomacy
-		}
-		x = -2
-		y = 1
-		relative_position_id = SAX_international_diplomacy
-		completion_reward = {
-		}
-	}
-	focus = {
-		#소련과의 조약
-		id = SAX_treaty_with_the_soviet_union
-		icon = GFX_goal_molotov_ribbentrop_pact
-		cost = 5
-		prerequisite = {
-			focus = SAX_eastern_diplomacy
-		}
-		x = 0
-		y = 2
-		relative_position_id = SAX_eastern_diplomacy
-		completion_reward = {
-		}
-	}
-	focus = {
-		#스트레사 전선 접촉
-		id = SAX_stresa_front
-		icon = GFX_focus_focus_fra_ratify_stresa
-		cost = 5
-		prerequisite = {
-			focus = SAX_international_diplomacy
-		}
-		x = 2
-		y = 1
-		relative_position_id = SAX_international_diplomacy
-		completion_reward = {
-		}
-	}
-	focus = {
-		#군사 협력
-		id = SAX_military_cooperation
-		icon = GFX_focus_generic_license_production
-		cost = 5
-		prerequisite = {
-			focus = SAX_stresa_front
-		}
-		x = -1
-		y = 1
-		relative_position_id = SAX_stresa_front
-		completion_reward = {
-		}
-	}
-	focus = {
-		#국방군 재건
-		id = SAX_german_army_reconstruction
-		icon = GFX_goal_generic_axis_build_infantry
-		cost = 5
-		prerequisite = {
-			focus = SAX_military_cooperation
-		}
-		x = 0
-		y = 1
-		relative_position_id = SAX_military_cooperation
-		completion_reward = {
-		}
-	}
-	focus = {
-		#대서양 무역
-		id = SAX_atlantic_trade
-		icon = GFX_focus_generic_british_trade
-		cost = 10
-		prerequisite = {
-			focus = SAX_stresa_front
-		}
-		x = 2
-		y = 1
-		relative_position_id = SAX_stresa_front
-		completion_reward = {
-		}
-	}
-	focus = {
-		#과학자의 귀국
-		id = SAX_return_of_the_Scientist
-		icon = GFX_focus_research
-		cost = 10
-		prerequisite = {
-			focus = SAX_atlantic_trade
-		}
-		x = -1
-		y = 1
-		search_filters = {
-			FOCUS_FILTER_RESEARCH
-		}
-		relative_position_id = SAX_atlantic_trade
-		completion_reward = {
-			add_research_slot = 1
-		}
-	}
-	focus = {
-		#시장 활성화
-		id = SAX_market_activation
-		icon = GFX_goal_generic_positive_trade_relations
-		cost = 10
-		prerequisite = {
-			focus = SAX_atlantic_trade
-		}
-		x = 0
-		y = 2
-		relative_position_id = SAX_atlantic_trade
-		completion_reward = {
-			add_research_slot = 1
-		}
-	}
-	focus = {
-		#독-소 군사 협력
-		id = SAX_german_soviet_military_cooperation
-		icon = GFX_goal_generic_scientific_exchange
-		cost = 10
-		prerequisite = {
-			focus = SAX_treaty_with_the_soviet_union
-		}
-		prerequisite = {
-			focus = SAX_german_army_reconstruction
-		}
-		x = 1
-		y = 1
-		search_filters = {
-			FOCUS_FILTER_RESEARCH
-		}
-		relative_position_id = SAX_treaty_with_the_soviet_union
-		completion_reward = {
-		}
-	}
-	focus = {
-		#독일 재수복전쟁
-		id = SAX_war_of_reconquest_of_germany
-		icon = GFX_focus_ger_oppose_hitler
-		cost = 10
-		prerequisite = {
-			focus = SAX_industry_revitalization
-		}
-		prerequisite = {
-			focus = SAX_german_soviet_military_cooperation
-			focus = SAX_market_activation
-			focus = SAX_berlin_treaty_organization
-		}
-		x = 0
-		y = 6
-		relative_position_id = SAX_aftermath_recovery
-		completion_reward = {
-			if = {
-				limit = {
-					has_idea = SAX_low_popular_support_1
-				}
-				remove_ideas = SAX_low_popular_support_1
-			}
-			if = {
-				limit = {
-					has_idea = SAX_low_popular_support_2
-				}
-				swap_ideas = {
-					remove_idea = SAX_low_popular_support_2
-					add_idea = SAX_low_popular_support_1
-				}
-			}
-			if = {
-				limit = {
-					has_idea = SAX_low_popular_support_3
-				}
-				swap_ideas = {
-					remove_idea = SAX_low_popular_support_3
-					add_idea = SAX_low_popular_support_2
-				}
-			}
-			unlock_decision_category_tooltip = SAX_unify_german
-		}
-	}
-	focus = {
 		#기반시설 회복
 		id = SAX_infrastructure_recovery
 		icon = GFX_goal_generic_construct_infrastructure
@@ -1631,7 +753,7 @@ focus_tree = {
 		allow_branch = {
 			has_global_flag = SAX_win_flag
 		}
-		x = 16
+		x = 14
 		y = 0
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
@@ -1879,27 +1001,111 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#1차 5개년 계획
-		id = SAX_1st_five_year_plan
-		icon = GFX_focus_generic_industry_1
+		#국가재건위원회
+		id = SAX_national_land_reconstruction_committee
+		icon = GFX_goal_generic_soviet_construction
 		cost = 5
-		allow_branch = {
-			has_global_flag = SAX_win_flag
+		prerequisite = {
+			focus = SAX_infrastructure_recovery
 		}
-		available = {
-			num_of_controlled_factories > 50
-			has_completed_focus = SAX_industry_revitalization
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
-		}
-		x = -3
+		x = 0
 		y = 1
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
 		}
 		relative_position_id = SAX_infrastructure_recovery
+		completion_reward = {
+			add_ideas = SAX_national_reconstruction_committee
+		}
+	}
+	focus = {
+		#여파 회복
+		id = SAX_aftermath_recovery
+		icon = GFX_goal_generic_construction2
+		cost = 5
+		prerequisite = {
+			focus = SAX_national_land_reconstruction_committee
+		}
+		prerequisite = {
+			focus = SAX_heavy_industry
+		}
+		mutually_exclusive = {
+			focus = SAX_mass_mobilization
+		}
+		x = 2
+		y = 1
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+		relative_position_id = SAX_national_land_reconstruction_committee
+		completion_reward = {
+			add_timed_idea = {
+				idea = SAX_social_reconstruction
+				days = 365
+			}
+		}
+	}
+	focus = {
+		#대중 동원
+		id = SAX_mass_mobilization
+		icon = GFX_focus_YUG_pan_slavic_congress
+		cost = 5
+		prerequisite = {
+			focus = SAX_national_land_reconstruction_committee
+		}
+		mutually_exclusive = {
+			focus = SAX_aftermath_recovery
+		}
+		x = -1
+		y = 1
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+		relative_position_id = SAX_national_land_reconstruction_committee
+		completion_reward = {
+			add_ideas = SAX_great_leap_forward
+			unlock_decision_tooltip = SAX_stop_great_leap_forward
+		}
+	}
+	focus = {
+		#산업 활성화
+		id = SAX_industry_revitalization
+		icon = GFX_focus_generic_industry_1
+		cost = 5
+		prerequisite = {
+			focus = SAX_mass_mobilization
+			focus = SAX_aftermath_recovery
+		}
+		x = 0
+		y = 2
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+		relative_position_id = SAX_national_land_reconstruction_committee
+		completion_reward = {
+			custom_effect_tooltip = SAX_industry_tt
+		}
+	}
+	focus = {
+		#1차 5개년 계획
+		id = SAX_1st_five_year_plan
+		icon = GFX_focus_generic_industry_1
+		cost = 5
+		allow_branch = {
+			has_country_flag = SAX_1st_five_year_plan_flag
+		}
+		available = {
+			num_of_controlled_factories > 50
+		}
+		prerequisite = {
+			focus = SAX_industry_revitalization
+		}
+		x = 0
+		y = 3
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+		relative_position_id = SAX_national_land_reconstruction_committee
 		completion_reward = {
 			remove_ideas = SAX_economic_vacuum
 			add_dynamic_modifier = {
@@ -1908,47 +1114,12 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#독일 국영철도
-		id = SAX_deutsche_reichsbahn
-		icon = GFX_focus_generic_railroad
-		cost = 5
-		prerequisite = {
-			focus = SAX_infrastructure_recovery
-		}
-		prerequisite = {
-			focus = SAX_heavy_industry
-		}
-		x = 1
-		y = 1
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_infrastructure_recovery
-		completion_reward = {
-			build_railway = {
-				path = {
-					11372
-					11288
-				}
-			}
-			build_railway = {
-				path = {
-					9496
-					478
-					514
-				}
-			}
-			custom_effect_tooltip = available_designer
-			show_ideas_tooltip = SAX_state_railways
-		}
-	}
-	focus = {
 		#독일-소련 경제협력
 		id = SAX_GS_economic_cooperation
 		icon = GFX_focus_chi_mission_to_the_soviet_union
 		cost = 5
 		prerequisite = {
-			focus = SAX_deutsche_reichsbahn
+			focus = SAX_1st_five_year_plan
 		}
 		mutually_exclusive = {
 			focus = SAX_proprietary_technology
@@ -1956,12 +1127,12 @@ focus_tree = {
 		available = {
 			SOV_will_support = yes
 		}
-		x = 1
+		x = 3
 		y = 1
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
 		}
-		relative_position_id = SAX_deutsche_reichsbahn
+		relative_position_id = SAX_1st_five_year_plan
 		completion_reward = {
 			SOU = {
 				country_event = SAX.9
@@ -1976,17 +1147,17 @@ focus_tree = {
 		icon = GFX_goal_generic_consumer_goods
 		cost = 5
 		prerequisite = {
-			focus = SAX_deutsche_reichsbahn
+			focus = SAX_1st_five_year_plan
 		}
 		mutually_exclusive = {
 			focus = SAX_GS_economic_cooperation
 		}
-		x = 3
+		x = 5
 		y = 1
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
 		}
-		relative_position_id = SAX_deutsche_reichsbahn
+		relative_position_id = SAX_1st_five_year_plan
 		completion_reward = {
 			add_tech_bonus = {
 				name = SAX_proprietary_technology
@@ -2006,12 +1177,12 @@ focus_tree = {
 			focus = SAX_GS_economic_cooperation
 			focus = SAX_proprietary_technology
 		}
-		x = 1
+		x = 3
 		y = 3
 		search_filters = {
 			FOCUS_FILTER_RESEARCH
 		}
-		relative_position_id = SAX_deutsche_reichsbahn
+		relative_position_id = SAX_1st_five_year_plan
 		completion_reward = {
 			add_ideas = SAX_leipzig_karl_marx_university
 		}
@@ -2025,14 +1196,46 @@ focus_tree = {
 			focus = SAX_GS_economic_cooperation
 			focus = SAX_proprietary_technology
 		}
-		x = 3
+		x = 5
 		y = 3
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
 		}
-		relative_position_id = SAX_deutsche_reichsbahn
+		relative_position_id = SAX_1st_five_year_plan
 		completion_reward = {
 			add_ideas = SAX_intershop
+		}
+	}
+	focus = {
+		#독일 국영철도
+		id = SAX_deutsche_reichsbahn
+		icon = GFX_focus_generic_railroad
+		cost = 5
+		prerequisite = {
+			focus = SAX_heavy_industry
+		}
+		x = 2
+		y = 1
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
+		relative_position_id = SAX_heavy_industry
+		completion_reward = {
+			build_railway = {
+				path = {
+					11372
+					11288
+				}
+			}
+			build_railway = {
+				path = {
+					9496
+					478
+					514
+				}
+			}
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = SAX_state_railways
 		}
 	}
 	focus = {
@@ -2043,17 +1246,10 @@ focus_tree = {
 		prerequisite = {
 			focus = SAX_1st_five_year_plan
 		}
-		prerequisite = {
-			focus = SAX_deutsche_reichsbahn
-		}
 		available = {
 			num_of_controlled_factories > 60
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
 		}
-		x = 1
+		x = -1
 		y = 1
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
@@ -2094,12 +1290,8 @@ focus_tree = {
 		}
 		available = {
 			num_of_controlled_factories > 150
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
 		}
-		x = 0
+		x = 1
 		y = 1
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
@@ -2119,294 +1311,6 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#토지 개혁
-		id = SAX_land_reform
-		icon = GFX_focus_generic_agricultural_subsidies
-		cost = 5
-		prerequisite = {
-			focus = SAX_staatliche_plankommission
-		}
-		available = {
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
-		}
-		x = -3
-		y = 1
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_staatliche_plankommission
-		completion_reward = {
-			add_to_variable = {
-				SAX_fyp_production_speed_industrial_complex_factor = 0.05
-			}
-			custom_effect_tooltip = SAX_land_reform_tt
-		}
-	}
-	focus = {
-		#집산화
-		id = SAX_collectivization
-		icon = GFX_focus_prc_agrarian_socialism
-		cost = 10
-		prerequisite = {
-			focus = SAX_land_reform
-		}
-		mutually_exclusive = {
-			focus = SAX_NEP_copy
-		}
-		available = {
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
-		}
-		x = 0
-		y = 2
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_land_reform
-		completion_reward = {
-			add_to_variable = {
-				SAX_fyp_consumer_goods_factor = -0.02
-			}
-			add_to_variable = {
-				SAX_fyp_global_building_slots_factor = 0.05
-			}
-			custom_effect_tooltip = SAX_collectivization_tt
-			add_stability = -0.05
-			add_war_support = -0.05
-			if = {
-				#Target a rural state with no civs
-				limit = {
-					any_owned_state = {
-						OR = {
-							has_state_category = town							#Developed Rural Region
-							has_state_category = rural							#Rural Region
-						}
-						is_fully_controlled_by = ROOT
-						arms_factory < 1
-						dockyard < 1
-						free_building_slots = {
-							building = industrial_complex
-							size > 1
-							include_locked = yes
-						}
-					}
-				}
-				random_owned_state = {
-					limit = {
-						OR = {
-							has_state_category = town							#Developed Rural Region
-							has_state_category = rural							#Rural Region
-						}
-						is_fully_controlled_by = ROOT
-						arms_factory < 1
-						dockyard < 1
-						free_building_slots = {
-							building = industrial_complex
-							size > 1
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 2
-					add_building_construction = {
-						type = industrial_complex
-						level = 2
-						instant_build = yes
-					}
-				}
-			}
-			else = {
-				random_owned_state = {
-					limit = {
-						OR = {
-							has_state_category = town							#Developed Rural Region
-							has_state_category = rural							#Rural Region
-						}
-						is_fully_controlled_by = ROOT
-						free_building_slots = {
-							building = industrial_complex
-							size > 1
-							include_locked = yes
-						}
-					}
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = industrial_complex
-						level = 1
-						instant_build = yes
-					}
-				}
-			}
-		}
-	}
-	focus = {
-		#신경제정책 모방
-		id = SAX_NEP_copy
-		icon = GFX_focus_generic_treaty
-		cost = 10
-		prerequisite = {
-			focus = SAX_land_reform
-		}
-		mutually_exclusive = {
-			focus = SAX_collectivization
-		}
-		available = {
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
-		}
-		x = -2
-		y = 2
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_land_reform
-		completion_reward = {
-			add_to_variable = {
-				SAX_fyp_consumer_goods_factor = -0.25
-			}
-			add_to_variable = {
-				SAX_fyp_production_speed_industrial_complex_factor = -0.15
-			}
-			add_to_variable = {
-				SAX_fyp_production_speed_arms_factory_factor = -0.15
-			}
-			custom_effect_tooltip = SAX_NEP_copy_tt
-			add_stability = 0.1
-			add_war_support = 0.1
-			add_popularity = {
-				ideology = communism
-				popularity = -0.05
-			}
-		}
-	}
-	focus = {
-		#농업생산협동조합
-		id = SAX_landwirtschaftliche_produktionsgenossenschaft
-		icon = GFX_goal_generic_soviet_construction
-		cost = 10
-		prerequisite = {
-			focus = SAX_collectivization
-		}
-		available = {
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
-		}
-		x = 0
-		y = 3
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_collectivization
-		completion_reward = {
-			add_to_variable = {
-				SAX_fyp_global_building_slots_factor = 0.05
-			}
-			add_to_variable = {
-				SAX_fyp_production_factory_efficiency_gain_factor = 0.05
-			}
-			custom_effect_tooltip = SAX_landwirtschaftliche_produktionsgenossenschaft_tt
-			add_stability = -0.05
-			add_war_support = -0.05
-			random_owned_state = {
-				limit = {
-					is_fully_controlled_by = ROOT
-					free_building_slots = {
-						building = industrial_complex
-						size > 1
-						include_locked = yes
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
-			random_owned_state = {
-				limit = {
-					is_fully_controlled_by = ROOT
-					arms_factory < 1
-					dockyard < 1
-					free_building_slots = {
-						building = industrial_complex
-						size > 1
-						include_locked = yes
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
-		}
-	}
-	focus = {
-		#독립 경제 계획
-		id = SAX_independent_economic_plan
-		icon = GFX_focus_spr_masters_of_our_own_fate
-		cost = 10
-		prerequisite = {
-			focus = SAX_staatliche_plankommission
-		}
-		mutually_exclusive = {
-			focus = SAX_soviet_economic_advisor
-		}
-		available = {
-			num_of_controlled_factories > 70
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
-		}
-		x = 2
-		y = 2
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_staatliche_plankommission
-		completion_reward = {
-			hidden_effect = {
-				#Swap dynamic modifier to change icon
-				remove_dynamic_modifier = {
-					modifier = SAX_second_five_year_plan_up
-				}
-				add_dynamic_modifier = {
-					modifier = SAX_second_five_year_plan_right
-				}
-			}
-			add_to_variable = {
-				SAX_fyp_industrial_concern_cost_factor = -0.15
-			}
-			add_to_variable = {
-				SAX_fyp_production_speed_industrial_complex_factor = 0.05
-			}
-			custom_effect_tooltip = SAX_independent_economic_plan_tt
-			add_political_power = -20
-			add_popularity = {
-				ideology = communism
-				popularity = -0.05
-			}
-			add_tech_bonus = {
-				name = SAX_independent_economic_plan
-				bonus = 1
-				uses = 2
-				category = industry
-				category = electronics
-			}
-		}
-	}
-	focus = {
 		#소련 경제 고문 초청
 		id = SAX_soviet_economic_advisor
 		icon = GFX_focus_generic_soviet_politics
@@ -2414,18 +1318,11 @@ focus_tree = {
 		prerequisite = {
 			focus = SAX_staatliche_plankommission
 		}
-		mutually_exclusive = {
-			focus = SAX_independent_economic_plan
-		}
 		available = {
 			num_of_controlled_factories > 70
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
 		}
 		x = -2
-		y = 2
+		y = 1
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
 		}
@@ -2461,87 +1358,6 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#체제의 토대
-		id = SAX_foundation_of_the_system
-		icon = GFX_focus_generic_strike_at_democracy2
-		cost = 10
-		prerequisite = {
-			focus = SAX_soviet_economic_advisor
-			focus = SAX_independent_economic_plan
-		}
-		available = {
-		}
-		x = -2
-		y = 1
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_independent_economic_plan
-		completion_reward = {
-			add_stability = 0.05
-		}
-	}
-	focus = {
-		#반파시즘 투쟁
-		id = SAX_antifascism_struggle
-		icon = GFX_focus_focus_fra_fascist_threat
-		cost = 5
-		prerequisite = {
-			focus = SAX_foundation_of_the_system
-		}
-		mutually_exclusive = {
-			focus = SAX_nazi_personnel_reappointed
-		}
-		available = {
-		}
-		x = 1
-		y = 2
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_soviet_economic_advisor
-		completion_reward = {
-			add_political_power = 60
-			add_stability = -0.05
-			add_war_support = 0.1
-			add_popularity = {
-				ideology = fascism
-				popularity = -0.25
-			}
-		}
-	}
-	focus = {
-		#나치 인사 재등용
-		id = SAX_nazi_personnel_reappointed
-		icon = GFX_focus_generic_german_trade
-		cost = 5
-		prerequisite = {
-			focus = SAX_foundation_of_the_system
-		}
-		mutually_exclusive = {
-			focus = SAX_antifascism_struggle
-		}
-		available = {
-		}
-		x = -1
-		y = 2
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_independent_economic_plan
-		completion_reward = {
-			add_war_support = -0.1
-			add_popularity = {
-				ideology = fascism
-				popularity = 0.05
-			}
-			add_popularity = {
-				ideology = communism
-				popularity = -0.1
-			}
-		}
-	}
-	focus = {
 		#중앙 계획적 경제 구조
 		id = SAX_centrally_planned_economic_structure
 		icon = GFX_focus_generic_support_the_left_right
@@ -2551,13 +1367,9 @@ focus_tree = {
 		}
 		available = {
 			num_of_controlled_factories > 90
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
 		}
-		x = 0
-		y = 3
+		x = -1
+		y = 1
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
 		}
@@ -2570,302 +1382,6 @@ focus_tree = {
 				SAX_fyp_industrial_capacity_dockyard = 0.05
 			}
 			custom_effect_tooltip = SAX_centrally_planned_economic_structure_tt
-		}
-	}
-	focus = {
-		#국영기업 투자
-		id = SAX_sponsorship_of_stateowned_enterprises
-		icon = GFX_focus_generic_modernize_industry
-		cost = 10
-		prerequisite = {
-			focus = SAX_independent_economic_plan
-		}
-		available = {
-			num_of_controlled_factories > 90
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
-		}
-		x = 0
-		y = 3
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_independent_economic_plan
-		completion_reward = {
-			add_to_variable = {
-				SAX_fyp_consumer_goods_factor = 0.02
-			}
-			add_to_variable = {
-				SAX_fyp_production_speed_industrial_complex_factor = 0.05
-			}
-			add_to_variable = {
-				SAX_fyp_line_change_production_efficiency_factor = 0.05
-			}
-			custom_effect_tooltip = SAX_sponsorship_of_stateowned_enterprises_tt
-		}
-	}
-	focus = {
-		#5개년 계획 종료
-		id = SAX_1st_five_year_plan_end
-		icon = GFX_focus_generic_industry_2
-		cost = 10
-		prerequisite = {
-			focus = SAX_centrally_planned_economic_structure
-			focus = SAX_sponsorship_of_stateowned_enterprises
-		}
-		available = {
-			num_of_controlled_factories > 120
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
-		}
-		x = 0
-		y = 6
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_staatliche_plankommission
-		completion_reward = {
-		}
-	}
-	focus = {
-		#제2차 5개년 계획
-		id = SAX_2st_five_year_plan
-		icon = GFX_focus_generic_industry_3
-		cost = 10
-		prerequisite = {
-			focus = SAX_landwirtschaftliche_produktionsgenossenschaft
-		}
-		prerequisite = {
-			focus = SAX_1st_five_year_plan_end
-		}
-		available = {
-			num_of_controlled_factories > 150
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
-		}
-		x = 0
-		y = 7
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_staatliche_plankommission
-		completion_reward = {
-			add_to_variable = {
-				SAX_fyp_consumer_goods_factor = -0.02
-			}
-			#Bonus to CG
-			add_to_variable = {
-				SAX_fyp_production_factory_max_efficiency_factor = 0.05
-			}
-			#Bonus to max efficicency
-			custom_effect_tooltip = SAX_2st_five_year_plan_tt
-		}
-	}
-	focus = {
-		#전자공학 투자
-		id = SAX_electronics_investment
-		icon = GFX_goal_generic_radar
-		cost = 10
-		prerequisite = {
-			focus = SAX_university_reconstruction
-		}
-		prerequisite = {
-			focus = SAX_international_trade
-		}
-		x = 1
-		y = 3
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_university_reconstruction
-		completion_reward = {
-			add_tech_bonus = {
-				name = SAX_independent_economic_plan
-				bonus = 1
-				uses = 2
-				category = electronics
-			}
-			custom_effect_tooltip = available_designer
-			show_ideas_tooltip = SAX_Robotron
-		}
-	}
-	focus = {
-		#경공업 전환
-		id = SAX_light_industrial_transition
-		icon = GFX_goal_generic_construct_civ_factory
-		cost = 10
-		prerequisite = {
-			focus = SAX_2st_five_year_plan
-		}
-		prerequisite = {
-			focus = SAX_electronics_investment
-		}
-		x = -1
-		y = 3
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_electronics_investment
-		completion_reward = {
-			add_tech_bonus = {
-				name = SAX_independent_economic_plan
-				bonus = 1
-				uses = 2
-				category = industry
-				category = electronics
-			}
-			random_owned_state = {
-				limit = {
-					is_fully_controlled_by = ROOT
-					free_building_slots = {
-						building = industrial_complex
-						size > 1
-						include_locked = yes
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
-		}
-	}
-	focus = {
-		#노동자 확보
-		id = SAX_securing_the_workforce
-		icon = GFX_focus_generic_workers_and_farmers_rise
-		cost = 10
-		prerequisite = {
-			focus = SAX_2st_five_year_plan
-		}
-		prerequisite = {
-			focus = SAX_electronics_investment
-		}
-		x = 1
-		y = 3
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_electronics_investment
-		completion_reward = {
-		}
-	}
-	focus = {
-		#계획 경제 개선
-		id = SAX_planned_economic_improvement
-		icon = GFX_focus_SOV_organize_wreckers
-		cost = 10
-		prerequisite = {
-			focus = SAX_2st_five_year_plan
-		}
-		available = {
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
-		}
-		x = 0
-		y = 1
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_2st_five_year_plan
-		completion_reward = {
-		}
-	}
-	focus = {
-		#소련 비난
-		id = SAX_soviet_condemnation
-		icon = GFX_focus_attack_soviet
-		cost = 5
-		prerequisite = {
-			focus = SAX_2st_five_year_plan
-		}
-		mutually_exclusive = {
-			focus = SAX_partial_market_economy
-		}
-		available = {
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
-			SOU = {
-				has_completed_focus = SOV_back_to_the_nep
-			}
-		}
-		x = -5
-		y = 1
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_2st_five_year_plan
-		completion_reward = {
-			add_to_variable = {
-				SAX_fyp_consumer_goods_factor = -0.02
-			}
-			add_to_variable = {
-				SAX_fyp_industrial_capacity_factory = 0.05
-			}
-			custom_effect_tooltip = SAX_soviet_condemnation_tt
-			add_opinion_modifier = {
-				target = SOU
-				modifier = SAX_the_stalinist
-			}
-		}
-	}
-	focus = {
-		#부분 시장 경제
-		id = SAX_partial_market_economy
-		icon = GFX_focus_SOV_rebuild_the_savior_cathedral
-		cost = 5
-		prerequisite = {
-			focus = SAX_2st_five_year_plan
-		}
-		mutually_exclusive = {
-			focus = SAX_soviet_condemnation
-		}
-		available = {
-			NOT = {
-				has_idea = SAX_great_leap_forward
-				has_completed_focus = SAX_the_left
-			}
-			SOU = {
-				OR = {
-					has_completed_focus = SOV_back_to_the_nep
-					NOT = {
-						has_country_leader = {
-							character = SOV_iosif_stalin
-							ruling_only = yes
-						}
-					}
-				}
-			}
-		}
-		x = -3
-		y = 1
-		search_filters = {
-			FOCUS_FILTER_INDUSTRY
-		}
-		relative_position_id = SAX_2st_five_year_plan
-		completion_reward = {
-			add_to_variable = {
-				SAX_fyp_consumer_goods_factor = 0.05
-			}
-			add_to_variable = {
-				SAX_fyp_production_speed_industrial_complex_factor = 0.05
-			}
-			add_to_variable = {
-				SAX_fyp_production_speed_arms_factory_factor = 0.1
-			}
-			custom_effect_tooltip = SAX_partial_market_economy_tt
 		}
 	}
 	focus = {
