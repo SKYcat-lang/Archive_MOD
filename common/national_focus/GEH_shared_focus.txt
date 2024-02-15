@@ -23,6 +23,22 @@ shared_focus = {
 	y = 0
 	completion_reward = {
 		if = {
+			limit = { tag = GEM }
+			if = {
+				limit = { has_idea = GEH_Emergency }
+				remove_ideas = GEH_Emergency
+			}
+			GEH_Manmajun_Bupae_remove_effect = yes
+			if = {
+				limit = {
+					NOT = {
+						has_dynamic_modifier = { modifier = GEM_pandemonium_modifier }
+					}
+				}
+				add_dynamic_modifier = { modifier = GEM_pandemonium_modifier }
+			}
+		}
+		if = {
 			limit = {
 				NOT = { tag = GEH }
 			}
@@ -69,15 +85,29 @@ shared_focus = {
 		focus = GEH_club_integration
 	}
 	available = {
-		NOT = {
-			has_hot_spring_department = yes
-			has_gourmet_research_society = yes
+		custom_trigger_tooltip = {
+			tooltip = GEH_club_processing_tt
+			NOT = {
+				has_idea = GEH_hot_spring_department_1
+				has_idea = GEH_hot_spring_department_2
+				has_idea = GEH_hot_spring_department_3
+				has_idea = GEH_hot_spring_department_4
+				has_idea = GEH_gourmet_research_society_1
+				has_idea = GEH_gourmet_research_society_2
+				has_idea = GEH_gourmet_research_society_3
+				has_idea = GEH_gourmet_research_society_4
+			}
 		}
 	}
 	x = -1
 	y = 1
 	relative_position_id = GEH_unified_gehenna
 	completion_reward = {
+		add_political_power = 30
+		add_timed_idea = {
+			idea = GEH_club_processing_idea
+			days = 280
+		}
 	}
 }
 shared_focus = {
@@ -91,15 +121,29 @@ shared_focus = {
 		focus = GEH_club_processing
 	}
 	available = {
-		NOT = {
-			has_hot_spring_department = yes
-			has_gourmet_research_society = yes
+		custom_trigger_tooltip = {
+			tooltip = GEH_club_processing_tt
+			NOT = {
+				has_idea = GEH_hot_spring_department_1
+				has_idea = GEH_hot_spring_department_2
+				has_idea = GEH_hot_spring_department_3
+				has_idea = GEH_hot_spring_department_4
+				has_idea = GEH_gourmet_research_society_1
+				has_idea = GEH_gourmet_research_society_2
+				has_idea = GEH_gourmet_research_society_3
+				has_idea = GEH_gourmet_research_society_4
+			}
 		}
 	}
 	x = 1
 	y = 1
 	relative_position_id = GEH_unified_gehenna
 	completion_reward = {
+		add_political_power = 30
+		add_timed_idea = {
+			idea = GEH_club_integration_idea
+			days = 280
+		}
 	}
 }
 shared_focus = {
@@ -114,6 +158,7 @@ shared_focus = {
 	y = 2
 	relative_position_id = GEH_unified_gehenna
 	completion_reward = {
+		custom_effect_tooltip = GEH_gastronomy_research_group_arrested_tt
 	}
 }
 shared_focus = {
@@ -142,6 +187,33 @@ shared_focus = {
 	y = 3
 	relative_position_id = GEH_unified_gehenna
 	completion_reward = {
+		custom_effect_tooltip = kivotos_halo_add3_tt
+		hidden_effect = {
+			add_to_variable = { ROOT.halo_infantry_cap = 3 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+			if = {
+				limit = {
+					has_template = "Halo Infantry Division"
+				}
+				set_division_template_cap = {
+					division_template = "Halo Infantry Division"
+					division_cap = ROOT.halo_infantry_cap
+				}
+			}
+		}
+		capital_scope = {
+			create_unit = {
+				division = "name = \"1. Assault\" division_template = \"Halo Infantry Division\" start_experience_factor = 1"
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"2. Assault\" division_template = \"Halo Infantry Division\" start_experience_factor = 1"
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"3. Assault\" division_template = \"Halo Infantry Division\" start_experience_factor = 1"
+				owner = ROOT
+			}
+		}
 	}
 }
 shared_focus = {
@@ -155,6 +227,17 @@ shared_focus = {
 	y = 3
 	relative_position_id = GEH_unified_gehenna
 	completion_reward = {
+		if = {
+			limit = { tag = GEM }
+			custom_effect_tooltip = GEH_representation_GEM
+			add_to_variable = { GEM_pandemonium_modifier_defensive_war_stability_factor = 0.25 }
+			add_to_variable = { GEM_pandemonium_modifier_mobilization_speed = 0.05 }
+			add_to_variable = { GEM_pandemonium_modifier_max_surrender_limit_offset = 0.05 }
+		}
+		else = {
+			add_war_support = 0.10
+			add_stability = 0.10
+		}
 	}
 }
 shared_focus = {
@@ -169,6 +252,46 @@ shared_focus = {
 	relative_position_id = GEH_unified_gehenna
 	completion_reward = {
 		add_stability = -0.10
+		if = {
+			limit = { tag = GEM }
+			custom_effect_tooltip = GEH_hot_spring_cooperation_GEM
+			add_to_variable = { GEM_pandemonium_modifier_good_consumer_goods_factor = -0.02 }
+			add_to_variable = { GEM_pandemonium_modifier_global_building_slots_factor = 0.10 }
+			add_to_variable = { GEM_pandemonium_modifier_production_speed_buildings_factor = 0.05 }
+		}
+		else = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		custom_effect_tooltip = GEH_hot_spring_cooperation_tt
 	}
 }
 shared_focus = {
@@ -182,6 +305,15 @@ shared_focus = {
 	y = 3
 	relative_position_id = GEH_unified_gehenna
 	completion_reward = {
+		random_owned_controlled_state = {
+			BA_increase_state_category_by_one_level = yes
+		}
+		random_owned_controlled_state = {
+			BA_increase_state_category_by_one_level = yes
+		}
+		random_owned_controlled_state = {
+			BA_increase_state_category_by_one_level = yes
+		}
 	}
 }
 shared_focus = {
@@ -195,6 +327,51 @@ shared_focus = {
 	y = 3
 	relative_position_id = GEH_unified_gehenna
 	completion_reward = {
+		random_owned_controlled_state = {
+			limit = {
+				free_building_slots = {
+					building = industrial_complex
+					size > 0
+					include_locked = yes
+				}
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				free_building_slots = {
+					building = industrial_complex
+					size > 0
+					include_locked = yes
+				}
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				free_building_slots = {
+					building = industrial_complex
+					size > 0
+					include_locked = yes
+				}
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+		}
 	}
 }
 shared_focus = {
@@ -238,6 +415,7 @@ shared_focus = {
 	y = 4
 	relative_position_id = GEH_unified_gehenna
 	completion_reward = {
+		add_ideas = GEH_gehenna_academy_idea
 	}
 }
 shared_focus = {
@@ -304,14 +482,12 @@ shared_focus = {
 	relative_position_id = GEH_the_end_of_pandemonium
 	completion_reward = {
 		custom_effect_tooltip = GEH_legitimate_dominion_completed_tt
-		if = {
-			limit = { NOT = { tag = HEU } }
-			GEM = {
+		GEM = {
+			if = {
+				limit = { NOT = { ROOT = { tag = HEU } } }
 				show_ideas_tooltip = GEH_dlfhgk1
 				show_ideas_tooltip = GEH_dlqnzl
 			}
-		}
-		GEM = {
 			show_ideas_tooltip = GEH_dlfhgk3
 		}
 	}
@@ -330,6 +506,36 @@ shared_focus = {
 	y = 1
 	relative_position_id = GEH_the_end_of_pandemonium
 	completion_reward = {
+		if = {
+			limit = {
+				has_idea = GEH_hegemony_1_idea
+			}
+			swap_ideas = {
+				remove_idea = GEH_hegemony_1_idea
+				add_idea = GEH_hegemony_2_idea
+			}
+		}
+		else_if = {
+			limit = {
+				has_idea = GEH_hegemony_2_idea
+			}
+			swap_ideas = {
+				remove_idea = GEH_hegemony_2_idea
+				add_idea = GEH_hegemony_3_idea
+			}
+		}
+		else_if = {
+			limit = {
+				has_idea = GEH_hegemony_3_idea
+			}
+			swap_ideas = {
+				remove_idea = GEH_hegemony_4_idea
+				add_idea = GEH_hegemony_4_idea
+			}
+		}
+		else = {
+			add_ideas = GEH_hegemony_1_idea
+		}
 	}
 }
 shared_focus = {
@@ -343,6 +549,36 @@ shared_focus = {
 	y = 2
 	relative_position_id = GEH_the_end_of_pandemonium
 	completion_reward = {
+		if = {
+			limit = {
+				has_idea = GEH_hegemony_1_idea
+			}
+			swap_ideas = {
+				remove_idea = GEH_hegemony_1_idea
+				add_idea = GEH_hegemony_2_idea
+			}
+		}
+		else_if = {
+			limit = {
+				has_idea = GEH_hegemony_2_idea
+			}
+			swap_ideas = {
+				remove_idea = GEH_hegemony_2_idea
+				add_idea = GEH_hegemony_3_idea
+			}
+		}
+		else_if = {
+			limit = {
+				has_idea = GEH_hegemony_3_idea
+			}
+			swap_ideas = {
+				remove_idea = GEH_hegemony_3_idea
+				add_idea = GEH_hegemony_4_idea
+			}
+		}
+		else = {
+			add_ideas = GEH_hegemony_1_idea
+		}
 	}
 }
 shared_focus = {
@@ -428,10 +664,8 @@ shared_focus = {
 		custom_effect_tooltip = GEH_civilian_control_completed_tt
 		GEH = {
 			show_ideas_tooltip = GEH_hina
-		}
-		if = {
-			limit = { NOT = { tag = HEU } }
-			GEH = {
+			if = {
+				limit = { NOT = { ROOT = { tag = HEU } } }
 				show_ideas_tooltip = GEH_dldhfl_idea
 				show_ideas_tooltip = GEH_chinatsu_idea
 				show_ideas_tooltip = GEH_dkzh
@@ -453,6 +687,36 @@ shared_focus = {
 	y = 1
 	relative_position_id = GEH_the_end_of_perfect_team
 	completion_reward = {
+		if = {
+			limit = {
+				has_idea = GEH_hegemony_1_idea
+			}
+			swap_ideas = {
+				remove_idea = GEH_hegemony_1_idea
+				add_idea = GEH_hegemony_2_idea
+			}
+		}
+		else_if = {
+			limit = {
+				has_idea = GEH_hegemony_2_idea
+			}
+			swap_ideas = {
+				remove_idea = GEH_hegemony_2_idea
+				add_idea = GEH_hegemony_3_idea
+			}
+		}
+		else_if = {
+			limit = {
+				has_idea = GEH_hegemony_3_idea
+			}
+			swap_ideas = {
+				remove_idea = GEH_hegemony_4_idea
+				add_idea = GEH_hegemony_4_idea
+			}
+		}
+		else = {
+			add_ideas = GEH_hegemony_1_idea
+		}
 	}
 }
 shared_focus = {
@@ -466,6 +730,36 @@ shared_focus = {
 	y = 2
 	relative_position_id = GEH_the_end_of_perfect_team
 	completion_reward = {
+		if = {
+			limit = {
+				has_idea = GEH_hegemony_1_idea
+			}
+			swap_ideas = {
+				remove_idea = GEH_hegemony_1_idea
+				add_idea = GEH_hegemony_2_idea
+			}
+		}
+		else_if = {
+			limit = {
+				has_idea = GEH_hegemony_2_idea
+			}
+			swap_ideas = {
+				remove_idea = GEH_hegemony_2_idea
+				add_idea = GEH_hegemony_3_idea
+			}
+		}
+		else_if = {
+			limit = {
+				has_idea = GEH_hegemony_3_idea
+			}
+			swap_ideas = {
+				remove_idea = GEH_hegemony_3_idea
+				add_idea = GEH_hegemony_4_idea
+			}
+		}
+		else = {
+			add_ideas = GEH_hegemony_1_idea
+		}
 	}
 }
 shared_focus = {
