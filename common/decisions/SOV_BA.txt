@@ -379,7 +379,7 @@ SOV_UKR_dokrib_decision = {
 	}
 }
 BA_sov_pol_war_decision = {
-	BA_sov_pol_war_decision_protect_moscow = {
+	BA_sov_pol_war_decision_protect_moscow = { #폴란드 점령
 		visible = {
 			tag = SOV
 		}
@@ -394,19 +394,224 @@ BA_sov_pol_war_decision = {
 		days_mission_timeout = 800
 		icon = GFX_decision_generic_operation
 		available = {
-			219 = {
-				is_controlled_by_ROOT_or_ally = no
+			POL = {
+				has_capitulated = yes
 			}
 		}
 		highlight_states = {
 			highlight_state_targets = {
-				state = 219
+				state = 10
+				state = 98
+				state = 87
+				state = 90
+				state = 936
+				state = 88
+				state = 92
 			}
 		}
-		is_good = yes
-		complete_effect = {
+		is_good = no
+		timeout_effect = {
 			add_war_support = 0.1
 			custom_effect_tooltip = BA_sov_pol_war_decision_end_tt
+			hidden_effect = {
+				every_country = {
+					limit = {
+						is_ally_with = POL
+						has_war_with = SOV
+					}
+					white_peace = SOV
+				}
+			}
+		}
+		complete_effect = {
+			custom_effect_tooltip = BA_sov_pol_war_decision_protect_moscow_tt
+			hidden_effect={every_country = {
+				limit = {
+					is_ally_with = POL
+					has_war_with = SOV
+					OR = {
+						tag = LAT
+						tag = LIT
+						tag = EST
+					}
+				}
+				every_owned_state = {
+					limit = {
+						is_core_of = prev
+					}
+					add_claim_by = SOV
+				}
+				SOV = {
+					annex_country = {
+						target = prev
+					}
+				}
+			}
+			every_state = {
+				limit = {
+					is_owned_by = POL
+					is_core_of = LIT
+				}
+				transfer_state_to = SOV
+				add_claim_by = SOV
+			}
+			transfer_state = 91
+			transfer_state = 89
+			add_state_claim = 91
+			add_state_claim = 89
+			if = {
+				limit = {
+					has_war_with = ROM
+					ROM = {
+						is_ally_with = POL
+						has_capitulated = no
+					}
+				}
+				ROM = {
+					country_event = {
+						id = BA_pol_event.34
+						days = 3
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_war_with = ROM
+					ROM = {
+						is_ally_with = POL
+						has_capitulated = yes
+					}
+				}
+				ROM = {
+					every_owned_state = {
+						limit = {OR={
+							is_core_of = UKR
+							is_core_of = MOL
+						}}
+						transfer_state_to = SOV
+						add_claim_by = SOV
+					}
+				}
+				SOV = {
+					set_autonomy = {
+						target = ROM
+						autonomy_state = autonomy_SSR
+					}
+					unlock_national_focus = SOV_claim_on_bessarabia
+				}
+			}
+			if = {
+				limit = {
+					has_war_with = HUN
+					HUN = {
+						is_ally_with = POL
+					}
+				}
+				HUN = {
+					every_owned_state = {
+						limit = {
+							is_core_of = UKR
+						}
+						transfer_state_to = SOV
+						add_claim_by = SOV
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_war_with = FIN
+					FIN = {
+						is_ally_with = POL
+						has_capitulated = no
+					}
+				}
+				FIN = {
+					country_event = {
+						id = BA_pol_event.35
+						days = 3
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_war_with = FIN
+					FIN = {
+						is_ally_with = POL
+						has_capitulated = yes
+					}
+				}
+				SOV = {
+					transfer_state = 722
+					transfer_state = 147
+					transfer_state = 146
+					add_state_claim = 722
+					add_state_claim = 147
+					add_state_claim = 146
+					unlock_national_focus = SOV_secure_leningrad
+					set_autonomy = {
+						target = FIN
+						autonomy_state = autonomy_SSR
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_war_with = TUR
+					TUR = {
+						is_ally_with = POL
+						has_capitulated = no
+					}
+				}
+				TUR = {
+					country_event = {
+						id = BA_pol_event.36
+						days = 3
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_war_with = TUR
+					TUR = {
+						is_ally_with = POL
+						has_capitulated = yes
+					}
+				}
+				TUR = {
+					release = KUR
+				}
+				SOV = {
+					transfer_state = 354
+					add_state_claim = 354
+					set_autonomy = {
+						target = TUR
+						autonomy_state = autonomy_SSR
+					}
+					set_autonomy = {
+						target = KUR
+						autonomy_state = autonomy_SSR
+					}
+				}
+			}
+			every_country = {
+				limit = {
+					has_war_with = SOV
+					is_ally_with = POL
+					NOT = {
+						tag = POL
+						tag = TUR
+						tag = ROM
+						tag = FIN
+					}
+				}
+				white_peace = SOV
+				dismantle_faction = yes
+				leave_faction = yes
+			}
+			set_autonomy = {
+				target = POL
+				autonomy_state = autonomy_SSR
+			}}
 		}
 		fire_only_once = yes
 	}
@@ -433,6 +638,15 @@ BA_sov_pol_war_decision = {
 		timeout_effect = {
 			add_war_support = 0.1
 			custom_effect_tooltip = BA_sov_pol_war_decision_end_tt
+			hidden_effect = {
+				every_country = {
+					limit = {
+						is_ally_with = SOV
+						has_war_with = POL
+					}
+					white_peace = POL
+				}
+			}
 		}
 		highlight_states = {
 			highlight_state_targets = {
