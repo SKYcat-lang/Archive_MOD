@@ -3198,3 +3198,247 @@ FRA_division_decision_category = {
 		}
 	}
 }
+FRA_indochina_issue = {
+	FRA_indochina_going_bad = { #심화되어가는 식민지인 저항
+		icon = GFX_decision_revolt
+		days_mission_timeout = 150
+		available = {
+			always = no
+		}
+		activation = {
+			always = no
+		}
+		is_good = no
+		timeout_effect = {
+			VIN = {
+				VIN_upgrade_resist = yes
+				add_stability = -0.1
+			}
+			activate_mission = FRA_indochina_going_bad
+		}
+		priority = 100
+	}
+	FRA_more_security_indochina = { #식민지 치안 강화
+		icon = GFX_decision_generic_army_support
+		visible = {
+			has_global_flag = VIN_has_crisis
+			has_country_flag = FRA_has_indochina_issue
+		}
+		available = {
+			VIN = {
+				OR = {
+					has_idea = VIN_colonists_resist_1
+					has_idea = VIN_colonists_resist_2
+					has_idea = VIN_colonists_resist_3
+				}
+			}
+		}
+		days_remove = 60
+		days_re_enable = 90
+		cost = FRA_VIN_security_cost
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = -600
+			}
+			add_manpower = -600
+			add_to_variable = {
+				FRA_VIN_security_cost = 5
+			}
+			VIN = {
+				add_stability = 0.03
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.1
+				}
+			}
+			set_country_flag = FRA_VIN_anti_resist_action
+		}
+		remove_effect = {
+			clr_country_flag = FRA_VIN_anti_resist_action
+			VIN = {
+				VIN_downgrade_resist = yes
+			}
+		}
+	}
+	FRA_more_welfare_indochina = { #일시적인 식민지인 복지
+	 	icon = GFX_decision_hol_attract_foreign_investors
+		visible = {
+			has_global_flag = VIN_has_crisis
+			has_country_flag = FRA_has_indochina_issue
+		}
+		available = {
+			VIN = {
+				OR = {
+					has_idea = VIN_colonists_resist_1
+					has_idea = VIN_colonists_resist_2
+					has_idea = VIN_colonists_resist_3
+				}
+			}
+		}
+		days_remove = 30
+		days_re_enable = 90
+		cost = FRA_VIN_welfare_cost
+		modifier = {
+			consumer_goods_expected_value = 0.05
+		}
+		complete_effect = {
+			add_to_variable = {
+				FRA_VIN_welfare_cost = 5
+			}
+			set_country_flag = FRA_VIN_anti_resist_action
+			VIN = {
+				add_stability = 0.03
+				add_war_support = 0.03
+			}
+		}
+		remove_effect = {
+			VIN = {
+				VIN_downgrade_resist = yes
+			}
+			clr_country_flag = FRA_VIN_anti_resist_action
+		}
+	}
+	FRA_more_autonomy_indochina = { #제한된 지방자치권
+		icon = GFX_decision_eng_trade_unions_support
+		visible = {
+			has_global_flag = VIN_has_crisis
+			has_country_flag = FRA_has_indochina_issue
+		}
+		available = {
+			VIN = {
+				OR = {
+					has_idea = VIN_colonists_resist_1
+					has_idea = VIN_colonists_resist_2
+					has_idea = VIN_colonists_resist_3
+				}
+			}
+		}
+		days_remove = 60
+		days_re_enable = 60
+		cost = FRA_VIN_autonomy_cost
+		modifier = {
+			consumer_goods_expected_value = 0.05
+		}
+		complete_effect = {
+			add_to_variable = {
+				FRA_VIN_autonomy_cost = 5
+			}
+			set_country_flag = FRA_VIN_anti_resist_action
+			VIN = {
+				add_stability = 0.05
+				add_war_support = 0.05
+				add_autonomy_score = {
+					value = 30
+					localization = EXAMPLE
+				}
+			}
+		}
+		remove_effect = {
+			VIN = {
+				VIN_downgrade_resist = yes
+			}
+			clr_country_flag = FRA_VIN_anti_resist_action
+		}
+	}
+	FRA_more_resource_indochina = { #인도차이나 자원 생산 확대
+		icon = GFX_decision_tungsten
+		days_remove = 150
+		days_re_enable = 30
+		cost = 30
+		available = {
+			NOT = {
+				has_country_flag = FRA_vin_action
+			}
+		}
+		visible = {
+			has_country_flag = FRA_has_indochina_issue
+		}
+		complete_effect = {
+			VIN = {
+				add_timed_idea = {
+					idea = VIN_expand_resource
+					days = 150
+				}
+			}
+			set_country_flag = FRA_vin_action
+			hidden_effect = {
+				country_event = {
+					id = FRA_prov_event.100
+					days = 150
+				}
+			}
+		}
+		modifier = {
+			civilian_factory_use = 1
+		}
+	}
+	FRA_more_industry_indochina = { #식민지에 산업 진출
+		icon = GFX_decision_gre_investment_decisions
+		days_remove = 150
+		days_re_enable = 30
+		cost = 30
+		available = {
+			NOT = {
+				has_country_flag = FRA_vin_action
+			}
+		}
+		visible = {
+			has_country_flag = FRA_has_indochina_issue
+		}
+		complete_effect = {
+			VIN = {
+				add_timed_idea = {
+					idea = VIN_expand_industry
+					days = 150
+				}
+			}
+			set_country_flag = FRA_vin_action
+			hidden_effect = {
+				country_event = {
+					id = FRA_prov_event.100
+					days = 150
+				}
+			}
+		}
+		modifier = {
+			industrial_factory_donations = 1
+		}
+	}
+	FRA_more_arms_factory_indochina = { #군수품 징발
+		icon = GFX_decision_ger_military_buildup
+		days_remove = 150
+		days_re_enable = 30
+		cost = 30
+		available = {
+			NOT = {
+				has_country_flag = FRA_vin_action
+			}
+		}
+		visible = {
+			has_country_flag = FRA_has_indochina_issue
+		}
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 800
+			}
+			VIN = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -1000
+				}
+			}
+			set_country_flag = FRA_vin_action
+			hidden_effect = {
+				country_event = {
+					id = FRA_prov_event.100
+					days = 150
+				}
+			}
+		}
+		modifier = {
+			military_factory_donations = 1
+		}
+	}
+}
