@@ -1238,7 +1238,7 @@ country_event = {
 }
 
 country_event = {
-	#이거 안 쓰는 잉여이벤트임 / 개발자
+	#전선 고착화의 전조
 	id = FRA_prov_event.32
 	title = FRA_prov_event.32.t
 	desc = FRA_prov_event.32.d
@@ -1268,7 +1268,7 @@ country_event = {
 }
 
 country_event = {
-	#얘도 안씀 / 개발자
+	#인도차이나 혁명
 	id = FRA_prov_event.34
 	title = FRA_prov_event.34.t
 	desc = FRA_prov_event.34.d
@@ -1277,31 +1277,86 @@ country_event = {
 	hidden = no
 	option = {
 		name = FRA_prov_event.34.a
-		retire_country_leader = yes
+		VIN = {
+			add_ideas = VIN_indochina_war_idea
+			start_civil_war = {
+				ideology = communism
+				size = 0.5
+				set_cosmetic_tag = VIN_indochina_civilwar
+				states = {
+					671
+				}
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = -0.5
+			}
+		}
+		clr_country_flag = FRA_has_indochina_issue
+		clr_country_flag = VIN_has_crisis
+		set_country_flag = FRA_has_indochina_war
+		remove_decision = FRA_indochina_going_bad
+		activate_mission = FRA_near_japan_intervention_indochina
 	}
 }
 
 country_event = {
-	#얘도 안 씀 / 개발자
+	#인도차이나 내전 끝
 	id = FRA_prov_event.35
 	title = FRA_prov_event.35.t
 	desc = FRA_prov_event.35.d
 	fire_only_once = yes
-	is_triggered_only = yes
+	trigger = {
+		has_country_flag = FRA_has_indochina_war
+		OR = {
+			VIN = {
+				has_war = no
+			}
+			VIN = {
+				has_capitulated = yes
+			}
+		}
+	}
 	hidden = no
 	option = {
 		name = FRA_prov_event.35.a
-		every_state = {
+		clr_country_flag = FRA_has_indochina_war
+		if = {
 			limit = {
-				industrial_complex > 3
-				is_owned_by = MIL
-				is_core_of = FRA
+				VIN = {
+					exists = yes
+				}
 			}
-			remove_core_of = MIL
+			VIN = {
+				swap_ideas = {
+					remove_idea = FRA_government_general_1
+					add_idea = FRA_government_general_2
+				}
+				give_resource_rights = {
+					receiver = FRA
+					state = 286
+					resources = {
+						rubber
+					}
+				}
+				give_resource_rights = {
+					receiver = FRA
+					state = 671
+					resources = {
+						tungsten chromium
+					}
+				}
+			}
 		}
-		add_timed_idea = {
-			idea = FRA_MIL_strike
-			days = 100
+		else = {
+			add_political_power = -10
+			every_other_country = {
+				limit = {
+					has_war_with = FRA
+					original_tag = VIN
+				}
+				white_peace = FRA
+			}
 		}
 	}
 }
@@ -1362,7 +1417,7 @@ country_event = {
 }
 
 country_event = {
-	#개발자 이벤트
+	#인도차이나 - 일본한테 사이공 주기
 	id = FRA_prov_event.37
 	title = FRA_prov_event.37.t
 	desc = FRA_prov_event.37.d
@@ -1371,6 +1426,12 @@ country_event = {
 	hidden = no
 	option = {
 		name = FRA_prov_event.37.a
+		JAP = {
+			set_autonomy = {
+				target = LAO
+				autonomy_state = autonomy_wtt_imperial_subject
+			}
+		}
 	}
 }
 
@@ -4005,6 +4066,7 @@ country_event = {
 		set_variable = {
 			FRA_VIN_autonomy_cost = 20
 		}
+		custom_effect_tooltip = FRA_prov_event.124_tt
 	}
 }
 
