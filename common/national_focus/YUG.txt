@@ -13,7 +13,7 @@ focus_tree = {
 	
 	default = no
 
-	continuous_focus_position = { x = 50 y = 1650 }
+	continuous_focus_position = { x = 50 y = 3000 }
 
 #	focus = {
 #		id = YUG_
@@ -53,14 +53,41 @@ focus_tree = {
 
 # 새 정치 루트
 
-	focus = {
-		id = YUG_Establishment_of_the_Republic
+	focus = { #섭정위원회 통제 전복
+		id = YUG_regal_interregnum
+		icon = GFX_goal_tfv_sever_ties_with_uk
+		cost = 5
+		mutually_exclusive = {
+			focus = YUG_regal_regency_system_strengthening
+			focus = YUG_Establishment_of_the_Republic
+		}
+		x = 15
+		y = 0
+		completion_reward = { }
+	}
+
+	focus = { #국왕 정부 억압
+		id = YUG_regal_regency_system_strengthening
 		icon = GFX_focus_rom_handle_king
 		cost = 5
 		mutually_exclusive = {
-			focus = YUG_Maintaining_the_Monarchy
+			focus = YUG_Establishment_of_the_Republic
+			focus = YUG_regal_interregnum
 		}
-		x = -3
+		x = 25
+		y = 0
+		completion_reward = { }
+	}
+
+	focus = { #공화정을 향해
+		id = YUG_Establishment_of_the_Republic
+		icon = GFX_focus_spr_masters_of_our_own_fate
+		cost = 5
+		mutually_exclusive = {
+			focus = YUG_regal_regency_system_strengthening
+			focus = YUG_regal_interregnum
+		}
+		x = 5
 		y = 0
 		completion_reward = { }
 	}
@@ -69,11 +96,11 @@ focus_tree = {
 		id = YUG_Maintaining_the_Monarchy
 		icon = GFX_focus_rom_abdicate
 		cost = 5
-		mutually_exclusive = {
-			focus = YUG_Establishment_of_the_Republic
+		prerequisite = {
+			focus = YUG_regal_interregnum
 		}
-		x = 3
-		y = 0
+		x = 15
+		y = 1
 		completion_reward = { 
 			add_ideas = king_peter_1
 		}
@@ -86,17 +113,8 @@ focus_tree = {
 		id = YUG_go_communism
 		icon = GFX_focus_generic_soviet_politics
 		prerequisite = { focus = YUG_Establishment_of_the_Republic }
-		mutually_exclusive = {
-			focus = YUG_Constitution_Reform
-		}
-		mutually_exclusive = {
-			focus = YUG_Maintaining_the_Kingdom
-		}
-		mutually_exclusive = {
-			focus = YUG_Strengthening_Radical_Union
-		}
 		cost = 5
-		x = -9
+		x = 3
 		y = 1
 		completion_reward = { 
 			add_ideas = YUG_Communist_Exiles_Return_Home
@@ -108,7 +126,56 @@ focus_tree = {
 	}
 
 	focus = {
-		id = YUG_Create_People's_Army
+		id = YUG_rejection_of_left_wing_extremism
+		icon = GFX_goal_support_democracy
+		prerequisite = { focus = YUG_Establishment_of_the_Republic }
+		cost = 5
+		x = 8
+		y = 1
+		completion_reward = { 
+			add_ideas = liberty_ethos_focus
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+		}
+	}
+
+	focus = {
+		id = YUG_end_of_compromism
+		icon = GFX_focus_generic_support_the_left_right
+		prerequisite = { focus = YUG_go_communism }
+		mutually_exclusive = {
+			focus = YUG_Constitution_Reform
+		}
+		cost = 3
+		x = -1
+		y = 1
+		relative_position_id = YUG_rejection_of_left_wing_extremism
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = YUG_underground_organization_integration
+		icon = GFX_goal_generic_production2
+		prerequisite = { 
+			focus = YUG_end_of_compromism
+		}
+		cost = 3
+		x = -1
+		y = 2
+		relative_position_id = YUG_rejection_of_left_wing_extremism
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = YUG_Create_People_s_Army
 		icon = GFX_focus_SOV_builder_of_the_red_army
 		prerequisite = { focus = YUG_go_communism }
 		cost = 3
@@ -134,9 +201,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = YUG_People's_Front
+		id = YUG_People_s_Front
 		icon = GFX_focus_spr_the_anti_fascist_workers_revolution
-		prerequisite = { focus = YUG_go_communism }
+		prerequisite = {
+			focus = YUG_go_communism
+			focus = YUG_rejection_of_left_wing_extremism
+	 	}
 		cost = 3
 		x = 2
 		y = 1
@@ -153,9 +223,9 @@ focus_tree = {
 		id = YUG_Coop_Communist_International
 		icon = GFX_focus_ger_great_red_menace
 		cost = 3
-		prerequisite = { focus = YUG_Create_People's_Army }
+		prerequisite = { focus = YUG_Create_People_s_Army }
 		prerequisite = { focus = YUG_form_peasant_councils1 }
-		x = -1
+		x = 0
 		y = 2
 		relative_position_id = YUG_go_communism
 		completion_reward = { }
@@ -166,8 +236,8 @@ focus_tree = {
 		icon = GFX_focus_SOV_purge_bukharinists
 		cost = 3
 		prerequisite = { focus = YUG_form_peasant_councils1 }
-		prerequisite = { focus = YUG_People's_Front }
-		x = 1
+		prerequisite = { focus = YUG_Create_People_s_Army }
+		x = -2
 		y = 2
 		relative_position_id = YUG_go_communism
 		completion_reward = { }
@@ -175,26 +245,136 @@ focus_tree = {
 
 	focus = {
 		id = YUG_Great_Revolution
-		icon = GFX_focus_focus_fra_revolution_utmost
+		icon = GFX_focus_ITA_corpo_volontari_della_liberta
 		cost = 5
 		prerequisite = {
-			focus = YUG_Coop_Communist_International
+			focus = YUG_People_s_Front
 		}
 		prerequisite = {
-			focus = YUG_Purge_Reactionist_in_Party
+			focus = YUG_Coop_Communist_International
+			focus = YUG_underground_organization_integration
+		}
+		x = 5
+		y = 4
+		completion_reward = { }
+	}
+
+	focus = {
+		id = YUG_Last_of_Royal_family
+		icon = GFX_goal_tfv_burn_the_royal_portraits
+		cost = 5
+		prerequisite = {
+			focus = YUG_Great_Revolution
 		}
 		x = 0
-		y = 3
-		relative_position_id = YUG_go_communism
+		y = 2
+		relative_position_id = YUG_Great_Revolution
 		completion_reward = { }
 	}
 	
 	focus = {
 		id = YUG_General_Election
+		icon = GFX_focus_generic_strike_at_democracy2
+		cost = 5
+		prerequisite = {
+			focus = YUG_Great_Revolution
+			focus = YUG_With_Socialist_Party
+		}
+		mutually_exclusive = {
+			focus = YUG_constitutional_monarchy
+		}
+		x = 0
+		y = 4
+		relative_position_id = YUG_rejection_of_left_wing_extremism
+		completion_reward = { }
+	}
+
+	focus = {
+		id = YUG_Strengthening_Welfare
+		icon = GFX_goal_generic_consumer_goods
+		cost = 5
+		prerequisite = {
+			focus = YUG_General_Election
+		}
+		x = -1
+		y = 1
+		relative_position_id = YUG_General_Election
+		completion_reward = { }
+	}
+
+	focus = {
+		id = YUG_Local_Autonomy
+		icon = GFX_focus_generic_self_management
+		cost = 5
+		prerequisite = {
+			focus = YUG_General_Election
+		}
+		x = 1
+		y = 1
+		completion_reward = { }
+		relative_position_id = YUG_General_Election
+	}
+
+	focus = {
+		id = YUG_Freedom_of_religion
+		icon = GFX_focus_hol_the_foundations_of_defense
+		cost = 5
+		prerequisite = {
+			focus = YUG_Strengthening_Welfare
+		}
+		prerequisite = {
+			focus = YUG_Local_Autonomy
+		}
+		x = -1
+		y = 2
+		relative_position_id = YUG_General_Election
+		completion_reward = { }
+	}
+
+	focus = {
+		id = YUG_Guarabteeing_the_Right_to_Education
+		icon = GFX_focus_NORDIC_dem_capstone_research
+		cost = 5
+		prerequisite = {
+			focus = YUG_Strengthening_Welfare
+		}
+		prerequisite = {
+			focus = YUG_Local_Autonomy
+		}
+		x = 1
+		y = 2
+		relative_position_id = YUG_General_Election
+		completion_reward = { }
+	}
+
+	focus = {
+		id = YUG_Yugoslavia_for_Everyone
+		icon = GFX_focus_generic_the_giant_wakes
+		cost = 5
+		prerequisite = {
+			focus = YUG_Guarabteeing_the_Right_to_Education
+		}
+		prerequisite = {
+			focus = YUG_Freedom_of_religion
+		}
+		x = 0
+		y = 3
+		relative_position_id = YUG_General_Election
+		completion_reward = { }
+	}
+	
+	focus = {
+		id = YUG_workers_republic
 		icon = GFX_focus_eng_concessions_to_the_trade_unions
 		cost = 5
 		prerequisite = {
 			focus = YUG_Great_Revolution
+		}
+		prerequisite = {
+			focus = YUG_Purge_Reactionist_in_Party
+		}
+		prerequisite = {
+			focus = YUG_Coop_Communist_International
 		}
 		x = 0
 		y = 4
@@ -207,11 +387,11 @@ focus_tree = {
 		icon = GFX_focus_generic_treaty
 		cost = 5
 		prerequisite = {
-			focus = YUG_General_Election
+			focus = YUG_workers_republic
 		}
 		x = -2
 		y = 1
-		relative_position_id = YUG_General_Election
+		relative_position_id = YUG_workers_republic
 		completion_reward = { }
 	}
 
@@ -220,24 +400,11 @@ focus_tree = {
 		icon = GFX_goal_generic_position_armies
 		cost = 5
 		prerequisite = {
-			focus = YUG_General_Election
+			focus = YUG_workers_republic
 		}
 		x = 0
 		y = 1
-		relative_position_id = YUG_General_Election
-		completion_reward = { }
-	}
-
-	focus = {
-		id = YUG_Last_of_Royal_family
-		icon = GFX_goal_tfv_burn_the_royal_portraits
-		cost = 5
-		prerequisite = {
-			focus = YUG_General_Election
-		}
-		x = 2
-		y = 1
-		relative_position_id = YUG_General_Election
+		relative_position_id = YUG_workers_republic
 		completion_reward = { }
 	}
 
@@ -253,7 +420,7 @@ focus_tree = {
 		}
 		x = -1
 		y = 2
-		relative_position_id = YUG_General_Election
+		relative_position_id = YUG_workers_republic
 		completion_reward = { }
 	}
 	
@@ -269,7 +436,7 @@ focus_tree = {
 		}
 		x = 1
 		y = 2
-		relative_position_id = YUG_General_Election
+		relative_position_id = YUG_workers_republic
 		completion_reward = { }
 	}
 	
@@ -285,12 +452,12 @@ focus_tree = {
 		}
 		x = -1
 		y = 3
-		relative_position_id = YUG_General_Election
+		relative_position_id = YUG_workers_republic
 		completion_reward = { }
 	}
 
 	focus = {
-		id = YUG_Worker_Self-Management
+		id = YUG_Worker_SelfManagement
 		icon = GFX_focus_generic_communist_industry
 		cost = 5
 		prerequisite = {
@@ -301,23 +468,23 @@ focus_tree = {
 		}
 		x = 1
 		y = 3
-		relative_position_id = YUG_General_Election
+		relative_position_id = YUG_workers_republic
 		completion_reward = { }
 	}
 
 	focus = {
-		id = YUG_People's_Red_Yugoslavia
+		id = YUG_People_s_Red_Yugoslavia
 		icon = GFX_focus_SOV_the_supreme_soviet
 		cost = 5
 		prerequisite = {
 			focus = YUG_Break_authoritarianism
 		}
 		prerequisite = {
-			focus = YUG_Worker_Self-Management
+			focus = YUG_Worker_SelfManagement
 		}
 		x = 0
 		y = 4
-		relative_position_id = YUG_General_Election
+		relative_position_id = YUG_workers_republic
 		completion_reward = { }
 	}
 
@@ -330,20 +497,15 @@ focus_tree = {
 		icon = GFX_focus_generic_treaty
 		cost = 5
 		prerequisite = {
-			focus = YUG_Establishment_of_the_Republic
+			focus = YUG_rejection_of_left_wing_extremism
 			focus = YUG_Maintaining_the_Monarchy
 		}
 		mutually_exclusive = {
-			focus = YUG_go_communism
-		}
-		mutually_exclusive = {
-			focus = YUG_Maintaining_the_Kingdom
-		}
-		mutually_exclusive = {
+			focus = YUG_end_of_compromism
 			focus = YUG_Strengthening_Radical_Union
 		}
-		x = -3
-		y = 1
+		x = 12
+		y = 2
 		completion_reward = { }
 	}
 
@@ -354,8 +516,8 @@ focus_tree = {
 		prerequisite = {
 			focus = YUG_Constitution_Reform
 		}
-		x = -2
-		y = 1
+		x = -3
+		y = 2
 		relative_position_id = YUG_Constitution_Reform
 		completion_reward = { }
 	}
@@ -367,7 +529,7 @@ focus_tree = {
 		prerequisite = {
 			focus = YUG_Constitution_Reform
 		}
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = YUG_Constitution_Reform
 		completion_reward = { }
@@ -380,31 +542,15 @@ focus_tree = {
 		prerequisite = {
 			focus = YUG_Constitution_Reform
 		}
-		x = 2
+		x = 1
 		y = 1
 		relative_position_id = YUG_Constitution_Reform
 		completion_reward = { }
 	}
-
+	
 	focus = {
-		id = YUG_Strengthening_Welfare
-		icon = GFX_goal_generic_consumer_goods
-		cost = 5
-		prerequisite = {
-			focus = YUG_With_Socialist_Party
-		}
-		prerequisite = {
-			focus = YUG_Anti_Extremism
-		}
-		x = -1
-		y = 2
-		relative_position_id = YUG_Constitution_Reform
-		completion_reward = { }
-	}
-
-	focus = {
-		id = YUG_Local_Autonomy
-		icon = GFX_focus_generic_self_management
+		id = YUG_constitutional_monarchy
+		icon = GFX_goal_generic_national_unity
 		cost = 5
 		prerequisite = {
 			focus = YUG_Anti_Extremism
@@ -412,53 +558,21 @@ focus_tree = {
 		prerequisite = {
 			focus = YUG_With_Independent_Democratic_Party
 		}
-		x = 1
-		y = 2
-		completion_reward = { }
-		relative_position_id = YUG_Constitution_Reform
-	}
-
-	focus = {
-		id = YUG_Freedom_of_religion
-		icon = GFX_focus_hol_the_foundations_of_defense
-		cost = 5
-		prerequisite = {
-			focus = YUG_Strengthening_Welfare
+		mutually_exclusive = {
+			focus = YUG_General_Election
 		}
-		prerequisite = {
-			focus = YUG_Local_Autonomy
-		}
-		x = -1
+		x = 0
 		y = 3
 		relative_position_id = YUG_Constitution_Reform
 		completion_reward = { }
 	}
-
+	
 	focus = {
-		id = YUG_Guarabteeing_the_Right_to_Education
-		icon = GFX_focus_NORDIC_dem_capstone_research
+		id = YUG_new_kingdom
+		icon = GFX_goal_generic_propaganda
 		cost = 5
 		prerequisite = {
-			focus = YUG_Strengthening_Welfare
-		}
-		prerequisite = {
-			focus = YUG_Local_Autonomy
-		}
-		x = 1
-		y = 3
-		relative_position_id = YUG_Constitution_Reform
-		completion_reward = { }
-	}
-
-	focus = {
-		id = YUG_Yugoslavia_for_Everyone
-		icon = GFX_focus_generic_the_giant_wakes
-		cost = 5
-		prerequisite = {
-			focus = YUG_Guarabteeing_the_Right_to_Education
-		}
-		prerequisite = {
-			focus = YUG_Freedom_of_religion
+			focus = YUG_constitutional_monarchy
 		}
 		x = 0
 		y = 4
@@ -475,33 +589,109 @@ focus_tree = {
 		icon = GFX_goal_tfv_strengthen_commonwealth_ties
 		cost = 5
 		prerequisite = {
-			focus = YUG_Maintaining_the_Monarchy
+			focus = YUG_regal_regency_system_strengthening
 		}
-		mutually_exclusive = {
-			focus = YUG_go_communism
-		}
-		mutually_exclusive = {
-			focus = YUG_Constitution_Reform
-		}
-		mutually_exclusive = {
-			focus = YUG_Strengthening_Radical_Union
-		}
-		x = 9
+		x = 25
 		y = 1
 		completion_reward = { }
 	}
 
 	focus = {
-		id = YUG_With_the_Left
-		icon = GFX_goal_generic_intelligence_exchange
+		id = YUG_peter_ii_coup
+		icon = GFX_focus_rom_royal_dictatorship
 		cost = 5
-		mutually_exclusive = {
-			focus = YUG_No_Left
-		}
 		prerequisite = {
 			focus = YUG_Maintaining_the_Kingdom
 		}
+		mutually_exclusive = {
+			focus = YUG_No_Left
+			focus = YUG_Strengthening_Radical_Union
+		}
+		x = -5
+		y = 1
+		relative_position_id = YUG_Maintaining_the_Kingdom
+		completion_reward = { }
+	}
+
+	focus = {
+		id = YUG_relations_improvement_with_the_united_kingdom
+		icon = GFX_focus_chi_british_cooperation
+		prerequisite = {
+			focus = YUG_peter_ii_coup
+		}
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = YUG_peter_ii_coup
+		completion_reward = { }
+	}
+
+	focus = {
+		id = YUG_italian_hegemony_containment
+		icon = GFX_goal_generic_defence
+		prerequisite = {
+			focus = YUG_relations_improvement_with_the_united_kingdom
+		}
+		cost = 5
+		x = 1
+		y = 2
+		relative_position_id = YUG_peter_ii_coup
+		completion_reward = { }
+	}
+
+	focus = {
+		id = YUG_compromise_with_the_left
+		icon = GFX_focus_hol_the_foundations_of_defense
+		prerequisite = {
+			focus = YUG_relations_improvement_with_the_united_kingdom
+		}
+		mutually_exclusive = {
+			focus = YUG_Strengthening_anticommunist_sentiment
+		}
+		cost = 5
+		x = 0
+		y = 3
+		relative_position_id = YUG_peter_ii_coup
+		completion_reward = { }
+	}
+
+	focus = {
+		id = YUG_welfare_fund_expansion
+		icon = GFX_focus_generic_field_hostpital
+		prerequisite = {
+			focus = YUG_compromise_with_the_left
+		}
+		cost = 5
 		x = -1
+		y = 4
+		relative_position_id = YUG_peter_ii_coup
+		completion_reward = { }
+	}
+
+	focus = {
+		id = YUG_employment_guarantee
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		prerequisite = {
+			focus = YUG_compromise_with_the_left
+		}
+		cost = 5
+		x = 1
+		y = 4
+		relative_position_id = YUG_peter_ii_coup
+		completion_reward = { }
+	}
+
+	focus = {
+		id = YUG_No_Left
+		icon = GFX_goal_generic_political_pressure
+		cost = 5
+		prerequisite = {
+			focus = YUG_Maintaining_the_Kingdom
+		}
+		mutually_exclusive = {
+			focus = YUG_peter_ii_coup
+		}
+		x = 0
 		y = 1
 		relative_position_id = YUG_Maintaining_the_Kingdom
 		completion_reward = { }
@@ -511,40 +701,11 @@ focus_tree = {
 		id = YUG_No_Left
 		icon = GFX_goal_generic_political_pressure
 		cost = 5
-		mutually_exclusive = {
-			focus = YUG_With_the_Left
-		}
 		prerequisite = {
 			focus = YUG_Maintaining_the_Kingdom
 		}
-		x = 1
+		x = 0
 		y = 1
-		relative_position_id = YUG_Maintaining_the_Kingdom
-		completion_reward = { }
-	}
-
-	focus = {
-		id = YUG_Strengthening_Parliament
-		icon = GFX_focus_SWE_organize_a_putsch
-		cost = 5
-		prerequisite = {
-			focus = YUG_With_the_Left
-		}
-		x = -1
-		y = 2
-		completion_reward = { }
-		relative_position_id = YUG_Maintaining_the_Kingdom
-	}
-
-	focus = {
-		id = YUG_Strengthening_Royal_Power
-		icon = GFX_focus_rom_royal_dictatorship
-		cost = 5
-		prerequisite = {
-			focus = YUG_No_Left
-		}
-		x = 1
-		y = 2
 		relative_position_id = YUG_Maintaining_the_Kingdom
 		completion_reward = { }
 	}
@@ -554,11 +715,10 @@ focus_tree = {
 		icon = GFX_focus_generic_agricultural_subsidies
 		cost = 5
 		prerequisite = {
-			focus = YUG_Strengthening_Parliament
-			focus = YUG_Strengthening_Royal_Power
+			focus = YUG_No_Left
 		}
 		x = -1
-		y = 3
+		y = 2
 		relative_position_id = YUG_Maintaining_the_Kingdom
 		completion_reward = { }
 	}
@@ -568,11 +728,10 @@ focus_tree = {
 		icon = GFX_focus_rom_parties_end
 		cost = 5
 		prerequisite = {
-			focus = YUG_Strengthening_Parliament
-			focus = YUG_Strengthening_Royal_Power
+			focus = YUG_No_Left
 		}
 		x = 1
-		y = 3
+		y = 2
 		relative_position_id = YUG_Maintaining_the_Kingdom
 		completion_reward = { }
 	}
@@ -588,7 +747,7 @@ focus_tree = {
 			focus = YUG_Circus
 		}
 		x = -2
-		y = 4
+		y = 3
 		relative_position_id = YUG_Maintaining_the_Kingdom
 		completion_reward = { }
 	}
@@ -604,7 +763,7 @@ focus_tree = {
 			focus = YUG_Circus
 		}
 		x = 0
-		y = 4
+		y = 3
 		relative_position_id = YUG_Maintaining_the_Kingdom
 		completion_reward = { }
 	}
@@ -620,7 +779,7 @@ focus_tree = {
 			focus = YUG_Circus
 		}
 		x = 2
-		y = 4
+		y = 3
 		relative_position_id = YUG_Maintaining_the_Kingdom
 		completion_reward = { }
 	}
@@ -633,16 +792,11 @@ focus_tree = {
 			focus = YUG_Use_of_extremism
 		}
 		prerequisite = {
-			focus = YUG_One_King
-		}
-		prerequisite = {
-			focus = YUG_One_Nation
-		}
-		prerequisite = {
 			focus = YUG_One_People
+			focus = YUG_italian_hegemony_containment
 		}
-		x = -1
-		y = 5
+		x = -3
+		y = 4
 		completion_reward = { }
 		relative_position_id = YUG_Maintaining_the_Kingdom
 	}
@@ -663,8 +817,8 @@ focus_tree = {
 		prerequisite = {
 			focus = YUG_One_People
 		}
-		x = 1
-		y = 5
+		x = 0
+		y = 4
 		completion_reward = { }
 		relative_position_id = YUG_Maintaining_the_Kingdom
 	}
@@ -677,8 +831,8 @@ focus_tree = {
 			focus = YUG_Exclusion_of_extremism
 			focus = YUG_Use_of_extremism
 		}
-		x = 0
-		y = 6
+		x = -1
+		y = 5
 		completion_reward = { }
 		relative_position_id = YUG_Maintaining_the_Kingdom
 	}
@@ -692,31 +846,25 @@ focus_tree = {
 		icon = GFX_goal_support_fascism
 		cost = 5
 		prerequisite = {
-			focus = YUG_Establishment_of_the_Republic
 			focus = YUG_Maintaining_the_Monarchy
 		}
 		mutually_exclusive = {
-			focus = YUG_go_communism
-		}
-		mutually_exclusive = {
 			focus = YUG_Constitution_Reform
+			focus = YUG_peter_ii_coup
 		}
-		mutually_exclusive = {
-			focus = YUG_Maintaining_the_Kingdom
-		}
-		x = 3
-		y = 1
+		x = 17
+		y = 2
 		completion_reward = { }
 	}
 
 	focus = {
-		id = YUG_Re-establish_ORJUNA
+		id = YUG_Re_establish_ORJUNA
 		icon = GFX_goal_support_fascism
 		cost = 5
 		prerequisite = {
 			focus = YUG_Strengthening_Radical_Union
 		}
-		x = -2
+		x = -1
 		y = 1
 		relative_position_id = YUG_Strengthening_Radical_Union
 		completion_reward = { }
@@ -730,7 +878,7 @@ focus_tree = {
 			focus = YUG_Strengthening_Radical_Union
 		}
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = YUG_Strengthening_Radical_Union
 		completion_reward = { }
 	}
@@ -740,6 +888,7 @@ focus_tree = {
 		icon = GFX_goal_support_fascism
 		prerequisite = {
 			focus = YUG_Strengthening_Radical_Union
+			focus = YUG_peter_ii_coup
 		}
 		cost = 5
 		x = 2
@@ -749,17 +898,17 @@ focus_tree = {
 	}
 
 	focus = {
-		id = YUG_Strengthening_anti-communist_sentiment
+		id = YUG_Strengthening_anticommunist_sentiment
 		icon = GFX_goal_anti_comintern_pact
 		cost = 5
 		prerequisite = {
-			focus = YUG_Re-establish_ORJUNA
+			focus = YUG_With_National_Movement
 		}
-		prerequisite = {
-			focus = YUG_Strengthening_Green_Shirts
+		mutually_exclusive = {
+			focus = YUG_compromise_with_the_left
 		}
-		x = -1
-		y = 2
+		x = 1
+		y = 3
 		relative_position_id = YUG_Strengthening_Radical_Union
 		completion_reward = { }
 	}
@@ -769,13 +918,10 @@ focus_tree = {
 		icon = GFX_focus_ICE_state_corporatism
 		cost = 5
 		prerequisite = {
-			focus = YUG_Strengthening_Green_Shirts
+			focus = YUG_Re_establish_ORJUNA
 		}
-		prerequisite = {
-			focus = YUG_With_National_Movement
-		}
-		x = 1
-		y = 2
+		x = -1
+		y = 3
 		relative_position_id = YUG_Strengthening_Radical_Union
 		completion_reward = { }
 	}
@@ -785,13 +931,13 @@ focus_tree = {
 		icon = GFX_focus_eng_move_to_secure_the_dominions
 		cost = 5
 		prerequisite = {
-			focus = YUG_Strengthening_anti-communist_sentiment
-		}
-		prerequisite = {
 			focus = YUG_Corporatism
 		}
-		x = -1
-		y = 3
+		prerequisite = {
+			focus = YUG_Strengthening_anticommunist_sentiment
+		}
+		x = 0
+		y = 4
 		relative_position_id = YUG_Strengthening_Radical_Union
 		completion_reward = { }
 	}
@@ -801,13 +947,10 @@ focus_tree = {
 		icon = GFX_focus_SOV_merge_plants
 		cost = 5
 		prerequisite = {
-			focus = YUG_Strengthening_anti-communist_sentiment
-		}
-		prerequisite = {
 			focus = YUG_Corporatism
 		}
-		x = 1
-		y = 3
+		x = -2
+		y = 4
 		relative_position_id = YUG_Strengthening_Radical_Union
 		completion_reward = { }
 	}
@@ -823,7 +966,7 @@ focus_tree = {
 			focus = YUG_Suppression_of_Opposition
 		}
 		x = 0
-		y = 4
+		y = 5
 		relative_position_id = YUG_Strengthening_Radical_Union
 		completion_reward = { }
 	}
@@ -833,10 +976,11 @@ focus_tree = {
 		icon = GFX_focus_generic_strike_at_democracy2
 		prerequisite = {
 			focus = YUG_National_Unification
+			focus = YUG_welfare_fund_expansion
 		}
 		cost = 5
-		x = 0
-		y = 5
+		x = 1
+		y = 6
 		relative_position_id = YUG_Strengthening_Radical_Union
 		completion_reward = { }
 	}
