@@ -678,7 +678,7 @@ focus_tree = {
 				}
 			}
 		}
-		x = 44
+		x = 43
 		y = 0
 		completion_reward = {
 			hidden_effect = {
@@ -688,10 +688,7 @@ focus_tree = {
 				}
 				mark_focus_tree_layout_dirty = yes
 			}
-			add_country_leader_trait = {
-				ideology = nazism
-				trait = GEM_Neutralize
-			}
+			add_country_leader_trait = GEM_Neutralize
 			if = {
 				limit = {
 					has_idea = GEH_Manmajun_Bupae
@@ -714,16 +711,17 @@ focus_tree = {
 	}
 	focus = {
 		id = GEM_our_leader
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_defence
 		cost = 5.00
 		prerequisite = { focus = GEM_Neutralize_Makoto }
 		mutually_exclusive = { focus = GEM_group_leadership_system }
 		available = {
 		}
-		x = 4
+		x = 3
 		y = 1
 		relative_position_id = GEM_Neutralize_Makoto
 		completion_reward = {
+			add_ideas = GEH_political_turmoil
 		}
 	}
 	focus = {
@@ -734,12 +732,141 @@ focus_tree = {
 		mutually_exclusive = { focus = GEM_our_leader }
 		available = {
 		}
-		x = -4
+		x = -3
 		y = 1
 		relative_position_id = GEM_Neutralize_Makoto
 		completion_reward = {
 			promote_character = GEH_pandemonium_society
 			add_ideas = GEH_shadow_of_makoto
+		}
+	}
+	focus = {
+		id = GEM_nk_ultra
+		icon = GFX_goal_generic_air_naval_bomber
+		cost = 5.00
+		prerequisite = { focus = GEM_our_leader }
+		available = {
+		}
+		x = -1
+		y = 1
+		relative_position_id = GEM_our_leader
+		completion_reward = {
+			add_stability = 0.10
+		}
+	}
+	focus = {
+		id = GEM_clerks_authority
+		icon = GFX_goal_generic_forceful_treaty
+		cost = 5.00
+		prerequisite = { focus = GEM_our_leader }
+		available = {
+		}
+		x = 1
+		y = 1
+		relative_position_id = GEM_our_leader
+		completion_reward = {
+			add_stability = 0.10
+		}
+	}
+	focus = {
+		id = GEM_ibuki_seduction
+		icon = GFX_goal_tripartite_pact
+		cost = 5.00
+		prerequisite = { focus = GEM_clerks_authority focus = GEM_nk_ultra }
+		available = {
+		}
+		x = 1
+		y = 2
+		relative_position_id = GEM_our_leader
+		completion_reward = {
+			add_stability = 0.10
+		}
+	}
+	focus = {
+		id = GEM_manma_jeon_private_soldiers_control
+		icon = GFX_goal_generic_army_doctrines
+		cost = 5.00
+		prerequisite = { focus = GEM_clerks_authority focus = GEM_nk_ultra }
+		available = {
+		}
+		x = -1
+		y = 2
+		relative_position_id = GEM_our_leader
+		completion_reward = {
+			add_stability = 0.10
+		}
+	}
+	focus = {
+		id = GEM_iroha_suppression
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 5.00
+		prerequisite = { focus = GEM_manma_jeon_private_soldiers_control focus = GEM_ibuki_seduction }
+		available = {
+		}
+		x = 0
+		y = 3
+		relative_position_id = GEM_our_leader
+		completion_reward = {
+			remove_ideas = GEH_political_turmoil
+			remove_country_leader_role = {
+				character = GEH_dlfhgk
+				ideology = neopandemonium
+			}
+			custom_effect_tooltip = GEM_iroha_suppression_tt
+			if = {
+				limit = {
+					has_stability < 0.40
+				}
+				set_party_name = {
+					ideology = neutrality
+					long_name = GEM_neutrality_iroha_party_long
+					name = GEM_neutrality_iroha_party
+				}
+				start_civil_war = {
+					ideology = neutrality
+					size = 0.5
+					PREV = {
+						GEH_dlfhgk = {
+							set_nationality = PREV.PREV
+						}
+					}
+					add_country_leader_role = {
+						character = GEH_dlfhgk
+						promote_leader = yes
+						country_leader = {
+							ideology = despotism
+							expire = "1965.1.1.1"
+							traits = { GEH_chairman_of_the_people }
+						}
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEM_however
+		icon = GFX_goal_generic_alliance
+		cost = 5.00
+		prerequisite = { focus = GEM_iroha_suppression }
+		available = {
+			has_civil_war = no
+		}
+		x = 0
+		y = 4
+		relative_position_id = GEM_our_leader
+		completion_reward = {
+			add_political_power = 60
+			add_stability = 0.05
+			if = {
+				limit = {
+					has_country_leader_with_trait = GEM_Neutralize
+				}
+				remove_country_leader_trait = GEM_Neutralize
+			}
+			custom_effect_tooltip = GEM_however_tt
+			hidden_effect = {
+				country_event = { id = GEH_event.54 hours = 8 }
+			}
 		}
 	}
 	focus = {
