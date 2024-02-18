@@ -1286,6 +1286,13 @@ country_event = {
 				states = {
 					671
 				}
+				SOV = {
+					add_ai_strategy = {
+						type = send_volunteers_desire
+						id = prev
+						value = 200
+					}
+				}
 			}
 			add_popularity = {
 				ideology = communism
@@ -1297,6 +1304,12 @@ country_event = {
 		set_country_flag = FRA_has_indochina_war
 		remove_decision = FRA_indochina_going_bad
 		activate_mission = FRA_near_japan_intervention_indochina
+		hidden_effect = {
+			news_event = {
+				id =  FRA_prov_event.46
+				days = 5
+			}
+		}
 	}
 }
 
@@ -1328,10 +1341,7 @@ country_event = {
 				}
 			}
 			VIN = {
-				swap_ideas = {
-					remove_idea = FRA_government_general_1
-					add_idea = FRA_government_general_2
-				}
+				add_ideas = VIN_fucked_up
 				give_resource_rights = {
 					receiver = FRA
 					state = 286
@@ -1431,6 +1441,18 @@ country_event = {
 				target = LAO
 				autonomy_state = autonomy_wtt_imperial_subject
 			}
+		}
+		LAO = {
+			every_country = {
+				limit = {
+					original_tag = VIN
+				}
+				declare_war_on = {
+					target = prev
+					type = annex_everything
+				}
+			}
+			add_ideas = VIN_indochina_war_idea
 		}
 	}
 }
@@ -1678,7 +1700,7 @@ news_event = {
 }
 
 country_event = {
-	#개발자 이벤트
+	#인도차이나 - 베트남 국민당의 반제 투쟁 참여
 	id = FRA_prov_event.42
 	title = FRA_prov_event.42.t
 	desc = FRA_prov_event.42.d
@@ -1686,12 +1708,35 @@ country_event = {
 	fire_only_once = yes
 	option = {
 		name = FRA_prov_event.42.a
-		POL_win_of_intermarium = yes
+		add_political_power = -5
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = FRA_has_indochina_war
+				}
+			}
+			VIN = {
+				VIN_upgrade_resist = yes
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.1
+				}
+			}
+		}
+		else = {
+			VIN = {
+				add_stability = -0.1
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.1
+				}
+			}
+		}
 	}
 }
 
 country_event = {
-	#세미나 뺏기 
+	#인도차이나 - 베트남 복국동맹회
 	id = FRA_prov_event.43
 	title = FRA_prov_event.43.t
 	desc = FRA_prov_event.43.d
@@ -1699,14 +1744,28 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = FRA_prov_event.43.b
-		MIL_Noa = {
-			set_nationality = FRA
+		add_political_power = -5
+		if = {
+			limit={
+			NOT = {
+				has_country_flag = FRA_has_indochina_war
+			}}
+			VIN = {
+				VIN_upgrade_resist = yes
+				add_popularity = {
+					ideology = fascism
+					popularity = 0.1
+				}
+			}
 		}
-	}
-	option = {
-		name = FRA_prov_event.43.c
-		MIL_dbdnzk = {
-			set_nationality = FRA
+		else = {
+			VIN = {
+				add_stability = -0.1
+				add_popularity = {
+					ideology = fascism
+					popularity = 0.1
+				}
+			}
 		}
 	}
 }
@@ -1735,34 +1794,68 @@ news_event = {
 		name = FRA_prov_event.44.b
 	}
 }
-
 country_event = {
-	#보병장비 돚거
+	#인도차이나 문제 해결
+	id = FRA_prov_event.45
+	title = FRA_prov_event.45.t
+	desc = FRA_prov_event.45.d
+	is_triggered_only = yes
+	option = { #식민지를 유지하자
+		trigger = {
+			VIN = {
+				NOT={has_idea = VIN_fucked_up}
+			}
+		}
+		name = FRA_prov_event.45.a
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.1
+		}
+		set_country_flag = FRA_indochina_make_colony
+	}
+	option = { #자치령으로 만들자.
+		trigger = {
+			VIN = {
+				NOT={has_idea = VIN_fucked_up}
+			}
+		}
+		name = FRA_prov_event.45.b
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.1
+		}
+		set_country_flag = FRA_indochina_make_dominion
+	}
+	option = { #전후 복구를 지원하자
+		name = FRA_prov_event.45.c
+		trigger = {
+			VIN = {
+				has_idea = VIN_fucked_up
+			}
+		}
+		set_country_flag = FRA_indochina_support_rebuild
+	}
+}
+
+news_event = {
+	#인도차이나 혁명
 	id = FRA_prov_event.46
 	title = FRA_prov_event.46.t
 	desc = FRA_prov_event.46.d
 	is_triggered_only = yes
+	picture = GFX_news_event_chinese_soldiers_city_ruin
+	major = yes
 	option = {
-		#돚거
-		name = FRA_prov_event.42.a
-		add_equipment_to_stockpile = {
-			type = infantry_equipment
-			amount = 1500
+		name = FRA_prov_event.46.a
+		trigger = {
+			tag = FRA
 		}
-		MIL = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -1500
-			}
-		}
-		add_equipment_to_stockpile = {
-			type = support_equipment
-			amount = 500
-		}
-		MIL = {
-			add_equipment_to_stockpile = {
-				type = support_equipment
-				amount = -500
+	}
+	option = {
+		name = FRA_prov_event.46.b
+		trigger = {
+			NOT = {
+				tag = FRA
 			}
 		}
 	}
@@ -2324,21 +2417,54 @@ country_event = {
 					}
 				}
 			}
-			VIN = {
-				transfer_state = 670
-				transfer_state = 741
-				transfer_state = 671
-				transfer_state = 286
-				every_owned_state = {
-					add_core_of = VIN
+			if = {
+				limit = {
+					VIN = {
+						exists = yes
+						has_war = no
+					}
 				}
-				create_country_leader = {
-					name = FRA_borough_com
-					ideology = leninism
-					picture = GFX_portrait_SOV_supreme_soviet
-					expire = "1965.1.1"
-					traits = {
-						FRA_weak_auto_com
+				VIN = {
+					transfer_state = 670
+					transfer_state = 741
+					transfer_state = 671
+					transfer_state = 286
+					every_owned_state = {
+						add_core_of = VIN
+					}
+					create_country_leader = {
+						name = FRA_borough_com
+						ideology = leninism
+						picture = GFX_portrait_SOV_supreme_soviet
+						expire = "1965.1.1"
+						traits = {
+							FRA_weak_auto_com
+						}
+					}
+				}
+				clr_country_flag = FRA_has_indochina_issue
+				set_country_flag = FRA_finished_vin_cirisis
+			}
+			else_if = {
+				limit = {
+					VIN = {
+						exists = yes
+						has_war = yes
+					}
+					any_country = {
+						original_tag = VIN
+						has_government = communism
+						exists = yes
+					}
+				}
+				random_other_country = {
+					limit = {
+						original_tag = VIN
+						has_government = communism
+					}
+					annex_country = {
+						target = VIN
+						transfer_troops = yes
 					}
 				}
 			}
