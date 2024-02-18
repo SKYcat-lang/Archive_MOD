@@ -223,8 +223,6 @@ focus_tree = {
 		relative_position_id = RED_economy_dev_plan
 		cost = 10
 
-		search_filters = {FOCUS_FILTER_INDUSTRY}
-
 		bypass = {
 			OR = {
 				has_completed_focus = RED_labor_world
@@ -728,7 +726,16 @@ focus_tree = {
 			factor = 10
 		}
 
-		available = {
+		allow_branch = {
+			if = {
+				limit = {
+					has_game_rule = {
+						rule = obsolete_focus_branches_visibility
+						option = HIDE
+					}
+				}
+				NOT = { has_completed_focus = RED_ivan_kupla }
+			}
 		}
 		
 		completion_reward = {
@@ -1604,7 +1611,7 @@ focus_tree = {
 	}
 	focus = { #트리니티의 위협
 		id = RED_threat_from_trm
-		icon = GFX_focus_attack_TRN
+		icon = GFX_goal_TRN_Blocking_attacks_from_the_outside
 		prerequisite = {
 			focus = RED_foreign_policy
 		}
@@ -1938,7 +1945,6 @@ focus_tree = {
 					}
 				}
 				NOT = { has_completed_focus = RED_accept_trotskism }
-				NOT = { has_completed_focus = RED_dipose_cherino }
 			}
 		}
 
@@ -1950,86 +1956,30 @@ focus_tree = {
 
 		completion_reward = {
 			custom_effect_tooltip = RED_ivan_kupla_tt
-			add_political_power = 25
+			add_political_power = 75
 		}
 	}
-	focus = { # 사무국의 반발
-		id = RED_office_disagree
-		icon = GFX_goal_demand_sudetenland
-		prerequisite = {
-			focus = RED_ivan_kupla
-		}
+	focus = { #강경 수단
+		id = RED_coup_of_office
+		icon = GFX_goal_generic_secret_weapon
+		prerequisite = { focus = RED_ivan_kupla }
 		x = 0
 		y = 1
 		relative_position_id = RED_ivan_kupla
 
 		cost = 5
 
-		allow_branch = {
-			if = {
-				limit = {
-					has_game_rule = {
-						rule = obsolete_focus_branches_visibility
-						option = HIDE
-					}
-				}
-				NOT = { has_completed_focus = RED_labor_world }
-				NOT = { has_completed_focus = RED_accept_trotskism }
-			}
-		}
-
-		bypass = {
-			RED_marina = {
-				is_country_leader = yes
-			}
-		}
-		
-		available = {
-			has_character = RED_marina
-		}
-
 		completion_reward = {
 			#이벤트 발생
-			add_stability = -0.20
-			add_war_support = 0.20
-			
-		}
-	}
-	focus = { #강경 수단
-		id = RED_coup_of_office
-		icon = GFX_goal_generic_secret_weapon
-		prerequisite = { focus = RED_office_disagree }
-		x = 0
-		y = 1
-		relative_position_id = RED_office_disagree
-
-		cost = 5
-		
-		bypass = {
-			RED_marina = {
-				is_country_leader = yes
-			}
-		}
-
-		completion_reward = {
-			#이벤트 발생
-			add_political_power = 100
 			promote_character = RED_marina
 			set_party_name = {
 				ideology = communism
 				long_name = RedWinterSecurityCommittee
 				name = SecurityCommittee
 			}
-			add_dynamic_modifier = {
-				modifier = RED_security_committee_dynamic_modifier
-				
-			}
-			add_to_variable = {
-				RED_sco_command_power_gain = 0.2
-			}
-			
 			hidden_effect = {
-				news_event = RED_news.1
+				news_event = { id = BA_news.57 days = 3 }
+				add_ideas = RED_disjointed_office
 			}
 		}
 	}
@@ -2136,7 +2086,7 @@ focus_tree = {
 			
 		}
 	}
-	focus = { #체리노의 계승자
+	focus = { #붉은겨울의 대변자
 		id = RED_heir_of_cherino
 		icon = GFX_focus_generic_workers
 		prerequisite = {
@@ -2183,14 +2133,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = RED_coup_of_office
 
-		cost = 7
+		cost = 3
 
 		available = {
 			is_subject = no
 		}
 
 		completion_reward = {
-			add_political_power = 100
 			country_event = { id = RED_event.19 }
 		}
 	}
@@ -2206,12 +2155,16 @@ focus_tree = {
 
 		cost = 7
 
+		available = {
+			command_power > 49
+		}
+
+		select_effect = {
+			add_command_power = -50
+		}
+
 		completion_reward = {
-			swap_ideas = {
-				add_idea = RED_labor_party_opposition_4
-				remove_idea = RED_labor_party_opposition_5
-			}
-			
+			#디시전 해금
 		}
 	}
 	focus = { #미노리 체포
@@ -2220,20 +2173,19 @@ focus_tree = {
 		prerequisite = {
 			focus = RED_suppress_the_labor_party
 		}
-		available = {
-			NOT = { has_idea = RED_labor_party_opposition_5 }
-		}
 		x = 0
 		y = 1
 		relative_position_id = RED_suppress_the_labor_party
 
 		cost = 7
 
+		available = {
+			
+		}
+
 		completion_reward = {
-			swap_ideas = {
-				add_idea = RED_labor_party_opposition_3
-				remove_idea = RED_labor_party_opposition_4
-			}
+			custom_effect_tooltip = RED_arrest_minori_tt
+			#이벤트 발생
 		}
 	}
 	focus = { #용역부 내 파벌 형성
@@ -2246,14 +2198,10 @@ focus_tree = {
 		y = 1
 		relative_position_id = RED_arrest_minori
 
-		cost = 5
+		cost = 3
 
 		completion_reward = {
-			add_political_power = 50
-			swap_ideas = {
-				add_idea = RED_labor_party_opposition_2
-				remove_idea = RED_labor_party_opposition_3
-			}
+			add_political_power = 100
 		}
 	}
 	focus = { #용역부 감시 강화
@@ -2266,12 +2214,11 @@ focus_tree = {
 		y = 1
 		relative_position_id = RED_arrest_minori
 
-		cost = 5
+		cost = 3
 
 		completion_reward = {
-			add_stability = 0.05
-			add_war_support = 0.05
-			add_political_power = 50
+			add_stability = 0.10
+			add_war_support = 0.10
 		}
 	}
 	focus = { #용역부 괴뢰화
@@ -2290,9 +2237,20 @@ focus_tree = {
 		cost = 8
 
 		completion_reward = {
-			swap_ideas = {
-				add_idea = RED_labor_party_opposition_1
-				remove_idea = RED_labor_party_opposition_2
+			if = {
+				limit = {
+					has_idea = RED_threat_of_coup
+				}
+				swap_ideas = {
+					remove_idea = RED_threat_of_coup
+					add_idea = RED_labor_party_opposition
+				}
+			}
+			else = {
+				add_ideas = RED_labor_party_opposition
+			}
+			hidden_effect = {
+				complete_national_focus = RED_entice_publicworks
 			}
 		}
 	}
@@ -2912,7 +2870,9 @@ focus_tree = {
 			add_dynamic_modifier = {
 				modifier = RED_labor_party_dynamic_modifier
 			}
-			
+			hidden_effect = {
+				complete_national_focus = RED_entice_publicworks
+			}
 		}
 	}
 	focus = { #오직 노동자만을 위해
@@ -3229,7 +3189,7 @@ focus_tree = {
 		x = -1
 		y = 1
 		completion_reward = {
-			add_ideas = RED_military_union_ideas
+			#add_ideas = RED_military_union_ideas
 			add_political_power = 30
 		}
 	}
@@ -3244,7 +3204,7 @@ focus_tree = {
 		x = 0
 		y = 2
 		completion_reward = {
-			add_ideas = RED_Civilian_factory_union_ideas
+			#add_ideas = RED_Civilian_factory_union_ideas
 			add_political_power = 30
 		}
 	}
@@ -3259,7 +3219,7 @@ focus_tree = {
 		x = 1
 		y = 1
 		completion_reward = {
-			add_ideas = RED_infrastructure_union
+			#add_ideas = RED_infrastructure_union
 			add_political_power = 30
 		}
 	}
@@ -3274,7 +3234,7 @@ focus_tree = {
 		x = 0
 		y = 2
 		completion_reward = {
-			add_ideas = RED_land_defense
+			#add_ideas = RED_land_defense
 		}
 	}
 	focus = { #혁명수도 스톡홀름
@@ -4513,6 +4473,7 @@ focus_tree = {
 			create_equipment_variant = {
 				name = "Rozhanica Class"
 				type = ship_hull_cruiser_2
+				#design_team = mio:
 				name_group = NOR_CL_HISTORICAL
 				modules = {
 					fixed_ship_battery_slot = ship_light_medium_battery_2
@@ -4573,6 +4534,7 @@ focus_tree = {
 			create_equipment_variant = {
 				name = "Rod Class"
 				type = ship_hull_cruiser_panzerschiff
+				#design_team = mio:
 				name_group = NOR_CA_HISTORICAL
 				parent_version = 0
 				modules = {
@@ -4661,6 +4623,7 @@ focus_tree = {
 			create_equipment_variant = {
 				name = "S-1 Class"
 				type = ship_hull_submarine_2
+				#design_team = mio:
 				parent_version = 0
 				name_group = NOR_SS_HISTORICAL
 				modules = {
@@ -4727,6 +4690,7 @@ focus_tree = {
 			create_equipment_variant = {
 				name = "Svarog Class"
 				type = ship_hull_light_2
+				#design_team = mio:
 				parent_version = 0
 				name_group = NOR_DD_HISTORICAL
 				modules = {
