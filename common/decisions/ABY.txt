@@ -100,7 +100,7 @@ ABY_building = {
 		icon = generic_factory
 		cost = 60
 		available = {
-			has_full_control_of_state = 9	
+			has_full_control_of_state = 9
 		}
 		visible = {
 			has_completed_focus = ABY_I_newfocus_9
@@ -112,10 +112,10 @@ ABY_building = {
 		complete_effect = {
             random_owned_state = {
 				add_extra_state_shared_building_slots = 1
-                add_building_construction = { 
+                add_building_construction = {
 					type = industrial_complex
 					level = 1
-					instant_build = yes 
+					instant_build = yes
 				}
             }
         }
@@ -124,7 +124,7 @@ ABY_building = {
 		icon = generic_merge_plant_materiel
 		cost = 60
 		available = {
-			has_full_control_of_state = 9	
+			has_full_control_of_state = 9
 		}
 		visible = {
 			has_completed_focus = ABY_I_newfocus_9
@@ -136,10 +136,10 @@ ABY_building = {
 		complete_effect = {
             random_owned_state = {
 				add_extra_state_shared_building_slots = 1
-                add_building_construction = { 
+                add_building_construction = {
 					type = arms_factory
 					level = 1
-					instant_build = yes 
+					instant_build = yes
 				}
             }
         }
@@ -582,7 +582,7 @@ ABY_HYA_annex_decisions = {
 				}
 				clr_country_flag = ABY_HYA_annex_focus_completion
 			}
-			
+
 		}
 	}
 }
@@ -748,7 +748,7 @@ ABY_operations = {
 		highlight_states = {
 			highlight_state_targets = {
 				state = 527
-				state = 408	
+				state = 408
 			}
 		}
 		ai_will_do = {
@@ -1292,6 +1292,799 @@ ABY_political = {
 				elections_allowed = no
 				last_election = "2000.01.01"
 				election_frequency = 1000
+			}
+		}
+	}
+}
+	####################################################################################################
+	############################################################
+	#####개편 이벤트#########################
+	############################################################
+	####################################################################################################
+ #	ABY_idea_abydos_army_control_center:0 "아비도스 군사지휘부"
+
+ #	ABY_idea_abydos_student_council:0 "아비도스 학생회"
+
+ #	ABY_idea_abydos_security:0 "아비도스 치안유지부"
+
+ #	ABY_idea_abydos_research:0 "아비도스 기술연구부"
+
+ #	ABY_idea_abydos_money:0 "아비도스 재무부"
+
+ABY_high_school_rebuild = {
+
+	ABY_volunteer_decision = { # 현지 구휼 활동
+        priority = 1
+
+        cost = 100
+
+        allowed = {
+            tag = ABY
+        }
+
+		visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+			tag = ABY
+			NOT = {
+				has_country_flag = ABY_flag_volunteer
+			}
+		}
+
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = ABY_volunteer_num_of_students_tooltip
+				check_variable = {
+					var = ABY_num_of_students_var
+					value = 500
+					compare = greater_than_or_equals
+				}
+			}
+        }
+
+        remove_effect = {
+
+            add_ideas = {
+                ABY_idea_volunteer
+            }
+			set_country_flag =  ABY_flag_volunteer
+        }
+    }
+
+	ABY_volunteer_decision_stop = {
+        priority = 1
+
+        allowed = {
+            tag = ABY
+        }
+
+		visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+			tag = ABY
+			has_country_flag = ABY_flag_volunteer
+		}
+
+        available = {
+        }
+
+        remove_effect = {
+            remove_ideas = ABY_idea_volunteer
+			clr_country_flag = ABY_flag_volunteer
+        }
+    }
+
+	ABY_expand_army = { # ID = 3
+        priority = 1
+
+        allowed = {
+            tag = ABY
+        }
+
+		fire_only_once = yes
+
+		visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+			tag = ABY
+			has_country_flag = ABY_flag_military_command
+		}
+
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = ABY_anarchy_exiles_num_of_students_tooltip
+				check_variable = {
+					var = ABY_num_of_students_var
+					value = 1000
+					compare = greater_than_or_equals
+				}
+			}
+            has_idea = ABY_idea_abydos_army_control_center
+        }
+
+        remove_effect = {
+			custom_effect_tooltip = ABY_6_halo_infantry_tt
+			hidden_effect = {
+            	add_to_variable = { ROOT.halo_infantry_cap = 6 }
+				set_division_template_cap = {
+					division_template = "Halo Infantry Division"
+					division_cap = ROOT.halo_infantry_cap
+				}
+			}
+			set_country_flag = ABY_flag_army # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함
+        }
+    }
+
+	ABY_massive_expand_army = { # ID = 3 #아비도스 군국주의 국민정신이 만들어지지 않은 관계로 보류
+        priority = 1
+
+        allowed = {
+            tag = ABY
+        }
+
+		fire_only_once = yes
+
+		visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+			tag = ABY
+			has_country_flag = ABY_flag_military_command
+			has_country_flag = ABY_flag_army
+		}
+
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = ABY_platoon_num_of_students_tooltip
+				check_variable = {
+					var = ABY_num_of_students_var
+					value = 2000
+					compare = greater_than_or_equals
+				}
+			}
+            has_idea = ABY_idea_abydos_army_control_center
+        }
+
+        remove_effect = {
+			custom_effect_tooltip = ABY_18_halo_infantry_tt
+            hidden_effect = {
+            	add_to_variable = { ROOT.halo_infantry_cap = 18 }
+				set_division_template_cap = {
+					division_template = "Halo Infantry Division"
+					division_cap = ROOT.halo_infantry_cap
+				}
+			} # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함
+        }
+    }
+
+	ABY_regular_platoon_improvement = { # ID = 3
+        priority = 1
+
+        allowed = {
+            tag = ABY
+        }
+
+		fire_only_once = yes
+
+		visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+			tag = ABY
+			has_country_flag = ABY_flag_military_command
+		}
+
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = ABY_anarchy_exiles_num_of_students_tooltip
+				check_variable = {
+					var = ABY_num_of_students_var
+					value = 1000
+					compare = greater_than_or_equals
+				}
+			}
+            has_idea = ABY_idea_abydos_army_control_center
+        }
+
+        remove_effect = {
+			set_country_flag = ABY_flag_platoon
+            add_units_to_division_template = {
+                template_name = "Halo Infantry Division"
+                regiments = {
+                    halo_infantry = 3
+                    halo_infantry = 3 #중점 이후 열리게 할 예정. 지금 오류가 나는것이 정상.
+                    halo_infantry = 3
+                }
+            }
+        }
+    }
+
+	ABY_regular_platoon_grouping = { # ID = 3 #아비도스 군국주의 국민정신이 만들어지지 않은 관계로 보류
+        priority = 1
+
+        allowed = {
+            tag = ABY
+        }
+
+		visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+			tag = ABY
+			has_country_flag = ABY_flag_military_command
+			has_country_flag = ABY_flag_platoon
+		}
+
+		fire_only_once = yes
+
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = ABY_platoon_num_of_students_tooltip
+				check_variable = {
+					var = ABY_num_of_students_var
+					value = 2000
+					compare = greater_than_or_equals
+				}
+			}
+            has_idea = ABY_idea_abydos_army_control_center
+        }
+
+        remove_effect = {
+			set_country_flag = ABY_flag_platoon_grouping
+            add_units_to_division_template = {
+                template_name = "Halo Infantry Division"
+                regiments = {
+                    halo_infantry = 4
+                    halo_infantry = 4 #중점 이후 열리게 할 예정. 지금 오류가 나는것이 정상.
+                    halo_infantry = 4
+                }
+            }
+        }
+    }
+
+	ABY_administrative_improvement = { # ID = 3
+        priority = 1
+        cost = 100
+
+        allowed = {
+            tag = ABY
+        }
+
+		fire_only_once = yes
+
+		visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+			tag = ABY
+		}
+
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = ABY_administrative_improvement_num_of_students_var_tt
+				check_variable = {
+					var = ABY_num_of_students_var
+					value = 100
+					compare = greater_than_or_equals
+				}
+			}
+        }
+
+        fire_only_once = yes
+
+        days_remove = 60
+
+		remove_effect = {
+			set_country_flag = ABY_flag_administrative
+			custom_effect_tooltip = ABY_administrative_improvement_tt
+		}
+    }
+
+	ABY_establish_student_government = { # ID = 3
+        priority = 1
+        cost = 150
+
+        days_remove = 90
+
+        allowed = {
+            tag = ABY
+        }
+
+		visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+			tag = ABY
+			has_country_flag = ABY_flag_administrative
+		}
+		fire_only_once = yes
+
+        available = {
+        }
+
+		remove_effect = {
+            set_country_flag = ABY_flag_not_for_use1
+            add_ideas = {
+                ABY_idea_abydos_student_council
+            }
+		}
+    }
+
+    ABY_establish_security_department = { # ID = 3
+        priority = 1
+        cost = 150
+
+        days_remove = 90
+
+        allowed = {
+            tag = ABY
+        }
+
+		visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+			tag = ABY
+			has_country_flag = ABY_flag_administrative
+		}
+		fire_only_once = yes
+
+        available = {
+        }
+
+		remove_effect = {
+            set_country_flag = ABY_flag_not_for_use2
+            add_ideas = {
+                ABY_idea_abydos_security
+            }
+		}
+    }
+
+	ABY_establish_military_command = { # ID = 3
+        priority = 1
+        cost = 150
+
+        days_remove = 90
+
+        allowed = {
+            tag = ABY
+        }
+
+		visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+			tag = ABY
+			has_country_flag = ABY_flag_administrative
+		}
+		fire_only_once = yes
+
+        available = {
+        }
+
+		remove_effect = {
+			set_country_flag = ABY_flag_military_command
+			add_ideas = {
+    			ABY_idea_abydos_army_control_center
+			}
+		}
+    }
+
+	ABY_establish_research_department = { # ID = 3
+        priority = 1
+        cost = 150
+
+        days_remove = 90
+
+        allowed = {
+            tag = ABY
+        }
+
+		visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+			tag = ABY
+			has_country_flag = ABY_flag_administrative
+		}
+		fire_only_once = yes
+
+        available = {
+        }
+
+        remove_effect = {
+            set_country_flag = ABY_flag_not_for_use3
+            add_ideas = {
+                ABY_idea_abydos_research
+            }
+        }
+    }
+
+	ABY_establish_financial_department = { # ID = 3
+        priority = 1
+        cost = 150
+
+        allowed = {
+            tag = ABY
+        }
+
+        days_remove = 90
+
+		visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+			tag = ABY
+			has_country_flag = ABY_flag_administrative
+		}
+		fire_only_once = yes
+
+        available = {
+        }
+
+        remove_effect = {
+            set_country_flag = ABY_flag_not_for_use4
+            add_ideas = {
+                ABY_idea_abydos_money
+            }
+        }
+    }
+
+    ABY_pandemonium_exiles = {
+        priority = 1
+
+        complete_effect = {
+            add_stability = -0.1
+            add_to_variable = {
+                var = ABY_num_of_students_var
+                value = 150
+                tooltip = ABY_exiles_var_tt_7
+            }
+            add_opinion_modifier = {
+                target = GEH
+                modifier = GEH_get_exile
+            }
+        }
+
+        allowed = {
+            tag = ABY
+        }
+		fire_only_once = yes
+
+        visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+            tag = ABY
+        }
+
+        available = {
+            has_completed_focus = ABY_focus_new_government
+            AND = {
+				custom_trigger_tooltip = {
+					tooltip = ABY_new_tt_13
+					has_global_flag = geh_gem_war_superevent_trigger_flag
+                }
+                NOT = {
+                    country_exists = GEM
+                }
+            }
+        }
+    }
+
+    ABY_prefect_team_exiles = { # ID = 3
+        priority = 1
+
+        complete_effect = {
+            add_stability = -0.1
+            add_to_variable = {
+                var = ABY_num_of_students_var
+                value = 150
+                tooltip = ABY_exiles_var_tt_8
+            }
+            add_opinion_modifier = {
+                target = GEM
+                modifier = GEH_get_exile
+            }
+        }
+		fire_only_once = yes
+
+        allowed = {
+            tag = ABY
+        }
+
+        visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+            tag = ABY
+        }
+
+        available = {
+            has_completed_focus = ABY_focus_new_government
+            AND = {
+				custom_trigger_tooltip = {
+					tooltip = ABY_new_tt_14
+					has_global_flag = geh_gem_war_superevent_trigger_flag
+                }
+                NOT = {
+                    country_exists = GEH
+                }
+            }
+        }
+    }
+
+    ABY_gehenna_exiles = { # ID = 3ABY_gehenna_exiles
+        priority = 1
+
+        allowed = {
+            tag = ABY
+        }
+
+        visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+            tag = ABY
+        }
+		fire_only_once = yes
+
+        complete_effect = {
+            add_timed_idea = {
+                idea = ABY_idea_gehenna_exile
+                days = 30
+            }
+            add_stability = -0.1
+        }
+
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = ABY_new_tt_12
+				has_global_flag = geh_gem_war_superevent_trigger_flag
+            }
+        }
+    }
+
+    ABY_philius_exiles = { # ID = 3
+        priority = 1
+
+        allowed = {
+            tag = ABY
+        }
+		fire_only_once = yes
+
+        visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+            tag = ABY
+        }
+
+        complete_effect = {
+            add_stability = -0.15
+            add_to_variable = {
+                var = ABY_num_of_students_var
+                value = 500
+                tooltip = ABY_exiles_var_tt_10
+            }
+            add_manpower = 50000
+            add_opinion_modifier = {
+                target = TRM
+                modifier = TRM_get_exile
+            }
+        }
+
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = ABY_new_tt_15
+				has_global_flag = asd
+            }
+        }
+    }
+
+    ABY_sangtus_exiles = { # ID = 3
+        priority = 1
+
+        allowed = {
+            tag = ABY
+        }
+		fire_only_once = yes
+
+
+        visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+            tag = ABY
+        }
+
+        complete_effect = {
+            add_stability = -0.05
+            add_to_variable = {
+                var = ABY_num_of_students_var
+                value = 250
+                tooltip = ABY_exiles_var_tt_11
+            }
+            add_manpower = 30000
+            #add_opinion_modifier = {
+            #    target = TRM
+            #    modifier = opinion_trm_abydos_exiles
+            #}
+        }
+
+        available = {
+			custom_trigger_tooltip = {
+				has_global_flag = TRM_flag_seia_cut
+				tooltip = ABY_new_tt_16
+            }
+        }
+    }
+
+    ABY_anarchy_exiles = { # ID = 3
+        priority = 1
+        cost = 50
+
+        days_remove = 30
+
+        allowed = {
+            tag = ABY
+        }
+
+        visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+            tag = ABY
+        }
+
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = ABY_real_anarchy_exiles_num_of_students_tooltip
+				check_variable = {
+					var = ABY_num_of_students_var
+					value = 50
+					compare = greater_than_or_equals
+				}
+			}
+        }
+
+        remove_effect = {
+            add_to_variable = {
+                var = ABY_num_of_students_var
+                value = 40
+                tooltip = ABY_anarchy_exiles_add_num_of_students_tooltip
+            }
+        }
+    }
+
+    ABY_freshman_events = { # ID = 3
+        priority = 1
+        cost = 150
+
+        days_remove = 120
+
+        allowed = {
+            tag = ABY
+        }
+
+        visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+            tag = ABY
+        }
+
+        available = {
+			custom_trigger_tooltip = {
+				tooltip = ABY_freshman_num_of_students_tooltip
+				check_variable = {
+					var = ABY_num_of_students_var
+					value = 450
+					compare = greater_than_or_equals
+				}
+			}
+        }
+
+        remove_effect = {
+            add_to_variable = {
+                var = ABY_num_of_students_var
+                value = 200
+                tooltip = ABY_freshman_add_num_of_students_tooltip
+            }
+            add_to_variable = {
+                var = ABY_num_of_monthly_students_var
+                value = 1
+                tooltip = ABY_freshman_add_num_of_monthly_students_tooltip
+            }
+        }
+    }
+
+    ABY_ba_debug_aby_students_events = { # ID = 3
+        priority = 1
+
+        allowed = {
+            tag = ABY
+        }
+
+        visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+            tag = ABY
+        }
+
+        available = {
+            always = yes
+        }
+
+        remove_effect = {
+            add_to_variable = {
+                var = ABY_num_of_students_var
+                value = 2000
+            }
+        }
+    }
+
+	ABY_advertise_school = { # ID = 3
+        priority = 1
+        cost = 50
+
+        allowed = {
+            tag = ABY
+        }
+
+        days_remove = 30
+
+		visible = {
+			has_country_flag = ABY_flag_abydos_highschool
+			tag = ABY
+		}
+
+        available = {
+        }
+
+        remove_effect = {
+            random_list = {
+                50 = {
+                    ABY = { 
+						country_event = { id = ABY_recruit_event.1 }
+						hidden_effect = {
+							add_to_variable = {
+								var = ABY_num_of_students_var
+								value = 10
+							}
+						}
+					}
+                }
+                40 = {
+                    ABY = { 
+						country_event = { id = ABY_recruit_event.2 } 
+						hidden_effect = {
+							add_to_variable = {
+								var = ABY_num_of_students_var
+								value = 20
+							}
+						}
+				  	}
+                }
+                10 = {
+                    ABY = { 
+						country_event = { id = ABY_recruit_event.3 } 
+						hidden_effect = {
+							add_to_variable = {
+								var = ABY_num_of_students_var
+								value = 40
+							}
+						}
+					}
+                }
+            }
+        }
+    }
+
+	ABY_state_recruit_students = {
+		icon = GFX_decision_eng_trade_unions_support
+		highlight_states = {
+			highlight_state_targets = {
+				state = FROM
+			}
+			highlight_color_while_active = 3
+			highlight_color_before_active = 2
+		}
+
+		on_map_mode = map_and_decisions_view
+
+		state_target = yes
+
+		visible = {
+			tag = ABY
+		}
+
+		target_array = ABY.recruitable_states
+
+		available = {
+			command_power > 24
+		}
+
+		fire_only_once = yes
+
+		days_remove = 7
+
+		modifier = {
+		}
+
+		complete_effect = {
+    		add_command_power = -25
+		}
+
+		remove_effect = {
+			add_to_variable = {
+				var = ABY_num_of_monthly_students_var
+				value = 1
+				tooltip = ABY_freshman_add_num_of_monthly_students_tooltip
 			}
 		}
 	}

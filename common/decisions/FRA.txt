@@ -1283,6 +1283,7 @@ FRA_war_dec = {
 				}
 			}
 		}
+		fire_only_once = yes
 		ai_will_do = {
 			factor = 100
 		}
@@ -1708,6 +1709,9 @@ FRA_ally = { #외교 정책
 		cost = 10
 		available = {
 			is_in_faction = no	
+		}
+		ai_will_do = {
+			base = 10
 		}
 		days_remove = 10
 		remove_effect = {
@@ -3137,6 +3141,489 @@ FRA_exile_gov = {
 				add_ideas = FRA_ver_again
 				add_ideas = limited_conscription
 			}
+		}
+	}
+}
+FRA_division_decision_category = {
+	FRA_division_peace = { #평화주의 선전
+		icon = GFX_decision_hol_exchange_intelligence_data
+		cost = 30
+		days_remove = 20
+		days_re_enable = 20
+		remove_effect = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = -0.01
+			}
+			add_war_support = -0.03
+		}
+	}
+	FRA_division_good_peace = { #평화의 실용성 설득
+		icon = GFX_decision_hol_radio_oranje
+		cost = 50
+		days_remove = 20
+		days_re_enable = 50
+		remove_effect = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = -0.02
+			}
+			add_war_support = -0.05
+		}
+	}
+	FRA_division_war = { #항전의 의지 각인
+		icon = GFX_decision_generic_civil_support
+		cost = 30
+		days_remove = 20
+		days_re_enable = 20
+		remove_effect = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = 0.01
+			}
+			add_stability = -0.03
+		}
+	}
+	FRA_division_good_war = { #프랑스 완전수복론 설파
+		icon = GFX_decision_generic_nationalism
+		cost = 50
+		days_remove = 20
+		days_re_enable = 50
+		remove_effect = {
+			add_power_balance_value = {
+				id = FRA_div_power_balance
+				value = 0.02
+			}
+			add_stability = -0.05
+		}
+	}
+}
+FRA_indochina_issue = {
+	FRA_near_japan_intervention_indochina = { #임박한 일본의 개입
+		days_mission_timeout = 150
+		icon = GFX_decision_jap_pacific_guardian
+		is_good = no
+		available = {
+			VIN = {
+				has_war = no
+				all_core_state = {
+					is_owned_by = VIN
+				}
+			}
+			has_country_flag = FRA_involve_indochina_tt
+		}
+		activation = {
+			always = no
+		}
+		timeout_effect = {
+			custom_effect_tooltip = FRA_near_japan_intervention_indochina_tt
+			hidden_effect={
+				LAO = {
+					transfer_state = 286
+					set_cosmetic_tag = VIN_indochina_civilwar_jap
+					every_country = {
+						limit = {
+							original_tag = VIN
+						}
+						declare_war_on = {
+							target = prev
+						}
+					}
+					every_state = {
+						limit = {
+							is_core_of = VIN
+						}
+						add_core_of = LAO
+					}
+				}
+				JAP = {
+					country_event = {
+						id = FRA_prov_event.37
+						days = 3
+					}
+				}
+			}
+		}
+		priority = 100
+	}
+	FRA_interfere_indochina = { #인도차이나에 개입
+		fire_only_once = yes
+		icon = GFX_decision_generic_operation
+		visible = {
+			has_country_flag = FRA_has_indochina_war
+		}
+		cost = 200
+		available = {
+			has_stability > 0.5
+			VIN = {
+				NOT={has_war_with = JAP}
+			}
+		}
+		ai_will_do = {
+			base = 1
+		}
+		days_remove = 5
+		complete_effect = {
+			set_country_flag = FRA_involve_indochina_tt
+		}
+		remove_effect = {
+			every_country = {
+				limit = {
+					has_war_with = VIN
+					original_tag = VIN
+				}
+				FRA={
+					declare_war_on = {
+						target = prev
+						type = annex_everything
+					}
+				}
+			}
+		}
+	}
+	FRA_give_equipment_vin = { #물자 지원
+		icon = GFX_decision_generic_industry
+		days_remove = 30
+		days_re_enable = 30
+		cost = 20
+		modifier = {
+			civilian_factory_use = 1
+		}
+		visible = {
+			has_country_flag = FRA_has_indochina_war
+		}
+		ai_will_do = {
+			base = 1
+		}
+		available = {
+			has_equipment = {
+				infantry_equipment > 499
+			}
+		}
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = -500
+			}
+		}
+		remove_effect = {
+			VIN = {
+				random_controlled_state = {
+					create_unit = {
+						division = "name = \"milice coloniale\" division_template = \"milice coloniale\" start_experience_factor = 0.1"
+						owner = VIN
+					}
+				}
+			}
+		}
+	}
+	FRA_give_division_vin = { #소규모 군사 파견
+		icon = GFX_decision_eng_blackshirt_march
+		days_remove = 30
+		days_re_enable = 30
+		cost = 20
+		modifier = {
+			civilian_factory_use = 1
+		}
+		ai_will_do = {
+			base = 1
+		}
+		visible = {
+			has_country_flag = FRA_has_indochina_war
+		}
+		available = {
+			has_equipment = {
+				infantry_equipment > 1499
+			}
+		}
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = -800
+			}
+			add_manpower = -1000
+		}
+		remove_effect = {
+			VIN = {
+				random_controlled_state = {
+					create_unit = {
+						division = "name = \"Brigade Coloniale\" division_template = \"Brigade Coloniale\" start_experience_factor = 0.1"
+						owner = VIN
+					}
+					create_unit = {
+						division = "name = \"Brigade Coloniale\" division_template = \"Brigade Coloniale\" start_experience_factor = 0.1"
+						owner = VIN
+					}
+				}
+			}
+		}
+	}
+	FRA_indochina_going_bad = { #심화되어가는 식민지인 저항
+		icon = GFX_decision_revolt
+		days_mission_timeout = 80
+		available = {
+			has_country_flag = FRA_has_indochina_war
+		}
+		activation = {
+			always = no
+		}
+		is_good = no
+		timeout_effect = {
+			VIN = {
+				VIN_upgrade_resist = yes
+				add_stability = -0.1
+			}
+			activate_mission = FRA_indochina_going_bad
+		}
+		priority = 100
+	}
+	FRA_more_security_indochina = { #식민지 치안 강화
+		icon = GFX_decision_generic_army_support
+		visible = {
+			has_global_flag = VIN_has_crisis
+			has_country_flag = FRA_has_indochina_issue
+		}
+		available = {
+			VIN = {
+				OR = {
+					has_idea = VIN_colonists_resist_1
+					has_idea = VIN_colonists_resist_2
+					has_idea = VIN_colonists_resist_3
+				}
+			}
+		}
+		days_remove = 60
+		days_re_enable = 90
+		cost = FRA_VIN_security_cost
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = -600
+			}
+			add_manpower = -600
+			add_to_variable = {
+				FRA_VIN_security_cost = 5
+			}
+			VIN = {
+				add_stability = 0.03
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.1
+				}
+			}
+			set_country_flag = FRA_VIN_anti_resist_action
+		}
+		remove_effect = {
+			clr_country_flag = FRA_VIN_anti_resist_action
+			VIN = {
+				VIN_downgrade_resist = yes
+			}
+		}
+		ai_will_do = {
+			base = 10
+		}
+	}
+	FRA_more_welfare_indochina = { #일시적인 식민지인 복지
+	 	icon = GFX_decision_hol_attract_foreign_investors
+		visible = {
+			has_global_flag = VIN_has_crisis
+			has_country_flag = FRA_has_indochina_issue
+		}
+		available = {
+			VIN = {
+				OR = {
+					has_idea = VIN_colonists_resist_1
+					has_idea = VIN_colonists_resist_2
+					has_idea = VIN_colonists_resist_3
+				}
+			}
+		}
+		days_remove = 30
+		days_re_enable = 90
+		cost = FRA_VIN_welfare_cost
+		modifier = {
+			consumer_goods_expected_value = 0.05
+		}
+		complete_effect = {
+			add_to_variable = {
+				FRA_VIN_welfare_cost = 5
+			}
+			set_country_flag = FRA_VIN_anti_resist_action
+			VIN = {
+				add_stability = 0.03
+				add_war_support = 0.03
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.03
+				}
+			}
+		}
+		remove_effect = {
+			VIN = {
+				VIN_downgrade_resist = yes
+			}
+			clr_country_flag = FRA_VIN_anti_resist_action
+		}
+		ai_will_do = {
+			base = 10
+		}
+	}
+	FRA_more_autonomy_indochina = { #제한된 지방자치권
+		icon = GFX_decision_eng_trade_unions_support
+		visible = {
+			has_global_flag = VIN_has_crisis
+			has_country_flag = FRA_has_indochina_issue
+		}
+		available = {
+			VIN = {
+				OR = {
+					has_idea = VIN_colonists_resist_1
+					has_idea = VIN_colonists_resist_2
+					has_idea = VIN_colonists_resist_3
+				}
+			}
+		}
+		days_remove = 60
+		days_re_enable = 60
+		cost = FRA_VIN_autonomy_cost
+		modifier = {
+			consumer_goods_expected_value = 0.05
+		}
+		complete_effect = {
+			add_to_variable = {
+				FRA_VIN_autonomy_cost = 5
+			}
+			set_country_flag = FRA_VIN_anti_resist_action
+			VIN = {
+				add_stability = 0.05
+				add_war_support = 0.05
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.01
+				}
+				add_autonomy_score = {
+					value = 30
+					localization = EXAMPLE
+				}
+			}
+		}
+		remove_effect = {
+			VIN = {
+				VIN_downgrade_resist = yes
+			}
+			clr_country_flag = FRA_VIN_anti_resist_action
+		}
+		ai_will_do = {
+			base = 10
+		}
+	}
+	FRA_more_resource_indochina = { #인도차이나 자원 생산 확대
+		icon = GFX_decision_tungsten
+		days_remove = 150
+		days_re_enable = 30
+		cost = 30
+		available = {
+			NOT = {
+				has_country_flag = FRA_vin_action
+			}
+		}
+		visible = {
+			has_country_flag = FRA_has_indochina_issue
+		}
+		complete_effect = {
+			VIN = {
+				add_timed_idea = {
+					idea = VIN_expand_resource
+					days = 150
+				}
+			}
+			set_country_flag = FRA_vin_action
+			hidden_effect = {
+				country_event = {
+					id = FRA_prov_event.100
+					days = 150
+				}
+			}
+		}
+		modifier = {
+			civilian_factory_use = 1
+		}
+		ai_will_do = {
+			base = 1
+		}
+	}
+	FRA_more_industry_indochina = { #식민지에 산업 진출
+		icon = GFX_decision_gre_investment_decisions
+		days_remove = 150
+		days_re_enable = 30
+		cost = 30
+		available = {
+			NOT = {
+				has_country_flag = FRA_vin_action
+			}
+		}
+		visible = {
+			has_country_flag = FRA_has_indochina_issue
+		}
+		complete_effect = {
+			VIN = {
+				add_timed_idea = {
+					idea = VIN_expand_industry
+					days = 150
+				}
+			}
+			set_country_flag = FRA_vin_action
+			hidden_effect = {
+				country_event = {
+					id = FRA_prov_event.100
+					days = 150
+				}
+			}
+		}
+		modifier = {
+			industrial_factory_donations = 1
+		}
+		ai_will_do = {
+			base = 1
+		}
+	}
+	FRA_more_arms_factory_indochina = { #군수품 징발
+		icon = GFX_decision_ger_military_buildup
+		days_remove = 150
+		days_re_enable = 30
+		cost = 30
+		available = {
+			NOT = {
+				has_country_flag = FRA_vin_action
+			}
+		}
+		visible = {
+			has_country_flag = FRA_has_indochina_issue
+		}
+		complete_effect = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 800
+			}
+			VIN = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -1000
+				}
+			}
+			set_country_flag = FRA_vin_action
+			hidden_effect = {
+				country_event = {
+					id = FRA_prov_event.100
+					days = 150
+				}
+			}
+		}
+		modifier = {
+			military_factory_donations = 1
+		}
+		ai_will_do = {
+			base = 1
 		}
 	}
 }

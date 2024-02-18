@@ -96,6 +96,7 @@ country_event = {
 				days = 3
 			}
 		}
+		mark_focus_tree_layout_dirty = yes
 	}
 }
 
@@ -301,6 +302,11 @@ country_event = {
 	trigger = {
 		tag = POL
 		has_war_with = TRM
+		has_global_flag = sov_pol_war_superevent_trigger_flag
+		NOT = {
+			has_war_with = SOV
+		}
+		is_puppet = no
 	}
 	immediate = {
 		hidden_effect = {
@@ -394,9 +400,10 @@ country_event = {
 		is_ally_with = POL
 		is_neighbor_of = POL
 		NOT = {
-			tag = POL			
+			tag = POL
 		}
 	}
+	is_triggered_only = yes
 	immediate = {
 		hidden_effect = {
 			set_country_flag = BA_POL_I_WANT_IN_POL
@@ -468,6 +475,8 @@ country_event = {
 country_event = {
 	#플래그지우는이벤트
 	id = BA_pol_event.17
+	title = BA_pol_event.17.t
+	desc = BA_pol_event.17.d
 	is_triggered_only = yes
 	option = {
 		clr_country_flag = BA_POL_I_WANT_IN_POL
@@ -754,11 +763,11 @@ country_event = {
 		name = BA_pol_event.22.e
 		763 = {
 			transfer_state_to = POL
-			add_core_of = POL
 		}
 		ai_chance = {
 			base = 999
 		}
+		unlock_decision_tooltip = POL_polishize_763
 		country_event = {
 			id = BA_pol_event.23
 			days = 5
@@ -827,11 +836,11 @@ country_event = {
 		name = BA_pol_event.23.e
 		5 = {
 			transfer_state_to = POL
-			add_core_of = POL
 		}
 		ai_chance = {
 			base = 999
 		}
+		unlock_decision_tooltip = POL_polishize_5
 		country_event = {
 			id = BA_pol_event.24
 			days = 5
@@ -929,6 +938,8 @@ country_event = {
 			transfer_state = 63
 			transfer_state = 68
 		}
+		unlock_decision_tooltip = POL_polishize_63
+		unlock_decision_tooltip = POL_polishize_68
 		ai_chance = {
 			base = 0
 		}
@@ -1013,12 +1024,31 @@ country_event = {
 			days = 5
 		}
 	}
+	option = { #동독 주기
+		name = BA_pol_event.27.c
+		random_other_country = {
+			limit = {
+				owns_state = 64
+			}
+			transfer_state = 66
+			add_state_core = 66
+		}
+		country_event = {
+			id = BA_pol_event.28
+			days = 5
+		}
+		trigger = {
+			POL = {
+				NOT={owns_state=64}
+			}
+		}
+	}
 	option = { #내가 먹기
 		name = BA_pol_event.27.b
 		POL = {
 			transfer_state = 66
-			add_state_core = 66
 		}
+		unlock_decision_tooltip = POL_polishize_66
 		country_event = {
 			id = BA_pol_event.28
 			days = 5
@@ -1055,12 +1085,8 @@ country_event = {
 		name = BA_pol_event.28.b
 		POL = {
 			transfer_state = 67
-			add_state_core = 67
 		}
-		country_event = {
-			id = BA_pol_event.3
-			days = 5
-		}
+		unlock_decision_tooltip = POL_polishize_67
 		country_event = {
 			id = BA_pol_event.29
 			days = 5
@@ -1091,6 +1117,8 @@ country_event = {
 			add_state_core = 944
 			add_state_core = 945
 			add_state_core = 42
+			transfer_state = 50
+			add_state_core = 50
 		}
 		country_event = {
 			id = BA_pol_event.30
@@ -1114,6 +1142,8 @@ country_event = {
 			add_state_core = 944
 			add_state_core = 945
 			add_state_core = 42
+			transfer_state = 50
+			add_state_core = 50
 		}
 		country_event = {
 			id = BA_pol_event.30
@@ -1131,11 +1161,9 @@ country_event = {
 	option = { #국방군
 		name = BA_pol_event.30.a
 		GEA = {
-			transfer_state = 50
 			transfer_state = 52
 			transfer_state = 53
 			transfer_state = 54
-			add_state_core = 50
 			add_state_core = 52
 			add_state_core = 53
 			add_state_core = 54
@@ -1148,11 +1176,9 @@ country_event = {
 	option = { #만마전 주기
 		name = BA_pol_event.30.b
 		GEM = {
-			transfer_state = 50
 			transfer_state = 52
 			transfer_state = 53
 			transfer_state = 54
-			add_state_core = 50
 			add_state_core = 52
 			add_state_core = 53
 			add_state_core = 54
@@ -1165,11 +1191,9 @@ country_event = {
 	option = { #바이에른
 		name = BA_pol_event.30.c
 		BAY = {
-			transfer_state = 50
 			transfer_state = 52
 			transfer_state = 53
 			transfer_state = 54
-			add_state_core = 50
 			add_state_core = 52
 			add_state_core = 53
 			add_state_core = 54
@@ -1182,6 +1206,21 @@ country_event = {
 			}
 		}
 		add_to_faction = BAY
+		country_event = {
+			id = BA_pol_event.31
+			days = 5
+		}
+	}
+	option = { #선도부 부활
+		name = BA_pol_event.30.f
+		BAY = {
+			transfer_state = 52
+			transfer_state = 53
+			transfer_state = 54
+			add_state_core = 52
+			add_state_core = 53
+			add_state_core = 54
+		}
 		country_event = {
 			id = BA_pol_event.31
 			days = 5
@@ -1239,6 +1278,24 @@ country_event = {
 			days = 5
 		}
 	}
+	option = { #트리니티에게 주자
+		name = BA_pol_event.31.e
+		TRM = {
+			transfer_state = 58
+			transfer_state = 909
+			add_state_core = 58
+			add_state_core = 909
+		}
+		trigger = {
+			64 = {
+				is_owned_by = TRM
+			}
+		}
+		country_event = {
+			id = BA_pol_event.32
+			days = 5
+		}
+	}
 }
 country_event = {
 	#베저엠스
@@ -1275,4 +1332,245 @@ country_event = {
 		complete_national_focus = POL_inter_37
 	}
 }
+country_event = {
+	#쾨니히스베르크 이름
+	id = BA_pol_event.33
+	title = BA_pol_event.33.t
+	desc = BA_pol_event.33.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { #크롤레비에츠
+		name = BA_pol_event.33.a
+		763 = {
+			set_state_name = POL_krolewiec
+		}
+		set_province_name = {
+			id = 6332
+			name = POL_krolewiec
+		}
+	}
+	option = { #사나차
+		name = BA_pol_event.33.b
+		763 = {
+			set_state_name = POL_pilsudski
+		}
+		set_province_name = {
+			id = 6332
+			name = POL_pilsudski
+		}
+		trigger = {
+			has_completed_focus = POL_complete_april_constitution
+		}
+	}
+	option = { #국왕
+		name = BA_pol_event.33.c
+		trigger = {
+			has_completed_focus = POL_assemble_the_regency_council
+		}
+		if = {
+			limit = {
+				has_completed_focus = POL_habsburg
+			}
+			763 = {
+				set_state_name = POL_albrecht
+			}
+			set_province_name = {
+				id = 6332
+				name = POL_albrecht
+			}
+		}
+		if = {
+			limit = {
+				has_completed_focus = POL_hohenzollern
+			}
+			763 = {
+				set_state_name = POL_mihai
+			}
+			set_province_name = {
+				id = 6332
+				name = POL_mihai
+			}
+		}
+		if = {
+			limit = {
+				has_completed_focus = POL_claiming_lithuania
+			}
+			763 = {
+				set_state_name = POL_christian
+			}
+			set_province_name = {
+				id = 6332
+				name = POL_christian
+			}
+		}
+		if = {
+			limit = {
+				has_completed_focus = POL_cossack_king
+			}
+			763 = {
+				set_state_name = POL_bermondt
+			}
+			set_province_name = {
+				id = 6332
+				name = POL_bermondt
+			}
+		}
+	}
+}
+country_event = {
+	#소련의 루마니아에 제안
+	id = BA_pol_event.34
+	title = BA_pol_event.34.t
+	desc = BA_pol_event.34.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { #ㅇㅋ
+		name = BA_pol_event.34.a
+		every_owned_state = {
+			limit = {OR={
+				is_core_of = UKR
+				is_core_of = MOL
+			}}
+			transfer_state_to = SOV
+			add_claim_by = SOV
+		}
+		dismantle_faction = yes
+		leave_faction = yes
+		every_country = {
+			limit = {
+				has_war_with = ROM
+				is_ally_with = SOV
+			}
+			white_peace = ROM
+		}
+		SOV = {
+			unlock_national_focus = SOV_claim_on_bessarabia
+		}
+		SOV = {
+			country_event = BA_pol_event.37
+		}
+	}
+	option = { #족가
+		name = BA_pol_event.34.b
+		add_war_support = 0.1
+		ai_chance = {
+			base = 0
+		}
+		SOV = {
+			country_event = BA_pol_event.38
+		}
+	}
+}
+country_event = {
+	#소련의 핀란드에 제안
+	id = BA_pol_event.35
+	title = BA_pol_event.34.t
+	desc = BA_pol_event.34.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { #ㅇㅋ
+		name = BA_pol_event.34.a
+		SOV = {
+			transfer_state = 722
+			transfer_state = 147
+			transfer_state = 146
+			add_state_claim = 722
+			add_state_claim = 147
+			add_state_claim = 146
+			unlock_national_focus = SOV_secure_leningrad
+		}
+		dismantle_faction = yes
+		leave_faction = yes
+		every_country = {
+			limit = {
+				has_war_with = FIN
+				is_ally_with = SOV
+			}
+			white_peace = FIN
+		}
+		SOV = {
+			country_event = BA_pol_event.37
+		}
+	}
+	option = { #족가
+		name = BA_pol_event.34.b
+		add_war_support = 0.1
+		ai_chance = {
+			base = 0
+		}
+		SOV = {
+			country_event = BA_pol_event.38
+		}
+	}
+}
+country_event = {
+	#소련의 터키에 제안
+	id = BA_pol_event.36
+	title = BA_pol_event.34.t
+	desc = BA_pol_event.34.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { #ㅇㅋ
+		name = BA_pol_event.34.a
+		KUR = {
+			transfer_state = 800
+		}
+		SOV = {
+			transfer_state = 354
+			add_state_claim = 354
+			set_autonomy = {
+				target = KUR
+				autonomy_state = autonomy_SSR
+			}
+		}
+		dismantle_faction = yes
+		leave_faction = yes
+		every_country = {
+			limit = {
+				has_war_with = TUR
+				is_ally_with = SOV
+			}
+			white_peace = TUR
+		}
+		SOV = {
+			country_event = BA_pol_event.37
+		}
+	}
+	option = { #족가
+		name = BA_pol_event.34.b
+		add_war_support = 0.1
+		ai_chance = {
+			base = 0
+		}
+		SOV = {
+			country_event = BA_pol_event.38
+		}
+	}
+}
+country_event = {
+	#제안수락
+	id = BA_pol_event.37
+	title = BA_pol_event.37.t
+	desc = BA_pol_event.37.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { #ㅇㅋ
+		name = BA_pol_event.37.a
+		add_political_power = 5
+	}
+}
+country_event = {
+	#제안거절
+	id = BA_pol_event.38
+	title = BA_pol_event.38.t
+	desc = BA_pol_event.38.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { #ㅇㅋ
+		name = BA_pol_event.38.a
+		add_political_power = -5
+	}
+}
+
+
 

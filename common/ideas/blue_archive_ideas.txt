@@ -70,14 +70,63 @@ ideas = {
 		}
 
 		#뽈스까
+		POL_capital_of_the_revolution = { #권위 있는 중앙 정부
+			picture = POL_ideology_drift_defence
+			modifier = {
+				stability_factor = 0.15
+				communism_drift = 0.01
+				political_power_factor = 0.05
+				subjects_autonomy_gain = -0.2
+			}
+		}
+		POL_nationalism_elimination = { #민족주의 제거
+			picture = SPR_subvert_soviet_control
+			modifier = {
+				political_power_cost = 0.50
+				subjects_autonomy_gain = -0.5
+			}
+		}
+		POL_moving_germans_later = { #독일 실향민 이주의 여파
+			picture = prc_low_popular_support3
+			modifier = {
+				consumer_goods_expected_value = 1
+				stability_factor = -0.25
+				war_support_factor = -0.25
+			}
+			available = {
+				NOT = {
+					has_idea = POL_moving_germans
+				}
+			}
+		}
+		POL_moving_germans = { #독일 실향민 이주
+			picture = prc_low_popular_support3
+			modifier = {
+				monthly_population = 0.8
+				weekly_manpower = 5000
+				consumer_goods_expected_value = 1
+				stability_factor = -0.25
+				war_support_factor = -0.25
+			}
+			available = {
+				POL = {
+					check_variable = {
+						POL_move_germans > 0
+					}
+				}
+			}
+			on_remove = {
+				add_ideas = POL_moving_germans_later
+			}
+		}
 		POL_desire_of_unity_1 = { #중앙 유럽 의회
 			name = POL_desire_of_unity
 			picture = generic_democratic_drift_bonus
 			modifier = {
 				war_support_factor = 0.1
 				stability_factor = 0.1
-				stability_weekly_factor = 0.001
-				war_support_weekly = 0.001
+				stability_weekly_factor = 0.01
+				war_support_weekly = 0.01
 				ai_call_ally_desire_factor = 50
 				ai_join_ally_desire_factor = 50
 				custom_modifier_tooltip = POL_desire_of_unity_tt

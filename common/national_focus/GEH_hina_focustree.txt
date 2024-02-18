@@ -1,4 +1,3 @@
-#소ㄹΓバrㅋı ぁıㄴr는 ○l쁘ヱ 구l엽⊂ト. ○l것은 모두ㄱr 인정㈛는 バr실○l⊂ト.
 focus_tree = {
 	id = GEH_hina_focustree
 	country = {
@@ -12,8 +11,9 @@ focus_tree = {
 			tag = TGH
 		}
 	}
-	continuous_focus_position = { x = 5000 y = 1 }
+	continuous_focus_position = { x = 50 y = 1100 }
 	shared_focus = BA_new_world_technology
+	shared_focus = GEH_unified_gehenna
 	default = no
 	focus = {
 		id = GEH_fear_eyes
@@ -1128,7 +1128,6 @@ focus_tree = {
 		y = 1
 		completion_reward = { 
 			army_experience = 10
-			unlock_decision_category_tooltip = GEH_hina_sundobu_upgrade_plan_categories
 		}
 	}
 	focus = {
@@ -1911,8 +1910,85 @@ focus_tree = {
 			tag = TGH
 		}
 	}
-	continuous_focus_position = { x = 5000 y = 1 }
+	continuous_focus_position = { x = 50 y = 1100 }
     #shared_focus = GEH_ready_for_war
+	shared_focus = GEH_unified_gehenna
+	focus = {
+		id = GEH_Evict_Wehrmacht
+		icon = GFX_focus_ger_oppose_hitler
+		cost = 10
+        allow_branch = {
+            GEH_is_phase_prologue_trigger = yes
+        }
+		available = {
+		}
+        #relative_position_id = GEH_Pandemonium_Society_Building_Control
+		x = 5
+		y = 0
+		completion_reward = {
+            add_political_power = 25
+		}
+	}
+	focus = {
+		id = GEH_Nuremberg_Wehrmacht
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		cost = 10
+		available = {
+		}
+        prerequisite = { focus = GEH_Evict_Wehrmacht }
+        relative_position_id = GEH_Evict_Wehrmacht
+		x = 1
+		y = 1
+		completion_reward = {
+            54 = {
+                remove_dynamic_modifier = { modifier = GEH_ucantusefactory_2 }
+            }
+		}
+	}
+	focus = {
+		id = GEH_Regensburg_Wehrmacht
+		icon = GFX_focus_generic_conspiracy
+		cost = 10
+		available = {
+		}
+        prerequisite = { focus = GEH_Evict_Wehrmacht }
+        relative_position_id = GEH_Evict_Wehrmacht
+		x = -1
+		y = 1
+		completion_reward = {
+            53 = {
+                remove_dynamic_modifier = { modifier = GEH_ucantusefactory_2 }
+            }
+		}
+	}
+	focus = {
+		id = GEH_focus_111111
+		icon = GFX_goal_tripartite_pact
+		cost = 10
+		available = {
+		}
+        prerequisite = { focus = GEH_Regensburg_Wehrmacht }
+        prerequisite = { focus = GEH_Nuremberg_Wehrmacht }
+        relative_position_id = GEH_Evict_Wehrmacht
+		x = 0
+		y = 2
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEH_Status_quo
+		icon = GFX_goal_GEH_bureaucracy
+		cost = 20
+		available = {
+		}
+        prerequisite = { focus = GEH_focus_111111 }
+        relative_position_id = GEH_Evict_Wehrmacht
+		x = 0
+		y = 3
+		completion_reward = {
+            add_political_power = 150
+		}
+	}
 	focus = {
 		id = GEH_Prefect_Team_muster
 		icon = GFX_goal_Prefect_Team_muster
@@ -2012,11 +2088,7 @@ focus_tree = {
 		x = 0
 		y = 3
 		completion_reward = {
-			declare_war_on = {
-				target = GEM
-				type = annex_everything
-            }
-            country_event = { id = NextPhase.1}
+            country_event = { id = NextPhase.1 }
 		}
 	}
 	focus = {
@@ -2035,7 +2107,7 @@ focus_tree = {
 		completion_reward = {
             55 = {
                 add_dynamic_modifier = {
-                    modifier = GEH_Senter_aggressive days = 20 scope = GEH
+                    modifier = GEH_Senter_aggressive days = 28 scope = GEH
                 }
             }
 		}
@@ -2056,7 +2128,7 @@ focus_tree = {
 		y = 1
 		completion_reward = {
             custom_effect_tooltip = GEH_attack_plan_ONE_FOUR_TWO_tt
-            add_to_variable = { GEH_RU_breakthrough_factor = 0.1 }
+            add_to_variable = { GEH_RU_breakthrough_factor = 0.07 }
 		}
 	}
 	focus = {
@@ -2074,7 +2146,10 @@ focus_tree = {
 		x = 0
 		y = 1
 		completion_reward = {
-
+            add_timed_idea = {
+                idea = GEH_Last_offensive
+                days = 28
+            }
 		}
 	}
 	focus = {
@@ -2111,7 +2186,26 @@ focus_tree = {
 		x = 1
 		y = 1
 		completion_reward = {
-
+			every_controlled_state = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = GEH_ucantusefactory
+					}
+				}
+				remove_dynamic_modifier = {
+					modifier = GEH_ucantusefactory
+				}
+			}
+			every_controlled_state = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = GEH_ucantusefactory_2
+					}
+				}
+				remove_dynamic_modifier = {
+					modifier = GEH_ucantusefactory_2
+				}
+			}
 		}
 	}
 	focus = {
@@ -2129,12 +2223,25 @@ focus_tree = {
 		x = 0
 		y = 1
 		completion_reward = {
-
+			every_controlled_state = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = GEH_state_government
+					}
+				}
+				remove_dynamic_modifier = {
+					modifier = GEH_state_government
+				}
+			}
+			add_timed_idea = {
+				idea = GEH_state_government_remove_idea
+				days = 280
+			}
 		}
 	}
 	focus = {
 		id = GEH_Pandemonium_Society_Building_Control
-        text = GEM_take_control_of_pandemonium
+        #text = GEM_take_control_of_pandemonium
 		icon = GFX_focus_generic_improve_the_administration
 		cost = 4
 		available = {
@@ -2158,6 +2265,7 @@ focus_tree = {
 		icon = GFX_focus_generic_support_the_left_right
 		cost = 4
 		available = {
+            has_country_flag = GAEBALJUNG 
 		}
         prerequisite = { focus = GEH_Pandemonium_Society_Building_Control }
         prerequisite = { focus = GEH_Second_attack_plan }
@@ -2168,7 +2276,15 @@ focus_tree = {
 		x = 0
 		y = 2
 		completion_reward = {
-
+            custom_effect_tooltip = NextPhase_1_tt
+            set_country_flag = GEH_phase_two_begins_flag
+            hidden_effect = {
+		        load_focus_tree = {
+    			    tree = Sundobu_focus
+        		    keep_completed = yes
+    		    }
+	    	    mark_focus_tree_layout_dirty = yes
+            }
 		}
 	}
 }
