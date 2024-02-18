@@ -17357,6 +17357,9 @@ focus_tree = {
 			focus = POL_inter_10
 			focus = POL_inter_16
 		}
+		allow_branch = {
+			NOT = { has_government = communism }
+		}
 		x = 7
 		y = 7
 		cost = 5
@@ -17572,6 +17575,7 @@ focus_tree = {
 					NOT = {
 						any_owned_state = {
 							is_core_of = SLO
+							NOT = { is_core_of = POL }
 							compliance < 50
 						}
 					}
@@ -17590,6 +17594,7 @@ focus_tree = {
 					NOT = {
 						any_owned_state = {
 							is_core_of = CZE
+							NOT = { is_core_of = POL }
 							compliance < 50
 						}
 					}
@@ -17639,6 +17644,9 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = POL_inter_5
 			focus = POL_inter_16
+		}
+		allow_branch = {
+			NOT = { has_government = communism }
 		}
 		x = 12
 		y = 7
@@ -17901,6 +17909,9 @@ focus_tree = {
 			focus = POL_inter_10
 			focus = POL_inter_5
 		}
+		allow_branch = {
+			NOT = { has_government = communism }
+		}
 		x = 17
 		y = 7
 		cost = 5
@@ -18132,6 +18143,625 @@ focus_tree = {
 		}
 	}
 	focus = {
+		#진정한 혁명의 고향
+		id = POL_inter_com_1
+		icon = GFX_focus_generic_join_comintern
+		relative_position_id = POL_the_between_the_seas_concept
+		mutually_exclusive = {
+			focus = POL_inter_com_2
+		}
+		allow_branch = {
+			has_government = communism
+		}
+		x = 10
+		y = 7
+		cost = 5
+		available = {
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		prerequisite = {
+			focus = POL_inter_4
+		}
+		completion_reward = {
+			add_ideas = home_of_revolution
+			create_faction = POL_world_socialist_union
+			every_country = {
+				limit = {
+					is_ally_with = POL
+				}
+				add_stability = 0.1
+				add_popularity = {
+					ideology = communism
+					popularity = 0.1
+				}
+			}
+			POL = {
+				end_puppet = UKR
+				end_puppet = BLR
+			}
+			UKR = {
+				if = {
+					limit = { NOT = { has_government = communism } }
+					set_politics = {
+						ruling_party = communism
+						elections_allowed = no
+						last_election = "1936.1.1"
+						election_frequency = 48
+					}
+					add_popularity = {
+						ideology = communism
+						popularity = 0.4
+					}
+				}
+				add_ai_strategy = {
+					type = alliance
+					id = POL
+					value = 200
+				}
+			}
+			BLR = {
+				if = {
+					limit = { NOT = { has_government = communism } }
+					set_politics = {
+						ruling_party = communism
+						elections_allowed = no
+						last_election = "1936.1.1"
+						election_frequency = 48
+					}
+					add_popularity = {
+						ideology = communism
+						popularity = 0.4
+					}
+				}
+				add_ai_strategy = {
+					type = alliance
+					id = POL
+					value = 200
+				}
+			}
+		}
+	}
+	focus = {
+		#동유럽 사회주의 연방
+		id = POL_inter_com_2
+		icon = GFX_goal_generic_war_with_comintern
+		relative_position_id = POL_the_between_the_seas_concept
+		mutually_exclusive = {
+			focus = POL_inter_com_1
+		}
+		allow_branch = {
+			has_government = communism
+		}
+		x = 14
+		y = 7
+		cost = 5
+		available = {
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		prerequisite = {
+			focus = POL_inter_4
+		}
+		completion_reward = {
+			every_possible_country = {
+				limit = {
+					OR = {
+						is_subject_of = POL
+
+						AND = {
+							exists = no
+							if = {
+								limit = { is_dynamic_country = no }
+								capital_scope = {
+									is_owned_by = POL
+								}
+							}
+						}
+					}
+					
+					OR = {
+						tag = SLO
+						tag = CZE
+						tag = ABY
+						tag = HYA
+						tag = UKR
+						tag = BLR
+						tag = HUN
+					}
+				}
+				custom_effect_tooltip = POL_inter_com_2_tt
+				set_country_flag = integration_target_country
+			}
+			add_stability = -0.10
+			add_war_support = -0.10
+			annex_country = {
+				target = UKR
+			}
+			annex_country = {
+				target = BLR
+			}
+			set_cosmetic_tag = eastern_european_socialist_federation
+		}
+	}
+	focus = {
+		#'민족주의' 제거
+		id = POL_inter_com_3
+		icon = GFX_goal_generic_attack_allies
+		relative_position_id = POL_the_between_the_seas_concept
+		x = 13
+		y = 8
+		cost = 5
+		available = {
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		prerequisite = {
+			focus = POL_inter_com_2
+		}
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						is_core_of = UKR
+						is_core_of = BLR
+					}
+					NOT = { is_core_of = POL }
+				}
+				add_compliance = 15
+			}
+			every_country = {
+				limit = {	
+					is_subject_of = POL
+					has_country_flag = integration_target_country
+				}
+				add_autonomy_score = {
+					value = -100
+					localization = POL_inter_com_3
+				}
+			}
+			add_ideas = POL_nationalism_elimination
+		}
+	}
+	focus = {
+		#행정 중앙화
+		id = POL_inter_com_4
+		icon = GFX_focus_generic_soviet_politics
+		relative_position_id = POL_the_between_the_seas_concept
+		x = 15
+		y = 8
+		cost = 5
+		available = {
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		prerequisite = {
+			focus = POL_inter_com_2
+		}
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						is_core_of = UKR
+						is_core_of = BLR
+					}
+					NOT = { is_core_of = POL }
+				}
+				add_compliance = 30
+			}
+			every_owned_state = {
+				limit = {
+					NOT = { is_core_of = POL }
+				}
+				add_compliance = 15
+			}
+			every_country = {
+				limit = {	
+					is_subject_of = POL
+					has_country_flag = integration_target_country
+				}
+				add_autonomy_score = {
+					value = -100
+					localization = POL_inter_com_4
+				}
+			}
+			add_ideas = POL_capital_of_the_revolution
+		}
+	}
+	focus = {
+		#치안 조직 확대
+		id = POL_inter_com_5
+		icon = GFX_goal_generic_political_pressure
+		relative_position_id = POL_the_between_the_seas_concept
+		x = 15
+		y = 9
+		cost = 5
+		available = {
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		prerequisite = {
+			focus = POL_inter_com_3
+			focus = POL_inter_com_4
+		}
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					NOT = { is_core_of = POL }
+				}
+				add_compliance = 15
+			}
+		}
+	}
+	focus = {
+		#정치적 선전
+		id = POL_inter_com_6
+		icon = GFX_goal_generic_propaganda
+		relative_position_id = POL_the_between_the_seas_concept
+		x = 13
+		y = 9
+		cost = 5
+		available = {
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		prerequisite = {
+			focus = POL_inter_com_3
+			focus = POL_inter_com_4
+		}
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					OR = {
+						is_core_of = UKR
+						is_core_of = BLR
+					}
+					NOT = { is_core_of = POL }
+				}
+				add_compliance = 15
+			}
+			every_country = {
+				limit = {	
+					is_subject_of = POL
+					has_country_flag = integration_target_country
+				}
+				add_autonomy_score = {
+					value = -200
+					localization = POL_inter_com_5
+				}
+			}
+		}
+	}
+	focus = {
+		#사회주의 공화국 연방
+		id = POL_inter_com_7
+		icon = GFX_focus_SOV_the_supreme_soviet
+		relative_position_id = POL_the_between_the_seas_concept
+		x = 14
+		y = 10
+		cost = 5
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = POL_inter_com_7_trigger_tt1
+
+				if = {
+					limit = {
+						any_owned_state = {
+							is_core_of = UKR
+							NOT = { is_core_of = POL }
+						}
+					}
+					NOT = {
+						any_owned_state = {
+							is_core_of = UKR
+							NOT = { is_core_of = POL }
+							compliance < 50
+						}
+					}
+				}
+			}
+			custom_trigger_tooltip = {
+				tooltip = POL_inter_com_7_trigger_tt2
+
+				if = {
+					limit = {
+						any_owned_state = {
+							is_core_of = BLR
+							NOT = { is_core_of = POL }
+						}
+					}
+					NOT = {
+						any_owned_state = {
+							is_core_of = BLR
+							NOT = { is_core_of = POL }
+							compliance < 50
+						}
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		prerequisite = {
+			focus = POL_inter_com_6
+		}
+		prerequisite = {
+			focus = POL_inter_com_5
+		}
+		completion_reward = {
+			custom_effect_tooltip = POL_inter_com_7_tt
+			every_possible_country = {
+				limit = {
+					has_country_flag = integration_target_country
+					OR = {
+						tag = UKR
+						tag = BLR
+					}
+				}
+				every_state = {
+					limit = {
+						is_core_of = PREV
+						is_owned_by = POL
+					}
+					add_core_of = POL
+				}
+				every_state = {
+					limit = {
+						is_core_of = PREV
+						NOT = { is_owned_by = POL }
+					}
+					add_claim_by = POL
+				}
+			}
+			every_country = {
+				limit = {	
+					is_subject_of = POL
+					has_country_flag = integration_target_country
+				}
+				add_autonomy_score = {
+					value = -100
+					localization = POL_inter_com_7
+				}
+			}
+		}
+	}
+	focus = {
+		#동부유럽경제협력기구
+		id = POL_inter_com_8
+		icon = GFX_focus_SOV_the_comecon
+		relative_position_id = POL_the_between_the_seas_concept
+		x = 12
+		y = 11
+		cost = 5
+		available = {
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		prerequisite = {
+			focus = POL_inter_com_7
+		}
+		completion_reward = {
+		}
+	}
+	focus = {
+		#연방 확대
+		id = POL_inter_com_9
+		icon = GFX_focus_SOV_proclaim_soviet_hegemony
+		relative_position_id = POL_the_between_the_seas_concept
+		x = 14
+		y = 11
+		cost = 5
+		available = {
+			if = {
+				limit = {
+					NOT = {
+						SLO = { has_country_flag = integration_target_country }
+						CZE = { has_country_flag = integration_target_country }
+						ABY = { has_country_flag = integration_target_country }
+						HYA = { has_country_flag = integration_target_country }
+						HUN = { has_country_flag = integration_target_country }
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = POL_inter_com_7_trigger_tt0
+					always = no
+				}
+			}
+
+			if = {
+				limit = {
+					SLO = { has_country_flag = integration_target_country }
+				}
+				custom_trigger_tooltip = {
+					tooltip = POL_inter_com_7_trigger_tt3
+
+					if = {
+						limit = {
+							any_owned_state = {
+								is_core_of = SLO
+								NOT = { is_core_of = POL }
+							}
+						}
+						NOT = {
+							any_owned_state = {
+								is_core_of = SLO
+								NOT = { is_core_of = POL }
+								compliance < 75
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					CZE = { has_country_flag = integration_target_country }
+				}
+				custom_trigger_tooltip = {
+					tooltip = POL_inter_com_7_trigger_tt4
+
+					if = {
+						limit = {
+							any_owned_state = {
+								is_core_of = CZE
+								NOT = { is_core_of = POL }
+							}
+						}
+						NOT = {
+							any_owned_state = {
+								is_core_of = CZE
+								NOT = { is_core_of = POL }
+								compliance < 75
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					ABY = { has_country_flag = integration_target_country }
+				}
+				custom_trigger_tooltip = {
+					tooltip = POL_inter_com_7_trigger_tt5
+
+					if = {
+						limit = {
+							any_owned_state = {
+								is_core_of = ABY
+								NOT = { is_core_of = POL }
+							}
+						}
+						NOT = {
+							any_owned_state = {
+								is_core_of = ABY
+								NOT = { is_core_of = POL }
+								compliance < 75
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					HYA = { has_country_flag = integration_target_country }
+				}
+				custom_trigger_tooltip = {
+					tooltip = POL_inter_com_7_trigger_tt6
+
+					if = {
+						limit = {
+							any_owned_state = {
+								is_core_of = HYA
+								NOT = { is_core_of = POL }
+							}
+						}
+						NOT = {
+							any_owned_state = {
+								is_core_of = HYA
+								NOT = { is_core_of = POL }
+								compliance < 75
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					HUN = { has_country_flag = integration_target_country }
+				}
+				custom_trigger_tooltip = {
+					tooltip = POL_inter_com_7_trigger_tt7
+
+					if = {
+						limit = {
+							any_owned_state = {
+								is_core_of = HUN
+								NOT = { is_core_of = POL }
+							}
+						}
+						NOT = {
+							any_owned_state = {
+								is_core_of = HUN
+								NOT = { is_core_of = POL }
+								compliance < 75
+							}
+						}
+					}
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		prerequisite = {
+			focus = POL_inter_com_7
+		}
+		completion_reward = {
+			custom_effect_tooltip = POL_inter_com_9_tt
+			every_possible_country = {
+				limit = {
+					has_country_flag = integration_target_country
+				}
+				every_state = {
+					limit = {
+						is_core_of = PREV
+						is_owned_by = POL
+					}
+					add_core_of = POL
+				}
+				every_state = {
+					limit = {
+						is_core_of = PREV
+						NOT = { is_owned_by = POL }
+					}
+					add_claim_by = POL
+				}
+			}
+		}
+	}
+	focus = {
+		#서부 공세
+		id = POL_inter_com_0
+		icon = GFX_goal_generic_war_with_comintern
+		relative_position_id = POL_the_between_the_seas_concept
+		x = 12
+		y = 12
+		cost = 5
+		available = {
+		}
+		ai_will_do = {
+			factor = 10
+		}
+		prerequisite = {
+			focus = POL_inter_com_8
+		}
+		completion_reward = {
+			declare_war_on = {
+				target = TRM
+				type = puppet_wargoal_focus
+			}
+			set_country_flag = POL_started_trm_war
+			hidden_effect = {
+				load_focus_tree = {
+					tree = polish_focus
+					keep_completed = yes
+				}
+				mark_focus_tree_layout_dirty = yes
+				country_event = {
+					id = BA_pol_event.11
+					days = 1
+				}
+			}
+		}
+	}
+	focus = {
 		#전시 동원령
 		id = POL_inter_25
 		icon = GFX_focus_generic_limited_social_mobilization
@@ -18145,6 +18775,7 @@ focus_tree = {
 		prerequisite = {
 			focus = POL_inter_24
 			focus = POL_inter_23
+			focus = POL_inter_com_0
 		}
 		ai_will_do = {
 			factor = 10
