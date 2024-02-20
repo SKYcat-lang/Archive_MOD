@@ -108,6 +108,35 @@ FRA_industrialize = {
 		days_remove = 50
 		cost = var:FRA_propaganda
 	}
+	FRA_press_propaganda_fas = {
+		ai_will_do = {
+			base = 5
+			modifier = {
+				fascism < 0.3
+				factor = 100
+			}
+		}
+		icon = GFX_decision_eng_trade_unions_support
+		allowed = {
+			original_tag = FRA
+		}
+		visible = {
+			check_variable = {
+				FRA_dec > 0
+			}
+			has_government = fascism
+		}
+		modifier = {
+			fascism_drift = 0.8
+		}
+		complete_effect = {
+			add_to_variable = {
+				FRA_propaganda = 5
+			}
+		}
+		days_remove = 50
+		cost = var:FRA_propaganda
+	}
 	FRA_suppression_demo = {
 		ai_will_do = {
 			modifier = {
@@ -1911,7 +1940,7 @@ FRA_political_wigi = {
 			has_completed_focus = FRA_focus_fas_2
 		}
 		is_good = no
-		days_mission_timeout = 50
+		days_mission_timeout = 100
 		timeout_effect = {
 			add_stability = -0.3
 			add_popularity = {
@@ -3220,6 +3249,13 @@ FRA_indochina_issue = {
 			hidden_effect={
 				LAO = {
 					transfer_state = 286
+					set_politics = {
+						ruling_party = fascism
+					}
+					add_popularity = {
+						ideology = fascism
+						popularity = 1
+					}
 					set_cosmetic_tag = VIN_indochina_civilwar_jap
 					every_state = {
 						limit = {

@@ -1438,10 +1438,19 @@ focus_tree = {
 		icon = GFX_goal_FRA_nationalism_spain
 		id = FRA_focus_spain_2
 		cost = 2
-		x = 17
+		x = 18
 		y = 10
 		ai_will_do = {
 			factor = 100
+		}
+		available = {
+			any_country = {
+				OR = {
+					original_tag = SPA
+					original_tag = SPR
+				}
+				has_civil_war = yes
+			}
 		}
 		mutually_exclusive = {
 			focus = FRA_focus_spain_3
@@ -1467,10 +1476,19 @@ focus_tree = {
 		icon = GFX_goal_FRA_republic_spain_ally
 		id = FRA_focus_spain_3
 		cost = 2
-		x = 13
+		x = 16
 		y = 10
 		ai_will_do = {
 			factor = 0
+		}
+		available = {
+			any_country = {
+				OR = {
+					original_tag = SPA
+					original_tag = SPR
+				}
+				has_civil_war = yes
+			}
 		}
 		mutually_exclusive = {
 			focus = FRA_focus_spain_2
@@ -1504,7 +1522,7 @@ focus_tree = {
 		icon = GFX_focus_POL_sanation_right
 		id = FRA_focus_spain_4
 		cost = 1
-		x = 15
+		x = 17
 		y = 11
 		prerequisite = {
 			focus = FRA_focus_spain_3
@@ -1515,6 +1533,67 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_political_power = 50
+		}
+	}
+	focus = {
+		#독일과의 협력
+		icon = GFX_focus_POL_sanation_right
+		id = FRA_focus_german_0
+		cost = 1
+		x = 13
+		y = 8
+		prerequisite = {
+		}
+		available = {
+			has_idea = GEN_send_volunteers_idea
+		}
+		completion_reward = {
+			add_political_power = 50
+			add_ai_strategy = {
+				type = send_volunteers_desire
+				id = GEN
+				value = 200
+			}
+			add_ai_strategy = {
+				type = send_volunteers_desire
+				id = GEA
+				value = 200
+			}
+			add_timed_idea = {
+				idea = FRA_german_scientist
+				days = 720
+			}
+			GEN = {
+				country_event = {
+					id = FRA_prov_event.47
+					days = 3
+				}
+			}
+		}
+	}
+	focus = {
+		#독일과의 협력
+		icon = GFX_focus_POL_sanation_right
+		id = FRA_focus_german_1
+		cost = 2
+		x = 15
+		y = 9
+		prerequisite = {
+			focus = FRA_focus_german_0
+			focus = FRA_focus_spain_civilwar
+		}
+		available = {
+			NOT = {
+				is_embargoing = ITA
+			}
+		}
+		completion_reward = {
+			ITA = {
+				diplomatic_relation = {
+					country = FRA
+					relation = non_aggression_pact
+				}
+			}
 		}
 	}
 	focus = {
@@ -3265,7 +3344,6 @@ focus_tree = {
 		y = 9
 		prerequisite = {
 			focus = FRA_focus_con_1
-			focus = FRA_focus_fas_2
 		}
 		completion_reward = {
 			add_political_power = 50
@@ -3322,7 +3400,7 @@ focus_tree = {
 		y = 8
 		prerequisite = {
 			focus = FRA_focus_con_2
-			focus = FRA_focus_con_0.5
+			focus = FRA_focus_con_0
 		}
 		completion_reward = {
 			add_war_support = 0.2
@@ -3381,11 +3459,11 @@ focus_tree = {
 			add_ideas = FRA_fascist_movement
 			add_popularity = {
 				ideology = fascism
-				popularity = -0.15
+				popularity = -0.1
 			}
 			add_popularity = {
 				ideology = communism
-				popularity = 0.15
+				popularity = 0.1
 			}
 			set_party_name = {
 				ideology = fascism
