@@ -108,6 +108,35 @@ FRA_industrialize = {
 		days_remove = 50
 		cost = var:FRA_propaganda
 	}
+	FRA_press_propaganda_fas = {
+		ai_will_do = {
+			base = 5
+			modifier = {
+				fascism < 0.3
+				factor = 100
+			}
+		}
+		icon = GFX_decision_eng_trade_unions_support
+		allowed = {
+			original_tag = FRA
+		}
+		visible = {
+			check_variable = {
+				FRA_dec > 0
+			}
+			has_government = fascism
+		}
+		modifier = {
+			fascism_drift = 0.8
+		}
+		complete_effect = {
+			add_to_variable = {
+				FRA_propaganda = 5
+			}
+		}
+		days_remove = 50
+		cost = var:FRA_propaganda
+	}
 	FRA_suppression_demo = {
 		ai_will_do = {
 			modifier = {
@@ -1911,7 +1940,7 @@ FRA_political_wigi = {
 			has_completed_focus = FRA_focus_fas_2
 		}
 		is_good = no
-		days_mission_timeout = 50
+		days_mission_timeout = 100
 		timeout_effect = {
 			add_stability = -0.3
 			add_popularity = {
@@ -3200,7 +3229,7 @@ FRA_division_decision_category = {
 }
 FRA_indochina_issue = {
 	FRA_near_japan_intervention_indochina = { #임박한 일본의 개입
-		days_mission_timeout = 150
+		days_mission_timeout = 120
 		icon = GFX_decision_jap_pacific_guardian
 		is_good = no
 		available = {
@@ -3220,20 +3249,62 @@ FRA_indochina_issue = {
 			hidden_effect={
 				LAO = {
 					transfer_state = 286
-					set_cosmetic_tag = VIN_indochina_civilwar_jap
-					every_country = {
-						limit = {
-							original_tag = VIN
-						}
-						declare_war_on = {
-							target = prev
-						}
+					set_politics = {
+						ruling_party = fascism
 					}
+					add_popularity = {
+						ideology = fascism
+						popularity = 1
+					}
+					set_cosmetic_tag = VIN_indochina_civilwar_jap
 					every_state = {
 						limit = {
 							is_core_of = VIN
 						}
 						add_core_of = LAO
+					}
+					division_template = {
+						name = "Vietnam Militia"
+						regiments = {
+							infantry = {
+								x = 0
+								y = 0
+							}
+							infantry = {
+								x = 0
+								y = 1
+							}
+							infantry = {
+								x = 0
+								y = 2
+							}
+							infantry = {
+								x = 1
+								y = 0
+							}
+						}
+					}
+					random_owned_state = {
+						create_unit = {
+							division = "name = \"Militia\" division_template = \"Vietnam Militia\" start_experience_factor = 0.2"
+							owner = LAO
+						}
+						create_unit = {
+							division = "name = \"Militia\" division_template = \"Vietnam Militia\" start_experience_factor = 0.2 start_equipment_factor = 0.7"
+							owner = LAO
+						}
+						create_unit = {
+							division = "name = \"Militia\" division_template = \"Vietnam Militia\" start_experience_factor = 0.2 start_equipment_factor = 0.7"
+							owner = LAO
+						}
+						create_unit = {
+							division = "name = \"Militia\" division_template = \"Vietnam Militia\" start_experience_factor = 0.2 start_equipment_factor = 0.7"
+							owner = LAO
+						}
+						create_unit = {
+							division = "name = \"Militia\" division_template = \"Vietnam Militia\" start_experience_factor = 0.2 start_equipment_factor = 0.7"
+							owner = LAO
+						}
 					}
 				}
 				JAP = {
@@ -3361,8 +3432,9 @@ FRA_indochina_issue = {
 	FRA_indochina_going_bad = { #심화되어가는 식민지인 저항
 		icon = GFX_decision_revolt
 		days_mission_timeout = 80
-		available = {
-			has_country_flag = FRA_has_indochina_war
+		available = {OR=
+			{has_country_flag = FRA_has_indochina_war
+			has_country_flag = FRA_finished_vin_cirisis}
 		}
 		activation = {
 			always = no
@@ -3371,11 +3443,109 @@ FRA_indochina_issue = {
 		timeout_effect = {
 			VIN = {
 				VIN_upgrade_resist = yes
-				add_stability = -0.1
+				add_stability = -0.01
 			}
 			activate_mission = FRA_indochina_going_bad
 		}
 		priority = 100
+	}
+	FRA_make_vin_colony = { #총독부 통제권 확보
+		icon = GFX_decision_hol_draw_up_staff_plans
+		cost = 100
+		available = {
+			dockyard > 19
+			has_stability > 0.4
+		}
+		visible = {
+			has_country_flag = FRA_indochina_make_colony
+		}
+		days_remove = 50
+		remove_effect = {
+			VIN = {
+				swap_ideas = {
+					remove_idea = FRA_government_general_1
+					add_idea = FRA_government_general_2
+				}
+			}
+			set_country_flag = FRA_finished_vin_cirisis
+			remove_mission = FRA_indochina_going_bad
+			clr_global_flag = VIN_has_crisis
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			base = 10
+		}
+	}
+	FRA_make_vin_dominion = { #현지인 자치권 부여
+		icon = GFX_decision_SWI_swiss_democratic_tradition_campaign
+		cost = 100
+		visible = {
+			has_country_flag = FRA_indochina_make_dominion
+		}
+		days_remove = 50
+		remove_effect = {
+			VIN = {
+				remove_ideas = FRA_government_general_1
+				add_popularity = {
+					ideology = neutrality
+					popularity = -0.1
+				}
+				set_politics = {
+					ruling_party = neutrality
+					election_frequency = 36
+					elections_allowed = yes
+				}
+				set_party_name = {
+					ideology = neutrality
+					long_name = VIN_neutrality_party_new
+					name = VIN_neutrality_party_new
+				}
+				set_cosmetic_tag = VIN_dominion_cosmetic_tag
+			}
+			FRA = {
+				set_autonomy = {
+					target = VIN
+					autonomy_state = autonomy_dominion
+				}
+				remove_resource_rights = 671
+				remove_resource_rights = 286
+			}
+			clr_global_flag = VIN_has_crisis
+			set_country_flag = FRA_finished_vin_cirisis
+			remove_mission = FRA_indochina_going_bad
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			base = 10
+		}
+	}
+	FRA_help_vin_afterwar = { #재건 지원
+		ai_will_do = {
+			base = 10
+		}
+		icon = GFX_decision_generic_construction
+		cost = 100
+		visible = {
+			has_country_flag = FRA_indochina_support_rebuild
+		}
+		days_remove = 250
+		modifier = {
+			consumer_goods_expected_value = 0.08
+		}
+		remove_effect = {
+			VIN = {
+				remove_ideas = VIN_fucked_up
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.1
+				}
+			}
+			set_country_flag = FRA_has_indochina_issue
+			unlock_decision_tooltip = FRA_more_resource_indochina
+			unlock_decision_tooltip = FRA_more_industry_indochina
+			unlock_decision_tooltip = FRA_more_arms_factory_indochina
+		}
+		fire_only_once = yes
 	}
 	FRA_more_security_indochina = { #식민지 치안 강화
 		icon = GFX_decision_generic_army_support
@@ -3384,6 +3554,9 @@ FRA_indochina_issue = {
 			has_country_flag = FRA_has_indochina_issue
 		}
 		available = {
+			NOT = {
+				has_country_flag = FRA_VIN_anti_resist_action
+			}
 			VIN = {
 				OR = {
 					has_idea = VIN_colonists_resist_1
@@ -3430,6 +3603,9 @@ FRA_indochina_issue = {
 			has_country_flag = FRA_has_indochina_issue
 		}
 		available = {
+			NOT = {
+				has_country_flag = FRA_VIN_anti_resist_action
+			}
 			VIN = {
 				OR = {
 					has_idea = VIN_colonists_resist_1
@@ -3475,6 +3651,9 @@ FRA_indochina_issue = {
 			has_country_flag = FRA_has_indochina_issue
 		}
 		available = {
+			NOT = {
+				has_country_flag = FRA_VIN_anti_resist_action
+			}
 			VIN = {
 				OR = {
 					has_idea = VIN_colonists_resist_1
@@ -3486,9 +3665,6 @@ FRA_indochina_issue = {
 		days_remove = 60
 		days_re_enable = 60
 		cost = FRA_VIN_autonomy_cost
-		modifier = {
-			consumer_goods_expected_value = 0.05
-		}
 		complete_effect = {
 			add_to_variable = {
 				FRA_VIN_autonomy_cost = 5

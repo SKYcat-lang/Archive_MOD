@@ -517,6 +517,12 @@ KSP_war_plans = {
 	KSP_war_for_the_survival_of_our_school_de = {
 		icon = GFX_decision_generic_intelligence_operation
 		cost = 0
+		visible = {
+			OR = {
+				has_defensive_war = yes
+				is_debug = yes
+			}
+		}
 		available = {
 			has_defensive_war = yes
 		}
@@ -533,7 +539,7 @@ KSP_war_plans = {
 		icon = none
 		cost = 50
 		available = {
-			has_defensive_war = yes
+			has_war = yes
 		}
 		days_remove = 70
 
@@ -558,8 +564,13 @@ KSP_war_plans = {
 	KSP_war_plans_defence = {
 		icon = GFX_decision_generic_civil_support
 		cost = 50
+		visible = {
+			OR = {
+				has_defensive_war = yes
+				is_debug = yes
+			}
+		}
 		available = {
-			has_defensive_war = yes
 			NOT = {
 				has_country_flag = KSP_using_war_plans
 			}
@@ -597,8 +608,13 @@ KSP_war_plans = {
 	KSP_war_plans_lingering = {
 		icon = GFX_decision_eng_blackshirt_march
 		cost = 50
+		visible = {
+			OR = {
+				has_defensive_war = yes
+				is_debug = yes
+			}
+		}
 		available = {
-			has_defensive_war = yes
 			NOT = {
 				has_country_flag = KSP_using_war_plans
 			}
@@ -637,8 +653,13 @@ KSP_war_plans = {
 	KSP_war_plans_true_patriots = {
 		icon = GFX_decision_eng_blackshirt_speech
 		cost = 50
+		visible = {
+			OR = {
+				has_defensive_war = yes
+				is_debug = yes
+			}
+		}
 		available = {
-			has_defensive_war = yes
 			NOT = {
 				has_country_flag = KSP_using_war_plans
 			}
@@ -678,8 +699,13 @@ KSP_war_plans = {
 	KSP_war_plans_our_offence_this_time = {
 		icon = GFX_decision_generic_ignite_civil_war
 		cost = 50
+		visible = {
+			OR = {
+				has_defensive_war = yes
+				is_debug = yes
+			}
+		}
 		available = {
-			has_defensive_war = yes
 			NOT = {
 				has_country_flag = KSP_using_war_plans
 			}
@@ -721,8 +747,11 @@ KSP_war_plans = {
 	KSP_fortify_river_lines = {
 		icon = GFX_decision_hol_draw_up_staff_plans
 		cost = 50
-		available = {
-			has_defensive_war = yes
+		visible = {
+			OR = {
+				has_defensive_war = yes
+				is_debug = yes
+			}
 		}
 		days_remove = 35
 
@@ -764,8 +793,13 @@ KSP_war_plans = {
 	KSP_move_capital = {
 		icon = GFX_decision_generic_operation
 		cost = 0
+		visible = {
+			OR = {
+				has_defensive_war = yes
+				is_debug = yes
+			}
+		}
 		available = {
-			has_defensive_war = yes
 			has_war_with = SHE
 			34 = {
 				is_controlled_by = KSP
@@ -817,19 +851,31 @@ KSP_war_plans = {
 
 		fire_only_once = yes
 	}
-	KSP_train_new_students = {
-		icon = none
-		cost = 0
-		available = {
+}
+
+# 교정국 관련 디시전 중점
+KSP_pokemon_archive = {
+	KSP_pokemon_correct_nanagami_rin = {
+		icon = generic_political_pressure
+		cost = 25
+
+		visible = {
 			OR = {
-				has_war = yes
+				7 = {
+					is_controlled_by = KSP			
+				}
 				is_debug = yes
 			}
 		}
-		days_remove = 35
 
-		modifier = {
-			political_power_cost = 0.50
+		available = {			
+			has_completed_focus = KSP_correction_education
+			7 = {
+				is_controlled_by = KSP			
+			}
+			NOT = {
+				country_exists = COU
+			}
 		}
 
 		ai_will_do = {
@@ -837,28 +883,609 @@ KSP_war_plans = {
 		}
 
 		remove_effect = {
-			if = {
-				limit = { 
-					NOT = {
-						has_idea = KSP_spread_out_officers_empty
-					}
-					check_variable = { KSP_spread_out_officers_conscription_factor < -0.05 } 
+			country_event = { id = KSP_event.103 }			
+			set_country_flag = KSP_pokemon_correct_nanagami_rin_flag
+		}
+
+
+		fire_only_once = yes
+	}
+
+	KSP_pokemon_correct_ayumu = {
+		icon = generic_political_pressure
+		cost = 25
+
+		visible = {
+			OR = {
+				7 = {
+					is_controlled_by = KSP			
 				}
-				add_to_variable = { KSP_spread_out_officers_conscription_factor = 0.05 }
-				custom_effect_tooltip = KSP_train_new_students_ns_tt
-			}
-			if = {
-				limit = { check_variable = { KSP_spread_out_officers_conscription_factor = -0.05 } }
-				remove_dynamic_modifier = {
-					modifier = KSP_spread_out_officers
-				}
-			}
-			if = {
-				limit = { has_idea = KSP_spread_out_officers_empty }
-				custom_effect_tooltip = KSP_train_new_students_ns_tt
+				is_debug = yes
 			}
 		}
 
-		days_re_enable = 20
+		available = {
+			has_completed_focus = KSP_correction_education
+			7 = {
+				is_controlled_by = KSP			
+			}
+			NOT = {
+				country_exists = COU
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		remove_effect = {
+			set_country_flag = KSP_pokemon_correct_ayumu_flag
+		}
+
+		fire_only_once = yes
 	}
+
+	KSP_pokemon_correct_aoi = {
+		icon = generic_political_pressure
+		cost = 25
+
+		visible = {
+			OR = {
+				7 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+		}
+
+		available = {
+			has_completed_focus = KSP_correction_education
+			7 = {
+				is_controlled_by = KSP			
+			}
+			NOT = {
+				country_exists = COU
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		remove_effect = {
+			set_country_flag = KSP_pokemon_correct_aoi_flag
+		}
+
+		fire_only_once = yes
+	}
+
+	KSP_pokemon_correct_kaya = {
+		icon = generic_political_pressure
+		cost = 25
+
+		visible = {
+			OR ={
+				7 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+		}
+
+		available = {
+			has_completed_focus = KSP_correction_education
+			7 = {
+				is_controlled_by = KSP			
+			}
+			NOT = {
+				country_exists = COU
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		remove_effect = {
+			set_country_flag = KSP_pokemon_correct_kaya_flag
+		}
+
+		fire_only_once = yes
+	}
+
+	KSP_pokemon_correct_momoka = {
+		icon = generic_political_pressure
+		cost = 25
+
+		visible = {
+			OR ={
+				7 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+		}
+
+		available = {
+			has_completed_focus = KSP_correction_education
+			7 = {
+				is_controlled_by = KSP			
+			}
+			NOT = {
+				country_exists = COU
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		remove_effect = {
+			set_country_flag = KSP_pokemon_correct_momoka_flag
+		}
+
+		fire_only_once = yes
+	}
+
+	KSP_pokemon_correct_abydos = {
+		icon = generic_political_pressure
+		cost = 50
+
+		visible = {
+			OR ={
+				935 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			NOT = {
+				country_exists = ABY
+			}
+		}
+
+		available = {
+			has_completed_focus = KSP_correction_education
+			OR ={
+				935 = {
+					is_controlled_by = KSP			
+				}
+			}
+			NOT = {
+				country_exists = ABY
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		days_remove = 30
+
+		remove_effect = {
+			country_event = { id = KSP_event.110 }
+		}
+
+		fire_only_once = yes
+	}
+
+	KSP_pokemon_correct_gehenna = {
+		icon = generic_political_pressure
+		cost = 50
+
+		visible = {
+			OR ={
+				52 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = GEM
+				}
+				NOT = {
+					country_exists = GEH
+				}
+			}
+		}
+
+		available = {
+			has_completed_focus = KSP_correction_education
+			OR ={
+				52 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = GEM
+				}
+				NOT = {
+					country_exists = GEH
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		days_remove = 30
+
+		remove_effect = {
+			country_event = { id = KSP_event.106 }
+		}
+
+		fire_only_once = yes
+	}
+
+	KSP_pokemon_correct_pandemonium = {
+		icon = generic_political_pressure
+		cost = 50
+
+		visible = {
+			OR ={
+				55 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = GEM
+				}
+				NOT = {
+					country_exists = GEH
+				}
+			}
+		}
+
+		available = {
+			has_completed_focus = KSP_correction_education
+			OR ={
+				55 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = GEM
+				}
+				NOT = {
+					country_exists = GEH
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		days_remove = 30
+
+		remove_effect = {
+			country_event = { id = KSP_event.107 }
+		}
+
+		fire_only_once = yes
+	}
+
+	KSP_pokemon_correct_millenium = {
+		icon = generic_political_pressure
+		cost = 50
+
+		visible = {
+			OR ={
+				16 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = MIL
+				}
+			}
+		}
+
+		available = {
+			has_completed_focus = KSP_correction_education
+			OR ={
+				16 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = MIL
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		days_remove = 30
+
+		remove_effect = {
+			country_event = { id = KSP_event.105 }			
+		}
+
+		fire_only_once = yes
+	}
+
+	KSP_pokemon_correct_white_ghost = {
+		icon = generic_political_pressure
+		cost = 50
+
+		visible = {
+			OR ={
+				9 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = HYA
+				}
+			}
+		}
+
+		available = {
+			has_completed_focus = KSP_correction_education
+			OR ={
+				9 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = HYA
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		days_remove = 30
+
+		remove_effect = {
+			country_event = { id = KSP_event.109 }
+		}
+
+		fire_only_once = yes
+	}
+
+	KSP_pokemon_correct_chinese_mountain = {
+		icon = generic_political_pressure
+		cost = 50
+
+		visible = {
+			OR ={
+				4 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = SHA
+				}
+			}
+		}
+
+		available = {
+			has_completed_focus = KSP_correction_education
+			OR ={
+				4 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = SHA
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		days_remove = 30
+
+		remove_effect = {
+			country_event = { id = KSP_event.108 }
+		}
+
+		fire_only_once = yes
+	}
+
+	KSP_pokemon_correct_redwinter = {
+		icon = generic_political_pressure
+		cost = 50
+
+		visible = {
+			OR ={
+				141 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = RED
+				}
+			}
+		}
+
+		available = {
+			has_completed_focus = KSP_correction_education
+			OR ={
+				141 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = RED
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		days_remove = 30
+
+		remove_effect = {
+			country_event = { id = KSP_event.113 }
+		}
+
+		fire_only_once = yes
+	}
+
+	KSP_pokemon_correct_trinity = {
+		icon = generic_political_pressure
+		cost = 50
+
+		visible = {
+			OR ={
+				64 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = TRM
+				}
+			}
+		}
+
+		available = {
+			has_completed_focus = KSP_correction_education
+			OR ={
+				64 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = TRM
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		days_remove = 30
+
+		remove_effect = {
+			country_event = { id = KSP_event.111 }
+		}
+
+		fire_only_once = yes
+	}	
+
+	KSP_pokemon_correct_arius = {
+		icon = generic_political_pressure
+		cost = 50
+
+		visible = {
+			OR ={
+				85 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = ARI
+				}
+			}
+		}
+
+		available = {
+			has_completed_focus = KSP_correction_education
+			OR ={
+				85 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = ARI
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		days_remove = 30
+
+		remove_effect = {
+			country_event = { id = KSP_event.112 }
+		}
+
+		fire_only_once = yes
+	}	
+
+	KSP_pokemon_correct_srt = {
+		icon = generic_political_pressure
+		cost = 50
+
+		visible = {
+			OR ={
+				14 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+		}
+
+		available = {
+			has_completed_focus = KSP_correction_education
+			OR ={
+				14 = {
+					is_controlled_by = KSP			
+				}
+				is_debug = yes
+			}
+			AND = {
+				NOT = {
+					country_exists = SRT
+				}
+			}
+		}
+
+		ai_will_do = {
+			base = 40
+		}
+
+		days_remove = 30
+
+		remove_effect = {
+			country_event = { id = KSP_event.104 }
+		}
+
+		fire_only_once = yes
+	}	
 }
