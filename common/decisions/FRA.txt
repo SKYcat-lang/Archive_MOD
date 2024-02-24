@@ -2869,7 +2869,17 @@ FRA_propaganda = {
 		cost = 15
 		modifier = {
 			consumer_goods_factor = -0.3
-			production_speed_arms_factory_factor = 0.15
+		}
+		remove_effect = {
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = FRA_national_defense_bond_idea_2
+					add_idea = FRA_national_defense_bond_idea_1
+				}
+			}
+			add_to_variable = {
+				FRA_national_defense_bond_political_power_variable = -0.1
+			}
 		}
 		available = {
 			custom_trigger_tooltip = {
@@ -2885,6 +2895,9 @@ FRA_propaganda = {
 						has_country_flag = FRA_propaganda_7_flag
 					}
 				}
+			}
+			has_dynamic_modifier = {
+				modifier = FRA_national_defense_bond
 			}
 		}
 	}
@@ -2960,6 +2973,7 @@ FRA_propaganda = {
 			production_factory_efficiency_gain_factor = 0.1
 			industrial_capacity_factory = 0.1
 			production_speed_industrial_complex_factor = 0.15
+			production_speed_arms_factory_factor = 0.15
 		}
 	}
 }
@@ -3787,6 +3801,97 @@ FRA_indochina_issue = {
 		}
 		ai_will_do = {
 			base = 1
+		}
+	}
+}
+FRA_defense_bond_cat = {
+	FRA_start_defense_bond = {
+		ai_will_do = {
+			base = 5
+		}
+		icon = GFX_decision_ger_mefo_bills
+		visible = {
+			has_completed_focus = FRA_focus_ind
+			OR={
+			NOT = {
+				has_dynamic_modifier = {
+					modifier = FRA_national_defense_bond
+				}
+			}
+			has_country_flag = FRA_defense_bond_no_flag
+			}
+		}
+		days_re_enable = 3
+		remove_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_dynamic_modifier = {
+							modifier = FRA_national_defense_bond
+						}
+					}
+				}
+				add_dynamic_modifier = {
+					modifier = FRA_national_defense_bond
+				}
+				activate_mission = FRA_update_defense_bond
+			}
+			else = {
+				clr_country_flag = FRA_defense_bond_no_flag
+			}
+		}
+	}
+	FRA_end_defense_bond = { #국방 채권 지불
+		ai_will_do = {
+			base = 0
+		}
+		icon = GFX_decision_ger_mefo_bills
+		visible = {
+			has_completed_focus = FRA_focus_ind
+			AND={has_dynamic_modifier = {
+				modifier = FRA_national_defense_bond
+			}
+			NOT={has_country_flag = FRA_defense_bond_no_flag}}
+		}
+		days_re_enable = 3
+		remove_effect = {
+			set_country_flag = FRA_defense_bond_no_flag
+		}
+	}
+	FRA_update_defense_bond = {
+		icon = GFX_decision_ger_mefo_bills
+		available = {
+			always = no
+		}
+		activation = {
+			always = no
+		}
+		days_mission_timeout = 180
+		timeout_effect = {
+			if = {
+				limit = {
+					has_country_flag = FRA_defense_bond_no_flag
+				}
+				remove_dynamic_modifier = {
+					modifier = FRA_national_defense_bond
+				}
+				clr_country_flag = FRA_defense_bond_no_flag
+				multiply_variable = {
+					FRA_national_defense_bond_political_power_variable = 200
+				}
+			}
+			else = {
+				effect_tooltip = {
+					swap_ideas = {
+						remove_idea = FRA_national_defense_bond_idea_1
+						add_idea = FRA_national_defense_bond_idea_2
+					}
+				}
+				add_to_variable = {
+					FRA_national_defense_bond_political_power_variable = 0.1
+				}
+				activate_mission = FRA_update_defense_bond
+			}
 		}
 	}
 }
