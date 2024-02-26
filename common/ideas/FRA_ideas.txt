@@ -395,12 +395,18 @@ ideas = {
 				democratic_drift = 0.05
 			}
 		}
-		FRA_con_company_agri = {
+		FRA_con_company_agri = { #기업적 농업
 			picture = LIT_invested_in_farms
 			modifier = {
-				local_manpower = 0.1
-				conscription = 0.015
+				local_manpower = 0.2
 				production_speed_infrastructure_factor = 0.1
+			}
+		}
+		FRA_con_hegemonism = { #프랑스 패권주의
+			picture = SWE_land_air_warfare
+			modifier = {
+				war_stability_factor = 0.2
+				naval_invasion_prep_speed = 0.15
 			}
 		}
 		FRA_con_free_market_1 = {
@@ -1433,7 +1439,7 @@ ideas = {
 		}
 		FRA_resist_strike = {
 			#아프리카인 총파업
-			picture = FRA_factory_strikes
+			picture = citizen_militia_2
 			allowed = {
 				original_tag = fra
 			}
@@ -1525,9 +1531,25 @@ ideas = {
 				naval_invasion_penalty = -0.5
 			}
 		}
+		FRA_interventionism = { #개입주의
+			picture = FRA_scw_intervention_nationalists_focus
+			modifier = {
+				send_volunteer_divisions_required = -0.9
+				send_volunteer_size = 8
+				send_volunteers_tension = -1
+			}
+			rule = {
+				can_send_volunteers = yes
+			}
+			available = {
+				NOT = {
+					has_war_with = MIL
+				}
+			}
+		}
 		FRA_spciv = {
-			#내전 개입
-			picture = eng_imperial_conscription
+			#공화파와 함께
+			picture = SPA_maquis
 			allowed = {
 				original_tag = FRA
 			}
@@ -1547,55 +1569,101 @@ ideas = {
 					}
 				}
 			}
-			modifier = {
-				send_volunteer_divisions_required = -0.9
-				send_volunteer_size = 12
-				send_volunteers_tension = -1
-			}
-			rule = {
-				can_send_volunteers = yes
+			targeted_modifier = {
+				tag = SPA
+				attack_bonus_against = 0.05
 			}
 		}
-		FRA_MIL_strike = {
-			#총파업
-			picture = FRA_factory_strikes
+		FRA_spciv_d02 = {
+			#국민파와 함께
+			picture = SPR_nationalist_remnants
 			allowed = {
-				tag = MIL
+				original_tag = FRA
 			}
-			modifier = {
-				resistance_growth = 0.2
-				consumer_goods_factor = 0.9
+			available = {
+				OR = {
+					SPA = {
+						OR = {
+							has_war = yes
+							has_civil_war = yes
+						}
+					}
+					SPR = {
+						OR = {
+							has_war = yes
+							has_civil_war = yes
+						}
+					}
+				}
+			}
+			targeted_modifier = {
+				tag = SPR
+				attack_bonus_against = 0.05
 			}
 		}
-		FRA_MIL_red_terror = {
-			#적색테러
-			picture = FRA_scw_intervention_republicans_focus
-			allowed = {
-				tag = MIL
-			}
-			modifier = {
-				communism_drift = 0.18
+		FRA_support_ETH = { #에티오피아 지원
+			picture = ETH_the_common_soldier
+			targeted_modifier = {
+				tag = ITA
+				defense_bonus_against = 0.05
 			}
 		}
-		FRA_MIL_riot = {
-			#소요사태
-			picture = FRA_matignon_agreements
-			allowed = {
-				tag = MIL
-			}
-			modifier = {
-				conscription_factor = -0.5
+		FRA_support_RAJ = { #영국령 인도 지원
+			picture = raj_all_india_forward_bloc
+			targeted_modifier = {
+				tag = HND
+				attack_bonus_against = 0.1
 			}
 		}
-		FRA_MIL_nofix = {
-			#사보타주
-			picture = SPR_masters_of_our_own_fate
-			allowed = {
-				tag = MIL
+		FRA_stop_TRM = { #트리니티 저지
+			picture = MEX_politicised_army
+			targeted_modifier = {
+				tag = TRM
+				defense_bonus_against = 0.05
 			}
+		}
+		FRA_attack_GEH = { #게헨나 공격
+			picture = FRA_scw_intervention_nationalists_focus
+			targeted_modifier = {
+				tag = GEM
+				attack_bonus_against = 0.05
+			}
+			targeted_modifier = {
+				tag = GEH
+				attack_bonus_against = 0.05
+			}
+		}
+		FRA_invest_for_fra = { #프랑스 투자
+			picture = generic_goods_red_bonus
 			modifier = {
-				industry_repair_factor = -0.2
-				industrial_capacity_factory = -0.2
+				political_power_gain = 0.5
+				civilian_factory_use = 3
+			}
+		}
+		FRA_invest_from_usa = { #미국의 투자
+			picture = chi_hyper_inflation2
+			modifier = {
+				production_speed_industrial_complex_factor = 0.25
+				research_speed_factor = 0.05
+			}
+		}
+		FRA_invest_from_eng = { #영국의 투자
+			picture = generic_navy_bonus
+			modifier = {
+				production_speed_dockyard_factor = 0.25
+				research_speed_factor = 0.05
+			}
+		}
+		FRA_invest_from_ita = { #이탈리아의 투자
+			picture = chi_army_corruption3
+			modifier = {
+				land_doctrine_cost_factor = -0.1
+			}
+			equipment_bonus = {
+				infantry_equipment = {
+					build_cost_ic = -0.05
+					instant = yes
+				}
 			}
 		}
 		FRA_MIL_propagation = {
@@ -1680,7 +1748,6 @@ ideas = {
 				resistance_growth = 0.5
 				compliance_growth = -0.5
 				monthly_population = -0.6
-				local_resources_factor = 0.25
 				conscription_factor = -0.7
 				war_support_weekly = -0.005
 			}
@@ -1704,7 +1771,6 @@ ideas = {
 				resistance_growth = 0.5
 				compliance_growth = -0.5
 				monthly_population = -0.6
-				local_resources_factor = 0.25
 				conscription_factor = -0.7
 				war_support_weekly = -0.005
 			}
@@ -1808,8 +1874,8 @@ ideas = {
 			}
 			targeted_modifier = {
 				tag = MIL
-				attack_bonus_against = 0.1
-				defense_bonus_against = 0.1
+				attack_bonus_against = 0.7
+				defense_bonus_against = 0.12
 			}
 		}
 		FRA_legacy_of_war_2 = { 
@@ -1821,8 +1887,8 @@ ideas = {
 			}
 			targeted_modifier = {
 				tag = MIL
-				attack_bonus_against = 0.12
-				defense_bonus_against = 0.12
+				attack_bonus_against = 0.1
+				defense_bonus_against = 0.15
 			}
 		}
 	}
