@@ -7,7 +7,7 @@ focus_tree = {
 			tag = GEM
 		}
 	}
-	continuous_focus_position = { x = 50 y = 800 } 
+	continuous_focus_position = { x = 800 y = 800 } 
 	initial_show_position = {
 		x = 10
 		y = 0
@@ -1909,7 +1909,7 @@ focus_tree = {
 			}
 		}
 		x = -1
-		y = 5
+		y = 4
 		relative_position_id = GEM_suppression_of_german
 		completion_reward = {
 			if = {
@@ -2379,18 +2379,33 @@ focus_tree = {
 			hidden_effect = {
 				GEA = {
 					random_army_leader = {
+						limit = {
+							NOT = { has_character_flag = GEM_german_officer_corps_flag }
+						}
 						set_character_flag = GEM_german_officer_corps_flag
 					}
 					random_army_leader = {
+						limit = {
+							NOT = { has_character_flag = GEM_german_officer_corps_flag }
+						}
 						set_character_flag = GEM_german_officer_corps_flag
 					}
 					random_army_leader = {
+						limit = {
+							NOT = { has_character_flag = GEM_german_officer_corps_flag }
+						}
 						set_character_flag = GEM_german_officer_corps_flag
 					}
 					random_army_leader = {
+						limit = {
+							NOT = { has_character_flag = GEM_german_officer_corps_flag }
+						}
 						set_character_flag = GEM_german_officer_corps_flag
 					}
 					random_army_leader = {
+						limit = {
+							NOT = { has_character_flag = GEM_german_officer_corps_flag }
+						}
 						set_character_flag = GEM_german_officer_corps_flag
 					}
 				}
@@ -2408,6 +2423,11 @@ focus_tree = {
 		y = 1
 		relative_position_id = GEM_german_wehrmacht
 		completion_reward = {
+			custom_effect_tooltip = GEN_air_innovation_tt
+			air_experience = 25
+			hidden_effect = {
+				load_oob = "GEN_1936_air_bba"
+			}
 		}
 	}
 	focus = {
@@ -2425,6 +2445,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GEM_luftwaffe
 		completion_reward = {
+			GEN = { country_event = { id = GEH_event.55 hours = 8 } }
 		}
 	}
 	focus = {
@@ -2545,6 +2566,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GEM_german_wehrmacht
 		completion_reward = {
+			custom_effect_tooltip = GEM_german_officer_corps_tt
 			GEA = {
 				every_army_leader = {
 					limit = {
@@ -2617,7 +2639,20 @@ focus_tree = {
 				}
 			}
 			else = {
-				add_ideas = GEH_schutzstaffel_idea
+				if = {
+					limit = {
+						NOT = {
+							has_idea = GEH_nazism_idea
+							has_idea = GEH_nazism_1_idea
+							has_idea = GEH_nazism_2_idea
+							has_idea = GEH_nazism_3_idea
+						}
+					}
+					add_ideas = GEH_nazism_idea
+				}
+				else = {
+					add_political_power = 60
+				}
 			}
 		}
 	}
@@ -2629,6 +2664,23 @@ focus_tree = {
 			focus = GEM_SS_men
 		}
 		x = 0
+		y = 1
+		relative_position_id = GEM_SS_men
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = GEH_schutzstaffel_idea
+				add_idea = GEH_schutzstaffel_1_idea
+			}
+		}
+	}
+	focus = {
+		id = GEM_put_up_the_flag_again
+		icon = GFX_goal_GEM_put_up_the_flag_again
+		cost = 10.00
+		prerequisite = {
+			focus = GEM_accept_local_ideology
+		}
+		x = 2
 		y = 1
 		relative_position_id = GEM_SS_men
 		completion_reward = {
@@ -2651,21 +2703,21 @@ focus_tree = {
 				}
 			}
 			else = {
-				add_ideas = GEH_schutzstaffel_idea
+				if = {
+					limit = {
+						NOT = {
+							has_idea = GEH_nazism_idea
+							has_idea = GEH_nazism_1_idea
+							has_idea = GEH_nazism_2_idea
+							has_idea = GEH_nazism_3_idea
+						}
+					}
+					add_ideas = GEH_nazism_idea
+				}
+				else = {
+					add_political_power = 60
+				}
 			}
-		}
-	}
-	focus = {
-		id = GEM_put_up_the_flag_again
-		icon = GFX_goal_GEM_put_up_the_flag_again
-		cost = 10.00
-		prerequisite = {
-			focus = GEM_accept_local_ideology
-		}
-		x = 2
-		y = 1
-		relative_position_id = GEM_SS_men
-		completion_reward = {
 		}
 	}
 	focus = {
@@ -2723,13 +2775,14 @@ focus_tree = {
 		completion_reward = {
 			set_cosmetic_tag = GEM_german_only
 			swap_ideas = {
-				remove_idea = GEH_schutzstaffel_idea
-				add_idea = GEH_schutzstaffel_up_idea
+				remove_idea = GEH_schutzstaffel_1_idea
+				add_idea = GEH_schutzstaffel_2_idea
 			}
 			if = {
 				limit = { has_idea = GEH_unstable_integration_idea }
 				remove_ideas = GEH_unstable_integration_idea
 			}
+			GEH_Manmajun_Bupae_remove_effect = yes
 		}
 	}
 	focus = {
@@ -2761,13 +2814,12 @@ focus_tree = {
 		y = 1
 		relative_position_id = GEM_deutsches_reich
 		completion_reward = {
+			country_event = { id = GEH_event.52 hours = 8 }
 			set_party_name = {
 				ideology = fascism
 				long_name = GER_fascism_party_long
 				name = GER_fascism_party
 			}
-			country_event = { id = GEH_event.52 hours = 8 }
-			GEH_Manmajun_Bupae_remove_effect = yes
 
 			add_advisor_role = {
 				character = GEH_akzhxh
