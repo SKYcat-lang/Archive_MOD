@@ -58,10 +58,7 @@
 			}
 			modifier = {
 				factor = 50
-				OR = {
-					has_completed_focus = TRM_newfocus_27
-					has_completed_focus = TRN_Reunion_of_the_Treaty_of_Eden
-				}
+				has_completed_focus = TRM_newfocus_27
 			}
 		}
 		x = 7
@@ -336,12 +333,7 @@
 		relative_position_id = TRN_support_technocrats_I
 		cost = 5.00
 		completion_reward = {
-            effect_tooltip = {
-                swap_ideas = {
-                    add_idea = TRM_technocrats_fake_idea_II
-                    remove_idea = TRM_technocrats_fake_idea
-                }
-            }
+			custom_effect_tooltip = TRN_support_technocrats_II_tt
 			hidden_effect = {
 				remove_trait = {
 					character = TRN_hjalmar_schacht
@@ -1378,6 +1370,7 @@
 		y = 1
 		relative_position_id = TRM_naechi
 		completion_reward = {
+			unlock_decision_category_tooltip = TRM_deal_of_germany
 			unlock_decision_tooltip = TRN_gerarmy_add
 		}
 	}
@@ -1402,44 +1395,6 @@
 			country_event = { id = TRM_event.53 days = 7 }
 			}
 		}
-	}
-	focus = {
-		id = TRM_invite_dignitary # 고위 인사 초대
-		icon = GFX_focus_SWI_embrace_rote_drei
-		cost = 5.00
-		prerequisite = {
-			focus = TRM_newfocus_14
-		}
-		ai_will_do = {
-			base = 40
-		}
-        available = {
-            
-        }
-		relative_position_id = TRM_newfocus_14
-		x = -1
-		y = 1
-		completion_reward = {
-            TRN_Carl_Schmitt = {
-                add_advisor_role = {
-		            advisor={
-			        slot = political_advisor
-        			idea_token = hjalmar_schacht
-		        	cost = 75.000
-			        traits = { TRN_constitutional_theory  }
-		            }
-                }
-            }
-            TRM_hans_zehrer = {
-                add_advisor_role = {
-                    advisor = {
-			        slot = political_advisor
-			        idea_token = GER_hans_zehrer
-			        traits = { KR_schleicher_mouthpiece }
-		            }
-                }
-            }
-        }
 	}
 	focus = {
 		id = TRM_war_with_ghena #게헨나와 전쟁 준비
@@ -1516,19 +1471,14 @@
 		id = TRN_trinity_mika_propaganda # 미카 선전물 배부
 		icon = GFX_goal_TRN_propaganda
 		cost = 2
-		available = {
-			has_country_flag = TRM_start_bop_flag
-		}
 		prerequisite = {
-			focus = TMR_support_with_germany
+			focus = TMR_anti_gehenna
 		}
-		relative_position_id = TMR_support_with_germany
+		relative_position_id = TMR_anti_gehenna
 		x = 1
 		y = 1
 		completion_reward = {
-			#unlock_decision_category_tooltip = TRN_mika_idolization_decisions
-			unlock_decision_tooltip = idol_mika
-			unlock_decision_tooltip = idol_mika_2
+			unlock_decision_category_tooltip = TRN_mika_idolization_decisions
 		}
 	}
 	focus = {
@@ -1536,13 +1486,14 @@
 		icon = GFX_goal_TRN_radio_propaganda
 		cost = 10.00
 		prerequisite = {
-			focus = TRN_gisauihon
-			focus = TMR_anti_gehenna
+			focus = TRN_trinity_mika_propaganda
 		}
-        relative_position_id = TRN_trinity_mika_propaganda
-		x = 1
-		y = 2
-		#relative_position_id = TRN_gisauihon
+		prerequisite = {
+			focus = TRN_gisauihon
+		}
+		x = 3
+		y = 1
+		relative_position_id = TRN_trinity_mika_propaganda
 		completion_reward = { 
 			add_political_power = 120
 			add_war_support = 0.05
@@ -1649,7 +1600,6 @@
 			focus = TRM_germany_union
 		}
 		available = {
-            
 		}
 		ai_will_do = {
 			base = 0.001
@@ -1683,7 +1633,11 @@
 			}
 		}
 		ai_will_do = {
-			base = 3000
+			base = 0.001
+			modifier = {
+				add = 20
+				date < 1941.01.01
+			}
 		}
 		relative_position_id = TRM_domination
 		x = -0
@@ -1702,9 +1656,6 @@
 		cost = 1.00
 		prerequisite = {
 			focus = TRM_6th_weeks
-		}
-		ai_will_do = {
-			base = 3000
 		}
 		bypass = {
 			NOT = { 
@@ -1727,9 +1678,6 @@
 		cost = 3.00
 		prerequisite = {
 			focus = TRM_6th_weeks
-		}
-		ai_will_do = {
-			base = 3000
 		}
 		bypass = {
 			NOT = {
@@ -1771,7 +1719,11 @@
 		available = {
 		}
 		ai_will_do = {
-			base = 3000
+			base = 0.001
+			modifier = {
+				add = 20
+				date < 1941.01.01
+			}
 		}
 		relative_position_id = TRM_domination
 		x = -3
@@ -1808,9 +1760,8 @@
 		icon = GFX_goal_operations_kai
 		cost = 3.00
 		prerequisite = { focus = TRM_redwinter_attack }
-
-		ai_will_do = {
-			base = 3000
+		bypass = {
+			NOT = { country_exists = KAI }
 		}
 		x = 3
 		y = 1
@@ -1840,7 +1791,11 @@
 		bypass = { 
 		}
 		ai_will_do = {
-			base = 3000
+			base = 0.001
+			modifier = {
+				add = 20
+				date < 1941.01.01
+			}
 		}
 		relative_position_id = TRM_domination
 		x = 3
@@ -1875,9 +1830,6 @@
 		cost = 3.00
 		prerequisite = {
 			focus = TRM_abydos_ultimatum
-		}
-		ai_will_do = {
-			base = 3000
 		}
 		relative_position_id = TRM_abydos_ultimatum
 		x = 1
@@ -1919,9 +1871,6 @@
 		cost = 3.00
 		prerequisite = {
 			focus = TRM_abydos_ultimatum
-		}
-		ai_will_do = {
-			base = 3000
 		}
 		relative_position_id = TRM_abydos_ultimatum
 		x = -1
@@ -1979,9 +1928,6 @@
 			controls_state  = 9 # 음양부
   		 	}
 		}
-		ai_will_do = {
-			base = 3000
-		}
 		prerequisite = {
 			focus = TRM_war_with_str
 		}
@@ -2015,9 +1961,6 @@
 		available = { }
 		will_lead_to_war_with = SOV
 		will_lead_to_war_with = POL
-		ai_will_do = {
-			base = 3000
-		}
 		prerequisite = { focus = TMR_serious_situation }
 		x = 0
 		y = 1
@@ -2128,12 +2071,8 @@
 	focus = {
 		id = TRN_totar_war_focus # 총동원령
 		available = {
-			has_war_support > 0.79
-				surrender_progress > 0.3
-			any_other_country = {
-				is_major = yes
-				has_war_with = ROOT
-			}
+			has_war_support > 0.6
+			has_war = yes
 		}		
 		prerequisite = { focus = TRN_prepare_for_the_inevitable }
 
@@ -2212,8 +2151,8 @@
 		relative_position_id = TRN_kickstart_the_war_industry
 		cost = 10.00
 		completion_reward = {
-			army_experience = 50
-			air_experience = 30
+			army_experience = 100
+			air_experience = 100
 		}
 	}
 	focus = {
@@ -2908,7 +2847,7 @@
 		ai_will_do = {
 			base = 100
 		}
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = TMR_anti_gehenna
 		completion_reward ={
@@ -2935,14 +2874,15 @@
 	focus = {
 		id = TRN_threat_up_of_europa
 		icon = GFX_focus_SWE_let_fly_all_guns
-		cost = 5
+		cost = 1
 		prerequisite = {
 			focus = TRM_war_with_gehenna
+			focus = TRN_trinity_mika_propaganda
 		}
 		ai_will_do = {
 			base = 80
 		}
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = TRM_war_with_gehenna
 		completion_reward = {
@@ -3025,16 +2965,17 @@
 		completion_reward = {
 			85 = {
 				add_extra_state_shared_building_slots = 2
-					add_building_construction = {	
-						type = industrial_complex
-						level = 1
-						instant_build = yes
+				add_building_construction = {	
+					type = industrial_complex
+					level = 2
+					instant_build = yes
 					}
+					add_extra_state_shared_building_slots = 2
 					add_building_construction = {	
 						type = arms_factory
-						level = 1
+						level = 2
 						instant_build = yes
-					}
+						}
 					set_state_name = BA_Trinity_Basilica
 				}
 			set_province_name = {
@@ -3076,7 +3017,7 @@
 		custom_effect_tooltip = TRINITY_after_war_tt
 			set_province_name = {
                     id = 9347
-                    name = BA_Hamburg
+                    name = "함부르크"
                 }
 				country_event = {
 					id = TRM_event.42 days = 1 
@@ -3087,7 +3028,7 @@
 	focus = {
 		id = TRM_anti_gehenna_focus_3 #중앙정부의 통제
 		icon = GFX_goal_after_war_focus_3
-		cost = 5.00
+		cost = 10.00
 		prerequisite = {
 			focus = TRM_after_war
 		}
@@ -3098,12 +3039,13 @@
 		x = 0
 		y = 1
 		completion_reward = {
-            unlock_decision_tooltip = TRN_after_war
-			#custom_effect_tooltip = trm_after_war_3_tt
-			#custom_effect_tooltip = trm_after_war_3_2_tt
-			#hidden_effect = {
-			#	BA_remove_state_dynamic_modifiers_GEH = yes
-			#}
+			custom_effect_tooltip = trm_after_war_3_tt
+			add_state_core = 59
+			add_state_core = 58
+			custom_effect_tooltip = trm_after_war_3_2_tt
+			hidden_effect = {
+				BA_remove_state_dynamic_modifiers_GEH = yes
+			}
 		}
 	}
 	focus = {
@@ -3458,1133 +3400,7 @@
 		}
 
 	}
-	focus = {
-		id = TRN_nagisa_gyehek
-		icon = GFX_goal_TRN_nagisa_gyehek
-		cost = 8.00
-		cancelable = no
-		
-		text_icon = NORDIC_focus_style
-
-		prerequisite = {
-			focus = TRM_newfocus_4
-		}
-		mutually_exclusive = {
-			focus = TRM_newfocus_7
-		}
-		available = {
-			has_completed_focus = TRN_yurijono_seia
-		}
-		allow_branch = {
-			NOT = {
-				OR = {
-					has_completed_focus = TRM_newfocus_7
-					has_completed_focus = TRM_coup_detat
-				}
-			}
-		} 
-		offset = {
-			x = 8
-			y = 0
-			trigger = {
-					has_completed_focus = TRN_nagisa_gyehek
-			}
-		} 
-		relative_position_id = TRM_newfocus_4
-		x = -8
-		y = 1
-		completion_reward = {
-			hidden_effect = {
-				activate_mission = TRN_pater_opp_auto
-				activate_mission = TRN_nagisa_imprisoned
-			}
-			country_event = { id = TRM_event.4 hours = 8 }
-			unlock_decision_tooltip = TRN_filius_add
-
-			custom_effect_tooltip = TRM_pater_loyalty__30_tt
-			add_to_variable = { TRM_pater_loyalty = -30 }
-			TRM_internal_factions_loyalty_change = yes
-
-			custom_effect_tooltip = TRM_pater_popularity_10_tt
-			add_to_variable = { TRM_pater_popularity = 10 }
-			TRM_internal_factions_popularity_change = yes
-			
-			custom_effect_tooltip = TRM_filius_loyalty_10_tt
-			add_to_variable = { TRM_filius_loyalty = 10 }
-			TRM_internal_factions_loyalty_change = yes
-
-			custom_effect_tooltip = TRM_filius_popularity_20_tt
-			add_to_variable = { TRM_filius_popularity = 20 }
-			TRM_internal_factions_popularity_change = yes
-
-			custom_effect_tooltip = MIKA_IS_DANGER 
-			add_stability = -0.05
-			add_political_power = 200
-			swap_ideas = {
-				remove_idea = TRM_great_depression
-				add_idea = TRM_great_depression_2
-			}
-			set_politics = { ruling_party = neutrality }
-			hidden_effect = { 
-				load_focus_tree = {
-					tree = TRM_focus_tree
-					keep_completed = yes
-				}
-				mark_focus_tree_layout_dirty = yes
-				if = {
-					limit = {  
-						NOT = { has_completed_focus = TRN_yurijono_seia_ser }
-					}
-					add_popularity = {
-						ideology = communism
-						popularity = -100
-					}
-					add_popularity = {
-						ideology = democratic
-						popularity = -100
-					}
-				}
-			}
-			custom_effect_tooltip = TRM_newfocus_4_tt
-		}
-	}
-	focus = {
-		id = TRN_Removing_doubt
-		icon = GFX_goal_TRN_Removing_doubt
-		cost = 3
-		prerequisite = {
-			focus = TRN_nagisa_gyehek
-		}
-		available = {
-			NOT = {
-				has_country_flag = nagisa_imprisoned_flag
-			}
-		}
-		relative_position_id = TRN_nagisa_gyehek
-		x = 0
-		y = 1
-		completion_reward = {
-
-			add_country_leader_trait = TRN_iron_lady
-		}
-	}
-	focus = {
-		id = TRN_Request_assistance_from_Sisterhood
-		icon = GFX_goal_generic_major_alliance
-		cost = 5.00
-		prerequisite = {
-			focus = TRN_nagisa_gyehek
-		}
-		mutually_exclusive = {
-			focus = TRN_Request_assistance_from_relief_knights
-		}
-		relative_position_id = TRN_nagisa_gyehek
-		x = 3
-		y = 1
-		completion_reward = {
-			
-			custom_effect_tooltip = TRM_filius_loyalty__10_tt
-			add_to_variable = { TRM_filius_loyalty = -10 }
-			TRM_internal_factions_loyalty_change = yes
-
-			custom_effect_tooltip = TRM_filius_popularity_20_tt
-			add_to_variable = { TRM_filius_popularity = 20 }
-			TRM_internal_factions_popularity_change = yes
-			unlock_decision_tooltip = TRN_sh_add
-
-		}
-	}
-	focus = {
-		id = TRN_Request_assistance_from_relief_knights
-		icon = GFX_goal_generic_major_alliance
-		cost = 5.00
-		prerequisite = {
-			focus = TRN_nagisa_gyehek
-		}
-		mutually_exclusive = {
-			focus = TRN_Request_assistance_from_Sisterhood
-		}
-		relative_position_id = TRN_nagisa_gyehek
-		x = 5
-		y = 1
-		completion_reward = {
-			
-			custom_effect_tooltip = TRM_filius_loyalty__10_tt
-			add_to_variable = { TRM_filius_loyalty = -10 }
-			TRM_internal_factions_loyalty_change = yes
-
-			custom_effect_tooltip = TRM_filius_popularity_20_tt
-			add_to_variable = { TRM_filius_popularity = 20 }
-			TRM_internal_factions_popularity_change = yes
-			unlock_decision_tooltip = TRN_rk_add
-
-		}
-	}
-	focus = {
-		id = TRN_Hug_students
-		icon = GFX_goal_TRN_Hug_students
-		cost = 2
-		prerequisite = {
-			focus = TRN_Removing_doubt
-		}
-		available = {
-			NOT = {
-				has_country_flag = nagisa_imprisoned_flag
-			}
-		}
-		relative_position_id = TRN_nagisa_gyehek
-		x = 0
-		y = 2
-		completion_reward = {
-			add_stability = 0.05
-			add_war_support = 0.05
-			add_popularity = {
-				ideology = ROOT
-				popularity = 0.05
-			}
-		}
-
-	}
-	focus = {
-		id = TRN_suppress_the_opposition
-		icon = GFX_goal_generic_more_territorial_claims
-		cost = 5
-		prerequisite = {
-			focus = TRN_Hug_students
-		}
-		mutually_exclusive = {
-			focus = TRN_Trinitys_Balance
-		}
-		available = {
-			NOT = {
-				has_country_flag = nagisa_imprisoned_flag
-			}
-		}
-		relative_position_id = TRN_Hug_students
-		x = 1
-		y = 1
-		completion_reward = {
-			add_stability = 0.05
-			add_war_support = 0.05
-			add_popularity = {
-				ideology = ROOT
-				popularity = 0.05
-			}
-		}
-
-	}
-	focus = {
-		id = TRN_Trinitys_Balance
-		icon = GFX_goal_generic_neutrality_focus
-		cost = 10
-		prerequisite = {
-			focus = TRN_Request_assistance_from_Sisterhood
-			focus = TRN_Request_assistance_from_relief_knights
-		}
-		mutually_exclusive = {
-			focus = TRN_suppress_the_opposition
-		}
-		relative_position_id = TRN_Hug_students
-		x = 4
-		y = 1
-		completion_reward = {
-			add_stability = 0.15
-			add_war_support = -0.05
-		}
-
-	}
-	focus = {
-		id = TRN_Suppressing_mika
-		icon = GFX_goal_TRN_Suppressing_mika
-		cost = 5.00
-		prerequisite = {
-			focus = TRN_nagisa_gyehek
-		}
-		available = {
-			NOT = {
-				has_country_flag = nagisa_imprisoned_flag
-			}
-		}
-		relative_position_id = TRN_nagisa_gyehek
-		x = -2
-		y = 1
-		completion_reward = {
-			custom_effect_tooltip = TRM_pater_loyalty__30_tt
-			add_to_variable = { TRM_pater_loyalty = -30 }
-			TRM_internal_factions_loyalty_change = yes
-			custom_effect_tooltip = TRM_pater_popularity__10_tt
-			add_to_variable = { TRM_pater_popularity = -10 }
-			TRM_internal_factions_popularity_change = yes
-
-			if = {
-				limit = {
-					has_idea = TRM_troll_mika
-				}
-				swap_ideas = {
-					remove_idea = TRM_troll_mika
-					add_idea = TRN_pater_remnant
-				}
-			}
-			else = {
-				swap_ideas = {
-					remove_idea = TRM_troll_mika_2
-					add_idea = TRN_pater_remnant
-				}
-			}
-			custom_effect_tooltip =  TRN_weak_mika
-			
-		}
-
-	}
-	focus = {
-		id = TRN_Crushing_Pater
-		icon = GFX_focus_generic_anti_fascist_diplomacy
-		cost = 5.00
-		prerequisite = {
-			focus = TRN_Suppressing_mika
-		}
-		prerequisite = {
-			focus = TRN_Hug_students
-		}
-		available = {
-			NOT = {
-				has_country_flag = nagisa_imprisoned_flag
-			}
-			custom_trigger_tooltip = {
-				tooltip = TRN_Crushing_Pater_tt
-				check_variable = { TRM_pater_popularity < 21 }
-			}
-		}
-		bypass = {
-			custom_trigger_tooltip = {
-				tooltip = TRN_internal_factions_pater_slot_tt
-				NOT = {
-					OR = {
-						check_variable = { TRM_internal_factions_slot_one_var = 0 }
-						check_variable = { TRM_internal_factions_slot_two_var = 0 }
-						check_variable = { TRM_internal_factions_slot_three_var = 0 }
-					}
-				}
-			}
-		}
-		relative_position_id = TRN_nagisa_gyehek
-		x = -2
-		y = 3
-		completion_reward = {
-			remove_ideas = TRN_pater_remnant
-			add_stability = 0.05
-			if = {
-				limit = {
-					check_variable = { TRM_pater_popularity > 1 }
-				}
-				custom_effect_tooltip = TRM_pater_popularity__20_tt
-				add_to_variable = { TRM_pater_popularity = -20 }
-				TRM_internal_factions_popularity_change = yes
-			}
-			else = {
-				custom_effect_tooltip = TRM_pater_del_tt
-				set_variable = { TRM_internal_factions_remove_var = 0 } #지울 세력 코드
-				TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
-			}
-		}
-
-	}
-	focus = {
-		id = TRN_Blocking_attacks_from_the_outside
-		icon = GFX_goal_TRN_Blocking_attacks_from_the_outside
-		cost = 8.00
-		prerequisite = {
-			focus = TRN_Crushing_Pater
-		}
-		prerequisite = {
-			focus = TRN_suppress_the_opposition
-			focus = TRN_Trinitys_Balance
-		}
-		mutually_exclusive = {
-			focus = TRN_nagisa_coupdetat
-		}
-		available = {
-			NOT = {
-				has_country_flag = nagisa_imprisoned_flag
-			}
-			custom_trigger_tooltip = {
-				tooltip = TRN_internal_factions_pater_slot_tt
-				NOT = {
-					OR = {
-						check_variable = { TRM_internal_factions_slot_one_var = 0 }
-						check_variable = { TRM_internal_factions_slot_two_var = 0 }
-						check_variable = { TRM_internal_factions_slot_three_var = 0 }
-					}
-				}
-			}
-		}
-		relative_position_id = TRN_nagisa_gyehek
-		x = 0
-		y = 4
-		completion_reward = {
-			add_political_power = 120
-			add_popularity = {
-				ideology = fascism
-				popularity = -0.10
-			}
-		}
-
-	}
-	focus = {
-		id = TRN_nagisa_coupdetat
-		icon = GFX_focus_spr_masters_of_our_own_fate
-		cost = 8
-		prerequisite = {
-			focus = TRN_Trinitys_Balance
-			focus = TRN_suppress_the_opposition
-		}
-		mutually_exclusive = {
-			focus = TRN_Blocking_attacks_from_the_outside
-		}
-		available = {
-			has_country_flag = nagisa_imprisoned_flag
-		}
-		relative_position_id = TRN_Trinitys_Balance
-		x = 0
-		y = 1
-		completion_reward = {
-			set_party_name = {
-				ideology = democratic
-				long_name = TRM_filius_democratic_party
-				name = TRM_filius_democratic_party
-			}
-			add_country_leader_role = {
-				character = TRN_Hifumi
-				promote_leader = yes
-				country_leader = {
-					ideology = liberalism
-					expire = "1965.1.1.1"
-					traits = { }
-				}
-			}
-			add_popularity = {
-				ideology = democratic
-				popularity = 0.20
-			}
-			add_popularity = {
-				ideology = fascism
-				popularity = -0.10
-			}
-			custom_effect_tooltip = TRM_pater_del_tt
-			set_variable = { TRM_internal_factions_remove_var = 0 } #지울 세력 코드
-			TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
-			set_variable = { TRM_civil_war_size = 0.4 }
-			if = {
-				limit = {
-					has_completed_focus = TRN_Suppressing_mika
-				}
-				add_to_variable = { TRM_civil_war_size = -0.1 }
-			}
-			if = {
-				limit = {
-					has_government = fascism
-				}
-				add_to_variable = { TRM_civil_war_size = 0.25 }
-			}
-			start_civil_war = {
-				ideology = fascism
-				ruling_party = democratic
-				size = TRM_civil_war_size
-				army_ratio = TRM_civil_war_size
-				navy_ratio = 0
-				air_ratio = 0
-				keep_all_characters = yes
-				create_country_leader = {
-					picture = GFX_Portrait_BlueArchive_TRM_Generic_2
-					expire = "1965.1.1"
-					ideology = pater_nazism
-				}
-				if = {
-					limit = {
-						NOT = {
-							has_completed_focus = TRN_Suppressing_mika
-						}
-					}
-					PREV = {  # Original country
-						TRN_alzk = { # Character
-							set_nationality = PREV.PREV
-							# Transfers to breakaway
-						}
-					}
-					promote_character = TRN_alzk
-				}
-				set_country_flag = ARI_puppet_state
-				set_cosmetic_tag = TRM_pater
-			}
-		}
-
-	}
-	focus = {
-		id = TRN_nazi_oppression
-		icon = GFX_focus_POL_ban_nazi_party
-		cost = 5
-		prerequisite = {
-			focus = TRN_Blocking_attacks_from_the_outside
-			focus = TRN_nagisa_coupdetat
-		}
-		relative_position_id = TRN_Blocking_attacks_from_the_outside
-		x = 2
-		y = 1
-		completion_reward = {
-			add_stability = 0.15
-			add_popularity = {
-				ideology = fascism
-				popularity = -0.20
-			}
-			custom_effect_tooltip = TRM_lets_go_kill_Heydrich
-		}
-
-	}
-	focus = {
-		id = TRN_trinity_reorganization
-		icon = GFX_focus_hol_war_on_pacifism
-		cost = 5
-		prerequisite = {
-			focus = TRN_Blocking_attacks_from_the_outside
-		}
-		relative_position_id = TRN_Blocking_attacks_from_the_outside
-		x = -4
-		y = 1
-		completion_reward = {
-			add_political_power = 120
-			add_stability = 0.05
-			add_popularity = {
-				ideology = ROOT
-				popularity = 0.20
-			}
-		}
-	}
-	focus = {
-		id = TRN_guardian_of_the_academy_focus
-		icon = GFX_goal_generic_neutrality_focus
-		cost = 5
-		prerequisite = {
-			focus = TRN_trinity_reorganization
-		}
-		mutually_exclusive = {
-			focus = TRN_trinity_supremacy_focus
-		}
-		relative_position_id = TRN_trinity_reorganization
-		x = 1
-		y = 1
-		completion_reward = {
-			add_country_leader_trait = TRM_guardian_of_the_academy
-		}
-	}
-	focus = {
-		id = TRN_trinity_supremacy_focus
-		icon = GFX_focus_generic_support_the_left_right
-		cost = 5
-		prerequisite = {
-			focus = TRN_trinity_reorganization
-		}
-		mutually_exclusive = {
-			focus = TRN_guardian_of_the_academy_focus
-		}
-		relative_position_id = TRN_trinity_reorganization
-		x = -1
-		y = 1
-		completion_reward = {
-			add_country_leader_trait = TRM_trinity_supremacy
-		}
-	}
-	focus = {
-		id = TRN_threat_exclusion
-		icon = GFX_goal_generic_territory_or_war
-		cost = 5
-		prerequisite = {
-			focus = TRN_guardian_of_the_academy_focus
-			focus = TRN_trinity_supremacy_focus
-		}
-		available = {
-			country_exists = ARI
-			TRM = {
-				any_neighbor_country = {
-					tag = ARI
-				}
-			}
-		}
-		bypass = {
-			NOT = { 
-				country_exists = ARI
-			}
-		}
-		relative_position_id = TRN_trinity_reorganization
-		x = 0
-		y = 2
-		completion_reward = {
-			ARI = {
-				country_event = { id = TRM_event.94 hours = 8 }
-			}
-		}
-	}
-	focus = {
-		id = TRN_preventive_war
-		icon = GFX_goal_generic_attack_allies
-		cost = 5
-		prerequisite = {
-			focus = TRN_trinity_supremacy_focus
-		}
-		prerequisite = {
-			focus = TRN_threat_exclusion
-		}
-		relative_position_id = TRN_trinity_supremacy_focus
-		x = 0
-		y = 2
-		completion_reward = {
-			create_wargoal = {
-				target = POL
-				type = puppet_wargoal_focus
-			}
-		}
-	}
-	focus = {
-		id = TRN_nagisa_lottery
-		icon = GFX_focus_generic_home_defense
-		cost = 4
-		prerequisite = {
-			focus = TRN_nagisa_coupdetat
-		}
-		relative_position_id = TRN_nagisa_coupdetat
-		x = 0
-		y = 1
-		completion_reward = {
-			TRN_skrltk = {
-				remove_country_leader_trait = TRM_house_arrest
-			}
-			add_stability = 0.15
-			add_popularity = {
-				ideology = fascism
-				popularity = -0.20
-			}
-			country_event = { id = TRM_event.74 hours = 8 }
-		}
-
-	}
-	focus = {
-		id = TRN_new_trinity
-		icon = GFX_focus_generic_the_giant_wakes
-		cost = 5
-		prerequisite = {
-			focus = TRN_nagisa_lottery
-		}
-		relative_position_id = TRN_nagisa_lottery
-		x = 0
-		y = 2
-		completion_reward = {
-			add_timed_idea = {
-				idea = TRN_new_country_reform_r
-				days = 365
-			}
-		}
-
-	}
-	focus = {
-		id = TRN_stabilization_of_the_system
-		icon = GFX_goal_tfv_strengthen_commonwealth_ties
-		cost = 5
-		prerequisite = {
-			focus = TRN_new_trinity
-		}
-		mutually_exclusive = {
-			focus = TRN_decentralization_of_power
-		}
-		relative_position_id = TRN_new_trinity
-		x = -1
-		y = 1
-		completion_reward = {
-		    add_stability = 0.1
-			add_war_support = 0.1
-			add_popularity = {
-				ideology = ROOT
-				popularity = 0.20
-			}
-			custom_effect_tooltip = TRM_filius_popularity_20_tt
-			add_to_variable = { TRM_filius_popularity = 20 }
-		}
-
-	}
-	focus = {
-		id = TRN_decentralization_of_power
-		icon = GFX_focus_por_concordat
-		cost = 5
-		prerequisite = {
-			focus = TRN_new_trinity
-		}
-		mutually_exclusive = {
-			focus = TRN_stabilization_of_the_system
-		}
-		available = {
-			has_country_leader = {
-				character = TRN_Hifumi
-				ruling_only = yes
-			}
-		}
-		relative_position_id = TRN_new_trinity
-		x = 1
-		y = 1
-		completion_reward = {
-		    add_stability = -0.05
-			custom_effect_tooltip = TRM_sh_loyalty_15_tt
-			custom_effect_tooltip = TRM_sh_popularity_15_tt
-			set_variable = { TRM_sh_loyalty = 15 }
-			set_variable = { TRM_sh_popularity = 15 }
-		}
-
-	}
-	focus = {
-		id = TRN_trinity_tank_brigade
-		icon = GFX_focus_generic_army_tanks2
-		cost = 5
-		prerequisite = {
-			focus = TRN_decentralization_of_power
-		}
-		relative_position_id = TRN_decentralization_of_power
-		x = 0
-		y = 1
-		completion_reward = {
-			add_ideas = TRN_tank_brigade
-		}
-
-	}
-	focus = {
-		id = TRN_Reunion_of_the_Treaty_of_Eden
-		icon = GFX_goal_generic_alliance
-		cost = 5
-		prerequisite = {
-			focus = TRN_Blocking_attacks_from_the_outside
-			focus = TRN_nagisa_lottery
-		}
-		relative_position_id = TRN_Blocking_attacks_from_the_outside
-		x = 0
-		y = 2
-		completion_reward = {
-			add_timed_idea = {
-				idea = TRN_new_country_reform
-				days = 365
-			}
-		}
-
-	}
-	focus = {
-		id = TRN_war_with_Gehenna
-		icon = GFX_focus_attack_GEH
-		cost = 10.00
-		prerequisite = {
-			focus = TRN_Confirmation_of_intention_to_treaty
-		}
-		mutually_exclusive = {
-			focus = TRN_Treaty_of_Eden
-		}
-		available = {
-			OR = {
-				GEH = {
-					exists = yes
-				}
-				GEM = {
-					exists = yes
-				}
-			}
-			OR = {
-				has_global_flag = GEH_win_global_flag
-				has_global_flag = GEM_win_global_flag
-			}
-			has_country_flag = TRM_Treaty_of_Eden_false
-		}
-		bypass = {
-			has_war_with = GEH
-		}
-		relative_position_id = TRN_Reunion_of_the_Treaty_of_Eden
-		x = -2
-		y = 3
-		completion_reward = {
-			if = {
-				limit = {
-					GEH = {
-						exists = yes
-					}
-				}
-				create_wargoal = {
-					target = GEH
-					type = annex_everything
-				}
-			}
-			if = {
-				limit = {
-					GEM = {
-						exists = yes
-					}
-				}
-				create_wargoal = {
-					target = GEM
-					type = annex_everything
-				}
-			}
-		}
-
-	}
-	focus = {
-		id = TRN_deep_hatred
-		icon = GFX_goal_generic_war_with_comintern
-		cost = 5
-		prerequisite = {
-			focus = TRN_war_with_Gehenna
-		}
-		relative_position_id = TRN_war_with_Gehenna
-		x = -2
-		y = 1
-		completion_reward = {
-			add_ideas = TRN_Knight_Templar_idea
-		}
-
-	}
-	focus = {
-		id = TRN_Treaty_of_Eden
-		icon = GFX_goal_generic_alliance
-		cost = 5
-		prerequisite = { focus = TRN_Confirmation_of_intention_to_treaty }
-		
-		text_icon = NORDIC_focus_style
-
-		mutually_exclusive = { focus = TRN_war_with_Gehenna }
-		available = {
-			OR = {
-				GEH = {
-					exists = yes
-				}
-				GEM = {
-					exists = yes
-				}
-			}
-			OR = {
-				has_global_flag = GEH_win_global_flag
-				has_global_flag = GEM_win_global_flag
-			}
-			has_country_flag = TRM_Treaty_of_Eden_true
-		}
-		relative_position_id = TRN_Reunion_of_the_Treaty_of_Eden
-		x = 2
-		y = 3
-		completion_reward = {
-			if = {
-				limit = { has_global_flag = Treaty_of_Eden_1 }
-				if = {
-					limit = { GEH = { exists = yes } }
-					GEH = {
-						if = {
-							limit = {
-								NOT = { has_rule = can_create_factions }
-							}
-							set_rule = { can_create_factions = yes }
-						}
-						create_faction = TRM_Treaty_of_Eden_faction
-						add_to_faction = TRM
-						add_ai_strategy = {
-							type = alliance
-							id = TRM
-							value = 200
-						}
-						add_to_tech_sharing_group = Eden_research
-					}
-					TRM = {
-						add_ai_strategy = {
-							type = alliance
-							id = "GEH"
-							value = 200
-						}
-						add_to_tech_sharing_group = Eden_research
-					}
-				}
-				if = {
-					limit = {
-						GEM = { exists = yes }
-					}
-					GEM = {
-						if = {
-							limit = {
-								NOT = { has_rule = can_create_factions }
-							}
-							set_rule = { can_create_factions = yes }
-						}
-						create_faction = TRM_Treaty_of_Eden_faction
-						add_to_faction = TRM
-						add_ai_strategy = {
-							type = alliance
-							id = TRM
-							value = 200
-						}
-						add_to_tech_sharing_group = Eden_research
-					}
-					TRM = {
-						add_ai_strategy = {
-							type = alliance
-							id = "GEM"
-							value = 200
-						}
-						add_to_tech_sharing_group = Eden_research
-					}
-				}
-			}
-			else = {
-				if = {
-					limit = {
-						NOT = { has_rule = can_create_factions }
-					}
-					set_rule = { can_create_factions = yes }
-				}
-				create_faction = TRM_Treaty_of_Eden_faction
-				every_country = {
-					limit = {
-						has_country_flag = TRM_Treaty_of_Eden_gehenna
-					}
-					TRM = {
-						add_to_faction = PREV
-						PREV = {
-							add_ai_strategy = {
-								type = alliance
-								id = "TRM"
-								value = 200
-							}
-							add_to_tech_sharing_group = Eden_research
-						}
-						add_ai_strategy = {
-							type = alliance
-							id = PREV
-							value = 200
-						}
-						add_to_tech_sharing_group = Eden_research
-					}
-				}
-			}
-			if = {
-				limit = { has_global_flag = Treaty_of_Eden_2 }
-				add_ideas = TRN_economic_unification
-				if = {
-					limit = {
-						GEH = { exists = yes }
-					}
-					GEH = {
-						add_ideas = GEH_economic_unification
-					}
-				}
-				if = {
-					limit = {
-						GEM = { exists = yes }
-					}
-					GEM = {
-						add_ideas = GEH_economic_unification
-					}
-				}
-			}
-			if = {
-				limit = {
-					has_global_flag = Treaty_of_Eden_3
-				}
-				add_ideas = TRN_military_spending
-				if = {
-					limit = {
-						GEH = {
-							exists = yes
-						}
-					}
-					GEH = {
-						add_ideas = GEH_military_spending
-					}
-				}
-				if = {
-					limit = {
-						GEM = {
-							exists = yes
-						}
-					}
-					GEM = {
-						add_ideas = GEH_military_spending
-					}
-				}
-			}
-			if = {
-				limit = {
-					has_global_flag = Treaty_of_Eden_4
-				}
-				if = {
-					limit = {
-						GEH = {
-							exists = yes
-						}
-					}
-					GEH = {
-						add_ideas = GEH_TRN_support
-					}
-				}
-				if = {
-					limit = {
-						GEM = {
-							exists = yes
-						}
-					}
-					GEM = {
-						add_ideas = GEH_TRN_support
-					}
-				}
-			}
-			if = {
-				limit = {
-					has_global_flag = Treaty_of_Eden_5
-				}
-				add_ideas = TRN_GEH_support
-			}
-		}
-
-	}
-	focus = {
-		id = TRN_joint_economic_development
-		icon = GFX_goal_generic_construction2
-		cost = 5
-		prerequisite = {
-			focus = TRN_Treaty_of_Eden
-		}
-		relative_position_id = TRN_Treaty_of_Eden
-		x = 2
-		y = 1
-		completion_reward = {
-			every_country = {
-				limit = {
-					OR = {
-						tag = TRM
-						tag = GEH
-						tag = GEM
-					}
-					is_in_faction_with = TRM
-				}
-				custom_effect_tooltip = TRN_joint_economic_development_tt
-				hidden_effect = {
-					capital_scope = {
-						add_extra_state_shared_building_slots = 3
-						add_building_construction = {	
-							type = industrial_complex
-							level = 3
-							instant_build = yes
-						}
-					}
-				}
-			}
-		}
-
-	}
-	focus = {
-		id = TRN_Confirmation_of_intention_to_treaty
-		icon = GFX_goal_generic_intelligence_exchange
-		cost = 5
-		prerequisite = {
-			focus = TRN_Reunion_of_the_Treaty_of_Eden
-		}
-		available = {
-			OR = {
-				GEH = {
-					exists = yes
-				}
-				GEM = {
-					exists = yes
-				}
-			}
-			OR = {
-				has_global_flag = GEH_win_global_flag
-				has_global_flag = GEM_win_global_flag
-			}
-		}
-		relative_position_id = TRN_Reunion_of_the_Treaty_of_Eden
-		x = 0
-		y = 1
-		completion_reward = {
-			if = {
-				limit = {
-					GEH = {
-						exists = yes
-					}
-				}
-				GEH = {
-					country_event = { id = TRM_event.76 hours = 8 }
-				}
-			}
-			if = {
-				limit = {
-					GEM = {
-						exists = yes
-					}
-				}
-				GEM = {
-					country_event = { id = TRM_event.76 hours = 8 }
-				}
-			}
-		}
-
-	}
-	focus = {
-		id = TRN_Gehenna_Trinity_Conference
-		icon = GFX_goal_unknown
-		cost = 10
-		prerequisite = {
-			focus = TRN_Confirmation_of_intention_to_treaty
-		}
-		available = {
-			OR = {
-				GEH = {
-					exists = yes
-				}
-				GEM = {
-					exists = yes
-				}
-			}
-			has_country_flag = TRM_Treaty_of_Eden_lose
-		}
-		relative_position_id = TRN_Confirmation_of_intention_to_treaty
-		x = 0
-		y = 1
-		select_effect ={
-			if = {
-				limit = {
-					GEH = {
-						exists = yes
-					}
-				}
-				GEH = {
-					country_event = { id = TRM_event.79 hours = 8 }
-					country_event = { id = TRM_event.80 hours = 80 }
-				}
-			}
-			if = {
-				limit = {
-					GEM = {
-						exists = yes
-					}
-				}
-				GEM = {
-					country_event = { id = TRM_event.79 hours = 8 }
-					country_event = { id = TRM_event.80 hours = 80 }
-				}
-			}
-		}
-		completion_reward = {
-			if = {
-				limit = {
-					check_variable = { Treaty_of_Eden_var < 0 }
-				}
-				country_event = { id = TRM_event.92 hours = 8 }
-			}
-			if = {
-				limit = {
-					check_variable = { Treaty_of_Eden_var > -1 }
-				}
-				country_event = { id = TRM_event.93 hours = 8 }
-			}
-		}
-
-	}
+	
 	focus = {
 		id = TRN_doklisanupyi_him
 		icon = GFX_goal_doklisanupyi_him
@@ -4593,14 +3409,15 @@
 			focus = TRM_germany_union
 		}
 		ai_will_do = { base = 40 }
-		available = { }
-		x = -5
+		available = { has_country_flag = TRINITY_WON_THE_GEHENNA }
+		x = -4
 		y = 1
 		relative_position_id = TRM_germany_union
 		completion_reward = {
 		#country_event = { id = TRN_after_war_event.9 days = 1 }
 		add_ideas = TRN_deutchland_industry_power
 		}
+
 	}
 	focus = {
 		id = TRN_gwanryuje_jaijungbee
@@ -4613,11 +3430,12 @@
 		relative_position_id = TRN_doklisanupyi_him
 		completion_reward = {
 		#country_event = { id = TRN_after_war_event.10 days = 1 }
-		    swap_ideas = {
-    			remove_idea = TRN_Inefficient_bureaucracy
-	    		add_idea = TRN_Inefficient_bureaucracy_2
-    		}
+		swap_ideas = {
+			remove_idea = TRN_Inefficient_bureaucracy
+			add_idea = TRN_Inefficient_bureaucracy_2
+		}	
 		}
+
 	}
 	focus = {
 		id = TRN_gunsu_sangsan_bub
@@ -4638,7 +3456,7 @@
 					add_idea = TRN_Inefficient_bureaucracy_3
 				}
 			}
-            hidden_effect = {
+			hidden_effect = {
 			if = {
 				limit = { has_idea = TRN_Inefficient_bureaucracy_2 }
 				swap_ideas = {
@@ -4658,7 +3476,7 @@
 	}
 	focus = {
 		id = TRN_gyungje_hyu_ul_bub
-		icon = GFX_goal_state_economy
+		icon = GFX_goal_gyungje_hyu_ul_bub
 		cost = 10.00
 		prerequisite = { focus = TRN_gwanryuje_jaijungbee }
 		ai_will_do = { base = 40 }
@@ -4673,7 +3491,7 @@
 					add_idea = TRN_Inefficient_bureaucracy_4
 				}
 			}
-            hidden_effect = {
+			hidden_effect = {
 			if = {
 				limit = { has_idea = TRN_Inefficient_bureaucracy_2 }
 				swap_ideas = {
@@ -4689,14 +3507,16 @@
 					}
 				}
 			}
+			
 		}
+
 	}
 	focus = {
 		id = TRN_gunsa_sanup_jaijungbee
 		icon = GFX_goal_munitions_factories
 		cost = 10.00
 		prerequisite = { focus = TRN_doklisanupyi_him }
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = TRN_doklisanupyi_him
 		completion_reward = {
@@ -4721,7 +3541,7 @@
 		x = 37
 		y = 5
 		completion_reward = {
-			country_event = { id = TRM_event.38 days = 3}
+			country_event = { id = TRM_event.38 days = 3 }
 		}
 
 	}
@@ -4731,7 +3551,7 @@
 		icon = GFX_focus_POL_warsaw_main_station
 		cost = 10.00
 		prerequisite = { focus = TRN_doklisanupyi_him }
-		x = 3
+		x = 2
 		y = 1
 		relative_position_id = TRN_doklisanupyi_him
 		completion_reward = {
@@ -4751,104 +3571,31 @@
 			focus = TRN_gunsa_sanup_jaijungbee
 			focus = TRN_mingan_sanup_jaijungbee
 		}
-		x = 3
+		x = 1
 		y = 2
 		relative_position_id = TRN_doklisanupyi_him
 		completion_reward = {
+<<<<<<< HEAD
+			#country_event = { id = TRN_after_war_event.13 days = 1 }
+=======
+>>>>>>> 7ac5c4075dcfcd3d6446e5de61a5e73221653fae
 			add_ideas = TRN_research_buff
 		}
-	}
-	focus = {
-		id = TRM_Library_Committee
-		icon = GFX_goal_TRM_Library_Committee
-		cost = 5.00
-		prerequisite = {
-			focus = TRN_yungu_e_tuja
-		}
-		x = -2
-		y = 1
-		relative_position_id = TRN_yungu_e_tuja
-		completion_reward = {
-			#country_event = { id = TRN_after_war_event.13 days = 1 }
-			#add_ideas = TRN_research_buff
-            effect_tooltip = {
-                swap_ideas = {
-                    add_idea = TRM_kozeki_ui_2
-                    remove_idea = TRM_kozeki_ui
-                }
-            }
-            hidden_effect = {
-				remove_trait = {
-					character = uyi
-					slot = political_advisor
-					trait = TRN_economist_ui
-				}
-				add_trait = {
-					character = uyi
-					slot = political_advisor
-					trait = TRN_economist_ui_2
-				}
-            }
-		}
+
 	}
 	focus = {
 		id = TRN_jaegun_wanryu
 		icon = GFX_goal_economicboom
 		cost = 5.00
-		prerequisite = { focus = TRN_gunsu_sangsan_bub }
-        prerequisite = { focus = TRN_gyungje_hyu_ul_bub }
+		prerequisite = { focus = TRN_gyungje_hyu_ul_bub focus = TRN_gunsu_sangsan_bub }
+		prerequisite = { focus = TRN_yungu_e_tuja }
 		x = 0
-		y = 2
-		relative_position_id = TRN_gwanryuje_jaijungbee
+		y = 1
+		relative_position_id = TRN_gyungje_hyu_ul_bub
 		completion_reward = {
 			#country_event = { id = TRN_after_war_event.16 days = 1 }
-			#add_ideas = TRN_industrial_boom
-            add_ideas = TRN_industrial_boom
-		}
-	}
-	focus = {
-		id = TRM_Trinity_socialism
-		icon = GFX_goal_TRM_Trinity_socialism
-		cost = 10.00
-        prerequisite = { focus = TRN_jaegun_wanryu  }
-        prerequisite = { focus = TRM_Library_Committee }
-		ai_will_do = { base = 40 }
-		x = 1
-		y = 1
-		relative_position_id = TRN_jaegun_wanryu
-		completion_reward = {
-            effect_tooltip = {
-		        swap_ideas = {
-    			    remove_idea = GER_zehrer_1
-	    		    add_idea = GER_zehrer_2
-    		    }
-		        swap_ideas = {
-    			    remove_idea = GER_schmitt_1
-	    		    add_idea = GER_schmitt_2
-    		    }
-            }
-            hidden_effect = {
-				remove_trait = {
-					character = TRM_hans_zehrer
-					slot = political_advisor
-					trait = KR_schleicher_mouthpiece
-				}
-				add_trait = {
-					character = TRM_hans_zehrer
-					slot = political_advisor
-					trait = KR_schleicher_mouthpiece_2
-				}
-				remove_trait = {
-					character = GER_carl_schmitt
-					slot = political_advisor
-					trait = KR_centralisation_ideologue
-				}
-				add_trait = {
-					character = GER_carl_schmitt
-					slot = political_advisor
-					trait = KR_centralisation_ideologue_2
-				}
-			}
+			add_ideas = TRN_industrial_boom
+			add_stability = 0.15
 		}
 	}
 	focus = {
@@ -4858,7 +3605,7 @@
 		ai_will_do = {
 			base = 40
 		}
-		x = 1
+		x = 0
 		y = 2
 		relative_position_id = TRN_military_training
 		prerequisite = {
@@ -5199,123 +3946,1679 @@
 			}
 		}
 	}
+	
+	##나기사
 	focus = {
-		id = TRN_Ausgleich
-		icon = GFX_focus_NOR_approach_kretsen
-		cost = 5
-		prerequisite = { focus = TRN_Treaty_of_Eden }
-		#available = { has_country_flag = GAEBALJUNG }
-		relative_position_id = TRN_Treaty_of_Eden
-		#allow_branch = { has_country_flag = United_State_of_Eden }
-		x = 0
-		y = 2
+		id = TRN_nagisa_gyehek
+		icon = GFX_goal_TRN_nagisa_gyehek
+		cost = 8.00
+		cancelable = no
+		
+		text_icon = NORDIC_focus_style
+
+		prerequisite = {
+			focus = TRM_newfocus_4
+		}
+		mutually_exclusive = {
+			focus = TRM_newfocus_7
+		}
+		available = {
+			has_completed_focus = TRN_yurijono_seia
+			as_country_flag = GAEBALJUNG 
+		}
+		allow_branch = {
+			NOT = {
+				OR = {
+					has_completed_focus = TRM_newfocus_7
+					has_completed_focus = TRM_coup_detat
+				}
+			}
+		} 
+		offset = {
+			x = 8
+			y = 0
+			trigger = {
+					has_completed_focus = TRN_nagisa_gyehek
+			}
+		} 
+		relative_position_id = TRM_newfocus_4
+		x = -8
+		y = 1
 		completion_reward = {
-             country_event = { id = TRM_event.358 hours = 3 }
+			hidden_effect = {
+				activate_mission = TRN_pater_opp_auto
+				activate_mission = TRN_nagisa_imprisoned
+			}
+			country_event = { id = TRM_event.4 hours = 8 }
+			unlock_decision_tooltip = TRN_filius_add
+
+			custom_effect_tooltip = TRM_pater_loyalty__30_tt
+			add_to_variable = { TRM_pater_loyalty = -30 }
+			TRM_internal_factions_loyalty_change = yes
+
+			custom_effect_tooltip = TRM_pater_popularity_10_tt
+			add_to_variable = { TRM_pater_popularity = 10 }
+			TRM_internal_factions_popularity_change = yes
+			
+			custom_effect_tooltip = TRM_filius_loyalty_10_tt
+			add_to_variable = { TRM_filius_loyalty = 10 }
+			TRM_internal_factions_loyalty_change = yes
+
+			custom_effect_tooltip = TRM_filius_popularity_20_tt
+			add_to_variable = { TRM_filius_popularity = 20 }
+			TRM_internal_factions_popularity_change = yes
+
+			custom_effect_tooltip = MIKA_IS_DANGER 
+			add_stability = -0.05
+			add_political_power = 200
+			swap_ideas = {
+				remove_idea = TRM_great_depression
+				add_idea = TRM_great_depression_2
+			}
+			set_politics = { ruling_party = neutrality }
+			hidden_effect = { 
+				load_focus_tree = {
+					tree = TRM_focus_tree
+					keep_completed = yes
+				}
+				mark_focus_tree_layout_dirty = yes
+				if = {
+					limit = {  
+						NOT = { has_completed_focus = TRN_yurijono_seia_ser }
+					}
+					add_popularity = {
+						ideology = communism
+						popularity = -100
+					}
+					add_popularity = {
+						ideology = democratic
+						popularity = -100
+					}
+				}
+			}
+			custom_effect_tooltip = TRM_newfocus_4_tt
+		}
+	}
+	
+	focus = {
+         id = TRN_Suppressing_mika
+         icon = GFX_goal_TRN_Suppressing_mika
+         x = -1
+         y = 1
+         cost = 5
+		 available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_nagisa_gyehek }
+		 completion_reward = { 
+		    custom_effect_tooltip = TRM_pater_loyalty__30_tt
+			add_to_variable = { TRM_pater_loyalty = -30 }
+			TRM_internal_factions_loyalty_change = yes
+			custom_effect_tooltip = TRM_pater_popularity__10_tt
+			add_to_variable = { TRM_pater_popularity = -10 }
+			TRM_internal_factions_popularity_change = yes
+
+			if = {
+				limit = {
+					has_idea = TRM_troll_mika
+				}
+				swap_ideas = {
+					remove_idea = TRM_troll_mika
+					add_idea = TRN_pater_remnant
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = TRM_troll_mika_2
+					add_idea = TRN_pater_remnant
+				}
+			}
+			custom_effect_tooltip =  TRN_weak_mika
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_please_shut_up
+         icon = GFX_focus_generic_anti_fascist_diplomacy
+         x = 1
+         y = 1
+         cost = 5
+		available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+			custom_trigger_tooltip = {
+				tooltip = TRN_Crushing_Pater_tt
+				check_variable = { TRM_pater_popularity < 21 }
+			}
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_internal_factions_pater_slot_tt
+				NOT = {
+					OR = {
+						check_variable = { TRM_internal_factions_slot_one_var = 0 }
+						check_variable = { TRM_internal_factions_slot_two_var = 0 }
+						check_variable = { TRM_internal_factions_slot_three_var = 0 }
+					}
+				}
+			}
+		}
+		 available = { has_completed_focus = TRN_Suppressing_mika }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_nagisa_gyehek }
+		 completion_reward = { 
+		    if = {
+				limit = {
+					check_variable = { TRM_pater_popularity > 1 }
+				}
+				custom_effect_tooltip = TRM_pater_popularity__20_tt
+				add_to_variable = { TRM_pater_popularity = -20 }
+				TRM_internal_factions_popularity_change = yes
+			}
+			custom_effect_tooltip = TRM_pater_del_tt
+			set_variable = { TRM_internal_factions_remove_var = 0 } #지울 세력 코드
+			TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_anti_mika_cudeta
+         icon = GFX_focus_spr_masters_of_our_own_fate
+         x = -2
+         y = 2
+         cost = 5
+		 available = { has_country_flag = nagisa_imprisoned_flag }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_nagisa_gyehek }
+		 completion_reward = { 
+		    set_party_name = {
+				ideology = democratic
+				long_name = TRM_filius_democratic_party
+				name = TRM_filius_democratic_party
+			}
+			add_country_leader_role = {
+				character = TRN_Hifumi
+				promote_leader = yes
+				country_leader = {
+					ideology = liberalism
+					expire = "1965.1.1.1"
+					traits = { }
+				}
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.20
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.10
+			}
+			custom_effect_tooltip = TRM_pater_del_tt
+			set_variable = { TRM_internal_factions_remove_var = 0 } #지울 세력 코드
+			TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
+			set_variable = { TRM_civil_war_size = 0.4 }
+			if = {
+				limit = {
+					has_completed_focus = TRN_Suppressing_mika
+				}
+				add_to_variable = { TRM_civil_war_size = -0.1 }
+			}
+			if = {
+				limit = {
+					has_government = fascism
+				}
+				add_to_variable = { TRM_civil_war_size = 0.25 }
+			}
+			start_civil_war = {
+				ideology = fascism
+				ruling_party = democratic
+				size = TRM_civil_war_size
+				army_ratio = TRM_civil_war_size
+				navy_ratio = 0
+				air_ratio = 0
+				keep_all_characters = yes
+				create_country_leader = {
+					picture = GFX_Portrait_BlueArchive_TRM_Generic_2
+					expire = "1965.1.1"
+					ideology = pater_nazism
+				}
+				if = {
+					limit = {
+						NOT = {
+							has_completed_focus = TRN_Suppressing_mika
+						}
+					}
+					PREV = {  # Original country
+						TRN_alzk = { # Character
+							set_nationality = PREV.PREV
+							# Transfers to breakaway
+						}
+					}
+					promote_character = TRN_alzk
+				}
+				set_country_flag = ARI_puppet_state
+				set_cosmetic_tag = TRM_pater
+			}
+		 }
+     }
+	 
+	 focus = {
+		id = TRN_nagisa_lottery
+		icon = GFX_focus_generic_home_defense
+		cost = 4
+		prerequisite = {
+			focus = TRN_anti_mika_cudeta
+		}
+		relative_position_id = TRN_nagisa_gyehek
+		x = -2
+		y = 3
+		completion_reward = {
+			TRN_skrltk = {
+				remove_country_leader_trait = TRM_house_arrest
+			}
+			add_stability = 0.15
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.20
+			}
+			drop_country_flag = nagisa_imprisoned_flag
+			country_event = { id = TRM_event.74 hours = 8 }
 		}
 
 	}
-	focus = {
+	 
+	 focus = {
+         id = TRN_Hug_students
+         icon = GFX_goal_TRN_Hug_students
+         x = 0
+         y = 2
+         cost = 4
+		 available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_Suppressing_mika }
+		 prerequisite = { focus = TRN_please_shut_up }
+		 completion_reward = { 
+		    country_event = { id = TRM_event.364 hours = 8 }
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_Non_trinity_getout
+         icon = GFX_focus_generic_court
+         x = 3
+         y = 2
+         cost = 5
+		 available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_please_shut_up }
+		 completion_reward = { 
+		    add_stability = 0.15
+			add_war_support = 0.05
+			country_event = { id =  TRM_event.363 hours = 8 }
+			custom_effect_tooltip = TRN_tooltip_non_trinity_getouts
+			hidden_effect = {
+		    65 = { add_manpower = -50000 }
+			61 = { add_manpower = -50000 }
+			762 = { add_manpower = -50000 }
+			67 = { add_manpower = -50000 }
+			66 = { add_manpower = -50000 }
+			807 = { add_manpower = -50000 }
+			86 = { add_manpower = -500000 }
+			188 = { add_manpower = -20000 }
+			10 = { add_manpower = 150000 }
+			784 = { add_manpower = 20000 }
+			2 = { add_manpower = 150000 }
+			219 = { add_manpower = 100000 }
+			}
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_have_with_hynjiens
+         icon = GFX_focus_generic_german_trade
+         x = 4
+         y = 3
+         cost = 4
+		 available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_Non_trinity_getout }
+		 completion_reward = { 
+		     add_manpower = 50000
+			 add_stability = -0.05
+			 country_event = { id = TRM_event.365 hours = 8 }
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_make_more_factories_with_nagisa
+         icon = GFX_goal_generic_construct_civ_factory
+         x = 4
+         y = 4
+         cost = 10
+		 available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_have_with_hynjiens }
+		 completion_reward = { 
+		     random_owned_controlled_state = {
+				limit = {
+						OR = {
+							is_core_of = owner
+							is_claimed_by = owner
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = arms_factory
+						level = 2
+						instant_build = yes
+					}
+			 }
+			 random_owned_controlled_state = {
+				limit = {
+						OR = {
+							is_core_of = owner
+							is_claimed_by = owner
+						}
+					}
+					add_extra_state_shared_building_slots = 2
+					add_building_construction = {
+						type = industrial_complex
+						level = 2
+						instant_build = yes
+					}
+				}
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_steel_of_woman
+         icon = GFX_goal_TRN_Removing_doubt
+         x = 2
+         y = 3
+         cost = 5
+		 available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_Hug_students }
+		 prerequisite = { focus = TRN_Non_trinity_getout }
+		 completion_reward = { 
+		    add_country_leader_trait = TRN_iron_lady
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_united_academy
+         icon = GFX_goal_TRN_steel_of_academy
+         x = 0
+         y = 3
+         cost = 5
+		 available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_Hug_students }
+		 completion_reward = { 
+		     add_stability = 0.05
+			 custom_effect_tooltip = TRM_filius_popularity_20_tt
+			 add_to_variable = { TRM_filius_popularity = 20 }
+			 add_popularity = {
+			      ideology = neutrality
+				  popularity = 0.99
+			 }
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_uber_alles
+         icon = GFX_goal_TRN_uber_alles
+         x = 1
+         y = 4
+         cost = 1.5
+		 available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_steel_of_woman }
+		 prerequisite = { focus = TRN_united_academy }
+		 completion_reward = { 
+		    add_political_power = 100
+		    add_dynamic_modifier = { modifier = TRN_trinity_uber_alles_idea }
+			custom_effect_tooltip = TRN_tooltip_nagisa_upgrade_idea
+		 }
+     }
+	 
+	 #아리우스-게헨나쪽
+	 focus = {
+         id = TRN_Have_hand_to_gehhenna
+         icon = GFX_goal_GEH_Pax_Gehennia
+         x = -2
+         y = 5
+         cost = 5
+		 available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+			OR = {
+				GEH = {
+					exists = yes
+				}
+				GEM = {
+					exists = yes
+				}
+			}
+			OR = {
+				has_global_flag = GEH_win_global_flag
+				has_global_flag = GEM_win_global_flag
+			}
+		 }
+		 bypass = {
+			NOT = { 
+				country_exists = GEH
+				country_exists = GEM
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_uber_alles }
+		 completion_reward = { 
+		    add_political_power = 100
+		 }
+     }
+	 
+	 #에덴 조약기구
+	 focus = {
+         id = TRN_reunited_eden_pact
+         icon = GFX_goal_TRN_end_of_long_bad_time
+         x = -2
+         y = 6
+         cost = 5
+		 bypass = {
+			OR = { 
+				has_war_with = GEH
+				has_war_with = GEM
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_Have_hand_to_gehhenna }
+		 completion_reward = { 
+		     if = {
+				limit = {
+					GEH = {
+						exists = yes
+					}
+				}
+				GEH = {
+					country_event = { id = TRM_event.76 hours = 8 }
+				}
+			}
+			if = {
+				limit = {
+					GEM = {
+						exists = yes
+					}
+				}
+				GEM = {
+					country_event = { id = TRM_event.76 hours = 8 }
+				}
+			}
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_insik_getmore
+         icon = GFX_goal_TRN_hwahawe_with_gehhena
+         x = -1
+         y = 7
+         cost = 5
+		 bypass = {
+			OR = { 
+				has_war_with = GEH
+				has_war_with = GEM
+			}
+		 }
+		 available = { has_country_flag = TRM_Treaty_of_Eden_true }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_reunited_eden_pact }
+		 completion_reward = { 
+		     custom_effect_tooltip = TRN_tooltip_ig
+			 add_to_variable = { TRN_trinity_uber_alles_production_factory_start_efficiency_factor = 0.1 }
+		     country_event = { id = TRM_event.367 hours = 8 }
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_mannam_with_gehenna
+         icon = GFX_goal_TRN_have_with_dongaris
+         x = 1
+         y = 7
+         cost = 5
+		 bypass = {
+			OR = { 
+				has_war_with = GEH
+				has_war_with = GEM
+			}
+		 }
+		 available = { has_country_flag = TRM_Treaty_of_Eden_true }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_reunited_eden_pact }
+		 completion_reward = { 
+		     custom_effect_tooltip = TRN_tooltip_uapfeg_add_five
+			 add_to_variable = { TRN_trinity_uber_alles_production_factory_efficiency_gain_factor = 0.05 }
+		     country_event = { id = TRM_event.368 hours = 8 }
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_eden_pact_first_step
+         icon = GFX_goal_TRN_eden_pacts_letsgo
+         x = 0
+         y = 8
+         cost = 5
+		 bypass = {
+			OR = { 
+				has_war_with = GEH
+				has_war_with = GEM
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_insik_getmore }
+		 prerequisite = { focus = TRN_mannam_with_gehenna }
+		 completion_reward = { 
+		     if = {
+				limit = { has_global_flag = Treaty_of_Eden_1 }
+				if = {
+					limit = { GEH = { exists = yes } }
+					GEH = {
+						if = {
+							limit = {
+								NOT = { has_rule = can_create_factions }
+							}
+							set_rule = { can_create_factions = yes }
+						}
+						create_faction = TRM_Treaty_of_Eden_faction
+						add_to_faction = TRM
+						add_ai_strategy = {
+							type = alliance
+							id = TRM
+							value = 200
+						}
+						add_to_tech_sharing_group = Eden_research
+					}
+					TRM = {
+						add_ai_strategy = {
+							type = alliance
+							id = "GEH"
+							value = 200
+						}
+						add_to_tech_sharing_group = Eden_research
+					}
+				}
+				if = {
+					limit = {
+						GEM = { exists = yes }
+					}
+					GEM = {
+						if = {
+							limit = {
+								NOT = { has_rule = can_create_factions }
+							}
+							set_rule = { can_create_factions = yes }
+						}
+						create_faction = TRM_Treaty_of_Eden_faction
+						add_to_faction = TRM
+						add_ai_strategy = {
+							type = alliance
+							id = TRM
+							value = 200
+						}
+						add_to_tech_sharing_group = Eden_research
+					}
+					TRM = {
+						add_ai_strategy = {
+							type = alliance
+							id = "GEM"
+							value = 200
+						}
+						add_to_tech_sharing_group = Eden_research
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						NOT = { has_rule = can_create_factions }
+					}
+					set_rule = { can_create_factions = yes }
+				}
+				create_faction = TRM_Treaty_of_Eden_faction
+				every_country = {
+					limit = {
+						has_country_flag = TRM_Treaty_of_Eden_gehenna
+					}
+					TRM = {
+						add_to_faction = PREV
+						PREV = {
+							add_ai_strategy = {
+								type = alliance
+								id = "TRM"
+								value = 200
+							}
+							add_to_tech_sharing_group = Eden_research
+						}
+						add_ai_strategy = {
+							type = alliance
+							id = PREV
+							value = 200
+						}
+						add_to_tech_sharing_group = Eden_research
+					}
+				}
+			}
+			if = {
+				limit = { has_global_flag = Treaty_of_Eden_2 }
+				add_ideas = TRN_economic_unification
+				if = {
+					limit = {
+						GEH = { exists = yes }
+					}
+					GEH = {
+						add_ideas = GEH_economic_unification
+					}
+				}
+				if = {
+					limit = {
+						GEM = { exists = yes }
+					}
+					GEM = {
+						add_ideas = GEH_economic_unification
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = Treaty_of_Eden_3
+				}
+				add_ideas = TRN_military_spending
+				if = {
+					limit = {
+						GEH = {
+							exists = yes
+						}
+					}
+					GEH = {
+						add_ideas = GEH_military_spending
+					}
+				}
+				if = {
+					limit = {
+						GEM = {
+							exists = yes
+						}
+					}
+					GEM = {
+						add_ideas = GEH_military_spending
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = Treaty_of_Eden_4
+				}
+				if = {
+					limit = {
+						GEH = {
+							exists = yes
+						}
+					}
+					GEH = {
+						add_ideas = GEH_TRN_support
+						TRM = { add_to_faction = GEH }
+					}
+				}
+				if = {
+					limit = {
+						GEM = {
+							exists = yes
+						}
+					}
+					GEM = {
+						add_ideas = GEH_TRN_support
+						TRM = { add_to_faction = GEM }
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = Treaty_of_Eden_5
+				}
+				add_ideas = TRN_GEH_support
+			}
+		 }
+     }
+	 
+	 focus = {
+		id = TRN_Ausgleich
+		icon = GFX_focus_NOR_approach_kretsen
+		cost = 10
+		prerequisite = { focus = TRN_eden_pact_first_step }
+		relative_position_id = TRN_eden_pact_first_step
+		#allow_branch = { has_country_flag = United_State_of_Eden }
+		x = 0
+		y = 1
+		select_effect = {
+        country_event = { id = TRM_event.358 hours = 3 }
+		}
+		completion_reward = {
+		custom_effect_tooltip = TRN_tooltip_ausgleich
+		}
+
+	}
+	
+	#에덴 합중국
+    focus = {
 		id = TRN_united_state_Eden
-		icon = GFX_goal_unknown
+		icon = GFX_goal_TRN_eden_states
 		cost = 5
 		prerequisite = { focus = TRN_Ausgleich }
 		available = { has_country_flag = TRM_united_states_eden_tt }
-		relative_position_id = TRN_Ausgleich
-		x = 2
-		y = 1
-		mutually_exclusive = { focus = TRN_Eden_union }
+		relative_position_id = TRN_eden_pact_first_step
+		#allow_branch = { has_country_flag = United_State_of_Eden }
+		x = -2
+		y = 2
 		completion_reward = {
-			add_timed_idea = {
+
+		}
+
+	}
+	
+	focus = {
+		id = TRN_first_step_of_unite
+		icon = GFX_goal_generic_intelligence_exchange
+		cost = 5
+		prerequisite = { focus = TRN_united_state_Eden }
+		relative_position_id = TRN_united_state_Eden
+		x = -2
+		y = 1
+		completion_reward = {
+            add_stability = 0.1
+			if = {
+			limit = { is_in_faction_with = GEH }
+			GEH = { add_stability = 0.1 }
+			}
+			if = {
+			limit = { is_in_faction_with = GEM }
+			GEM = { add_stability = 0.1 }
+			}
+		}
+
+	}
+	
+	focus = {
+		id = TRN_teaparty_pandemonium_jaepyun
+		icon = GFX_goal_TRN_teapar_pande
+		cost = 5
+		prerequisite = { focus = TRN_first_step_of_unite focus = TRN_neutrality_of_powers }
+		relative_position_id = TRN_united_state_Eden
+		x = -1
+		y = 2
+		completion_reward = {
+		    add_political_power = 25
+             add_timed_idea = {
 				idea = TRN_new_administration
 				days = 365
 			}
 		}
 
 	}
-	focus = { # 자치에 접근
-		id = TRN_jachiejeopgeun
-		icon = GFX_focus_generic_self_management
-		cost = 5
+	
+	focus = {
+		id = TRN_neutrality_of_powers
+		icon = GFX_focus_SWI_neutrality_on_the_move
+		cost = 10
 		prerequisite = { focus = TRN_united_state_Eden }
 		relative_position_id = TRN_united_state_Eden
-		available = {
-			NOT = { has_idea = TRN_new_administration }
-		}
-		x = 1
+		x = 0
 		y = 1
 		completion_reward = {
-			add_political_power = 70
+		   add_stability = -0.15
+		   add_political_power = -200
+           custom_effect_tooltip = TRN_tooltip_delete_powers
 		}
 
 	}
-	focus = { # 선도부와 거래
-		id = TRN_seondobuwageorae
-		icon = GFX_focus_generic_concessions
+	
+	focus = {
+		id = TRN_dongaris_tonghap
+		icon = GFX_goal_generic_demand_territory
 		cost = 5
-		prerequisite = { focus = TRN_jachiejeopgeun }
-		relative_position_id = TRN_jachiejeopgeun
+		prerequisite = { focus = TRN_neutrality_of_powers }
+		relative_position_id = TRN_united_state_Eden
 		x = 1
-		y = 1 
+		y = 2
 		completion_reward = {
-			country_event = TRM_event.97
+		    add_ideas = TRN_dongaris_tonghap
 		}
+
 	}
-	focus = { # 동아리 통합
-		id = TRN_dongari_tonghap
-		icon = GFX_goal_anschluss
+	
+	focus = {
+		id = TRN_hands_by_hands
+		icon = GFX_goal_TRN_hand_by_hands
 		cost = 5
-		prerequisite = { focus = TRN_jachiejeopgeun }
-		relative_position_id = TRN_jachiejeopgeun
+		prerequisite = { focus = TRN_first_step_of_unite }
+		relative_position_id = TRN_united_state_Eden
+		x = -3
+		y = 2
+		completion_reward = {
+		   add_stability = 0.05
+		   add_war_support = 0.05
+		}
+
+	}
+	
+	focus = {
+		id = TRN_last_step_of_unite
+		icon = GFX_goal_TRN_last_step_of_unite
+		cost = 2
+		prerequisite = { focus = TRN_teaparty_pandemonium_jaepyun }
+		prerequisite = { focus = TRN_dongaris_tonghap }
+		prerequisite = { focus = TRN_hands_by_hands }
+		relative_position_id = TRN_united_state_Eden
 		x = -1
-		y = 1 
+		y = 3
+		completion_reward = {
+		    if = {
+			   limit = {
+			   is_in_faction_with = GEH
+			   }
+			   annex_country = {
+				target = GEH
+				transfer_troops = yes
+			   }
+			   set_cosmetic_tag = TRM_United_State
+			}
+			if = {
+			   limit = {
+			   is_in_faction_with = GEM
+			   }
+			   annex_country = {
+				target = GEM
+				transfer_troops = yes
+			   }
+			   set_cosmetic_tag = TRM_United_State
+			}
+		}
+
+	}
+	
+	#내부
+	focus = {
+		id = TRN_when_sun_rieses
+		icon = GFX_goal_TRN_when_sun_rises
+		cost = 8
+		prerequisite = { focus = TRN_last_step_of_unite }
+		relative_position_id = TRN_last_step_of_unite
+		x = 0
+		y = 1
+		completion_reward = {
+		    every_state = {
+			   limit = { 
+			      or = {
+			        is_core_of = GEM
+			        is_core_of = GEH
+			      }
+			   }
+			   add_core_of = TRM
+			}
+			add_state_core = 58
+			add_state_core = 909
+		}
+
+	}
+	
+	focus = {
+		id = TRN_first_we_need_practice
+		icon = GFX_focus_SWE_form_rfsu
+		cost = 5
+		prerequisite = { focus = TRN_when_sun_rieses }
+		relative_position_id = TRN_last_step_of_unite
+		x = -1
+		y = 2
+		completion_reward = {
+		   add_ideas = TRN_have_with_gehenna
+		}
+
+	}
+	
+	focus = {
+		id = TRN_second_testing_for_united_safety
+		icon = GFX_goal_TRN_more_safety_academy
+		cost = 5
+		prerequisite = { focus = TRN_when_sun_rieses }
+		relative_position_id = TRN_last_step_of_unite
+		x = 1
+		y = 2
+		completion_reward = {
+		   country_event = TRM_event.97
+		}
+
+	}
+	
+	focus = {
+		id = TRN_the_united_academy
+		icon = GFX_goal_TRN_wahaha
+		cost = 5
+		prerequisite = { focus = TRN_first_we_need_practice }
+		prerequisite = { focus = TRN_second_testing_for_united_safety }
+		relative_position_id = TRN_last_step_of_unite
+		x = 0
+		y = 3
+		completion_reward = {
+		   
+		}
+
+	}
+	
+	#외부1 - 동부
+	focus = {
+		id = TRN_sun_rises_see_west
+		icon = GFX_goal_TRN_sun_rises_see_west
+		cost = 5
+		prerequisite = { focus = TRN_when_sun_rieses }
+		relative_position_id = TRN_last_step_of_unite
+		x = -3
+		y = 2
+		completion_reward = {
+		   
+		}
+
+	}
+	
+	focus = {
+		id = TRN_go_back_the_rule
+		icon = GFX_focus_attack_SHE
+		cost = 5
+		available = { 
+		NOT = { has_war_with = SHE } 
+		SHE = { has_government = communism }
+		}
+		bypass = {
+		has_war_with = SHE 
+		}
+		mutually_exclusive = { focus = TRN_shalle_protect_in_trinity }
+		prerequisite = { focus = TRN_sun_rises_see_west }
+		relative_position_id = TRN_last_step_of_unite
+		x = -4
+		y = 3
+		completion_reward = {
+		    create_wargoal = {
+			   target = SHE
+			   type = annex_everything
+			}
+			if = {
+			   limit = {
+			   KSP = { exists = no }
+			   }
+			   add_state_core = 937
+			} 
+		} 
+
+	}
+	
+	focus = {
+		id = TRN_shalle_protect_in_trinity
+		icon = GFX_focus_attack_SHE
+		cost = 5
+		available = { 
+		NOT = { has_war_with = SHE } 
+		NOT = { SHE = { has_government = communism } }
+		}
+		bypass = {
+		has_war_with = SHE
+		}
+		mutually_exclusive = { focus = TRN_go_back_the_rule }
+		prerequisite = { focus = TRN_sun_rises_see_west }
+		relative_position_id = TRN_last_step_of_unite
+		x = -6
+		y = 3
+		completion_reward = {
+		   
+		}
+
+	}
+	
+	focus = {
+		id = TRN_have_hand_with_maginot_line
+		icon = GFX_goal_TRN_hand_with_maginot
+		cost = 5
+		prerequisite = { focus = TRN_sun_rises_see_west }
+		relative_position_id = TRN_last_step_of_unite
+		x = -2
+		y = 3
+		completion_reward = {
+		   annex_country = { target = FRM }
+		}
+
+	}
+	
+	focus = {
+		id = TRN_68_go_back_to_gehenna
+		icon = GFX_focus_attack_GEH
+		cost = 6
+		bypass = {
+		   NOT = { HEU = { exists = yes } }
+		}
+		prerequisite = { focus = TRN_have_hand_with_maginot_line }
+		relative_position_id = TRN_last_step_of_unite
+		x = -3
+		y = 4
+		completion_reward = {
+		    create_wargoal = {
+			   target = HEU
+			   type = annex_everything
+			}
+			add_state_core = 8
+		}
+
+	}
+	
+	focus = {
+		id = TRN_valkyrie_oifen_claim
+		icon = GFX_focus_POL_complete_april_constitution
+		cost = 6
+		bypass = {
+		   NOT = { KSP = { exists = yes } }
+		}
+		prerequisite = { focus = TRN_have_hand_with_maginot_line }
+		relative_position_id = TRN_last_step_of_unite
+		x = -5
+		y = 4
+		completion_reward = {
+		   create_wargoal = {
+			   target = KSP
+			   type = annex_everything
+		   }
+		   add_state_core = 937
+		}
+
+	}
+	
+	focus = {
+		id = TRN_french_with_union
+		icon = GFX_focus_chi_reach_out_to_france
+		cost = 5
+		available = {
+		controls_state = 28
+		controls_state = 943
+		}
+		prerequisite = { focus = TRN_the_united_academy }
+		prerequisite = { focus = TRN_have_hand_with_maginot_line }
+		relative_position_id = TRN_last_step_of_unite
+		x = -1
+		y = 4
+		completion_reward = {
+		   add_stability = -0.05
+		   add_state_core = 28
+		   add_state_core = 943
+		   if = {
+		      limit = {
+			     HEU = { exists = no } 
+			  }
+			  add_state_core = 8
+		   }
+		}
+
+	}
+	
+	#외부2 - 서부
+	focus = {
+		id = TRN_sun_rises_see_east
+		icon = GFX_goal_sun_rises_see_easts
+		cost = 5
+		prerequisite = { focus = TRN_when_sun_rieses }
+		relative_position_id = TRN_last_step_of_unite
+		x = 3
+		y = 2
+		completion_reward = {
+		   
+		}
+
+	}
+	
+	focus = {
+		id = TRN_idk_polish_getout
+		icon = GFX_focus_SWE_state_paid_vacation
+		cost = 5
+		prerequisite = { focus = TRN_sun_rises_see_east }
+		relative_position_id = TRN_last_step_of_unite
+		x = 2
+		y = 3
+		completion_reward = {
+		   
+		}
+
+	}
+	
+	focus = {
+		id = TRN_the_nice_best_polish_plan
+		icon = GFX_focus_POL_riot_of_37
+		cost = 5
+		prerequisite = { focus = TRN_the_united_academy }
+		prerequisite = { focus = TRN_idk_polish_getout }
+		relative_position_id = TRN_last_step_of_unite
+		x = 1
+		y = 4
+		completion_reward = {
+		   
+		}
+
+	}
+	
+	focus = {
+		id = TRN_communists_getout
+		icon = GFX_goal_generic_war_with_comintern
+		cost = 5
+		prerequisite = { focus = TRN_sun_rises_see_east }
+		relative_position_id = TRN_last_step_of_unite
+		x = 4
+		y = 3
+		completion_reward = {
+		   
+		}
+
+	}
+	
+	focus = {
+		id = TRN_the_greates_anti_communists_movement
+		icon = GFX_focus_SOV_mobilization_plan
+		cost = 5
+		prerequisite = { focus = TRN_communists_getout }
+		relative_position_id = TRN_last_step_of_unite
+		x = 3
+		y = 4
+		completion_reward = {
+		   
+		}
+
+	}
+	
+	focus = {
+		id = TRN_danish_movement
+		icon = GFX_focus_generic_combined_arms
+		cost = 5
+		prerequisite = { focus = TRN_communists_getout }
+		relative_position_id = TRN_last_step_of_unite
+		x = 4
+		y = 5
+		completion_reward = {
+		   
+		}
+
+	}
+	
+	##개발
+	#에덴 연방
+	focus = {
+		id = TRN_Eden_union
+		icon = GFX_goal_TRN_eden_union
+		cost = 5
+		prerequisite = { focus = TRN_Ausgleich }
+		available = { 
+		has_country_flag = TRM_eden_union_tt 
+		has_country_flag = GAEBALJUNG
+		}
+		relative_position_id = TRN_eden_pact_first_step
+		#allow_branch = { has_country_flag = United_State_of_Eden }
+		x = 2
+		y = 2
 		completion_reward = {
 
 		}
 
 	}
-	focus = { # 이름뿐이 아닌 연방
-		id = TRN_ireumppuni_anin_yeonbang
-		icon = GFX_goal_generic_national_unity
+	
+	focus = {
+		id = TRN_joint_economic_development
+		icon = GFX_goal_generic_construction2
 		cost = 5
-		prerequisite = { focus = TRN_dongari_tonghap }
-		prerequisite = { focus = TRN_seondobuwageorae }
-		relative_position_id = TRN_jachiejeopgeun
+		prerequisite = { focus = TRN_joint_research_development }
+		relative_position_id = TRN_eden_pact_first_step
+		x = 0
+		y = 3
+		completion_reward = {
+              every_country = {
+				limit = {
+					OR = {
+						tag = TRM
+						tag = GEH
+						tag = GEM
+					}
+					is_in_faction_with = TRM
+				}
+				custom_effect_tooltip = TRN_joint_economic_development_tt
+				hidden_effect = {
+					capital_scope = {
+						add_extra_state_shared_building_slots = 3
+						add_building_construction = {	
+							type = industrial_complex
+							level = 3
+							instant_build = yes
+						}
+					}
+				}
+			}
+		}
+
+	}
+	
+	focus = {
+		id = TRN_joint_research_development
+		icon = GFX_focus_research
+		cost = 10
+		prerequisite = { focus = TRN_Ausgleich }
+		relative_position_id = TRN_eden_pact_first_step
 		x = 0
 		y = 2
 		completion_reward = {
-			annex_country = {
-				target = GEH
-				transfer_troops = yes
-			}
-			set_cosmetic_tag = TRM_United_State
+             if = {
+			    limit = {
+				is_in_faction_with = GEM
+				}
+				GEM = { add_research_slot = 1 }
+			 }
+			 if = {
+			    limit = {
+				is_in_faction_with = GEH
+				}
+				GEH = { add_research_slot = 1 }
+			 }
+			 add_research_slot = 1
 		}
+
 	}
-	focus = { # 외부를 향하여
-		id = TRN_oebureulhyanghayeo
-		icon = GFX_goal_support_democracy
-		cost = 5
-		prerequisite = { focus = TRN_ireumppuni_anin_yeonbang }
-		relative_position_id = TRN_ireumppuni_anin_yeonbang
+	 
+	 #전쟁
+	 focus = {
+         id = TRN_bbul_evils_nomore
+         icon = GFX_goal_TRN_cant_with_gehenna
+         x = -4
+         y = 6
+         cost = 7
+		 bypass = {
+			has_war_with = ABY
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_Have_hand_to_gehhenna }
+		 completion_reward = { 
+		    add_stability = -0.05
+		    ABY = { country_event = { id = TRM_event.369 hours = 3 } }
+		 }
+     }
+	 
+	 #focus = {
+        # id = TRN_more_enemy_insik
+        # icon = GFX_goal_generic_attack_allies
+        # x = -3
+        # y = 7
+        # cost = 1.5
+		# bypass = {
+		#	OR = { 
+		#		has_war_with = GEH
+		#		has_war_with = GEM
+		#	}
+		 #}
+		# relative_position_id = TRN_nagisa_gyehek
+		 #available = {
+		    # OR = {
+			# has_completed_focus = TRN_bbul_evils_nomore
+			# has_country_flag = TRM_Treaty_of_Eden_lose
+			# }
+		 #}
+		 #prerequisite = { focus = TRN_bbul_evils_nomore focus = TRN_reunited_eden_pact }
+		# completion_reward = { 
+		     # custom_effect_tooltip = TRN_tooltip_mei
+		# }
+     #}
+	 
+	 focus = {
+         id = TRN_more_conscriptions
+         icon = GFX_goal_generic_attack_allies
+         x = -3
+         y = 7
+		 cost = 5
+		 bypass = {
+			OR = { 
+				has_war_with = GEH
+				has_war_with = GEM
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_bbul_evils_nomore }
+		 completion_reward = { 
+		      if = {
+			     limit = { 
+				     NOT = {
+					    OR = {
+					    has_idea = limited_conscription
+						has_idea = extensive_conscription
+						}
+					 }
+				 }
+				 add_ideas = limited_conscription
+			  }
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_war_with_knight_templar
+         icon = GFX_focus_SWI_helvetic_junta
+         x = -5
+         y = 7
+		 cost = 6.5
+		 bypass = {
+			OR = { 
+				has_war_with = GEH
+				has_war_with = GEM
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_bbul_evils_nomore }
+		 completion_reward = { 
+		      add_ideas = TRN_Knight_Templar_idea
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_arius_gotta_out
+         icon = GFX_goal_generic_territory_or_war
+         x = 4
+         y = 5
+         cost = 1.5
+		 available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+		 }
+		 bypass = {
+			NOT = { 
+				country_exists = ARI
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_uber_alles }
+		 completion_reward = { 
+		    ARI = {
+				country_event = { id = TRM_event.94 hours = 8 }
+			}
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_Arius_gonna_trinity
+         icon = GFX_goal_generic_position_armies
+         x = 4
+         y = 6
+         cost = 8
+		 available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+			}
+			OR = {
+			ARI = {
+			is_subject_of = TRM
+			}
+			85 = { is_fully_controlled_by = TRM }
+			}
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 mutually_exclusive = { focus = TRN_Arius_gonna_trinity2 }
+		 prerequisite = { focus = TRN_arius_gotta_out }
+		 completion_reward = { 
+		    add_state_core = 85
+			annex_country = { target = ARI transfer_troops = yes }
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_Arius_gonna_trinity2
+         icon = GFX_goal_generic_major_war
+         x = 6
+         y = 6
+         cost = 5
+		 available = {
+			NOT = {
+				has_country_flag = nagisa_imprisoned_flag
+				country_exists = ARI
+			}
+			85 = { is_fully_controlled_by = TRM }
+		 }
+		 relative_position_id = TRN_nagisa_gyehek
+		 mutually_exclusive = { focus = TRN_Arius_gonna_trinity }
+		 prerequisite = { focus = TRN_arius_gotta_out }
+		 completion_reward = { 
+		    add_state_core = 85
+		 }
+     }
+	 
+	 focus = {
+         id = TRN_Arius_perfect_trinity
+         icon = GFX_goal_generic_major_alliance
+         x = 5
+         y = 7
+         cost = 4
+		 relative_position_id = TRN_nagisa_gyehek
+		 prerequisite = { focus = TRN_Arius_gonna_trinity focus = TRN_Arius_gonna_trinity2 }
+		 completion_reward = { 
+		    add_political_power = 25
+		    add_stability = 0.05
+		    set_province_name = {
+				id = 362
+				name = BA_Trinity_Basilica
+			}
+		 }
+     }
+	 
+	 ## 파테르를 대체할 시스터후드
+	 focus = {
+		id = TRN_Request_assistance_from_Sisterhood
+		icon = GFX_goal_TRN_sh_letsgo
+		cost = 7
+		prerequisite = {
+			focus = TRN_uber_alles
+		}
+		mutually_exclusive = {
+			focus = TRN_Request_assistance_from_relief_knights
+		}
+		relative_position_id = TRN_nagisa_gyehek
 		x = 0
-		y = 1
+		y = 5
 		completion_reward = {
-			add_stability = 0.1
-			add_war_support = 0.05
+			
+			custom_effect_tooltip = TRM_filius_loyalty__10_tt
+			add_to_variable = { TRM_filius_loyalty = -10 }
+			TRM_internal_factions_loyalty_change = yes
+
+			custom_effect_tooltip = TRM_filius_popularity_20_tt
+			add_to_variable = { TRM_filius_popularity = 20 }
+			TRM_internal_factions_popularity_change = yes
+			unlock_decision_tooltip = TRN_sh_add
+            
+			custom_effect_tooltip = TRN_tooltip_add_army_attack_and_speed
+			add_to_variable = { TRN_trinity_uber_alles_army_attack_factor = 0.05 }
+			add_to_variable = { TRN_trinity_uber_alles_army_org_factor = 0.1 }
 		}
 	}
 	focus = {
-		id = TRN_Eden_union
-		icon = GFX_goal_unknown
+		id = TRN_Request_assistance_from_relief_knights
+		icon = GFX_goal_TRN_rk_letsgo
 		cost = 5
-		available = { has_country_flag = TRM_eden_union_tt }
-		available = { has_country_flag = GAEBALJUNG }
-		prerequisite = { focus = TRN_Ausgleich }
-		relative_position_id = TRN_Ausgleich
-		x = -2
-		y = 1
-		mutually_exclusive = { focus = TRN_united_state_Eden }
+		prerequisite = {
+			focus = TRN_uber_alles
+		}
+		mutually_exclusive = {
+			focus = TRN_Request_assistance_from_Sisterhood
+		}
+		relative_position_id = TRN_nagisa_gyehek
+		x = 2
+		y = 5
 		completion_reward = {
+			
+			custom_effect_tooltip = TRM_filius_loyalty__10_tt
+			add_to_variable = { TRM_filius_loyalty = -10 }
+			TRM_internal_factions_loyalty_change = yes
 
+			custom_effect_tooltip = TRM_filius_popularity_20_tt
+			add_to_variable = { TRM_filius_popularity = 20 }
+			TRM_internal_factions_popularity_change = yes
+			unlock_decision_tooltip = TRN_rk_add
+			
+			custom_effect_tooltip = TRN_tooltip_add_army_defence_and_morale
+			add_to_variable = { TRN_trinity_uber_alles_army_defence_factor = 0.05 }
+			add_to_variable = { TRN_trinity_uber_alles_army_morale_factor = 0.1 }
+		}
+	}
+	
+	focus = {
+		id = TRN_sisterhood_army
+		icon = GFX_focus_mex_restore_the_army_of_christ
+		cost = 6.5
+		available = {
+		    custom_trigger_tooltip = {
+				tooltip = TRN_internal_factions_sisterhood_39_more
+				check_variable = { TRM_sh_loyalty > 39 }
+			}
+		}
+		prerequisite = { focus = TRN_Request_assistance_from_Sisterhood }
+		relative_position_id = TRN_nagisa_gyehek
+		x = 0
+		y = 6
+		completion_reward = {
+		     custom_effect_tooltip = TRN_tooltip_add_war_support_1
+		 	 add_to_variable = { TRN_trinity_uber_alles_war_support_factor = 0.1 }
+			 add_to_variable = { TRN_trinity_uber_alles_political_power_gain = 0.05 }
+		     division_template = {
+					name = "Sisterhood Army"
+					priority = 1
+					division_names_group = TRM_INF_01
+					regiments = {
+						halo_infantry = { x = 0 y = 0 }
+						halo_infantry = { x = 0 y = 1 }
+						halo_infantry = { x = 0 y = 2 }
+						
+						halo_infantry = { x = 1 y = 0 }
+						halo_infantry = { x = 1 y = 1 }
+						halo_infantry = { x = 1 y = 2 }
+						
+						halo_infantry = { x = 2 y = 0 }
+						halo_infantry = { x = 2 y = 1 }
+						halo_infantry = { x = 2 y = 2 }
+						
+						halo_infantry = { x = 3 y = 0 }
+						halo_infantry = { x = 3 y = 1 }
+						halo_infantry = { x = 3 y = 2 }
+					}
+					support = {
+                        halo_recon = { x = 0 y = 0 }
+                        engineer = { x = 0 y = 1 }
+		                artillery = { x = 0 y = 2 }
+		                anti_air = { x = 0 y = 3 }
+                  	 }
+				}
+				random_owned_controlled_state = {
+					limit = { ROOT = { has_full_control_of_state = PREV } }
+					prioritize = { 64 }
+					create_unit = {
+						division = "division_template = \"Sisterhood Army\" start_experience_factor = 1" 
+						owner = TRM
+					}
+					create_unit = {
+						division = "division_template = \"Sisterhood Army\" start_experience_factor = 1" 
+						owner = TRM
+					}
+				}
+		}
+	}
+	
+	focus = {
+		id = TRN_relief_knights_army
+		icon = GFX_focus_generic_women_in_military
+		cost = 5
+		available = {
+		    custom_trigger_tooltip = {
+				tooltip = TRN_internal_factions_relief_knights_39_more
+				check_variable = { TRM_rk_loyalty > 39 }
+			}
+		}
+		prerequisite = { focus = TRN_Request_assistance_from_relief_knights }
+		relative_position_id = TRN_nagisa_gyehek
+		x = 2
+		y = 6
+		completion_reward = {
+		     custom_effect_tooltip = TRN_tooltip_add_attdef
+		 	 add_to_variable = { TRN_trinity_uber_alles_army_defence_factor = 0.1 }
+			 add_to_variable = { TRN_trinity_uber_alles_army_org_factor = 0.05 }
+		     division_template = {
+					name = "Remedial Knights Army"
+					priority = 1
+					division_names_group = TRM_INF_01
+					regiments = {
+						halo_infantry = { x = 0 y = 0 }
+						halo_infantry = { x = 0 y = 1 }
+						halo_infantry = { x = 0 y = 2 }
+						
+						halo_infantry = { x = 1 y = 0 }
+						halo_infantry = { x = 1 y = 1 }
+						halo_infantry = { x = 1 y = 2 }
+						
+						halo_infantry = { x = 2 y = 0 }
+						halo_infantry = { x = 2 y = 1 }
+						halo_infantry = { x = 2 y = 2 }
+						
+						artillery = { x = 3 y = 0 }
+					}
+					support = {
+                        halo_recon = { x = 0 y = 0 }
+                        engineer = { x = 0 y = 1 }
+                  	 }
+				}
+				random_owned_controlled_state = {
+					limit = { ROOT = { has_full_control_of_state = PREV } }
+					prioritize = { 64 }
+					create_unit = {
+						division = "division_template = \"Remedial Knights Army\" start_experience_factor = 1" 
+						owner = TRM
+					}
+					create_unit = {
+						division = "division_template = \"Remedial Knights Army\" start_experience_factor = 1" 
+						owner = TRM
+					}
+				}
 		}
 	}
 }
