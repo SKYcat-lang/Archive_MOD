@@ -10,10 +10,13 @@ FRA_industrialize = {
 			}
 		}
 		complete_effect = {
-			add_ideas = FRA_emergency_mobil
 			remove_ideas = FRA_exile
 			add_to_variable = {
 				FRA_dec = 1
+			}
+			country_event = {
+				id = FRA_prov_event.48
+				days = 3
 			}
 		}
 		cost = 10
@@ -23,10 +26,10 @@ FRA_industrialize = {
 	}
 	FRA_press_propaganda_neu = {
 		ai_will_do = {
-			base = 5
+			base = 0
 			modifier = {
-				neutrality < 0.3
-				factor = 100
+				neutrality < 0.45
+				add = 100
 			}
 		}
 		icon = GFX_decision_eng_trade_unions_support
@@ -52,10 +55,10 @@ FRA_industrialize = {
 	}
 	FRA_press_propaganda_dem = {
 		ai_will_do = {
-			base = 5
+			base = 0
 			modifier = {
-				democratic < 0.3
-				factor = 100
+				democratic < 0.45
+				add = 100
 			}
 		}
 		icon = GFX_decision_eng_trade_unions_support
@@ -81,10 +84,10 @@ FRA_industrialize = {
 	}
 	FRA_press_propaganda_com = {
 		ai_will_do = {
-			base = 5
+			base = 0
 			modifier = {
-				communism < 0.3
-				factor = 100
+				communism < 0.45
+				add = 100
 			}
 		}
 		icon = GFX_decision_eng_trade_unions_support
@@ -108,11 +111,40 @@ FRA_industrialize = {
 		days_remove = 50
 		cost = var:FRA_propaganda
 	}
+	FRA_press_propaganda_fas = {
+		ai_will_do = {
+			base = 0
+			modifier = {
+				fascism < 0.45
+				add = 100
+			}
+		}
+		icon = GFX_decision_eng_trade_unions_support
+		allowed = {
+			original_tag = FRA
+		}
+		visible = {
+			check_variable = {
+				FRA_dec > 0
+			}
+			has_government = fascism
+		}
+		modifier = {
+			fascism_drift = 0.8
+		}
+		complete_effect = {
+			add_to_variable = {
+				FRA_propaganda = 5
+			}
+		}
+		days_remove = 50
+		cost = var:FRA_propaganda
+	}
 	FRA_suppression_demo = {
 		ai_will_do = {
 			modifier = {
 				has_stability < 0.4
-				factor = 9999999
+				add = 100
 			}
 		}
 		icon = GFX_decision_generic_arrest
@@ -157,6 +189,7 @@ FRA_urbanization = {
 		days_remove = 30
 		modifier = {
 			monthly_population = -0.5
+			conscription_factor = -0.01
 			civilian_factory_use = 1
 			fascism_drift = 0.01
 		}
@@ -201,6 +234,7 @@ FRA_urbanization = {
 		days_remove = 100
 		modifier = {
 			monthly_population = -0.5
+			conscription_factor = -0.01
 			civilian_factory_use = 1
 			fascism_drift = 0.01
 		}
@@ -246,6 +280,7 @@ FRA_urbanization = {
 		days_remove = 100
 		modifier = {
 			monthly_population = -0.5
+			conscription_factor = -0.01
 			civilian_factory_use = 1
 			fascism_drift = 0.01
 		}
@@ -290,6 +325,7 @@ FRA_urbanization = {
 		days_remove = 100
 		modifier = {
 			monthly_population = -0.5
+			conscription_factor = -0.01
 			civilian_factory_use = 3
 			fascism_drift = 0.01
 		}
@@ -334,6 +370,7 @@ FRA_urbanization = {
 		days_remove = 30
 		modifier = {
 			monthly_population = -0.5
+			conscription_factor = -0.01
 			civilian_factory_use = 1
 			fascism_drift = 0.01
 		}
@@ -377,6 +414,7 @@ FRA_urbanization = {
 		days_remove = 100
 		modifier = {
 			monthly_population = -0.5
+			conscription_factor = -0.01
 			civilian_factory_use = 1
 			fascism_drift = 0.01
 		}
@@ -421,6 +459,7 @@ FRA_urbanization = {
 		days_remove = 100
 		modifier = {
 			monthly_population = -0.5
+			conscription_factor = -0.01
 			civilian_factory_use = 3
 			fascism_drift = 0.01
 		}
@@ -460,6 +499,7 @@ FRA_urbanization = {
 		days_remove = 100
 		modifier = {
 			monthly_population = -0.5
+			conscription_factor = -0.01
 			civilian_factory_use = 2
 			fascism_drift = 0.01
 		}
@@ -505,6 +545,7 @@ FRA_urbanization = {
 		days_remove = 100
 		modifier = {
 			monthly_population = -0.5
+			conscription_factor = -0.01
 			civilian_factory_use = 5
 			fascism_drift = 0.01
 		}
@@ -545,6 +586,7 @@ FRA_urbanization = {
 		days_remove = 100
 		modifier = {
 			monthly_population = -0.5
+			conscription_factor = -0.01
 			civilian_factory_use = 3
 			fascism_drift = 0.01
 		}
@@ -583,6 +625,7 @@ FRA_urbanization = {
 		days_remove = 30
 		modifier = {
 			monthly_population = -0.5
+			conscription_factor = -0.01
 			civilian_factory_use = 1
 			fascism_drift = 0.01
 		}
@@ -626,6 +669,7 @@ FRA_urbanization = {
 		days_remove = 100
 		modifier = {
 			monthly_population = -0.5
+			conscription_factor = -0.01
 			civilian_factory_use = 1
 			fascism_drift = 0.01
 		}
@@ -670,6 +714,7 @@ FRA_urbanization = {
 		days_remove = 100
 		modifier = {
 			monthly_population = -0.5
+			conscription_factor = -0.01
 			civilian_factory_use = 3
 			fascism_drift = 0.01
 		}
@@ -752,7 +797,7 @@ FRA_urbanization = {
 	}
 }
 
-FRA_war_dec = {
+FRA_war_dec = { #국민을 위한 전쟁
 	FRA_divison_warning = { #분단 전조
 		icon = GFX_decision_generic_tank
 		allowed = {
@@ -952,7 +997,7 @@ FRA_war_dec = {
 	FRA_across_mid = {
 		icon = GFX_decision_generic_ignite_civil_war
 		cost = 100
-		days_remove = 20
+		days_remove = 5
 		available = {
 			has_war_with = MIL
 		}
@@ -1126,57 +1171,8 @@ FRA_war_dec = {
 		cost = 20
 		days_remove = 200
 		modifier = {
-			conscription_factor = 0.25
-			non_core_manpower = 0.25
-		}
-		ai_will_do = {
-			factor = 10
-		}
-	}
-	FRA_village_sab = {
-		visible = {
-			has_completed_focus = FRA_focus_resistance_5
-			has_war_with = MIL
-		}
-		icon = GFX_decision_SWI_consolidate_council_power
-		available = {
-			has_war_with = MIL
-		}
-		fire_only_once = yes
-		cost = 100
-		days_remove = 15
-		remove_effect = {
-			MIL = {
-				add_timed_idea = {
-					idea = FRA_village_sab_idea
-					days = 300
-				}
-			}
-		}
-		ai_will_do = {
-			factor = 10
-		}
-	}
-	FRA_resistance_dec = {
-		visible = {
-			has_completed_focus = FRA_focus_resistance_5
-			has_war_with = MIL
-		}
-		icon = GFX_decision_generic_military
-		available = {
-			has_war_with = MIL
-		}
-		days_remove = 25
-		days_re_enable = 200
-		cost = 100
-		remove_effect = {
-			add_popularity = {
-				ideology = communism
-				popularity = 0.02
-			}
-			hidden_effect = {
-				load_oob = FRA_resis
-			}
+			conscription_factor = 0.2
+			non_core_manpower = 0.2
 		}
 		ai_will_do = {
 			factor = 10
@@ -1186,6 +1182,9 @@ FRA_war_dec = {
 		visible = {
 			has_completed_focus = FRA_focus_resistance_5
 			has_war_with = MIL
+			check_variable = {
+				FRA_i_lib_bor = 0
+			}
 		}
 		
 		icon = GFX_decision_generic_nationalism
@@ -1212,6 +1211,9 @@ FRA_war_dec = {
 					add_idea = FRA_legacy_of_war_2
 				}
 			}
+			set_variable = {
+				FRA_i_lib_bor = 1
+			}
 		}
 		fire_only_once = yes
 		ai_will_do = {
@@ -1223,6 +1225,9 @@ FRA_war_dec = {
 		visible = {
 			has_completed_focus = FRA_focus_resistance_5
 			has_war_with = MIL
+			check_variable = {
+				FRA_i_lib_bor = 0
+			}
 		}
 		icon = GFX_decision_generic_nationalism
 		available = {
@@ -1247,6 +1252,9 @@ FRA_war_dec = {
 					remove_idea = FRA_legacy_of_war_1
 					add_idea = FRA_legacy_of_war_2
 				}
+			}
+			set_variable = {
+				FRA_i_lib_bor = 1
 			}
 		}
 		ai_will_do = {
@@ -1316,10 +1324,24 @@ FRA_war_dec = {
 				ideology = fascism
 				popularity = -0.3
 			}
-			set_party_name = {
-				ideology = fascism
-				long_name = FRA_fascism_party_new
-				name = FRA_fascism_party_new
+			if = {
+				limit = {
+					NOT = {
+						has_government = fascism
+					}
+				}
+				set_party_name = {
+					ideology = fascism
+					long_name = FRA_fascism_party_new
+					name = FRA_fascism_party_new
+				}
+			}
+			else = {
+				set_party_name = {
+					ideology = communism
+					long_name = FRA_communism_party
+					name = FRA_communism_party
+				}
 			}
 			annex_country = {
 				target = FRM
@@ -1701,23 +1723,6 @@ FRA_prepare_war = {
 }
 
 FRA_ally = { #외교 정책
-	FRA_make_faction = { #세력창설
-		icon = GFX_decision_generic_civil_support
-		visible = {
-			has_completed_focus = FRA_focus_london_5
-		}
-		cost = 10
-		available = {
-			is_in_faction = no	
-		}
-		ai_will_do = {
-			base = 10
-		}
-		days_remove = 10
-		remove_effect = {
-			create_faction = fac_entente
-		}
-	}
 	FRA_ita_surrender = { #이탈리아에 항복
 		icon = GFX_decision_eng_trade_unions_support
 		visible = {
@@ -1744,81 +1749,6 @@ FRA_ally = { #외교 정책
 			}
 		}
 	}
-	FRA_ally_comintern = {
-		#코민테른 가입
-		icon = GFX_decision_eng_trade_unions_support
-		visible = {
-			has_completed_focus = FRA_focus_london_5
-			FRA = {
-				has_government = communism
-			}
-		}
-		allowed = {
-			original_tag = fra
-		}
-		cost = 50
-		fire_only_once = yes
-		available = {
-			AND = {
-				FRA = {
-					has_government = communism
-				}
-				SOV = {
-					has_government = communism
-				}
-			}
-		}
-		complete_effect = {
-			SOV = {
-				country_event = {
-					id = fra_prov_event.56
-					days = 1
-				}
-			}
-		}
-		ai_will_do = {
-			factor = 10
-		}
-	}
-	FRA_ally_help_spain = {
-		#스페인 복구 지원
-		icon = GFX_decision_eng_trade_unions_support
-		visible = {
-			OR = {
-				is_ally_with = SPR
-				is_ally_with = d01
-			}
-		}
-		allowed = {
-			original_tag = fra
-		}
-		fire_only_once = yes
-		cost = 150
-		available = {
-			any_country = {
-				original_tag = SPR
-				has_idea = SPA_recovering_from_civil_war_2
-			}
-		}
-		ai_will_do = {
-			base = 10
-		}
-		days_remove = 200
-		modifier = {
-			consumer_goods_factor = 0.15
-		}
-		complete_effect = {
-			random_other_country ={
-				limit = {
-					original_tag = SPR
-				}
-				swap_ideas = {
-					remove_idea = SPA_recovering_from_civil_war_2
-					add_idea = FRA_SPA_recovering_from_civil_war_3
-				}
-			}
-		}
-	}
 	FRA_ally_stresa_cut = { #스트레사 전선 파기
 		icon = GFX_decision_generic_break_treaty
 		ai_will_do = {
@@ -1827,13 +1757,6 @@ FRA_ally = { #외교 정책
 		visible = {
 			has_idea = PASTA_signatories_of_the_stresa_idea
 			has_completed_focus = FRA_focus_london_5
-			OR = {
-				AND = {	
-					has_completed_focus = FRA_focus_london_4
-					is_in_faction = no
-				}
-				has_completed_focus = FRA_focus_london_4_5
-			}
 		}
 		allowed = {
 			original_tag = fra
@@ -1860,39 +1783,6 @@ FRA_ally = { #외교 정책
 			}
 		}
 	}
-	FRA_ally_por = {
-		#포르투갈에 정박권
-		icon = GFX_decision_eng_trade_unions_support
-		visible = {
-			has_completed_focus = FRA_focus_london_5
-		}
-		allowed = {
-			original_tag = fra
-		}
-		fire_only_once = yes
-		cost = 50
-		available = {
-			POR = {
-				NOT = {
-					OR = {
-						has_government = communism
-						has_government = fascism
-					}
-				}
-			}
-			D01 = {
-				exists = no
-			}
-		}
-		complete_effect = {
-			POR = {
-				country_event = {
-					id = fra_prov_event.59
-					days = 1
-				}
-			}
-		}
-	}
 }
 
 FRA_political_wigi = {
@@ -1911,7 +1801,7 @@ FRA_political_wigi = {
 			has_completed_focus = FRA_focus_fas_2
 		}
 		is_good = no
-		days_mission_timeout = 50
+		days_mission_timeout = 100
 		timeout_effect = {
 			add_stability = -0.3
 			add_popularity = {
@@ -2716,8 +2606,7 @@ FRA_propaganda = {
 		days_remove = 120
 		cost = 15
 		modifier = {
-			conscription_factor = 0.5
-			training_time_army_factor = -0.5
+			training_time_army_factor = -0.3
 		}
 		available = {
 			custom_trigger_tooltip = {
@@ -2865,7 +2754,17 @@ FRA_propaganda = {
 		cost = 15
 		modifier = {
 			consumer_goods_factor = -0.3
-			production_speed_arms_factory_factor = 0.15
+		}
+		remove_effect = {
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = FRA_national_defense_bond_idea_2
+					add_idea = FRA_national_defense_bond_idea_1
+				}
+			}
+			add_to_variable = {
+				FRA_national_defense_bond_political_power_variable = -0.1
+			}
 		}
 		available = {
 			custom_trigger_tooltip = {
@@ -2881,6 +2780,9 @@ FRA_propaganda = {
 						has_country_flag = FRA_propaganda_7_flag
 					}
 				}
+			}
+			has_dynamic_modifier = {
+				modifier = FRA_national_defense_bond
 			}
 		}
 	}
@@ -2956,6 +2858,7 @@ FRA_propaganda = {
 			production_factory_efficiency_gain_factor = 0.1
 			industrial_capacity_factory = 0.1
 			production_speed_industrial_complex_factor = 0.15
+			production_speed_arms_factory_factor = 0.15
 		}
 	}
 }
@@ -3200,7 +3103,7 @@ FRA_division_decision_category = {
 }
 FRA_indochina_issue = {
 	FRA_near_japan_intervention_indochina = { #임박한 일본의 개입
-		days_mission_timeout = 150
+		days_mission_timeout = 120
 		icon = GFX_decision_jap_pacific_guardian
 		is_good = no
 		available = {
@@ -3220,20 +3123,62 @@ FRA_indochina_issue = {
 			hidden_effect={
 				LAO = {
 					transfer_state = 286
-					set_cosmetic_tag = VIN_indochina_civilwar_jap
-					every_country = {
-						limit = {
-							original_tag = VIN
-						}
-						declare_war_on = {
-							target = prev
-						}
+					set_politics = {
+						ruling_party = fascism
 					}
+					add_popularity = {
+						ideology = fascism
+						popularity = 1
+					}
+					set_cosmetic_tag = VIN_indochina_civilwar_jap
 					every_state = {
 						limit = {
 							is_core_of = VIN
 						}
 						add_core_of = LAO
+					}
+					division_template = {
+						name = "Vietnam Militia"
+						regiments = {
+							infantry = {
+								x = 0
+								y = 0
+							}
+							infantry = {
+								x = 0
+								y = 1
+							}
+							infantry = {
+								x = 0
+								y = 2
+							}
+							infantry = {
+								x = 1
+								y = 0
+							}
+						}
+					}
+					random_owned_state = {
+						create_unit = {
+							division = "name = \"Militia\" division_template = \"Vietnam Militia\" start_experience_factor = 0.2"
+							owner = LAO
+						}
+						create_unit = {
+							division = "name = \"Militia\" division_template = \"Vietnam Militia\" start_experience_factor = 0.2 start_equipment_factor = 0.7"
+							owner = LAO
+						}
+						create_unit = {
+							division = "name = \"Militia\" division_template = \"Vietnam Militia\" start_experience_factor = 0.2 start_equipment_factor = 0.7"
+							owner = LAO
+						}
+						create_unit = {
+							division = "name = \"Militia\" division_template = \"Vietnam Militia\" start_experience_factor = 0.2 start_equipment_factor = 0.7"
+							owner = LAO
+						}
+						create_unit = {
+							division = "name = \"Militia\" division_template = \"Vietnam Militia\" start_experience_factor = 0.2 start_equipment_factor = 0.7"
+							owner = LAO
+						}
 					}
 				}
 				JAP = {
@@ -3361,8 +3306,9 @@ FRA_indochina_issue = {
 	FRA_indochina_going_bad = { #심화되어가는 식민지인 저항
 		icon = GFX_decision_revolt
 		days_mission_timeout = 80
-		available = {
-			has_country_flag = FRA_has_indochina_war
+		available = {OR=
+			{has_country_flag = FRA_has_indochina_war
+			has_country_flag = FRA_finished_vin_cirisis}
 		}
 		activation = {
 			always = no
@@ -3371,11 +3317,121 @@ FRA_indochina_issue = {
 		timeout_effect = {
 			VIN = {
 				VIN_upgrade_resist = yes
-				add_stability = -0.1
+				add_stability = -0.01
 			}
 			activate_mission = FRA_indochina_going_bad
 		}
 		priority = 100
+	}
+	FRA_make_vin_colony = { #총독부 통제권 확보
+		icon = GFX_decision_hol_draw_up_staff_plans
+		cost = 100
+		available = {
+			dockyard > 14
+			has_stability > 0.4
+		}
+		visible = {
+			has_country_flag = FRA_indochina_make_colony
+		}
+		days_remove = 50
+		remove_effect = {
+			VIN = {
+				swap_ideas = {
+					remove_idea = FRA_government_general_1
+					add_idea = FRA_government_general_2
+				}
+				hidden_effect = {
+					remove_ideas = VIN_colonists_resist_1
+					remove_ideas = VIN_colonists_resist_2
+					remove_ideas = VIN_colonists_resist_3
+					remove_ideas = VIN_colonists_resist_0
+				}
+			}
+			set_country_flag = FRA_finished_vin_cirisis
+			remove_mission = FRA_indochina_going_bad
+			clr_global_flag = VIN_has_crisis
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			base = 10
+		}
+	}
+	FRA_make_vin_dominion = { #현지인 자치권 부여
+		icon = GFX_decision_SWI_swiss_democratic_tradition_campaign
+		cost = 100
+		visible = {
+			has_country_flag = FRA_indochina_make_dominion
+		}
+		days_remove = 50
+		remove_effect = {
+			VIN = {
+				remove_ideas = FRA_government_general_1
+				add_popularity = {
+					ideology = neutrality
+					popularity = -0.1
+				}
+				set_politics = {
+					ruling_party = neutrality
+					election_frequency = 36
+					elections_allowed = yes
+				}
+				set_party_name = {
+					ideology = neutrality
+					long_name = VIN_neutrality_party_new
+					name = VIN_neutrality_party_new
+				}
+				set_cosmetic_tag = VIN_dominion_cosmetic_tag
+				hidden_effect = {
+					remove_ideas = VIN_colonists_resist_1
+					remove_ideas = VIN_colonists_resist_2
+					remove_ideas = VIN_colonists_resist_3
+					remove_ideas = VIN_colonists_resist_0
+				}
+			}
+			FRA = {
+				set_autonomy = {
+					target = VIN
+					autonomy_state = autonomy_dominion
+				}
+				remove_resource_rights = 671
+				remove_resource_rights = 286
+			}
+			clr_global_flag = VIN_has_crisis
+			set_country_flag = FRA_finished_vin_cirisis
+			remove_mission = FRA_indochina_going_bad
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			base = 10
+		}
+	}
+	FRA_help_vin_afterwar = { #재건 지원
+		ai_will_do = {
+			base = 10
+		}
+		icon = GFX_decision_generic_construction
+		cost = 100
+		visible = {
+			has_country_flag = FRA_indochina_support_rebuild
+		}
+		days_remove = 250
+		modifier = {
+			consumer_goods_expected_value = 0.08
+		}
+		remove_effect = {
+			VIN = {
+				remove_ideas = VIN_fucked_up
+				add_popularity = {
+					ideology = neutrality
+					popularity = 0.1
+				}
+			}
+			set_country_flag = FRA_has_indochina_issue
+			unlock_decision_tooltip = FRA_more_resource_indochina
+			unlock_decision_tooltip = FRA_more_industry_indochina
+			unlock_decision_tooltip = FRA_more_arms_factory_indochina
+		}
+		fire_only_once = yes
 	}
 	FRA_more_security_indochina = { #식민지 치안 강화
 		icon = GFX_decision_generic_army_support
@@ -3384,6 +3440,9 @@ FRA_indochina_issue = {
 			has_country_flag = FRA_has_indochina_issue
 		}
 		available = {
+			NOT = {
+				has_country_flag = FRA_VIN_anti_resist_action
+			}
 			VIN = {
 				OR = {
 					has_idea = VIN_colonists_resist_1
@@ -3392,7 +3451,7 @@ FRA_indochina_issue = {
 				}
 			}
 		}
-		days_remove = 60
+		days_remove = 45
 		days_re_enable = 90
 		cost = FRA_VIN_security_cost
 		complete_effect = {
@@ -3430,6 +3489,9 @@ FRA_indochina_issue = {
 			has_country_flag = FRA_has_indochina_issue
 		}
 		available = {
+			NOT = {
+				has_country_flag = FRA_VIN_anti_resist_action
+			}
 			VIN = {
 				OR = {
 					has_idea = VIN_colonists_resist_1
@@ -3475,6 +3537,9 @@ FRA_indochina_issue = {
 			has_country_flag = FRA_has_indochina_issue
 		}
 		available = {
+			NOT = {
+				has_country_flag = FRA_VIN_anti_resist_action
+			}
 			VIN = {
 				OR = {
 					has_idea = VIN_colonists_resist_1
@@ -3483,12 +3548,9 @@ FRA_indochina_issue = {
 				}
 			}
 		}
-		days_remove = 60
+		days_remove = 40
 		days_re_enable = 60
 		cost = FRA_VIN_autonomy_cost
-		modifier = {
-			consumer_goods_expected_value = 0.05
-		}
 		complete_effect = {
 			add_to_variable = {
 				FRA_VIN_autonomy_cost = 5
@@ -3624,6 +3686,97 @@ FRA_indochina_issue = {
 		}
 		ai_will_do = {
 			base = 1
+		}
+	}
+}
+FRA_defense_bond_cat = {
+	FRA_start_defense_bond = {
+		ai_will_do = {
+			base = 5
+		}
+		icon = GFX_decision_ger_mefo_bills
+		visible = {
+			has_completed_focus = FRA_focus_ind
+			OR={
+			NOT = {
+				has_dynamic_modifier = {
+					modifier = FRA_national_defense_bond
+				}
+			}
+			has_country_flag = FRA_defense_bond_no_flag
+			}
+		}
+		days_re_enable = 3
+		remove_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_dynamic_modifier = {
+							modifier = FRA_national_defense_bond
+						}
+					}
+				}
+				add_dynamic_modifier = {
+					modifier = FRA_national_defense_bond
+				}
+				activate_mission = FRA_update_defense_bond
+			}
+			else = {
+				clr_country_flag = FRA_defense_bond_no_flag
+			}
+		}
+	}
+	FRA_end_defense_bond = { #국방 채권 지불
+		ai_will_do = {
+			base = 0
+		}
+		icon = GFX_decision_ger_mefo_bills
+		visible = {
+			has_completed_focus = FRA_focus_ind
+			AND={has_dynamic_modifier = {
+				modifier = FRA_national_defense_bond
+			}
+			NOT={has_country_flag = FRA_defense_bond_no_flag}}
+		}
+		days_re_enable = 3
+		remove_effect = {
+			set_country_flag = FRA_defense_bond_no_flag
+		}
+	}
+	FRA_update_defense_bond = {
+		icon = GFX_decision_ger_mefo_bills
+		available = {
+			always = no
+		}
+		activation = {
+			always = no
+		}
+		days_mission_timeout = 180
+		timeout_effect = {
+			if = {
+				limit = {
+					has_country_flag = FRA_defense_bond_no_flag
+				}
+				remove_dynamic_modifier = {
+					modifier = FRA_national_defense_bond
+				}
+				clr_country_flag = FRA_defense_bond_no_flag
+				multiply_variable = {
+					FRA_national_defense_bond_political_power_variable = 200
+				}
+			}
+			else = {
+				effect_tooltip = {
+					swap_ideas = {
+						remove_idea = FRA_national_defense_bond_idea_1
+						add_idea = FRA_national_defense_bond_idea_2
+					}
+				}
+				add_to_variable = {
+					FRA_national_defense_bond_political_power_variable = 0.1
+				}
+				activate_mission = FRA_update_defense_bond
+			}
 		}
 	}
 }

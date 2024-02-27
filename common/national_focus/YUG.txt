@@ -154,7 +154,7 @@ focus_tree = {
 	focus = {
 		id = YUG_end_of_compromism
 		icon = GFX_focus_generic_support_the_left_right
-		prerequisite = { focus = YUG_go_communism }
+		prerequisite = { focus = YUG_rejection_of_left_wing_extremism }
 		mutually_exclusive = {
 			focus = YUG_Constitution_Reform
 		}
@@ -189,7 +189,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = YUG_go_communism
 		completion_reward = {
-			add_ideas = YUG_Yugoslavia_Peoples_Army
+			add_ideas = YUG_Yugoslavia_Peoples_Army1
 		 }
 	}
 
@@ -213,16 +213,49 @@ focus_tree = {
 			focus = YUG_go_communism
 			focus = YUG_rejection_of_left_wing_extremism
 	 	}
-		cost = 3
+		cost = 1
 		x = 2
 		y = 1
 		relative_position_id = YUG_go_communism
 		completion_reward = {
 			country_event = {
 				id = YUG_event.1
-				hours = 1
+				hours = 6
 			}
 		 }
+	}
+
+	focus = {
+		id = YUG_Appeasement_of_The_Military
+		icon = GFX_focus_generic_military_mission
+		cost = 2
+		prerequisite = {
+			focus = YUG_People_s_Front
+		}
+		x = 2
+		y = 2
+		relative_position_id = YUG_go_communism
+		completion_reward = {
+			if = {
+				limit = {
+					has_completed_focus = YUG_go_communism
+				}
+				swap_ideas = {
+					remove_idea = anti_german_military
+					add_idea = YUG_Communist_Military
+				} 
+			}
+			if = {
+				limit = {
+					has_completed_focus = YUG_rejection_of_left_wing_extremism
+				}
+				swap_ideas = {
+					remove_idea = anti_german_military
+					add_idea = YUG_Democrat_Military
+				}
+				
+			}
+		}
 	}
 	
 	focus = {
@@ -234,7 +267,28 @@ focus_tree = {
 		x = 0
 		y = 2
 		relative_position_id = YUG_go_communism
-		completion_reward = { }
+		completion_reward = {
+			SOV = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = large_increase
+				}
+				add_ai_strategy = {
+					type = protect
+					id = "YUG"
+					value = 100
+				}
+			}
+			add_relation_modifier = {
+				target = SOV
+				modifier = YUG_western_license
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_1
+				amount = 5000
+				producer = SOV 
+			}
+		}
 	}
 
 	focus = {
@@ -246,7 +300,12 @@ focus_tree = {
 		x = -2
 		y = 2
 		relative_position_id = YUG_go_communism
-		completion_reward = { }
+		completion_reward = {
+			country_event = {
+				id = YUG_event.2
+				hours = 12
+			}
+		 }
 	}
 
 	focus = {
@@ -254,7 +313,7 @@ focus_tree = {
 		icon = GFX_focus_ITA_corpo_volontari_della_liberta
 		cost = 5
 		prerequisite = {
-			focus = YUG_People_s_Front
+			focus = YUG_Appeasement_of_The_Military
 		}
 		prerequisite = {
 			focus = YUG_Coop_Communist_International
@@ -262,7 +321,19 @@ focus_tree = {
 		}
 		x = 5
 		y = 4
-		completion_reward = { }
+		completion_reward = {
+			if = {
+				limit = {
+					has_completed_focus = YUG_go_communism
+				}
+			}
+
+			if = {
+				limit = {
+					has_completed_focus = YUG_rejection_of_left_wing_extremism
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -276,9 +347,12 @@ focus_tree = {
 		x = 0
 		y = 2
 		relative_position_id = YUG_Great_Revolution
-		completion_reward = { }
+		completion_reward = {
+			country_event = YUG_event.3
+			hours = 12
+		}
 	}
-	
+
 	focus = {
 		id = YUG_General_Election
 		icon = GFX_focus_generic_strike_at_democracy2
@@ -392,7 +466,9 @@ focus_tree = {
 		x = 0
 		y = 4
 		relative_position_id = YUG_go_communism
-		completion_reward = { }
+		completion_reward = {
+			
+		}
 	}
 
 	focus = {
@@ -402,10 +478,14 @@ focus_tree = {
 		prerequisite = {
 			focus = YUG_workers_republic
 		}
-		x = -2
+		x = 0
 		y = 1
 		relative_position_id = YUG_workers_republic
-		completion_reward = { }
+		completion_reward = {
+			remove_ideas = YUG_idea_croatian_opposition
+			remove_ideas = YUG_idea_macedonian_opposition
+			remove_ideas = YUG_idea_slovene_nationalism
+		}
 	}
 
 	focus = {
@@ -415,10 +495,53 @@ focus_tree = {
 		prerequisite = {
 			focus = YUG_workers_republic
 		}
-		x = 0
+		x = -2
 		y = 1
 		relative_position_id = YUG_workers_republic
-		completion_reward = { }
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = YUG_idea_serbian_general_staff
+				}
+				swap_ideas = {
+					remove_idea = YUG_idea_serbian_general_staff
+					add_idea = YUG_federal_defense_council
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = YUG_Peoples_Army_Reorganization
+		icon = GFX_focus_SOV_mobilization_plan
+		cost = 5
+		prerequisite = {
+			focus = YUG_federal_defense_council1
+		}
+		x = -1
+		y = 1
+		relative_position_id = YUG_federal_defense_council1
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = YUG_Yugoslavia_Peoples_Army1
+				add_idea = YUG_Yugoslavia_Peoples_Army2
+			}
+		 }
+	}
+
+	focus = {
+		id = YUG_Partisan_War_Tactics
+		icon = GFX_focus_secret_rearmament
+		cost = 5
+		prerequisite = {
+			focus = YUG_Peoples_Army_Reorganization
+		}
+		x = 0
+		y = 1
+		relative_position_id = YUG_Peoples_Army_Reorganization
+		completion_reward = {
+			add_ideas = YUG_Idea_Partisan_War_Tactics
+		}
 	}
 
 	focus = {
@@ -434,7 +557,9 @@ focus_tree = {
 		x = -1
 		y = 2
 		relative_position_id = YUG_workers_republic
-		completion_reward = { }
+		completion_reward = {
+			add_ideas = YUG_Idea_Brotherhood_And_Unity
+		}
 	}
 	
 	focus = {
@@ -442,7 +567,7 @@ focus_tree = {
 		icon = GFX_goal_generic_national_unity
 		cost = 5
 		prerequisite = {
-			focus = YUG_federal_defense_council1
+			focus = YUG_form_the_federal_republic1
 		}
 		prerequisite = {
 			focus = YUG_Last_of_Royal_family
@@ -450,7 +575,9 @@ focus_tree = {
 		x = 1
 		y = 2
 		relative_position_id = YUG_workers_republic
-		completion_reward = { }
+		completion_reward = {
+			add_ideas = YUG_Idea_Harmony_in_Religion
+		}
 	}
 	
 	focus = {
@@ -466,7 +593,9 @@ focus_tree = {
 		x = -1
 		y = 3
 		relative_position_id = YUG_workers_republic
-		completion_reward = { }
+		completion_reward = {
+			add_ideas = YUG_Idea_Break_authoritarianism
+		}
 	}
 
 	focus = {
@@ -482,7 +611,9 @@ focus_tree = {
 		x = 1
 		y = 3
 		relative_position_id = YUG_workers_republic
-		completion_reward = { }
+		completion_reward = {
+			add_ideas = YUG_Idea_Worker_SelfManagement
+		}
 	}
 
 	focus = {
@@ -704,19 +835,6 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = YUG_peter_ii_coup
-		}
-		x = 0
-		y = 1
-		relative_position_id = YUG_Maintaining_the_Kingdom
-		completion_reward = { }
-	}
-
-	focus = {
-		id = YUG_No_Left
-		icon = GFX_goal_generic_political_pressure
-		cost = 5
-		prerequisite = {
-			focus = YUG_Maintaining_the_Kingdom
 		}
 		x = 0
 		y = 1

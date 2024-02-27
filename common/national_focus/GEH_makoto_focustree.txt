@@ -16,10 +16,816 @@ focus_tree = {
 	shared_focus = GEH_unified_gehenna
 	default = no
 	focus = {
+		id = GEH_basic_industrial_base
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 5
+		x = 3
+		y = 0
+		ai_will_do = {
+			factor = 12
+		}
+	
+		completion_reward = {
+			add_tech_bonus = {
+				name = GEH_basic_industrial_base
+				bonus = 0.75
+				uses = 2
+				category = construction_tech
+			}
+		}
+	}
+	focus = {
+		id = GEH_turn_eyes_to_the_sea
+		icon = GFX_goal_generic_build_navy
+		cost = 5
+		x = 9
+		y = 0
+		completion_reward = {
+			navy_experience = 25
+			add_tech_bonus = {
+				name = cr_bonus
+				bonus = 1.0
+				uses = 1
+				category = dd_tech
+				category = cl_tech
+				category = ca_tech
+			}
+			random_owned_controlled_state = {
+				limit = {
+					dockyard > 0
+					free_building_slots = {
+						building = dockyard
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEH_llinked_ruhr_industrial
+		icon = GFX_focus_generic_industry_1
+		cost = 5
+		prerequisite = {
+			focus = GEH_basic_industrial_base
+		}
+		x = -2
+		y = 1
+		relative_position_id = GEH_basic_industrial_base
+	
+		complete_tooltip = {
+			random_state = {
+				limit = { has_state_flag = GEH_basic_industrial_industrial_region_1 }
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_state = {
+				limit = { has_state_flag = GEH_basic_industrial_industrial_region_1 }
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = GEH_llinked_ruhr_industrial
+				bonus = 1.0
+				uses = 1
+				category = industry
+			}
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 57 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = GEH_basic_industrial_industrial_region_1
+			}
+			random_owned_controlled_state = {
+				prioritize = { 945 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = GEH_basic_industrial_industrial_region_1
+			}
+			random_owned_controlled_state = {
+				prioritize = { 51 }
+				add_extra_state_shared_building_slots = 2
+				set_state_flag = GEH_basic_industrial_industrial_region_1
+			}
+			random_owned_controlled_state = {
+				prioritize = { 944 }
+				add_extra_state_shared_building_slots = 2
+				set_state_flag = GEH_basic_industrial_industrial_region_1
+			}
+			add_tech_bonus = {
+				name = GEH_llinked_ruhr_industrial
+				bonus = 1.0
+				uses = 1
+				category = industry
+			}
+		}
+	}
+	focus = {
+		id = GEH_military_industry
+		icon = GFX_goal_LEP_krupp_industial
+		cost = 5
+		prerequisite = {
+			focus = GEH_llinked_ruhr_industrial
+		}
+		mutually_exclusive = {
+			focus = GEH_consumer_goods_augmentation
+		}
+		x = -1
+		y = 2
+		relative_position_id = GEH_basic_industrial_base
+		completion_reward = {
+			if = {
+				limit =  {
+					any_state = { has_state_flag = GEH_basic_industrial_industrial_region_1 }
+				}
+				every_state = {
+					limit = {
+						has_state_flag = GEH_basic_industrial_industrial_region_1
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			else = {
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEH_consumer_goods_augmentation
+		icon = GFX_goal_GER_Siemens
+		cost = 5
+		prerequisite = {
+			focus = GEH_llinked_ruhr_industrial
+		}
+		mutually_exclusive = {
+			focus = GEH_military_industry
+		}
+		x = -3
+		y = 2
+		relative_position_id = GEH_basic_industrial_base
+		completion_reward = {
+			if = {
+				limit =  {
+					any_state = { has_state_flag = GEH_basic_industrial_industrial_region_1 }
+				}
+				every_state = {
+					limit = {
+						has_state_flag = GEH_basic_industrial_industrial_region_1
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			else = {
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = industrial_complex
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEH_fighter_production_facilities
+		icon = GFX_goal_generic_air_production
+		cost = 5
+		prerequisite = {
+			focus = GEH_consumer_goods_augmentation
+			focus = GEH_military_industry
+		}
+		x = -2
+		y = 3
+		relative_position_id = GEH_basic_industrial_base
+		
+		completion_reward = {
+			air_experience = 25
+			if = {
+				limit = {
+					has_dlc = "By Blood Alone"
+				}
+				add_tech_bonus = {
+					name = GEH_fighter_production_facilities
+					bonus = 1.0
+					uses = 1
+					category = medium_air
+					category = light_air			
+				}
+				add_tech_bonus = {
+					name = GEH_fighter_production_facilities
+					bonus = 1.0
+					uses = 1
+					technology = engines_1
+					technology = engines_2
+					technology = engines_3
+					technology = engines_4
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					name = GEH_fighter_production_facilities
+					bonus = 1.0
+					uses = 2
+					category = tactical_bomber
+					category = cas_bomber			
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEH_gehenna_air_force
+		icon = GFX_goal_generic_build_airforce
+		cost = 5
+		prerequisite = {
+			focus = GEH_fighter_production_facilities
+		}
+		x = -2
+		y = 4
+		relative_position_id = GEH_basic_industrial_base
+		complete_tooltip = {
+			add_doctrine_cost_reduction = {
+				name = air_sup_bonus
+				cost_reduction = 0.25
+				uses = 2
+				category = battlefield_support_tree
+			}
+			every_state = {
+				limit = { has_state_flag = GEM_air_innovation_2air }
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+		
+		completion_reward = {
+
+			add_doctrine_cost_reduction = {
+				name = air_sup_bonus
+				cost_reduction = 0.25
+				uses = 2
+				category = battlefield_support_tree
+			}
+
+			random_owned_controlled_state = {
+				limit = {
+					air_base > 3
+					air_base < 9
+				}
+				add_building_construction = {
+					type = air_base
+					level = 2
+					instant_build = yes
+				}
+				set_state_flag = GEM_air_innovation_2air
+			}
+		}
+	}
+	focus = {
+		id = GEH_german_company
+		icon = GFX_goal_generic_constitutional_guarantees
+		cost = 5
+		prerequisite = {
+			focus = GEH_basic_industrial_base
+		}
+		ai_will_do = {
+			factor = 12
+		}
+		x = 2
+		y = 1
+		relative_position_id = GEH_basic_industrial_base
+		completion_reward = {
+			add_dynamic_modifier = {
+				modifier = GEM_industries_dynamic
+			}
+			custom_effect_tooltip = GEH_german_company_tt
+		}
+	}
+	focus = {
+		id = GEH_nazi_industry_acquisition
+		icon = GFX_goal_generic_construction2
+		cost = 5
+		prerequisite = {
+			focus = GEH_german_company
+		}
+		x = 1
+		y = 1
+		relative_position_id = GEH_german_company
+		completion_reward = {
+			custom_effect_tooltip = GEH_nazi_industry_acquisition_tt
+			add_to_variable = { GEM_industries_dynamic_production_factory_efficiency_gain_factor = 0.05 }
+			add_to_variable = { GEM_industries_dynamic_production_factory_max_efficiency_factor = 0.10 }
+		}
+	}
+	focus = {
+		id = GEH_autobahn_construction_beginning
+		icon = GFX_goal_generic_road_construction
+		cost = 5
+		prerequisite = {
+			focus = GEH_nazi_industry_acquisition
+		}
+		available = {
+			OR = {
+				has_full_control_of_state = 55
+				has_full_control_of_state = 59
+				has_full_control_of_state = 51
+				has_full_control_of_state = 944
+				has_full_control_of_state = 945
+			}
+		}
+		x = 0
+		y = 2
+		relative_position_id = GEH_german_company
+		completion_reward = {
+			custom_effect_tooltip = GEM_autobahn_tt
+			hidden_effect = {
+				55 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 5
+						instant_build = yes
+					}
+				}
+				59 = {
+					add_building_construction = {
+						type = infrastructure
+						level = 5
+						instant_build = yes
+					}
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = {
+					51
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = {
+					944
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = {
+					945
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEH_contact_with_the_german_labor_front
+		icon = GFX_goal_generic_union_agreement
+		cost = 5
+		prerequisite = {
+			focus = GEH_nazi_industry_acquisition
+		}
+		x = 2
+		y = 2
+		relative_position_id = GEH_german_company
+		completion_reward = {
+			custom_effect_tooltip = GEH_contact_with_the_german_labor_front_tt
+			add_to_variable = { GEM_industries_dynamic_consumer_goods_factor = 0.05 }
+			add_to_variable = { GEM_industries_dynamic_production_factory_max_efficiency_factor = 0.05 }
+			add_to_variable = { GEM_industries_dynamic_production_lack_of_resource_penalty_factor = -0.10 }
+		}
+	}
+	focus = {
+		id = GEH_IG_farben
+		icon = GFX_goal_munitions_factories
+		cost = 5
+		prerequisite = {
+			focus = GEH_llinked_ruhr_industrial
+			focus = GEH_german_company
+		}
+		x = -1
+		y = 1
+		relative_position_id = GEH_german_company
+		completion_reward = {
+			add_tech_bonus = {
+				name = GEH_IG_farben
+				bonus = 3.0
+				uses = 1
+				category = synth_resources
+			}
+			if = {
+				limit = {
+					has_full_control_of_state = 51
+				}
+				51 = {
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = synthetic_refinery
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			else = {
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = synthetic_refinery
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = synthetic_refinery
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEH_gehenna_general_academy
+		icon = GFX_focus_research
+		cost = 10
+		prerequisite = {
+			focus = GEH_basic_industrial_base
+		}
+		x = 0
+		y = 1
+		relative_position_id = GEH_basic_industrial_base
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	focus = {
+		id = GEH_complete_assimilation_of_german_industry
+		icon = GFX_goal_Military_Mobilisation
+		cost = 5
+		prerequisite = {
+			focus = GEH_autobahn_construction_beginning
+			focus = GEH_contact_with_the_german_labor_front
+		}
+		prerequisite = {
+			focus = GEH_IG_farben
+		}
+		available = {
+			num_of_factories > 80
+		}
+		x = -1
+		y = 3
+		relative_position_id = GEH_german_company
+	
+		complete_tooltip = {
+			random_state = {
+				limit = { has_state_flag = GEH_basic_industrial_industrial_region_1 }
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_state = {
+				limit = { has_state_flag = GEH_basic_industrial_industrial_region_1 }
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			add_tech_bonus = {
+				name = GEH_llinked_ruhr_industrial
+				bonus = 1.0
+				uses = 1
+				category = industry
+			}
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = GEH_complete_assimilation_of_german_industry_tt
+			add_to_variable = { GEM_industries_dynamic_production_factory_max_efficiency_factor = -0.05 }
+			add_to_variable = { GEM_industries_dynamic_production_factory_efficiency_gain_factor = 0.05 }
+			add_to_variable = { GEM_industries_dynamic_production_lack_of_resource_penalty_factor = -0.05 }
+			random_owned_controlled_state = {
+				prioritize = { 55 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = GEH_basic_industrial_industrial_region_1
+			}
+			random_owned_controlled_state = {
+				prioritize = { 59 }
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = GEH_basic_industrial_industrial_region_1
+			}
+			add_tech_bonus = {
+				name = GEH_llinked_ruhr_industrial
+				bonus = 1.0
+				uses = 1
+				category = industry
+			}
+		}
+	}
+	focus = {
+		id = GEH_uboat_production_recovery
+		icon = GFX_goal_generic_navy_submarine
+		cost = 5
+		prerequisite = {
+			focus = GEH_nazi_industry_acquisition
+		}
+		prerequisite = {
+			focus = GEH_turn_eyes_to_the_sea
+		}
+		x = 4
+		y = 2
+		relative_position_id = GEH_german_company
+		completion_reward = {
+			add_tech_bonus = {
+				name = GER_u_boat_effort
+				bonus = 1.0
+				uses = 1
+				category = ss_tech
+			}
+			if = {
+				limit = { has_dlc = "Man the Guns" }
+				if = {
+					limit = { has_tech = basic_ship_hull_submarine }
+					create_equipment_variant = {
+						name = "Type VII Class"
+						type = ship_hull_submarine_2
+						name_group = GER_SS_HISTORICAL
+						parent_version = 0
+						modules = {
+							fixed_ship_torpedo_slot = ship_torpedo_sub_2
+							fixed_ship_engine_slot = sub_ship_engine_2
+							rear_1_custom_slot = empty
+						}
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_submarine_2
+							creator = "GEM" 
+							version_name = "Type VII Class"
+						}
+						name = "U-28" 
+						requested_factories = 1
+						progress = 0.75
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_submarine_2
+							creator = "GEM" 
+							version_name = "Type VII Class"
+						}
+						name = "U-29" 
+						requested_factories = 1
+						progress = 0.75
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_submarine_2
+							creator = "GEM" 
+							version_name = "Type VII Class"
+						}
+						name = "U-30" 
+						requested_factories = 1
+						progress = 0.50
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_submarine_2
+							creator = "GEM" 
+							version_name = "Type VII Class"
+						}
+						name = "U-31" 
+						requested_factories = 1
+						progress = 0.50
+						amount = 1
+					}
+				}
+				else_if = {
+					limit = { has_tech = early_ship_hull_submarine }
+					create_equipment_variant = {
+						name = "Type II Class"
+						type = ship_hull_submarine_1
+						name_group = GER_SS_HISTORICAL
+						parent_version = 0
+						modules = {
+							fixed_ship_torpedo_slot = ship_torpedo_sub_1
+							fixed_ship_engine_slot = sub_ship_engine_1
+							rear_1_custom_slot = empty
+						}
+						obsolete = yes
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_submarine_1
+							creator = "GEM" 
+							version_name = "Type II Class"
+						}
+						name = "U-28" 
+						requested_factories = 1
+						progress = 0.75
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_submarine_1
+							creator = "GEM" 
+							version_name = "Type II Class"
+						}
+						name = "U-29" 
+						requested_factories = 1
+						progress = 0.75
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_submarine_1
+							creator = "GEM" 
+							version_name = "Type II Class"
+						}
+						name = "U-30" 
+						requested_factories = 1
+						progress = 0.50
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_submarine_1
+							creator = "GEM" 
+							version_name = "Type II Class"
+						}
+						name = "U-31" 
+						requested_factories = 1
+						progress = 0.50
+						amount = 1
+					}
+				}
+				else = {
+					navy_experience = 50
+				}
+			}
+			else = {
+				navy_experience = 50
+			}
+		}
+	}
+	focus = {
+		id = GEH_trade_blockade
+		text = GER_trade_interdiction
+		icon = GFX_goal_generic_wolf_pack
+		cost = 5
+		prerequisite = {
+			focus = GEH_uboat_production_recovery
+		}
+		x = 1
+		y = 1
+		relative_position_id = GEH_uboat_production_recovery
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = ti_bonus
+				name = GER_trade_interdiction
+				cost_reduction = 0.25
+				uses = 2
+				category = trade_interdiction_tree
+			}
+		}
+	}
+	focus = {
+		id = GEH_prefabricated_construction
+		text = GER_modular_construction
+		icon = GFX_goal_generic_construct_naval_dockyard
+		cost = 5
+		prerequisite = {
+			focus = GEH_uboat_production_recovery
+		}
+		x = -1
+		y = 1
+		relative_position_id = GEH_uboat_production_recovery
+		completion_reward = {
+			add_ideas = GER_modular_construction
+		}
+	}
+	focus = {
 		id = GEH_warning_wuiongwuiong
 		icon = GFX_goal_GEH_pandemonium_society
 		cost = 5
-		x = 7
+		x = 19
 		y = 0
 		completion_reward = {
 			add_political_power = 120
@@ -89,7 +895,7 @@ focus_tree = {
 			is_puppet = no
 			controls_state = 28
 			controls_state = 943
-			has_army_manpower = { size > 149999 }
+			has_army_manpower = { size > 249999 }
 		}
 		x = -2
 		y = 1
@@ -112,7 +918,7 @@ focus_tree = {
 		available = {
 			is_puppet = no
 			NOT = { is_in_faction_with = TRM }
-			has_army_manpower = { size > 299999 } 
+			has_army_manpower = { size > 399999 } 
 			check_variable = { num_equipment_in_armies_k@infantry_equipment > 16 }
 			custom_trigger_tooltip = {
 				tooltip = TRN_gehenna_eq_trigger_tt
@@ -506,7 +1312,7 @@ focus_tree = {
 				NOT = { has_completed_focus = GEM_Neutralize_Makoto }
 			}
 		} 
-		x = 16
+		x = 28
 		y = 0
 		completion_reward = {
 			hidden_effect = {
@@ -678,7 +1484,7 @@ focus_tree = {
 				}
 			}
 		}
-		x = 43
+		x = 55
 		y = 0
 		completion_reward = {
 			hidden_effect = {
@@ -716,6 +1522,7 @@ focus_tree = {
 		prerequisite = { focus = GEM_Neutralize_Makoto }
 		mutually_exclusive = { focus = GEM_group_leadership_system }
 		available = {
+			has_country_flag = GAEBALJUNG
 		}
 		x = 3
 		y = 1
@@ -817,14 +1624,14 @@ focus_tree = {
 				limit = {
 					has_stability < 0.40
 				}
-				set_party_name = {
-					ideology = neutrality
-					long_name = GEM_neutrality_iroha_party_long
-					name = GEM_neutrality_iroha_party
-				}
 				start_civil_war = {
 					ideology = neutrality
 					size = 0.5
+					set_party_name = {
+						ideology = neutrality
+						long_name = GEM_neutrality_iroha_party_long
+						name = GEM_neutrality_iroha_party
+					}
 					PREV = {
 						GEH_dlfhgk = {
 							set_nationality = PREV.PREV
@@ -896,6 +1703,7 @@ focus_tree = {
 			focus = GEM_natsume_iroha
 		}
 		available = {
+			has_country_flag = GAEBALJUNG
 		}
 		x = 0
 		y = 1
@@ -923,24 +1731,10 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = GEM_makoto_influence_diminished
-		icon = GFX_goal_generic_forceful_treaty
-		cost = 5.00
-		prerequisite = { focus = GEM_natsume_iroha focus = GEM_tanga_ibuki }
-		available = {
-		}
-		x = -1
-		y = 2
-		relative_position_id = GEM_group_leadership_system
-		completion_reward = {
-		}
-	}
-	focus = {
 		id = GEM_budget_reorganization
 		icon = GFX_focus_usa_reestablish_the_gold_standard
 		cost = 5.00
 		prerequisite = { focus = GEM_pandemonium_reform }
-		prerequisite = { focus = GEM_makoto_influence_diminished }
 		available = {
 			OR = {
 				has_idea = GEH_Manmajun_Bupae_4
@@ -963,7 +1757,6 @@ focus_tree = {
 		icon = GFX_focus_generic_conspiracy
 		cost = 5.00
 		prerequisite = { focus = GEM_pandemonium_reform }
-		prerequisite = { focus = GEM_makoto_influence_diminished }
 		available = {
 		}
 		x = -3
@@ -1146,6 +1939,9 @@ focus_tree = {
 		}
 		available = {
 		}
+		bypass = {
+			has_completed_focus = GEM_union_state
+		}
 		x = 1
 		y = 2
 		relative_position_id = GEM_suppression_of_german
@@ -1289,6 +2085,7 @@ focus_tree = {
 		id = GEM_united_states_of_gehenna
 		icon = GFX_focus_ICE_state_corporatism
 		cost = 5.00
+		prerequisite = { focus = GEM_take_control_of_pandemonium }
 		prerequisite = { focus = GEM_local_government_takeover }
 		prerequisite = { focus = GEM_local_autonomy }
 		available = {
@@ -1301,7 +2098,7 @@ focus_tree = {
 			}
 		}
 		x = -1
-		y = 5
+		y = 4
 		relative_position_id = GEM_natsume_iroha
 		completion_reward = {
 			add_stability = 0.10
@@ -1544,12 +2341,17 @@ focus_tree = {
 						has_country_flag = german_navy_unified_flag
 					}
 				}
+				annex_country = {
+					target = GEN
+					transfer_troops = yes
+				}
 				GEN = {
 					every_character = {
 						set_nationality = ROOT
 					}
 				}
 			}
+			unlock_decision_category_tooltip = GEM_state_government_takeover_categorie
 		}
 	}
 	focus = {
@@ -1936,6 +2738,9 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = {
 			focus = GEM_deutsches_reich
+		}
+		allow_branch = {
+			has_country_flag = GAEBALJUNG
 		}
 		x = -2
 		y = 1

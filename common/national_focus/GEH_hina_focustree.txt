@@ -1973,6 +1973,8 @@ focus_tree = {
 		x = 0
 		y = 2
 		completion_reward = {
+            add_stability = 0.05
+            add_political_power = 25
 		}
 	}
 	focus = {
@@ -2075,6 +2077,7 @@ focus_tree = {
 		available = {
 			
 		}
+		will_lead_to_war_with = GEM
         prerequisite = { focus = GEH_rework_focus_1 }
         prerequisite = { focus = GEH_rework_focus_2 }
         prerequisite = { focus = GEH_rework_focus_3 }
@@ -2094,7 +2097,7 @@ focus_tree = {
 	focus = {
 		id = GEH_Conquer_the_Central
 		icon = GFX_focus_generic_military_dictatorship
-		cost = 4
+		cost = 2
 		available = {
 		}
         prerequisite = { focus = GEH_fear_eyes_ }
@@ -2135,7 +2138,7 @@ focus_tree = {
 		id = GEH_Second_attack_plan
 		icon = GFX_goal_GEH_wave
         text = GEH_focus_8
-		cost = 4
+		cost = 2
 		available = {
 		}
         prerequisite = { focus = GEH_attack_plan_ONE_FOUR_TWO }
@@ -2155,7 +2158,7 @@ focus_tree = {
 	focus = {
 		id = GEH_Officer_Appeasement
 		icon = GFX_focus_generic_league_of_nations
-		cost = 4
+		cost = 2
 		available = {
 		}
         prerequisite = { focus = GEH_fear_eyes_ }
@@ -2175,7 +2178,7 @@ focus_tree = {
 	focus = {
 		id = GEH_hit_wehrmacht
 		icon = GFX_focus_attack_germany
-		cost = 4
+		cost = 2
 		available = {
 		}
         prerequisite = { focus = GEH_Officer_Appeasement }
@@ -2206,14 +2209,22 @@ focus_tree = {
 					modifier = GEH_ucantusefactory_2
 				}
 			}
+            if = {
+                limit = { country_exists = GEA }
+                declare_war_on = {
+                    target = GEA
+                    type = annex_everything
+                }
+            }
 		}
 	}
 	focus = {
 		id = GEH_hit_wehrmacht_2
         #text = GEM_dissolution_of_state_government
 		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
-		cost = 4
+		cost = 2
 		available = {
+            has_war = NO
 		}
         prerequisite = { focus = GEH_hit_wehrmacht }
         allow_branch = {
@@ -2235,7 +2246,7 @@ focus_tree = {
 			}
 			add_timed_idea = {
 				idea = GEH_state_government_remove_idea
-				days = 280
+				days = 120
 			}
 		}
 	}
@@ -2243,8 +2254,9 @@ focus_tree = {
 		id = GEH_Pandemonium_Society_Building_Control
         #text = GEM_take_control_of_pandemonium
 		icon = GFX_focus_generic_improve_the_administration
-		cost = 4
+		cost = 2
 		available = {
+            controls_state = 55
 		}
         prerequisite = { 
             focus = GEH_Conquer_the_Central 
@@ -2257,15 +2269,20 @@ focus_tree = {
 		x = 0
 		y = 2
 		completion_reward = {
-
+            ROOT = {
+                transfer_state = 55
+                set_capital = {
+                    state = 55
+                }
+            }
 		}
 	}
 	focus = {
 		id = GEH_get_legitimacy
-		icon = GFX_focus_generic_support_the_left_right
+		icon = GFX_goal_GEH_get_legitimacy
 		cost = 4
 		available = {
-            has_country_flag = GAEBALJUNG 
+            has_war = NO
 		}
         prerequisite = { focus = GEH_Pandemonium_Society_Building_Control }
         prerequisite = { focus = GEH_Second_attack_plan }
@@ -2276,14 +2293,771 @@ focus_tree = {
 		x = 0
 		y = 2
 		completion_reward = {
-            custom_effect_tooltip = NextPhase_1_tt
-            set_country_flag = GEH_phase_two_begins_flag
-            hidden_effect = {
-		        load_focus_tree = {
-    			    tree = Sundobu_focus
-        		    keep_completed = yes
-    		    }
-	    	    mark_focus_tree_layout_dirty = yes
+            country_event = { id = NextPhase.2 }
+		}
+	}
+    focus = {
+		id = GEH_first_congress_focus
+		icon = GFX_goal_Perfect_team_first_congress
+		cost = 7
+		x = 20
+		y = 2
+
+		cancelable = no
+		ai_will_do = { base = 1000 }
+        available = {
+            owns_state = 55
+        }
+		allow_branch = {
+			OR = {
+			    GEH_is_phase_two_trigger = yes
+				GEH_is_phase_three_trigger = yes
+			}
+		}
+        select_effect = {
+            country_event = { id = hina.1 }
+        }
+		available = {
+		}
+		completion_reward = {
+			add_war_support = -0.1
+			add_stability = 0.2
+		}
+	}
+    focus = {
+		id = GEH_Cooperation_with_HID
+		icon = GFX_goal_GEH_HID
+		cost = 5
+		x = 0
+		y = 1
+
+		#ai_will_do = { base = 1000 }
+        relative_position_id = GEH_first_congress_focus
+        prerequisite = { focus = GEH_first_congress_focus }
+        available = { }
+		allow_branch = {
+		}
+		available = {
+		}
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_HID_trinity
+		icon = GFX_goal_focus_TRM_cooperation
+		cost = 5
+		x = -1
+		y = 2
+
+		#ai_will_do = { base = 1000 }
+        relative_position_id = GEH_Cooperation_with_HID
+        prerequisite = { focus = GEH_Cooperation_with_HID }
+        available = { }
+		allow_branch = {
+		}
+		available = {
+		}
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_HID_millennium
+		icon = GFX_goal_focus_MIL_cooperation
+		cost = 5
+		x = 1
+		y = 2
+
+		#ai_will_do = { base = 1000 }
+        relative_position_id = GEH_Cooperation_with_HID
+        prerequisite = { focus = GEH_Cooperation_with_HID }
+        available = { }
+		allow_branch = {
+		}
+		available = {
+		}
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_preventive_attack
+		icon = GFX_goal_kr_backstab
+		cost = 10
+		x = 0
+		y = 3
+
+		#ai_will_do = { base = 1000 }
+        relative_position_id = GEH_Cooperation_with_HID
+        prerequisite = { 
+            focus = GEH_HID_trinity 
+            focus = GEH_HID_millennium
+        }
+        available = { }
+		allow_branch = {
+		}
+		available = {
+		}
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_deal_of_france_army
+		icon = GFX_focus_generic_treaty
+		cost = 5
+		x = -2
+		y = 1
+
+		#ai_will_do = { base = 1000 }
+        relative_position_id = GEH_first_congress_focus
+        prerequisite = { focus = GEH_first_congress_focus }
+        available = { }
+		allow_branch = {
+		}
+		available = {
+            country_exists = FRM
+            FRM = {
+                controls_state = 28
+                controls_state = 943
+            }
+		}
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_Gehenna_Rebuilding
+		icon = GFX_goal_Perfect_team_Ako_focus
+		cost = 5
+		x = 3
+		y = 1
+        relative_position_id = GEH_first_congress_focus
+		ai_will_do = {
+			base = 250
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+        }
+        prerequisite = {
+            focus = GEH_first_congress_focus
+        }
+		available = {
+		}
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_Maginot
+		icon = GFX_goal_generic_fortify_city
+		cost = 5
+		x = 0
+		y = 1
+        relative_position_id = GEH_deal_of_france_army
+		ai_will_do = {
+			base = 250
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+        }
+        prerequisite = {
+            focus = GEH_deal_of_france_army
+        }
+		available = {
+            controls_state = 28
+            controls_state = 943
+		}
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_approve_plan
+		icon = GFX_focus_ITA_devaluate_the_lire
+		cost = 5
+		x = 0
+		y = 1
+        relative_position_id = GEH_Gehenna_Rebuilding
+		ai_will_do = {
+			base = 100
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+		}
+        prerequisite = {
+            focus = GEH_Gehenna_Rebuilding
+        }
+		available = {
+		}
+		completion_reward = {
+            custom_effect_tooltip = GEH_approve_plan_tt
+            add_to_variable = { GEH_PL_consumer_goods_factor = -0.03 } # 소비재
+		}
+	}
+    focus = {
+		id = GEH_first_five_year_plan
+		icon = GFX_focus_generic_industry_1
+		cost = 10
+		x = 0
+		y = 2
+        relative_position_id = GEH_approve_plan
+		ai_will_do = {
+			base = 100
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+		}
+        prerequisite = {
+            focus = GEH_approve_plan
+        }
+		available = {
+		}
+		completion_reward = {
+            # 기획부 
+            custom_effect_tooltip=GEH_first_five_year_plan_tt
+            add_to_variable = { GEH_PL_production_factory_efficiency_gain_factor = 0.05 } # 생산 효율성 성장
+            add_to_variable = { GEH_PL_consumer_goods_factor = -0.02 } # 소비재
+				add_tech_bonus = {
+					bonus = 0.75
+					uses = 2
+					category = construction_tech
+				}
+		}
+	}
+    focus = {
+		id = GEH_nationalise_railways
+		icon = GFX_focus_generic_railroad
+		cost = 5
+		x = -2
+		y = 1
+        relative_position_id = GEH_first_five_year_plan
+		ai_will_do = {
+			base = 100
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+		}
+        prerequisite = {
+            focus = GEH_first_five_year_plan
+        }
+		available = {
+            controls_state = 55
+            controls_state = 59
+            controls_state = 54
+            controls_state = 52
+		}
+		completion_reward = {
+            every_state = {
+                limit = {
+                    OR = {
+                    state = 55
+                    state = 59
+                    state = 54
+                    state = 52
+                    }
+				state_is_fully_controlled_by_ROOT_or_subject = yes
+                }
+                add_dynamic_modifier = {
+                    modifier =  TRN_eden_railway_modifier days = 365 scope = GEH
+                }
+            }
+		}
+	}
+    focus = {
+		id = GEH_factory_focus_1
+		icon = GFX_focus_DEN_heavy_regulations
+		cost = 5
+		x = 0
+		y = 1
+        relative_position_id = GEH_first_five_year_plan
+		ai_will_do = {
+			base = 100
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+		}
+        prerequisite = {
+            focus = GEH_first_five_year_plan
+        }
+		available = {
+		}
+		completion_reward = {
+            custom_effect_tooltip = GEH_factory_focus_1_tt
+            add_to_variable = { GEH_PL_local_building_slots_factor = 0.15 }
+		}
+	}
+    focus = {
+		id = GEH_factory_focus_3
+		icon = GFX_goal_generic_defence
+		cost = 5
+		x = 2
+		y = 1
+        relative_position_id = GEH_first_five_year_plan
+		ai_will_do = {
+			base = 100
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+		}
+        prerequisite = {
+            focus = GEH_first_five_year_plan
+        }
+		available = {
+		}
+		completion_reward = {
+			add_timed_idea = {
+				idea = GEH_national_defence_fund
+				days = 720
+			}
+		}
+	}
+    focus = {
+		id = GEH_factory_focus_4
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 5
+		x = -1
+		y = 2
+        mutually_exclusive = { focus = GEH_factory_focus_5 }
+        relative_position_id = GEH_first_five_year_plan
+		ai_will_do = {
+			base = 100
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+		}
+        prerequisite = { focus = GEH_nationalise_railways }
+        prerequisite = { focus = GEH_factory_focus_1 }
+		available = { }
+		completion_reward = {
+            custom_effect_tooltip = GEH_factory_focus_4_tt
+            add_to_variable = { GEH_PL_idea_production_speed_industrial_complex_factor = 0.05 }
+			random_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+    focus = {
+		id = GEH_factory_focus_5
+        text = SOV_shift_to_armaments_production
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 5
+		x = 1
+		y = 2
+        mutually_exclusive = { focus = GEH_factory_focus_4 }
+        relative_position_id = GEH_first_five_year_plan
+		ai_will_do = {
+			base = 100
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+		}
+        prerequisite = { focus = GEH_factory_focus_1 }
+        prerequisite = { focus = GEH_factory_focus_3 }
+		available = {
+		}
+		completion_reward = {
+            custom_effect_tooltip = GEH_factory_focus_5_tt
+            add_to_variable = { GEH_PL_production_speed_arms_factory_factor = 0.05 }
+			random_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+    focus = {
+		id = GEH_factory_focus_6
+		icon = GFX_goal_GEH_lol_focus
+		cost = 5
+		x = 0
+		y = 3
+        relative_position_id = GEH_first_five_year_plan
+		ai_will_do = {
+			base = 100
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+		}
+        prerequisite = { focus = GEH_factory_focus_5 }
+        prerequisite = { focus = GEH_factory_focus_4 }
+		available = {
+		}
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_Army_Reformation
+		icon = GFX_goal_Perfect_team_iori_focus
+		cost = 10
+		x = -6
+		y = 1
+        relative_position_id = GEH_first_congress_focus
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		allow_branch = {
+		}
+        prerequisite = {
+            focus = GEH_first_congress_focus
+        }
+        prerequisite = {
+        }
+		available = {
+		}
+		completion_reward = {
+            if = {
+                limit = { has_idea = GEH_individualism_low }
+                remove_ideas = GEH_individualism_low
+            }
+		}
+	}
+    focus = {
+		id = GEH_look_to_the_west
+		icon = GFX_focus_ger_return_of_the_kaiser
+		cost = 5
+		x = -5
+		y = 1
+        relative_position_id = GEH_Army_Reformation
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		available = { }
+        mutually_exclusive = {
+            focus = GEH_Leverage_Perfect_team_strengths
+        }
+        prerequisite = {
+            focus = GEH_Army_Reformation
+        }
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_Leverage_Perfect_team_strengths
+		icon = GFX_goal_rhineland
+		cost = 5
+		x = 2
+		y = 1
+        relative_position_id = GEH_Army_Reformation
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		available = { }
+        mutually_exclusive = {
+            focus = GEH_look_to_the_west
+        }
+        prerequisite = {
+            focus = GEH_Army_Reformation
+        }
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_Army_focus_1
+		icon = GFX_goal_generic_army_artillery
+		cost = 5
+		x = 1
+		y = 1
+        relative_position_id = GEH_Leverage_Perfect_team_strengths
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		available = { }
+        prerequisite = {
+            focus = GEH_Leverage_Perfect_team_strengths
+        }
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_Army_focus_2
+		icon = GFX_focus_generic_little_entente
+		cost = 5
+		x =-1
+		y = 1
+        relative_position_id = GEH_Army_focus_1
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		available = { }
+        prerequisite = {
+            focus = GEH_Army_focus_1
+        }
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_Army_focus_3
+		icon = GFX_goal_GEH_wall_of_gehenna
+		cost = 5
+		x = 1
+		y = 1
+        relative_position_id = GEH_Army_focus_1
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		available = { }
+        prerequisite = {
+            focus = GEH_Army_focus_1
+        }
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_Army_focus_4
+		icon = GFX_goal_generic_small_arms
+		cost = 5
+		x = 0
+		y = 2
+        relative_position_id = GEH_Army_focus_1
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		available = { }
+        prerequisite = {
+            focus = GEH_Army_focus_2
+        }
+        prerequisite = {
+            focus = GEH_Army_focus_3
+        }
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_Army_focus_5
+		icon = GFX_goal_generic_small_arms
+		cost = 5
+		x = -1
+		y = 1
+        relative_position_id = GEH_Leverage_Perfect_team_strengths
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		available = { }
+        prerequisite = {
+            focus = GEH_Leverage_Perfect_team_strengths
+        }
+		completion_reward = {
+			add_ideas = GEH_Janghakgeum_idea
+		}
+	}
+    focus = {
+		id = GEH_Army_focus_6
+		icon = GFX_goal_GEH_easy_order
+		cost = 5
+		x = -1
+		y = 3
+        relative_position_id = GEH_Leverage_Perfect_team_strengths
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		available = { }
+        prerequisite = {
+            focus = GEH_Army_focus_5
+        }
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_Army_focus_7
+		icon = GFX_goal_lol_focus_2
+		cost = 5
+		x = 0
+		y = 4
+        relative_position_id = GEH_Leverage_Perfect_team_strengths
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		available = { }
+        prerequisite = {
+            focus = GEH_Army_focus_6
+        }
+        prerequisite = {
+            focus = GEH_Army_focus_4
+        }
+		completion_reward = {
+
+		}
+	}
+    focus = {
+		id = GEH_hina_need_peace
+		icon = GFX_goal_GEH_sad_hina
+		cost = 5
+		x = 5
+		y = 0
+        relative_position_id = GEH_first_congress_focus
+		available = {
+            has_country_flag = GAEBALJUNG
+        }
+		completion_reward = {
+            every_country = {
+                limit = {
+                    has_war = yes
+                }
+                white_peace = GEH
             }
 		}
 	}

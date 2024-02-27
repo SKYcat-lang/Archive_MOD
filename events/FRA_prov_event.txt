@@ -243,6 +243,10 @@ country_event = {
 	hidden = yes
 	is_triggered_only = yes
 	option = {
+		set_autonomy = {
+			target = POL
+			autonomy_state = autonomy_SSR
+		}
 	}
 }
 
@@ -909,7 +913,7 @@ country_event = {
 }
 
 country_event = {
-	#영국에게 전후 처리 협상
+	#영국에게 군사협력
 	id = FRA_prov_event.20
 	title = FRA_prov_event.20.t
 	desc = FRA_prov_event.20.d
@@ -918,16 +922,15 @@ country_event = {
 	hidden = no
 	option = {
 		ai_chance = {
-			factor = 100
-			modifier = {
-				has_country_flag = MIL_FRA_cut_flag
-				factor = 0.01
-			}
+			base = 5
 		}
 		name = FRA_prov_event.20.a
-		diplomatic_relation = {
-			country = FRA
-			relation = non_aggression_pact
+		army_experience = 10
+		navy_experience = 10
+		air_experience = 10
+		add_doctrine_cost_reduction = {
+			cost_reduction = 0.1
+			category = land_doctrine
 		}
 		FRA = {
 			country_event = {
@@ -937,10 +940,6 @@ country_event = {
 		}
 	}
 	option = {
-		add_political_power = -20
-		ai_chance = {
-			factor = 10
-		}
 		name = FRA_prov_event.20.b
 		FRA = {
 			country_event = {
@@ -952,8 +951,8 @@ country_event = {
 }
 
 country_event = {
-	#전후 처리 수락
-	id = FRA_prov_event.22
+	#안씀
+	id = FRA_prov_event.21
 	title = FRA_prov_event.22.t
 	desc = FRA_prov_event.22.d
 	fire_only_once = yes
@@ -973,7 +972,35 @@ country_event = {
 }
 
 country_event = {
-	#전후 처리 거절
+	#군사 협력 수락
+	id = FRA_prov_event.22
+	title = FRA_prov_event.22.t
+	desc = FRA_prov_event.22.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	hidden = no
+	option = {
+		name = FRA_prov_event.22.a
+		add_political_power = 10
+		army_experience = 10
+		navy_experience = 10
+		air_experience = 10
+		add_doctrine_cost_reduction = {
+			cost_reduction = 0.1
+			category = naval_doctrine
+		}
+		country_event = {
+			id = FRA_prov_event.12
+			days = 1
+		}
+		add_to_variable = {
+			FRA_demand_after_war = 1
+		}
+	}
+}
+
+country_event = {
+	#군사 협력 거절
 	id = FRA_prov_event.23
 	title = FRA_prov_event.23.t
 	desc = FRA_prov_event.23.d
@@ -1063,7 +1090,7 @@ country_event = {
 }
 
 country_event = {
-	#협상국 거절
+	#기술협력 거절
 	id = FRA_prov_event.26
 	title = FRA_prov_event.26.t
 	desc = FRA_prov_event.26.d
@@ -1286,6 +1313,13 @@ country_event = {
 				states = {
 					671
 				}
+				SOV = {
+					add_ai_strategy = {
+						type = send_volunteers_desire
+						id = prev
+						value = 200
+					}
+				}
 			}
 			add_popularity = {
 				ideology = communism
@@ -1297,6 +1331,12 @@ country_event = {
 		set_country_flag = FRA_has_indochina_war
 		remove_decision = FRA_indochina_going_bad
 		activate_mission = FRA_near_japan_intervention_indochina
+		hidden_effect = {
+			news_event = {
+				id =  FRA_prov_event.46
+				days = 5
+			}
+		}
 	}
 }
 
@@ -1313,7 +1353,12 @@ country_event = {
 				has_war = no
 			}
 			VIN = {
-				has_capitulated = yes
+				NOT = {
+					has_government = neutrality
+				}
+			}
+			VIN = {
+				exists = no
 			}
 		}
 	}
@@ -1325,13 +1370,11 @@ country_event = {
 			limit = {
 				VIN = {
 					exists = yes
+					has_government = neutrality
 				}
 			}
 			VIN = {
-				swap_ideas = {
-					remove_idea = FRA_government_general_1
-					add_idea = FRA_government_general_2
-				}
+				add_ideas = VIN_fucked_up
 				give_resource_rights = {
 					receiver = FRA
 					state = 286
@@ -1432,6 +1475,18 @@ country_event = {
 				autonomy_state = autonomy_wtt_imperial_subject
 			}
 		}
+		LAO = {
+			every_country = {
+				limit = {
+					original_tag = VIN
+				}
+				declare_war_on = {
+					target = prev
+					type = annex_everything
+				}
+			}
+			add_ideas = VIN_indochina_war_idea
+		}
 	}
 }
 
@@ -1442,7 +1497,7 @@ news_event = {
 	desc = FRA_prov_event.38.d
 	fire_only_once = no
 	major = yes
-	picture = GFX_news_event_051
+	picture = GFX_event_BA_news_FRA_liberation
 	is_triggered_only = yes
 	hidden = no
 	option = {
@@ -1678,7 +1733,7 @@ news_event = {
 }
 
 country_event = {
-	#개발자 이벤트
+	#인도차이나 - 베트남 국민당의 반제 투쟁 참여
 	id = FRA_prov_event.42
 	title = FRA_prov_event.42.t
 	desc = FRA_prov_event.42.d
@@ -1686,12 +1741,35 @@ country_event = {
 	fire_only_once = yes
 	option = {
 		name = FRA_prov_event.42.a
-		POL_win_of_intermarium = yes
+		add_political_power = -5
+		if = {
+			limit = {
+				NOT = {
+					has_country_flag = FRA_has_indochina_war
+				}
+			}
+			VIN = {
+				VIN_upgrade_resist = yes
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.1
+				}
+			}
+		}
+		else = {
+			VIN = {
+				add_stability = -0.1
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.1
+				}
+			}
+		}
 	}
 }
 
 country_event = {
-	#세미나 뺏기 
+	#인도차이나 - 베트남 복국동맹회
 	id = FRA_prov_event.43
 	title = FRA_prov_event.43.t
 	desc = FRA_prov_event.43.d
@@ -1699,14 +1777,28 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = FRA_prov_event.43.b
-		MIL_Noa = {
-			set_nationality = FRA
+		add_political_power = -5
+		if = {
+			limit={
+			NOT = {
+				has_country_flag = FRA_has_indochina_war
+			}}
+			VIN = {
+				VIN_upgrade_resist = yes
+				add_popularity = {
+					ideology = fascism
+					popularity = 0.1
+				}
+			}
 		}
-	}
-	option = {
-		name = FRA_prov_event.43.c
-		MIL_dbdnzk = {
-			set_nationality = FRA
+		else = {
+			VIN = {
+				add_stability = -0.1
+				add_popularity = {
+					ideology = fascism
+					popularity = 0.1
+				}
+			}
 		}
 	}
 }
@@ -1735,84 +1827,107 @@ news_event = {
 		name = FRA_prov_event.44.b
 	}
 }
-
 country_event = {
-	#보병장비 돚거
+	#인도차이나 문제 해결
+	id = FRA_prov_event.45
+	title = FRA_prov_event.45.t
+	desc = FRA_prov_event.45.d
+	is_triggered_only = yes
+	option = { #식민지를 유지하자
+		trigger = {
+			VIN = {
+				NOT={has_idea = VIN_fucked_up}
+			}
+		}
+		name = FRA_prov_event.45.a
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.1
+		}
+		set_country_flag = FRA_indochina_make_colony
+		unlock_decision_tooltip = FRA_make_vin_colony
+	}
+	option = { #자치령으로 만들자.
+		trigger = {
+			VIN = {
+				NOT={has_idea = VIN_fucked_up}
+			}
+		}
+		name = FRA_prov_event.45.b
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.1
+		}
+		set_country_flag = FRA_indochina_make_dominion
+		unlock_decision_tooltip = FRA_make_vin_dominion
+	}
+	option = { #전후 복구를 지원하자
+		name = FRA_prov_event.45.c
+		trigger = {
+			VIN = {
+				has_idea = VIN_fucked_up
+			}
+		}
+		set_country_flag = FRA_indochina_support_rebuild
+		unlock_decision_tooltip = FRA_help_vin_afterwar
+	}
+}
+
+news_event = {
+	#인도차이나 혁명
 	id = FRA_prov_event.46
 	title = FRA_prov_event.46.t
 	desc = FRA_prov_event.46.d
 	is_triggered_only = yes
+	picture = GFX_news_event_chinese_soldiers_city_ruin
+	major = yes
 	option = {
-		#돚거
-		name = FRA_prov_event.42.a
-		add_equipment_to_stockpile = {
-			type = infantry_equipment
-			amount = 1500
+		name = FRA_prov_event.46.a
+		trigger = {
+			tag = FRA
 		}
-		MIL = {
-			add_equipment_to_stockpile = {
-				type = infantry_equipment
-				amount = -1500
-			}
-		}
-		add_equipment_to_stockpile = {
-			type = support_equipment
-			amount = 500
-		}
-		MIL = {
-			add_equipment_to_stockpile = {
-				type = support_equipment
-				amount = -500
+	}
+	option = {
+		name = FRA_prov_event.46.b
+		trigger = {
+			NOT = {
+				tag = FRA
 			}
 		}
 	}
 }
 
 country_event = {
-	#차량, 견인포 파괴
+	#독일을 스트레사 전선에 초대
 	id = FRA_prov_event.47
 	title = FRA_prov_event.47.t
 	desc = FRA_prov_event.47.d
 	is_triggered_only = yes
+	fire_only_once = yes
 	option = {
-		#돚거
-		name = FRA_prov_event.42.a
-		MIL = {
-			add_equipment_to_stockpile = {
-				type = motorized_equipment
-				amount = -300
+		#ㅇㅋ
+		name = FRA_prov_event.47.a
+		add_ideas = PASTA_signatories_of_the_stresa_idea
+		hidden_effect = {
+			GEA = {
+				add_ideas = PASTA_signatories_of_the_stresa_idea
 			}
 		}
-		MIL = {
-			add_equipment_to_stockpile = {
-				type = artillery_equipment
-				amount = -300
-			}
-		}
+	}
+	option = {
+		name = FRA_prov_event.47.b
 	}
 }
 
 country_event = {
-	#비행기 파괴
+	#안정도 경고
 	id = FRA_prov_event.48
 	title = FRA_prov_event.48.t
 	desc = FRA_prov_event.48.d
 	is_triggered_only = yes
 	option = {
-		#돚거
+		add_ideas = FRA_emergency_mobil
 		name = FRA_prov_event.48.a
-		#		MIL = {
-		#			add_equipment_to_stockpile = {
-		#				type = CAS_equipment
-		#				amount = -100
-		#			}
-		#		}
-		#		MIL = {
-		#			add_equipment_to_stockpile = {
-		#				type = fighter_equipment
-		#				amount = -100
-		#			}
-		#		} 버그 유발, fighter_equipment같은 장비는 존재하지 않음.
 	}
 }
 
@@ -1912,7 +2027,7 @@ country_event = {
 }
 
 country_event = {
-	#코민테른
+	#안 씀
 	id = FRA_prov_event.56
 	title = FRA_prov_event.56.t
 	desc = FRA_prov_event.56.d
@@ -1943,40 +2058,24 @@ country_event = {
 }
 
 country_event = {
-	#베오그라드
+	#앙리 선거 결과
 	id = FRA_prov_event.57
 	title = FRA_prov_event.57.t
 	desc = FRA_prov_event.57.d
 	is_triggered_only = yes
-	fire_only_once = no
+	fire_only_once = yes
 	option = {
 		name = FRA_prov_event.57.a
-		FRA = {
-			add_to_faction = root
-		}
-		ai_chance = {
-			base = 100
-		}
-		FRA = {
-			country_event = {
-				id = FRA_prov_event.60
-				days = 1
-			}
-		}
+		add_ideas = FRA_pierre
 	}
 	option = {
 		name = FRA_prov_event.57.b
-		FRA = {
-			country_event = {
-				id = FRA_prov_event.55
-				days = 1
-			}
-		}
+		add_ideas = leon_blum
 	}
 }
 
 country_event = {
-	#스페인 협력
+	#안 씀
 	id = FRA_prov_event.58
 	title = FRA_prov_event.58.t
 	desc = FRA_prov_event.58.d
@@ -2005,7 +2104,7 @@ country_event = {
 }
 
 country_event = {
-	#포르투갈 협력
+	#안 씀
 	id = FRA_prov_event.59
 	title = FRA_prov_event.59.t
 	desc = FRA_prov_event.59.d
@@ -2100,10 +2199,12 @@ country_event = {
 				add = 100
 			}
 		}
+		custom_effect_tooltip = FRA_prov_event.62_1_tt
 	}
 	option = {
 		name = FRA_prov_event.62.b
 		add_war_support = -0.05
+		custom_effect_tooltip = FRA_prov_event.62_tt
 		hidden_effect = {
 			country_event = {
 				id = FRA_prov_event.67
@@ -2159,6 +2260,10 @@ country_event = {
 		add_popularity = {
 			ideology = democratic
 			popularity = 0.1
+		}
+		country_event = {
+			id = FRA_prov_event.57
+			days = 10
 		}
 	}
 }
@@ -2324,21 +2429,54 @@ country_event = {
 					}
 				}
 			}
-			VIN = {
-				transfer_state = 670
-				transfer_state = 741
-				transfer_state = 671
-				transfer_state = 286
-				every_owned_state = {
-					add_core_of = VIN
+			if = {
+				limit = {
+					VIN = {
+						exists = yes
+						has_war = no
+					}
 				}
-				create_country_leader = {
-					name = FRA_borough_com
-					ideology = leninism
-					picture = GFX_portrait_SOV_supreme_soviet
-					expire = "1965.1.1"
-					traits = {
-						FRA_weak_auto_com
+				VIN = {
+					transfer_state = 670
+					transfer_state = 741
+					transfer_state = 671
+					transfer_state = 286
+					every_owned_state = {
+						add_core_of = VIN
+					}
+					create_country_leader = {
+						name = FRA_borough_com
+						ideology = leninism
+						picture = GFX_portrait_SOV_supreme_soviet
+						expire = "1965.1.1"
+						traits = {
+							FRA_weak_auto_com
+						}
+					}
+				}
+				clr_country_flag = FRA_has_indochina_issue
+				set_country_flag = FRA_finished_vin_cirisis
+			}
+			else_if = {
+				limit = {
+					VIN = {
+						exists = yes
+						has_war = yes
+					}
+					any_country = {
+						original_tag = VIN
+						has_government = communism
+						exists = yes
+					}
+				}
+				random_other_country = {
+					limit = {
+						original_tag = VIN
+						has_government = communism
+					}
+					annex_country = {
+						target = VIN
+						transfer_troops = yes
 					}
 				}
 			}
@@ -2567,7 +2705,7 @@ country_event = {
 		name = FRA_prov_event.72.b
 		add_timed_idea = {
 			idea = FRA_student_education
-			days = 120
+			days = 180
 		}
 		set_variable = {
 			FRA_student = 1
@@ -3980,8 +4118,9 @@ country_event = {
 		name = FRA_prov_event.120.a
 		add_popularity = {
 			ideology = democratic
-			popularity = -0.09
+			popularity = -0.1
 		}
+		custom_effect_tooltip = FRA_prov_event.120_tt
 	}
 }
 
@@ -4024,7 +4163,7 @@ country_event = {
 }
 
 country_event = {
-	#해방군 스토리
+	#채권 지불
 	id = FRA_prov_event.123
 	title = FRA_prov_event.123.t
 	desc = FRA_prov_event.123.d
@@ -4032,7 +4171,10 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = FRA_prov_event.123.a
-		add_war_support = 0.01
+		add_timed_idea = {
+			idea = FRA_bill_mefo
+			days = FRA_national_defense_bond_political_power_variable
+		}
 	}
 }
 
@@ -4088,7 +4230,7 @@ country_event = {
 }
 
 country_event = {
-	#나라 색 바꾸실?
+	#니스 주자
 	id = FRA_prov_event.126
 	title = FRA_prov_event.126.t
 	desc = FRA_prov_event.126.d
@@ -4096,23 +4238,30 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = FRA_prov_event.126.a
+		add_war_support = -0.1
 		735 = {
 			remove_claim_by = FRA
 		}
 		940 = {
 			remove_claim_by = FRA
 		}
-		add_war_support = -0.1
 		hidden_effect = {
 			news_event = {
 				id = BA_news.29
 				days = 12
 			}
 		}
+		set_rule = {
+			can_join_factions = no
+		}
+		set_rule = {
+			can_create_factions = no
+		}
 		ITA = {
 			add_opinion_modifier = {
 				target = FRA
 				modifier = ENG_returned_our_territory
+				days = 900
 			}
 		}
 	}
@@ -4127,7 +4276,9 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = FRA_prov_event.127.a
-		remove_ideas = FRA_basement_economy
+		MIL = {
+			remove_ideas = FRA_MIL_basement_economy
+		}
 	}
 }
 
@@ -4145,80 +4296,79 @@ country_event = {
 }
 
 country_event = {
-	#영국형 같이 세력 파자
+	#프랑스의 투자 요청
 	id = FRA_prov_event.129
 	title = FRA_prov_event.129.t
 	desc = FRA_prov_event.129.d
-	fire_only_once = yes
 	is_triggered_only = yes
 	option = {
-		ai_chance = {
-			factor = 10
-			modifier = {
-				has_country_flag = MIL_FRA_cut_flag
-				factor = 0
-			}
-		}
-		FRA = {
-			country_event = {
-				id = FRA_prov_Event.130
-				days = 1
-			}
-		}
-		remove_ideas = PASTA_signatories_of_the_stresa_idea
 		name = FRA_prov_event.129.a
-		hidden_effect = {
-			ENG = {
-				add_ideas = FRA_ENG_faction
-				dismantle_faction = yes
-			}
+		add_timed_idea = {
+			idea = FRA_invest_for_fra
+			days = 120
 		}
-		create_faction = fac_entente
-		add_to_faction = FRA
 	}
 	option = {
-		ai_chance = {
-			factor = 1
-		}
 		name = FRA_prov_event.129.b
 		FRA = {
 			country_event = {
-				id = FRA_prov_Event.131
-				days = 1
+				id = FRA_prov_event.131
+				days = 3
 			}
 		}
 	}
 }
 
 country_event = {
-	#수락
+	#투자 ㄳ
 	id = FRA_prov_event.130
 	title = FRA_prov_event.130.t
 	desc = FRA_prov_event.130.d
-	fire_only_once = yes
 	is_triggered_only = yes
 	option = {
 		name = FRA_prov_event.130.a
 		add_political_power = 10
-		remove_ideas = PASTA_signatories_of_the_stresa_idea
-		news_event = {
-			id = BA_news.28
-			days = 3
+		if = {
+			limit = {
+				from = {
+					tag = USA
+				}
+			}
+			add_timed_idea = {
+				idea = FRA_invest_from_usa
+				days = 360
+			}
 		}
-		hidden_effect = {
-			ITA = {
-				remove_ideas = PASTA_signatories_of_the_stresa_idea
+		if = {
+			limit = {
+				from = {
+					tag = ENG
+				}
+			}
+			add_timed_idea = {
+				idea = FRA_invest_from_eng
+				days = 360
+			}
+		}
+		if = {
+			limit = {
+				from = {
+					tag = ITA
+				}
+			}
+			add_timed_idea = {
+				idea = FRA_invest_from_ita
+				days = 360
 			}
 		}
 	}
 }
 
 country_event = {
-	#거절
+	#투자 왜 안해줌;;
 	id = FRA_prov_event.131
 	title = FRA_prov_event.131.t
 	desc = FRA_prov_event.131.d
-	fire_only_once = yes
 	is_triggered_only = yes
 	option = {
 		name = FRA_prov_event.131.a
@@ -4227,7 +4377,7 @@ country_event = {
 }
 
 country_event = {
-	#스트레사 전선 강화
+	#안 씀
 	id = FRA_prov_event.132
 	title = FRA_prov_event.132.t
 	desc = FRA_prov_event.132.d
@@ -4284,6 +4434,9 @@ country_event = {
 					}
 					1 = {
 						set_nationality = FRA
+						add_trait = {
+							trait = FRA_halo_research_trait
+						}
 					}
 				}
 			}
