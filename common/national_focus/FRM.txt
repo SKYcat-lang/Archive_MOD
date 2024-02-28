@@ -3,17 +3,146 @@ focus_tree = {
 	country = {
 		factor = 0
 		modifier = {
-			add = 0
+			add = 10
 			tag = FRM
 		}
 	}
+	continuous_focus_position = { x = 100 y = 50 } 
 	focus = {
 		id = FRM_focus_1
-		icon = GFX_goal_GEH_pandemonium_society
-		cost = 5.00
-		x = 10
+		icon = GFX_goal_generic_military_sphere
+		cost = 10.00
+		x = 9
 		y = 0
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+		available = {
+			OR = {
+				has_full_control_of_state = 28
+				has_full_control_of_state = 943
+			}
+		}
 		completion_reward = {
+			set_country_flag = FRM_focus_1_flag
+			if = {
+				limit = { has_full_control_of_state = 28 }
+				set_capital = {
+					state = 28
+					remember_old_capital = no
+				}
+			}
+			else_if = {
+				limit = { has_full_control_of_state = 943 }
+				set_capital = {
+					state = 943
+					remember_old_capital = no
+				}
+			}
+			if = {
+				limit = { has_full_control_of_state = 28 }
+				28 = {
+					create_unit = {
+						division = "name = \"1. Garnison de la ligne Maginot\" division_template = \"Division d'Infanterie\" start_experience_factor = 0.4 start_equipment_factor = 0.7"
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"2. Garnison de la ligne Maginot\" division_template = \"Division d'Infanterie\" start_experience_factor = 0.4 start_equipment_factor = 0.7"
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"3. Garnison de la ligne Maginot\" division_template = \"Division d'Infanterie\" start_experience_factor = 0.4 start_equipment_factor = 0.7"
+						owner = ROOT
+					}
+				}
+			}
+			if = {
+				limit = { has_full_control_of_state = 943 }
+				943 = {
+					create_unit = {
+						division = "name = \"4. Garnison de la ligne Maginot\" division_template = \"Division d'Infanterie\" start_experience_factor = 0.4 start_equipment_factor = 0.7"
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"5. Garnison de la ligne Maginot\" division_template = \"Division d'Infanterie\" start_experience_factor = 0.4 start_equipment_factor = 0.7"
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"6. Garnison de la ligne Maginot\" division_template = \"Division d'Infanterie\" start_experience_factor = 0.4 start_equipment_factor = 0.7"
+						owner = ROOT
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = FRM_focus_2
+		icon = GFX_goal_generic_army_artillery2
+		cost = 5.00
+		x = 11
+		y = 0
+		available = {
+			has_army_manpower = { size > 0 } 
+			NOT = { has_idea = FRM_defeatism }
+			FRA = { has_war_with = MIL }
+		}
+		completion_reward = {
+			add_to_war = {
+				targeted_alliance = FRA
+				enemy = MIL
+				hostility_reason = asked_to_join
+			}
+		}
+	}
+	focus = {
+		id = FRM_focus_3
+		icon = GFX_goal_generic_propaganda
+		cost = 5.00
+		x = 9
+		y = 2
+		available = {
+			has_country_flag = {
+				flag = FRM_focus_1_flag
+				days > 180
+			}
+		}
+		completion_reward = {
+			remove_ideas = FRM_defeatism
+		}
+	}
+	focus = {
+		id = FRM_focus_4
+		icon = GFX_goal_generic_demand_territory
+		cost = 10.00
+		x = 9
+		y = 1
+		available_if_capitulated = yes
+		available = {
+			NOT = {
+				OR = {
+					has_full_control_of_state = 28
+					has_full_control_of_state = 943
+				}
+			}
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_full_control_of_state = 28 }
+				}
+				28 = { add_resistance = 10 }
+			}
+			if = {
+				limit = {
+					NOT = { has_full_control_of_state = 943 }
+				}
+				943 = { add_resistance = 10 }
+			}
+			uncomplete_national_focus = {
+				focus = FRM_focus_4
+				uncomplete_children = yes
+				refund_political_power = no
+			}
 		}
 	}
 }	
