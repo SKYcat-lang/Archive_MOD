@@ -542,7 +542,7 @@ focus_tree = {
 			hidden_effect = {
 				POL = {
 					country_event = {
-						id = KPD.1
+						id = KPD_event.1
 						days = 3
 					}
 				}
@@ -553,7 +553,7 @@ focus_tree = {
 			}
 			hidden_effect = {
 				country_event = {
-					id = KPD.13
+					id = KPD_event.13
 					days = 10
 				}
 			}
@@ -570,7 +570,7 @@ focus_tree = {
 		}
 		available = {
 		}
-		x = 50
+		x = 45
 		y = 0
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
@@ -668,7 +668,7 @@ focus_tree = {
 			add_political_power = 25
 			hidden_effect = {
 				country_event = {
-					id = KPD.12
+					id = KPD_event.12
 					days = 3
 				}
 			}
@@ -701,6 +701,43 @@ focus_tree = {
 		}
 	}
 	focus = {
+		#밖을 바라보다
+		id = KPD_look_outward
+		icon = GFX_goal_generic_propaganda
+		cost = 5
+		prerequisite = {
+			focus = KPD_auferstanden_aus_ruinen
+		}
+		x = 15
+		y = 1
+		available = {
+		}
+		relative_position_id = KPD_auferstanden_aus_ruinen
+		completion_reward = {
+		}
+	}
+	focus = {
+		#텔만 축출
+		id = KPD_thelman_ouster
+		icon = GFX_goal_generic_war_with_comintern
+		cost = 5
+		prerequisite = {
+			focus = KPD_auferstanden_aus_ruinen
+		}
+		mutually_exclusive = {
+			focus = KPD_coalition_radicalization
+		}
+		x = -5
+		y = 1
+		available = {
+			is_subject = no
+			has_government = communism
+		}
+		relative_position_id = KPD_auferstanden_aus_ruinen
+		completion_reward = {
+		}
+	}
+	focus = {
 		#연합 급진화
 		id = KPD_coalition_radicalization
 		icon = GFX_focus_SOV_the_last_purge
@@ -708,9 +745,14 @@ focus_tree = {
 		prerequisite = {
 			focus = KPD_auferstanden_aus_ruinen
 		}
+		mutually_exclusive = {
+			focus = KPD_thelman_ouster
+		}
 		x = 5
 		y = 1
 		available = {
+			is_subject = no
+			has_government = communism
 		}
 		relative_position_id = KPD_auferstanden_aus_ruinen
 		completion_reward = {
@@ -743,6 +785,236 @@ focus_tree = {
 				id = BA_news.49
 				hours = 8
 			}
+		}
+	}
+	focus = {
+		#농업생산협동조합
+		id = KPD_landwirtschaftliche_produktionsgenossenschaft
+		icon = GFX_goal_generic_soviet_construction
+		cost = 5
+		prerequisite = {
+			focus = KPD_thelman_ouster
+			focus = KPD_coalition_radicalization
+		}
+		x = 1
+		y = 2
+		available = {
+		}
+		relative_position_id = KPD_auferstanden_aus_ruinen
+		completion_reward = {
+		}
+	}
+	focus = {
+		#신경제정책
+		id = KPD_NEP_copy
+		icon = GFX_focus_generic_treaty
+		cost = 5
+		prerequisite = {
+			focus = KPD_thelman_ouster
+		}
+		mutually_exclusive = {
+			focus = KPD_collectivization
+		}
+		x = -1
+		y = 3
+		available = {
+		}
+		relative_position_id = KPD_auferstanden_aus_ruinen
+		completion_reward = {
+		}
+	}
+	focus = {
+		#집산화
+		id = KPD_collectivization
+		icon = GFX_focus_prc_agrarian_socialism
+		cost = 5
+		prerequisite = {
+			focus = KPD_landwirtschaftliche_produktionsgenossenschaft
+		}
+		mutually_exclusive = {
+			focus = KPD_NEP_copy
+		}
+		x = 1
+		y = 3
+		available = {
+		}
+		relative_position_id = KPD_auferstanden_aus_ruinen
+		completion_reward = {
+		}
+	}
+	focus = {
+		#코민테른 원조
+		id = KPD_comintern_aid
+		icon = GFX_focus_SOV_rebuild_the_savior_cathedral
+		cost = 5
+		prerequisite = {
+			focus = KPD_coalition_radicalization
+		}
+		x = 0
+		y = 1
+		available = {
+		}
+		relative_position_id = KPD_coalition_radicalization
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 500
+			}
+			add_manpower = 15000
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		#몰로토프-텔만 조약
+		id = KPD_molotov_thalmann_pact
+		icon = GFX_goal_molotov_ribbentrop_pact
+		cost = 5
+		prerequisite = {
+			focus = KPD_comintern_aid
+		}
+		available = {
+			is_subject = no
+			has_government = communism
+			has_army_manpower = { size > 449999 } #ca 90 div
+			SOV = {
+				NOT = { has_war_with = KPD }
+				country_exists = SOV
+				has_civil_war = no
+			}
+		}
+		x = 3
+		y = 2
+		available = {
+			not = { has_war_with = SOU }
+		}
+		relative_position_id = KPD_coalition_radicalization
+		completion_reward = {
+			SOV = {
+				country_event = { id = KPD_event.21 days = 1 }
+				custom_effect_tooltip = GER_molotov_thalmann_pact_tt
+				custom_effect_tooltip = needs_approval
+			}
+		}
+	}
+	focus = {
+		#동등한 관계
+		id = KPD_equal_relationship
+		icon = GFX_focus_chi_mission_to_the_soviet_union
+		cost = 5
+		prerequisite = {
+			focus = KPD_comintern_aid
+		}
+		mutually_exclusive = {
+			focus = KPD_internationalism
+		}
+		available = {
+			is_subject = no
+			is_in_faction = no
+			not = { has_war_with = SOU }
+			SOV_comintern_joinable = yes 
+		}
+		x = 1
+		y = 2
+		available = {
+		}
+		relative_position_id = KPD_coalition_radicalization
+		completion_reward = {
+			SOU = {
+				country_event = generic.2
+			}
+		}
+	}
+	focus = {
+		#국제주의
+		id = KPD_internationalism
+		icon = GFX_goal_generic_political_pressure
+		cost = 5
+		prerequisite = {
+			focus = KPD_comintern_aid
+		}
+		mutually_exclusive = {
+			focus = KPD_equal_relationship
+		}
+		available = {
+			is_subject = no
+			is_in_faction = no
+			not = { has_war_with = SOU }
+			SOV_comintern_joinable = yes 
+		}
+		x = -1
+		y = 2
+		available = {
+		}
+		relative_position_id = KPD_coalition_radicalization
+		completion_reward = {
+			SOU = {
+				country_event = { id = KPD_event.24 hours = 8 }
+				custom_effect_tooltip = KPD_internationalism_tt
+				custom_effect_tooltip = needs_approval
+			}
+		}
+	}
+	focus = {
+		#베를린 조약기구
+		id = KPD_berlin_treaty_organization
+		icon = GFX_goal_generic_military_sphere
+		cost = 5
+		prerequisite = {
+			focus = KPD_internationalism
+			focus = KPD_equal_relationship
+		}
+		x = 0
+		y = 3
+		available = {
+		}
+		relative_position_id = KPD_coalition_radicalization
+		completion_reward = {
+		}
+	}
+	focus = {
+		#트로츠키주의자 제거
+		id = KPD_enemy_of_the_revolution
+		icon = GFX_focus_SOV_purge_trotskyists
+		cost = 5
+		prerequisite = {
+			focus = KPD_coalition_radicalization
+		}
+		x = -2
+		y = 1
+		available = {
+		}
+		relative_position_id = KPD_coalition_radicalization
+		completion_reward = {
+		}
+	}
+	focus = {
+		#우파 숙청
+		id = KPD_right_wing_purge
+		icon = GFX_focus_SOV_purge_bukharinists
+		cost = 5
+		prerequisite = {
+			focus = KPD_enemy_of_the_revolution
+		}
+		x = -2
+		y = 3
+		available = {
+		}
+		relative_position_id = KPD_coalition_radicalization
+		completion_reward = {
 		}
 	}
 	focus = {
@@ -1135,10 +1407,10 @@ focus_tree = {
 		relative_position_id = KPD_1st_five_year_plan
 		completion_reward = {
 			SOU = {
-				country_event = KPD.9
+				country_event = KPD_event.9
 			}
 			custom_effect_tooltip = if_they_accept_tt
-			event_option_tooltip = KPD.10.a
+			event_option_tooltip = KPD_event.10.a
 		}
 	}
 	focus = {
