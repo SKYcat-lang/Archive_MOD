@@ -2037,27 +2037,33 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = FRA_prov_event.55.a
-		add_war_support = -0.05
+		add_political_power = -5
 	}
 }
 
 country_event = {
-	#안 씀
+	#이탈리아/스페인 국경
 	id = FRA_prov_event.56
 	title = FRA_prov_event.56.t
 	desc = FRA_prov_event.56.d
 	is_triggered_only = yes
-	fire_only_once = yes
 	option = {
 		name = FRA_prov_event.56.a
-		add_to_faction = FRA
-		ai_chance = {
-			base = 100
-		}
 		FRA = {
 			country_event = {
 				id = FRA_prov_event.60
 				days = 1
+			}
+			if = {
+				limit = {
+					ROOT = {
+						tag = ITA
+					}
+				}
+				set_country_flag = FRA_ita_is_helping
+			}
+			else = {
+				set_country_flag = FRA_spr_is_helping
 			}
 		}
 	}
@@ -2152,10 +2158,9 @@ country_event = {
 	title = FRA_prov_event.60.t
 	desc = FRA_prov_event.60.d
 	is_triggered_only = yes
-	fire_only_once = yes
 	option = {
 		name = FRA_prov_event.60.a
-		add_war_support = 0.03
+		add_political_power = 5
 	}
 }
 
@@ -3470,7 +3475,10 @@ country_event = {
 		#사형
 		name = FRA_prov_event.102.a
 		add_stability = -0.03
-		add_ideas = FRA_naval_block
+		add_timed_idea = {
+			idea = FRA_naval_block
+			days = 360
+		}
 	}
 }
 
@@ -4110,7 +4118,7 @@ country_event = {
 }
 
 country_event = {
-	#안 씀
+	#레지스탕스 강화
 	id = FRA_prov_event.119
 	title = FRA_prov_event.119.t
 	desc = FRA_prov_event.119.d
@@ -4119,6 +4127,7 @@ country_event = {
 	option = {
 		#철저히 짓밟아라
 		name = FRA_prov_event.119.a
+		MIL_Resistance_idea_up = yes
 	}
 }
 
@@ -4398,44 +4407,42 @@ country_event = {
 }
 
 country_event = {
-	#안 씀
+	#밀레니엄 총파업
 	id = FRA_prov_event.132
 	title = FRA_prov_event.132.t
 	desc = FRA_prov_event.132.d
 	fire_only_once = no
 	is_triggered_only = yes
 	option = {
-		ai_chance = {
-			base = 10
-			modifier = {
-				has_country_flag = MIL_FRA_cut_flag
-				factor = 0.01
-			}
-		}
 		name = FRA_prov_event.132.a
-		add_political_power = 10
-		if = {
-			limit = {
-				tag = ITA
-			}
-			give_guarantee = FRA
-			FRA = {
-				give_guarantee = ITA
+		every_owned_state = {
+			random_list = {
+				1 = {
+					damage_building = {
+						type = industrial_complex
+						damage = 0.7
+					}
+				}
+				1 = {
+					damage_building = {
+						type = arms_factory
+						damage = 0.7
+					}
+				}
+				1 = {
+					damage_building = {
+						type = infrastructure
+						damage = 0.7
+					}
+				}
+				1 = {		
+					damage_building = {
+						type = dockyard
+						damage = 0.7
+					}
+				}
 			}
 		}
-		if = {
-			limit = {
-				tag = ENG
-			}
-			give_guarantee = FRA
-			FRA = {
-				give_guarantee = ENG
-			}
-		}
-	}
-	option = {
-		name = FRA_prov_event.132.b
-		add_war_support = 0.02
 	}
 }
 
