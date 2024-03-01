@@ -2131,7 +2131,7 @@ focus_tree = {
 		y = 1
 		completion_reward = {
             custom_effect_tooltip = GEH_attack_plan_ONE_FOUR_TWO_tt
-            add_to_variable = { GEH_RU_breakthrough_factor = 0.07 }
+            add_to_variable = { GEH_RU_breakthrough_factor = -0.07 }
 		}
 	}
 	focus = {
@@ -2320,8 +2320,12 @@ focus_tree = {
 		available = {
 		}
 		completion_reward = {
+            hidden_effect = {
+                country_event = { id = hina.2 }
+            }
 			add_war_support = -0.1
 			add_stability = 0.2
+            add_political_power = 120
 		}
 	}
     focus = {
@@ -2508,7 +2512,7 @@ focus_tree = {
 		}
 		completion_reward = {
             custom_effect_tooltip = GEH_approve_plan_tt
-            add_to_variable = { GEH_PL_consumer_goods_factor = -0.03 } # 소비재
+            add_to_variable = { GEH_PL_consumer_goods_factor = -0.02 } # 소비재
 		}
 	}
     focus = {
@@ -2830,7 +2834,7 @@ focus_tree = {
 	}
     focus = {
 		id = GEH_Leverage_Perfect_team_strengths
-		icon = GFX_goal_rhineland
+		icon = GFX_goal_GEH_sundoboo
 		cost = 5
 		x = 2
 		y = 1
@@ -2914,8 +2918,15 @@ focus_tree = {
 			}
 		}
 		available = { }
-		completion_reward = { 
-            
+		completion_reward = {
+            custom_effect_tooltip = GEH_Army_focus_2_tt
+            add_to_variable = { GEH_RU_terrain_penalty_reduction = 0.05 }
+		    add_tech_bonus = {
+			    name = GEH_Army_focus_2
+			    bonus = 0.75
+			    uses = 2
+    			category = support_tech
+		    }
         }
 	}
     focus = {
@@ -2942,21 +2953,21 @@ focus_tree = {
 		}
 		available = { }
 		completion_reward = { 
+            add_one_random_military_factory = yes
 		    add_tech_bonus = {
     			name = GEH_Army_focus_3
 	    		bonus = 0.75
 		    	uses = 2
     			category = artillery
 	    	}
-            add_one_random_military_factory = yes
         }
 	}
     focus = {
 		id = GEH_Army_focus_4
 		icon = GFX_goal_Perfect_team_iori_focus
-		cost = 5
+		cost = 10
 		x = -3
-		y = 2
+		y = 3
         prerequisite = {
             focus = GEH_Army_focus_1
         }
@@ -2979,73 +2990,31 @@ focus_tree = {
 			}
 		}
 		available = { }
-		completion_reward = { 
-            
-        }
-	}
-    focus = {
-		id = GEH_Army_focus_5
-		icon = GFX_unknown
-		cost = 5
-		x = 1
-		y = 1
-        prerequisite = {
-            focus = GEH_Army_focus_4
-        }
-        relative_position_id = GEH_Army_focus_4
-		ai_will_do = {
-			base = 500
-			modifier = {
-				factor = 2
-				has_war = yes
-			}
-			modifier = {
-				factor = 0.5
-				has_war = no
-			}
-		}
-		available = { }
-		completion_reward = { 
-            
-        }
-	}
-    focus = {
-		id = GEH_Army_focus_6
-		icon = GFX_unknown
-		cost = 5
-		x = -1
-		y = 1
-        prerequisite = {
-            focus = GEH_Army_focus_4
-        }
-        relative_position_id = GEH_Army_focus_4
-		ai_will_do = {
-			base = 500
-			modifier = {
-				factor = 2
-				has_war = yes
-			}
-			modifier = {
-				factor = 0.5
-				has_war = no
-			}
-		}
-		available = { }
-		completion_reward = { 
-            
+		completion_reward = {
+            if = {
+                limit = {
+                    has_completed_focus = GEH_look_to_the_west
+                }
+            }
+            if = {
+                limit = {
+                    has_completed_focus = GEH_Leverage_Perfect_team_strengths
+                }
+            }
         }
 	}
     focus = {
 		id = GEH_Army_focus_7
-		icon = GFX_goal_lol_focus_2
-		cost = 5
+		icon = GFX_goal_GEH_army_flag
+		cost = 10
 		x = 0
-		y = 2
+		y = 1
         prerequisite = {
-            focus = GEH_Army_focus_6
+            focus = GEH_prefect_army_focus_4
+            focus = GEH_west_army_focus_4
         }
         prerequisite = {
-            focus = GEH_Army_focus_5
+            focus = GEH_Army_focus_4
         }
         relative_position_id = GEH_Army_focus_4
 		ai_will_do = {
@@ -3061,14 +3030,24 @@ focus_tree = {
 		}
 		available = { }
 		completion_reward = { 
-
+			add_doctrine_cost_reduction = {
+				name = GEH_Army_focus_7
+				cost_reduction = 0.5
+				uses = 2
+				category = land_doctrine
+			}
+			hidden_effect = {
+				set_technology = { masterful_blitz = 1 popup = no }
+			}
+			custom_effect_tooltip = SOV_the_glory_of_the_red_army_masterful_blitz_tactic_tt
         }
 	}
     focus = {
 		id = GEH_west_army_focus_1
-		icon = GFX_unknown
+        text = GEH_Army_focus_6
+		icon = GFX_focus_generic_military_mission
 		cost = 5
-		x = -1
+		x = 0
 		y = 1
         prerequisite = {
             focus = GEH_look_to_the_west
@@ -3087,17 +3066,20 @@ focus_tree = {
 		}
 		available = { }
 		completion_reward = { 
-
+            custom_effect_tooltip = GEH_army_focus_6_tt
+            add_to_variable = { GEH_RU_army_org_factor = 0.05 }
+            add_to_variable = { GEH_RU_army_morale_factor = 0.1 }
+            add_to_variable = { GEH_RU_experience_loss_factor = -0.15 }
         }
 	}
     focus = {
 		id = GEH_west_army_focus_2
-		icon = GFX_unknown
+		icon = GFX_focus_FIN_strengthen_military_administration
 		cost = 5
 		x = 1
 		y = 2
         prerequisite = {
-            focus = GEH_look_to_the_west
+            focus = GEH_west_army_focus_1
         }
         relative_position_id = GEH_look_to_the_west
 		ai_will_do = {
@@ -3118,12 +3100,38 @@ focus_tree = {
 	}
     focus = {
 		id = GEH_west_army_focus_3
-		icon = GFX_unknown
+		icon = GFX_focus_POL_beck_ribbentrop
 		cost = 5
 		x = -1
-		y = 3
+		y = 2
         prerequisite = {
             focus = GEH_west_army_focus_1
+        }
+        relative_position_id = GEH_look_to_the_west
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		available = { }
+		completion_reward = { 
+
+        }
+	}
+    focus = {
+		id = GEH_west_army_focus_4
+		icon = GFX_focus_SOV_restore_cossack_units
+		cost = 5
+		x = -0
+		y = 3
+        prerequisite = {
+            focus = GEH_west_army_focus_3
         }
         prerequisite = {
             focus = GEH_west_army_focus_2
@@ -3147,7 +3155,8 @@ focus_tree = {
 	}
     focus = {
 		id = GEH_prefect_army_focus_1
-		icon = GFX_unknown
+		icon = GFX_focus_FIN_motti_tactics
+        text = GEH_Army_focus_5
 		cost = 5
 		x = 1
 		y = 1
@@ -3168,12 +3177,21 @@ focus_tree = {
 		}
 		available = { }
 		completion_reward = { 
-
+            custom_effect_tooltip = GEH_prefect_army_focus_2_tt
+            add_to_variable = { GEH_RU_conscription_factor = -0.05 }
+            add_to_variable = { GEH_RU_army_defence_factor = 0.05 }
+			army_experience = 20
+			add_doctrine_cost_reduction = {
+				name = GEH_prefect_army_focus_1
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
         }
 	}
     focus = {
 		id = GEH_prefect_army_focus_2
-		icon = GFX_unknown
+		icon = GFX_focus_generic_tank_air_support
 		cost = 5
 		x = 0
 		y = 2
@@ -3193,13 +3211,16 @@ focus_tree = {
 			}
 		}
 		available = { }
-		completion_reward = { 
-
+		completion_reward = {
+            custom_effect_tooltip = GEH_Army_focus_5_tt
+            add_to_variable = { GEH_RU_conscription_factor = -0.05 }
+            add_to_variable = { GEH_RU_experience_loss_factor = -0.15 }
+            add_to_variable = { GEH_RU_army_attack_factor = 0.05 }
         }
 	}
     focus = {
 		id = GEH_prefect_army_focus_3
-		icon = GFX_unknown
+		icon = GFX_focus_generic_military_academy
 		cost = 5
 		x = 2
 		y = 2
@@ -3220,12 +3241,21 @@ focus_tree = {
 		}
 		available = { }
 		completion_reward = { 
-
+            custom_effect_tooltip = GEH_prefect_army_focus_3_tt
+            add_to_variable = { GEH_RU_army_org_factor = 0.05 }
+            add_to_variable = { GEH_RU_army_morale_factor = 0.10 }
+            add_to_variable = { GEH_RU_conscription_factor = -0.05 }
+			add_doctrine_cost_reduction = {
+				name = GEH_prefect_army_focus_3
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
         }
 	}
     focus = {
 		id = GEH_prefect_army_focus_4
-		icon = GFX_unknown
+		icon = GFX_goal_GEH_gloy_of_gehenna
 		cost = 5
 		x = 1
 		y = 3
@@ -3249,26 +3279,9 @@ focus_tree = {
 		}
 		available = { }
 		completion_reward = { 
-
+            custom_effect_tooltip = GEH_prefect_army_focus_4_tt
+            add_to_variable = { GEH_RU_breakthrough_factor = 0.05 }
+            add_to_variable = { GEH_RU_conscription_factor = -0.05 }
         }
-	}
-    focus = {
-		id = GEH_hina_need_peace
-		icon = GFX_goal_GEH_sad_hina
-		cost = 5
-		x = 5
-		y = 0
-        relative_position_id = GEH_first_congress_focus
-		available = {
-            has_country_flag = GAEBALJUNG
-        }
-		completion_reward = {
-            every_country = {
-                limit = {
-                    has_war = yes
-                }
-                white_peace = GEH
-            }
-		}
 	}
 }
