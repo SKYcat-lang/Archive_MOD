@@ -924,6 +924,10 @@ focus_tree = {
 				tooltip = TRN_gehenna_eq_trigger_tt
 			 	check_variable = { num_equipment_in_armies_k@infantry_equipment > 16 }
 			}
+			OR = {
+				TRM = { has_government = fascism }
+				has_completed_focus = GEM_war_preparation
+			}
 		}
 
 		bypass = {
@@ -1484,7 +1488,7 @@ focus_tree = {
 				}
 			}
 		}
-		x = 55
+		x = 53
 		y = 0
 		completion_reward = {
 			hidden_effect = {
@@ -1807,7 +1811,7 @@ focus_tree = {
 				has_idea = GEH_Emergency
 			}
 		}
-		x = 10
+		x = 8
 		y = 1
 		offset = {
 			x = -12
@@ -1908,7 +1912,7 @@ focus_tree = {
 				has_idea = GEH_state_government_remove_idea
 			}
 		}
-		x = -1
+		x = 0
 		y = 4
 		relative_position_id = GEM_suppression_of_german
 		completion_reward = {
@@ -2123,7 +2127,7 @@ focus_tree = {
 			focus = GEM_group_leadership_system
 		}
 		mutually_exclusive = { focus = GEH_nego_whit_wehrmacht_new }
-		x = 8
+		x = 5
 		y = 1
 		offset = {
 			x = -12
@@ -2160,6 +2164,9 @@ focus_tree = {
 		prerequisite = {
 			focus = GEM_gehenna_academy
 		}
+		mutually_exclusive = {
+			focus = GEM_self_reliance_pursuit
+		}
 		available = {
 			NOT = {
 				has_country_leader = {
@@ -2170,7 +2177,7 @@ focus_tree = {
 			is_subject = no
 			is_in_faction = no
 		}
-		x = 0
+		x = -2
 		y = 1
 		relative_position_id = GEM_gehenna_academy
 		completion_reward = {
@@ -2184,6 +2191,29 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = GEM_self_reliance_pursuit
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 5
+		prerequisite = {
+			focus = GEM_gehenna_academy
+			focus = GEH_nego_whit_wehrmacht_new
+		}
+		mutually_exclusive = {
+			focus = GEM_working_with_the_perfect_team
+		}
+		available = {
+			has_stability > 0.70
+		}
+		x = -4
+		y = 1
+		relative_position_id = GEM_gehenna_academy
+		completion_reward = {
+			add_political_power = 60
+			add_stability = 0.10
+			remove_ideas = GEM_geh_leadership
+		}
+	}
+	focus = {
 		id = GEM_reorganization_of_the_private_army
 		icon = GFX_goal_generic_defence
 		cost = 10
@@ -2194,8 +2224,8 @@ focus_tree = {
 		available = {
 			has_idea = GEH_individualism
 		}
-		x = -2
-		y = 1
+		x = 0
+		y = 3
 		relative_position_id = GEM_gehenna_academy
 		completion_reward = {
 			custom_effect_tooltip = GEM_reorganization_of_the_private_army_tt
@@ -2866,6 +2896,283 @@ focus_tree = {
 				}
 				add_dynamic_modifier = { modifier = GEM_pandemonium_modifier }
 			}
+		}
+	}
+	focus = {
+		id = GEM_eden_treaty_promotion
+		icon = GFX_goal_TRN_eden_pacts_letsgo
+		cost = 5.00
+		prerequisite = { focus = GEM_take_control_of_local_administration }
+		available = {
+		}
+		x = 0
+		y = 2
+		relative_position_id = GEM_take_control_of_local_administration
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_anti_trinity_front
+		icon = GFX_goal_TRN_Blocking_attacks_from_the_outside
+		cost = 5.00
+		prerequisite = {
+			focus = GEM_inhumane_tactics
+			focus = GEM_superiority_of_will
+		}
+		prerequisite = { focus = GEM_eden_treaty_promotion }
+		mutually_exclusive = {
+			focus = GEM_student_councils_mediation_request
+			focus = GEM_acceptance_of_german_nationalism
+		}
+		available = {
+		}
+		x = -3
+		y = 1
+		relative_position_id = GEM_eden_treaty_promotion
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_student_councils_mediation_request
+		icon = GFX_goal_generic_military_deal
+		cost = 5.00
+		prerequisite = { focus = GEM_eden_treaty_promotion }
+		mutually_exclusive = {
+			focus = GEM_anti_trinity_front
+			focus = GEM_acceptance_of_german_nationalism
+		}
+		available = {
+		}
+		x = -1
+		y = 1
+		relative_position_id = GEM_eden_treaty_promotion
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_acceptance_of_german_nationalism
+		icon = GFX_goal_generic_dangerous_deal
+		cost = 5.00
+		prerequisite = { focus = GEM_gehenna_militarism }
+		mutually_exclusive = {
+			focus = GEM_anti_trinity_front
+			focus = GEM_student_councils_mediation_request
+		}
+		available = {
+		}
+		x = 0
+		y = 1
+		relative_position_id = GEM_gehenna_militarism
+		completion_reward = {
+			custom_effect_tooltip = GEM_acceptance_of_german_nationalism_tt
+			every_state = {
+				limit = {
+					is_core_of = GER
+					NOT = { is_core_of = GEM }
+				}
+				add_claim_by = GEM
+			}
+			if = {
+				limit = { country_exists = TRM }
+				reverse_add_opinion_modifier = {
+					target = TRM
+					modifier = GEH_german_nationalism
+				}
+			}
+			if = {
+				limit = { country_exists = GEH }
+				reverse_add_opinion_modifier = {
+					target = GEH
+					modifier = GEH_german_nationalism
+				}
+			}
+			if = {
+				limit = { country_exists = GEN }
+				reverse_add_opinion_modifier = {
+					target = GEN
+					modifier = GEH_german_nationalism
+				}
+			}
+			if = {
+				limit = { country_exists = POL }
+				reverse_add_opinion_modifier = {
+					target = POL
+					modifier = GEH_german_nationalism
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEM_war_preparation
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 5.00
+		prerequisite = { focus = GEM_anti_trinity_front focus = GEM_acceptance_of_german_nationalism }
+		available = {
+		}
+		x = -6
+		y = 2
+		relative_position_id = GEM_eden_treaty_promotion
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEM_eden_treaty_signature
+		icon = GFX_goal_generic_territory_or_war
+		cost = 5.00
+		prerequisite = { focus = GEM_student_councils_mediation_request }
+		available = {
+		}
+		x = -1
+		y = 2
+		relative_position_id = GEM_eden_treaty_promotion
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_shan_hai_jing_invasion
+		icon = GFX_focus_attack_SHA
+		cost = 5.00
+		prerequisite = { focus = GEM_acceptance_of_german_nationalism }
+		available = {
+			is_subject = no
+			country_exists = SHA
+			NOT = { is_in_faction_with = SHA }
+		}
+		x = 0
+		y = 1
+		relative_position_id = GEM_acceptance_of_german_nationalism
+		completion_reward = {
+			create_wargoal = {
+				target = SHA
+				type = annex_everything
+			}
+		}
+	}
+	focus = {
+		id = GEM_first_vienna_award
+		icon = GFX_goal_generic_military_deal
+		cost = 5.00
+		prerequisite = { focus = GEM_shan_hai_jing_invasion }
+		bypass = {
+			OR = {
+				HUN = {
+					OR = {
+						is_puppet_of = GEM
+						has_war_with = GEM
+					}
+					has_capitulated = no
+					exists = yes
+				}
+			}
+		}
+		available = {
+			is_subject = no
+			owns_state = 69
+		}
+		x = 0
+		y = 2
+		relative_position_id = GEM_acceptance_of_german_nationalism
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_axis_powers_establishment
+		icon = GFX_goal_generic_alliance
+		cost = 5.00
+		prerequisite = { focus = GEM_abydos_invasion focus = GEM_first_vienna_award }
+		available = {
+		}
+		x = -1
+		y = 3
+		relative_position_id = GEM_acceptance_of_german_nationalism
+		completion_reward = {
+			GEM = {
+				set_rule = { can_create_factions = yes }
+				if = {
+					limit = { is_faction_leader = yes }
+					set_faction_name = Axis
+					if = {
+						limit = { is_in_faction_with = GEH }
+						hidden_effect = {
+							GEH = { country_event = GEH_event.58 }
+						}
+					}
+				}
+				else = {
+					create_faction = Axis
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEM_support_for_sudetenland_germans
+		icon = GFX_goal_tripartite_pact
+		cost = 5.00
+		prerequisite = { focus = GEM_acceptance_of_german_nationalism }
+		available = {
+		}
+		x = -2
+		y = 1
+		relative_position_id = GEM_acceptance_of_german_nationalism
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_abydos_invasion
+		icon = GFX_focus_attack_ABY
+		cost = 5.00
+		prerequisite = { focus = GEM_support_for_sudetenland_germans }
+		available = {
+		}
+		x = -2
+		y = 2
+		relative_position_id = GEM_acceptance_of_german_nationalism
+		completion_reward = {
 		}
 	}
 }
