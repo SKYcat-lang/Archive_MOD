@@ -36,3 +36,7 @@
 ## 디스코드 / 스팀
 디스코드 : <https://discord.gg/kddrRNS6dt>   
 스팀 : <https://steamcommunity.com/sharedfiles/filedetails/?id=2927583473>
+
+## GFX 가져온곳(GFX ORIGIN)
+- [Anime infantry](https://steamcommunity.com/sharedfiles/filedetails/?id=2867507468) (헤일로 보병/Halo infantry)
+- [Korea - The Heavens Soldiers](https://steamcommunity.com/sharedfiles/filedetails/?id=2315848888) (헬기/Helicopter)
