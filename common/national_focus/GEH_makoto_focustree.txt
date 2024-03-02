@@ -2183,7 +2183,6 @@ focus_tree = {
 				}
 			}
 			is_subject = no
-			is_in_faction = no
 		}
 		x = 0
 		y = 1
@@ -2191,7 +2190,10 @@ focus_tree = {
 		completion_reward = {
 			GEM = {
 				set_rule = { can_create_factions = yes }
-				create_faction = GEH_Federation
+				if = {
+					limit = { is_faction_leader = no }
+					create_faction = GEH_Federation
+				}
 			}
 			GEH = {
 				country_event = generic.5
@@ -2921,6 +2923,44 @@ focus_tree = {
 		y = 6
 		relative_position_id = GEH_nego_whit_wehrmacht_new
 		completion_reward = {
+			add_opinion_modifier = {
+				target = TRM
+				modifier = eden_treaty_promotion_good
+			}
+			if = {
+				limit = { TRM = { has_government = fascism } }
+				reverse_add_opinion_modifier = {
+					target = TRM
+					modifier = eden_treaty_promotion_bad
+				}
+			}
+			else = {
+				reverse_add_opinion_modifier = {
+					target = TRM
+					modifier = eden_treaty_promotion_good
+				}
+			}
+			if = {
+				limit = { country_exists = COU }
+				reverse_add_opinion_modifier = {
+					target = COU
+					modifier = eden_treaty_promotion_good
+				}
+			}
+			if = {
+				limit = { country_exists = SHE }
+				reverse_add_opinion_modifier = {
+					target = SHE
+					modifier = eden_treaty_promotion_good
+				}
+			}
+			if = {
+				limit = { country_exists = KSP }
+				reverse_add_opinion_modifier = {
+					target = KSP
+					modifier = eden_treaty_promotion_good
+				}
+			}
 		}
 	}
 	focus = {
@@ -2953,6 +2993,12 @@ focus_tree = {
 		y = 1
 		relative_position_id = GEM_eden_treaty_promotion
 		completion_reward = {
+			random_country = {
+				limit = {
+					owns_state = 7
+				}
+				country_event = GEH_event.60
+			}
 		}
 	}
 	focus = {
@@ -3108,10 +3154,40 @@ focus_tree = {
 		prerequisite = { focus = GEM_student_councils_mediation_request }
 		available = {
 		}
+		bypass = {
+			has_country_flag = GEM_eden_treaty_bad_flag
+		}
 		x = 0
 		y = 2
 		relative_position_id = GEM_eden_treaty_promotion
 		completion_reward = {
+			if = {
+				limit = { has_country_flag = GEM_eden_treaty_flag }
+				add_ai_strategy = {
+					type = alliance
+					id = GEM
+					value = 100
+				}
+				TRM = {
+					add_ai_strategy = {
+						type = alliance
+						id = GEM
+						value = 100
+					}
+				}
+				every_country = {
+					limit = {
+						OR = { tag = TRM tag = GEM }
+					}
+					country_event = GEH_event.68
+				}
+			}
+			else = {
+				every_country = {
+					limit = { has_country_flag = student_councils_target_flag }
+					country_event = generic.2
+				}
+			}
 		}
 	}
 	focus = {
@@ -3127,13 +3203,28 @@ focus_tree = {
 			has_country_flag = GEM_eden_treaty_flag
 		}
 		cancel = {
-			is_subject = yes
-			NOT = { country_exists = TRM }
+			OR = {
+				is_subject = yes
+				NOT = { country_exists = TRM }
+			}
 		}
 		x = 1
 		y = 1
 		relative_position_id = GEM_eden_treaty_signature
 		completion_reward = {
+			GEM = {
+				set_rule = { can_create_factions = yes }
+				if = {
+					limit = { is_faction_leader = yes }
+					set_faction_name = TRM_Treaty_of_Eden_faction
+				}
+				else = {
+					create_faction = TRM_Treaty_of_Eden_faction
+				}
+			}
+			TRM = {
+				country_event = generic.5
+			}
 		}
 	}
 	focus = {
@@ -3149,9 +3240,11 @@ focus_tree = {
 			has_war_with = TRM
 		}
 		cancel = {
-			has_country_flag = GEM_eden_treaty_flag
-			is_subject = yes
-			NOT = { country_exists = TRM }
+			OR = {
+				has_country_flag = GEM_eden_treaty_flag
+				is_subject = yes
+				NOT = { country_exists = TRM }
+			}
 		}
 		available = {
 			is_subject = no
@@ -3308,8 +3401,10 @@ focus_tree = {
 			has_war_with = TRM
 		}
 		cancel = {
-			is_subject = yes
-			NOT = { country_exists = TRM }
+			OR = {
+				is_subject = yes
+				NOT = { country_exists = TRM }
+			}
 		}
 		available = {
 			is_subject = no

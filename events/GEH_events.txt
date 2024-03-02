@@ -1534,6 +1534,230 @@ country_event = { # 선도부 탈퇴함
 		remove_ideas = GEM_geh_leadership
 	}
 }
+country_event = { # 중재해줘 총학생회
+	id = GEH_event.60
+	title = GEH_event.60.t
+	desc = GEH_event.60.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+
+	immediate = {
+		set_country_flag = student_councils_target_flag
+	}
+	
+	option = { 
+		name = GEH_event.60.a
+		ai_chance = {
+			base = 20
+		}
+		TRM = { country_event = { id = GEH_event.61 hours = 12 } }
+	}
+	option = { 
+		name = GEH_event.60.b
+		GEM = { country_event = { id = GEH_event.64 hours = 8 } }
+	}
+	option = { 
+		name = GEH_event.60.c
+		ai_chance = {
+			base = 35
+		}
+		trigger = {
+			TRM = { has_government = fascism }
+		}
+		GEM = { country_event = { id = GEH_event.65 hours = 8 } }
+	}
+}
+country_event = { # 총학생회가 평협하라고 함
+	id = GEH_event.61
+	title = GEH_event.61.t
+	desc = GEH_event.61.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = { #ㅇㅋ
+		name = GEH_event.61.a
+		ai_chance = {
+			base = 2
+			modifier = {
+				has_government = fascism
+				factor = 0.001
+			}
+		}
+		if = {
+			limit = { has_government = fascism }
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.10
+			}
+			add_stability = -0.05
+			add_war_support = -0.10
+		}
+		GEM = {
+			country_event = { id = GEH_event.62 days = 3 }
+		}
+	}
+	option = { #무시함 - 트리니티
+		name = GEH_event.61.b
+		ai_chance = {
+			base = 1
+		}
+		trigger = {
+			has_government = fascism
+		}
+		add_war_support = 0.10
+		GEM = {
+			country_event = { id = GEH_event.63 days = 3 }
+		}
+	}
+	option = { #ㄴㄴ - 트리니티
+		name = GEH_event.61.c
+		ai_chance = {
+			base = 1
+		}
+		trigger = {
+			NOT = { has_government = fascism }
+		}
+		add_war_support = 0.02
+		GEM = {
+			country_event = { id = GEH_event.63 days = 3 }
+		}
+	}
+}
+country_event = { # 잘 된듯?
+	id = GEH_event.62
+	title = GEH_event.62.t
+	desc = GEH_event.62.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = {
+		name = GEH_event.62.a
+		add_stability = 0.05
+		set_country_flag = GEM_eden_treaty_flag
+	}
+}
+country_event = { # 트리니티가 협상 박살냄
+	id = GEH_event.63
+	title = GEH_event.63.t
+	desc = GEH_event.63.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = {
+		name = GEH_event.63.a
+		add_war_support = 0.10
+		add_opinion_modifier = {
+			target = TRM
+			modifier = eden_treaty_interference
+		}
+		set_country_flag = GEM_eden_treaty_bad_flag
+	}
+}
+country_event = { # 총학생회의 중재 거부
+	id = GEH_event.64
+	title = GEH_event.64.t
+	desc = GEH_event.64.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = {
+		name = GEH_event.64.a
+		add_war_support = -0.10
+		set_country_flag = GEM_eden_treaty_bad_flag
+	}
+}
+country_event = { # 총학생회의 방위 조약 제안
+	id = GEH_event.65
+	title = GEH_event.65.t
+	desc = GEH_event.65.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = {
+		name = GEH_event.65.a
+		add_war_support = 0.05
+		country_event = GEH_event.66
+	}
+	option = {
+		name = GEH_event.65.b
+		country_event = GEH_event.67
+		set_country_flag = GEM_eden_treaty_bad_flag
+	}
+}
+country_event = { # 총학생회의 방위 조약 제안 - ㄱㄱ
+	id = GEH_event.66
+	title = GEH_event.66.t
+	desc = GEH_event.66.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = {
+		name = GEH_event.66.a
+		give_guarantee = GEM
+		GEM = {
+			give_guarantee = ROOT
+		}
+	}
+}
+country_event = { # 총학생회의 방위 조약 제안 - ㄴㄴ
+	id = GEH_event.67
+	title = GEH_event.67.t
+	desc = GEH_event.67.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = {
+		name = GEH_event.67.a
+	}
+}
+country_event = { # 조약 서명일
+	id = GEH_event.68
+	title = GEH_event.68.t
+	desc = GEH_event.68.desc
+	picture = GFX_event_none_picture
+	
+    is_triggered_only = yes
+	
+	option = {
+		name = GEH_event.68.a
+		if = {
+			limit = {
+				tag = TRM
+			}
+			set_truce = {
+				target = GEH
+				days = 70
+			}
+			diplomatic_relation = {
+				country = GEH
+				relation = non_aggression_pact
+				active = yes
+			}
+		}
+		if = {
+			limit = {
+				tag = GEM
+			}
+			set_truce = {
+				target = TRM
+				days = 70
+			}
+			diplomatic_relation = {
+				country = TRM
+				relation = non_aggression_pact
+				active = yes
+			}
+		}
+	}
+}
 country_event = { # 협력
 	id = GEH_event.255
 	title = GEH_event.255.t
