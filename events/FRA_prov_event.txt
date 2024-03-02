@@ -956,30 +956,6 @@ country_event = {
 		}
 	}
 }
-#
-#
-#	안쓰는 이벤트 일단 주석
-#
-# country_event = {
-# 	#안씀
-# 	id = FRA_prov_event.21
-# 	title = FRA_prov_event.22.t
-# 	desc = FRA_prov_event.22.d
-# 	fire_only_once = yes
-# 	is_triggered_only = yes
-# 	hidden = no
-# 	option = {
-# 		name = FRA_prov_event.22.a
-# 		add_political_power = 10
-# 		country_event = {
-# 			id = FRA_prov_event.12
-# 			days = 1
-# 		}
-# 		add_to_variable = {
-# 			FRA_demand_after_war = 1
-# 		}
-# 	}
-# }
 
 country_event = {
 	#군사 협력 수락
@@ -1288,19 +1264,27 @@ country_event = {
 }
 
 country_event = {
-	#안 씀 
+	#귀환 후 채권 상환 
 	id = FRA_prov_event.33
-	title = FRA_prov_event.77.t
-	desc = FRA_prov_event.77.d
+	title = FRA_prov_event.33.t
+	desc = FRA_prov_event.33.d
 	fire_only_once = yes
 	is_triggered_only = yes
 	hidden = yes
 	option = {
-		name = FRA_prov_event.77.a
-		add_timed_idea = {
-			idea = FRA_front_stuck
-			days = 360
+		name = FRA_prov_event.33.a
+		remove_dynamic_modifier = {
+			modifier = FRA_national_defense_bond
 		}
+		clr_country_flag = FRA_defense_bond_no_flag
+		multiply_variable = {
+			FRA_national_defense_bond_political_power_variable = 200
+		}
+		country_event = {
+			id = FRA_prov_event.123
+			days = 3
+		}
+		set_country_flag = FRA_defense_bond_never_flag
 	}
 }
 
@@ -1539,6 +1523,15 @@ news_event = {
 					set_global_flag = sup_France_dem
 					scoped_play_song = "BA_La_Mar"
 				}
+				else_if = {
+					limit = {
+						FRA = {
+							has_government = fascism
+						}
+					}
+					set_global_flag = sup_France_fas
+					scoped_play_song = "BA_verdun"
+				}
 				else = {
 					set_global_flag = sup_France
 					scoped_play_song = "BA_victory"
@@ -1548,24 +1541,65 @@ news_event = {
 				limit = {
 					is_on_continent = europe
 					is_owned_by = FRA
+					NOT = {
+						state = 1
+					}
 				}
-				random_list = {
-					3 = {
-						damage_building = {
-							type = arms_factory
-							damage = 1
-						}
-						damage_building = {
-							type = industrial_complex
-							damage = 1
-						}
-						damage_building = {
-							type = infrastructure
-							damage = 1
-						}
-					}
-					1 = {
-					}
+				damage_building = {
+					type = arms_factory
+					damage = 1
+				}
+				damage_building = {
+					type = synthetic_refinery
+					damage = 1
+				}
+				damage_building = {
+					type = fuel_silo
+					damage = 1
+				}
+				damage_building = {
+					type = radar_station
+					damage = 1
+				}
+				damage_building = {
+					type = rail_way
+					damage = 1
+				}
+				damage_building = {
+					type = supply_node
+					damage = 1
+				}
+				damage_building = {
+					type = naval_base
+					damage = 1
+				}
+				damage_building = {
+					type = air_base
+					damage = 1
+				}
+				damage_building = {
+					type = anti_air_building
+					damage = 1
+				}
+				damage_building = {
+					type = coastal_bunker
+					damage = 1
+				}
+				damage_building = {
+					type = bunker
+					damage = 1
+				}
+				damage_building = {
+					type = industrial_complex
+					damage = 1
+				}
+				damage_building = {
+					type = dockyard
+					damage = 1
+				}
+				damage_building = {
+					type = infrastructure
+					damage = 1
 				}
 			}
 		}
@@ -1590,6 +1624,24 @@ news_event = {
 					}
 					set_global_flag = sup_France_com
 					scoped_play_song = "BA_internationale_french"
+				}
+				else_if = {
+					limit = {
+						FRA = {
+							has_government = democratic
+						}
+					}
+					set_global_flag = sup_France_dem
+					scoped_play_song = "BA_La_Mar"
+				}
+				else_if = {
+					limit = {
+						FRA = {
+							has_government = fascism
+						}
+					}
+					set_global_flag = sup_France_fas
+					scoped_play_song = "BA_verdun"
 				}
 				else = {
 					set_global_flag = sup_France
@@ -2361,18 +2413,23 @@ country_event = {
 }
 
 country_event = {
-	#자유 평등 우애
+	#이탈리아 영향력
 	id = FRA_prov_event.68
 	title = FRA_prov_event.68.t
 	desc = FRA_prov_event.68.d
 	is_triggered_only = yes
 	fire_only_once = yes
 	option = {
-		#미국에 연락
 		name = FRA_prov_event.68.a
-		give_guarantee = USA
-		USA = {
-			give_guarantee = FRA
+		735 = {
+			remove_core_of = FRA
+		}
+		940 = {
+			remove_core_of = FRA
+		}
+		add_timed_idea = {
+			idea = FRA_thanks_ita
+			days = 360
 		}
 	}
 }
@@ -2453,10 +2510,6 @@ country_event = {
 					}
 				}
 				VIN = {
-					transfer_state = 670
-					transfer_state = 741
-					transfer_state = 671
-					transfer_state = 286
 					every_owned_state = {
 						add_core_of = VIN
 					}
@@ -2470,6 +2523,23 @@ country_event = {
 						}
 					}
 				}
+				VIN = {
+					set_cosmetic_tag = VIN_com
+					set_politics = {
+						ruling_party = communism
+						elections_allowed = no
+					}
+					set_popularities = {
+						communism = 100
+					}
+				}
+				remove_ideas = FRA_government_general_2
+				remove_ideas = FRA_government_general_1
+				remove_ideas = FRA_government_general
+				remove_ideas = VIN_colonists_resist_0
+				remove_ideas = VIN_colonists_resist_1
+				remove_ideas = VIN_colonists_resist_2
+				remove_ideas = VIN_colonists_resist_3
 				clr_country_flag = FRA_has_indochina_issue
 				set_country_flag = FRA_finished_vin_cirisis
 			}
@@ -2581,16 +2651,6 @@ country_event = {
 							communism = 100
 						}
 					}
-				}
-			}
-			VIN = {
-				set_cosmetic_tag = VIN_com
-				set_politics = {
-					ruling_party = communism
-					elections_allowed = no
-				}
-				set_popularities = {
-					communism = 100
 				}
 			}
 			MRT = {
@@ -4927,6 +4987,10 @@ country_event = {
 	option = {
 		name = FRA_recover.1.a
 		add_war_support = 0.1
+		delete_unit_template_and_units = {
+			division_template = "French Resistance"
+			disband = yes				#will refund equipment and manpower
+		}
 	}
 }
 
@@ -5116,6 +5180,22 @@ country_event = {
 				}
 				TRM_NEW_ORDER_SIBERIA = yes
 			}
+		}
+	}
+}
+country_event = {
+	#스페인의 영향력
+	id = FRA_recover.3
+	title = FRA_recover.3.t
+	desc = FRA_recover.3.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	hidden = no
+	option = {
+		name = FRA_recover.3.a
+		add_timed_idea = {
+			idea = FRA_thanks_spr
+			days = 360
 		}
 	}
 }
