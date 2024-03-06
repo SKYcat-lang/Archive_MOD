@@ -104,8 +104,6 @@ focus_tree = {
 
 		prerequisite = { focus = RED_road_to_south focus = RED_road_to_north }
 
-		search_filters = { FOCUS_FILTER_INDUSTRY }
-
 		completion_reward = {
 			random_owned_controlled_state = {
 				add_extra_state_shared_building_slots = 2
@@ -181,8 +179,6 @@ focus_tree = {
 		available = {
 			has_tech = basic_train
 		}
-		
-		search_filters = {FOCUS_FILTER_INDUSTRY}
 
 		completion_reward = {
 			# 지식해방전선 - 붉은겨울 사무국 - 토모에 그라드
@@ -287,8 +283,6 @@ focus_tree = {
 		y = 2
 		relative_position_id = RED_entice_publicworks
 		cost = 10
-		
-		search_filters = {FOCUS_FILTER_INDUSTRY}
 
 		completion_reward = {
 			random_owned_controlled_state = {
@@ -465,8 +459,6 @@ focus_tree = {
 		available = {
 			num_of_controlled_factories > 50
 		}
-		
-		search_filters = {FOCUS_FILTER_INDUSTRY}
 
 		completion_reward = {
 			random_owned_controlled_state = {
@@ -494,8 +486,6 @@ focus_tree = {
 		available = {
 			num_of_controlled_factories > 40
 		}
-		
-		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
 			random_owned_controlled_state = {
@@ -579,8 +569,6 @@ focus_tree = {
 
 		available = {
 		}
-		
-		search_filters = {FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
 			add_timed_idea = { 
@@ -601,8 +589,6 @@ focus_tree = {
 
 		available = {
 		}
-		
-		search_filters = {FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
 			add_research_slot = 1
@@ -621,8 +607,6 @@ focus_tree = {
 
 		available = {
 		}
-		
-		search_filters = {FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
 			if = {
@@ -658,8 +642,6 @@ focus_tree = {
 
 		available = {
 		}
-		
-		search_filters = {FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
 			add_tech_bonus = {
@@ -681,8 +663,6 @@ focus_tree = {
 
 		available = {
 		}
-		
-		search_filters = {FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
 			add_tech_bonus = {
@@ -1198,6 +1178,10 @@ focus_tree = {
 		cost = 10
 
 		mutually_exclusive = { focus = RED_heroism_propaganda }
+
+		available = {
+			has_completed_focus = RED_entice_publicworks
+		}
 
 		completion_reward = {
 			#이벤트 발생
@@ -3537,8 +3521,6 @@ focus_tree = {
 		available = {
 			has_completed_focus = RED_entice_publicworks
 		}
-		
-		search_filters = {FOCUS_FILTER_INDUSTRY}
 
 		completion_reward = {
 			random_owned_controlled_state = {
@@ -3580,8 +3562,6 @@ focus_tree = {
 
 		available = {
 		}
-		
-		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
 			add_to_variable = { RED_production_factory_max_efficiency_factor = 0.05 }
@@ -3618,8 +3598,6 @@ focus_tree = {
 
 		available = {
 		}
-		
-		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
 			add_tech_bonus = {
@@ -3653,8 +3631,6 @@ focus_tree = {
 
 		available = {
 		}
-		
-		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
 			add_to_variable = { RED_breakthrough_factor = 0.05 }
@@ -3708,8 +3684,6 @@ focus_tree = {
 		available = {
 
 		}
-		
-		search_filters = {FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
 			set_variable = { RED_materiel_manufacturer_cost_factor = -0.25 }
@@ -3744,45 +3718,44 @@ focus_tree = {
 			else = {
 				has_tech = improved_medium_tank
 			}
-			OR = {
-				has_tech = artillery3
-				has_tech = antitank3
-			}
+			has_tech = artillery3
 		}
-		
-		search_filters = {FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
 			set_variable = { RED_tank_manufacturer_cost_factor = -0.25 }
 
-			add_tech_bonus = {
-				name = RED_superior_war_machines
-				bonus = 0.75
-				uses = 2
-				category = armor
-			}
 			if = {
 				limit = {
 					has_dlc = "No Step Back"
 				}
-				#T-34 tank template
+				set_technology = {
+					advanced_medium_tank_chassis = 1
+					artillery4 = 1
+				}
+				#R-54 tank template
 				create_equipment_variant = {
-					name = "T-34"
-					type = medium_tank_chassis_2
+					name = "R-54"
+					type = medium_tank_chassis_3
 					parent_version = 0
 					modules = {
 						main_armament_slot = tank_medium_cannon_2
-						turret_type_slot = tank_medium_two_man_tank_turret
-						suspension_type_slot = tank_christie_suspension
-						armor_type_slot = tank_welded_armor
-						engine_type_slot = tank_gasoline_engine
+						turret_type_slot = tank_medium_three_man_tank_turret
+						suspension_type_slot = tank_torsion_bar_suspension
+						armor_type_slot = tank_cast_armor
+						engine_type_slot = tank_diesel_engine
 						special_type_slot_1 = additional_machine_guns
 					}
 					upgrades = {
-						tank_nsb_engine_upgrade = 12
-						tank_nsb_armor_upgrade = 4
+						tank_nsb_engine_upgrade = 16
+						tank_nsb_armor_upgrade = 7
 					}
 					icon = "GFX_SOV_improved_medium_tank_medium"
+				}
+			}
+			else = {
+				set_technology = {
+					advanced_medium_tank = 1
+					artillery4 = 1
 				}
 			}
 		}
@@ -3805,17 +3778,13 @@ focus_tree = {
 					has_dlc = "No Step Back"
 				}
 				has_tech = improved_medium_tank_chassis
+				has_tech = radio
 			}
 			else = {
 				has_tech = improved_medium_tank
 			}
-			OR = {
-				has_tech = artillery3
-				has_tech = antitank3
-			}
+			has_tech = antitank3
 		}
-		
-		search_filters = {FOCUS_FILTER_INDUSTRY FOCUS_FILTER_ARMY_XP}
 
 		completion_reward = {
 			add_to_variable = { RED_land_equipment_upgrade_xp_cost = -0.1 }
@@ -3824,22 +3793,27 @@ focus_tree = {
 				limit = {
 					has_dlc = "No Step Back"
 				}
-				#SU-100 tank template (AT)
+				set_technology = {
+					advanced_medium_tank_chassis = 1
+					antitank4 = 1
+				}
+				#CH-122 tank template (AT)
 				if = {
 					limit = {
-						has_tech = antitank5
+						has_tech = antitank4
 					}
 					create_equipment_variant = {
-						name = "SU-100"
-						type = medium_tank_destroyer_chassis_2
+						name = "CH-122"
+						type = medium_tank_destroyer_chassis_3
 						parent_version = 0
 						modules = {
-							main_armament_slot = tank_high_velocity_cannon_3
+							main_armament_slot = tank_high_velocity_cannon_2
 							turret_type_slot = tank_medium_fixed_superstructure_turret
 							suspension_type_slot = tank_christie_suspension
 							armor_type_slot = tank_welded_armor
-							engine_type_slot = tank_gasoline_engine
+							engine_type_slot = tank_diesel_engine
 							special_type_slot_1 = sloped_armor
+							special_type_slot_2 = tank_radio_2
 						}
 						upgrades = {
 							tank_nsb_engine_upgrade = 12
@@ -3848,55 +3822,13 @@ focus_tree = {
 						icon = "GFX_SOV_advanced_medium_td_medium"
 					}
 				}
-				if = { #SU85 tank template (AT)
-					limit = {
-						has_tech = interwar_antitank
-					}
-					create_equipment_variant = {
-						name = "SU-85"
-						type = medium_tank_destroyer_chassis_2
-						parent_version = 0
-						modules = {
-							main_armament_slot = tank_high_velocity_cannon
-							turret_type_slot = tank_medium_fixed_superstructure_turret
-							suspension_type_slot = tank_christie_suspension
-							armor_type_slot = tank_welded_armor
-							engine_type_slot = tank_gasoline_engine
-							special_type_slot_1 = sloped_armor
-						}
-						upgrades = {
-							tank_nsb_engine_upgrade = 12
-							tank_nsb_armor_upgrade = 4
-						}
-						icon = "GFX_SOV_improved_medium_td_medium"
-					}
+			}
+			else = {
+				set_technology = {
+					advanced_medium_td = 1
+					antitank4 = 1
 				}
-
-				#SU-122 tank template (SPG)
-				if = {
-					limit = {
-						has_tech = artillery4
-					}
-					create_equipment_variant = {
-						name = "SU-122"
-						type = medium_tank_artillery_chassis_2
-						parent_version = 0
-						modules = {
-							main_armament_slot = tank_heavy_howitzer
-							turret_type_slot = tank_medium_fixed_superstructure_turret
-							suspension_type_slot = tank_christie_suspension
-							armor_type_slot = tank_riveted_armor
-							engine_type_slot = tank_gasoline_engine
-							special_type_slot_1 = sloped_armor
-						}
-						upgrades = {
-							tank_nsb_engine_upgrade = 12
-							tank_nsb_armor_upgrade = 4
-						}
-						icon = "GFX_SOV_improved_medium_art_medium"
-					}
-				}
-			}			
+			}		
 		}
 	}
 
