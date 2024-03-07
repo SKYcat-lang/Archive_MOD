@@ -1912,7 +1912,7 @@ focus_tree = {
 	}
 	continuous_focus_position = { x = 50 y = 1100 }
     #shared_focus = GEH_ready_for_war
-	shared_focus = GEH_unified_gehenna
+	#shared_focus = GEH_unified_gehenna
 	focus = {
 		id = GEH_Evict_Wehrmacht
 		icon = GFX_focus_ger_oppose_hitler
@@ -2317,8 +2317,6 @@ focus_tree = {
         select_effect = {
             country_event = { id = hina.1 }
         }
-		available = {
-		}
 		completion_reward = {
             hidden_effect = {
                 country_event = { id = hina.2 }
@@ -2339,6 +2337,39 @@ focus_tree = {
         relative_position_id = GEH_first_congress_focus
         prerequisite = { focus = GEH_first_congress_focus }
         available = { }
+		allow_branch = {
+		}
+		available = {
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					has_dlc = "La Resistance"
+				}
+				if = {
+					limit = {
+						has_intelligence_agency = no
+					}
+					create_intelligence_agency = yes
+				}
+				add_ideas = GEH_HID_idea
+			}
+
+		}
+	}
+    focus = {
+		id = GEH_HID_benriya
+		icon = GFX_goal_GEH_take_Benriya
+		cost = 5
+		x = 0
+		y = 1
+
+		#ai_will_do = { base = 1000 }
+        relative_position_id = GEH_Cooperation_with_HID
+        prerequisite = { focus = GEH_Cooperation_with_HID }
+        available = { 
+            has_global_flag = dldhfl_flag
+        }
 		allow_branch = {
 		}
 		available = {
@@ -2391,7 +2422,12 @@ focus_tree = {
 		cost = 10
 		x = 0
 		y = 3
-
+        cancel = {
+            OR = {
+            has_war = yes
+            has_global_flag = BA_Trinity_Gehenna_War
+            }
+        }
 		#ai_will_do = { base = 1000 }
         relative_position_id = GEH_Cooperation_with_HID
         prerequisite = { 
@@ -2402,9 +2438,26 @@ focus_tree = {
 		allow_branch = {
 		}
 		available = {
+            date > 1940.1.1
+			is_puppet = no
+			NOT = { is_in_faction_with = TRM }
+			NOT = { is_in_faction_with = MIL }
+			has_army_manpower = { size > 399999 }
+			check_variable = { num_equipment_in_armies_k@infantry_equipment > 16 }
+			custom_trigger_tooltip = {
+				tooltip = TRN_gehenna_eq_trigger_tt
+				check_variable = { num_equipment_in_armies_k@infantry_equipment > 16 }
+			}
 		}
 		completion_reward = {
-
+            create_wargoal = {
+				target = TRM
+				type = annex_everything
+            }
+            create_wargoal = {
+				target = MIL
+				type = annex_everything
+            }
 		}
 	}
     focus = {
@@ -2455,7 +2508,15 @@ focus_tree = {
 		available = {
 		}
 		completion_reward = {
-
+		    if = {
+			    limit = {
+				    has_idea = BA_isolation
+			    }
+			    swap_ideas = {
+				    remove_idea = BA_isolation
+				    add_idea = limited_exports
+			    }
+		    }
 		}
 	}
     focus = {
@@ -2742,7 +2803,7 @@ focus_tree = {
 	}
     focus = {
 		id = GEH_factory_focus_6
-		icon = GFX_goal_GEH_lol_focus
+		icon = GFX_focus_NORDIC_com_capstone_civilian
 		cost = 5
 		x = 0
 		y = 3
@@ -2964,7 +3025,7 @@ focus_tree = {
 	}
     focus = {
 		id = GEH_Army_focus_4
-		icon = GFX_goal_Perfect_team_iori_focus
+		icon = GFX_goal_GEH_flag
 		cost = 10
 		x = -3
 		y = 3
@@ -2991,15 +3052,33 @@ focus_tree = {
 		}
 		available = { }
 		completion_reward = {
+            BA_mapower_idea_level_up = Yes
+            if = {
+                limit = {
+                    NOT = {
+                        has_completed_focus = GEH_Army_focus_4
+                    }
+                }
+            custom_effect_tooltip = GEH_Army_focus_4_tt
+            custom_effect_tooltip = GEH_look_to_the_west_ttt
+            custom_effect_tooltip = GEH_Army_focus_4_2_tt
+            custom_effect_tooltip = GEH_Leverage_Perfect_team_strengths_ttt
+            }
             if = {
                 limit = {
                     has_completed_focus = GEH_look_to_the_west
                 }
+                custom_effect_tooltip = GEH_look_to_the_west_ttt
+                add_to_variable = { GEH_RU_army_org_regain = 0.05 }
+                add_to_variable = { GEH_RU_army_morale_factor = 0.05 }
+                add_to_variable = { GEH_RU_minimum_training_level = 0.05 }
             }
             if = {
                 limit = {
                     has_completed_focus = GEH_Leverage_Perfect_team_strengths
                 }
+                custom_effect_tooltip = GEH_Leverage_Perfect_team_strengths_ttt
+                add_to_variable = { GEH_RU_minimum_training_level = 0.05 }
             }
         }
 	}
@@ -3036,10 +3115,6 @@ focus_tree = {
 				uses = 2
 				category = land_doctrine
 			}
-			hidden_effect = {
-				set_technology = { masterful_blitz = 1 popup = no }
-			}
-			custom_effect_tooltip = SOV_the_glory_of_the_red_army_masterful_blitz_tactic_tt
         }
 	}
     focus = {
@@ -3282,6 +3357,25 @@ focus_tree = {
             custom_effect_tooltip = GEH_prefect_army_focus_4_tt
             add_to_variable = { GEH_RU_breakthrough_factor = 0.05 }
             add_to_variable = { GEH_RU_conscription_factor = -0.05 }
+            add_to_variable = { GEH_CH_conscription = -0.01 }
         }
+	}
+    focus = {
+		id = GEH_Trinity_war
+		icon = GFX_focus_attack_TRN
+		cost = 7
+		x = 12
+		y = 0
+        relative_position_id = GEH_first_congress_focus
+		ai_will_do = { base = 1000 }
+        available = {
+
+        }
+		allow_branch = {
+			GEH_is_phase_three_trigger = yes
+		}
+		completion_reward = {
+			add_war_support = 0.1
+		}
 	}
 }
