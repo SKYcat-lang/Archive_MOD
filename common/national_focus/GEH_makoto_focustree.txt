@@ -3155,7 +3155,14 @@ focus_tree = {
 		available = {
 		}
 		bypass = {
-			has_country_flag = GEM_eden_treaty_bad_flag
+			OR = {
+				has_country_flag = GEM_eden_treaty_bad_flag
+				NOT = {
+					any_country = {
+						has_country_flag = student_councils_target_flag
+					}
+				}
+			}
 		}
 		x = 0
 		y = 2
@@ -3165,7 +3172,7 @@ focus_tree = {
 				limit = { has_country_flag = GEM_eden_treaty_flag }
 				add_ai_strategy = {
 					type = alliance
-					id = GEM
+					id = TRM
 					value = 100
 				}
 				TRM = {
@@ -3182,10 +3189,58 @@ focus_tree = {
 					country_event = GEH_event.68
 				}
 			}
-			else = {
+			else_if = {
+				limit = {
+					any_country = {
+						has_country_flag = student_councils_target_flag
+						is_faction_leader = yes
+					}
+				}
 				every_country = {
+					ROOT = {
+						add_ai_strategy = {
+							type = alliance
+							id = PREV
+							value = 200
+						}
+					}
+					add_ai_strategy = {
+						type = alliance
+						id = GEM
+						value = 200
+					}
 					limit = { has_country_flag = student_councils_target_flag }
 					country_event = generic.2
+				}
+			}
+			else_if = {
+				limit = {
+					any_country = {
+						has_country_flag = student_councils_target_flag
+					}
+				}
+				GEM = {
+					set_rule = { can_create_factions = yes }
+					if = {
+						limit = { is_faction_leader = no }
+						create_faction = GEH_Federation
+					}
+				}
+				every_country = {
+					ROOT = {
+						add_ai_strategy = {
+							type = alliance
+							id = PREV
+							value = 200
+						}
+					}
+					add_ai_strategy = {
+						type = alliance
+						id = GEM
+						value = 200
+					}
+					limit = { has_country_flag = student_councils_target_flag }
+					country_event = generic.5
 				}
 			}
 		}
