@@ -46,3 +46,150 @@ SHA_HYA_WAR_dec = {
 		}
 	}
 }
+political_actions = {
+	SHA_revolutionGOGO = {
+		icon = GFX_decision_generic_tank
+		available = {
+			any_country = {
+				has_idea = SHA_COM_KIBOTOS_idea
+				communism > 0.3
+			}
+		}
+		visible = {
+			has_completed_focus = SHA_foc_1-1-20
+		}
+		ai_will_do = { factor = 100 }
+		cost = 200
+		complete_effect = {
+			random_country = {
+				limit = {
+					has_idea = SHA_COM_KIBOTOS_idea
+					communism > 0.3
+				}
+				PREV = {
+					SHA = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV
+						}
+					}
+				}
+			}
+		}
+		fire_only_once = no
+	}
+	SHA_MB_conscription = {
+		icon = GFX_decision_generic_military
+		available = {}
+		visible = {
+			has_completed_focus = SHA_foc_1-1-21
+		}
+		ai_will_do = { factor = 100 }
+		cost = 50
+		remove_effect = {
+			random_owned_controlled_state = {
+				prioritize = { 4 }
+				create_unit = {division = "name = \"Black Tortoise Promenade Militia\" division_template = \"Black Tortoise Promenade Militia\" start_experience_factor = 0.1" owner = SHA}
+			}
+		}
+		fire_only_once = no
+		days_remove = 30
+	}
+	SHA_WELCOME_GourmetResearchSociety = {
+		icon = GFX_decision_hol_exchange_intelligence_data
+		available = {
+			GEH = {
+				OR = {
+					exists = no
+					is_puppet_of = ROOT
+					NOT = {
+						has_country_flag = GEH_unified_gehenna_flag
+					}
+				}
+			}
+			GEM = {
+				OR = {
+					exists = no
+					is_puppet_of = ROOT
+				}
+			}
+			HEU = {
+				OR = {
+					exists = no
+					is_puppet_of = ROOT
+					NOT = {
+						has_country_flag = GEH_unified_gehenna_flag
+					}
+				}
+			}
+		}
+		visible = {
+			has_completed_focus = SHA_foc_1-1-17
+		}
+		ai_will_do = { factor = 100 }
+		fire_only_once = yes
+		complete_effect = {
+			GEM = {
+				every_unit_leader = {
+					limit = {
+						has_trait = GEM_trait_gourmet_research_society
+					}
+					set_nationality = SHA
+				}
+			}
+			GEH = {
+				every_unit_leader = {
+					limit = {
+						has_trait = GEM_trait_gourmet_research_society
+					}
+					set_nationality = SHA
+				}
+			}
+			HEU = {
+				every_unit_leader = {
+					limit = {
+						has_trait = GEM_trait_gourmet_research_society
+					}
+					set_nationality = SHA
+				}
+			}
+		}
+	}
+}
+economy_decisions = {
+	SHA_money_reform = {
+		icon = GFX_decision_generic_consumer_goods
+		available = {
+			has_idea = SHA_BuildYosae_idea
+		}
+		visible = {
+			has_completed_focus = SHA_foc_2-2-9
+		}
+		ai_will_do = { factor = 100 }
+		modifier = {
+			stability_weekly = -0.001
+			consumer_goods_factor = -0.30
+		}
+		remove_effect = {
+			set_country_flag = SHA_money_reform_yes
+		}
+		fire_only_once = yes
+		days_remove = 400
+	}
+	SHA_money_reform_2 = {
+		icon = GFX_decision_generic_consumer_goods
+		available = {
+			has_idea = SHA_BuildYosae_idea
+		}
+		visible = {
+			has_country_flag = SHA_money_reform_yes
+		}
+		ai_will_do = { factor = 20 }
+		modifier = {
+			stability_weekly = -0.005
+			consumer_goods_factor = -0.20
+		}
+		fire_only_once = no
+		days_remove = 200
+	}
+}

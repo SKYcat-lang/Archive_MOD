@@ -71,6 +71,179 @@ country_event = {
 		}
 	}
 }
+country_event = {
+	id = SHA_event.3
+	title = SHA_event.3.t
+	desc = SHA_event.3.desc
+	picture = GFX_report_event_generic_sign_treaty3
+    is_triggered_only = yes
+
+	option = {
+		name = SHA_event.3.a
+		add_popularity = {
+			ideology = communism
+			popularity = 0.15
+		}
+		add_stability = -0.20
+	}
+	option = {
+		name = SHA_event.3.b
+		add_popularity = {
+			ideology = communism
+			popularity = -0.15
+		}
+		add_political_power = -200
+	}
+}
+country_event = {
+	id = SHA_event.4
+	title = SHA_event.4.t
+	desc = SHA_event.4.desc
+	picture = GFX_report_event_election_vote
+    is_triggered_only = yes
+
+	option = {
+		name = SHA_event.4.a
+		set_politics = {
+			ruling_party = democratic
+			elections_allowed = yes
+			last_election = "1935.12.17"
+			election_frequency = 48
+		}
+		add_country_leader_role = {
+            character = SHA_ROUMI
+            country_leader={
+                ideology=Socialism
+                traits={
+				}
+                expire="1965.1.1.1"
+            }
+            promote_leader = yes
+        }
+		set_party_name = { ideology = communism long_name = "노동당" name = "노동당" }
+        set_party_name = { ideology = democratic long_name = "진보연합당" name = "진보연합당" }
+        set_party_name = { ideology = neutrality long_name = "국민당" name = "국민당" }
+		hidden_effect = {
+			set_popularities = {
+				democratic = 50
+				neutrality = 40
+				fascism = 0
+				communism = 10
+			}
+		}
+	}
+}
+country_event = {
+	id = SHA_event.5
+	title = SHA_event.4.t
+	desc = SHA_event.4.desc
+	picture = GFX_report_event_election_vote
+    is_triggered_only = yes
+
+	option = {
+		set_politics = {
+			ruling_party = democratic
+			elections_allowed = yes
+			last_election = "1935.12.17"
+			election_frequency = 48
+		}
+		add_country_leader_role = {
+            character = SHA_KISAKI
+            country_leader={
+                ideology=conservatism
+                traits={
+					SHA_T2a
+					SHA_T1a
+				}
+                expire="1965.1.1.1"
+            }
+            promote_leader = yes
+        }
+		name = SHA_event.5.a
+		set_party_name = { ideology = communism long_name = "진보연합당" name = "진보연합당" }
+        set_party_name = { ideology = democratic long_name = "국민당" name = "국민당" }
+        set_party_name = { ideology = neutrality long_name = "자유당" name = "자유당" }
+		hidden_effect = {
+			set_popularities = {
+				democratic = 50
+				neutrality = 10
+				fascism = 0
+				communism = 40
+			}
+		}
+	}
+}
+country_event = { 
+	id = SHA_event.6
+	title = SHA_event.6.t
+	desc = SHA_event.6.desc
+	picture = GFX_report_event_dead_soldiers
+	is_triggered_only = no
+	fire_only_once = yes
+	trigger = {
+		has_country_flag = CFLAG_HYA
+		has_global_flag = GFLAG_KINGDOMSHA_ATTHYA
+		SHA = { has_war = YES }
+		HYA = { has_war = YES }
+		HYA = { surrender_progress > 0.50 }
+	}
+	option = { 
+		name = HYA_event.6.a
+		SHA = {
+			country_event = {
+				id = SHA_event.7
+				hours = 1
+			}
+		}
+	}
+}
+country_event = { 
+	id = SHA_event.7
+	title = SHA_event.7.t
+	desc = SHA_event.7.desc
+	picture = GFX_report_event_generic_read_write
+    is_triggered_only = yes
+	option = { 
+		name = HYA_event.2.a
+		white_peace = HYA
+		set_truce = {
+			target = HYA
+			days = 1000
+		}
+		HYA = {
+			add_ideas = SHA_jogongguk
+			if = {
+				limit = {
+					SHA = {
+						is_faction_leader = yes
+					}
+				}
+				SHA = { add_to_faction = HYA }
+			}
+			hidden_effect = {
+				set_politics = {
+					ruling_party = neutrality
+					elections_allowed = no
+				}
+				set_popularities = {
+					neutrality = 100
+				}
+			}
+		}
+		if = {
+			limit = {HYA = {owns_state = 69}}
+			transfer_state = 69
+		}
+		if = {
+			limit = {HYA = {owns_state = 9}}
+			give_resource_rights = { receiver = SHA state = 9 }
+		}
+		if = {
+			limit = {HYA = {owns_state = 75}}
+			give_resource_rights = { receiver = SHA state = 75 }
+		}
+	}
+}
 
 news_event = {
 	id = SHA_news.1
