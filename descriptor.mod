@@ -20,5 +20,5 @@ dependencies={
 user_dir="BlueArchive"
 version="0.6.5"
 picture="thumbnail.png"
-supported_version="1.13.*"
+supported_version="1.14.*"
 remote_file_id="2927583473"
