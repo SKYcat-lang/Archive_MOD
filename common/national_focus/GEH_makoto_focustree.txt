@@ -45,7 +45,7 @@ focus_tree = {
 			add_tech_bonus = {
 				name = cr_bonus
 				bonus = 1.0
-				uses = 1
+				uses = 2
 				category = dd_tech
 				category = cl_tech
 				category = ca_tech
@@ -934,12 +934,15 @@ focus_tree = {
 			}
 			OR = {
 				has_completed_focus = GEM_war_preparation
-				has_completed_focus = GEM_preventive_war
 			}
 		}
 
 		bypass = {
-			has_war_with = TRM
+			OR = {
+				has_war_with = TRM
+				has_completed_focus = GEM_angel_hunting
+				has_completed_focus = GEM_preventive_war
+			}
 		}
 		x = 0
 		y = 1
@@ -1895,6 +1898,9 @@ focus_tree = {
 			focus = GEM_suppression_of_german
 		}
 		available = {
+		}
+		cancel = {
+			has_country_flag = GEH_federal_unification_flag
 		}
 		x = -1
 		y = 2
@@ -2913,7 +2919,7 @@ focus_tree = {
 		id = GEM_eden_treaty_promotion
 		icon = GFX_goal_TRN_eden_pacts_letsgo
 		cost = 5.00
-		prerequisite = { focus = GEM_deutsches_reich focus = GEM_a_republic_of_two_peoples focus = GEM_gehenna_identity }
+		prerequisite = { focus = GEM_a_republic_of_two_peoples focus = GEM_gehenna_identity }
 		mutually_exclusive = {
 			focus = GEM_acceptance_of_german_nationalism
 		}
@@ -2977,6 +2983,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GEM_eden_treaty_promotion
 		completion_reward = {
+			add_war_support = 0.10
 		}
 	}
 	focus = {
@@ -3109,6 +3116,7 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
+			custom_effect_tooltip = GEM_war_preparation_tt
 		}
 	}
 	focus = {
@@ -3127,6 +3135,26 @@ focus_tree = {
 		y = 1
 		relative_position_id = GEM_war_preparation
 		completion_reward = {
+			add_war_support = 0.10
+			custom_effect_tooltip = kivotos_halo_add3_tt
+			hidden_effect = {
+				add_to_variable = { ROOT.halo_infantry_cap = 3 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+				if = {
+					limit = {
+						has_template = "Halo Infantry Division"
+					}
+					set_division_template_cap = {
+						division_template = "Halo Infantry Division"
+						division_cap = ROOT.halo_infantry_cap
+					}
+				}
+			}
+			capital_scope = {
+				create_unit = {
+					division = "name = \"Anti-Trinity Militia\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.5" 
+					owner = ROOT
+				}
+			}
 		}
 	}
 	focus = {
@@ -3145,6 +3173,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = GEM_war_preparation
 		completion_reward = {
+			army_experience = 15
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.75
+				uses = 2
+				category = land_doctrine
+			}
 		}
 	}
 	focus = {
