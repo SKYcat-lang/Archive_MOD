@@ -45,7 +45,7 @@ focus_tree = {
 			add_tech_bonus = {
 				name = cr_bonus
 				bonus = 1.0
-				uses = 1
+				uses = 2
 				category = dd_tech
 				category = cl_tech
 				category = ca_tech
@@ -934,12 +934,15 @@ focus_tree = {
 			}
 			OR = {
 				has_completed_focus = GEM_war_preparation
-				has_completed_focus = GEM_preventive_war
 			}
 		}
 
 		bypass = {
-			has_war_with = TRM
+			OR = {
+				has_war_with = TRM
+				has_completed_focus = GEM_angel_hunting
+				has_completed_focus = GEM_preventive_war
+			}
 		}
 		x = 0
 		y = 1
@@ -1896,6 +1899,9 @@ focus_tree = {
 		}
 		available = {
 		}
+		cancel = {
+			has_country_flag = GEH_federal_unification_flag
+		}
 		x = -1
 		y = 2
 		relative_position_id = GEM_suppression_of_german
@@ -2459,6 +2465,7 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = GEM_german_wehrmacht focus = GEM_union_state }
 		available = {
+			GEF = { NOT = { has_country_flag = GEF_absorbed_into_a_specific_country }}
 		}
 		x = 5
 		y = 1
@@ -2468,6 +2475,20 @@ focus_tree = {
 			air_experience = 25
 			hidden_effect = {
 				load_oob = "GEN_1936_air_bba"
+			}
+			GEF = {
+				set_country_flag = GEF_absorbed_into_a_specific_country
+				every_character = {
+					limit = {
+						NOT = {
+							has_trait = communist_revolutionary
+							has_trait = democratic_reformer
+							has_trait = fascist_demagogue
+							has_trait = head_of_intelligence
+						}
+					}
+					set_nationality = ROOT
+				}
 			}
 		}
 	}
@@ -2819,6 +2840,10 @@ focus_tree = {
 				remove_idea = GEH_schutzstaffel_1_idea
 				add_idea = GEH_schutzstaffel_2_idea
 			}
+			swap_ideas = {
+				remove_idea = GEH_nazism_3_idea
+				add_idea = GEH_nazism_4_idea
+			}
 			if = {
 				limit = { has_idea = GEH_unstable_integration_idea }
 				remove_ideas = GEH_unstable_integration_idea
@@ -2913,7 +2938,7 @@ focus_tree = {
 		id = GEM_eden_treaty_promotion
 		icon = GFX_goal_TRN_eden_pacts_letsgo
 		cost = 5.00
-		prerequisite = { focus = GEM_deutsches_reich focus = GEM_a_republic_of_two_peoples focus = GEM_gehenna_identity }
+		prerequisite = { focus = GEM_a_republic_of_two_peoples focus = GEM_gehenna_identity }
 		mutually_exclusive = {
 			focus = GEM_acceptance_of_german_nationalism
 		}
@@ -2977,6 +3002,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = GEM_eden_treaty_promotion
 		completion_reward = {
+			add_war_support = 0.10
 		}
 	}
 	focus = {
@@ -3109,6 +3135,7 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
+			custom_effect_tooltip = GEM_war_preparation_tt
 		}
 	}
 	focus = {
@@ -3127,6 +3154,26 @@ focus_tree = {
 		y = 1
 		relative_position_id = GEM_war_preparation
 		completion_reward = {
+			add_war_support = 0.10
+			custom_effect_tooltip = kivotos_halo_add3_tt
+			hidden_effect = {
+				add_to_variable = { ROOT.halo_infantry_cap = 3 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+				if = {
+					limit = {
+						has_template = "Halo Infantry Division"
+					}
+					set_division_template_cap = {
+						division_template = "Halo Infantry Division"
+						division_cap = ROOT.halo_infantry_cap
+					}
+				}
+			}
+			capital_scope = {
+				create_unit = {
+					division = "name = \"Anti-Trinity Militia\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.5" 
+					owner = ROOT
+				}
+			}
 		}
 	}
 	focus = {
@@ -3145,6 +3192,13 @@ focus_tree = {
 		y = 1
 		relative_position_id = GEM_war_preparation
 		completion_reward = {
+			army_experience = 15
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.75
+				uses = 2
+				category = land_doctrine
+			}
 		}
 	}
 	focus = {

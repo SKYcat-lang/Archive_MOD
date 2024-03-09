@@ -2097,7 +2097,7 @@ focus_tree = {
 	focus = {
 		id = GEH_Conquer_the_Central
 		icon = GFX_focus_generic_military_dictatorship
-		cost = 2
+		cost = 1
 		available = {
 		}
         prerequisite = { focus = GEH_fear_eyes_ }
@@ -2110,7 +2110,7 @@ focus_tree = {
 		completion_reward = {
             55 = {
                 add_dynamic_modifier = {
-                    modifier = GEH_Senter_aggressive days = 28 scope = GEH
+                    modifier = GEH_Senter_aggressive days = 180 scope = GEH
                 }
             }
 		}
@@ -2119,7 +2119,7 @@ focus_tree = {
 		id = GEH_attack_plan_ONE_FOUR_TWO
         text = GEH_no_more_Heer
 		icon = GFX_focus_focus_fra_revolution_utmost
-		cost = 4
+		cost = 1
 		available = {
 		}
         prerequisite = { focus = GEH_Conquer_the_Central }
@@ -2151,7 +2151,7 @@ focus_tree = {
 		completion_reward = {
             add_timed_idea = {
                 idea = GEH_Last_offensive
-                days = 28
+                days = 180
             }
 		}
 	}
@@ -2176,8 +2176,8 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = GEH_hit_wehrmacht
-		icon = GFX_focus_attack_germany
+		id = GEH_Securing_supplies
+		icon = GFX_focus_FIN_oy_alkoholiliike
 		cost = 2
 		available = {
 		}
@@ -2189,64 +2189,51 @@ focus_tree = {
 		x = 1
 		y = 1
 		completion_reward = {
-			every_controlled_state = {
-				limit = {
-					has_dynamic_modifier = {
-						modifier = GEH_ucantusefactory
-					}
-				}
-				remove_dynamic_modifier = {
-					modifier = GEH_ucantusefactory
-				}
-			}
-			every_controlled_state = {
-				limit = {
-					has_dynamic_modifier = {
-						modifier = GEH_ucantusefactory_2
-					}
-				}
-				remove_dynamic_modifier = {
-					modifier = GEH_ucantusefactory_2
-				}
-			}
-            if = {
-                limit = { country_exists = GEA }
-                declare_war_on = {
-                    target = GEA
-                    type = annex_everything
-                }
+			add_manpower = 12000
+			add_equipment_to_stockpile = {
+                type = infantry_equipment
+                amount = 5000
+            }
+			add_equipment_to_stockpile = {
+				type = kivotos_infantry_equipment_1
+				amount = 1500
             }
 		}
 	}
 	focus = {
-		id = GEH_hit_wehrmacht_2
-        #text = GEM_dissolution_of_state_government
-		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		id = GEH_Armoury_Raid_2
+        text = GEH_Armoury_Raid
+		icon = GFX_focus_SWE_varnplikt
 		cost = 2
 		available = {
-            has_war = NO
 		}
-        prerequisite = { focus = GEH_hit_wehrmacht }
+        prerequisite = { focus = GEH_Securing_supplies }
         allow_branch = {
             GEH_is_phase_one_trigger = YES
         }
-        relative_position_id = GEH_hit_wehrmacht
-		x = 0
+        relative_position_id = GEH_Securing_supplies
+		x = -0
 		y = 1
 		completion_reward = {
-			every_controlled_state = {
-				limit = {
-					has_dynamic_modifier = {
-						modifier = GEH_state_government
-					}
+			GEM = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -1500
 				}
-				remove_dynamic_modifier = {
-					modifier = GEH_state_government
+				add_equipment_to_stockpile = {
+					type = kivotos_infantry_equipment_1
+					amount = -1500
 				}
 			}
-			add_timed_idea = {
-				idea = GEH_state_government_remove_idea
-				days = 120
+			GEH = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = 750
+				}
+				add_equipment_to_stockpile = {
+					type = kivotos_infantry_equipment_1
+					amount = 1000
+				}
 			}
 		}
 	}
@@ -2286,7 +2273,7 @@ focus_tree = {
 		}
         prerequisite = { focus = GEH_Pandemonium_Society_Building_Control }
         prerequisite = { focus = GEH_Second_attack_plan }
-        prerequisite = { focus = GEH_hit_wehrmacht_2 }
+        prerequisite = { focus = GEH_Armoury_Raid_2 }
         allow_branch = {
         }
         relative_position_id = GEH_Pandemonium_Society_Building_Control
@@ -2470,32 +2457,76 @@ focus_tree = {
             }
 		}
 	}
-    focus = {
-		id = GEH_deal_of_france_army
-		icon = GFX_focus_generic_treaty
-		cost = 5
+	focus = {
+		id = GEH_hit_wehrmacht
+		icon = GFX_focus_attack_germany
+		cost = 2
+		available = {
+		}
+        prerequisite = { focus = GEH_first_congress_focus }
+        allow_branch = {
+        }
+        relative_position_id = GEH_first_congress_focus
 		x = -2
 		y = 1
-
-		#ai_will_do = { base = 1000 }
-        relative_position_id = GEH_first_congress_focus
-        prerequisite = { focus = GEH_first_congress_focus }
-        available = { }
-		allow_branch = {
-		}
-		available = {
-            NOT = {
-                country_exists = FRM
-            }
-			is_puppet = no
-			controls_state = 28
-			controls_state = 976
-			has_army_manpower = { size > 249999 }
-		}
 		completion_reward = {
-			annex_country = {
-				target = FRM
-				transfer_troops = no
+			every_controlled_state = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = GEH_ucantusefactory
+					}
+				}
+				remove_dynamic_modifier = {
+					modifier = GEH_ucantusefactory
+				}
+			}
+			every_controlled_state = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = GEH_ucantusefactory_2
+					}
+				}
+				remove_dynamic_modifier = {
+					modifier = GEH_ucantusefactory_2
+				}
+			}
+            if = {
+                limit = { country_exists = GEA }
+                declare_war_on = {
+                    target = GEA
+                    type = annex_everything
+                }
+            }
+		}
+	}
+	focus = {
+		id = GEH_hit_wehrmacht_2
+        #text = GEM_dissolution_of_state_government
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		cost = 2
+		available = {
+            has_war = NO
+		}
+        prerequisite = { focus = GEH_hit_wehrmacht }
+        allow_branch = {
+        }
+        relative_position_id = GEH_hit_wehrmacht
+		x = 0
+		y = 1
+		completion_reward = {
+			every_controlled_state = {
+				limit = {
+					has_dynamic_modifier = {
+						modifier = GEH_state_government
+					}
+				}
+				remove_dynamic_modifier = {
+					modifier = GEH_state_government
+				}
+			}
+			add_timed_idea = {
+				idea = GEH_state_government_remove_idea
+				days = 60
 			}
 		}
 	}
@@ -2532,35 +2563,6 @@ focus_tree = {
 				    add_idea = limited_exports
 			    }
 		    }
-		}
-	}
-    focus = {
-		id = GEH_Maginot
-		icon = GFX_goal_generic_fortify_city
-		cost = 5
-		x = 0
-		y = 1
-        relative_position_id = GEH_deal_of_france_army
-		ai_will_do = {
-			base = 250
-			modifier = {
-				factor = 0.5
-				has_war = yes
-			}
-			modifier = {
-				factor = 2
-				has_war = no
-			}
-        }
-        prerequisite = {
-            focus = GEH_deal_of_france_army
-        }
-		available = {
-            controls_state = 28
-            controls_state = 976
-		}
-		completion_reward = {
-
 		}
 	}
     focus = {
@@ -2834,8 +2836,10 @@ focus_tree = {
 				has_war = no
 			}
 		}
-        prerequisite = { focus = GEH_factory_focus_5 }
-        prerequisite = { focus = GEH_factory_focus_4 }
+        prerequisite = { 
+            focus = GEH_factory_focus_5 
+            focus = GEH_factory_focus_4
+        }
 		available = {
 		}
 		completion_reward = {
