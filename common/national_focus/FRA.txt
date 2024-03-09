@@ -838,7 +838,10 @@ focus_tree = {
 					days = 5
 				}
 			}
-			remove_ideas = FRA_not_united_military
+			swap_ideas = {
+				remove_idea = FRA_not_united_military
+				add_idea = FRA_not_united_military_1
+			}
 		}
 	}
 	focus = {
@@ -858,6 +861,10 @@ focus_tree = {
 			focus = FRA_focus_arm_3
 		}
 		completion_reward = {
+			swap_ideas = {
+				remove_idea = FRA_not_united_military_1
+				add_idea = FRA_not_united_military_2
+			}
 			army_experience = 50
 			add_doctrine_cost_reduction = {
 				cost_reduction = 0.5
@@ -883,6 +890,10 @@ focus_tree = {
 			focus = FRA_focus_arm_2
 		}
 		completion_reward = {
+			swap_ideas = {
+				remove_idea = FRA_not_united_military_1
+				add_idea = FRA_not_united_military_2
+			}
 			army_experience = 50
 			add_doctrine_cost_reduction = {
 				cost_reduction = 0.5
@@ -908,6 +919,10 @@ focus_tree = {
 			focus = FRA_focus_arm_3
 		}
 		completion_reward = {
+			swap_ideas = {
+				remove_idea = FRA_not_united_military_1
+				add_idea = FRA_not_united_military_2
+			}
 			army_experience = 50
 			add_doctrine_cost_reduction = {
 				cost_reduction = 0.5
@@ -927,6 +942,15 @@ focus_tree = {
 			focus = FRA_focus_arm_2
 		}
 		completion_reward = {
+			if = {
+				limit = {
+					has_idea = FRA_not_united_military_2
+				}
+				swap_ideas = {
+					remove_idea = FRA_not_united_military_2
+					add_idea = FRA_not_united_military_3
+				}
+			}
 			army_experience = 10
 			add_tech_bonus = {
 				category = infantry_weapons
@@ -947,6 +971,15 @@ focus_tree = {
 			focus = FRA_focus_arm_2
 		}
 		completion_reward = {
+			if = {
+				limit = {
+					has_idea = FRA_not_united_military_2
+				}
+				swap_ideas = {
+					remove_idea = FRA_not_united_military_2
+					add_idea = FRA_not_united_military_3
+				}
+			}
 			army_experience = 10
 			set_technology = {
 				tech_military_police = 1
@@ -973,6 +1006,15 @@ focus_tree = {
 			focus = FRA_focus_arm_3
 		}
 		completion_reward = {
+			if = {
+				limit = {
+					has_idea = FRA_not_united_military_2
+				}
+				swap_ideas = {
+					remove_idea = FRA_not_united_military_2
+					add_idea = FRA_not_united_military_3
+				}
+			}
 			army_experience = 10
 			add_tech_bonus = {
 				category = artillery
@@ -993,6 +1035,15 @@ focus_tree = {
 			focus = FRA_focus_arm_3.5
 		}
 		completion_reward = {
+			if = {
+				limit = {
+					has_idea = FRA_not_united_military_2
+				}
+				swap_ideas = {
+					remove_idea = FRA_not_united_military_2
+					add_idea = FRA_not_united_military_3
+				}
+			}
 			army_experience = 10
 			add_tech_bonus = {
 				category = engineers_tech
@@ -1012,6 +1063,15 @@ focus_tree = {
 			focus = FRA_focus_arm_3.5
 		}
 		completion_reward = {
+			if = {
+				limit = {
+					has_idea = FRA_not_united_military_2
+				}
+				swap_ideas = {
+					remove_idea = FRA_not_united_military_2
+					add_idea = FRA_not_united_military_3
+				}
+			}
 			add_tech_bonus = {
 				category = motorized_equipment
 				uses = 1
@@ -1047,6 +1107,21 @@ focus_tree = {
 			focus = FRA_focus_arm_13
 		}
 		completion_reward = {
+			if = {
+				limit = {
+					has_idea = FRA_not_united_military_3
+				}
+				swap_ideas = {
+					remove_idea = FRA_not_united_military_3
+					add_idea = FRA_not_united_military_air_first
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FRA_not_united_military_navy_first
+				}
+				remove_ideas = FRA_not_united_military_navy_first
+			}
 			air_experience = 50
 			add_doctrine_cost_reduction = {
 				cost_reduction = 0.2
@@ -1069,6 +1144,21 @@ focus_tree = {
 			focus = FRA_focus_arm_13
 		}
 		completion_reward = {
+			if = {
+				limit = {
+					has_idea = FRA_not_united_military_3
+				}
+				swap_ideas = {
+					remove_idea = FRA_not_united_military_3
+					add_idea = FRA_not_united_military_navy_first
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = FRA_not_united_military_air_first
+				}
+				remove_ideas = FRA_not_united_military_air_first
+			}
 			navy_experience = 50
 			add_doctrine_cost_reduction = {
 				cost_reduction = 0.2
@@ -4526,6 +4616,7 @@ focus_tree = {
 				remove_idea = FRA_lib_army_2
 				add_idea = FRA_lib_army_3
 			}
+			custom_effect_tooltip = FRA_focus_resistance_10_tt
 		}
 	}
 	focus = {
@@ -4588,6 +4679,34 @@ focus_tree = {
 			}
 			if = {
 				limit = {
+					has_completed_focus = FRA_focus_resistance_10
+				}
+				hidden_effect = {
+					if = {
+						limit = {
+							NOT = {
+								ROOT = {
+									has_template = "French Resistance" 
+								}
+							}
+						}
+						ROOT = {
+							division_template = {
+								name = "French Resistance"		
+								division_names_group = FRA_INF_01
+								is_locked = yes
+								regiments = {
+									militia = { x = 0 y = 0 }
+									militia = { x = 0 y = 1 }
+								}
+							}
+						}
+					}
+					load_oob = FRA_port_resistance
+				}
+			}
+			if = {
+				limit = {
 					has_country_flag = FRA_spr_is_helping
 				}
 				custom_effect_tooltip = FRA_spr_is_helping_tt
@@ -4608,8 +4727,8 @@ focus_tree = {
 							division_names_group = FRA_INF_01
 							is_locked = yes
 							regiments = {
-								irregular_infantry = { x = 0 y = 0 }
-								irregular_infantry = { x = 0 y = 1 }
+								militia = { x = 0 y = 0 }
+								militia = { x = 0 y = 1 }
 							}
 						}
 					}
@@ -4640,8 +4759,8 @@ focus_tree = {
 							division_names_group = FRA_INF_01
 							is_locked = yes
 							regiments = {
-								irregular_infantry = { x = 0 y = 0 }
-								irregular_infantry = { x = 0 y = 1 }
+								militia = { x = 0 y = 0 }
+								militia = { x = 0 y = 1 }
 							}
 						}
 					}
