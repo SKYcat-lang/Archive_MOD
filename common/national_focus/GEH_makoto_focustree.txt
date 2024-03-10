@@ -1772,6 +1772,9 @@ focus_tree = {
 		icon = GFX_focus_generic_conspiracy
 		cost = 5.00
 		prerequisite = { focus = GEM_pandemonium_reform }
+		mutually_exclusive = {
+			focus = GEM_bestow_mercy
+		}
 		available = {
 		}
 		x = -3
@@ -1927,7 +1930,7 @@ focus_tree = {
 			}
 		}
 		x = 0
-		y = 4
+		y = 5
 		relative_position_id = GEM_suppression_of_german
 		completion_reward = {
 			if = {
@@ -2130,6 +2133,122 @@ focus_tree = {
 				}
 				add_extra_state_shared_building_slots = 1
 			}
+		}
+	}
+	focus = {
+		id = GEM_princess_of_pandemonium
+		icon = GFX_focus_SWE_refuge_from_war
+		cost = 5.00
+		prerequisite = { focus = GEM_tanga_ibuki }
+		available = {
+		}
+		x = 1
+		y = 1
+		relative_position_id = GEM_tanga_ibuki
+		completion_reward = {
+			add_political_power = 60
+			add_stability = -0.05
+			add_war_support = 0.20
+			swap_ruler_traits = {
+				remove = GEH_tanga_ibuki_A_trait
+				add = GEM_princess_of_pandemonium_trait
+			}
+		}
+	}
+	focus = {
+		id = GEM_ascend_to_the_throne
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		cost = 5.00
+		prerequisite = { focus = GEM_princess_of_pandemonium }
+		mutually_exclusive = {
+			focus = GEM_prohibition_of_idolization
+		}
+		available = {
+		}
+		x = 00
+		y = 2
+		relative_position_id = GEM_tanga_ibuki
+		completion_reward = {
+			swap_ruler_traits = {
+				remove = GEM_princess_of_pandemonium_trait
+				add = GEH_empress_of_gehenna_trait
+			}
+			remove_country_leader_trait = GEH_tanga_ibuki_B_trait
+
+			set_cosmetic_tag = GEM_empire
+		}
+	}
+	focus = {
+		id = GEM_prohibition_of_idolization
+		icon = GFX_goal_tfv_sever_ties_with_uk
+		cost = 5.00
+		prerequisite = { focus = GEM_princess_of_pandemonium }
+		mutually_exclusive = {
+			focus = GEM_ascend_to_the_throne
+		}
+		available = {
+		}
+		x = 2
+		y = 2
+		relative_position_id = GEM_tanga_ibuki
+		completion_reward = {
+			GEH_Manmajun_Bupae_down_effect = yes
+			add_stability = 0.10
+		}
+	}
+	focus = {
+		id = GEM_bestow_mercy
+		icon = GFX_goal_generic_major_alliance
+		cost = 5.00
+		prerequisite = { focus = GEM_ascend_to_the_throne }
+		mutually_exclusive = {
+			focus = GEM_take_control_of_pandemonium
+		}
+		available = {
+		}
+		x = 0
+		y = 3
+		relative_position_id = GEM_tanga_ibuki
+		completion_reward = {
+			if = {
+				limit = { has_idea = GEH_shadow_of_makoto }
+				remove_ideas = GEH_shadow_of_makoto
+			}
+			add_advisor_role = {
+				character = GEH_akzhxh
+				advisor = {
+					slot = political_advisor
+					idea_token = GEH_akzhxh_political_advisor
+					traits = { GEH_makoto_political_advisor }
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEM_gehenna_of_the_new_era
+		icon = GFX_goal_generic_demand_territory
+		cost = 5.00
+		prerequisite = { focus = GEM_prohibition_of_idolization focus = GEM_ascend_to_the_throne }
+		prerequisite = { focus = GEM_take_control_of_pandemonium focus = GEM_bestow_mercy }
+		available = {
+		}
+		x = 1
+		y = 4
+		relative_position_id = GEM_tanga_ibuki
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_direction_determination
+		icon = GFX_goal_generic_defence
+		cost = 5.00
+		prerequisite = { focus = GEM_united_states_of_gehenna focus = GEM_gehenna_of_the_new_era }
+		available = {
+		}
+		x = -3
+		y = 6
+		relative_position_id = GEM_group_leadership_system
+		completion_reward = {
 		}
 	}
 	focus = {
@@ -2938,15 +3057,15 @@ focus_tree = {
 		id = GEM_eden_treaty_promotion
 		icon = GFX_goal_TRN_eden_pacts_letsgo
 		cost = 5.00
-		prerequisite = { focus = GEM_a_republic_of_two_peoples focus = GEM_gehenna_identity }
+		prerequisite = { focus = GEM_a_republic_of_two_peoples focus = GEM_gehenna_identity focus = GEM_direction_determination }
 		mutually_exclusive = {
 			focus = GEM_acceptance_of_german_nationalism
 		}
 		available = {
 		}
-		x = 9
+		x = -2
 		y = 6
-		relative_position_id = GEH_nego_whit_wehrmacht_new
+		relative_position_id = GEM_gehenna_academy
 		completion_reward = {
 			add_opinion_modifier = {
 				target = TRM
@@ -3109,9 +3228,24 @@ focus_tree = {
 		prerequisite = { focus = GEM_anti_trinity_front focus = GEM_acceptance_of_german_nationalism }
 		available = {
 		}
-		x = 0
-		y = 2
-		relative_position_id = GEM_acceptance_of_german_nationalism
+		offset = {
+			trigger = {
+				if = {
+					limit = {
+						has_game_rule = {
+							rule = obsolete_focus_branches_visibility
+							option = HIDE
+						}
+					}
+					has_completed_focus = GEM_Neutralize_Makoto
+				}
+			}
+			x = 4
+			y = 0
+		}
+		x = -7
+		y = 1
+		relative_position_id = GEM_anti_trinity_front
 		completion_reward = {
 			random_owned_controlled_state = {
 				limit = {
@@ -3173,7 +3307,7 @@ focus_tree = {
 				has_completed_focus = GEM_war_with_trinity
 			}
 		}
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = GEM_war_preparation
 		completion_reward = {
@@ -3211,7 +3345,7 @@ focus_tree = {
 				has_completed_focus = GEM_war_with_trinity
 			}
 		}
-		x = 2
+		x = 1
 		y = 1
 		relative_position_id = GEM_war_preparation
 		completion_reward = {
