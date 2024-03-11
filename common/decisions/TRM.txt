@@ -804,21 +804,75 @@ TRN_after_war_decisions = {
             }
 		}
 	}
-	TRN_after_war_4 = {
-		icon = GFX_decision_generic_break_treaty
+	TRM_wargoal_FRM = {
+		icon = GFX_decision_eng_blackshirt_march
 		allowed = { }
     	available = { } 
 		ai_will_do = { 
             base = 100
         }
-        visible = { }
+        visible = { 
+            country_exists = FRM
+        }
 		
 		fire_only_once = yes
 		
+        days_remove = 25
         complete_effect = {
+            TRM = {
+                declare_war_on = {
+                    target = FRM
+                    type = annex_everything
+                }
+            }
+		}
+        modifier = {
+            breakthrough_factor = 0.15
+        }
+	}
+    TRM_Recapture_of_Gehenna = {
+	
+		icon = GFX_decision_generic_nationalism
 
-		} 
-	} 
+		visible = {
+
+		}
+
+		allowed = {
+			original_tag = TRM
+		}
+
+		target_trigger = {
+			FROM = {
+				exists = yes
+				NOT = { is_in_faction_with = ROOT }
+				NOT = { tag = ROOT }
+				any_controlled_state = {
+                    OR = {
+                        is_core_of = GEM
+                        is_core_of = GEH
+                    }
+				}
+			}
+		}
+
+		available = {
+			ROOT = {
+				is_neighbor_of = FROM
+			}
+		}
+
+		ai_will_do = {
+			base = 10
+		}
+		days_remove = 10
+		remove_effect = {
+			create_wargoal = {
+				target = FROM
+				type = annex_everything
+			}
+		}
+    }
 }
 TRN_Seia_problem_decisions = {
 	TRN_who_is_criminal	= {
