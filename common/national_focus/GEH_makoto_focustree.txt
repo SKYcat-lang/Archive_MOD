@@ -3067,7 +3067,7 @@ focus_tree = {
 		}
 		available = {
 		}
-		x = -2
+		x = -6
 		y = 6
 		relative_position_id = GEM_gehenna_academy
 		completion_reward = {
@@ -3138,6 +3138,29 @@ focus_tree = {
 			reverse_add_opinion_modifier = {
 				target = TRM
 				modifier = GEHTRM_war_preparation
+			}
+		}
+	}
+	focus = {
+		id = GEM_seduction_of_poland
+		icon = GFX_focus_generic_polish_deal
+		cost = 5.00
+		prerequisite = { focus = GEM_anti_trinity_front }
+		available = {
+			GEM = { NOT = { has_war_with = TRM } }
+			POL = {
+				is_subject = no
+				exists = yes
+				has_capitulated = no
+				NOT = { has_war_with = GEM }
+			}
+		}
+		x = -1
+		y = 1
+		relative_position_id = GEM_anti_trinity_front
+		completion_reward = {
+			POL = {
+				country_event = { id = GEH_event.72 hours = 8 }
 			}
 		}
 	}
@@ -3243,11 +3266,12 @@ focus_tree = {
 					}
 					has_completed_focus = GEM_Neutralize_Makoto
 				}
+				else = { always = no }
 			}
 			x = 4
 			y = 0
 		}
-		x = -7
+		x = -3
 		y = 1
 		relative_position_id = GEM_anti_trinity_front
 		completion_reward = {
@@ -3372,11 +3396,7 @@ focus_tree = {
 		bypass = {
 			OR = {
 				has_country_flag = GEM_eden_treaty_bad_flag
-				NOT = {
-					any_country = {
-						has_country_flag = student_councils_target_flag
-					}
-				}
+				has_country_flag = student_councils_target_flag
 				TRM = {
 					OR = {
 						is_puppet_of = GEM
@@ -3436,42 +3456,13 @@ focus_tree = {
 					country_event = generic.2
 				}
 			}
-			else_if = {
-				limit = {
-					any_country = {
-						has_country_flag = student_councils_target_flag
-					}
-				}
-				GEM = {
-					set_rule = { can_create_factions = yes }
-					if = {
-						limit = { is_faction_leader = no }
-						create_faction = GEH_Federation
-					}
-				}
-				every_country = {
-					ROOT = {
-						add_ai_strategy = {
-							type = alliance
-							id = PREV
-							value = 200
-						}
-					}
-					add_ai_strategy = {
-						type = alliance
-						id = GEM
-						value = 200
-					}
-					limit = { has_country_flag = student_councils_target_flag }
-					country_event = generic.5
-				}
-			}
 		}
 	}
 	focus = {
 		id = GEM_past_settlement
 		icon = GFX_focus_generic_treaty
 		cost = 5.00
+		prerequisite = { focus = GEM_academy_diplomacy }
 		prerequisite = { focus = GEM_eden_treaty_signature }
 		mutually_exclusive = {
 			focus = GEM_preventive_war
@@ -3505,6 +3496,96 @@ focus_tree = {
 			}
 			TRM = {
 				country_event = generic.5
+			}
+		}
+	}
+	focus = {
+		id = GEM_academy_diplomacy
+		icon = GFX_focus_generic_treaty
+		cost = 5.00
+		prerequisite = { focus = GEM_eden_treaty_promotion }
+		x = 2
+		y = 1
+		relative_position_id = GEM_eden_treaty_promotion
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_promotion_of_non_aggression_pact_with_red_winter
+		icon = GFX_focus_NORDIC_com_capstone_materiel
+		cost = 5.00
+		prerequisite = { focus = GEM_academy_diplomacy }
+		x = 0
+		y = 1
+		relative_position_id = GEM_academy_diplomacy
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_loyalty_to_sanctum_tower
+		icon = GFX_goal_generic_alliance
+		cost = 5.00
+		prerequisite = { focus = GEM_academy_diplomacy }
+		mutually_exclusive = {
+			focus = GEM_refusal_of_central_intervention
+		}
+		available = {
+			any_country = {
+				controls_state = 7
+				is_faction_leader = yes
+				OR = {
+					original_tag = COU
+					original_tag = SHE
+					original_tag = KSP
+					original_tag = SRT
+				}
+			}
+		}
+		x = 2
+		y = 1
+		relative_position_id = GEM_academy_diplomacy
+		completion_reward = {
+			every_country = {
+				limit = { controls_state = 7 }
+				country_event = generic.2
+			}
+		}
+	}
+	focus = {
+		id = GEM_refusal_of_central_intervention
+		icon = GFX_goal_generic_defence
+		cost = 5.00
+		prerequisite = { focus = GEM_academy_diplomacy }
+		mutually_exclusive = {
+			focus = GEM_loyalty_to_sanctum_tower
+		}
+		available = {
+			any_country = {
+				controls_state = 7
+				is_faction_leader = yes
+				OR = {
+					original_tag = COU
+					original_tag = SHE
+					original_tag = KSP
+					original_tag = SRT
+				}
+			}
+		}
+		x = 4
+		y = 1
+		relative_position_id = GEM_academy_diplomacy
+		completion_reward = {
+			add_political_power = 60
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.10
+			}
+			every_country = {
+				limit = { controls_state = 7 }
+				add_opinion_modifier = {
+					target = TRM
+					modifier = disregard_of_our_authority
+				}
 			}
 		}
 	}
@@ -3757,6 +3838,37 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = GEM_danzig
+		icon = GFX_goal_generic_major_war
+		cost = 5.00
+		prerequisite = { focus = GEM_axis_powers_establishment }
+		prerequisite = { focus = GEM_angel_hunting }
+		bypass = {
+			has_war_with = ARI
+		}
+		cancel = {
+			OR = {
+				is_subject = yes
+				NOT = { country_exists = ARI }
+			}
+		}
+		available = {
+			is_subject = no
+		}
+		available_if_capitulated = no
+		will_lead_to_war_with = TRM
+		x = -2
+		y = 1
+		relative_position_id = GEM_angel_hunting
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = ARI
+				expire = 0
+			}
+		}
+	}
+	focus = {
 		id = GEM_axis_powers_establishment
 		icon = GFX_goal_generic_alliance
 		cost = 5.00
@@ -3784,6 +3896,60 @@ focus_tree = {
 					create_faction = Axis
 				}
 			}
+		}
+	}
+	focus = {
+		id = GEM_international_diplomacy
+		icon = GFX_goal_generic_propaganda
+		cost = 5.00
+		prerequisite = { focus = GEM_acceptance_of_german_nationalism }
+		available_if_capitulated = no
+		x = -2
+		y = 1
+		relative_position_id = GEM_acceptance_of_german_nationalism
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_invitation_to_italy
+		icon = GFX_focus_befriend_italy
+		cost = 5.00
+		prerequisite = { focus = GEM_international_diplomacy }
+		available_if_capitulated = no
+		x = 0
+		y = 1
+		relative_position_id = GEM_international_diplomacy
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_friendship_with_japan
+		icon = GFX_focus_chi_collaboration_with_the_japanese
+		cost = 5.00
+		prerequisite = { focus = GEM_deutsches_reich }
+		mutually_exclusive = {
+			focus = GEM_friendship_with_china
+		}
+		available_if_capitulated = no
+		x = -1
+		y = 1
+		relative_position_id = GEM_deutsches_reich
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = GEM_friendship_with_china
+		icon = GFX_focus_chi_cooperation_with_the_nationalists
+		cost = 5.00
+		prerequisite = { focus = GEM_deutsches_reich }
+		mutually_exclusive = {
+			focus = GEM_friendship_with_japan
+		}
+		available_if_capitulated = no
+		x = 1
+		y = 1
+		relative_position_id = GEM_deutsches_reich
+		completion_reward = {
 		}
 	}
 }
