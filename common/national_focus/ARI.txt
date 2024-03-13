@@ -13,21 +13,10 @@ focus_tree = {
 
 	focus = {
         id = ARI_use_hanran #혼란 이용
-		icon = {
-			trigger = {
-				is_ai = NO
-			}
-			value = GFX_goal_generic_major_war
-		}
-		icon = {
-			trigger = {
-				is_ai = YES
-			}
-			value = GFX_goal_MIL_end_student_activism
-		}
+		icon = GFX_goal_generic_major_war
 		dynamic = yes
         cost = 10.00
-        x = 20
+        x = 14
         y = 0
         completion_reward = {
 			add_political_power = 120
@@ -36,18 +25,7 @@ focus_tree = {
 
     focus = {
         id = ARI_quiet_rearmament #조용한 재무장
-		icon = {
-			trigger = {
-				is_ai = NO
-			}
-			value = GFX_focus_secret_rearmament
-		}
-		icon = {
-			trigger = {
-				is_ai = YES
-			}
-			value = GFX_goal_MIL_end_student_activism
-		}
+		icon = GFX_focus_secret_rearmament
 		dynamic = yes
 		cost = 10.00
 		prerequisite = { focus = ARI_use_hanran }
@@ -65,16 +43,7 @@ focus_tree = {
 
 	focus = {
         id = ARI_deceptive_operation #기만 작전
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_goal_generic_dangerous_deal
-		}
-		icon = {
-			trigger = {
-				is_ai = YES
-			}
-			value = GFX_goal_MIL_end_student_activism
-		}
+		icon = GFX_goal_generic_dangerous_deal
 		dynamic = yes
         cost = 5.00
 		prerequisite = { focus = ARI_quiet_rearmament }
@@ -93,18 +62,7 @@ focus_tree = {
     }
 	focus = {
 		id = ARI_contact_with_azusa #아즈사와 접촉
-		icon = {
-			trigger = {
-				is_ai = NO
-			}
-			value = GFX_focus_eng_concessions_to_the_trade_unions
-		}
-		icon = {
-			trigger = {
-				is_ai = YES
-			}
-			value = GFX_goal_MIL_end_student_activism
-		}
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
 		dynamic = yes
 		cost = 5
 		prerequisite = {
@@ -129,19 +87,33 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = ARI_deny_trinity #삼위일체론 부정
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		prerequisite = {
+			focus = ARI_TRM_penetration
+			focus = ARI_contact_with_azusa
+			focus = ARI_from_end_to_end
+		}
+		cost = 5
+		x = 1
+		y = 2
+		relative_position_id = ARI_deceptive_operation
+
+		available = {
+			NOT = { has_war_with = TRM }
+		}
+
+		completion_reward = {
+			add_political_power = 120
+			swap_ideas = {
+				remove_idea = BA_ARI_bitter_revanchism
+				add_idea = BA_ARI_bitter_revanchism_2
+			}
+		}
+	}
+	focus = {
         id = ARI_TRM_penetration #트리니티 침투
-		icon = {
-			trigger = {
-				is_ai = NO
-			}
-			value = GFX_focus_prc_infiltration
-		}
-		icon = {
-			trigger = {
-				is_ai = YES
-			}
-			value = GFX_goal_MIL_end_student_activism
-		}
+		icon = GFX_focus_prc_infiltration
 		dynamic = yes
         cost = 10.00
 		available = {
@@ -168,18 +140,7 @@ focus_tree = {
 
     focus = {
         id = ARI_from_end_to_end #끝에서 끝으로
-		icon = {
-			trigger = {
-				is_ai = NO
-			}
-			value = GFX_goal_generic_political_pressure
-		}
-		icon = {
-			trigger = {
-				is_ai = YES
-			}
-			value = GFX_goal_MIL_end_student_activism
-		}
+		icon = GFX_goal_generic_political_pressure
 		dynamic = yes
         cost = 10.00
 		prerequisite = { focus = ARI_quiet_rearmament }
@@ -188,29 +149,12 @@ focus_tree = {
 		relative_position_id = ARI_quiet_rearmament
         completion_reward = {
 			add_ideas = ARI_from_end_to_end_idea
-			every_state = {
-				limit = {
-					is_owned_by = TRM
-				}
-				add_claim_by = ROOT
-			}
 		}
     }
 
 	focus = {
 		id = ARI_nationalize_war_industry #군공 압수
-		icon = {
-			trigger = {
-				is_ai = NO
-			}
-			value = GFX_goal_generic_construct_mil_factory
-		}
-		icon = {
-			trigger = {
-				is_ai = YES
-			}
-			value = GFX_goal_MIL_end_student_activism
-		}
+		icon = GFX_goal_generic_construct_mil_factory
 		prerequisite = {
 			focus = ARI_use_hanran
 		}
@@ -232,14 +176,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ARI_vanitas_vanitatum #바니바니
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_goal_generic_attack_allies
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
+		icon = GFX_goal_generic_attack_allies
 		prerequisite = {
 			focus = ARI_nationalize_war_industry
 		}
@@ -255,14 +192,7 @@ focus_tree = {
 
     focus = {
         id = ARI_war_with_trinity #트리니티와의 전쟁
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_focus_attack_TRN
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
+		icon = GFX_focus_attack_TRN
 		dynamic = yes
         cost = 10.00
 		prerequisite = { 
@@ -282,7 +212,7 @@ focus_tree = {
 			has_war_with = TRM
 		}
 
-        x = 20
+        x = 14
         y = 4
         completion_reward = {
 			if = {
@@ -311,14 +241,7 @@ focus_tree = {
     }
 	focus = {
 		id = ARI_second_council #제2회 공회의
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_goal_generic_forceful_treaty
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
+		icon = GFX_goal_generic_forceful_treaty
 		prerequisite = {
 			focus = ARI_war_with_trinity
 		}
@@ -334,7 +257,7 @@ focus_tree = {
 		}
 		cost = 10
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = ARI_war_with_trinity
 
 		available = {
@@ -344,738 +267,13 @@ focus_tree = {
 			country_event = { id = ARI_event.2 hours = 24 }
 		}
 	}
-	focus = {
-		id = ARI_legitimate_dogma #정통한 교의
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_focus_GRE_an_orthodox_state
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = {
-			focus = ARI_second_council
-		}
-		cost = 10
-		x = -2
-		y = 1
-		relative_position_id = ARI_second_council
-
-		available = {
-		}
-
-		completion_reward = {
-			add_stability = 0.20
-			add_war_support = -0.35
-		}
-	}
-	focus = {
-		id = ARI_princess_of_arius #아리우스의 공주
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_focus_princess_of_arius
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = {
-			focus = ARI_legitimate_dogma
-		}
-		cost = 10
-		x = -1
-		y = 1
-		relative_position_id = ARI_legitimate_dogma
-
-		available = {
-		}
-
-		completion_reward = {
-			add_ideas = ARI_princess_atsuko_idea
-		}
-	}
-	focus = {
-		id = ARI_arius_basilica #아리우스 바실리카
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_focus_SWE_organize_a_putsch
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = {
-			focus = ARI_legitimate_dogma
-		}
-		cost = 10
-		x = 1
-		y = 1
-		relative_position_id = ARI_legitimate_dogma
-
-		available = {
-		}
-
-		completion_reward = {
-			add_political_power = 50
-			country_event = { id = ARI_event.1 random_hours = 12 }
-		}
-	}
-	focus = {
-		id = ARI_deny_trinity #삼위일체론 부정
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_goal_tfv_saf_anti_colonialist_crusade
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = {
-			focus = ARI_second_council
-		}
-		cost = 10
-		x = 2
-		y = 1
-		relative_position_id = ARI_second_council
-
-		available = {
-			NOT = { has_war_with = TRM }
-		}
-
-		completion_reward = {
-			add_political_power = 200
-			if = {
-				limit = { has_idea = ARI_from_end_to_end_idea }
-				remove_ideas = ARI_from_end_to_end_idea
-			}
-			if = {
-				limit = { has_idea = BA_ARI_bitter_revanchism }
-				remove_ideas = BA_ARI_bitter_revanchism
-			}
-		}
-	}
-
-	#산업
-	focus = {
-		id = ARI_industrialization_program #산업화 계획
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_goal_generic_construction
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = {
-			focus = ARI_war_with_trinity
-		}
-		x = -8
-		y = 1
-		relative_position_id = ARI_war_with_trinity
-		cost = 10
-
-		ai_will_do = {
-			factor = 80
-		}
-
-		available = {
-			NOT = { has_war_with = TRM }
-		}
-
-		bypass = {
-
-		}
-
-		completion_reward = {
-			add_tech_bonus = {
-				name = ARI_industrialization_program
-				bonus = 2.0
-				uses = 3
-				category = industry
-			}
-			add_dynamic_modifier = {
-				modifier = ARI_industrial_plan
-			}
-		}
-	}
-
-	focus = {
-		id = ARI_expand_the_mining_industry #자원 채굴 확장
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_goal_generic_construct_civilian
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = { focus = ARI_industrialization_program }
-		x = 0
-		y = 1
-		relative_position_id = ARI_industrialization_program
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 70
-		}
-
-		available = {
-
-		}
-
-		bypass = {
-
-		}
-
-		completion_reward = {
-			custom_effect_tooltip = ARI_advance_industrial_plan_tt
-			add_to_variable = {
-				ARI_local_resources_factor = 0.10
-			}
-		}
-	}
-
-	focus = {
-		id = ARI_develop_civilian_industry #민공 확장
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_goal_generic_construct_civ_factory
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = { focus = ARI_expand_the_mining_industry }
-		x = -1
-		y = 1
-		relative_position_id = ARI_expand_the_mining_industry
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 60
-		}
-
-		available = {
-			all_controlled_state = {
-				is_core_of = ROOT
-				is_fully_controlled_by = ROOT
-			}
-		}
-
-		bypass = {
-		}
-
-		completion_reward = {
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = industrial_complex
-					level = 2
-					instant_build = yes
-				}
-			}
-
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = industrial_complex
-					level = 2
-					instant_build = yes
-				}
-			}
-
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = industrial_complex
-					level = 2
-					instant_build = yes
-				}
-			}
-		}
-	}
-
-	focus = {
-		id = ARI_theology_of_chapel #채플 신학부 설립
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_focus_generic_improve_the_administration
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = { focus = ARI_develop_civilian_industry focus = ARI_develop_military_industry }
-		x = 0
-		y = 3
-		relative_position_id = ARI_industrialization_program
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 100
-		}
-
-		available = {
-
-		}
-
-		bypass = {
-
-		}
-
-		completion_reward = {
-			add_stability = 0.15
-			add_research_slot = 1
-		}
-	}
-
-	focus = {
-		id = ARI_integrated_road #평준화된 도로
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_goal_generic_construct_infrastructure
-
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = { focus = ARI_theology_of_chapel }
-		x = 0
-		y = 2
-		relative_position_id = ARI_develop_civilian_industry
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 60
-		}
-
-		available = {
-			all_controlled_state = {
-				is_core_of = ROOT
-				is_fully_controlled_by = ROOT
-			}
-		}
-
-		bypass = {
-
-		}
-
-		completion_reward = {
-			every_owned_state = {
-				limit = {
-					is_fully_controlled_by = ROOT
-					is_core_of = ROOT
-				}
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-		}
-	}
-
-	focus = {
-		id = ARI_improve_light_industry #경공업 강화
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_goal_generic_production
-
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = { focus = ARI_integrated_road focus = ARI_improve_basilica_road }
-		x = 1
-		y = 3
-		relative_position_id = ARI_develop_civilian_industry
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 80
-		}
-
-		available = {
-			all_controlled_state = {
-				is_core_of = ROOT
-				is_fully_controlled_by = ROOT
-			}
-		}
-
-		bypass = {
-
-		}
-
-		completion_reward = {
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
-		}
-	}
-
-	focus = {
-		id = ARI_develop_basilica_industry #바실리카 산업 집중
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_focus_SOV_merge_plants
-		} 
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = { focus = ARI_integrated_road }
-		x = 0
-		y = 4
-		relative_position_id = ARI_develop_civilian_industry
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 60
-		}
-
-		available = {
-			85 = {
-				is_fully_controlled_by = ROOT
-			}
-		}
-
-		bypass = {
-
-		}
-
-		completion_reward = {
-			85 = {
-				add_extra_state_shared_building_slots = 6
-				add_building_construction = {
-					type = industrial_complex
-					level = 2
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = arms_factory
-					level = 4
-					instant_build = yes
-				}
-			}
-		}
-	}
-
-	focus = {
-		id = ARI_building_management #건설 강화
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_goal_generic_production
-
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = { focus = ARI_develop_basilica_industry }
-		x = 0
-		y = 1
-		relative_position_id = ARI_develop_basilica_industry
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 60
-		}
-
-		available = {
-
-		}
-
-		bypass = {
-
-		}
-
-		completion_reward = {
-			custom_effect_tooltip = ARI_advance_industrial_plan_tt
-			add_to_variable = {
-				ARI_production_speed_buildings_factor = 0.10
-			}
-		}
-	}
-
-	focus = {
-		id = ARI_develop_military_industry #군공 확장
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_goal_generic_construct_mil_factory
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = { focus = ARI_expand_the_mining_industry }
-		x = 1
-		y = 1
-		relative_position_id = ARI_expand_the_mining_industry
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 40
-		}
-
-		available = {
-			all_controlled_state = {
-				is_core_of = ROOT
-				is_fully_controlled_by = ROOT
-			}
-		}
-
-		bypass = {
-		}
-
-		completion_reward = {
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 3
-				add_building_construction = {
-					type = arms_factory
-					level = 3
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 3
-				add_building_construction = {
-					type = arms_factory
-					level = 3
-					instant_build = yes
-				}
-			}
-		}
-	}
-
-	focus = {
-		id = ARI_improve_basilica_road #바실리카 고속도로
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_goal_generic_construct_infrastructure
-
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = { focus = ARI_theology_of_chapel }
-		x = 0
-		y = 2
-		relative_position_id = ARI_develop_military_industry
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 40
-		}
-
-		available = {
-			has_full_control_of_state = 60
-			has_full_control_of_state = 65
-			has_full_control_of_state = 66
-			has_full_control_of_state = 86
-			has_full_control_of_state = 807
-		}
-
-		bypass = {
-
-		}
-
-		completion_reward = {
-			60 = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = infrastructure
-					level = 5
-					instant_build = yes
-				}
-			}
-
-			65 = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = infrastructure
-					level = 5
-					instant_build = yes
-				}
-			}
-
-			66 = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = infrastructure
-					level = 5
-					instant_build = yes
-				}
-			}
-
-			86 = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = infrastructure
-					level = 5
-					instant_build = yes
-				}
-			}
-
-			807 = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = infrastructure
-					level = 5
-					instant_build = yes
-				}
-			}
-		}
-	}
-
-	focus = {
-		id = ARI_expand_chapel #채플 신학부 확장
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_focus_research
-
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = { focus = ARI_improve_basilica_road }
-		x = 0
-		y = 4
-		relative_position_id = ARI_develop_military_industry
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 100
-		}
-
-		available = {
-
-		}
-
-		bypass = {
-
-		}
-
-		completion_reward = {
-			add_research_slot = 1
-		}
-	}
-
-	focus = {
-		id = ARI_production_management #생산 강화
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_goal_generic_production2
-
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = { focus = ARI_expand_chapel }
-		x = 0
-		y = 5
-		relative_position_id = ARI_develop_military_industry
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 50
-		}
-
-		available = {
-
-		}
-
-		bypass = {
-
-		}
-
-		completion_reward = {
-			custom_effect_tooltip = ARI_advance_industrial_plan_tt
-			add_to_variable = {
-				ARI_industrial_capacity_factory = 0.10
-			}
-		}
-	}
-
-	focus = {
-		id = ARI_future_city #미래도시
-		icon = {
-			trigger = { is_ai = NO }
-			value = GFX_focus_generic_modernize_industry
-
-		}
-		icon = {
-			trigger = { is_ai = YES }
-			value = GFX_goal_MIL_end_student_activism
-		}
-		prerequisite = { focus = ARI_building_management focus = ARI_production_management }
-		x = 1
-		y = 1
-		relative_position_id = ARI_building_management
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 100
-		}
-
-		available = {
-			has_war = no
-		}
-
-		bypass = {
-
-		}
-
-		completion_reward = {
-			custom_effect_tooltip = ARI_advance_industrial_plan_tt
-			multiply_variable = {
-				ARI_production_speed_buildings_factor = 2
-			}
-			multiply_variable = {
-				ARI_industrial_capacity_factory = 2
-			}
-			multiply_variable = {
-				ARI_local_resources_factor = 2
-			}
-		}
-	}
 
 	#정치와 경제 루트
 	focus = {# 사태파악
 		id = ARI_realize_situation
 		icon = GFX_goal_generic_neutrality_focus
 		cost = 10
-		x = 40
+		x = 30
 		y = 0
 		available = {
 			has_country_flag = GAEBALJUNG
@@ -1108,7 +306,7 @@ focus_tree = {
 		cost = 5
 		prerequisite = { focus = ARI_emergency_now }
 		mutually_exclusive = { focus = ARI_no_difference }
-        x = 20
+        x = 10
         y = 1
 		relative_position_id = ARI_emergency_now
 		available = {
@@ -1156,134 +354,6 @@ focus_tree = {
         x = 0
         y = 1
 		relative_position_id = ARI_be_queen
-		available = {
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-		}
-	}
-	focus = {# 아츠코깡통1
-		id = ARI_royalkkangtong1
-		#icon = 
-		cost = 5
-		prerequisite = { focus = ARI_every_wish_be_true }
-        x = -2
-        y = 1
-		relative_position_id = ARI_every_wish_be_true
-		available = {
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-		}
-	}
-	focus = {# 아츠코깡통2
-		id = ARI_royalkkangtong2
-		#icon = 
-		cost = 5
-		prerequisite = { focus = ARI_every_wish_be_true }
-        x = 2
-        y = 1
-		relative_position_id = ARI_every_wish_be_true
-		available = {
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-		}
-	}
-	focus = {# 아츠코깡통3
-		id = ARI_royalkkangtong3
-		#icon = 
-		cost = 5
-		prerequisite = { focus = ARI_royalkkangtong1 }
-		prerequisite = { focus = ARI_royalkkangtong2 }
-        x = -2
-        y = 1
-		relative_position_id = ARI_royalkkangtong1
-		available = {
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-		}
-	}
-	focus = {# 아츠코깡통4
-		id = ARI_royalkkangtong4
-		#icon = 
-		cost = 5
-		prerequisite = { focus = ARI_royalkkangtong3 }
-        x = 0
-        y = 1
-		relative_position_id = ARI_royalkkangtong3
-		available = {
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-		}
-	}
-	focus = {# 아츠코깡통5
-		id = ARI_royalkkangtong5
-		#icon = 
-		cost = 5
-		prerequisite = { focus = ARI_royalkkangtong4 }
-        x = -3
-        y = 1
-		relative_position_id = ARI_royalkkangtong4
-		available = {
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-		}
-	}
-	focus = {# 아츠코깡통6
-		id = ARI_royalkkangtong6
-		#icon = 
-		cost = 5
-		prerequisite = { focus = ARI_royalkkangtong4 }
-        x = 3
-        y = 1
-		relative_position_id = ARI_royalkkangtong4
-		available = {
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-		}
-	}
-	focus = {# 아츠코깡통7
-		id = ARI_royalkkangtong7
-		#icon = 
-		cost = 5
-		prerequisite = { focus = ARI_royalkkangtong5 }
-        x = 0
-        y = 1
-		relative_position_id = ARI_royalkkangtong5
-		available = {
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-		}
-	}
-	focus = {# 아츠코깡통8
-		id = ARI_royalkkangtong8
-		#icon = 
-		cost = 5
-		prerequisite = { focus = ARI_royalkkangtong6 }
-        x = 0
-        y = 1
-		relative_position_id = ARI_royalkkangtong6
-		available = {
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-		}
-	}
-	focus = {# 신이시여, 여왕님을 보호하소서
-		id = ARI_god_save_the_queen
-		#icon = 
-		cost = 5
-		prerequisite = { focus = ARI_royalkkangtong7 }
-		prerequisite = { focus = ARI_royalkkangtong8 }
-        x = -3
-        y = 1
-		relative_position_id = ARI_royalkkangtong8
 		available = {
 		}
 		ai_will_do = { factor = 0 }
@@ -1496,7 +566,7 @@ focus_tree = {
 
 
 	#현상유지 파트
-	focus = {# 현상유지를 택한다
+	focus = {# 진실을 숨기다
 		id = ARI_no_difference
 		#icon = 
 		cost = 5
