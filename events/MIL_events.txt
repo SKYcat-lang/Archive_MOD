@@ -1,6 +1,7 @@
 add_namespace = MIL_event
 add_namespace = MIL_conflict_event
 add_namespace = MIL_mechanical_event #생물 징병 거부
+add_namespace = MIL_resistance_control #레지스탕스 관련
 
 country_event = {
     id = MIL_event.1
@@ -930,7 +931,15 @@ country_event = {
         }
 
         hidden_effect = {
-            country_event = { id = MIL_event.58 random_days = 25 days = 70 }
+            if = { 
+                limit = {
+                    tag = FRA
+                }
+                country_event = { id = MIL_event.59 random_days = 25 days = 70 }
+            }
+            else = {
+                country_event = { id = MIL_event.58 random_days = 25 days = 70 }
+            }
         }
     }
 }
@@ -2079,11 +2088,31 @@ country_event = {
     is_triggered_only = yes 
 
     option = {
-        name = MIL_event.54.a
+        name = MIL_event.58.a
         delete_unit_template_and_units = {
             division_template = "French Resistance"
             disband = no #will refund equipment and manpower
         }
+    }
+}
+country_event = {
+    id = MIL_event.59
+    title = MIL_event.59.t
+    desc = MIL_event.59.d
+    picture = none
+
+    is_triggered_only = yes 
+
+    option = {
+        name = MIL_event.59.a
+        delete_unit_template_and_units = {
+            division_template = "French Resistance"
+            disband = yes #will refund equipment and manpower
+        }
+        add_manpower = 5000
+    }
+    option = {
+        name = MIL_event.59.b
     }
 }
 
@@ -2526,5 +2555,359 @@ country_event = { #생물 징병 거부
             add_ideas = mutiny_1 
         }
         country_event = stability.23
+    }
+}
+country_event = { #북부 주 소실
+    id = MIL_resistance_control.1
+    title = MIL_resistance_control.1.t
+    desc = MIL_resistance_control.1.d
+    picture = GFX_MIL_eridu_event
+
+    trigger = {
+        tag = MIL
+        NOT = {
+            has_war_with = FRA
+			check_variable = { global.BA_resistance_n_var = 4 }
+        }
+        NOT = {
+            OR = {
+                AND = { controls_state = 15 controls_state = 16 controls_state = 24 }
+                AND = { controls_state = 15 controls_state = 16 controls_state = 30 }
+                AND = { controls_state = 15 controls_state = 16 controls_state = 785 }
+                AND = { controls_state = 15 controls_state = 24 controls_state = 30 }
+                AND = { controls_state = 15 controls_state = 24 controls_state = 785 }
+                AND = { controls_state = 15 controls_state = 30 controls_state = 785 }
+                AND = { controls_state = 16 controls_state = 24 controls_state = 30 }
+                AND = { controls_state = 16 controls_state = 24 controls_state = 785 }
+                AND = { controls_state = 16 controls_state = 30 controls_state = 785 }
+                AND = { controls_state = 24 controls_state = 30 controls_state = 785 }
+            }            
+        }
+    }
+
+	immediate = {
+        set_variable = { global.BA_resistance_n_var = 4 }
+        785 = { set_demilitarized_zone = no }
+        15 = { set_demilitarized_zone = no }
+        30 = { set_demilitarized_zone = no }
+        24 = { set_demilitarized_zone = no }
+        16 = { set_demilitarized_zone = no }
+        973 = { set_demilitarized_zone = no }
+        972 = { set_demilitarized_zone = no }
+	}
+
+    fire_only_once = yes
+
+    is_triggered_only = yes 
+
+    option = {
+        name = MIL_resistance_control.1.a
+        add_stability = -0.10
+    }
+}
+country_event = { #동부 주 소실
+    id = MIL_resistance_control.2
+    title = MIL_resistance_control.2.t
+    desc = MIL_resistance_control.2.d
+    picture = GFX_MIL_eridu_event
+
+    trigger = {
+        tag = MIL
+        NOT = {
+            has_war_with = FRA
+			check_variable = { global.BA_resistance_e_var = 4 }
+        }
+        NOT = {
+            OR = {
+                AND = { controls_state = 17 controls_state = 18 }
+                AND = { controls_state = 17 controls_state = 27 }
+                AND = { controls_state = 18 controls_state = 27 }
+            }
+        }
+    }
+
+	immediate = {
+        set_variable = { global.BA_resistance_e_var = 4 }
+        17 = { set_demilitarized_zone = no }
+        18 = { set_demilitarized_zone = no }
+        27 = { set_demilitarized_zone = no }
+	}
+
+    fire_only_once = yes
+
+    is_triggered_only = yes 
+
+    option = {
+        name = MIL_resistance_control.2.a
+        add_stability = -0.10
+    }
+}
+country_event = { #서부 주 소실
+    id = MIL_resistance_control.3
+    title = MIL_resistance_control.3.t
+    desc = MIL_resistance_control.3.d
+    picture = GFX_MIL_eridu_event
+
+    trigger = {
+        tag = MIL
+        NOT = {
+            has_war_with = FRA
+			check_variable = { global.BA_resistance_w_var = 4 }
+        }
+        NOT = {
+            OR = {
+                AND = { controls_state = 23 controls_state = 33 }
+                AND = { controls_state = 23 controls_state = 25 }
+                AND = { controls_state = 33 controls_state = 25 }
+            }
+        }
+    }
+
+	immediate = {
+        set_variable = { global.BA_resistance_w_var = 4 }
+        23 = { set_demilitarized_zone = no }
+        33 = { set_demilitarized_zone = no }
+        25 = { set_demilitarized_zone = no }
+	}
+
+    fire_only_once = yes
+
+    is_triggered_only = yes 
+
+    option = {
+        name = MIL_resistance_control.3.a
+        add_stability = -0.10
+    }
+}
+country_event = { #남동부 주 소실
+    id = MIL_resistance_control.4
+    title = MIL_resistance_control.4.t
+    desc = MIL_resistance_control.4.d
+    picture = GFX_MIL_eridu_event
+
+    trigger = {
+        tag = MIL
+        NOT = {
+            has_war_with = FRA
+			check_variable = { global.BA_resistance_se_var = 4 }
+        }
+        NOT = {
+            OR = {
+                AND = { controls_state = 26 controls_state = 20 controls_state = 21 }
+                AND = { controls_state = 26 controls_state = 20 controls_state = 851 }
+                AND = { controls_state = 26 controls_state = 21 controls_state = 851 }
+                AND = { controls_state = 20 controls_state = 21 controls_state = 851 }
+            }
+        }
+    }
+
+	immediate = {
+        set_variable = { global.BA_resistance_se_var = 4 }
+        26 = { set_demilitarized_zone = no }
+        20 = { set_demilitarized_zone = no }
+        22 = { set_demilitarized_zone = no }
+        32 = { set_demilitarized_zone = no }
+        21 = { set_demilitarized_zone = no }
+        980 = { set_demilitarized_zone = no }
+        851 = { set_demilitarized_zone = no }
+	}
+
+    fire_only_once = yes
+
+    is_triggered_only = yes 
+
+    option = {
+        name = MIL_resistance_control.4.a
+        add_stability = -0.10
+    }
+}
+country_event = { #남서부 주 소실
+    id = MIL_resistance_control.5
+    title = MIL_resistance_control.5.t
+    desc = MIL_resistance_control.5.d
+    picture = GFX_MIL_eridu_event
+
+    trigger = {
+        tag = MIL
+        NOT = {
+            has_war_with = FRA
+			check_variable = { global.BA_resistance_sw_var = 4 }
+        }
+        NOT = {
+            OR = {
+                AND = { controls_state = 19 controls_state = 31 }
+                AND = { controls_state = 19 controls_state = 806 }
+                AND = { controls_state = 31 controls_state = 806 }
+            }
+        }        
+    }
+
+	immediate = {
+        set_variable = { global.BA_resistance_sw_var = 4 }
+        19 = { set_demilitarized_zone = no }
+        31 = { set_demilitarized_zone = no }
+        806 = { set_demilitarized_zone = no }
+	}
+
+    fire_only_once = yes
+
+    is_triggered_only = yes 
+
+    option = {
+        name = MIL_resistance_control.5.a
+        add_stability = -0.10
+    }
+}
+country_event = { #북부 주 보유
+    id = MIL_resistance_control.6
+    title = MIL_resistance_control.6.t
+    desc = MIL_resistance_control.6.d
+    picture = GFX_MIL_eridu_event
+
+    trigger = {
+        tag = MIL
+        check_variable = { global.BA_resistance_n_var = 4 }
+        OR = {
+            AND = { controls_state = 15 controls_state = 16 controls_state = 24 }
+            AND = { controls_state = 15 controls_state = 16 controls_state = 30 }
+            AND = { controls_state = 15 controls_state = 16 controls_state = 785 }
+            AND = { controls_state = 15 controls_state = 24 controls_state = 30 }
+            AND = { controls_state = 15 controls_state = 24 controls_state = 785 }
+            AND = { controls_state = 15 controls_state = 30 controls_state = 785 }
+            AND = { controls_state = 16 controls_state = 24 controls_state = 30 }
+            AND = { controls_state = 16 controls_state = 24 controls_state = 785 }
+            AND = { controls_state = 16 controls_state = 30 controls_state = 785 }
+            AND = { controls_state = 24 controls_state = 30 controls_state = 785 }
+        }            
+    }
+
+    immediate = {
+        set_variable = { global.BA_resistance_n_var = 2 }
+    }
+
+    fire_only_once = yes
+
+    is_triggered_only = yes 
+
+    option = {
+        name = MIL_resistance_control.6.a
+        add_stability = 0.10
+    }
+}
+country_event = { #동부 주 보유
+    id = MIL_resistance_control.7
+    title = MIL_resistance_control.7.t
+    desc = MIL_resistance_control.7.d
+    picture = GFX_MIL_eridu_event
+
+    trigger = {
+        tag = MIL
+        check_variable = { global.BA_resistance_e_var = 4 }
+        OR = {
+            AND = { controls_state = 17 controls_state = 18 }
+            AND = { controls_state = 17 controls_state = 27 }
+            AND = { controls_state = 18 controls_state = 27 }
+        }
+    }
+
+    immediate = {
+        set_variable = { global.BA_resistance_e_var = 2 }
+    }
+
+    fire_only_once = yes
+
+    is_triggered_only = yes 
+
+    option = {
+        name = MIL_resistance_control.7.a
+        add_stability = 0.10
+    }
+}
+country_event = { #서부 주 보유
+    id = MIL_resistance_control.8
+    title = MIL_resistance_control.8.t
+    desc = MIL_resistance_control.8.d
+    picture = GFX_MIL_eridu_event
+
+    trigger = {
+        tag = MIL
+        check_variable = { global.BA_resistance_w_var = 4 }
+        OR = {
+            AND = { controls_state = 23 controls_state = 33 }
+            AND = { controls_state = 23 controls_state = 25 }
+            AND = { controls_state = 33 controls_state = 25 }
+        }
+    }
+
+    immediate = {
+        set_variable = { global.BA_resistance_w_var = 2 }
+    }
+
+    fire_only_once = yes
+
+    is_triggered_only = yes 
+
+    option = {
+        name = MIL_resistance_control.8.a
+        add_stability = 0.10
+    }
+}
+country_event = { #남동부 주 보유
+    id = MIL_resistance_control.9
+    title = MIL_resistance_control.9.t
+    desc = MIL_resistance_control.9.d
+    picture = GFX_MIL_eridu_event
+
+    trigger = {
+        tag = MIL
+        check_variable = { global.BA_resistance_se_var = 4 }
+        OR = {
+            AND = { controls_state = 26 controls_state = 20 controls_state = 21 }
+            AND = { controls_state = 26 controls_state = 20 controls_state = 851 }
+            AND = { controls_state = 26 controls_state = 21 controls_state = 851 }
+            AND = { controls_state = 20 controls_state = 21 controls_state = 851 }
+        }
+    }
+
+    immediate = {
+        set_variable = { global.BA_resistance_se_var = 2 }
+    }
+
+    fire_only_once = yes
+
+    is_triggered_only = yes 
+
+    option = {
+        name = MIL_resistance_control.9.a
+        add_stability = 0.10
+    }
+}
+country_event = { #남서부 주 보유
+    id = MIL_resistance_control.10
+    title = MIL_resistance_control.10.t
+    desc = MIL_resistance_control.10.d
+    picture = GFX_MIL_eridu_event
+
+    trigger = {
+        tag = MIL
+        check_variable = { global.BA_resistance_sw_var = 4 }
+        OR = {
+            AND = { controls_state = 19 controls_state = 31 }
+            AND = { controls_state = 19 controls_state = 806 }
+            AND = { controls_state = 31 controls_state = 806 }
+        }        
+    }
+
+    immediate = {
+        set_variable = { global.BA_resistance_sw_var = 2 }
+    }
+
+    fire_only_once = yes
+
+    is_triggered_only = yes 
+
+    option = {
+        name = MIL_resistance_control.10.a
+        add_stability = 0.10
     }
 }

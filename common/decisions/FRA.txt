@@ -1473,13 +1473,13 @@ FRA_prepare_war = {
 						MIL_Resistance_sabotage_trigger = yes
 					}
 				}
-				785 = { set_demilitarized_zone = yes }
-				15 = { set_demilitarized_zone = yes }
-				30 = { set_demilitarized_zone = yes }
-				24 = { set_demilitarized_zone = yes }
-				16 = { set_demilitarized_zone = yes }
-				973 = { set_demilitarized_zone = yes }
-				972 = { set_demilitarized_zone = yes }
+				785 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				15 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				30 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				24 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				16 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				973 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				972 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
 			}
 			set_variable = { global.BA_resistance_n_var = 3 }
 		}
@@ -1548,9 +1548,9 @@ FRA_prepare_war = {
 						MIL_Resistance_sabotage_trigger = yes
 					}
 				}
-				17 = { set_demilitarized_zone = yes }
-				18 = { set_demilitarized_zone = yes }
-				27 = { set_demilitarized_zone = yes }
+				17 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				18 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				27 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
 			}
 			set_variable = { global.BA_resistance_e_var = 3 }
 		}
@@ -1619,9 +1619,9 @@ FRA_prepare_war = {
 						MIL_Resistance_sabotage_trigger = yes
 					}
 				}
-				23 = { set_demilitarized_zone = yes }
-				33 = { set_demilitarized_zone = yes }
-				25 = { set_demilitarized_zone = yes }
+				23 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				33 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				25 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }				
 			}
 			set_variable = { global.BA_resistance_w_var = 3 }
 		}
@@ -1690,13 +1690,13 @@ FRA_prepare_war = {
 						MIL_Resistance_sabotage_trigger = yes
 					}
 				}
-				26 = { set_demilitarized_zone = yes }
-				20 = { set_demilitarized_zone = yes }
-				22 = { set_demilitarized_zone = yes }
-				32 = { set_demilitarized_zone = yes }
-				21 = { set_demilitarized_zone = yes }
-				980 = { set_demilitarized_zone = yes }
-				851 = { set_demilitarized_zone = yes }
+				26 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				20 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				22 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				32 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				21 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				980 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				851 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
 			}
 			set_variable = { global.BA_resistance_se_var = 3 }
 		}
@@ -1765,9 +1765,9 @@ FRA_prepare_war = {
 						MIL_Resistance_sabotage_trigger = yes
 					}
 				}
-				19 = { set_demilitarized_zone = yes }
-				31 = { set_demilitarized_zone = yes }
-				806 = { set_demilitarized_zone = yes }
+				19 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				31 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }
+				806 = { if = { limit = { is_controlled_by = MIL } set_demilitarized_zone = yes } }				
 			}
 			set_variable = { global.BA_resistance_sw_var = 3 }
 		}
@@ -3906,5 +3906,50 @@ FRA_defense_bond_cat = {
 				activate_mission = FRA_update_defense_bond
 			}
 		}
+	}
+}
+FRA_ALG_war= {
+	FRA_ALG_going_bad = { #악화되는 알제리의 저항
+		icon = GFX_decision_generic_operation
+		allowed = { 	
+			always = yes
+		}    
+		available = { 
+			hidden_trigger ={ always = no }
+		}
+	
+		activation = { 
+			always = no
+		}
+		visible = {}
+		cancel_if_not_visible = yes 
+		is_good = no 
+		fire_only_once = no                            
+		selectable_mission = no  
+		days_mission_timeout = 100
+		timeout_effect = {
+			custom_effect_tooltip = FRA_ALG_going_bad_tt
+			add_to_variable = {
+				ALG_independence_var = 1
+			}
+			activate_mission = FRA_ALG_going_bad
+		}
+	} 
+	FRA_ALG_gg = { #철수
+		icon = GFX_decision_eng_trade_unions_support
+		allowed = {
+			always = yes
+		}
+		visible = {has_country_flag = FRA_ALG_started}
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = FRA_ALG_gg_tt
+				check_variable = {
+					ALG_independence_var > 5
+				}
+			}
+		}
+		priority = -10
+		cost = 50
 	}
 }
