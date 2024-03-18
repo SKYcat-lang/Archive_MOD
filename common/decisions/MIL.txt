@@ -1319,6 +1319,24 @@ FRA_prepare_war = {
 			set_variable = { global.BA_resistance_se_var = 1 }
 		}
 	}
+	MIL_res_down_debug = {
+		priority = 99
+		visible = {
+			is_debug = yes
+		}
+		complete_effect = {
+			if = {
+				limit = {
+					MIL_Resistance_atv_trigger = yes
+				}
+				MIL_Resistance_idea_down = yes
+				else = {
+					custom_effect_tooltip = MIL_res_down_tt
+					set_global_flag = STOP_FRA_prepare_war_flag
+				}
+			}
+		}
+	}
 	MIL_res_down = {
 		icon = GFX_decision_generic_intelligence_operation
 		ai_will_do = {
@@ -1355,11 +1373,7 @@ FRA_prepare_war = {
 				MIL_Resistance_idea_down = yes
 				else = {
 					custom_effect_tooltip = MIL_res_down_tt
-					set_variable = { global.BA_resistance_n_var = 1 }
-					set_variable = { global.BA_resistance_e_var = 1 }
-					set_variable = { global.BA_resistance_w_var = 1 }
-					set_variable = { global.BA_resistance_sw_var = 1 }
-					set_variable = { global.BA_resistance_se_var = 1 }
+					set_global_flag = STOP_FRA_prepare_war_flag
 				}
 			}
 		}
@@ -1678,6 +1692,7 @@ FRA_prepare_war = {
 			MIL = {
 				has_war = yes
 				MIL_Resistance_sabotage_trigger = yes
+				is_subject = no
 			}
 			OR = {
 				check_variable = { global.BA_resistance_n_var = 3 }
@@ -1698,22 +1713,27 @@ FRA_prepare_war = {
 				OR = {
 					check_variable = { global.BA_resistance_n_var = 1 }
 					check_variable = { global.BA_resistance_n_var = 2 }
+					check_variable = { global.BA_resistance_n_var = 4 }
 				}
 				OR = {
 					check_variable = { global.BA_resistance_w_var = 1 }
 					check_variable = { global.BA_resistance_w_var = 2 }
+					check_variable = { global.BA_resistance_w_var = 4 }
 				}
 				OR = {
 					check_variable = { global.BA_resistance_e_var = 1 }
 					check_variable = { global.BA_resistance_e_var = 2 }
+					check_variable = { global.BA_resistance_e_var = 4 }
 				}
 				OR = {
 					check_variable = { global.BA_resistance_se_var = 1 }
 					check_variable = { global.BA_resistance_se_var = 2 }
+					check_variable = { global.BA_resistance_se_var = 4 }
 				}
 				OR = {
 					check_variable = { global.BA_resistance_sw_var = 1 }
 					check_variable = { global.BA_resistance_sw_var = 2 }
+					check_variable = { global.BA_resistance_sw_var = 4 }
 				}
 			}
 		}
@@ -1731,11 +1751,19 @@ FRA_prepare_war = {
 				days = 20
 				value = 1
 			}
-			random_country = {
-				limit = {
-					has_war_with = MIL
+			if = {
+				limit = { MIL = { has_war_with = FRA } }
+				FRA = {
+					country_event = { id = MIL_event.17 hours = 4 }
 				}
-				country_event = { id = MIL_event.17 hours = 4 }
+			}
+			else = {
+				random_country = {
+					limit = {
+						has_war_with = MIL
+					}
+					country_event = { id = MIL_event.17 hours = 4 }
+				}
 			}
 		}
 	}
@@ -1777,6 +1805,7 @@ FRA_prepare_war = {
 					tooltip = MIL_res_2_tt
 					check_variable = { global.BA_resistance_n_var = 2 }
 				}
+				check_variable = { global.BA_resistance_n_var = 4 }
 			}
 		}
 		is_good = yes
@@ -1860,6 +1889,7 @@ FRA_prepare_war = {
 					tooltip = MIL_res_2_tt
 					check_variable = { global.BA_resistance_e_var = 2 }
 				}
+				check_variable = { global.BA_resistance_e_var = 4 }
 			}
 		}
 		is_good = yes
@@ -1943,6 +1973,7 @@ FRA_prepare_war = {
 					tooltip = MIL_res_2_tt
 					check_variable = { global.BA_resistance_w_var = 2 }
 				}
+				check_variable = { global.BA_resistance_w_var = 4 }
 			}
 		}
 		is_good = yes
@@ -2026,6 +2057,7 @@ FRA_prepare_war = {
 					tooltip = MIL_res_2_tt
 					check_variable = { global.BA_resistance_se_var = 2 }
 				}
+				check_variable = { global.BA_resistance_se_var = 4 }
 			}
 		}
 		is_good = yes
@@ -2109,6 +2141,7 @@ FRA_prepare_war = {
 					tooltip = MIL_res_2_tt
 					check_variable = { global.BA_resistance_sw_var = 2 }
 				}
+				check_variable = { global.BA_resistance_sw_var = 4 }
 			}
 		}
 		is_good = yes
