@@ -1775,19 +1775,35 @@ focus_tree = {
 		available = {
 		}
 		bypass = {
-			HUN = {
-				OR = {
-					exists = no
-					is_in_faction_with = SHA
-				}
-			}
 		}
 		completion_reward = {
+			create_wargoal = {
+				target = SLO
+				type = annex_everything
+			}
 			create_wargoal = {
 				target = HUN
 				type = annex_everything
 			}
+			every_state = {
+				limit = {
+					is_core_of = HUN
+				}
+				add_claim_by = SHA
+			}
+			if = {
+				limit = {
+					is_in_faction_with = HYA
+				}
+				every_state = {
+					limit = {
+						is_core_of = SLO
+					}
+					add_claim_by = HYA
+				}
+			}
 		}
+		will_lead_to_war_with = SLO
 		will_lead_to_war_with = HUN
 	}
 	focus = { #
@@ -1804,6 +1820,7 @@ focus_tree = {
 		bypass = {
 			ITA = {
 				OR = {
+					has_war_with = SHA
 					exists = no
 					is_in_faction_with = SHA
 				}
@@ -4030,6 +4047,34 @@ focus_tree = {
 		}
 	}
 	focus = { #
+		relative_position_id = SHA_foc_2-2
+		id = SHA_foc_2-2-43
+		icon = GFX_focus_SWE_the_beast_stirs
+		prerequisite = { focus = SHA_foc_2-2-36 focus = SHA_foc_2-2-37 }
+		#mutually_exclusive = { focus = SHA_foc_2-2- }
+		cost = 10
+		x = 2
+		y = 15
+		available = {
+		}
+		bypass = {
+			SOV = {
+				OR = {
+					has_war_with = SHA
+					exists = no
+					is_in_faction_with = SHA
+				}
+			}
+		}
+		completion_reward = {
+			create_wargoal = {
+				target = SOV
+				type = annex_everything
+			}
+		}
+		will_lead_to_war_with = SOV
+	}
+	focus = { #
 		relative_position_id = SHA_foc_2
 		id = SHA_foc_2-3
 		icon = GFX_goal_support_fascism
@@ -5166,6 +5211,35 @@ focus_tree = {
 	}
 	focus = { #
 		relative_position_id = SHA_foc_2-3
+		id = SHA_foc_2-3-34
+		icon = GFX_focus_ger_bulwark_against_bolshevism
+		prerequisite = { focus = SHA_foc_2-3-27 focus = SHA_foc_2-3-28 }
+		#mutually_exclusive = { focus = SHA_foc_2- }
+		cost = 10
+		x = -2
+		y = 15
+		available = {
+		}
+		bypass = {
+		}
+		completion_reward = {
+			custom_effect_tooltip = SHA_tt_9
+			every_country = {
+				limit = {
+					has_government = communism
+					is_major = yes
+				}
+				SHA = {
+					create_wargoal = {
+						type = topple_government
+						target = PREV
+					}
+				}
+			}
+		}
+	}
+	focus = { #
+		relative_position_id = SHA_foc_2-3
 		id = SHA_foc_2-5
 		icon = GFX_focus_generic_anti_fascist_diplomacy
 		prerequisite = { focus = SHA_foc_2-3-10 }
@@ -5761,17 +5835,11 @@ focus_tree = {
 			every_state = {
 				limit = {
 					is_controlled_by = SHA
-					is_core_of = SHA
-					infrastructure < 4
+					is_core_of = AUS
 				}
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = infrastructure
 					level = 1
 					instant_build = yes
 				}
