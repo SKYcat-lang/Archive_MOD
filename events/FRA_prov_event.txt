@@ -232,10 +232,6 @@ country_event = {
 					target = FRA
 					transfer_troops = no
 				}
-				country_event = {
-					days = 3
-					id = FRA_ex_event.1
-				}
 			}
 			news_event = {
 				days = 5
@@ -245,32 +241,7 @@ country_event = {
 	}
 }
 
-add_namespace = FRA_ex_event
-country_event = {
-	# 밀레니엄의 프랑스 처리
-	id = FRA_ex_event.2
-	title = FRA_prov_event.42.t
-	desc = FRA_prov_event.42.d
-	fire_only_once = yes
-	hidden = yes
-	is_triggered_only = yes
-	option = {
-	}
-}
 
-country_event = {
-	#망명정부
-	id = FRA_ex_event.1
-	title = FRA_prov_event.1.t
-	desc = FRA_prov_event.1.d
-	fire_only_once = yes
-	is_triggered_only = yes
-	hidden = no
-	option = {
-	}
-	option = {
-	}
-}
 
 country_event = {
 	#지지율 떨어짐 / 저항
@@ -3834,6 +3805,7 @@ country_event = {
 			FRA = {
 				release = MOR
 				release = TUN
+				release = WES
 			}
 		}
 	}
@@ -3843,7 +3815,6 @@ country_event = {
 		hidden_effect = {
 			FRA = {
 				release = MOR
-				release = ALG
 				release = MRT
 				release = WES
 				release = MLI
@@ -3864,8 +3835,13 @@ country_event = {
 		add_political_power = -200
 		add_stability = -0.1
 		add_war_support = -0.1
+		
 		custom_effect_tooltip = FRA_focus_resist_10_tt
 		hidden_effect = {
+			country_event = {
+				id = FRA_ex_event.1
+				days = 360
+			}
 			MOR = {
 				every_core_state = {
 					limit = {
@@ -3931,24 +3907,6 @@ country_event = {
 					collaboration_formed_by = ROOT
 				}
 			}
-			ALG = {
-				transfer_state = 459
-				transfer_state = 460
-				transfer_state = 513
-				transfer_state = 514
-				create_country_leader = {
-					name = FRA_borough
-					ideology = liberalism
-					picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
-					expire = "1965.1.1"
-					traits = {
-						FRA_weak_auto
-					}
-				}
-				set_variable = {
-					collaboration_formed_by = ROOT
-				}
-			}
 			TUN = {
 				transfer_state = 458
 				transfer_state = 665
@@ -3979,10 +3937,6 @@ country_event = {
 					autonomy_state = autonomy_collaboration_government
 				}
 				set_autonomy = {
-					target = ALG
-					autonomy_state = autonomy_collaboration_government
-				}
-				set_autonomy = {
 					target = TUN
 					autonomy_state = autonomy_collaboration_government
 				}
@@ -4005,6 +3959,12 @@ country_event = {
 								state = 772
 								state = 539
 								state = 297
+							}
+							NOT = {
+								state = 459
+								state = 460
+								state = 513
+								state = 514
 							}
 						}
 						transfer_state_to = CHA
@@ -4072,16 +4032,6 @@ country_event = {
 					democratic = 100
 				}
 			}
-			ALG = {
-				set_cosmetic_tag = ALG_FRA
-				set_politics = {
-					ruling_party = democratic
-					elections_allowed = no
-				}
-				set_popularities = {
-					democratic = 100
-				}
-			}
 			TUN = {
 				set_cosmetic_tag = TUN_FRA
 				set_politics = {
@@ -4107,9 +4057,15 @@ country_event = {
 			remove_core_of = FRA
 			start_resistance = yes
 			add_resistance = 10
-			add_compliance = -100
+			add_compliance = -50
 		}
 		add_ideas = FRA_promise_cut
+		hidden_effect = {
+			country_event = {
+				id =  FRA_ex_event.1
+				days = 3
+			}
+		}
 	}
 }
 
@@ -5004,10 +4960,6 @@ country_event = {
 	option = {
 		name = FRA_recover.1.a
 		add_war_support = 0.1
-		delete_unit_template_and_units = {
-			division_template = "French Resistance"
-			disband = yes				#will refund equipment and manpower
-		}
 	}
 }
 
@@ -5214,5 +5166,557 @@ country_event = {
 			idea = FRA_thanks_spr
 			days = 360
 		}
+	}
+}
+country_event = {
+	#레지스탕스 저항 종료
+	id = FRA_recover.4
+	title = FRA_recover.4.t
+	desc = FRA_recover.4.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	hidden = no
+	option = {
+		name = FRA_recover.4.a
+		custom_effect_tooltip = MIL_res_down_tt
+		set_global_flag = STOP_FRA_prepare_war_flag
+		delete_unit_template_and_units = {
+			division_template = "French Resistance"
+			disband = yes				#will refund equipment and manpower
+		}
+	}
+}
+
+add_namespace = FRA_ex_event
+
+country_event = {
+	#알제리 위기
+	id = FRA_ex_event.1
+	title = FRA_ex_event.1.t
+	desc = FRA_ex_event.1.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	hidden = no
+	option = {
+		name = FRA_ex_event.1.a
+		activate_mission = FRA_ALG_going_bad
+		set_country_flag = FRA_ALG_started
+		set_variable = {
+			ALG_independence_var = 0
+		}
+	}
+}
+country_event = {
+	# 밀레니엄의 프랑스 처리
+	id = FRA_ex_event.2
+	title = FRA_prov_event.42.t
+	desc = FRA_prov_event.42.d
+	fire_only_once = yes
+	hidden = yes
+	is_triggered_only = yes
+	option = {
+	}
+}
+country_event = {
+	# 3단계 : 산발적인 집회
+	id = FRA_ex_event.3
+	title = FRA_ex_event.3.t
+	desc = FRA_ex_event.3.d
+	fire_only_once = yes
+	trigger = {
+		original_tag = FRA
+		check_variable = {
+			ALG_independence_var = 3
+		}
+	}
+	option = {
+		name = FRA_ex_event.3.a
+		add_political_power = -200
+	}
+	option = {
+		name = FRA_ex_event.3.b
+		add_political_power = -100
+		add_stability = -0.1
+	}
+}
+country_event = {
+	# 4단계 : 반식민지 집회
+	id = FRA_ex_event.4
+	title = FRA_ex_event.4.t
+	desc = FRA_ex_event.4.d
+	fire_only_once = yes
+	trigger = {
+		original_tag = FRA
+		check_variable = {
+			ALG_independence_var = 4
+		}
+	}
+	option = {
+		name = FRA_ex_event.4.a
+		add_political_power = -100
+		add_war_support = -0.1
+		ALG = {
+			every_core_state = {
+				add_compliance = -15
+			}
+		}
+	}
+	option = {
+		name = FRA_ex_event.4.b
+		add_political_power = -600
+		add_war_support = -0.3
+		add_stability = -0.3
+		clr_country_flag = FRA_ALG_started
+		remove_mission = FRA_ALG_going_bad
+		add_ideas = FRA_ALG_aftermath
+		ALG = {
+			every_core_state = {
+				add_compliance = 15
+				add_resistance = -15
+			}
+		}
+	}
+}
+country_event = {
+	# 5단계 : 본국 알제리계 반발
+	id = FRA_ex_event.5
+	title = FRA_ex_event.5.t
+	desc = FRA_ex_event.5.d
+	fire_only_once = yes
+	trigger = {
+		original_tag = FRA
+		check_variable = {
+			ALG_independence_var = 5
+		}
+	}
+	option = {
+		name = FRA_ex_event.5.a
+		add_political_power = -150
+		add_stability = -0.05
+		ALG = {
+			every_core_state = {
+				add_resistance = 15
+			}
+		}
+	}
+	option = {
+		name = FRA_ex_event.5.b
+		add_political_power = -150
+		add_war_support = -0.15
+		clr_country_flag = FRA_ALG_started
+		remove_mission = FRA_ALG_going_bad
+		release = ALG
+		FRA = {
+			set_autonomy = {
+				target = ALG
+				autonomy_state = autonomy_collaboration_government
+			}
+		}
+		hidden_effect = {
+			ALG = {
+				create_country_leader = {
+					name = FRA_borough
+					ideology = liberalism
+					picture = "gfx/leaders/FRA/FRA_Build_Portrait.tga"
+					expire = "1965.1.1"
+					traits = {
+						FRA_weak_auto
+					}
+				}
+				set_variable = {
+					collaboration_formed_by = ROOT
+				}
+				set_politics = {
+					ruling_party = democratic
+				}
+				set_popularities = {
+					democratic = 100
+				}
+			}
+		}
+	}
+}
+country_event = {
+	# 6단계 : 무장 투쟁
+	id = FRA_ex_event.6
+	title = FRA_ex_event.6.t
+	desc = FRA_ex_event.6.d
+	fire_only_once = yes
+	trigger = {
+		original_tag = FRA
+		check_variable = {
+			ALG_independence_var = 6
+		}
+	}
+	option = {
+		name = FRA_ex_event.6.a
+		add_political_power = -50
+		add_stability = -0.05
+		every_state = {
+			limit = {
+				is_core_of = ALG
+				is_controlled_by_ROOT_or_ally = yes
+			}
+			set_demilitarized_zone = yes
+		}
+	}
+}
+country_event = {
+	# 7단계 : 국제 사회에 호소
+	id = FRA_ex_event.7
+	title = FRA_ex_event.7.t
+	desc = FRA_ex_event.7.d
+	fire_only_once = yes
+	trigger = {
+		original_tag = FRA
+		check_variable = {
+			ALG_independence_var = 7
+		}
+	}
+	option = {
+		name = FRA_ex_event.7.a
+		add_political_power = -50
+		add_stability = -0.05
+		add_war_support = -0.05
+		add_threat = 1
+	}
+	option = {
+		name = FRA_ex_event.7.b
+		add_political_power = -100
+		add_stability = -0.1
+		add_war_support = -0.1
+		hidden_effect = {
+			country_event = {
+				id= FRA_ex_event.10
+				days = 5
+			}
+		}
+	}
+}
+country_event = {
+	# 8단계 : 총파업
+	id = FRA_ex_event.8
+	title = FRA_ex_event.8.t
+	desc = FRA_ex_event.8.d
+	fire_only_once = yes
+	trigger = {
+		original_tag = FRA
+		check_variable = {
+			ALG_independence_var = 8
+		}
+	}
+	option = {
+		name = FRA_ex_event.8.a
+		add_political_power = -50
+		add_stability = -0.05
+		add_war_support = -0.05
+		ALG = {
+			every_core_state = {
+				damage_building = {
+					type = infrastructure
+					damage = 0.6
+				}
+				damage_building = {
+					type = industrial_complex
+					damage = 0.6
+				}
+				damage_building = {
+					type = arms_factory
+					damage = 0.6
+				}
+			}
+		}
+	}
+}
+country_event = {
+	# 9단계 : 국민투표
+	id = FRA_ex_event.9
+	title = FRA_ex_event.9.t
+	desc = FRA_ex_event.9.d
+	fire_only_once = yes
+	trigger = {
+		original_tag = FRA
+		check_variable = {
+			ALG_independence_var = 9
+		}
+	}
+	option = {
+		name = FRA_ex_event.9.a
+		add_political_power = -50
+		ALG = {
+			every_core_state = {
+				limit = {
+					is_owned_by = FRA
+				}
+				add_resistance = 15
+				add_compliance = -15
+			}
+		}
+	}
+	option = {
+		name = FRA_ex_event.9.b
+		add_political_power = -250
+		add_stability = -0.1
+		add_war_support = -0.1
+		release = ALG
+		clr_country_flag = FRA_ALG_started
+		remove_mission = FRA_ALG_going_bad
+	}
+}
+country_event = {
+	# 콩스탕틴 합의
+	id = FRA_ex_event.10
+	title = FRA_ex_event.10.t
+	desc = FRA_ex_event.10.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = FRA_ex_event.10.a
+		add_political_power = 5
+		release = ALG
+		ALG = {
+			give_military_access = FRA
+			diplomatic_relation = {
+				country = FRA
+				relation = non_aggression_pact
+			}
+			diplomatic_relation = {
+				country = FRA
+				relation = docking_rights
+			}
+			give_resource_rights = {
+				receiver = FRA
+				state = 459
+				resources = {
+					steel
+				}
+			}
+			add_timed_idea = {
+				idea = ALG_constantine_agreement
+				days = 3650
+			}
+		}
+		FRA = {
+			give_guarantee = ALG
+		}
+		clr_country_flag = FRA_ALG_started
+		remove_mission = FRA_ALG_going_bad
+		hidden_effect = {
+			news_event = {
+				id = BA_news.62
+				days = 3
+			}
+		}
+	}
+}
+country_event = {
+	# 10단계 : 전쟁
+	id = FRA_ex_event.11
+	title = FRA_ex_event.11.t
+	desc = FRA_ex_event.11.d
+	fire_only_once = yes
+	trigger = {
+		original_tag = FRA
+		check_variable = {
+			ALG_independence_var = 10
+		}
+	}
+	option = {
+		name = FRA_ex_event.10.a
+		add_political_power = -500
+		remove_mission = FRA_ALG_going_bad
+		hidden_effect = {
+			release = ALG
+			ALG = {
+				declare_war_on = {
+					target = FRA
+					type = independence_wargoal
+				}
+				add_ideas = ALG_independence_war
+			}
+			country_event = {
+				id =  FRA_ex_event.12
+				days = 10
+			}
+			news_event = {
+				id =  BA_news.63
+				days = 3
+			}
+		}
+	}
+}
+country_event = {
+	# 아랍인들의 지원
+	id = FRA_ex_event.12
+	title = FRA_ex_event.12.t
+	desc = FRA_ex_event.12.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = FRA_ex_event.12.a
+		add_political_power = -5
+		if = {
+			limit = {
+				MOR = {
+					OR = {
+						is_puppet_of = FRA
+						exists = no
+					}
+				}
+			}
+			MOR = {
+				every_core_state = {
+					limit = {OR ={
+						is_owned_by = prev
+						is_owned_by = FRA
+					}}
+					damage_building = {
+						type = arms_factory
+						damage = 0.6
+					}
+					damage_building = {
+						type = infrastructure
+						damage = 0.6
+					}
+					damage_building = {
+						type = industrial_complex
+						damage = 0.6
+					}
+					damage_building = {
+						type = naval_base
+						damage = 0.6
+					}
+					damage_building = {
+						type = rail_way
+						damage = 0.6
+					}
+					damage_building = {
+						type = supply_node
+						damage = 0.6
+					}
+					damage_building = {
+						type = air_base
+						damage = 0.6
+					}
+				}
+			}
+			TUN = {
+				every_core_state = {
+					limit = {OR ={
+						is_owned_by = prev
+						is_owned_by = FRA
+					}}
+					damage_building = {
+						type = arms_factory
+						damage = 0.6
+					}
+					damage_building = {
+						type = infrastructure
+						damage = 0.6
+					}
+					damage_building = {
+						type = industrial_complex
+						damage = 0.6
+					}
+					damage_building = {
+						type = naval_base
+						damage = 0.6
+					}
+					damage_building = {
+						type = rail_way
+						damage = 0.6
+					}
+					damage_building = {
+						type = supply_node
+						damage = 0.6
+					}
+					damage_building = {
+						type = air_base
+						damage = 0.6
+					}
+				}
+			}
+		}
+		ALG = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 3000
+			}
+		}
+		MOR = {
+			add_ai_strategy = {
+				type = send_volunteers_desire
+				id = ALG
+				value = 200
+			}
+		}
+		TUN = {
+			add_ai_strategy = {
+				type = send_volunteers_desire
+				id = ALG
+				value = 200
+			}
+		}
+		EGY = {
+			add_ai_strategy = {
+				type = send_volunteers_desire
+				id = ALG
+				value = 200
+			}
+		}
+		hidden_effect = {
+			activate_mission = FRA_ALG_war_ita
+		}
+	}
+}
+country_event = {
+	# 이탈리아의 방해
+	id = FRA_ex_event.13
+	title = FRA_ex_event.13.t
+	desc = FRA_ex_event.13.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = FRA_ex_event.13.a
+		add_political_power = -5
+		ALG = {
+			add_timed_idea = {
+				idea = FRA_invest_from_ita
+				days = 360
+			}
+		}
+		ITA = {
+			add_ai_strategy = {
+				type = send_volunteers_desire
+				id = ALG
+				value = 200
+			}
+		}
+		ALG = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 3000
+			}
+		}
+	}
+}
+country_event = {
+	# 팽배한 반전 여론
+	id = FRA_ex_event.14
+	title = FRA_ex_event.14.t
+	desc = FRA_ex_event.14.d
+	fire_only_once = yes
+	trigger = {
+		ALG = {
+			has_idea = FRA_invest_from_ita
+		}
+		FRA = {
+			has_war_with = ALG
+		}
+	}
+	option = {
+		name = FRA_ex_event.14.a
+		add_political_power = -5
+		add_ideas = FRA_ALG_war_peace
 	}
 }

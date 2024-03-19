@@ -3926,7 +3926,7 @@ FRA_ALG_war= {
 		is_good = no 
 		fire_only_once = no                            
 		selectable_mission = no  
-		days_mission_timeout = 100
+		days_mission_timeout = 80
 		timeout_effect = {
 			custom_effect_tooltip = FRA_ALG_going_bad_tt
 			add_to_variable = {
@@ -3948,8 +3948,55 @@ FRA_ALG_war= {
 					ALG_independence_var > 5
 				}
 			}
+			owns_state = 459
 		}
 		priority = -10
 		cost = 50
+		remove_effect = {
+			release = ALG
+			clr_country_flag = FRA_ALG_started
+			remove_mission = FRA_ALG_going_bad
+		}
+	}
+	FRA_ALG_war_gg = { #철수 
+		icon = GFX_decision_generic_operation
+		allowed = {
+			always = yes
+		}
+		visible = {has_country_flag = FRA_ALG_started has_war_with = ALG}
+		available = {
+			has_war_with = ALG
+			has_idea = FRA_ALG_war_peace
+		}
+		priority = -10
+		remove_effect = {
+			white_peace = ALG
+			every_country = {
+				limit = {
+					has_war_with = ALG
+				}
+				white_peace = ALG
+			}
+		}
+		ai_will_do = {
+			base = 100
+		}
+	}
+	FRA_ALG_war_ita = { #이탈리아의 방해
+		icon = GFX_decision_generic_operation
+		allowed = {
+			always = yes
+		}
+		visible = {has_country_flag = FRA_ALG_started has_war_with = ALG}
+		available = {
+			NOT = {
+				has_war_with = ALG
+			}
+		}
+		priority = 10
+		days_mission_timeout = 60
+		timeout_effect = {
+			country_event = FRA_ex_event.13
+		}
 	}
 }
