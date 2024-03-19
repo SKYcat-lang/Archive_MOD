@@ -1183,6 +1183,7 @@ focus_tree = {
 		available = {
 			NOT = {
 				has_completed_focus = MIL_hierarchy
+				has_completed_focus = MIL_himari_expulsion
 			}
 		}
 		x = -2
@@ -3378,7 +3379,7 @@ focus_tree = {
 		icon = GFX_goal_generic_improve_relations
 		cost = 10.00
 		prerequisite = { focus = MIL_new_path }
-		mutually_exclusive = { focus = MIL_Himari_leader focus = MIL_rule_discipline }
+		mutually_exclusive = { focus = MIL_Himari_leader focus = MIL_purpose_of_the_revolution }
 		x = 3
 		y = 1
 		relative_position_id = MIL_new_path
@@ -3593,15 +3594,65 @@ focus_tree = {
 		}	
 	}
 
+	focus = { # 규칙과 규율
+		id = MIL_rule_discipline
+		icon = GFX_goal_generic_military_deal
+		cost = 5.00
+		prerequisite = { focus = MIL_militaryfirst_politics }
+		mutually_exclusive = { focus = MIL_himari_expulsion }
+		x = 2
+		y = 1
+		relative_position_id = MIL_militaryfirst_politics
+		completion_reward = {
+			custom_effect_tooltip = MIL_rule_discipline_tt
+			add_to_variable = { MIL_CnC_dynamic_modifier_political_power_factor = -0.05 }
+			add_to_variable = { MIL_CnC_dynamic_modifier_stability_factor = 0.10 }
+		}	
+	}
+
+	focus = { # 히마리 축출
+		id = MIL_himari_expulsion
+		icon = GFX_focus_MIL_depose_himari
+		cost = 10.00
+		prerequisite = { focus = MIL_militaryfirst_politics }
+		mutually_exclusive = { focus = MIL_rule_discipline }
+		available = {
+			NOT = {
+				has_completed_focus = MIL_communist_society
+				has_completed_focus = MIL_Himari_leader
+				has_completed_focus = MIL_handling_CnC
+			}
+		}
+		x = 4
+		y = 1
+		relative_position_id = MIL_militaryfirst_politics
+		completion_reward = {
+			custom_effect_tooltip = MIL_himari_expulsion_tt
+			custom_effect_tooltip = enter_tt
+			add_to_variable = { MIL_CnC_dynamic_modifier_conscription_factor = 0.10 }
+			remove_ideas = MIL_neutrality_idea
+			set_politics = {
+				ruling_party = fascism
+    			elections_allowed = no
+    			election_frequency = 48
+			}
+		}	
+	}
+
 	focus = { # 패권 추구
 		id = MIL_pursuit_of_hegemony
 		icon = GFX_focus_generic_support_the_left_right
 		cost = 5.00
-		prerequisite = { focus = MIL_militaryfirst_politics }
-		x = 3
-		y = 1
+		prerequisite = { focus = MIL_himari_expulsion }
+		x = 4
+		y = 2
 		relative_position_id = MIL_militaryfirst_politics
 		completion_reward = {
+			custom_effect_tooltip = MMIL_threat_exclusion_tt
+			add_to_variable = { MIL_CnC_dynamic_modifier_army_core_attack_factor = -0.03 }
+			add_to_variable = { MIL_CnC_dynamic_modifier_army_attack_factor = 0.05 }
+			custom_effect_tooltip = enter_tt
+			add_stability = -0.05
 			add_war_support = 0.10
 		}	
 	}
@@ -3610,14 +3661,14 @@ focus_tree = {
 		id = MIL_defense_of_neutrality
 		icon = GFX_focus_generic_diplomatic_treaty
 		cost = 5.00
-		prerequisite = { focus = MIL_pursuit_of_hegemony }
+		prerequisite = { focus = MIL_pursuit_of_hegemony focus = MIL_rule_discipline focus = MIL_himari_expulsion }
 		mutually_exclusive = { focus = MIL_threat_exclusion }
 		x = -1
 		y = 1
 		relative_position_id = MIL_pursuit_of_hegemony
 		completion_reward = {
 			custom_effect_tooltip = MIL_defense_of_neutrality_tt
-			add_to_variable = { MIL_semina_idea_army_core_defence_factor = 0.02 }
+			add_to_variable = { MIL_semina_idea_army_core_defence_factor = 0.05 }
 			custom_effect_tooltip = enter_tt
 			add_stability = 0.10
 		}	
@@ -3633,26 +3684,9 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_pursuit_of_hegemony
 		completion_reward = {
-			custom_effect_tooltip = MMIL_threat_exclusion_tt
-			add_to_variable = { MIL_CnC_dynamic_modifier_army_core_attack_factor = -0.05 }
-			add_to_variable = { MIL_CnC_dynamic_modifier_army_attack_factor = 0.02 }
-			custom_effect_tooltip = enter_tt
-			add_stability = -0.10
-			add_war_support = 0.10
-		}	
-	}
-
-	focus = { # 광기 저지
-		id = MIL_stop_the_madness
-		icon = GFX_focus_generic_anti_fascist_diplomacy
-		cost = 10.00
-		prerequisite = { focus = MIL_threat_exclusion }
-		x = 0
-		y = 1
-		relative_position_id = MIL_threat_exclusion
-		completion_reward = {
 			every_country = {
 				limit = {
+					NOT = { is_ally_with = MIL }
 					OR = {
 						AND = {
 							has_government = fascism
@@ -3662,9 +3696,14 @@ focus_tree = {
 						has_added_tension_amount > 10
 					}
 				}
-				create_wargoal = {
-					type = puppet_wargoal_focus
-					target = PREV
+				custom_effect_tooltip = war_aim_against_the_country_puppetization_tt
+				hidden_effect = {
+					MIL = {
+						create_wargoal = {
+							type = puppet_wargoal_focus
+							target = PREV
+						}
+					}
 				}
 			}
 		}	
@@ -3702,6 +3741,11 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_revolutionary_militarism
 		completion_reward = {
+			add_trait = {
+				character = MIL_akzl
+				slot = political_advisor
+				trait = princess_of_terror
+			}
 		}	
 	}
 
@@ -3745,12 +3789,15 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_discipline_comes_first focus = MIL_political_solidarity }
 		mutually_exclusive = { focus = MIL_strengthening_officer_organization }
+		available = {
+			NOT = { has_completed_focus = MIL_himari_expulsion }
+		}
 		x = -1
 		y = 2
 		relative_position_id = MIL_remove_opposition
 		completion_reward = {
 			custom_effect_tooltip = MIL_handling_CnC_tt
-			add_to_variable = { MIL_CnC_dynamic_modifier_conscription = -0.01 }
+			add_to_variable = { MIL_CnC_dynamic_modifier_conscription = -0.02 }
 			add_to_variable = { MIL_CnC_dynamic_modifier_army_attack_factor = 0.05 }
 			add_to_variable = { MIL_CnC_dynamic_modifier_army_defence_factor = 0.05 }
 			add_to_variable = { MIL_CnC_dynamic_modifier_fascism_acceptance = -30 }
@@ -3769,14 +3816,14 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = MIL_strengthening_officer_organization_tt
 			add_to_variable = { MIL_CnC_dynamic_modifier_political_power_factor = 0.10 }
-			add_to_variable = { MIL_CnC_dynamic_modifier_conscription = 0.03 }
+			add_to_variable = { MIL_CnC_dynamic_modifier_conscription = 0.02 }
 			add_to_variable = { MIL_CnC_dynamic_modifier_army_attack_factor = -0.08 }
 			add_to_variable = { MIL_CnC_dynamic_modifier_army_defence_factor = -0.08 }
 		}	
 	}
 
 	focus = { # 규칙, 규율
-		id = MIL_rule_discipline
+		id = MIL_purpose_of_the_revolution
 		icon = GFX_focus_ETH_ecole_militaire_haile_selassie_1er
 		cost = 10.00
 		prerequisite = { focus = MIL_remove_opposition }
@@ -3802,7 +3849,7 @@ focus_tree = {
 		icon = GFX_MIL_leader
 		cost = 10.00
 		prerequisite = { focus = MIL_student_council_President_himari }
-		mutually_exclusive = { focus = MIL_institutional_revolution focus = MIL_rule_discipline }
+		mutually_exclusive = { focus = MIL_institutional_revolution focus = MIL_purpose_of_the_revolution }
 		x = 0
 		y = 4
 		relative_position_id = MIL_dismantling_authoritarianism
