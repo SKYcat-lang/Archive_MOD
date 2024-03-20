@@ -73,6 +73,10 @@ focus_tree = {
 				id = 3583
 				name = ABY_ostrava
 			}
+			set_cosmetic_tag = ABY_czech_republic
+			set_capital = {
+				state = 9
+			}
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -137,6 +141,10 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.1
+			}
 		}
 	}
 	focus = {
@@ -270,24 +278,33 @@ focus_tree = {
 		x = -1      #좌표
 		y = 2
 		relative_position_id = ABY_focus_intact_slovakia
-		bypass = {
-			NOT = { 
-				country_exists = SLO
-			}#중점 통과 조건
+		bypass = {#중점 통과 조건
 		}
 		available = {
-			country_exists = SLO#중점 선행조건
+			OR = {
+				SLO = {
+					is_puppet_of = ABY
+				}
+				ABY = {
+					has_full_control_of_state = 70
+					has_full_control_of_state = 71
+				}
+			}#중점 선행조건
 		}
 
 		select_effect = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			SLO = {
-				country_event = {
-					id = ABY_new_event.66
-				}
-			}#중점 완료시 얻는 보상
+			annex_country = { 
+				target = SLO 
+				transfer_troops = yes 
+			}  
+			70 = {add_core_of = ABY}
+			71 = {add_core_of = ABY}
+			73 = {add_core_of = ABY}
+			664 = {add_core_of = ABY}
+			set_cosmetic_tag = ABY_czechoslovakia_socialism_republic#중점 완료시 얻는 보상
 		}
 	}
 	
@@ -353,6 +370,7 @@ focus_tree = {
 		available = {
 			
 			custom_trigger_tooltip = {
+				NOT = {has_completed_focus = ABY_focus_gyeyak}
 				tooltip = ABY_no_people_tt		
 				NOT = {
 					has_idea = ABY_idea_no_people
@@ -375,6 +393,17 @@ focus_tree = {
 				name = ABY_democratic_unite_party
 			}
 			promote_character = ABYDOS_sudete_2
+			custom_effect_tooltip = ABY_flag_abydos_army_tt
+			set_country_flag = ABY_flag_abydos_army
+			hidden_effect = {
+				set_rule = {
+					can_generate_female_aces = yes
+					can_generate_female_unit_leaders = yes
+				}
+				add_ideas = {
+					BA_alternative_portrait_idea
+				}
+			}
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -432,6 +461,9 @@ focus_tree = {
 				country_event = {
 					id = ABY_new_event.11
 				}
+			}
+			remove_power_balance = {
+				id = ABY_power_balance
 			}#중점 완료시 얻는 보상
 		}
 	}
@@ -705,24 +737,35 @@ focus_tree = {
 		x = 1      #좌표
 		y = 2
 		relative_position_id = ABY_focus_intact_slovakia
-		bypass = {
-			NOT = { 
-				country_exists = SLO
-			}#중점 통과 조건
+		bypass = {#중점 통과 조건
 		}
 		available = {
-			country_exists = SLO#중점 선행조건
+			OR = {
+				SLO = {
+					is_puppet_of = ABY
+				}
+				ABY = {
+					has_full_control_of_state = 70
+					has_full_control_of_state = 71
+				}
+			}
+			#중점 선행조건
 		}
 
 		select_effect = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			SLO = {
-				country_event = {
-					id = ABY_new_event.66
-				}
-			}#중점 완료시 얻는 보상
+			annex_country = { 
+				target = SLO 
+				transfer_troops = yes 
+			}
+			70 = {add_core_of = ABY}
+			71 = {add_core_of = ABY}
+			73 = {add_core_of = ABY}
+			664 = {add_core_of = ABY}
+			set_cosmetic_tag = ABY_czechoslovakia_republic
+			#중점 완료시 얻는 보상
 		}
 	}
 	focus = {
@@ -3289,7 +3332,6 @@ focus_tree = {
 			#중점 통과 조건
 		}
 		available = {
-			communism > 0.25
 			#중점 선행조건
 		}
 
@@ -3317,6 +3359,9 @@ focus_tree = {
 		prerequisite = {  
 			focus = ABY_focus_civil_cooperate#이전 중점
 		}
+		prerequisite = {  
+			focus = ABY_focus_unite_czech#이전 중점
+		}
 		mutually_exclusive = {
 			#반대되는 중점
 		}
@@ -3327,7 +3372,19 @@ focus_tree = {
 			#중점 통과 조건
 		}
 		available = {
-			#중점 선행조건
+			NOT = {has_completed_focus = ABY_focus_move_power}
+			custom_trigger_tooltip = {
+				tooltip = ABY_no_people_tt		
+				NOT = {
+					has_idea = ABY_idea_no_people
+					has_idea = ABY_idea_no_people_2
+					has_idea = ABY_idea_no_people_3
+					has_idea = ABY_idea_no_people_4
+					has_idea = ABY_idea_no_people_5
+					has_idea = ABY_idea_no_people_6
+				}
+			}
+			communism > 0.5#중점 선행조건
 		}
 
 		select_effect = {
@@ -3336,7 +3393,11 @@ focus_tree = {
 		completion_reward = {
 			country_event = {
 				id = ABY_new_event.8 #이벤트 이름
-			}#중점 완료시 얻는 보상
+			}
+			set_politics = {
+				ruling_party = communism
+			}
+			set_cosmetic_tag = ABY_czech_socialism_republic#중점 완료시 얻는 보상
 		}
 	}
 	focus = {
@@ -3943,6 +4004,7 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
+			set_cosmetic_tag = ABY_czechoslovakia_soviet_socialism_republic
 			#중점 완료시 얻는 보상
 		}
 	}
