@@ -1,3 +1,98 @@
+BA_halo_infantry_cap_edit_effect = { 
+	#이것은 수정하려는 국가 범위에서 변수와 함께 실행해야 합니다. 그리고 이 효과는 히든 이펙트로 감싸져 있기에 보이지 않습니다.
+	#그러기에 BA_main_I_english.yml 에 정의된 kivotos_halo_add6_tt와 같은 이펙트 툴팁과 함께 사용해야 합니다
+	#예시:
+	# custom_effect_tooltip = kivotos_halo_add6_tt
+	# set_variable = { BA_halo_infantry_cap_edit_var = 6 }
+	# BA_halo_infantry_cap_edit_effect = yes
+	#
+	hidden_effect = {
+		if = {
+			limit = {
+				NOT = { has_country_flag = BA_ban_halo_infantry_flag }
+			}
+			if = {
+				limit = {
+					has_template = "Halo Infantry Division"
+				}
+				add_to_variable = { halo_infantry_cap = BA_halo_infantry_cap_edit_var }
+				set_division_template_cap = {
+					division_template = "Halo Infantry Division"
+					division_cap = halo_infantry_cap
+				}
+			}
+			else = {
+				division_template = {
+					name = "Halo Infantry Division"		
+					division_names_group = BA_HAL_01
+					is_locked = yes
+					force_allow_recruiting = yes
+					division_cap = 0
+					regiments = {
+						halo_infantry = { x = 0 y = 0 }
+						halo_infantry = { x = 0 y = 1 }
+						halo_infantry = { x = 0 y = 2 }
+						halo_infantry = { x = 1 y = 0 }
+						halo_infantry = { x = 1 y = 1 }
+						halo_infantry = { x = 1 y = 2 }
+						halo_infantry = { x = 2 y = 0 }
+						halo_infantry = { x = 2 y = 1 }
+						halo_infantry = { x = 2 y = 2 }
+					}
+					support = {
+						halo_recon = { x = 0 y = 0 }
+						engineer = { x = 0 y = 1 }
+						artillery = { x = 0 y = 2 }
+						anti_air = { x = 0 y = 3 }
+					}
+				}
+				add_to_variable = { halo_infantry_cap = BA_halo_infantry_cap_edit_var }
+				set_division_template_cap = {
+					division_template = "Halo Infantry Division"
+					division_cap = halo_infantry_cap
+				}
+			}
+		}
+		else = {
+			set_division_template_cap = {
+				division_template = "Halo Infantry Division"
+				division_cap = 0
+			}
+		}
+		set_variable = { BA_halo_infantry_cap_edit_var = 0 }
+	}
+}
+
+BA_puppet_on_action_effect = { #이것은 종주국이 ROOT 일때 괴뢰국 범위(EX: TAG = { BA_puppet_on_action_effect = yes }) 에서 실행해야 합니다.
+	custom_effect_tooltip = BA_puppet_on_action_effect_tt #이것은 툴팁입니다.
+	hidden_effect = {
+		if = {
+			limit = {
+				has_template = "Halo Infantry Division"
+			}
+			set_country_flag = BA_ban_halo_infantry_flag # 헤일로 보병 밴
+			delete_unit_template_and_units = {
+				division_template = "Halo Infantry Division"
+				disband = yes
+			}
+			ROOT = { #ROOT에 효과를 주기 때문에, ROOT가 종주국일 때 실행해야 합니다.
+				if = {
+					limit = {
+						has_template = "Halo Infantry Division"
+					}
+					add_to_variable = {
+						ROOT.halo_infantry_cap = 2
+					}
+					set_division_template_cap = {
+						division_template = "Halo Infantry Division"
+						division_cap = ROOT.halo_infantry_cap
+					}
+				}
+			}
+		}
+	}
+}
+
 TRM_won_the_gehenna_effect = {
 	TRM = {
 		set_country_flag = TRINITY_WON_THE_GEHENNA
@@ -279,36 +374,6 @@ GEH_gourmet_research_society_down_effect = {
 		add_days_mission_timeout = {
 			mission = GEH_gourmet_research_society_up
 			days = 30
-		}
-	}
-}
-
-
-BA_puppet_on_action_effect = {
-	custom_effect_tooltip = BA_puppet_on_action_effect_tt
-	hidden_effect = {
-		if = {
-			limit = {
-				has_template = "Halo Infantry Division"
-			}
-			delete_unit_template_and_units = {
-				division_template = "Halo Infantry Division"
-				disband = yes
-			}
-			ROOT = {
-				if = {
-					limit = {
-						has_template = "Halo Infantry Division"
-					}
-					add_to_variable = {
-						ROOT.halo_infantry_cap = 2
-					}
-					set_division_template_cap = {
-						division_template = "Halo Infantry Division"
-						division_cap = ROOT.halo_infantry_cap
-					}
-				}
-			}
 		}
 	}
 }
