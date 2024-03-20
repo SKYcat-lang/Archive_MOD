@@ -21,7 +21,8 @@ BA_halo_infantry_cap_edit_effect = {
 					division_cap = halo_infantry_cap
 				}
 			}
-			else = {
+			else_if = {
+				limit = { has_tech = kivotos_infantry_weapons }
 				division_template = {
 					name = "Halo Infantry Division"		
 					division_names_group = BA_HAL_01
@@ -63,6 +64,77 @@ BA_halo_infantry_cap_edit_effect = {
 	}
 }
 
+BA_halo_infantry_ban_effect = { #실행된 범위의 헤일로 보병을 0으로 만들고 헤일로 보병 사단 추가 효과에 영향을 받지 않게 만듭니다.
+	hidden_effect = {
+		set_country_flag = BA_ban_halo_infantry_flag # 헤일로 보병 밴
+		if = {
+			limit = {
+				has_template = "Halo Infantry Division"
+			}
+			set_division_template_cap = {
+				division_template = "Halo Infantry Division"
+				division_cap = 0
+			}
+		}
+	}
+}
+
+BA_halo_infantry_unban_effect = { #이것은 단순히 실행된 범위의 헤일로 보병 밴을 제거합니다
+	hidden_effect = {
+		if = { # 헤일로 보병 밴 해제 하는 것
+			limit = { has_country_flag = BA_ban_halo_infantry_flag }
+			clr_country_flag = BA_ban_halo_infantry_flag # 헤일로 보병 밴 해제
+		}
+		if = {
+			limit = {
+				has_template = "Halo Infantry Division"
+			}
+			set_division_template_cap = {
+				division_template = "Halo Infantry Division"
+				division_cap = halo_infantry_cap
+			}
+		}
+		else_if = { #만약 편제가 없지만 연구가 되어있다면 편제를 만들어 줍니다.
+			limit = { has_tech = kivotos_infantry_weapons }
+			hidden_effect = {
+				set_variable = { ROOT.halo_infantry_cap = 0 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함'
+				if = {
+					limit = {
+						NOT = { has_template = "Halo Infantry Division" }
+					}
+					
+					division_template = {
+						name = "Halo Infantry Division"		
+						division_names_group = BA_HAL_01
+						is_locked = yes
+						force_allow_recruiting = yes
+						division_cap = 0
+						regiments = {
+							halo_infantry = { x = 0 y = 0 }
+							halo_infantry = { x = 0 y = 1 }
+							halo_infantry = { x = 0 y = 2 }
+							halo_infantry = { x = 1 y = 0 }
+							halo_infantry = { x = 1 y = 1 }
+							halo_infantry = { x = 1 y = 2 }
+							halo_infantry = { x = 2 y = 0 }
+							halo_infantry = { x = 2 y = 1 }
+							halo_infantry = { x = 2 y = 2 }
+						}
+						support = {
+							halo_recon = { x = 0 y = 0 }
+							engineer = { x = 0 y = 1 }
+							artillery = { x = 0 y = 2 }
+							anti_air = { x = 0 y = 3 }
+						}
+					}
+				}
+				set_variable = { BA_halo_infantry_cap_edit_var = 6 }
+				BA_halo_infantry_cap_edit_effect = yes
+			}
+		}
+	}
+}
+
 BA_puppet_on_action_effect = { #이것은 종주국이 ROOT 일때 괴뢰국 범위(EX: TAG = { BA_puppet_on_action_effect = yes }) 에서 실행해야 합니다.
 	custom_effect_tooltip = BA_puppet_on_action_effect_tt #이것은 툴팁입니다.
 	hidden_effect = {
@@ -71,9 +143,9 @@ BA_puppet_on_action_effect = { #이것은 종주국이 ROOT 일때 괴뢰국 범
 				has_template = "Halo Infantry Division"
 			}
 			set_country_flag = BA_ban_halo_infantry_flag # 헤일로 보병 밴
-			delete_unit_template_and_units = {
+			set_division_template_cap = {
 				division_template = "Halo Infantry Division"
-				disband = yes
+				division_cap = 0
 			}
 			ROOT = { #ROOT에 효과를 주기 때문에, ROOT가 종주국일 때 실행해야 합니다.
 				if = {
