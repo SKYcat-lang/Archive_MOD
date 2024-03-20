@@ -1912,7 +1912,7 @@ focus_tree = {
 	}
 	continuous_focus_position = { x = 50 y = 1100 }
     #shared_focus = GEH_ready_for_war
-	#shared_focus = GEH_unified_gehenna
+	shared_focus = GEH_unified_gehenna
 	focus = {
 		id = GEH_Evict_Wehrmacht
 		icon = GFX_focus_ger_oppose_hitler
@@ -2442,7 +2442,6 @@ focus_tree = {
             date > 1940.1.1
 			is_puppet = no
 			NOT = { is_in_faction_with = TRM }
-			NOT = { is_in_faction_with = MIL }
 			has_army_manpower = { size > 399999 }
 			check_variable = { num_equipment_in_armies_k@infantry_equipment > 16 }
 			custom_trigger_tooltip = {
@@ -2526,7 +2525,7 @@ focus_tree = {
 			}
 			add_timed_idea = {
 				idea = GEH_state_government_remove_idea
-				days = 60
+				days = 30
 			}
 		}
 	}
@@ -2697,7 +2696,7 @@ focus_tree = {
 		}
 		completion_reward = {
             custom_effect_tooltip = GEH_factory_focus_1_tt
-            add_to_variable = { GEH_PL_local_building_slots_factor = 0.15 }
+            add_to_variable = { GEH_PL_local_building_slots_factor = 0.10 }
 		}
 	}
     focus = {
@@ -2879,6 +2878,9 @@ focus_tree = {
             if = {
                 limit = { has_idea = GEH_individualism_low }
                 remove_ideas = GEH_individualism_low
+            }
+            else = {
+                army_experience = 50
             }
 		}
 	}
@@ -3215,7 +3217,6 @@ focus_tree = {
 		}
 		available = { }
 		completion_reward = { 
-
         }
 	}
     focus = {
@@ -3382,13 +3383,13 @@ focus_tree = {
     focus = {
 		id = GEH_Trinity_war
 		icon = GFX_focus_attack_TRN
-		cost = 5
+		cost = 1
 		x = 12
 		y = 0
         relative_position_id = GEH_first_congress_focus
 		ai_will_do = { base = 1000 }
         available = {
-
+            has_war_with = TRM
         }
 		allow_branch = {
 			GEH_is_phase_three_trigger = yes
@@ -3399,7 +3400,8 @@ focus_tree = {
 	}
     focus = {
 		id = GEH_war_focus_1
-		icon = GFX_focus_attack_TRN
+        text = GEM_defend_gehenna
+		icon = GFX_goal_generic_military_sphere
 		cost = 5
 		x = -1
 		y = 1
@@ -3411,12 +3413,71 @@ focus_tree = {
 		available = {
 		}
 		completion_reward = {
-			add_war_support = 0.1
+			add_ideas = GEM_ethnic_hatred_idea
+		}
+	}
+    focus = {
+		id = GEH_war_focus_5
+        text = GEM_ethnic_hatred
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		cost = 5
+		x = 0
+		y = 1
+        relative_position_id = GEH_war_focus_1
+		ai_will_do = { base = 1000 }
+        prerequisite = {
+            focus = GEH_war_focus_1
+        }
+		available = {
+            has_full_control_of_state = 59
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = GEM_ethnic_hatred_idea
+				}
+				swap_ideas = {
+					remove_idea = GEM_ethnic_hatred_idea
+					add_idea = GEM_ethnic_hatred_idea_2
+				}
+				else = {
+					add_ideas = GEM_ethnic_hatred_idea_2
+				}
+			}
+		}
+	}
+    focus = {
+		id = GEH_war_focus_6
+        text = GEM_march_of_the_demons
+		icon = GFX_goal_generic_territory_or_war
+		cost = 5
+		x = 0
+		y = 3
+        relative_position_id = GEH_war_focus_1
+		ai_will_do = { base = 1000 }
+        prerequisite = {
+            focus = GEH_war_focus_5
+        }
+		available = {
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = GEM_ethnic_hatred_idea_2
+				}
+				swap_ideas = {
+					remove_idea = GEM_ethnic_hatred_idea_2
+					add_idea = GEM_ethnic_hatred_idea_3
+				}
+				else = {
+					add_ideas = GEM_ethnic_hatred_idea_3
+				}
+			}
 		}
 	}
     focus = {
 		id = GEH_war_factory_focus_1
-		icon = GFX_goal_generic_production2
+		icon = GFX_focus_generic_reorient_production
 		cost = 5
 		x = 2
 		y = 1
@@ -3428,29 +3489,13 @@ focus_tree = {
 		available = {
 		}
 		completion_reward = {
-			add_war_support = 0.1
-		}
-	}
-    focus = {
-		id = GEH_war_factory_focus_2
-		icon = GFX_focus_attack_TRN
-		cost = 5
-		x = 1
-		y = 1
-        relative_position_id = GEH_war_factory_focus_1
-		ai_will_do = { base = 1000 }
-        prerequisite = {
-            focus = GEH_war_factory_focus_1
-        }
-		available = {
-		}
-		completion_reward = {
-			add_war_support = 0.1
+            add_one_random_military_factory = yes
+            add_one_random_military_factory = yes
 		}
 	}
     focus = {
 		id = GEH_war_factory_focus_3
-		icon = GFX_focus_attack_TRN
+		icon = GFX_focus_generic_annex_country
 		cost = 5
 		x = -1
 		y = 1
@@ -3462,7 +3507,125 @@ focus_tree = {
 		available = {
 		}
 		completion_reward = {
-			add_war_support = 0.1
+		    add_offsite_building = {
+			    type = arms_factory
+			    level = 2
+		    }
+		}
+	}
+    focus = {
+		id = GEH_war_factory_focus_4
+		icon = GFX_goal_generic_army_artillery2
+		cost = 5
+		x = 1
+		y = 1
+        relative_position_id = GEH_war_factory_focus_1
+		ai_will_do = { base = 1000 }
+        prerequisite = {
+            focus = GEH_war_factory_focus_1
+        }
+		available = {
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				name = GEH_west_army_focus_3
+				bonus = 0.75
+				uses = 2
+				ahead_reduction = 2
+				category = artillery
+			}
+			add_doctrine_cost_reduction = {
+				name = GEH_war_factory_focus_4
+				cost_reduction = 0.75
+				uses = 1
+				category = land_doctrine
+			}
+            add_ideas=GEH_defense_industry_artillery_bonus
+		}
+	}
+    focus = {
+		id = GEH_war_focus_2
+		icon = GFX_goal_generic_propaganda
+		cost = 5
+		x = -2
+		y = 1
+        relative_position_id = GEH_war_focus_1
+		ai_will_do = { base = 1000 }
+        prerequisite = {
+            focus = GEH_war_focus_1
+        }
+		available = {
+		}
+		completion_reward = {
+            add_war_support = 0.05
+            add_stability = 0.05
+		}
+	}
+    focus = {
+		id = GEH_war_focus_3
+		icon = GFX_focus_generic_anti_fascist_diplomacy
+		cost = 5
+		x = -1
+		y = 1
+        relative_position_id = GEH_war_focus_2
+		ai_will_do = { base = 1000 }
+        prerequisite = {
+            focus = GEH_war_focus_2
+        }
+		available = {
+		}
+		completion_reward = {
+			add_stability = 0.05
+            TRM = {
+                add_stability = -0.05
+            }
+		}
+	}
+    focus = {
+		id = GEH_unlimited_conscription
+		icon = GFX_goal_generic_military_sphere
+		cost = 5
+		x = 1
+		y = 1
+        relative_position_id = GEH_war_focus_2
+		ai_will_do = { base = 1000 }
+        prerequisite = {
+            focus = GEH_war_focus_2
+        }
+		available = {
+		}
+		completion_reward = {
+            add_ideas = GEH_unlimited_conscription
+		}
+	}
+    focus = {
+		id = GEH_HID_war_focus
+		icon = GFX_goal_continuous_boost_freedom
+		cost = 10
+		x = 3
+		y = 1
+        relative_position_id = GEH_Trinity_war
+		ai_will_do = { base = 0 }
+        available = {
+            is_ai = no
+        }
+        prerequisite = {
+            focus = GEH_Trinity_war
+        }
+		available = {
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_full_control_of_state = 59 }
+				}
+				59 = { add_resistance = 10 }
+			}
+			uncomplete_national_focus = {
+				focus = GEH_HID_war_focus
+				uncomplete_children = yes
+				refund_political_power = no
+			}
 		}
 	}
 }

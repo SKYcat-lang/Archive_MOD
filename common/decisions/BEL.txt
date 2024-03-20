@@ -1,0 +1,254 @@
+BEL_industrialize = {
+	BEL_emergency_mobilization = {
+		icon = generic_operation
+		allowed = {
+			original_tag = BEL
+		}
+		visible = {
+			has_completed_focus = BEL_recolonize
+		}
+		available = {
+			has_completed_focus = BEL_recolonize			
+		}
+
+		fire_only_once = yes		
+
+		complete_effect = {
+			remove_ideas = BEL_exile_shock
+			country_event = {
+				id = BEL_recov_events.1
+				days = 3
+			}
+			set_country_flag = BEL_emergency_mobilization
+		}
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	BEL_industrialize_leopoldvile = {
+		icon = generic_operation
+
+		allowed = {
+			original_tag = BEL
+		}
+
+		visible = {
+			has_completed_focus = BEL_recolonize
+			NOT = { has_idea = BEL_resistance_problem }
+			NOT = { country_exists = COG }
+			NOT = { country_exists = RWA }
+			NOT = { country_exists = BRD }
+		}
+
+		available = {
+			295 = {
+				is_controlled_by = BEL
+			}
+			has_completed_focus = BEL_recolonize			
+			NOT = { has_idea = BEL_resistance_problem }
+			NOT = { country_exists = COG }
+			NOT = { country_exists = RWA }
+			NOT = { country_exists = BRD }
+		}
+
+		fire_only_once = yes		
+
+		cost = 100
+
+		ai_will_do = {
+			factor = 200
+		}
+
+		days_remove = 100
+
+		remove_effect = {
+			295 = {
+				BA_increase_state_category_by_one_level = yes
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+				}
+				add_building_construction = {
+					type = dockyard
+					level = 2
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+				}
+			}
+		}
+	}
+}
+
+BEL_colony_coreing = { # 알박기
+	BEL_colony_coring = {
+		icon = generic_operation
+		
+		allowed = {
+			original_tag = BEL
+		}
+		visible = {
+			has_completed_focus = BEL_recolonize
+			AND = {
+				NOT = { has_idea = BEL_resistance_problem }
+				NOT = { country_exists = COG }
+				NOT = { country_exists = RWA }
+				NOT = { country_exists = BRD }
+			}
+		}
+		available = {
+			has_completed_focus = BEL_recolonize
+			AND = {
+				NOT = { has_idea = BEL_resistance_problem }
+				NOT = { country_exists = COG }
+				NOT = { country_exists = RWA }
+				NOT = { country_exists = BRD }
+			}
+		}
+
+		on_map_mode = map_and_decisions_view
+		state_target = yes
+
+		highlight_states = {
+			highlight_state_targets = {
+				state = FROM
+			}
+			highlight_color_while_active = 3
+			highlight_color_before_active = 2
+		}
+
+		target_array = BEL.controlled_states
+
+		fire_only_once = yes
+
+		cost = 100
+
+		days_remove = 100
+
+		remove_effect = {
+			FROM = {
+				add_core_of = BEL
+				add_manpower = -30000
+			}
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+	}
+}
+
+
+BEL_colony_civil_war = {
+	BEL_powerful_suppress = { # 강경한 진압
+		icon = generic_operation
+		allowed = {
+			original_tag = BEL
+		}
+		visible = {
+		}
+
+		available = {
+			NOT = { has_country_flag = BEL_using_civil_war_decision }
+		}
+
+		fire_only_once = no
+
+		modifier = {
+			army_attack_factor = 0.15
+			army_defence_factor = 0.15
+		}
+
+		complete_effect = {
+			set_country_flag = BEL_using_civil_war_decision			
+		}
+		remove_effect = {
+			clr_country_flag = BEL_using_civil_war_decision
+		}
+
+		days_remove = 60
+		days_re_enable = 60
+
+		cost = 20
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	# 점령지 안정화
+	BEL_occupation_stabilization = {
+		icon = generic_operation
+		allowed = {
+			original_tag = BEL
+		}
+
+		available = {
+			NOT = { has_country_flag = BEL_using_civil_war_decision }
+		}
+
+		visible = {
+		}
+
+		fire_only_once = no		
+
+		modifier = {
+			stability_weekly_factor = 0.005
+		}
+
+		complete_effect = {
+			set_country_flag = BEL_using_civil_war_decision			
+		}
+		remove_effect = {
+			clr_country_flag = BEL_using_civil_war_decision
+		}
+
+
+		days_remove = 60
+		days_re_enable = 60
+
+		cost = 20
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+	# 제국주의 정신 고취
+	BEL_imperialism = {
+		icon = generic_operation
+		allowed = {
+			original_tag = BEL
+		}
+
+		available = {
+			NOT = { has_country_flag = BEL_using_civil_war_decision }
+		}
+
+		visible = {
+		}
+
+		fire_only_once = no		
+
+		modifier = {
+			war_support_weekly = 0.005
+		}
+
+		days_remove = 60
+		days_re_enable = 60
+
+		complete_effect = {
+			set_country_flag = BEL_using_civil_war_decision			
+		}
+		remove_effect = {
+			clr_country_flag = BEL_using_civil_war_decision
+		}
+
+		cost = 20
+		ai_will_do = {
+			factor = 10
+		}
+	}
+
+}

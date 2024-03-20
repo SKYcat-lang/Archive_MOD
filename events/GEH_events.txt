@@ -774,8 +774,8 @@ country_event = { # 응급의학부 세나 고용 가능
 	
 	option = { 
 		name = GEH_event.29.a 
-		custom_effect_tooltip = available_political_advisor
-		show_ideas_tooltip = GEH_Himuro_Sena_political_advisor
+		custom_effect_tooltip = available_military_high_command
+		show_ideas_tooltip = GEH_Himuro_Sena_high_command
 	}
 }
 country_event = { # 미식연구회 또 너희야?
@@ -1872,6 +1872,143 @@ country_event = { # 만마전의 국경 봉쇄
 		add_war_support = 0.10
 	}
 }
+country_event = { # 게헨나에서의 회유 (폴란드)
+	id = GEH_event.72
+	title = GEH_event.72.t
+	desc = GEH_event.72.desc
+	picture = GFX_report_event_generic_sign_treaty1
+	
+    is_triggered_only = yes
+	
+	option = {
+		name = GEH_event.72.a
+		set_country_flag = signature_of_poland_gehenna_treaty
+		FROM = { country_event = { id = GEH_event.73 hours = 8 } }
+	}
+	option = {
+		name = GEH_event.72.b
+		FROM = { country_event = { id = GEH_event.74 hours = 8 } }
+	}
+}
+country_event = { # 게헨나에서의 회유 (폴란드) : 수락
+	id = GEH_event.73
+	title = GEH_event.73.t
+	desc = GEH_event.73.desc
+	picture = GFX_report_event_generic_sign_treaty1
+	
+    is_triggered_only = yes
+	
+	option = {
+		name = GEH_event.73.a
+		add_stability = 0.05
+		add_opinion_modifier = {
+			target = FROM
+			modifier = GEM_seduction_of_poland
+		}
+	}
+}
+country_event = { # 게헨나에서의 회유 (폴란드) : 거절
+	id = GEH_event.74
+	title = GEH_event.74.t
+	desc = GEH_event.74.desc
+	picture = GFX_report_event_generic_read_write
+	
+    is_triggered_only = yes
+	
+	option = {
+		name = GEH_event.74.a
+		add_stability = -0.02
+	}
+}
+country_event = { # 게헨나에서의 회유 (폴란드) 수락 이후 조약 준수 이벤트
+	id = GEH_event.75
+	title = GEH_event.75.t
+	desc = GEH_event.75.desc
+	picture = GFX_report_event_generic_read_write
+	
+	trigger = {
+		has_country_flag = signature_of_poland_gehenna_treaty
+	}
+
+	fire_only_once = yes
+	
+	option = {
+		name = GEH_event.75.a
+		ai_chance = {
+			base = 2
+			modifier = {
+				has_war_with = SOV
+				factor = 0
+			}
+		}
+		if = { 
+			limit = { has_war = yes }
+			add_stability = -0.05
+		}
+		add_to_war = {
+			targeted_alliance = GEM
+			enemy = TRM
+			hostility_reason = asked_to_join
+		}
+		GEM = { country_event = { id = GEH_event.76 hours = 8 } }
+	}
+	option = {
+		ai_chance = {
+			base = 1
+		}
+		trigger = {
+			NOT = { GEM = { has_offensive_war_with = TRM } }
+		}
+		name = GEH_event.75.b
+		add_stability = -0.05
+		GEM = { country_event = { id = GEH_event.77 hours = 8 } }
+	}
+	option = {
+		ai_chance = {
+			base = 20
+		}
+		trigger = {
+			GEM = { has_offensive_war_with = TRM }
+		}
+		name = GEH_event.75.b
+		add_stability = 0.05
+	}
+}
+country_event = { # 게헨나에서의 회유 (폴란드) 수락 이후 조약 준수 이벤트 : 참전
+	id = GEH_event.76
+	title = GEH_event.76.t
+	desc = GEH_event.76.desc
+	picture = GFX_report_event_generic_sign_treaty1
+	
+    is_triggered_only = yes
+	
+	option = {
+		name = GEH_event.76.a
+		add_stability = 0.02
+		add_war_support = 0.10
+		add_opinion_modifier = {
+			target = FROM
+			modifier = GEM_adherence_to_the_treaty
+		}
+	}
+}
+country_event = { # 게헨나에서의 회유 (폴란드) 수락 이후 조약 준수 이벤트 : 조약 파기
+	id = GEH_event.77
+	title = GEH_event.77.t
+	desc = GEH_event.77.desc
+	picture = GFX_report_event_generic_read_write
+	
+    is_triggered_only = yes
+	
+	option = {
+		name = GEH_event.77.a
+		add_stability = -0.02
+		add_opinion_modifier = {
+			target = FROM
+			modifier = GEM_treaty_breaker
+		}
+	}
+}
 country_event = { # 협력
 	id = GEH_event.255
 	title = GEH_event.255.t
@@ -1920,6 +2057,40 @@ country_event = { # 국방군 영향력 올라가는 이벤트
 	option = { 
 		activate_mission = GEH_securing_german_army_influence
 		name = GEH_hidden_event.1.a 
+	}
+}
+country_event = { # 일반 옷 - > 드레스로 바뀜
+	id = GEH_hidden_event.100
+	title = GEH_hidden_event.1.t
+	desc = GEH_hidden_event.1.desc
+    
+    fire_only_once = yes
+	hidden = yes
+    is_triggered_only = yes
+    immediate = {
+                set_portraits = {
+                    character = GEH_hina
+                    civilian = { 
+                        large = GFX_GEH_Hina_Dress_Portrait 
+                        small = GFX_GEH_Hina_Dress_advisor
+                    }
+                    army = { large = GFX_GEH_Hina_Dress_Portrait }
+                }
+                set_portraits = {
+                    character = GEH_dkzh
+                    civilian = { 
+                        large = GFX_GEH_Ako_Dress_Portrait 
+                        small = GFX_GEH_Ako_Dress_advisor
+                    }
+                    army = { 
+                        large = GFX_GEH_Ako_Dress_Portrait 
+                        small = GFX_GEH_Ako_Dress_advisor
+                    }
+                }
+    }
+	
+	option = {
+		name = GEH_hidden_event.1.a
 	}
 }
 add_namespace = NextPhase

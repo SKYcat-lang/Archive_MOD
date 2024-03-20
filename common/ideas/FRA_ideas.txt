@@ -1,5 +1,52 @@
 ideas = {
 	country = {
+		FRA_ALG_war_peace = { #팽배한 반전 여론
+			picture = FRA_political_violence
+			modifier = {
+				political_power_cost = 1
+			}
+			targeted_modifier = {
+				tag = ALG
+				attack_bonus_against = -0.1
+				defense_bonus_against = -0.1
+			}
+			available = {
+				has_war_with = ALG
+			}
+			on_remove = {
+				clr_country_flag = FRA_ALG_started
+			}
+		}
+		ALG_independence_war = { #알제리 독립 전쟁
+			picture = chi_war_of_resistance3
+			modifier = {
+				army_core_attack_factor = 0.2
+				army_core_defence_factor = 0.2
+				army_org_factor = 0.2
+				army_org_regain = 0.2
+				supply_consumption_factor = -0.2
+				military_factory_donations = 10
+			}
+			available = {
+				has_war_with = FRA
+			}
+		}
+		ALG_constantine_agreement = { #콩스탕틴 합의
+			picture = POL_disjointed_industry
+			targeted_modifier = {
+				tag = FRA
+				cic_to_target_factor = 0.2
+				mic_to_target_factor = 0.2
+			}
+		}
+		FRA_ALG_aftermath = { #원주민법 폐지의 여파
+			picture = tfv_can_conscription_crisis
+			modifier = {
+				non_core_manpower = -0.5
+				political_power_cost = 0.75
+				consumer_goods_factor = 0.25
+			}
+		}
 		FRA_thanks_spr = { #스페인 재건 지원
 			picture = SPR_relocate_the_gold_reserves
 			targeted_modifier = {
@@ -174,15 +221,14 @@ ideas = {
 				consumer_goods_factor = -0.05
 			}
 		}
-		FRA_MEFO = { #전쟁 채권
-			picture = ger_mefo_bills
+		FRA_MEFO = { #군수 산업 기획
+			picture = generic_acquire_tanks
 			allowed = {
 				original_tag = fra
 			}
 			modifier = {
 				production_speed_arms_factory_factor = 0.2
 				consumer_goods_expected_value = -0.05
-				civilian_factory_use = 5
 			}
 		}
 		FRA_less_working_1 = {
@@ -212,7 +258,7 @@ ideas = {
 			picture = por_iberian_workers_united
 		}
 		FRA_rescue_committee_3 = { #구국위원회
-			picture = prc_low_popular_support3
+			picture = GFX_idea_FRA_protect_country
 			allowed = {
 				original_tag = fra
 			}
@@ -227,7 +273,7 @@ ideas = {
 			}
 		}
 		FRA_rescue_committee_2 = { #구국위원회
-			picture = prc_low_popular_support3
+			picture = GFX_idea_FRA_protect_country
 			allowed = {
 				original_tag = fra
 			}
@@ -241,7 +287,7 @@ ideas = {
 			}
 		}
 		FRA_rescue_committee_1 = { #구국위원회
-			picture = prc_low_popular_support3
+			picture = GFX_idea_FRA_protect_country
 			allowed = {
 				original_tag = fra
 			}
@@ -253,7 +299,7 @@ ideas = {
 			}
 		}
 		FRA_rescue_committee = { #구국위원회
-			picture = prc_low_popular_support3
+			picture = GFX_idea_FRA_protect_country
 			allowed = {
 				original_tag = fra
 			}
@@ -657,7 +703,7 @@ ideas = {
 			}
 		}
 		FRA_lib_army_3 = {
-			name = FRA_lib_army_1
+			name = FRA_lib_army
 			#신중한 해방군
 			picture = generic_volunteer_expedition_bonus
 			allowed = {
@@ -683,7 +729,7 @@ ideas = {
 			}
 		}
 		FRA_lib_army_2 = {
-			name = FRA_lib_army_1
+			name = FRA_lib_army
 			#신중한 해방군
 			picture = generic_volunteer_expedition_bonus
 			allowed = {
@@ -707,6 +753,7 @@ ideas = {
 			}
 		}
 		FRA_lib_army_1 = {
+			name = FRA_lib_army
 			#프랑스 해방군
 			picture = generic_volunteer_expedition_bonus
 			allowed = {
@@ -1533,14 +1580,16 @@ ideas = {
 			}
 		}
 		FRA_alg_civil = {
-			#정치적 권리 확대
-			picture = generic_political_support
+			#봉사와 헌신
+			picture = generic_improved_industries
 			allowed = {
 				original_tag = fra
 			}
 			modifier = {
-				political_power_cost = 0.2
-				conscription_factor = 0.1
+				local_building_slots_factor = 0.05
+				production_speed_buildings_factor = 0.05
+				consumer_goods_factor = -0.05
+				conscription_factor = 0.05
 			}
 		}
 		FRA_purge = {
@@ -1738,6 +1787,11 @@ ideas = {
 				tag = ITA
 				defense_bonus_against = 0.05
 			}
+			available = {
+				ETH = {
+					has_capitulated = no
+				}
+			}
 		}
 		FRA_support_RAJ = { #영국령 인도 지원
 			picture = raj_all_india_forward_bloc
@@ -1745,12 +1799,22 @@ ideas = {
 				tag = HND
 				attack_bonus_against = 0.1
 			}
+			available = {
+				HND = {
+					has_war = yes
+				}
+			}
 		}
 		FRA_stop_TRM = { #트리니티 저지
 			picture = MEX_politicised_army
 			targeted_modifier = {
 				tag = TRM
 				defense_bonus_against = 0.05
+			}
+			available = {
+				TRM = {
+					has_war = yes
+				}
 			}
 		}
 		FRA_attack_GEH = { #게헨나 공격
@@ -1762,6 +1826,16 @@ ideas = {
 			targeted_modifier = {
 				tag = GEH
 				attack_bonus_against = 0.05
+			}
+			available = {
+				OR = {
+					GEA = {
+						has_war = yes
+					}
+					GEN = {
+						has_war = yes
+					}
+				}
 			}
 		}
 		FRA_invest_for_fra = { #프랑스 투자
@@ -2137,16 +2211,16 @@ ideas = {
 			}
 			modifier = {
 				stability_weekly = 0.01
-				master_ideology_drift = 0.07
-				political_power_gain = 2
+				master_ideology_drift = 0.1
+				political_power_gain = 2.5
 				stability_factor = 0.2
 				war_stability_factor = 0.2
-				ai_desired_divisions_factor = 200
 				army_attack_factor = 0.02
 				army_defence_factor = 0.02
 				army_core_attack_factor = 0.1
 				army_core_defence_factor = 0.1
 				ai_get_ally_desire_factor = -10
+				naval_invasion_prep_speed = -0.3
 			}
 			on_add = {
 				add_stability = 1
