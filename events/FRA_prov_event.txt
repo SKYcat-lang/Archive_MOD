@@ -32,7 +32,7 @@ country_event = {
 			}
 		}
 		name = FRA_prov_event.1.a
-		add_manpower = 1800
+		add_manpower = 1000
 		459 = {
 			add_manpower = 1000
 		}
@@ -3755,7 +3755,7 @@ country_event = {
 		name = FRA_prov_event.114.a
 		add_timed_idea = {
 			idea = FRA_promise
-			days = 1200
+			days = 900
 		}
 		custom_effect_tooltip = FRA_focus_12_tt
 		if = {
@@ -3796,10 +3796,14 @@ country_event = {
 	desc = FRA_prov_event.115.d
 	fire_only_once = yes
 	is_triggered_only = yes
-	option = {
+	option = { #국민투표
 		name = FRA_prov_event.115.e
 		trigger = {
 			has_idea = FRA_ally_int
+		}
+		add_timed_idea = {
+			idea = FRA_ALG_aftermath
+			days = 1000
 		}
 		hidden_effect = {
 			FRA = {
@@ -3807,12 +3811,29 @@ country_event = {
 				release = TUN
 				release = WES
 			}
+			every_owned_state = {
+				limit = {
+					is_on_continent = africa
+					OR = {
+						is_core_of = MOR
+						is_core_of = TUN
+						is_core_of = WES
+					}
+				}
+				remove_core_of = FRA
+			}
 		}
 	}
 	option = {
 		#독립시키자
 		name = FRA_prov_event.115.a
 		hidden_effect = {
+			every_owned_state = {
+				limit = {
+					is_on_continent = africa
+				}
+				remove_core_of = FRA
+			}
 			FRA = {
 				release = MOR
 				release = MRT
@@ -3835,9 +3856,13 @@ country_event = {
 		add_political_power = -200
 		add_stability = -0.1
 		add_war_support = -0.1
-		
-		custom_effect_tooltip = FRA_focus_resist_10_tt
 		hidden_effect = {
+			every_owned_state = {
+				limit = {
+					is_on_continent = africa
+				}
+				remove_core_of = FRA
+			}
 			country_event = {
 				id = FRA_ex_event.1
 				days = 360
@@ -4217,6 +4242,7 @@ country_event = {
 			idea = FRA_bill_mefo
 			days = FRA_national_defense_bond_political_power_variable
 		}
+		remove_mission = FRA_update_defense_bond
 	}
 }
 
@@ -5207,7 +5233,7 @@ country_event = {
 	}
 }
 country_event = {
-	# 밀레니엄의 프랑스 처리
+	# 개발자 이벤트 잠깐만
 	id = FRA_ex_event.2
 	title = FRA_prov_event.42.t
 	desc = FRA_prov_event.42.d
@@ -5215,6 +5241,16 @@ country_event = {
 	hidden = yes
 	is_triggered_only = yes
 	option = {
+		division_template = {
+			name = "French Resistance"		
+			division_names_group = FRA_INF_01
+			is_locked = yes
+			regiments = {
+				militia = { x = 0 y = 0 }
+				militia = { x = 0 y = 1 }
+			}
+		}
+		load_oob = FRA_port_resistance
 	}
 }
 country_event = {
