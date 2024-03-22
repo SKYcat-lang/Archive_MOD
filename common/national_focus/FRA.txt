@@ -22,6 +22,9 @@ focus_tree = {
 		icon = GFX_goal_FRA_nomoremangmyung
 		x = 10
 		y = 0
+		allow_branch = {
+			has_country_flag = FRA_exile_is_over
+		}
 		completion_reward = {
 			hidden_effect = {
 				set_cosmetic_tag = FRA_emergency
@@ -90,11 +93,7 @@ focus_tree = {
 			focus = FRA_focus.1
 		}
 		completion_reward = {
-			add_popularity = {
-				ideology = fascism
-				popularity = 0.03
-			}
-			add_manpower = -10000
+			add_manpower = -25000
 			every_state = {
 				limit = {
 					OR = {
@@ -638,7 +637,6 @@ focus_tree = {
 			}
 		}
 		completion_reward = {
-			add_stability = 0.2
 			every_state = {
 				limit = {
 					is_owned_by = FRA
@@ -673,6 +671,7 @@ focus_tree = {
 				ideology = var:current_party_ideology_group
 				popularity = 0.2
 			}
+			add_stability = 0.2
 			if = {
 				limit = {
 					FRA_military_conference = {
@@ -1342,6 +1341,9 @@ focus_tree = {
 		icon = GFX_goal_FRA_london
 		id = FRA_focus_london_bridge
 		cost = 2
+		allow_branch = {
+			has_country_flag = FRA_exile_is_over
+		}
 		x = 2
 		y = 8
 		available = {
@@ -1364,6 +1366,9 @@ focus_tree = {
 		cost = 2
 		x = 1
 		y = 10
+		allow_branch = {
+			has_country_flag = FRA_exile_is_over
+		}
 		available = {
 			always = no
 		}
@@ -1612,6 +1617,9 @@ focus_tree = {
 		cost = 2
 		x = 18
 		y = 8
+		allow_branch = {
+			has_country_flag = FRA_exile_is_over
+		}
 		icon = GFX_goal_FRA_revolution_to_the_utmost
 		available = {
 			always = no
@@ -1788,6 +1796,9 @@ focus_tree = {
 		cost = 1
 		x = 14
 		y = 8
+		allow_branch = {
+			has_country_flag = FRA_exile_is_over
+		}
 		available = {
 			OR={
 				has_idea = FRA_emergency_mobil
@@ -5401,6 +5412,109 @@ focus_tree = {
     			long_name = KOR_fascism_party_long
     			name = KOR_fascism_party
 			} 
+		}
+	}
+	focus = {
+		# 본토에서의 실패
+		id = FRA_start_0
+		icon = GFX_focus_usa_focus_on_europe
+		cost = 10
+		x = 6
+		y = 0
+		available = {
+			hidden_trigger = {
+				NOT = {
+					has_country_flag = FRA_exile_is_over
+				}
+			}
+		}
+		allow_branch = {
+			NOT = {
+				has_country_flag = FRA_exile_is_over
+			}
+		}
+		completion_reward = {
+			add_political_power = -50
+		}
+	}
+	focus = {
+		# 아프리카 경제의 전망
+		id = FRA_start_1
+		icon = GFX_focus_generic_africa_factory
+		cost = 2
+		x = 4
+		y = 1
+		available = {
+		}
+		prerequisite = {
+			focus = FRA_start_0
+		}
+		completion_reward = {
+			459 = {
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
+	}
+	focus = {
+		# 식민지와 연락 시도
+		id = FRA_start_2
+		icon = GFX_focus_SWE_radiotjanst
+		cost = 2
+		x = 6
+		y = 1
+		available = {
+		}
+		prerequisite = {
+			focus = FRA_start_0
+		}
+		completion_reward = {
+			release = SYR
+		}
+	}
+	focus = {
+		# 외교적 입지 재확인
+		id = FRA_start_3
+		icon = GFX_focus_renounce_the_treaty_of_trianon
+		cost = 2
+		x = 8
+		y = 1
+		available = {
+		}
+		prerequisite = {
+			focus = FRA_start_0
+		}
+		completion_reward = {
+			ENG = {
+				add_opinion_modifier = {
+					target = FRA
+					modifier = democratic_leanings_good
+				}
+			}
+		}
+	}
+	focus = {
+		# 대통령 탄핵
+		id = FRA_start_4
+		icon = GFX_focus_generic_improve_the_administration
+		cost = 2
+		x = 6
+		y = 2
+		available = {
+		}
+		prerequisite = {
+			focus = FRA_start_2
+		}
+		prerequisite = {
+			focus = FRA_start_3
+		}
+		prerequisite = {
+			focus = FRA_start_1
+		}
+		completion_reward = {
+			retire_country_leader = yes
 		}
 	}
 }

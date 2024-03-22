@@ -1961,6 +1961,11 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		add_ideas = FRA_emergency_mobil
+		set_party_name = {
+			ideology = fascism
+			long_name = FRA_fascism_party_resist
+			name = FRA_fascism_party_resist
+		}
 		name = FRA_prov_event.48.a
 	}
 }
@@ -2740,9 +2745,6 @@ country_event = {
 	option = {
 		#사살
 		name = FRA_prov_event.72.a
-		add_political_power = 150
-		add_stability = 0.3
-		add_war_support = 0.3
 		if = {
 			limit = {
 				NOT = {
@@ -2755,6 +2757,9 @@ country_event = {
 	option = {
 		#재교육
 		name = FRA_prov_event.72.b
+		add_political_power = -150
+		add_stability = -0.3
+		add_war_support = -0.3
 		add_timed_idea = {
 			idea = FRA_student_education
 			days = 180
@@ -4181,11 +4186,49 @@ country_event = {
 	desc = FRA_prov_event.120.d
 	fire_only_once = yes
 	is_triggered_only = yes
+	immediate = {
+		hidden_effect = {
+			set_party_name = {
+				ideology = neutrality
+				long_name = FRA_neutrality_party_mil_gov
+				name = FRA_neutrality_party_mil_gov
+			}
+		}
+	}
 	option = {
 		name = FRA_prov_event.120.a
+		set_politics = {
+			ruling_party = neutrality
+			elections_allowed = no
+		}
+		activate_advisor = FRA_pierre
+		set_party_name = {
+			ideology = neutrality
+			long_name = FRA_neutrality_party_mil_gov
+			name = FRA_neutrality_party_mil_gov
+		}
+		set_party_name = {
+			ideology = democratic
+			long_name = FRA_democratic_party_mil_gov
+			name = FRA_democratic_party_mil_gov
+		}
 		add_popularity = {
 			ideology = democratic
 			popularity = -0.1
+		}
+		hidden_effect = {
+			set_country_flag = FRA_exile_is_over
+			load_focus_tree = {
+				tree = FRA_focus
+				keep_completed = yes
+			}
+			mark_focus_tree_layout_dirty = yes
+		}
+		hidden_effect = {
+			news_event = {
+				id = BA_news.29
+				days = 5
+			}
 		}
 		custom_effect_tooltip = FRA_prov_event.120_tt
 	}
@@ -4312,12 +4355,6 @@ country_event = {
 		}
 		981 = {
 			remove_claim_by = FRA
-		}
-		hidden_effect = {
-			news_event = {
-				id = BA_news.29
-				days = 12
-			}
 		}
 		set_rule = {
 			can_join_factions = no
@@ -4903,6 +4940,12 @@ country_event ={
 	is_triggered_only = yes
 	option = {
 		name = FRA_prov_event.145.a
+		every_owned_state = {
+			limit = {
+				is_core_of = MIL
+			}
+			add_manpower = -200
+		}
 	}
 }
 
