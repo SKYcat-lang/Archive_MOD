@@ -74,3 +74,100 @@ country_event = {
 		add_ideas = YUG_Seizure_of_Royal_Property
 	}
 }
+
+# Communist civil war
+country_event = {
+	id = YUG_event.4
+	title = DOD_yugoslavia.184.t
+	desc = DOD_yugoslavia.184.d
+	picture = GFX_report_event_generic_bombers
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		set_variable = {
+			var = yug_total_com_size
+			value = party_popularity@communism
+		}
+		add_to_variable = {
+			var = yug_total_com_size
+			value = yug_additional_communist_support
+		}
+	}
+
+	option = {
+		name = DOD_yugoslavia.184.a
+		trigger = {
+			num_of_controlled_states > 1
+		}
+		ai_chance = { 
+			factor = 100
+		}
+		set_country_flag = had_yugo_civil_war_flag
+		start_civil_war = {
+			ideology = communism
+			size = yug_total_com_size
+		}
+		random_country = {
+			limit = {
+				original_tag = ROOT
+				has_war_with = ROOT
+			}
+			YUG = { puppet = { target = PREV end_wars = no end_civil_wars = no } }
+		}
+	}
+
+	option = {
+		name = DOD_yugoslavia.184.b
+		ai_chance = { 
+			factor = 0
+		}
+		set_politics = {
+			ruling_party = communism
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = communism 
+			popularity = yug_additional_communist_support
+		}
+		YUG = { puppet = { target = PREV end_wars = no end_civil_wars = no } }
+		hidden_effect = {
+			if = {
+				limit = {
+					original_tag = BUL
+				}
+				set_cosmetic_tag = YUG_puppet_1
+			}
+			if = {
+				limit = {
+					original_tag = ALB
+				}
+				set_cosmetic_tag = YUG_puppet_2
+			}
+			if = {
+				limit = {
+					original_tag = GRE
+				}
+				set_cosmetic_tag = YUG_puppet_3
+			}
+			if = {
+				limit = {
+					original_tag = ROM
+				}
+				set_cosmetic_tag = YUG_puppet_4
+			}
+			if = {
+				limit = {
+					original_tag = HUN
+				}
+				set_cosmetic_tag = YUG_puppet_5
+			}
+			if = {
+				limit = {
+					original_tag = TUR
+				}
+				set_cosmetic_tag = YUG_puppet_6
+			}
+		}
+	}
+}
