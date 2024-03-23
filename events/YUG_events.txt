@@ -107,20 +107,17 @@ country_event = {
 		start_civil_war = {
 			ideology = communism
 			size = yug_total_com_size
-		}
-		random_country = {
-			limit = {
-				original_tag = ROOT
-				has_war_with = ROOT
+			hidden_effect = {
+				country_event = { id = YUG_event.5 hours = 24 }
 			}
-			YUG = { puppet = { target = PREV end_wars = no end_civil_wars = no } }
 		}
+		set_country_flag = BAYUG_civil_war_flag
 	}
 
 	option = {
 		name = DOD_yugoslavia.184.b
 		ai_chance = { 
-			factor = 0
+			factor = 0.001
 		}
 		set_politics = {
 			ruling_party = communism
@@ -129,6 +126,105 @@ country_event = {
 		add_popularity = {
 			ideology = communism 
 			popularity = yug_additional_communist_support
+		}
+		hidden_effect = {
+			country_event = { id = YUG_event.6 hours = 24 }
+		}
+	}
+}
+country_event = {
+	id = YUG_event.5
+	title = YUG_event.5.t
+	desc = YUG_event.5.d
+	picture = GFX_report_event_generic_bombers
+	
+	is_triggered_only = yes
+
+	option = {
+		name = YUG_event.5.a
+		trigger = {
+			num_of_controlled_states > 1
+		}
+		ai_chance = { 
+			factor = 100
+		}
+		YUG = { puppet = { target = PREV end_wars = no end_civil_wars = no } }
+		random_country = {
+			limit = {
+				NOT = { tag = ROOT }
+				has_country_flag = BAYUG_civil_war_flag
+			}
+			YUG = {
+				add_to_war = {
+					targeted_alliance = ROOT
+					enemy = PREV
+					hostility_reason = asked_to_join
+				}
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					original_tag = BUL
+				}
+				set_cosmetic_tag = YUG_puppet_1
+			}
+			if = {
+				limit = {
+					original_tag = ALB
+				}
+				set_cosmetic_tag = YUG_puppet_2
+			}
+			if = {
+				limit = {
+					original_tag = GRE
+				}
+				set_cosmetic_tag = YUG_puppet_3
+			}
+			if = {
+				limit = {
+					original_tag = ROM
+				}
+				set_cosmetic_tag = YUG_puppet_4
+			}
+			if = {
+				limit = {
+					original_tag = HUN
+				}
+				set_cosmetic_tag = YUG_puppet_5
+			}
+			if = {
+				limit = {
+					original_tag = TUR
+				}
+				set_cosmetic_tag = YUG_puppet_6
+			}
+		}
+	}
+
+	option = {
+		name = YUG_event.5.b
+		ai_chance = { 
+			factor = 0.001
+		}
+		add_political_power = -120
+	}
+}
+country_event = {
+	id = YUG_event.6
+	title = YUG_event.6.t
+	desc = YUG_event.6.d
+	picture = GFX_report_event_generic_bombers
+	
+	is_triggered_only = yes
+
+	option = {
+		name = YUG_event.5.a
+		trigger = {
+			num_of_controlled_states > 1
+		}
+		ai_chance = { 
+			factor = 100
 		}
 		YUG = { puppet = { target = PREV end_wars = no end_civil_wars = no } }
 		hidden_effect = {
@@ -167,6 +263,20 @@ country_event = {
 					original_tag = TUR
 				}
 				set_cosmetic_tag = YUG_puppet_6
+			}
+		}
+	}
+
+	option = {
+		name = YUG_event.6.b
+		ai_chance = { 
+			factor = 0.001
+		}
+		add_political_power = -120
+		YUG = {
+			create_wargoal = {
+				target = ROOT
+				type = puppet_wargoal_focus
 			}
 		}
 	}
