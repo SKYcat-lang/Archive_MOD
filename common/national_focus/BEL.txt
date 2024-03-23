@@ -57,7 +57,11 @@ focus_tree = {
 			add_victory_points = {
 				province = 5117
 				value = 40
-			}			
+			}
+			swap_ruler_traits = {
+				remove = unpopular_monarch
+				add = BEL_sovereign_of_belgium
+			}
 		}
 	}
 
@@ -68,7 +72,7 @@ focus_tree = {
 		x = 14
 		y = 1
 		relative_position_id = BEL_start_the_state_of_emergency
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 10
 		}
@@ -90,6 +94,7 @@ focus_tree = {
 
 		completion_reward = {
 			add_political_power = 120
+			add_ideas = BEL_national_security_court
 		}
 	}
 
@@ -102,7 +107,7 @@ focus_tree = {
 		x = -2
 		y = 1
 		relative_position_id = BEL_tribunal_de_seguranca_nacional
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 15
 		}
@@ -121,7 +126,7 @@ focus_tree = {
 		x = 2
 		y = 1
 		relative_position_id = BEL_tribunal_de_seguranca_nacional
-		cost = 5
+		cost = 3
 		ai_will_do = {
 			factor = 5
 		}
@@ -138,7 +143,7 @@ focus_tree = {
 		icon = GFX_focus_BRA_estado_moderno
 		prerequisite = { focus = BEL_work_with_the_integralists }
 		prerequisite = { focus = BEL_cohen_plan }
-		mutually_exclusive = { focus = BEL_estado_novo }
+		#mutually_exclusive = { focus = BEL_estado_novo }
 		x = 0
 		y = 2
 		relative_position_id = BEL_work_with_the_integralists
@@ -148,10 +153,11 @@ focus_tree = {
 		}
 
 		allow_branch = {
-			always = no
+			#has_completed_focus = BEL_constitutional_monarchy
 		}
 
 		available = {
+			has_completed_focus = BEL_constitutional_monarchy
 		}
 
 		bypass = {
@@ -161,32 +167,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 
 		completion_reward = {
-			
-			#set_country_leader_ideology = fascism_ideology
-			custom_effect_tooltip = BEL_estado_moderno_tt
-			hidden_effect = {
-			every_other_country = {
-				limit = {
-					any_owned_state = {
-						OR = {
-							is_on_continent = south_america
-							is_on_continent = north_america
-						}
-					}
-				}
-				news_event = { id = south_american_news.51 hours = 1 }
-			}
-			retire_country_leader = yes
-			}
-			set_politics = {
-				ruling_party = fascism
-				last_election = "1934.3.26"
-				election_frequency = 48
-				elections_allowed = no
-			}
-			hidden_effect = {
-				retire_country_leader = yes
-			}
+			add_country_leader_trait = BEL_newcomer_warlord			
 		}
 	}
 
@@ -195,7 +176,7 @@ focus_tree = {
 		icon = GFX_focus_BRA_estado_novo
 		prerequisite = { focus = BEL_ensure_continued_military_support }
 		prerequisite = { focus = BEL_cohen_plan }
-		mutually_exclusive = { focus = BEL_estado_moderno }
+		#mutually_exclusive = { focus = BEL_estado_moderno }
 		x = 0
 		y = 2
 		relative_position_id = BEL_ensure_continued_military_support
@@ -205,41 +186,17 @@ focus_tree = {
 		}
 
 		allow_branch = {
-			always = no
+			#has_completed_focus = BEL_constitutional_monarchy
 		}
 
 		available = {
+			has_completed_focus = BEL_constitutional_monarchy
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
 
 		completion_reward = {
-			hidden_effect = {
-				every_country = {
-					limit = {
-						any_owned_state = {
-							OR = {
-								is_on_continent = south_america
-								is_on_continent = north_america
-							}
-						}
-					}
-					news_event = { 
-						id = south_american_news.50 
-						hours = 1 
-					}
-				}			
-				retire_country_leader = yes
-			}
-			set_politics = {
-				ruling_party = neutrality
-				last_election = "1934.3.26"
-				election_frequency = 48
-				elections_allowed = no
-			}
-			hidden_effect = {
-				retire_country_leader = yes
-			}
+			add_ideas = BEL_war_economy
 		}
 	}
 
@@ -280,12 +237,27 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_HISTORICAL }
 
 		completion_reward = {
-			custom_effect_tooltip = BEL_modify_estado_novo_ns_intro
+			custom_effect_tooltip = BEL_dominion_of_belgium_tt
+			add_to_variable = {
+				var = BEL_dominion_of_belgium_industrial_capacity_factory
+				value = 0.10
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				var = BEL_dominion_of_belgium_industrial_capacity_dockyard
+				value = 0.10
+				tooltip = industrial_capacity_dockyard_tt
+			}
+			add_to_variable = {
+				var = BEL_dominion_of_belgium_production_speed_buildings_factor
+				value = 0.10
+				tooltip = production_speed_buildings_factor_tt
+			}
 		}
 	}
 
 	focus = {
-		id = BEL_anaue
+		id = BEL_no_matter_the_cost
 		icon = GFX_focus_BRA_anaue
 		prerequisite = { focus = BEL_estado_moderno }
 		x = 0
@@ -301,37 +273,21 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 
 		completion_reward = {
-			# add_ideas = BEL_anaue_idea
-			custom_effect_tooltip = BEL_anaue_tt
-			hidden_effect = {
-				#set_variable = { BEL_green_shirt_division_cap = 0 }
-				#set_variable = { BEL_max_green_shirt_division_cap = 10 }
-				##add_to_variable = { BEL_green_shirt_division_cap = 1 }
-				#clamp_variable = {
-				#	var = BEL_green_shirt_division_cap
-				#	min = 0 
-				#	max = BEL_max_green_shirt_division_cap
-				#}
-			
-				division_template = {
-					name = "Integralist Militia"		
-					#division_names_group = SWE_BS_01
-					is_locked = no
-					#force_allow_recruiting = yes
-					template_counter = 89
-					# Note: Represents brownshirts
-					regiments = {
-						militia = { x = 0 y = 0 }
-						militia = { x = 0 y = 1 }
-						militia = { x = 1 y = 0 }
-						militia = { x = 1 y = 1 }
-					}
-					#division_cap = 0
-				}
-				#set_division_template_cap = { 
-				#	division_template = "Integralist Militia" 
-				#	division_cap = BEL_green_shirt_division_cap   
-				#}
+			custom_effect_tooltip = BEL_dominion_of_belgium_tt
+			add_to_variable = {
+				var = BEL_dominion_of_belgium_recruitable_population_factor
+				value = 0.05
+				tooltip = recruitable_population_factor_tt
+			}
+			add_to_variable = {
+				var = BEL_dominion_of_belgium_conscription_factor
+				value = 0.05
+				tooltip = conscription_factor_tt
+			}
+			add_to_variable = {
+				var = BEL_dominion_of_belgium_consumer_goods_factor
+				value = -0.05
+				tooltip = consumer_goods_factor_tt
 			}
 		}
 	}
@@ -339,7 +295,7 @@ focus_tree = {
 	focus = {
 		id = BEL_autarky
 		icon = GFX_focus_BRA_autarky
-		prerequisite = { focus = BEL_the_polaca focus = BEL_anaue }
+		prerequisite = { focus = BEL_the_polaca focus = BEL_no_matter_the_cost }
 		x = 0
 		y = 2
 		relative_position_id = BEL_the_polaca
@@ -389,11 +345,11 @@ focus_tree = {
 	focus = {
 		id = BEL_corporatism
 		icon = GFX_focus_ICE_state_corporatism
-		prerequisite = { focus = BEL_anaue focus = BEL_the_polaca}
+		prerequisite = { focus = BEL_no_matter_the_cost focus = BEL_the_polaca}
 		mutually_exclusive = { focus = BEL_autarky }
 		x = 0
 		y = 2
-		relative_position_id = BEL_anaue
+		relative_position_id = BEL_no_matter_the_cost
 		cost = 5
 		ai_will_do = {
 			factor = 10
@@ -452,7 +408,12 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT FOCUS_FILTER_HISTORICAL }
 
 		completion_reward = {
-			#add_ideas = BEL_propaganda_idea
+			custom_effect_tooltip = BEL_dominion_of_belgium_tt
+			add_to_variable = {
+				var = BEL_dominion_of_belgium_stability_factor
+				value = 0.1
+				tooltip = stability_factor_tt
+			}
 		}
 	}
 
@@ -524,58 +485,15 @@ focus_tree = {
 			factor = 30
 		}
 		available = {
-			neutrality > 0.6
-			has_stability > 0.6
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_HISTORICAL}
 
 		completion_reward = {
-			IF = {
-				limit = {
-					fascism > 0.4
-				}
-				start_civil_war = {
-					ideology = fascism #SPLITTING TAG
-					size = party_popularity@fascism
-				}
-				hidden_effect = {
-					set_popularities = {
-						fascism = 0
-					}
-				}
-			}
-			ELSE_IF = {
-				limit = {
-					communism > 0.4
-				}
-				start_civil_war = {
-					ideology = communism #SPLITTING TAG
-					size = party_popularity@communism
-				}
-				hidden_effect = {
-					set_popularities = {
-						communism = 0
-					}				
-				}
-			}
-			ELSE_IF = {
-				limit = {
-					democratic > 0.4
-				}
-				start_civil_war = {
-					ideology = democratic #SPLITTING TAG
-					size = party_popularity@democratic
-				}
-				hidden_effect = {
-					set_popularities = {
-						democratic = 0
-					}				
-				}
-			}
-			custom_effect_tooltip = BEL_modify_estado_novo_ns_intro
+			custom_effect_tooltip = BEL_dominion_of_belgium_tt
 			add_to_variable = {
-				BEL_estado_novo_stability_factor = 0.1
+				var = BEL_dominion_of_belgium_stability_factor
+				value = 0.1
 				tooltip = stability_factor_tt
 			}
 		}
@@ -594,13 +512,13 @@ focus_tree = {
 			factor = 20
 		}
 		available = {
-			num_of_factories > 25
 		}
 
 		search_filters = { FOCUS_FILTER_HISTORICAL }
 
 		completion_reward = {
 			#add_ideas = BEL_psad_idea
+			add_ideas = BEL_defense_acquisition_arogram_administration
 		}
 	}
 
@@ -698,6 +616,10 @@ focus_tree = {
 		available = {
 		}
 
+		allow_branch = {
+			always = no
+		}
+
 		search_filters = { }
 
 		completion_reward = {
@@ -757,10 +679,10 @@ focus_tree = {
 	focus = {
 		id = BEL_reject_cosmopolitanism
 		icon = GFX_focus_BRA_reject_cosmopolitanism
-		prerequisite = { focus = BEL_anaue }
+		prerequisite = { focus = BEL_no_matter_the_cost }
 		x = 2
 		y = 1
-		relative_position_id = BEL_anaue
+		relative_position_id = BEL_no_matter_the_cost
 		cost = 5
 		ai_will_do = {
 			factor = 9
@@ -771,17 +693,17 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
 
 		completion_reward = {
-			custom_effect_tooltip = BEL_modify_estado_moderno_ns_intro
+			custom_effect_tooltip = BEL_dominion_of_belgium
 			add_to_variable = { 
-				BEL_estado_moderno_stability_factor = -0.05 
+				BEL_dominion_of_belgium_stability_factor = -0.05 
 				tooltip = stability_factor_tt
 			}
 			add_to_variable = {
-				BEL_estado_moderno_war_support_factor = 0.1
+				BEL_dominion_of_belgium_war_support_factor = 0.1
 				tooltip = war_support_factor_tt
 			}
 			add_to_variable = {
-				BEL_estado_moderno_recruitable_population_factor = 0.03
+				BEL_dominion_of_belgium_recruitable_population_factor = 0.03
 				tooltip = conscription_factor_tt
 			}
 		}
@@ -790,10 +712,10 @@ focus_tree = {
 	focus = {
 		id = BEL_departamento_feminino
 		icon = GFX_focus_SOV_womens_fascist_movement
-		prerequisite = { focus = BEL_anaue }
+		prerequisite = { focus = BEL_no_matter_the_cost }
 		x = 4
 		y = 1
-		relative_position_id = BEL_anaue
+		relative_position_id = BEL_no_matter_the_cost
 		cost = 5
 		ai_will_do = {
 			factor = 11
@@ -804,9 +726,9 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY FOCUS_FILTER_MANPOWER }
 
 		completion_reward = {
-			custom_effect_tooltip = BEL_modify_estado_moderno_ns_intro
-			add_to_variable = { BEL_estado_moderno_recruitable_population_factor = 0.1 tooltip = conscription_factor_tt }
-			add_to_variable = { BEL_estado_moderno_stability_factor = -0.05 tooltip = stability_factor_tt }
+			custom_effect_tooltip = BEL_dominion_of_belgium
+			add_to_variable = { BEL_dominion_of_belgium_recruitable_population_factor = 0.1 tooltip = conscription_factor_tt }
+			add_to_variable = { BEL_dominion_of_belgium_stability_factor = -0.05 tooltip = stability_factor_tt }
 		}
 	}
 
@@ -814,7 +736,7 @@ focus_tree = {
 		id = BEL_in_vargas_we_trust
 		icon = GFX_focus_BRA_estado_novo
 		prerequisite = { focus = BEL_reject_cosmopolitanism focus = BEL_departamento_feminino }
-		mutually_exclusive = { focus = BEL_integrity_of_the_fatherland }
+		#mutually_exclusive = { focus = BEL_integrity_of_the_fatherland }
 		x = 0
 		y = 1
 		relative_position_id = BEL_reject_cosmopolitanism
@@ -827,7 +749,11 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_CHARACTER }
 
-		completion_reward = {
+		completion_reward = {				
+			swap_ruler_traits = {
+				remove = BEL_sovereign_of_belgium_2
+				add = BEL_sovereign_of_belgium_3
+			}
 		}
 	}
 
@@ -835,7 +761,7 @@ focus_tree = {
 		id = BEL_integrity_of_the_fatherland
 		icon = GFX_focus_BRA_defense_of_the_fatherland 
 		prerequisite = { focus = BEL_reject_cosmopolitanism focus = BEL_departamento_feminino }
-		mutually_exclusive = { focus = BEL_in_vargas_we_trust }
+		#mutually_exclusive = { focus = BEL_in_vargas_we_trust }
 		x = 0
 		y = 1
 		relative_position_id = BEL_departamento_feminino
@@ -848,7 +774,8 @@ focus_tree = {
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_POLITICAL_CHARACTER}
 
-		completion_reward = {			
+		completion_reward = {		
+			add_ideas = BEL_nationalizsm
 		}
 	}
 
@@ -864,12 +791,12 @@ focus_tree = {
 			factor = 20
 		}
 		available = {
-			fascism > 0.7
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
 
 		completion_reward = {
+			add_ideas = BEL_integrated_belgium
 		}
 	}
 
@@ -890,6 +817,10 @@ focus_tree = {
 			}
 		}
 
+		allow_branch = {
+			always = no
+		}
+
 		search_filters = { }
 
 		completion_reward = {
@@ -898,50 +829,50 @@ focus_tree = {
 	}
 
 
-	focus = {
-		id = BEL_internal_revolution
-		#icon = 
-		prerequisite = { focus = BEL_brazil_integral }
-		x = 1
-		y = 1
-		relative_position_id = BEL_brazil_integral
-		cost = 5
-		ai_will_do = {
-			factor = 10
-		}
-		available = {
-		}
+	# focus = {
+	# 	id = BEL_internal_revolution
+	# 	#icon = 
+	# 	prerequisite = { focus = BEL_brazil_integral }
+	# 	x = 1
+	# 	y = 1
+	# 	relative_position_id = BEL_brazil_integral
+	# 	cost = 5
+	# 	ai_will_do = {
+	# 		factor = 10
+	# 	}
+	# 	available = {
+	# 	}
 
-		search_filters = { }
+	# 	search_filters = { }
 
-		completion_reward = {
+	# 	completion_reward = {
 			
-		}
-	}
+	# 	}
+	# }
 
-	focus = {
-		id = BEL_ethical_internationalism
-		icon = GFX_focus_BRA_ethical_internationalism
-		prerequisite = { focus = BEL_brazil_integral }
-		x = 0
-		y = 4
-		relative_position_id = BEL_brazil_integral
-		cost = 5
-		ai_will_do = {
-			factor = 15
-		}
-		available = {
-		}
+	# focus = {
+	# 	id = BEL_ethical_internationalism
+	# 	icon = GFX_focus_BRA_ethical_internationalism
+	# 	prerequisite = { focus = BEL_brazil_integral }
+	# 	x = 0
+	# 	y = 4
+	# 	relative_position_id = BEL_brazil_integral
+	# 	cost = 5
+	# 	ai_will_do = {
+	# 		factor = 15
+	# 	}
+	# 	available = {
+	# 	}
 
-		search_filters = { }
+	# 	search_filters = { }
 
-		completion_reward = {
-			# add_timed_idea = { 
-			# 	idea = BEL_ethical_internationalism_idea
-			# 	days = 1460
-			# }
-		}
-	}
+	# 	completion_reward = {
+	# 		# add_timed_idea = { 
+	# 		# 	idea = BEL_ethical_internationalism_idea
+	# 		# 	days = 1460
+	# 		# }
+	# 	}
+	# }
 
 	##################################
 
@@ -2808,7 +2739,7 @@ focus_tree = {
 		mutually_exclusive = { focus = BEL_cooperation_in_the_americas }
 		prerequisite = { 
 			focus = BEL_secure_our_borders 
-			focus = BEL_ethical_internationalism
+			#focus = BEL_ethical_internationalism
 		}
 
 		allow_branch = {
@@ -3664,12 +3595,12 @@ focus_tree = {
 		id = BEL_uruguay_ultimatum
 		icon = GFX_focus_generic_attack_uruguay
 		prerequisite = { 
-			focus = BEL_anaue
+			focus = BEL_no_matter_the_cost
 			focus = BEL_the_polaca 
 		}
 		x = -2
 		y = 1
-		relative_position_id = BEL_anaue
+		relative_position_id = BEL_no_matter_the_cost
 		cost = 5
 		ai_will_do = {
 			factor = 0
@@ -3682,7 +3613,7 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 
 		completion_reward = {
-			add_war_support = 0.1
+			add_ideas = BEL_civilian_liberator
 		}
 	}
 
@@ -4448,6 +4379,7 @@ focus_tree = {
 	}
 
 	focus = {
+		# 본토 투자자 유지 이후 중점
 		id = BEL_court_the_military
 		icon = GFX_focus_BRA_reach_out_to_military_dem
 		x = 0
@@ -4475,6 +4407,7 @@ focus_tree = {
 
 
 	focus = {
+		# 아프리카 개발 이후
 		id = BEL_implement_a_national_guard
 		icon = GFX_focus_BRA_national_guard
 		x = 0
@@ -4690,28 +4623,6 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY}
 
 		completion_reward = {
-			hidden_effect = {
-				set_temp_variable = {
-					var = ban_ideology_var
-					value = party_popularity@communism
-				}
-				multiply_temp_variable = {
-					var = ban_ideology_var
-					value = -1
-				}
-				add_popularity = {
-					ideology = communism
-					popularity = ban_ideology_var
-				}
-				multiply_temp_variable = {
-					var = ban_ideology_var
-					value = 0.66
-				}
-				set_country_flag = banned_communism_flag
-			}
-			custom_effect_tooltip = ban_communist_party_tt
-			add_stability = ban_ideology_var
-			custom_effect_tooltip = BEL_ban_the_communist_party_dynamic_tt
 		}
 	}
 
@@ -6642,6 +6553,7 @@ focus_tree = {
 			add_dynamic_modifier = {
 				modifier = BEL_dominion_of_belgium				
 			}
+			country_event = { id = BEL_recov_events.2 hours = 6 }
 		}
 	}
 
@@ -6655,13 +6567,12 @@ focus_tree = {
 		#prerequisite = { focus = BEL_court_the_military }
 		#mutually_exclusive = { focus = BEL_bicarmel_legislature }
 		cost = 5
-		cancel_if_invalid = no
 		ai_will_do = {
 			factor = 10
 		}
 
 		allow_branch = {
-			always = no
+			#has_completed_focus = BEL_constitutional_monarchy
 		}
 
 		available = {
@@ -6670,10 +6581,12 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 
 		completion_reward = {
-			# add_timed_idea = {
-			# 	idea = BEL_undermine_democracy_idea
-			# 	days = 365
-			# }
+			custom_effect_tooltip = BEL_dominion_of_belgium_tt
+			add_to_variable = {
+				var = BEL_dominion_of_belgium_stability_factor
+				value = 0.1
+				tooltip = stability_factor_tt
+			}
 		}
 	}
 
@@ -6815,7 +6728,7 @@ focus_tree = {
 		}
 	}
 
-	focus = {
+	focus = { # 국회 약화 이후
 		id = BEL_use_the_national_security_law
 		icon = GFX_focus_BRA_utilize_security_law
 		x = 0
@@ -6830,6 +6743,9 @@ focus_tree = {
 		}
 		available = {
 			neutrality > 0.5
+		}
+		allow_branch = {
+			always = no
 		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
