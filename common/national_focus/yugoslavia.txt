@@ -2726,7 +2726,7 @@ focus_tree = {
 		icon = GFX_goal_generic_war_with_comintern
 		prerequisite = { focus = YUG_Last_of_Royal_family }
 		mutually_exclusive = { focus = YUG_join_comintern }
-		x = 1
+		x = -1
 		y = 1
 		relative_position_id = YUG_Last_of_Royal_family
 
@@ -2759,7 +2759,7 @@ focus_tree = {
 		icon = GFX_focus_generic_join_comintern
 		prerequisite = { focus = YUG_Last_of_Royal_family }
 		mutually_exclusive = { focus = YUG_yugoslavian_path_to_communism }
-		x = -1
+		x = 1
 		y = 1
 		relative_position_id = YUG_Last_of_Royal_family
 
@@ -2813,6 +2813,79 @@ focus_tree = {
 					country_event = generic.2
 				}
 			}
+		}
+	}
+
+	focus = {
+		id = YUG_research_collaboration
+		icon = GFX_focus_generic_socialist_science
+		prerequisite = { focus = YUG_join_comintern }
+		x = 0
+		y = 1
+		relative_position_id = YUG_join_comintern
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		available = {
+			is_in_faction_with = SOV
+			SOV = { has_government = communism }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_RESEARCH }
+
+
+		completion_reward = {
+			add_to_tech_sharing_group = YUG_SOV_research_group
+			SOV = {
+				add_to_tech_sharing_group = YUG_SOV_research_group
+			}
+		}
+	}
+
+	focus = {
+		id = YUG_internationalism
+		icon = GFX_focus_por_workers_of_iberia
+		prerequisite = { focus = YUG_federal_defense_council1 }
+		prerequisite = { focus = YUG_yugoslavian_path_to_communism focus = YUG_join_comintern }
+		x = -1
+		y = 2
+		relative_position_id = YUG_join_comintern
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		available = {
+			is_in_faction_with = SOV
+			SOV = { has_government = communism }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_RESEARCH }
+
+
+		completion_reward = {
+			set_rule = { can_send_volunteers = yes }
+			add_ideas = YUG_internationalism_idea
 		}
 	}
 
@@ -2993,10 +3066,13 @@ focus_tree = {
 				limit = {
 					has_idea = YUG_idea_serbian_general_staff
 				}
-				swap_ideas = {
-					remove_idea = YUG_idea_serbian_general_staff
-					add_idea = YUG_federal_defense_council
+				swap_ideas = { remove_idea = YUG_idea_serbian_general_staff add_idea = YUG_idea_federal_defense_council }
+			}
+			else_if = {
+				limit = {
+					has_idea = YUG_idea_yugoslavian_general_staff
 				}
+				swap_ideas = { remove_idea = YUG_idea_yugoslavian_general_staff add_idea = YUG_idea_federal_defense_council }
 			}
 			else = {
 				add_ideas = YUG_federal_defense_council
@@ -3073,6 +3149,500 @@ focus_tree = {
 			unlock_decision_tooltip = YUG_instigate_in_bulgaria
 			unlock_decision_tooltip = YUG_instigate_in_albania
 			hidden_effect = { news_event = { id = news.330 } }
+		}
+	}
+
+	focus = {
+		id = YUG_yugoslavia_expansion
+		icon = GFX_focus_YUG_greater_yugoslavia
+		prerequisite = { focus = YUG_pan_slavic_workers_congress }
+		mutually_exclusive = { focus = YUG_balkan_federation }
+		x = -3
+		y = 1
+		relative_position_id = YUG_pan_slavic_workers_congress
+
+		available = {
+			is_subject = no
+			OR = {
+				AND = {
+					has_full_control_of_state = 48
+					has_full_control_of_state = 801
+					has_full_control_of_state = 212
+					has_full_control_of_state = 211
+				}
+				AND = {
+					BUL = {
+						is_subject_of = YUG
+						has_full_control_of_state = 48
+						has_full_control_of_state = 801
+						has_full_control_of_state = 212
+						has_full_control_of_state = 211
+					}
+				}
+			}
+			OR = {
+				AND = {
+					has_full_control_of_state = 934
+					has_full_control_of_state = 44
+				}
+				AND = {
+					ALB = {
+						is_subject_of = YUG
+						has_full_control_of_state = 934
+						has_full_control_of_state = 44
+					}
+				}
+			}
+		}
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		available = {
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			BUL = {
+				every_core_state = {
+					add_core_of = ROOT
+				}
+				if = {
+					limit = {  is_subject_of = YUG }
+					PREV.PREV = {
+						annex_country = {
+							target = PREV
+							transfer_troops = yes
+						}
+					}
+				}
+			}
+			add_ideas = YUG_bulgarian_resistance
+			ALB = {
+				every_core_state = {
+					add_core_of = ROOT
+				}
+				if = {
+					limit = {  is_subject_of = YUG }
+					PREV.PREV = {
+						annex_country = {
+							target = PREV
+							transfer_troops = yes
+						}
+					}
+				}
+			}
+			add_ideas = YUG_albanian_nationalism
+		}
+	}
+
+	focus = {
+		id = YUG_balkan_federation
+		icon = GFX_focus_BUL_balkan_federation_of_socialist_republics
+		prerequisite = { focus = YUG_pan_slavic_workers_congress }
+		mutually_exclusive = { focus = YUG_yugoslavia_expansion }
+		x = 1
+		y = 1
+		relative_position_id = YUG_pan_slavic_workers_congress
+
+		available = {
+		}
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		available = {
+			is_subject = no
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = YUG_pan_balkan_workers_congress
+		icon = GFX_focus_YUG_pan_slavic_congress
+		prerequisite = { focus = YUG_yugoslavia_expansion focus = YUG_balkan_federation }
+		x = -2
+		y = 1
+		relative_position_id = YUG_balkan_federation
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		available = {
+			is_subject = no
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			unlock_decision_tooltip = YUG_instigate_in_greece
+			unlock_decision_tooltip = YUG_instigate_in_romania
+			unlock_decision_tooltip = YUG_instigate_in_hungary
+		}
+	}
+
+	focus = {
+		id = YUG_balkan_federation
+		icon = GFX_focus_BUL_balkan_federation_of_socialist_republics
+		prerequisite = { focus = YUG_yugoslavian_path_to_communism }
+		prerequisite = { focus = YUG_pan_slavic_workers_congress }
+		mutually_exclusive = { focus = YUG_yugoslavia_expansion }
+		x = 1
+		y = 1
+		relative_position_id = YUG_pan_slavic_workers_congress
+
+		available = {
+		}
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		available = {
+			is_subject = no
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			set_country_flag = YUG_balkan_federation_focus_flag
+			set_rule = { can_create_factions = yes }
+			create_faction = panbalkan_workers_congress
+		}
+	}
+
+	focus = {
+		id = YUG_balkan_defense_training
+		icon = GFX_goal_generic_defence
+		prerequisite = { focus = YUG_balkan_federation }
+		x = 0
+		y = 1
+		relative_position_id = YUG_balkan_federation
+
+		available = {
+		}
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = YUG_balkan_defense_training
+				cost_reduction = 0.25
+				uses = 2
+				category = land_doctrine
+			}
+		}
+	}
+
+	focus = {
+		id = YUG_balkan_integration
+		text = BUL_the_unification_of_the_balkans
+		icon = GFX_focus_BUL_the_unification_of_the_balkans
+		prerequisite = { focus = YUG_balkan_defense_training }
+		prerequisite = { focus = YUG_internationalism }
+		prerequisite = { focus = YUG_pan_balkan_workers_congress }
+		x = 0
+		y = 2
+		relative_position_id = YUG_balkan_federation
+
+		available = {
+			is_subject = no
+			is_faction_leader = yes
+			has_country_flag = {
+				flag = YUG_balkan_federation_focus_flag
+				days > 280
+			}
+			OR = {
+				BUL = {
+					is_subject_of = YUG
+				}
+				ALB = {
+					is_subject_of = YUG
+				}
+				ROM = {
+					is_subject_of = YUG
+				}
+				GRE = {
+					is_subject_of = YUG
+				}
+				HUN = {
+					is_subject_of = YUG
+				}
+			}
+		}
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					OR = {
+						original_tag = BUL
+						original_tag = ALB
+						original_tag = ROM
+						original_tag = GRE
+						original_tag = HUN
+					}
+					is_subject_of = ROOT
+				}
+				PREV = {
+					annex_country = {
+						target = PREV
+						transfer_troops = yes
+					}
+				}
+			}
+
+			#Core Balkan States
+			custom_effect_tooltip = BUL_the_unification_of_the_balkans_cores_tt
+			every_state = {
+				limit = {
+					OR = {
+						BUL_is_balkan_state = yes
+						is_core_of = HUN
+					}
+					NOT = { is_core_of = ROOT }
+				}
+				hidden_effect = {
+					ROOT = { add_state_core = PREV }
+					if = {
+						limit = {
+							is_claimed_by = ROOT
+						}
+						remove_claim_by = ROOT
+					}
+				}
+			}
+
+			#Event for unification
+			if = {
+				limit = {
+					any_other_country = {
+						BUL_is_balkan_nation = yes
+						is_in_faction_with = ROOT
+					}
+				}
+				every_other_country = {
+					limit = {
+						BUL_is_balkan_nation = yes
+						is_in_faction_with = ROOT
+					}
+					country_event = { id = bftb_bulgaria_balkan_federation.5 hours = 6 random_hours = 6 }
+				}
+			}
+			else = {
+				custom_effect_tooltip = BUL_the_unification_of_the_balkans_event_tt
+			}
+			
+			set_cosmetic_tag = UBF_united_balkan_federation_communism
+
+			hidden_effect = {
+				news_event = { id = bftb_news.10 hours = 24 random_hours = 4 }
+			}
+		}
+	}
+
+	focus = {
+		id = YUG_industrial_integration
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = YUG_yugoslavia_expansion }
+		x = 0
+		y = 1
+		relative_position_id = YUG_yugoslavia_expansion
+
+		available = {
+		}
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 107 }
+				limit = {
+					ROOT = { has_full_control_of_state = PREV }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 48 }
+				limit = {
+					ROOT = { has_full_control_of_state = PREV }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				prioritize = { 44 }
+				limit = {
+					ROOT = { has_full_control_of_state = PREV }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = YUG_equality_among_ethnic_groups
+		icon = GFX_focus_generic_anti_fascist_diplomacy
+		prerequisite = { focus = YUG_yugoslavia_expansion }
+		mutually_exclusive = { focus = YUG_eradication_of_nationalism }
+		x = 1
+		y = 2
+		relative_position_id = YUG_yugoslavia_expansion
+
+		available = {
+		}
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			add_stability = -0.10
+			remove_ideas = YUG_bulgarian_resistance
+			remove_ideas = YUG_albanian_nationalism
+		}
+	}
+
+	focus = {
+		id = YUG_eradication_of_nationalism
+		icon = GFX_focus_generic_treaty
+		prerequisite = { focus = YUG_yugoslavia_expansion }
+		mutually_exclusive = { focus = YUG_equality_among_ethnic_groups }
+		x = -1
+		y = 2
+		relative_position_id = YUG_yugoslavia_expansion
+
+		available = {
+		}
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			remove_ideas = YUG_bulgarian_resistance
+			remove_ideas = YUG_albanian_nationalism
+			add_ideas = YUG_multi_ethnic_federation
 		}
 	}
 
@@ -3502,7 +4072,7 @@ focus_tree = {
 
 	focus = {
 		id = YUG_greater_yugoslavia
-		icon = GFX_goal_generic_occupy_states_ongoing_war
+		icon = GFX_focus_YUG_greater_yugoslavia
 		cost = 5
 		prerequisite = {
 			focus = YUG_state_cooperativeism
@@ -3939,42 +4509,6 @@ focus_tree = {
 				}
 				unlock_decision_tooltip = YUG_instigate_in_turkey
 			}
-		}
-	}
-
-	focus = {
-		id = YUG_pan_balkan_workers_congress
-		icon = GFX_focus_YUG_pan_slavic_congress
-		prerequisite = { focus = YUG_debug_focus }
-		x = 4
-		y = 1
-		relative_position_id = YUG_debug_focus
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 50
-		}
-
-		available = {
-			is_faction_leader = yes
-			is_subject = no
-		}
-
-		bypass = {
-
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-		search_filters = { FOCUS_FILTER_POLITICAL }
-
-		completion_reward = {
-			set_faction_name = panbalkan_workers_congress
-			unlock_decision_tooltip = YUG_instigate_in_greece
-			unlock_decision_tooltip = YUG_instigate_in_romania
-			unlock_decision_tooltip = YUG_instigate_in_hungary
 		}
 	}
 

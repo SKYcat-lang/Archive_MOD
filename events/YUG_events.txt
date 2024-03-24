@@ -281,3 +281,407 @@ country_event = {
 		}
 	}
 }
+#Unification of the Balkans - Event for Balkan Allies
+country_event = {
+	id = YUG_event.7
+	title = bftb_bulgaria_balkan_federation.5.t
+	desc = YUG_event.7.desc
+	picture = GFX_report_event_bul_troops_dobrudja
+
+	is_triggered_only = yes
+
+	option = { #Accept (and get annexed)
+		name = bftb_bulgaria_balkan_federation.5.a
+
+		ai_chance = {
+			factor = 11
+			modifier = {
+				factor = 2
+				threat > 69
+			}
+			modifier = {
+				factor = 2
+				FROM = { is_faction_leader = yes }
+			}
+			modifier = {
+				factor = 2
+				FROM = { has_government = ROOT }
+			}
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = FROM
+					value > 50
+				}
+			}
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = FROM
+					value > 99
+				}
+			}
+			modifier = {
+				factor = 5
+				strength_ratio = {
+					tag = FROM
+					ratio < 0.8
+				}
+				strength_ratio = {
+					tag = FROM
+					ratio > 0.4
+				}
+			}
+			modifier = {
+				factor = 10
+				strength_ratio = {
+					tag = FROM
+					ratio < 0.1
+				}
+			}
+			modifier = {
+				factor = 2
+				is_neighbor_of = YUG
+			}
+		}
+
+		custom_effect_tooltip = GAME_OVER_TT
+		hidden_effect = {
+			FROM = { country_event = { id = YUG_event.8 hours = 6 random_hours = 6 } }
+		}
+	}
+
+	option = { #Puppet - Player only
+		name = bftb_bulgaria_balkan_federation.5.c
+
+		trigger = {
+			is_ai = no
+		}
+
+		effect_tooltip = {
+			FROM = {
+				puppet = ROOT
+			}
+			if = {
+				limit = {
+					is_in_faction = no
+					FROM = { is_in_faction = yes }
+				}
+				FROM = { add_to_faction = ROOT }
+			}
+		}
+		hidden_effect = {
+			FROM = { country_event = { id = YUG_event.9 hours = 6 random_hours = 6 } }
+		}
+	}
+
+	option = { #Refuse
+		name = bftb_bulgaria_balkan_federation.5.d
+
+		ai_chance = {
+			factor = 11
+			modifier = {
+				factor = 6
+				FROM = { is_faction_leader = no }
+			}
+			modifier = {
+				factor = 2
+				NOT = { has_government = FROM }
+			}
+			modifier = {
+				factor = 5
+				has_opinion = {
+					target = FROM
+					value < 0
+				}
+			}
+			modifier = {
+				factor = 50
+				has_opinion = {
+					target = FROM
+					value < -50
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = FROM
+					ratio > 1
+				}
+			}
+			modifier = {
+				factor = 10
+				strength_ratio = {
+					tag = FROM
+					ratio > 2
+				}
+			}
+		}
+
+		effect_tooltip = {
+			FROM = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = BUL_territorial_arbitration
+				}
+			}
+		}
+		custom_effect_tooltip = bftb_bulgaria_balkan_federation.5.d_consequences_tt
+		hidden_effect = {
+			FROM = { country_event = { id = YUG_event.10 hours = 6 random_hours = 6 } }
+		}
+	}
+}
+
+#Unification of the Balkans - Country Accepts - Event for BUL
+country_event = {
+	id = YUG_event.8
+	title = bftb_bulgaria_balkan_federation.6.t
+	desc = bftb_bulgaria_balkan_federation.6.desc
+	picture = GFX_report_event_bul_soviet_army_sofia 
+
+	is_triggered_only = yes
+
+	option = {
+		name = bftb_bulgaria_balkan_federation.6.a
+
+		BUL_join_wars_of_from = yes
+
+		FROM = {
+			every_unit_leader = {
+				set_nationality = YUG
+			}
+		}
+		annex_country = { target = FROM transfer_troops = yes }
+
+		custom_effect_tooltip = germany.126.warning
+	}
+}
+
+#Unification of the Balkans - Country requests limited freedom (aka puppet) - Event for BUL
+country_event = {
+	id = YUG_event.9
+	title = bftb_bulgaria_balkan_federation.10.t
+	desc = bftb_bulgaria_balkan_federation.10.desc
+	picture = GFX_report_event_generic_sign_treaty3
+
+	is_triggered_only = yes
+
+	option = {
+		name = bftb_bulgaria_balkan_federation.10.a
+
+		BUL_join_wars_of_from = yes
+
+		puppet = FROM
+		BUL_remove_balkan_opinion_modifiers = yes
+		set_autonomy = { target = FROM autonomy_state = autonomy_dominion }
+		if = {
+			limit = {
+				FROM = { is_in_faction = no }
+			}
+			random_country = {
+				limit = { 
+					is_in_faction_with = YUG
+					is_faction_leader = yes
+				}
+				add_to_faction = FROM
+			}
+		}
+
+		custom_effect_tooltip = germany.126.warning
+	}
+}
+
+#Unification of the Balkans - Country Refuses - Event for BUL
+country_event = {
+	id = YUG_event.10
+	title = bftb_bulgaria_balkan_federation.11.t
+	desc = YUG_event.10.desc
+	picture = GFX_report_event_gre_balkan_pact
+
+	is_triggered_only = yes
+
+	option = { #Do nothing
+		name = bftb_bulgaria_balkan_federation.11.a
+
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 10
+				FROM = { is_faction_leader = no }
+			}
+			modifier = {
+				factor = 2
+				is_ai = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_opinion = {
+					target = FROM
+					value < 0
+				}
+			}
+			modifier = {
+				factor = 10
+				strength_ratio = {
+					tag = FROM
+					ratio < 1
+				}
+			}
+		}
+
+		add_opinion_modifier = {
+			target = ROOT
+			modifier = BUL_refused_unification
+		}
+	}
+
+	option = { #Kick from faction
+		name = bftb_bulgaria_balkan_federation.11.b
+
+		trigger = {
+			is_faction_leader = yes
+		}
+
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = FROM
+					value < 0
+				}
+			}
+			modifier = {
+				factor = 10
+				has_opinion = {
+					target = FROM
+					value < 50
+				}
+			}
+			modifier = {
+				factor = 2
+				strength_ratio = {
+					tag = FROM
+					ratio > 0.7
+				}
+			}
+		}
+
+		add_opinion_modifier = {
+			target = ROOT
+			modifier = BUL_refused_unification
+		}
+		remove_from_faction = FROM
+		FROM = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = BUL_kicked_us_from_faction
+			}
+		}
+
+		hidden_effect = { #ROOT & FROM are not happy with each other's actions
+			add_ai_strategy = {
+				type = alliance
+				id = FROM			
+				value = -100
+			}
+
+			add_ai_strategy = {
+				type = befriend
+				id = FROM			
+				value = -100
+			}
+			FROM = {
+				add_ai_strategy = {
+					type = alliance
+					id = ROOT			
+					value = -100
+				}
+
+				add_ai_strategy = {
+					type = befriend
+					id = ROOT			
+					value = -100
+				}
+			}
+		}
+	}
+
+	option = { #Kick and Wargoal
+		name = bftb_bulgaria_balkan_federation.11.c
+
+		trigger = {
+			is_faction_leader = yes
+		}
+
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				has_opinion = {
+					target = FROM
+					value < 25
+				}
+			}
+			modifier = {
+				factor = 10
+				has_opinion = {
+					target = FROM
+					value < 50
+				}
+			}
+			modifier = {
+				factor = 5
+				strength_ratio = {
+					tag = FROM
+					ratio > 1.5
+				}
+			}
+		}
+
+		add_political_power = -120
+		add_opinion_modifier = {
+			target = ROOT
+			modifier = BUL_refused_unification
+		}
+		remove_from_faction = FROM
+		create_wargoal = {
+			type = annex_everything
+			target = FROM
+		}
+		FROM = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = BUL_kicked_us_from_faction
+			}
+		}
+
+		hidden_effect = { #ROOT & FROM are mad at each other
+			add_ai_strategy = {
+				type = alliance
+				id = FROM			
+				value = -200
+			}
+
+			add_ai_strategy = {
+				type = befriend
+				id = FROM			
+				value = -200
+			}
+			FROM = {
+				add_ai_strategy = {
+					type = alliance
+					id = ROOT			
+					value = -200
+				}
+
+				add_ai_strategy = {
+					type = befriend
+					id = ROOT			
+					value = -200
+				}
+			}
+		}
+	}
+}
