@@ -14,7 +14,7 @@ country_event = {
 		NOT = { has_global_flag = GFLAG_BAKSANWAR_END }
 		SHA = { has_war = YES }
 		HYA = { has_war = YES }
-		SHA = { surrender_progress > 0.50 }
+		SHA = { surrender_progress > 0.60 }
 	}
 	option = { 
 		name = HYA_event.1.a
@@ -36,18 +36,59 @@ country_event = {
 	option = { 
 		name = HYA_event.2.a
 		white_peace = SHA
-		set_truce = {
-			target = SHA
-			days = 1000
-		}
 		SHA = {
+			add_ideas = HYA_SHA_huzika
 			add_timed_idea = {
 				idea = HYA_SHA_wjswodqotkd
-				days = 1000
+				days = 1800
 			}
 			complete_national_focus = SHA_foc_2-5
+			delete_unit = {} # Will delete all units
+			add_ideas = volunteer_only
+			add_ideas = civilian_economy
 		}
-		transfer_state = 984
+		hidden_effect = {
+			SHA = {
+				diplomatic_relation = {
+					country = TRM
+					relation = guarantee
+					active = no
+				}
+			}
+			TRM = {
+				diplomatic_relation = {
+					country = SHA
+					relation = guarantee
+					active = no
+				}
+			}
+		}
+		every_country = {
+			limit = {
+				is_puppet_of = SHA
+			}
+			SHA = {
+				end_puppet = PREV
+			}
+		}
+		if = {
+			limit = {
+				SHA = {
+					owns_state = 984
+				}
+			}
+			transfer_state = 984
+		}
+		if = {
+			limit = {
+				SHA = {
+					owns_state = 848
+				}
+			}
+			848 = {
+				set_demilitarized_zone = yes
+			}
+		}
 		set_global_flag = GFLAG_BAKSANWAR_END
 		news_event = {
 			id = SHA_news.4
