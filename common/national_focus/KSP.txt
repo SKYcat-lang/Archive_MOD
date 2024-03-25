@@ -1386,33 +1386,7 @@ focus_tree = {
 
 		completion_reward = {
 			add_stability = -0.10
-			set_party_name = {
-				ideology = neutrality
-				long_name = KSP_neutrality_loong
-				name = KSP_neutrality_shoort
-			}
-			remove_power_balance = {
-				id = KSP_yunjung_power_balance
-			}
 			add_ideas = KSP_stabilized_gov
-			hidden_effect = {
-				set_party_name = {
-					ideology = communism
-					long_name = KSP_neutrality_loong
-					name = KSP_neutrality_shoort
-				}
-				set_party_name = {
-					ideology = democratic
-					long_name = KSP_neutrality_loong
-					name = KSP_neutrality_shoort
-				}
-				set_party_name = {
-					ideology = fascism
-					long_name = KSP_neutrality_loong
-					name = KSP_neutrality_shoort
-				}
-			}
-			country_event = { id = KSP_event.26 days = 3 }
 		}
 	}
 
@@ -1454,6 +1428,7 @@ focus_tree = {
 			# 헤일로 보병 쪽 찐빠 제거
 			hidden_effect = {
 				BA_halo_infantry_unban_effect = yes
+				retire_character = KSP_Ogata_Kanna
 			}
 		}
 		
@@ -2787,6 +2762,9 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			hidden_effect = {
+				set_country_flag = KSP_kanna_banned
+			}
 		}
 	}
 
@@ -4144,6 +4122,73 @@ focus_tree = {
 		}
 	}
 
+	focus = {
+		id = KSP_independence_claim_1 # 샬레 수사권 완전 박탈
+		icon = GFX_goal_generic_demand_territory
+		cost = 10
+
+		available = {
+		}
+
+		prerequisite = {
+			focus = KSP_valkyrie_federation
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = KSP_valkyrie_federation
+
+		completion_reward = {
+			SHE = {
+				set_autonomy = {
+					target = ROOT
+					autonomy_state = autonomy_dominion
+				}
+			}
+		}
+
+		# 가급적 늦게
+		ai_will_do = {
+			base = 0.01
+		}
+	}
+
+	focus = {
+		id = KSP_independence_claim_2 # 수사권 독립
+		icon = GFX_goal_generic_demand_territory
+		cost = 10
+
+		available = {
+		}
+
+		prerequisite = {
+			focus = KSP_independence_claim_1
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = KSP_independence_claim_1
+
+		completion_reward = {
+			SHE = {
+				end_puppet = KSP
+			}
+			create_faction = KSP_valkyrie_alliance
+			hidden_effect = {
+				news_event = {
+					id = BA_news.67
+					hours = 6
+				}				
+			}
+		}
+
+		# 가급적 늦게
+		ai_will_do = {
+			base = 0.01
+		}
+	}
+
+
 	# focus = {
 	# 	id = KSP_support_entrepreneur		#생활안전국의 학교 장악
 	# 	icon = none
@@ -4289,7 +4334,7 @@ focus_tree = {
 
 		prerequisite = {
 			focus = KSP_police_nation
-			focus = KSP_valkyrie_federation
+			focus = KSP_independence_claim_2
 		}
 
 		ai_will_do = {
