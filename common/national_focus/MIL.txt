@@ -3614,7 +3614,14 @@ focus_tree = {
 			custom_effect_tooltip = MIL_himari_expulsion_tt
 			custom_effect_tooltip = enter_tt
 			add_to_variable = { MIL_CnC_dynamic_modifier_conscription_factor = 0.10 }
-			remove_ideas = MIL_neutrality_idea
+			if = {
+				limit = { has_idea = MIL_neutrality_idea }
+				remove_ideas = MIL_neutrality_idea
+			}
+			if = {
+				limit = { has_idea = MIL_interventionism_idea }
+				remove_ideas = MIL_interventionism_idea
+			}
 			set_politics = {
 				ruling_party = fascism
     			elections_allowed = no
@@ -5945,10 +5952,8 @@ focus_tree = {
 				has_completed_focus = MIL_rebuilt_school1
 				has_completed_focus = MIL_rebuilt_school2
 			}
-			NOT = {
-				has_completed_focus = MIL_preemptive_intervention_1
-			}
 		}
+		mutually_exclusive = { focus = MIL_preemptive_intervention_1 }
 		prerequisite = { focus = MIL_universal_education focus = MIL_talent_selection_system }
 		prerequisite = { focus = MIL_free_knowledge_sharing }
 		x = 0
@@ -5964,12 +5969,30 @@ focus_tree = {
 		}	
 	}
 		
+	focus = { # 원자의 비밀
+		id = MIL_the_power_of_atoms
+		icon = GFX_goal_generic_production2
+		cost = 10.00
+		prerequisite = { focus = MIL_science_focused_investment }
+		mutually_exclusive = { focus = MIL_go_to_the_space }
+		available = {
+			has_tech = atomic_research
+		}
+		x = -2
+		y = 1
+		relative_position_id = MIL_science_focused_investment
+		completion_reward = {
+			add_country_leader_trait = MIL_atomic_exploration
+		}	
+	}
+		
 	focus = { # 우주를 향해
 		id = MIL_go_to_the_space
 		icon = GFX_focus_rocketry
 		cost = 10.00
 		prerequisite = { focus = MIL_science_focused_investment }
-		x = 0
+		mutually_exclusive = { focus = MIL_the_power_of_atoms }
+		x = 3
 		y = 1
 		relative_position_id = MIL_science_focused_investment
 		completion_reward = {
@@ -5998,14 +6021,6 @@ focus_tree = {
 				category = jet_technology
 			}
 			set_country_flag = MIL_go_to_the_space_flag
-			hidden_effect = { #collapse focus tree
-				load_focus_tree = {
-					tree = MIL_focus_tree
-					keep_completed = yes
-				}
-				mark_focus_tree_layout_dirty = yes
-			}
-			custom_effect_tooltip = MIL_go_to_the_space_tt
 		}	
 	}
 		
@@ -6014,9 +6029,6 @@ focus_tree = {
 		icon = GFX_MIL_space_launch_vehicle_design
 		cost = 5.00
 		prerequisite = { focus = MIL_go_to_the_space }
-		allow_branch = {
-			has_country_flag = MIL_go_to_the_space_flag
-		}
 		available = {
 			has_tech = improved_machine_tools
 			has_tech = experimental_rockets
@@ -6039,9 +6051,6 @@ focus_tree = {
 		icon = GFX_goal_generic_army_artillery
 		cost = 5.00
 		prerequisite = { focus = MIL_go_to_the_space }
-		allow_branch = {
-			has_country_flag = MIL_go_to_the_space_flag
-		}
 		available = {
 			has_tech = oil_processing
 			has_tech = fuel_refining2
@@ -6064,9 +6073,6 @@ focus_tree = {
 		icon = GFX_MIL_satellite_design
 		cost = 5.00
 		prerequisite = { focus = MIL_go_to_the_space }
-		allow_branch = {
-			has_country_flag = MIL_go_to_the_space_flag
-		}
 		available = {
 			has_tech = computing_machine
 		}
@@ -6108,24 +6114,12 @@ focus_tree = {
 		icon = GFX_goal_generic_occupy_states_ongoing_war
 		cost = 5.00
 		prerequisite = { focus = MIL_millennium_science_school }
-		allow_branch = {
-			has_country_flag = GAEBALJUNG
-			NOT = {
-				has_country_flag = MIL_go_to_the_space_flag
-				has_country_flag = MIL_fuck_flag
-			}
+		mutually_exclusive = { focus = MIL_science_focused_investment }
+		bypass = {
+			NOT = { has_idea = MIL_neutrality_idea }
 		}
-		available = {
-			OR = {
-				has_completed_focus = MIL_rebuilt_school1
-				has_completed_focus = MIL_rebuilt_school2
-			}
-			NOT = {
-				has_completed_focus = MIL_science_focused_investment
-			}
-		}
-		x = 14
-		y = 1
+		x = 15
+		y = 4
 		relative_position_id = MIL_millennium_science_school
 		completion_reward = {
 			hidden_effect = {
