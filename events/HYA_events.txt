@@ -10,7 +10,10 @@ country_event = {
 	trigger = {
 		has_country_flag = CFLAG_SHA
 		has_global_flag = GFLAG_BAKSANWAR
-		has_global_flag = GFLAG_FASI_BAKSANWAR
+		OR = {
+			has_global_flag = GFLAG_BAK_BAKSANWAR
+			has_global_flag = GFLAG_FASI_BAKSANWAR
+		}
 		NOT = { has_global_flag = GFLAG_BAKSANWAR_END }
 		SHA = { has_war = YES }
 		HYA = { has_war = YES }
@@ -35,6 +38,9 @@ country_event = {
 	fire_only_once = yes
 	option = { 
 		name = HYA_event.2.a
+		ai_chance = {
+			factor = 10
+		}
 		white_peace = SHA
 		SHA = {
 			add_ideas = HYA_SHA_huzika
@@ -42,7 +48,13 @@ country_event = {
 				idea = HYA_SHA_wjswodqotkd
 				days = 1800
 			}
-			complete_national_focus = SHA_foc_2-5
+			if = {
+				limit = {
+					has_completed_focus = SHA_foc_2-3
+				}
+				complete_national_focus = SHA_foc_2-5
+			}
+
 			delete_unit = {} # Will delete all units
 			add_ideas = volunteer_only
 			add_ideas = civilian_economy
@@ -94,6 +106,14 @@ country_event = {
 			id = SHA_news.4
 			hours = 6
 		}
+	}
+	option = { 
+		name = HYA_event.2.b
+		ai_chance = {
+			factor = 0
+		}
+		add_threat = 5
+		set_global_flag = GFLAG_BAKSANWAR_END
 	}
 }
 country_event = {
