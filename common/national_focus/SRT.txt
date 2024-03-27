@@ -490,7 +490,26 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			if = {
+				limit = {
+					29 = { is_owned_and_controlled_by = COU }
+				}
+				create_wargoal = {
+					target = COU
+					type = take_core_state
+					generator = { 29 }
+				}			
+			}
+			if = {
+				limit = {
+					29 = { is_owned_and_controlled_by = SHE }
+				}
+				create_wargoal = {
+					target = SHE
+					type = take_core_state
+					generator = { 29 }
+				}			
+			}
 		}
 	}
 
@@ -503,7 +522,32 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			if = {
+				limit = {
+					29 = { is_owned_and_controlled_by = COU }
+				}
+				29 = {
+					remove_core_of = COU
+					add_resistance_target = {
+						amount = 50
+					}
+				}
+			}
+			if = {
+				limit = {
+					29 = { is_owned_and_controlled_by = SHE }
+				}
+				29 = {
+					remove_core_of = SHE
+					add_resistance_target = {
+						amount = 50
+					}
+				}
+			}			
+		}
+		bypass = {
+			29 = { is_owned_and_controlled_by = COU }
+			29 = { is_owned_and_controlled_by = SHE }		
 		}
 	}
 
@@ -516,7 +560,19 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			# compliance_growth_on_our_occupied_states = 0.2
+			# resistance_target_on_our_occupied_states = -0.2				
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_compliance_growth_on_our_occupied_states
+				value = -0.35
+				tooltip = compliance_growth_on_our_occupied_states_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_resistance_target_on_our_occupied_states
+				value = 0.35
+				tooltip = resistance_target_on_our_occupied_states_tt
+			}
 		}
 	}
 
@@ -528,8 +584,22 @@ focus_tree = {
 		x = 0
 		y = 2
 		cost = 5
+
 		completion_reward = {
-			
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_compliance_growth_on_our_occupied_states
+				value = -0.35
+				tooltip = compliance_growth_on_our_occupied_states_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_resistance_target_on_our_occupied_states
+				value = 0.35
+				tooltip = resistance_target_on_our_occupied_states_tt
+			}
+			29 = {
+				add_core_of = ROOT
+			}			
 		}
 	}
 
@@ -541,15 +611,26 @@ focus_tree = {
 		x = 0
 		y = 1
 		cost = 5
+		available = {
+			29 = {
+				NOT = {
+					is_controlled_by = ROOT
+				}
+				resistance_target > 74
+			}
+		}
+
 		completion_reward = {
-			
+			29 = {				
+				transfer_state_to = ROOT
+			}
 		}
 	}
 
 
 
 	focus = {
-		id = SRT_invadism # 샬레 내부 개입
+		id = SRT_invadism # 개입주의
 		icon = GFX_focus_focus_fra_revolution_utmost
 		relative_position_id = SRT_internal_schale_invade		
 		prerequisite = { focus = SRT_internal_schale_invade }
@@ -558,7 +639,27 @@ focus_tree = {
 		y = 2
 		cost = 5
 		completion_reward = {
-			
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_naval_invasion_capacity
+				value = 5
+				tooltip = naval_invasion_capacity_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_special_forces_cap
+				value = 0.20
+				tooltip = special_forces_cap_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_naval_invasion_prep_speed
+				value = 0.25
+				tooltip = naval_invasion_prep_speed_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_amphibious_invasion
+				value = 0.1
+				tooltip = amphibious_invasion_tt
+			}		
 		}
 	}
 
@@ -573,7 +674,26 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			add_political_power = 70
+			# opinion_gain_monthly_factor = 0.25
+			# join_faction_tension = -0.2
+			# guarantee_tension = -0.2	
+			custom_effect_tooltip = SRT_special_forces_tt						
+			add_to_variable = {
+				var = SRT_special_forces_opinion_gain_monthly_factor
+				value = 0.25
+				tooltip = opinion_gain_monthly_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_join_faction_tension
+				value = -0.2
+				tooltip = join_faction_tension_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_guarantee_tension
+				value = -0.2
+				tooltip = guarantee_tension_tt
+			}
 		}
 	}
 
@@ -586,7 +706,9 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			# TODO: 린 영입 이벤트
+			#country_event = { id = SRT_RIN_diplomacy.1 }
+			custom_effect_tooltip = SRT_cou_rin_effect_tt
 		}
 	}
 
@@ -599,7 +721,7 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			custom_effect_tooltip = SRT_cou_kaya_effect_tt
 		}
 	}
 
@@ -615,7 +737,8 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			add_war_support = 0.2
+			add_stability = 0.2					
 		}
 	}
 
@@ -632,7 +755,20 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			add_stability = 0.1
+			# stability_factor = 0.05
+			# war_support_factor = 0.05				
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_stability_factor
+				value = 0.1
+				tooltip = stability_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_war_support_factor
+				value = 0.1
+				tooltip = war_support_factor_tt
+			}
 		}
 	}
 
@@ -645,7 +781,13 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			army_experience = 25
+			add_doctrine_cost_reduction = {
+				name = SRT_doctrinal_purity
+				cost_reduction = 0.5
+				uses = 2
+				category = land_doctrine
+			}
 		}
 	}
 
@@ -662,7 +804,14 @@ focus_tree = {
 			focus = SRT_massive_conscription
 		}
 		completion_reward = {
-			
+			add_manpower = 50000
+			add_war_support = -0.05
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_conscription_factor
+				value = 0.05
+				tooltip = conscription_factor_tt
+			}
 		}
 	}
 
@@ -675,7 +824,8 @@ focus_tree = {
 		y = 2
 		cost = 5
 		completion_reward = {
-			
+			add_stability = 0.05
+			add_political_power = 50
 		}
 	}
 
@@ -696,7 +846,25 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			# max_planning = 0.1
+			# max_dig_in_factor = 0.2
+			# org_loss_when_moving = -0.1
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_max_planning_factor
+				value = 0.25
+				tooltip = max_planning_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_max_dig_in_factor
+				value = 0.2
+				tooltip = max_dig_in_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_org_loss_when_moving
+				value = -0.1
+				tooltip = org_loss_when_moving_tt
+			}
 		}
 	}
 
@@ -717,7 +885,22 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_planning_speed
+				value = 0.2
+				tooltip = planning_speed_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_max_planning_factor
+				value = 0.15
+				tooltip = max_planning_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_army_speed_factor
+				value = 0.1
+				tooltip = army_speed_factor_tt
+			}		
 		}
 	}
 
@@ -734,7 +917,19 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			# resistance_damage_to_garrison_on_our_occupied_states = -0.25
+			# compliance_growth_on_our_occupied_states = 0.1				
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_resistance_damage_to_garrison_on_our_occupied_states
+				value = 0.25
+				tooltip = resistance_damage_to_garrison_on_our_occupied_states_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_compliance_growth_on_our_occupied_states
+				value = -0.1
+				tooltip = compliance_growth_on_our_occupied_states_tt
+			}
 		}
 	}
 
@@ -747,7 +942,7 @@ focus_tree = {
 		y = 2
 		cost = 5
 		completion_reward = {
-			
+			#TODO: 미야코에게 SRT소대장 특성 추가
 		}
 	}
 
@@ -760,7 +955,8 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			add_political_power = -50
+			add_stability = -0.05
 		}
 	}
 
@@ -777,7 +973,19 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			# max_command_power = 25
+			# command_power_gain_mult = 0.25				
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_max_command_power
+				value = 25
+				tooltip = max_command_power_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_command_power_gain_mult
+				value = 0.25
+				tooltip = command_power_gain_mult_tt
+			}
 		}
 	}
 
@@ -794,7 +1002,25 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			# cavalry_attack_factor = 0.1			
+			# motorized_attack_factor = 0.1
+			# army_speed_factor = 0.05			
+			custom_effect_tooltip = SRT_special_forces_tt	
+			add_to_variable = {
+				var = SRT_special_forces_army_attack_factor
+				value = 0.15
+				tooltip = army_defence_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_army_defence_factor
+				value = 0.15
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_army_speed_factor
+				value = 0.05
+				tooltip = army_speed_factor_tt
+			}
 		}
 	}
 
@@ -808,7 +1034,19 @@ focus_tree = {
 		y = 2
 		cost = 5
 		completion_reward = {
-			
+			# army_morale_factor = 0.1
+			# army_org_factor = 0.05			
+			custom_effect_tooltip = SRT_special_forces_tt	
+			add_to_variable = {
+				var = SRT_special_forces_army_morale_factor
+				value = 0.2
+				tooltip = army_morale_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_army_org_factor
+				value = 0.1
+				tooltip = army_org_factor_tt
+			}
 		}
 	}
 
@@ -821,7 +1059,17 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_special_forces_attack_factor
+				value = 0.1
+				tooltip = special_forces_attack_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_special_forces_cap
+				value = 0.2
+				tooltip = special_forces_cap_tt
+			}
 		}
 	}
 
@@ -835,7 +1083,22 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_army_speed_factor
+				value = 0.05
+				tooltip = army_speed_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_army_armor_attack_factor
+				value = 0.05
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_army_armor_defence_factor
+				value = 0.05
+				tooltip = army_defence_factor_tt
+			}
 		}
 	}
 
@@ -850,7 +1113,20 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			# max_dig_in = 5
+			# max_dig_in_factor = 0.2
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_max_dig_in
+				value = 5
+				tooltip = max_dig_in_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_max_dig_in_factor
+				value = 0.2
+				tooltip = max_dig_in_factor_tt
+			}
+
 		}
 	}
 	
@@ -872,7 +1148,18 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			army_experience = 25
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_army_armor_speed_factor
+				value = 0.1
+				tooltip = army_speed_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_breakthrough_factor
+				value = 0.2
+				tooltip = breakthrough_factor_tt
+			}
 		}
 	}	
 
@@ -891,7 +1178,12 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_army_attack_factor
+				value = 0.1
+				tooltip = army_attack_factor_tt
+			}
 		}
 	}
 	
@@ -908,7 +1200,9 @@ focus_tree = {
 			has_country_flag = SRT_ttaggari_flag
 		}  
 		completion_reward = {
-			
+			# 
+			add_ideas = SRT_submitted_to_schale
+			add_political_power = -100
 		}
 	}	
 
@@ -927,7 +1221,12 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_army_defence_factor
+				value = 0.1
+				tooltip = army_defence_factor_tt
+			}
 		}
 	}
 
@@ -943,7 +1242,19 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			# army_attack_factor = 0.1
+			# resistance_target_on_our_occupied_states = 0.2				
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_army_attack_factor
+				value = 0.1
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_resistance_target_on_our_occupied_states
+				value = 0.2
+				tooltip = resistance_target_on_our_occupied_states_tt
+			}
 		}
 	}
 
@@ -958,7 +1269,20 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			capital_scope = {
+				add_resource = {
+					type = steel
+					amount = 10
+				}
+				add_resource = {
+					type = tungsten
+					amount = 10
+				}			
+			}
+			add_offsite_building = {
+				type = industrial_complex					
+				level = 2
+			}
 		}
 	}
 
@@ -976,12 +1300,19 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			add_manpower = 50000
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_war_support = -0.15
+			add_to_variable = {
+				var = SRT_special_forces_conscription_factor
+				value = 0.10
+				tooltip = conscription_factor_tt
+			}			
 		}
 	}
 
-	focus = { # 저항집단
-		id = SRT_resistance_group
+	focus = { # 경제 그룹
+		id = SRT_industrial_group
 		icon = GFX_focus_focus_fra_revolution_utmost
 		relative_position_id = SRT_economic_extraction		
 		prerequisite = { 
@@ -991,16 +1322,29 @@ focus_tree = {
 		y = 2
 		cost = 5
 		completion_reward = {
-			
+			14 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
 		}
 	}
 
 	focus = { # 산업 접근
 		id = SRT_industrial_access
 		icon = GFX_focus_focus_fra_revolution_utmost
-		relative_position_id = SRT_resistance_group		
+		relative_position_id = SRT_industrial_group		
 		prerequisite = { 
-			focus = SRT_resistance_group
+			focus = SRT_industrial_group
 		}
 		prerequisite = { 
 			focus = SRT_massive_conscription
@@ -1011,7 +1355,14 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			14 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}			
 		}
 	}
 
@@ -1033,7 +1384,8 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			add_political_power = 100
+			add_stability = 0.05
 		}
 	}
 
@@ -1054,7 +1406,8 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			add_political_power = 100
+			add_manpower = 10000
 		}
 	}
 
@@ -1070,7 +1423,26 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			add_war_support = 0.1
+			# army_core_attack_factor = 0.1			
+			# army_core_defence_factor = 0.1
+			# stability_weekly = 0.001				
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_army_core_attack_factor
+				value = 0.1
+				tooltip = army_attack_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_army_core_defence_factor
+				value = 0.1
+				tooltip = army_defence_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_stability_weekly
+				value = 0.001
+				tooltip = stability_weekly_tt
+			}
 		}
 	}
 	
@@ -1086,7 +1458,22 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_industrial_capacity_factory
+				value = 0.15
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_industrial_capacity_dockyard
+				value = 0.15
+				tooltip = industrial_capacity_dockyard_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_production_speed_buildings_factor
+				value = 0.15
+				tooltip = production_speed_buildings_factor_tt
+			}
 		}
 	}
 
@@ -1105,7 +1492,17 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_special_forces_attack_factor
+				value = 0.1
+				tooltip = special_forces_attack_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_special_forces_defence_factor
+				value = 0.1
+				tooltip = special_forces_defence_factor_tt
+			}
 		}
 	}
 
@@ -1121,7 +1518,18 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_special_forces_cap
+				value = 0.2
+				tooltip = special_forces_cap_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_special_forces_training_time_factor
+				value = -0.25
+				tooltip = special_forces_training_time_factor_tt
+			}
+
 		}
 	}
 
@@ -1137,7 +1545,22 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_industrial_capacity_factory
+				value = 0.2
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_production_factory_max_efficiency_factor
+				value = 0.2
+				tooltip = production_factory_max_efficiency_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_consumer_goods_factor
+				value = -0.1
+				tooltip = consumer_goods_factor_tt
+			}
 		}
 	}
 
@@ -1152,7 +1575,18 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			add_political_power = 100
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_war_support_factor
+				value = 0.05
+				tooltip = war_support_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_army_morale_factor
+				value = 0.1
+				tooltip = army_morale_factor_tt
+			}
 		}
 	}
 
@@ -1167,7 +1601,20 @@ focus_tree = {
 		y = 3
 		cost = 5
 		completion_reward = {
-			
+			# max_command_power = 50			
+			# mobilization_speed = 0.2				
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_max_command_power
+				value = 50
+				tooltip = max_command_power_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_mobilization_speed
+				value = 0.2
+				tooltip = mobilization_speed_tt
+			}
+
 		}
 	}
 
@@ -1185,7 +1632,20 @@ focus_tree = {
 		y = 2
 		cost = 5
 		completion_reward = {
-			
+			add_war_support = 0.1
+			# org_loss_at_low_org_factor = -0.2
+			# army_org_factor = 0.1				
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_org_loss_at_low_org_factor
+				value = 0.2
+				tooltip = org_loss_at_low_org_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_army_org_factor
+				value = 0.1
+				tooltip = army_org_factor_tt
+			}
 		}
 	}
 
@@ -1206,7 +1666,14 @@ focus_tree = {
 		y = 2
 		cost = 5
 		completion_reward = {
-			
+			add_manpower = 75000
+			#non_core_manpower = 0.05				
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_non_core_manpower
+				value = 0.05
+				tooltip = non_core_manpower_tt
+			}
 		}
 	}
 
@@ -1227,7 +1694,26 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			add_stability = 0.1
+			# army_org_factor = 0.1
+			# command_power_gain = 0.2
+			# planning_speed = -0.1				
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_army_org_factor
+				value = 0.1
+				tooltip = army_org_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_command_power_gain
+				value = 0.2
+				tooltip = command_power_gain_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_planning_speed
+				value = -0.1
+				tooltip = planning_speed_tt
+			}
 		}
 	}
 
@@ -1248,7 +1734,21 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			
+			add_stability = -0.1
+			add_political_power = 100
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_research_speed_factor
+				value = 0.05
+				tooltip = research_speed_factor_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_political_power_gain
+				value = 0.1
+				tooltip = political_power_gain_tt
+			}
+
+
 		}
 	}
 
@@ -1265,7 +1765,10 @@ focus_tree = {
 		x = -1
 		y = 1
 		cost = 5
-		completion_reward = { }
+		completion_reward = {
+			# TODO: 대충 누군가와 연합하는 효과
+
+		 }
 	}
 
 	focus = { # 독립 전쟁
@@ -1281,7 +1784,14 @@ focus_tree = {
 		x = 0
 		y = 1
 		cost = 5
-		completion_reward = { }
+		completion_reward = {
+			SHE = {
+				end_puppet = SRT
+			}
+			declare_war_on = {
+				target = SHE
+			}
+		}
 	}
 
 	focus = { # 통합 작전 수립
@@ -1297,7 +1807,9 @@ focus_tree = {
 		x = 1
 		y = 1
 		cost = 5
-		completion_reward = { }
+		completion_reward = {
+			# 작전 관련 디시전
+		}
 	}
 
 	focus = { # 유키노 수감
@@ -1331,7 +1843,16 @@ focus_tree = {
 		x = 1
 		y = 1
 		cost = 5
-		completion_reward = { }
+		completion_reward = {
+			#drift_defence_factor = 0.5				
+			add_stability = -0.1
+			custom_effect_tooltip = SRT_special_forces_tt
+			add_to_variable = {
+				var = SRT_special_forces_drift_defence_factor
+				value = 0.5
+				tooltip = drift_defence_factor_tt
+			}
+		}
 	}
 
 	focus = { # 그들의 검으로
@@ -1350,7 +1871,30 @@ focus_tree = {
 		x = 1
 		y = 1
 		cost = 5
-		completion_reward = { }
+		completion_reward = {
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 5000
+				producer = SHE
+			}
+			add_equipment_to_stockpile = {
+				type = support_equipment
+				amount = 500
+				producer = SHE
+			}
+			hidden_effect = {
+				SHE = {
+					add_equipment_to_stockpile = {
+						type = infantry_equipment
+						amount = -5000
+					}
+					add_equipment_to_stockpile = {
+						type = support_equipment
+						amount = -500
+					}
+				}
+			}
+		}
 	}
 
 	focus = { # 자유를 쟁취하다
@@ -1366,7 +1910,28 @@ focus_tree = {
 		x = 0
 		y = 1
 		cost = 5
-		completion_reward = { }
+		completion_reward = {
+			add_war_support = 0.15
+			add_stability = 0.1
+			custom_effect_tooltip = SRT_special_forces_tt
+			# war_support_weekly = 0.01
+			# army_morale_factor = 0.15
+			add_to_variable = {
+				var = SRT_special_forces_war_support_weekly
+				value = 0.01
+				tooltip = war_support_weekly_tt
+			}
+			add_to_variable = {
+				var = SRT_special_forces_army_morale_factor
+				value = 0.15
+				tooltip = army_morale_factor_tt
+			}
+			#TODO: SRT학원 설립 이벤트		
+			# hidden_effect = {
+			# 	news_event = { id = srt_news.1 }  #SRT liberation event
+			# }
+		}
+
 	}
 
 	# 쓰지 않는 중점
