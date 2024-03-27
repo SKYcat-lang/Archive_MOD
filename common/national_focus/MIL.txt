@@ -5722,10 +5722,8 @@ focus_tree = {
 			custom_effect_tooltip = MIL_focused_research_unlock_tt
 			unlock_decision_tooltip = MIL_focused_research_classical_mechanics
 			unlock_decision_tooltip = MIL_focused_research_particle
-			unlock_decision_tooltip = MIL_focused_research_nuclear
 			set_country_flag = MIL_focused_research_classical_mechanics_onflag
 			set_country_flag = MIL_focused_research_particle_onflag
-			set_country_flag = MIL_focused_research_nuclear_onflag
 		}	
 	}
 
@@ -5865,10 +5863,9 @@ focus_tree = {
 		id = MIL_academy_of_science_and_research
 		icon = GFX_MIL_Science_ctiy
 		cost = 10.00
-		prerequisite = { focus = MIL_millennium_science_school }
-		x = 8
-		y = 1
-		relative_position_id = MIL_millennium_science_school
+		x = 60
+		y = 0
+		relative_position_id = MIL_SEMINA
 		completion_reward = {
 			add_research_slot = 1
 		}	
@@ -5877,7 +5874,7 @@ focus_tree = {
 	focus = { # 타워 네트워크 복원
 		id = MIL_tower_network_restoration
 		icon = GFX_focus_research
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_academy_of_science_and_research }
 		x = -1
 		y = 1
@@ -5890,7 +5887,7 @@ focus_tree = {
 	focus = { # 자유로운 지식의 공유
 		id = MIL_free_knowledge_sharing
 		icon = GFX_goal_generic_scientific_exchange
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_tower_network_restoration }
 		x = 0
 		y = 1
@@ -5978,11 +5975,115 @@ focus_tree = {
 		available = {
 			has_tech = atomic_research
 		}
-		x = -2
+		x = -4
 		y = 1
 		relative_position_id = MIL_science_focused_investment
 		completion_reward = {
+			unlock_decision_tooltip = MIL_focused_research_nuclear
+			set_country_flag = MIL_focused_research_nuclear_onflag
+		}	
+	}
+		
+	focus = { # 한계 돌파
+		id = MIL_breaking_limits
+		icon = GFX_focus_rom_parties_end
+		cost = 5.00
+		prerequisite = { focus = MIL_the_power_of_atoms }
+		mutually_exclusive = { focus = MIL_destroyer_of_worlds }
+		available = {
+		}
+		x = -1
+		y = 1
+		relative_position_id = MIL_the_power_of_atoms
+		completion_reward = {
 			add_country_leader_trait = MIL_atomic_exploration
+		}	
+	}
+		
+	focus = { # 세계의 파괴자
+		id = MIL_destroyer_of_worlds
+		icon = GFX_focus_wonderweapons
+		cost = 5.00
+		prerequisite = { focus = MIL_the_power_of_atoms }
+		mutually_exclusive = { focus = MIL_breaking_limits }
+		available = {
+		}
+		x = 1
+		y = 1
+		relative_position_id = MIL_the_power_of_atoms
+		completion_reward = {
+			add_tech_bonus = {
+				name = MIL_go_to_the_space
+				bonus = 3.0
+				uses = 1
+				category = nuclear
+			}
+		}	
+	}
+		
+	focus = { # 질량-에너지 동등성
+		id = MIL_mass_energy_equivalence
+		icon = GFX_focus_research
+		cost = 5.00
+		prerequisite = { focus = MIL_breaking_limits focus = MIL_destroyer_of_worlds }
+		available = {
+		}
+		x = 0
+		y = 2
+		relative_position_id = MIL_the_power_of_atoms
+		completion_reward = {
+			custom_effect_tooltip = MIL_tokamak_construction_tt
+		}	
+	}
+		
+	focus = { # 토카막 건설
+		id = MIL_tokamak_construction
+		icon = GFX_goal_generic_production
+		cost = 5.00
+		prerequisite = { focus = MIL_breaking_limits }
+		prerequisite = { focus = MIL_mass_energy_equivalence }
+		available = {
+		}
+		x = -1
+		y = 3
+		relative_position_id = MIL_the_power_of_atoms
+		completion_reward = {
+		}	
+	}
+		
+	focus = { # 수소폭탄
+		id = MIL_hydrogen_bomb
+		icon = GFX_goal_generic_production
+		cost = 5.00
+		prerequisite = { focus = MIL_destroyer_of_worlds }
+		mutually_exclusive = { focus = MIL_neutron_bomb }
+		available = {
+		}
+		x = 2
+		y = 2
+		relative_position_id = MIL_the_power_of_atoms
+		completion_reward = {
+			set_country_flag = BA_hydrogen_bomb_flag
+			set_variable = { MIL_hydrogen_bomb_var = 0 }
+			custom_effect_tooltip = MIL_hydrogen_bomb_tt
+		}	
+	}
+		
+	focus = { # 중성자탄
+		id = MIL_neutron_bomb
+		icon = GFX_goal_generic_production
+		cost = 5.00
+		prerequisite = { focus = MIL_destroyer_of_worlds }
+		mutually_exclusive = { focus = MIL_hydrogen_bomb }
+		available = {
+		}
+		x = 4
+		y = 2
+		relative_position_id = MIL_the_power_of_atoms
+		completion_reward = {
+			set_country_flag = BA_neutron_bomb_flag
+			set_variable = { MIL_neutron_bomb_var = 0 }
+			custom_effect_tooltip = MIL_neutron_bomb_tt
 		}	
 	}
 		
@@ -5992,7 +6093,7 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_science_focused_investment }
 		mutually_exclusive = { focus = MIL_the_power_of_atoms }
-		x = 3
+		x = 4
 		y = 1
 		relative_position_id = MIL_science_focused_investment
 		completion_reward = {
@@ -6118,8 +6219,8 @@ focus_tree = {
 		bypass = {
 			NOT = { has_idea = MIL_neutrality_idea }
 		}
-		x = 15
-		y = 4
+		x = 10
+		y = 1
 		relative_position_id = MIL_millennium_science_school
 		completion_reward = {
 			hidden_effect = {
