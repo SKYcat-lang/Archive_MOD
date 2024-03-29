@@ -5637,14 +5637,51 @@ focus_tree = {
 
 	focus = { # 전후 처리
 		id = MIL_postwar_processing
-		icon = unknown
+		icon = GFX_focus_generic_treaty
 		cost = 10.00
 		prerequisite = { focus = MIL_martial_law_declared }
 		prerequisite = { focus = MIL_peace_propaganda }
+		available = {
+			NOT = {
+				has_war_with = FRA
+			}
+			owns_state = 459
+		}
 		x = 0
 		y = 4
 		relative_position_id = MIL_Game_2
 		completion_reward = {
+			MIL = {
+				set_autonomy = {
+					target = ALG
+					autonomy_state = autonomy_collaboration_government
+				}
+			}
+			hidden_effect={
+			every_owned_state = {
+				limit = {
+					is_on_continent = africa
+				}
+				transfer_state_to = ALG
+			}
+			ALG = {
+				set_variable = {
+					collaboration_formed_by = ROOT
+				}
+				create_country_leader = {
+					name = MIL_africa_general
+					picture = "gfx/leaders/MIL/MIL_seminar_character_Portrait.tga"
+					ideology = technocracy
+				}
+			}
+			ALG = {
+				set_popularities = {
+					democratic = 100
+				}
+				set_politics = {
+					ruling_party = democratic
+				}
+			}}
 		}	
 	}
 
