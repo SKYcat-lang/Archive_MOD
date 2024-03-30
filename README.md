@@ -36,7 +36,9 @@
 ## 디스코드 / 스팀
 디스코드 : <https://discord.gg/kddrRNS6dt>   
 스팀 : <https://steamcommunity.com/sharedfiles/filedetails/?id=2927583473>
+유튜브 : <https://www.youtube.com/@HOI4BlueArchiveMod>
 
-## GFX 가져온곳(GFX ORIGIN)
-- [Anime infantry](https://steamcommunity.com/sharedfiles/filedetails/?id=2867507468) (헤일로 보병/Halo infantry)
+## GFX 원본 가져온곳(GFX ORIGIN source)
+- [블루 아카이브/Blue archive](https://steamcommunity.com/sharedfiles/filedetails/?id=2867507468) (대다수의 추가된 지도자 스프라이트(아마)+헤일로 보병 머리/Most of the added leader sprites (probably) + Halo infantry head)
+- [Anime infantry](https://steamcommunity.com/sharedfiles/filedetails/?id=2867507468) (헤일로 보병 몸체/Halo infantry body)
 - [Korea - The Heavens Soldiers](https://steamcommunity.com/sharedfiles/filedetails/?id=2315848888) (헬기/Helicopter)
