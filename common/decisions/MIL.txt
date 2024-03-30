@@ -2874,3 +2874,331 @@ FRA_prepare_war = {
 		}
 	}
 }
+MIL_defensive_war = {
+	MIL_automated_robotic_armament = {
+		icon = GFX_decision_generic_factory
+		
+		allowed = {
+			original_tag = MIL
+		}
+
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 5
+			modifier = {
+				has_war_with = FRA
+				factor = 20
+			}
+			modifier = {
+				has_defensive_war = yes
+				factor = 20
+			}
+			modifier = {
+				surrender_progress > 0.1
+				factor = 20
+			}
+			modifier = {
+				num_of_military_factories < 30
+				factor = 0.7
+			}
+			modifier = {
+				num_of_military_factories < 18
+				factor = 0.7
+			}
+			modifier = {
+				num_of_military_factories < 8
+				factor = 0
+			}
+		}
+
+		cost = 15
+
+		state_target = yes
+
+		on_map_mode = map_and_decisions_view
+
+		target_array = ROOT.core_states
+		
+		target_trigger = {
+			FROM = {
+				is_owned_and_controlled_by = ROOT
+				NOT = {
+					has_state_flag = MIL_automated_robotic_armament_flag
+					has_dynamic_modifier = {
+						modifier = MIL_unmanned_turret_ground
+					}
+					has_dynamic_modifier = {
+						modifier = MIL_ruination
+					}
+				}
+				non_damaged_building_level = {
+					building = arms_factory
+					level > 0
+				}
+			}
+			any_enemy_country = {
+				FROM = {
+					any_neighbor_state = {
+						is_controlled_by = PREV.PREV
+					}
+				}
+			}
+		}
+		complete_effect = {
+			if = {
+				limit = {
+					NOT = { has_template = "Purpose Modified Automaton" }
+				}
+				division_template = {
+					name = "Purpose Modified Automaton"
+					is_locked = yes
+					regiments = {
+						militia = { x = 0 y = 0}
+						militia = { x = 0 y = 1}
+						militia = { x = 0 y = 2}
+						militia = { x = 1 y = 0}
+						militia = { x = 1 y = 1}
+						militia = { x = 1 y = 3}
+					}
+				}
+			}
+			FROM = {
+				set_state_flag = {
+					flag = MIL_automated_robotic_armament_flag
+					days = 365
+					value = 1
+				}
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+				create_unit = {
+					division = "name = \"Purpose Modified Automaton\" division_template = \"Purpose Modified Automaton\" start_experience_factor = 0.1 start_equipment_factor = 0.6"
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Purpose Modified Automaton\" division_template = \"Purpose Modified Automaton\" start_experience_factor = 0.1 start_equipment_factor = 0.4"
+					owner = ROOT
+				}
+				create_unit = {
+					division = "name = \"Purpose Modified Automaton\" division_template = \"Purpose Modified Automaton\" start_experience_factor = 0.1 start_equipment_factor = 0.4"
+					owner = ROOT
+				}
+			}
+		}
+	}
+	MIL_self_destruct_command = {
+		icon = GFX_decision_generic_ignite_civil_war
+		
+		allowed = {
+			original_tag = MIL
+		}
+
+		available = {
+		}
+
+		ai_will_do = {
+			factor = 5
+			modifier = {
+				has_war_with = FRA
+				factor = 20
+			}
+			modifier = {
+				has_defensive_war = yes
+				factor = 20
+			}
+			modifier = {
+				surrender_progress > 0.1
+				factor = 5
+			}
+			modifier = {
+				surrender_progress > 0.2
+				factor = 5
+			}
+			modifier = {
+				surrender_progress > 0.5
+				factor = 10
+			}
+			modifier = {
+				surrender_progress > 0.6
+				factor = 20
+			}
+		}
+
+		cost = 35
+
+		state_target = yes
+
+		on_map_mode = map_and_decisions_view
+
+		target_array = ROOT.core_states
+		
+		target_trigger = {
+			FROM = {
+				NOT = {
+					has_state_flag = MIL_self_destruct_command_flag
+				}
+			}
+			any_enemy_country = {
+				FROM = {
+					is_controlled_by = PREV
+				}
+			}
+		}
+		complete_effect = {
+			FROM = {
+				set_state_flag = {
+					flag = MIL_self_destruct_command_flag
+					days = 1440
+					value = 1
+				}
+				random_list = {
+					50 = {
+						modifier = {
+							arms_factory < 2
+							factor = 0
+						}
+						remove_building = {
+							type = arms_factory
+							level = 2
+						}
+						add_dynamic_modifier = {
+							modifier = MIL_unmanned_turret_ground
+						}
+					}
+					35 = {
+						modifier = {
+							industrial_complex < 2
+							factor = 0
+						}
+						remove_building = {
+							type = industrial_complex
+							level = 2
+						}
+						damage_building = {
+							type = infrastructure
+							damage = 2
+						}
+						damage_building = {
+							type = industrial_complex
+							damage = 1.5
+						}
+					}
+					50 = {
+						modifier = {
+							arms_factory < 1
+							factor = 0.5
+						}
+						remove_building = {
+							type = arms_factory
+							level = 1
+						}
+						add_dynamic_modifier = {
+							modifier = MIL_unmanned_turret_ground
+						}
+					}
+					15 = {
+						modifier = {
+							industrial_complex < 1
+							factor = 0
+						}
+						remove_building = {
+							type = industrial_complex
+							level = 1
+						}
+						damage_building = {
+							type = infrastructure
+							damage = 2
+						}
+						damage_building = {
+							type = industrial_complex
+							damage = 1.5
+						}
+					}
+					15 = {
+						add_dynamic_modifier = {
+							modifier = MIL_unmanned_turret_ground
+						}
+					}
+					5 = {
+						modifier = {
+							arms_factory < 1
+							factor = 0.6
+						}
+						damage_building = {
+							type = infrastructure
+							damage = 2
+						}
+						damage_building = {
+							type = arms_factory
+							damage = 1.5
+						}
+					}
+					5 = {
+						modifier = {
+							industrial_complex < 1
+							factor = 0.6
+						}
+						damage_building = {
+							type = infrastructure
+							damage = 2
+						}
+						damage_building = {
+							type = industrial_complex
+							damage = 1.5
+						}
+					}
+					10 = {
+						ROOT = {
+							if = {
+								limit = {
+									NOT = { has_template = "Purpose Modified Automaton" }
+								}
+								division_template = {
+									name = "Purpose Modified Automaton"
+									is_locked = yes
+									regiments = {
+										militia = { x = 0 y = 0}
+										militia = { x = 0 y = 1}
+										militia = { x = 0 y = 2}
+										militia = { x = 1 y = 0}
+										militia = { x = 1 y = 1}
+										militia = { x = 1 y = 3}
+									}
+								}
+							}
+						}
+						FROM = {
+							create_unit = {
+								division = "name = \"Purpose Modified Automaton\" division_template = \"Purpose Modified Automaton\" start_experience_factor = 0.1 start_equipment_factor = 0.3"
+								owner = ROOT
+								allow_spawning_on_enemy_provs = yes
+							}
+							create_unit = {
+								division = "name = \"Purpose Modified Automaton\" division_template = \"Purpose Modified Automaton\" start_experience_factor = 0.1 start_equipment_factor = 0.2"
+								owner = ROOT
+								allow_spawning_on_enemy_provs = yes
+							}
+						}
+					}
+					1 = {
+						modifier = {
+							nuclear_reactor > 0
+							factor = 35
+						}
+						add_dynamic_modifier = {
+							modifier = MIL_ruination
+						}
+						ROOT = {
+							launch_nuke = {
+								state = FROM
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
