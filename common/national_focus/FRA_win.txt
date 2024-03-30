@@ -3,7 +3,7 @@ focus_tree = {
 	country = {
 		factor = 0
 		modifier = {
-			add = -1000
+			add = 1000
 			tag = FRA
 		}
 	}
@@ -15,7 +15,7 @@ focus_tree = {
 		#귀환	
 		id = FRA_focus_win_0
 		icon = GFX_goal_FRA_pays_reel
-		cost = 4.8
+		cost = 4
 		x = 10
 		y = 1
 		available = {
@@ -43,14 +43,31 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#비상사태 해제
-		id = FRA_focus_win_2
-		cost = 4.4
-		icon = GFX_goal_generic_improve_relations
+		#행정 복원
+		id = FRA_focus_win_2.1
+		cost = 4
+		icon = GFX_focus_generic_improve_the_administration
 		x = 10
 		y = 2
 		prerequisite = {
 			focus = FRA_focus_win_0
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = FRA_admin_not_good
+				add_idea = FRA_admin_not_good_1
+			}
+		}
+	}
+	focus = {
+		#동원 해제
+		id = FRA_focus_win_2
+		cost = 4
+		icon = GFX_goal_generic_improve_relations
+		x = 9
+		y = 3
+		prerequisite = {
+			focus = FRA_focus_win_2.1
 		}
 		completion_reward = {
 			add_ideas = export_focus
@@ -58,32 +75,71 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#학생 체포
-		id = FRA_focus_win_3
-		cost = 4.4
-		x = 8
-		icon = GFX_focus_SOV_penal_battalions
-		y = 4
+		#피난민 구제
+		id = FRA_focus_win_5
+		cost = 4
+		x = 11
+		y = 3
+		icon = GFX_goal_generic_consumer_goods
 		prerequisite = {
-			focus = FRA_focus_win_4
+			focus = FRA_focus_win_2.1
 		}
 		completion_reward = {
-			add_political_power = -100
-			hidden_effect = {
-				country_event = {
-					id = FRA_prov_event.72
-					days = 5
-				}
+			swap_ideas = {
+				remove_idea = FRA_admin_not_good_1
+				add_idea = FRA_admin_not_good_2
 			}
 		}
 	}
 	focus = {
-		#건물 재건
-		id = FRA_focus_win_4
-		cost = 4.4
-		icon = GFX_goal_generic_construction
+		#학생 체포
+		id = FRA_focus_win_3
+		cost = 4
 		x = 9
-		y = 3
+		icon = GFX_focus_SOV_penal_battalions
+		y = 6
+		prerequisite = {
+			focus = FRA_focus_win_4
+		}
+		prerequisite = {
+			focus = FRA_focus_win_6
+		}
+		completion_reward = {
+			add_political_power = -100
+			swap_ideas = {
+				remove_idea = FRA_resist_of_millenium
+				add_idea = FRA_resist_of_millenium_1
+			}
+			unlock_decision_tooltip = FRA_rebuild_kill_mil_res
+		}
+	}
+	focus = {
+		#협력자 처리
+		id = FRA_focus_win_2.3
+		cost = 4
+		x = 11
+		icon = GFX_focus_ITA_moschettieri_del_duce
+		y = 6
+		prerequisite = {
+			focus = FRA_focus_win_2.2
+		}
+		prerequisite = {
+			focus = FRA_focus_win_6
+		}
+		completion_reward = {
+			country_event = {
+				id = FRA_recover.5
+				days = 4
+			}
+		}
+	}
+	focus = {
+		#도시 재건
+		id = FRA_focus_win_4
+		cost = 4
+		icon = GFX_focus_generic_modernize_industry
+		x = 8
+		y = 4
 		prerequisite = {
 			focus = FRA_focus_win_2
 		}
@@ -92,32 +148,39 @@ focus_tree = {
 				idea = FRA_rebuild
 				days = 100
 			}
+			973 = {
+				BA_increase_state_category_by_one_level = yes
+			}
+			972 = {
+				BA_increase_state_category_by_one_level = yes
+			}
+			16 = {
+				BA_increase_state_category_by_one_level = yes
+			}
 		}
 	}
 	focus = {
-		#피난민 구제
-		id = FRA_focus_win_5
-		cost = 4.4
-		x = 11
-		y = 3
-		icon = GFX_goal_generic_consumer_goods
+		#농촌 질서 복구
+		id = FRA_focus_win_2.2
+		cost = 4
+		icon = GFX_focus_generic_farmland
+		x = 12
+		y = 4
 		prerequisite = {
 			focus = FRA_focus_win_2
 		}
 		completion_reward = {
-			add_manpower = 20000
-			add_stability = 0.05
 		}
 	}
 	focus = {
 		#망명자 복귀
 		icon = GFX_goal_generic_navy_battleship
 		id = FRA_focus_win_6
-		cost = 4.4
-		x = 12
-		y = 4
+		cost = 4
+		x = 10
+		y = 5
 		prerequisite = {
-			focus = FRA_focus_win_5
+			focus = FRA_focus_win_9
 		}
 		completion_reward = {
 			every_core_state = {
@@ -125,22 +188,16 @@ focus_tree = {
 					is_owned_by = FRA
 					is_on_continent = europe
 				}
-				random_list = {
-					10 = {
-						add_extra_state_shared_building_slots = 1
-						add_building_construction = {
-							type = industrial_complex
-							level = 1
-						}
-					}
-					10 = {
-						add_extra_state_shared_building_slots = 1
-						add_building_construction = {
-							type = arms_factory
-							level = 1
-						}
-					}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 1
 				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+				add_manpower = 1000
 			}
 			459 = {
 				remove_building = {
@@ -149,8 +206,31 @@ focus_tree = {
 				}
 				remove_building = {
 					type = arms_factory
-					level = 10
+					level = 5
 				}
+				add_manpower = -10000
+			}
+			461 = {
+				remove_building = {
+					type = industrial_complex
+					level = 5
+				}
+				remove_building = {
+					type = arms_factory
+					level = 3
+				}
+				add_manpower = -10000
+			}
+			458 = {
+				remove_building = {
+					type = industrial_complex
+					level = 5
+				}
+				remove_building = {
+					type = arms_factory
+					level = 3
+				}
+				add_manpower = -10000
 			}
 			460 = {
 				remove_building = {
@@ -159,8 +239,9 @@ focus_tree = {
 				}
 				remove_building = {
 					type = arms_factory
-					level = 10
+					level = 5
 				}
+				add_manpower = -10000
 			}
 			if = {
 				limit = {
@@ -181,19 +262,6 @@ focus_tree = {
 					remove_core_of = FRA
 				}
 			}
-			every_core_state = {
-				limit = {
-					is_owned_by = ROOT
-					is_on_continent = europe
-				}
-				add_manpower = 1000
-			}
-			459 = {
-				add_manpower = -10000
-			}
-			460 = {
-				add_manpower = -10000
-			}
 			add_popularity = {
 				ideology = var:current_party_ideology_group
 				popularity = 0.05
@@ -203,13 +271,15 @@ focus_tree = {
 	focus = {
 		#에펠탑 재건축
 		id = FRA_focus_win_9
-		cost = 4.4
+		cost = 4
 		icon = GFX_goal_generic_air_production
 		x = 10
 		y = 4
 		prerequisite = {
-			focus = FRA_focus_win_4
 			focus = FRA_focus_win_5
+		}
+		prerequisite = {
+			focus = FRA_focus_win_2
 		}
 		completion_reward = {
 			country_event = {
@@ -222,17 +292,14 @@ focus_tree = {
 		#결정
 		id = FRA_focus_win_10
 		icon = GFX_goal_generic_dangerous_deal
-		cost = 4.4
+		cost = 4
 		x = 10
-		y = 5
-		prerequisite = {
-			focus = FRA_focus_win_9
-		}
-		prerequisite = {
-			focus = FRA_focus_win_6
-		}
+		y = 7
 		prerequisite = {
 			focus = FRA_focus_win_3
+		}
+		prerequisite = {
+			focus = FRA_focus_win_2.3
 		}
 		completion_reward = {
 			if = {
