@@ -368,6 +368,25 @@ focus_tree = {
 			# }
 		}
 	}
+
+	focus = { #
+		id = SRT_focus_weapon_research_2
+		relative_position_id = SRT_focus_weapon_research
+		icon = GFX_focus_research
+		prerequisite = { focus = SRT_focus_weapon_research }
+		#mutually_exclusive = { focus = SRT_focus_ }
+		x = 0
+		y = 1
+		cost = 10
+		available = {
+			num_of_factories = 30
+		}  
+		bypass = {
+		}
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}	
 	focus = { #
 		relative_position_id = SRT_strengthening_power
 		id = SRT_songunism
@@ -478,7 +497,7 @@ focus_tree = {
 			has_country_flag = SRT_fight_flag
 		}  
 		completion_reward = {
-			
+			add_stability = 0.2
 		}
 	}
 
@@ -664,8 +683,6 @@ focus_tree = {
 		}
 	}
 
-
-
 	focus = {
 		id = SRT_ministary_of_diplomacy # 외교부
 		icon = GFX_goal_molotov_ribbentrop_pact
@@ -709,7 +726,8 @@ focus_tree = {
 		completion_reward = {
 			# TODO: 린 영입 이벤트
 			#country_event = { id = SRT_RIN_diplomacy.1 }
-			custom_effect_tooltip = SRT_cou_rin_effect_tt
+			#custom_effect_tooltip = SRT_cou_rin_effect_tt
+			add_ideas = SRT_cou_rin_idea
 		}
 	}
 
@@ -722,7 +740,9 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			custom_effect_tooltip = SRT_cou_kaya_effect_tt
+			# 카야 영입 이벤트
+			#custom_effect_tooltip = SRT_cou_kaya_effect_tt
+			add_ideas = SRT_cou_kaya_idea
 		}
 	}
 
@@ -935,15 +955,17 @@ focus_tree = {
 	}
 
 	focus = {
-		id = SRT_rabbit_leader # 토끼 지도자
-		icon = GFX_focus_generic_military_mission
+		id = SRT_rabbit_leader # 상륙 훈련
+		icon = GFX_goal_generic_amphibious_assault
 		relative_position_id = SRT_representation		
 		prerequisite = { focus = SRT_representation }
 		x = 0
 		y = 2
 		cost = 5
 		completion_reward = {
-			#TODO: 미야코에게 SRT소대장 특성 추가
+			set_technology = {
+				landing_craft = 1
+			}
 		}
 	}
 
@@ -1201,9 +1223,39 @@ focus_tree = {
 			has_country_flag = SRT_ttaggari_flag
 		}  
 		completion_reward = {
-			# 
 			add_ideas = SRT_submitted_to_schale
 			add_political_power = -100
+			SHE = {
+				puppet = {
+					target = ROOT
+					end_wars = yes
+				}
+				hidden_effect = {
+					ROOT = { BA_puppet_on_action_effect = yes }					
+				}
+			}
+			# 헤일로 보병 쪽 찐빠 제거
+			hidden_effect = {
+				BA_halo_infantry_unban_effect = yes
+			}
+			set_politics = {
+				ruling_party = democratic
+				elections_allowed = no
+			}
+			hidden_effect = {
+				add_popularity = {
+					ideology = democratic
+					popularity = 0.2
+				}
+				add_popularity = {
+					ideology = neutrality
+					popularity = -0.3
+				}				
+			}
+		}
+
+		ai_will_do = {
+			factor = 0
 		}
 	}	
 
@@ -1753,9 +1805,9 @@ focus_tree = {
 		}
 	}
 
-	focus = { # 손을 내밀다
+	focus = { # 고속정 노획
 		id = SRT_reach_out_hand
-		icon = GFX_focus_POL_beck_ribbentrop
+		icon = GFX_focus_generic_destroyer
 		
 		prerequisite = { 
 			#focus = SRT_top_and_bottom
@@ -1767,8 +1819,7 @@ focus_tree = {
 		y = 1
 		cost = 5
 		completion_reward = {
-			# TODO: 대충 누군가와 연합하는 효과
-
+			set_technology = { kivotos_valkyries_of_sea_tech = 1 }
 		 }
 	}
 
@@ -1810,6 +1861,7 @@ focus_tree = {
 		cost = 5
 		completion_reward = {
 			# 작전 관련 디시전
+			remove_ideas = SRT_submitted_to_schale
 		}
 	}
 
@@ -1828,7 +1880,9 @@ focus_tree = {
 		x = 0
 		y = 1
 		cost = 5
-		completion_reward = { }
+		completion_reward = {
+			add_ideas = SRT_yukino_imprisonment_modifier
+		}
 	}
 	
 
@@ -1934,6 +1988,143 @@ focus_tree = {
 		}
 
 	}
+
+
+	focus = {
+		# 카르바노그의 토끼
+		id = SRT_rabbit_of_karbannog
+		icon = GFX_SRT_focus_karbarlog
+		relative_position_id = SRT_our_principle		
+		prerequisite = { 
+			focus = SRT_our_principle
+			focus = SRT_we_are_srt
+			focus = SRT_yukino_imprisonment
+			focus = SRT_seize_freedom
+		}
+
+		x = 7
+		y = 1
+		cost = 50
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = SHE
+				}
+				create_wargoal = {
+					target = SHE
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					country_exists = COU
+				}
+				create_wargoal = {
+					target = COU
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					country_exists = KSP
+				}
+				create_wargoal = {
+					target = KSP
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					country_exists = HEU
+				}
+				create_wargoal = {
+					target = HEU
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					country_exists = GEM
+				}
+				create_wargoal = {
+					target = GEM
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					country_exists = GEH
+				}
+				create_wargoal = {
+					target = GEH
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					country_exists = MIL
+				}
+				create_wargoal = {
+					target = MIL
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					country_exists = TRM
+				}
+				create_wargoal = {
+					target = TRM
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					country_exists = ARI
+				}
+				create_wargoal = {
+					target = ARI
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					country_exists = RED
+				}
+				create_wargoal = {
+					target = RED
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					country_exists = ABY
+				}
+				create_wargoal = {
+					target = ABY
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					country_exists = HYA
+				}
+				create_wargoal = {
+					target = HYA
+					type = annex_everything
+				}
+			}
+			if = {
+				limit = {
+					country_exists = SHA
+				}
+				create_wargoal = {
+					target = SHA
+					type = annex_everything
+				}
+			}
+		}
+	}	
 
 	# 쓰지 않는 중점
 
