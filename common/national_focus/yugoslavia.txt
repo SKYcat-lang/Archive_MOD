@@ -2352,7 +2352,6 @@ focus_tree = {
 	focus = {
 		id = YUG_enforced_neutrality
 		icon = GFX_goal_generic_defence
-		prerequisite = { focus = YUG_royal_wedding }
 		prerequisite = { focus = YUG_coronation }
 		mutually_exclusive = { focus = YUG_join_allies focus = YUG_seeking_alliance_with_italy }
 		x = 0
@@ -2669,6 +2668,8 @@ focus_tree = {
 			}
 		}
 	}
+
+	
 
 	focus = {
 		id = YUG_mutual_economic_aid
@@ -3188,14 +3189,37 @@ focus_tree = {
 	}
 
 	focus = {
+		id = YUG_With_Marshal_Tito
+		icon = GFX_goal_support_communism
+		prerequisite = { focus = YUG_workers_republic }
+		cost = 5
+		x = -3
+		y = 1
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		relative_position_id = YUG_workers_republic
+		completion_reward = {
+			add_country_leader_trait = communist_theorist
+			add_country_leader_trait = Generallissimo
+
+			hidden_effect = {
+				add_country_leader_trait = marxist_philosopher
+			}
+		}
+	}
+	
+	focus = {
 		id = YUG_pan_slavic_workers_congress
 		icon = GFX_focus_YUG_pan_slavic_congress
-		prerequisite = { focus = YUG_workers_republic }
+		prerequisite = { focus = YUG_With_Marshal_Tito }
 		x = -3
 		y = 2
 		relative_position_id = YUG_workers_republic
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 50
@@ -3365,6 +3389,18 @@ focus_tree = {
 		y = 1
 		relative_position_id = YUG_balkan_federation
 
+		available = {
+			is_subject = no
+			OR = {
+				BUL = {
+					is_subject_of = YUG
+				}
+				ALB = {
+					is_subject_of = YUG
+				}
+			}
+		}
+
 		cost = 10
 
 		ai_will_do = {
@@ -3446,12 +3482,6 @@ focus_tree = {
 				days > 490
 			}
 			OR = {
-				BUL = {
-					is_subject_of = YUG
-				}
-				ALB = {
-					is_subject_of = YUG
-				}
 				ROM = {
 					is_subject_of = YUG
 				}
@@ -4573,7 +4603,17 @@ focus_tree = {
 		ai_will_do = {
 			factor = 10
 		}
-		completion_reward = { }
+		completion_reward = {
+			effect_tooltip = {
+				remove_ideas = king_peter_1
+			}
+			hidden_effect = {
+				if = {
+					limit = { has_idea = king_peter_1 }
+					remove_ideas = king_peter_1
+				}
+			}
+		}
 	}
 
 	focus = {
