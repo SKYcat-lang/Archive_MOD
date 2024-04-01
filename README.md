@@ -36,7 +36,7 @@
 ## 디스코드 / 스팀
 디스코드 : <https://discord.gg/kddrRNS6dt>   
 스팀 : <https://steamcommunity.com/sharedfiles/filedetails/?id=2927583473> 
-유튜브 : <https://www.youtube.com/@HOI4BlueArchiveMod>
+유튜브 : <https://www.youtube.com/@HOI4BlueArchiveMod> 
 
 ## GFX 원본 가져온곳(GFX ORIGIN source)
 - [블루 아카이브/Blue archive](https://steamcommunity.com/sharedfiles/filedetails/?id=2867507468) (대다수의 추가된 지도자 스프라이트(아마)+헤일로 보병 머리/Most of the added leader sprites (probably) + Halo infantry head)
