@@ -492,10 +492,10 @@ focus_tree = {
 		}
 		completion_reward = {
 			460 = {
-				add_extra_state_shared_building_slots = 3
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = dockyard
-					level = 3
+					level = 1
 				}
 			}
 			458 = {
@@ -1214,14 +1214,14 @@ focus_tree = {
 		}
 		completion_reward = {
 			461 = {
-				add_extra_state_shared_building_slots = 4
+				add_extra_state_shared_building_slots = 3
 				add_building_construction = {
 					type = air_base
 					level = 1
 				}
 				add_building_construction = {
 					type = arms_factory
-					level = 3
+					level = 2
 				}
 			}
 		}
@@ -1777,7 +1777,7 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_spain_3
 			focus = FRA_focus_spain_2
-			focus = FRA_focus_german_3
+			focus = FRA_focus_resistance_11
 		}
 		available = {
 			always = no
@@ -1950,41 +1950,47 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#인도 개입
-		icon = GFX_focus_attack_india
+		#도움의 대가
+		icon = GFX_focus_intervention_spain_nationalists
 		id = FRA_focus_german_3
 		cost = 2
 		x = 14
-		y = 10
+		y = 11
 		prerequisite = {
-			focus = FRA_focus_german_2
-			focus = FRA_focus_german_1
+			focus = FRA_focus_spain_2
+			focus = FRA_focus_spain_3
 		}
-		bypass = {NOT={
-			HND={
-				exists = yes
-				has_war_with = RAJ
-			}}
+		prerequisite = {
+			focus = FRA_focus_resistance_11
 		}
 		available = {
-			has_war = no
-			HND={
-				exists = yes
-				has_war_with = RAJ
+			SPR = {
+				has_civil_war = no
 			}
-			NOT = {
-				has_government = communism
+			OR = {
+				AND = {
+					SPR = {
+						OR ={
+							has_government = fascism
+							has_government = neutrality
+						}
+					}
+					has_completed_focus = FRA_focus_spain_2
+				}
+				AND = {
+					SPR = {
+						has_government = democratic
+					}
+					has_completed_focus = FRA_focus_spain_3
+				}
 			}
 		}
 		completion_reward = {
-			add_ai_strategy = {
-				type = send_volunteers_desire
-				id = RAJ
-				value = 200
-			}
-			add_timed_idea = {
-				idea = FRA_support_RAJ
-				days = 300
+			SPR = {
+				add_timed_idea = {
+					idea = FRA_eat_spain
+					days = 360
+				}
 			}
 		}
 	}
@@ -1994,13 +2000,10 @@ focus_tree = {
 		id = FRA_focus_resistance_11
 		cost = 2
 		x = 14
-		y = 11
+		y = 10
 		prerequisite = {
-			focus = FRA_focus_german_3
-		}
-		prerequisite = {
-			focus = FRA_focus_spain_2
-			focus = FRA_focus_spain_3
+			focus = FRA_focus_german_2
+			focus = FRA_focus_german_1
 		}
 		completion_reward = {
 			if = {
@@ -4480,7 +4483,6 @@ focus_tree = {
 			focus = FRA_focus_resistance_1
 		}
 		completion_reward = {
-			add_manpower = 10000
 			add_ideas = FRA_lib_army
 		}
 	}
@@ -5290,7 +5292,7 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#분단
+		#분단 차선책
 		icon = GFX_goal_generic_forceful_treaty
 		id = FRA_focus_war_6
 		cost = 1
@@ -5310,6 +5312,49 @@ focus_tree = {
 				country_event = {
 					id = FRA_recover.4
 					days = 50
+				}
+				if = {
+					limit = {
+						has_country_flag = FRA_fascist_on
+					}
+					set_party_name = {
+						ideology = communism
+						long_name = FRA_communism_party
+						name = FRA_communism_party
+					}
+				}
+				if = {
+					limit = {
+						has_dynamic_modifier = {
+							modifier = FRA_national_defense_bond
+						}
+					}
+					country_event = {
+						id = FRA_prov_event.33
+						days = 5
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_country_flag = FRA_spr_is_helping
+				}
+				hidden_effect = {
+					country_event = {
+						id = FRA_recover.3
+						days = 5
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_country_flag = FRA_ita_is_helping
+				}
+				hidden_effect = {
+					country_event = {
+						id = FRA_prov_event.68
+						days = 5
+					}
 				}
 			}
 			add_war_support = -0.2
