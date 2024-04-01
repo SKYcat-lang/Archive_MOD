@@ -35,7 +35,7 @@
 
 ## 디스코드 / 스팀
 디스코드 : <https://discord.gg/kddrRNS6dt>   
-스팀 : <https://steamcommunity.com/sharedfiles/filedetails/?id=2927583473> 
+스팀 : <https://steamcommunity.com/sharedfiles/filedetails/?id=2927583473>   
 유튜브 : <https://www.youtube.com/@HOI4BlueArchiveMod> 
 
 ## GFX 원본 가져온곳(GFX ORIGIN source)
