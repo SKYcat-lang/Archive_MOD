@@ -3,7 +3,7 @@
 **\[미완성 버전입니다! (현재 버전 : v0.6.5)]**   
 **모든 DLC를 소유하고 있어야 정상적으로 작동합니다!**
 
-이 모드는 넥슨게임즈의 서브컬쳐 게임, "[블루 아카이브](https://steamcommunity.com/linkfilter/?u=https%3A%2F%2Fbluearchive.nexon.com%2Fhome)" 를 토대로 만든 모드입니다.
+이 모드는 넥슨게임즈의 서브컬쳐 게임, "[블루 아카이브](https%3A%2F%2Fbluearchive.nexon.com%2Fhome)" 를 토대로 만든 모드입니다.
 
 ## 주요 국가 | 키보토스
 - 샬레(SHE)   
@@ -49,6 +49,6 @@
 유튜브 : <https://www.youtube.com/@HOI4BlueArchiveMod> 
 
 ## GFX 원본 가져온곳(GFX ORIGIN source)
-[블루 아카이브/Blue archive](https://steamcommunity.com/sharedfiles/filedetails/?id=2867507468) (대다수의 추가된 지도자 스프라이트(아마)+헤일로 보병 머리/Most of the added leader sprites (probably) + Halo infantry head)
-[Anime infantry](https://steamcommunity.com/sharedfiles/filedetails/?id=2867507468) (헤일로 보병 몸체/Halo infantry body)
-[Korea - The Heavens Soldiers](https://steamcommunity.com/sharedfiles/filedetails/?id=2315848888) (헬기/Helicopter)
+- [블루 아카이브/Blue archive](https%3A%2F%2Fbluearchive.nexon.com%2Fhome) (대다수의 추가된 지도자 스프라이트(아마)+헤일로 보병 머리/Most of the added leader sprites (probably) + Halo infantry head)
+- [Anime infantry](https://steamcommunity.com/sharedfiles/filedetails/?id=2867507468) (헤일로 보병 몸체/Halo infantry body)
+- [Korea - The Heavens Soldiers](https://steamcommunity.com/sharedfiles/filedetails/?id=2315848888) (헬기/Helicopter)
