@@ -414,19 +414,20 @@ focus_tree = {
 	focus = {
 		id = YUG_regency_council
 		icon = GFX_focus_rom_handle_king
-		prerequisite = { focus = YUG_concessions_for_macedonians focus = YUG_surrender_macedonia focus = YUG_banat_for_support focus = YUG_autonomous_transylvania focus = YUG_fortify_banat }
+		prerequisite = { focus = YUG_concessions_for_macedonians focus = YUG_surrender_macedonia focus = YUG_banat_for_support focus = YUG_autonomous_transylvania focus = YUG_fortify_banat focus = YUG_state_cooperativeism focus = YUG_state_cooperativeism }
 		mutually_exclusive = { focus = YUG_end_the_regency focus = YUG_join_axis }
 		x = 0
 		y = 4
 		relative_position_id = YUG_evolution
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 100
 		}
 
 		available = {
+			NOT = { has_government = fascism }
 		}
 
 		bypass = {
@@ -2023,8 +2024,8 @@ focus_tree = {
 	focus = { #섭정위원회 통제 전복
 		id = YUG_end_the_regency
 		icon = GFX_focus_rom_royal_dictatorship
-		prerequisite = { focus = YUG_concessions_for_macedonians focus = YUG_surrender_macedonia focus = YUG_banat_for_support focus = YUG_autonomous_transylvania focus = YUG_fortify_banat }
-		mutually_exclusive = { focus = YUG_regency_council }
+		prerequisite = { focus = YUG_concessions_for_macedonians focus = YUG_surrender_macedonia focus = YUG_banat_for_support focus = YUG_autonomous_transylvania focus = YUG_fortify_banat focus = YUG_state_cooperativeism }
+		mutually_exclusive = { focus = YUG_regency_council focus = YUG_join_axis }
 		x = 0
 		y = 1
 		relative_position_id = YUG_banat_for_support
@@ -2037,6 +2038,7 @@ focus_tree = {
 
 		available = {
 			date > 1938.09.06
+			NOT = { has_government = fascism }
 		}
 
 		bypass = {
@@ -4094,13 +4096,28 @@ focus_tree = {
 			focus = YUG_yugoslav_nationalism
 			focus = YUG_serbian_nationalism
 		}
+		available = {
+			OR = {
+				fascism > 0.4
+				has_government = fascism
+			}
+		}
 		x = -1
-		y = 1
+		y = 2
 		relative_position_id = YUG_yugoslav_nationalism
 		ai_will_do = {
 			factor = 10
 		}
-		completion_reward = { }
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_government = fascism }
+				}
+				set_politics = {
+					ruling_party = fascism
+				}
+			}
+		}
 	}
 
 	focus = {
@@ -4117,7 +4134,8 @@ focus_tree = {
 		ai_will_do = {
 			factor = 10
 		}
-		completion_reward = { }
+		completion_reward = {
+		}
 	}
 
 	focus = {
@@ -4141,7 +4159,7 @@ focus_tree = {
 		id = YUG_join_axis
 		icon = GFX_goal_support_fascism
 		prerequisite = { focus = YUG_state_cooperativeism }
-		mutually_exclusive = { focus = YUG_regency_council }
+		mutually_exclusive = { focus = YUG_regency_council focus = YUG_end_the_regency }
 		x = 0
 		y = 4
 		relative_position_id = YUG_duce_of_yugoslavia
@@ -4153,16 +4171,12 @@ focus_tree = {
 		}
 
 		available = {
-			OR = {
-				fascism > 0.4
-				has_government = fascism
-			}
+			has_government = fascism
 			OR = {
 				ITA = {
 					NOT = { has_war_with = ROOT }
 					has_government = fascism
 					has_capitulated = no
-					is_faction_leader = yes
 				}
 				any_other_country = {
 					is_major = yes
@@ -4195,15 +4209,14 @@ focus_tree = {
 							exists = yes
 							has_capitulated = no
 							has_government = fascism
-							is_faction_leader = yes
 						}
 					}
-					ITA = { country_event = DOD_yugoslavia.70 }
+					ITA = { country_event = YUG_event.11 }
 				}
 				else = {
 					get_best_alliance_match_fascism_effect = yes
 					var:best_leader = {
-						country_event = DOD_yugoslavia.70
+						country_event = YUG_event.11
 					}
 				}
 			}
@@ -4214,28 +4227,21 @@ focus_tree = {
 							exists = yes
 							has_capitulated = no
 							has_government = fascism
-							is_faction_leader = yes
 						}
 					}
 					ITA = {
-						add_opinion_modifier = { target = YUG modifier = tripartite_pact_opinion }
-						reverse_add_opinion_modifier = { target = YUG modifier = tripartite_pact_opinion }
+						add_opinion_modifier = { target = YUG modifier = medium_increase }
+						reverse_add_opinion_modifier = { target = YUG modifier = medium_increase }
+						country_event = YUG_event.11
 					}
 				}
 				else = {
 					get_best_alliance_match_fascism_effect = yes
 					var:best_leader = {
-						add_opinion_modifier = { target = YUG modifier = tripartite_pact_opinion }
-						reverse_add_opinion_modifier = { target = YUG modifier = tripartite_pact_opinion }
+						add_opinion_modifier = { target = YUG modifier = medium_increase }
+						reverse_add_opinion_modifier = { target = YUG modifier = medium_increase }
+						country_event = YUG_event.11
 					}
-				}
-			}
-			if = {
-				limit = {
-					NOT = { has_government = fascism }
-				}
-				set_politics = {
-					ruling_party = fascism
 				}
 			}
 		}
@@ -4255,7 +4261,14 @@ focus_tree = {
 		ai_will_do = {
 			factor = 10
 		}
-		completion_reward = { }
+		completion_reward = {
+			add_stability = -0.05
+			add_war_support = 0.10
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.10
+			}
+		}
 	}
 
 	focus = {
