@@ -5,25 +5,35 @@
 
 이 모드는 넥슨게임즈의 서브컬쳐 게임, "[블루 아카이브](https://steamcommunity.com/linkfilter/?u=https%3A%2F%2Fbluearchive.nexon.com%2Fhome)" 를 토대로 만든 모드입니다.
 
-## 플레이 가능한 국가
-- 트리니티 종합학원
-- 샬레
-- 망명 프랑스
-- 헝가리 왕국
-- 밀레니엄 사이언스 스쿨
-- 산해경 고급중학교
-- 백귀야행 연합학원
-- 아비도스 고등학교
-- 게헨나 학원
-- 붉은겨울 연방학원
-- 바라트
+## 주요 국가 | 키보토스
+- 샬레(SHE)   
+- 키보토스 총학생회(COU) | 미완성   
+- 발키리 경찰학교(KSP)   
+- SRT 특수학원(SRT) | 미완성   
+- 판데모니움 소사이어티(GEM)   
+- 게헨나 선도부(GEH)   
+- 흥신소 68(HEU)   
+- 트리니티 종합학원(TRM)   
+- 아리우스 분교(ARI) | 미완성   
+- 아비도스 고등학교(ABY) | 미완성   
+- 백귀야행 연합학원(HYA)   
+- 산해경 고급중학교(SHA)   
+- 밀레니엄 사이언스 스쿨(MIL)   
+- 붉은겨울 연방학원(RED) | 미완성   
+- 카이저 코퍼레이션(KAI) | 미완성   
+- 게마트리아(GEI) | 미완성   
 
-## 개발 중인 국가
-- 흥신소 68
-- 발키리 경찰학교
-- 게마트리아
-- 아리우스 분교
-- SRT 특수학원
+## 주요 국가 | 지구
+- 독일 전쟁해군(GEN) | 미완성   
+- 연합왕국(ENG) | 미완성   
+- 프랑스 공화국(FRA)   
+- 이탈리아 왕국(ITA) | 호환성 낮음   
+- 네덜란드(HOL) | 호환성 낮음   
+- 망명 벨기에(BEL) | 미완성   
+- 폴란드 공화국(POL) | 호환성 낮음   
+- 헝가리 왕국(HUN)   
+- 유고슬라비아(YUG)   
+- 바라트 평의회(HND)   
 
 ## 모드
 **필수 적용 모드** : [한국어 모드](https://steamcommunity.com/sharedfiles/filedetails/?id=2743487021)   
@@ -33,12 +43,12 @@
 ## 언어 패치 | Language patch
 **영어 | English** : [English translation](https://steamcommunity.com/sharedfiles/filedetails/?id=3069377398)
 
-## 디스코드 / 스팀
+## 관련 링크
 디스코드 : <https://discord.gg/kddrRNS6dt>   
 스팀 : <https://steamcommunity.com/sharedfiles/filedetails/?id=2927583473>   
 유튜브 : <https://www.youtube.com/@HOI4BlueArchiveMod> 
 
 ## GFX 원본 가져온곳(GFX ORIGIN source)
-- [블루 아카이브/Blue archive](https://steamcommunity.com/sharedfiles/filedetails/?id=2867507468) (대다수의 추가된 지도자 스프라이트(아마)+헤일로 보병 머리/Most of the added leader sprites (probably) + Halo infantry head)
-- [Anime infantry](https://steamcommunity.com/sharedfiles/filedetails/?id=2867507468) (헤일로 보병 몸체/Halo infantry body)
-- [Korea - The Heavens Soldiers](https://steamcommunity.com/sharedfiles/filedetails/?id=2315848888) (헬기/Helicopter)
+[블루 아카이브/Blue archive](https://steamcommunity.com/sharedfiles/filedetails/?id=2867507468) (대다수의 추가된 지도자 스프라이트(아마)+헤일로 보병 머리/Most of the added leader sprites (probably) + Halo infantry head)
+[Anime infantry](https://steamcommunity.com/sharedfiles/filedetails/?id=2867507468) (헤일로 보병 몸체/Halo infantry body)
+[Korea - The Heavens Soldiers](https://steamcommunity.com/sharedfiles/filedetails/?id=2315848888) (헬기/Helicopter)
