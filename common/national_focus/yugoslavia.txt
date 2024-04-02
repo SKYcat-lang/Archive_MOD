@@ -4202,24 +4202,6 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
-			random_owned_controlled_state = {
-				limit = {
-					ROOT = { has_full_control_of_state = PREV }
-				}
-				add_extra_state_shared_building_slots = 1
-			}
-			random_owned_controlled_state = {
-				limit = {
-					ROOT = { has_full_control_of_state = PREV }
-				}
-				add_extra_state_shared_building_slots = 1
-			}
-			random_owned_controlled_state = {
-				limit = {
-					ROOT = { has_full_control_of_state = PREV }
-				}
-				add_extra_state_shared_building_slots = 1
-			}
 		}
 	}
 
@@ -4469,13 +4451,24 @@ focus_tree = {
 		prerequisite = {
 			focus = YUG_join_axis
 		}
+		available = {
+			NOT = { has_completed_focus = YUG_end_the_regency }
+		}
 		x = -1
 		y = 1
 		relative_position_id = YUG_join_axis
 		ai_will_do = {
 			factor = 10
 		}
-		completion_reward = { }
+		completion_reward = {
+			add_stability = -0.10
+			every_owned_state = {
+				limit = {
+					is_core_of = SER
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+		}
 	}
 
 	focus = {
@@ -4485,6 +4478,9 @@ focus_tree = {
 		prerequisite = {
 			focus = YUG_join_axis
 			focus = YUG_regency_council
+		}
+		available = {
+			NOT = { has_completed_focus = YUG_end_the_regency }
 		}
 		bypass = {
 			NOT = { has_idea = anti_german_military }
@@ -4607,30 +4603,21 @@ focus_tree = {
 			focus = YUG_symbol_of_the_nation
 			focus = YUG_seeking_alliance_with_italy
 		}
-		mutually_exclusive = { focus = YUG_border_retreat }
-		x = -2
+		x = -3
 		y = 1
 		relative_position_id = YUG_seeking_alliance_with_italy
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 100
 		}
 
 		available = {
-			OR = {
-				ITA = {
-					NOT = { has_war_with = ROOT }
-					has_government = fascism
-					has_capitulated = no
-					is_faction_leader = yes
-				}
-				any_other_country = {
-					is_major = yes
-					has_government = fascism
-					is_faction_leader = yes
-				}
+			ITA = {
+				NOT = { has_war_with = ROOT }
+				has_government = fascism
+				has_capitulated = no
 			}
 			NOT = {
 				any_other_country = {
@@ -4654,23 +4641,6 @@ focus_tree = {
 			163 = { remove_core_of = ROOT }
 			736 = { remove_core_of = ROOT }
 			852 = { remove_core_of = ROOT }
-			if = {
-				limit = {
-					ITA = {
-						exists = yes
-						has_capitulated = no
-						has_government = fascism
-						is_faction_leader = yes
-					}
-				}
-				ITA = { country_event = generic.2 }
-			}
-			else = {
-				get_best_alliance_match_fascism_effect = yes
-				var:best_leader = {
-					country_event = generic.2
-				}
-			}
 		}
 	}
 
@@ -4678,7 +4648,8 @@ focus_tree = {
 		id = YUG_claim_macedonia
 		icon = GFX_goal_generic_territory_or_war
 		prerequisite = { focus = YUG_surrender_italian_claims }
-		x = 0
+		mutually_exclusive = { focus = YUG_border_retreat }
+		x = 1
 		y = 1
 		relative_position_id = YUG_surrender_italian_claims
 
@@ -4758,7 +4729,7 @@ focus_tree = {
 			focus = YUG_defence_league
 			focus = YUG_greater_yugoslavia
 		}
-		x = 4
+		x = 5
 		y = 3
 		relative_position_id = YUG_surrender_italian_claims
 
@@ -4797,7 +4768,6 @@ focus_tree = {
 		prerequisite = {
 			focus = YUG_claim_macedonia
 		}
-		mutually_exclusive = { focus = YUG_greater_serbia }
 		x = 0
 		y = 1
 		relative_position_id = YUG_claim_macedonia
@@ -4808,7 +4778,7 @@ focus_tree = {
 			BUL = {
 				every_owned_state = {
 					limit = { is_core_of = BUL }
-					add_claim_by = YUG
+					add_core_of = YUG
 				}
 			}
 			news_event = { id = news.325 }
@@ -4823,6 +4793,9 @@ focus_tree = {
 			focus = YUG_evolution2
 		}
 		mutually_exclusive = { focus = YUG_symbol_of_the_nation }
+		available = {
+			NOT = { has_completed_focus = YUG_end_the_regency }
+		}
 		x = -1
 		y = 2
 		relative_position_id = YUG_join_axis
@@ -4857,6 +4830,9 @@ focus_tree = {
 			focus = YUG_power_strengthening
 		}
 		mutually_exclusive = { focus = YUG_deposition_of_the_king }
+		available = {
+			NOT = { has_completed_focus = YUG_end_the_regency }
+		}
 		x = 1
 		y = 2
 		relative_position_id = YUG_join_axis
@@ -4871,12 +4847,9 @@ focus_tree = {
 		icon = GFX_goal_demand_sudetenland
 		cost = 5
 		prerequisite = {
-			focus = YUG_deposition_of_the_king
-			focus = YUG_symbol_of_the_nation
-			focus = YUG_seeking_alliance_with_italy
+			focus = YUG_surrender_italian_claims
 		}
-		mutually_exclusive = { focus = YUG_surrender_italian_claims }
-
+		mutually_exclusive = { focus = YUG_claim_macedonia }
 		available = {
 			NOT = {
 				has_completed_focus = YUG_establish_the_banovina_of_croatia
@@ -4897,10 +4870,11 @@ focus_tree = {
 					owns_state = 102
 				}
 			}
+			NOT = { has_completed_focus = YUG_end_the_regency }
 		}
-		x = 0
+		x = -1
 		y = 1
-		relative_position_id = YUG_deposition_of_the_king
+		relative_position_id = YUG_surrender_italian_claims
 		ai_will_do = {
 			factor = 10
 		}
@@ -4981,11 +4955,14 @@ focus_tree = {
 		icon = GFX_focus_generic_air_defense
 		cost = 5
 		prerequisite = {
-			focus = YUG_border_retreat
+			focus = YUG_deposition_of_the_king
+		}
+		available = {
+			NOT = { has_completed_focus = YUG_end_the_regency }
 		}
 		x = 0
 		y = 1
-		relative_position_id = YUG_border_retreat
+		relative_position_id = YUG_deposition_of_the_king
 		ai_will_do = {
 			factor = 10
 		}
@@ -5001,24 +4978,9 @@ focus_tree = {
 		}
 		available = {
 			has_completed_focus = YUG_serbian_nationalism
+			NOT = { has_completed_focus = YUG_end_the_regency }
 		}
-		x = -2
-		y = 1
-		relative_position_id = YUG_deposition_of_the_king
-		ai_will_do = {
-			factor = 10
-		}
-		completion_reward = { }
-	}
-
-	focus = {
-		id = YUG_serbian_imperialism
-		icon = GFX_goal_generic_territory_or_war
-		cost = 5
-		prerequisite = {
-			focus = YUG_disintegration_of_yugoslavia
-		}
-		x = -2
+		x = -1
 		y = 2
 		relative_position_id = YUG_deposition_of_the_king
 		ai_will_do = {
@@ -5028,23 +4990,46 @@ focus_tree = {
 	}
 
 	focus = {
-		id = YUG_greater_serbia
-		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		id = YUG_oath_of_loyalty
+		icon = GFX_focus_ITA_italian_irredentism
 		cost = 5
 		prerequisite = {
-			focus = YUG_greater_serbian_defense_force
+			focus = YUG_border_retreat
 		}
-		prerequisite = {
-			focus = YUG_serbian_imperialism
-		}
+		mutually_exclusive = { focus = YUG_greater_serbia }
 		available = {
 			NOT = {
 				has_completed_focus = YUG_establish_the_banovina_of_croatia
 			}
 		}
-		mutually_exclusive = { focus = YUG_greater_yugoslavia }
-		x = -1
+		x = 0
 		y = 1
+		relative_position_id = YUG_border_retreat
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = YUG_greater_serbia
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		cost = 5
+		prerequisite = {
+			focus = YUG_border_retreat
+		}
+		prerequisite = {
+			focus = YUG_disintegration_of_yugoslavia
+		}
+		mutually_exclusive = { focus = YUG_oath_of_loyalty }
+		available = {
+			NOT = {
+				has_completed_focus = YUG_establish_the_banovina_of_croatia
+			}
+		}
+		x = -1
+		y = 2
 		relative_position_id = YUG_greater_serbian_defense_force
 		ai_will_do = {
 			factor = 10
@@ -5052,6 +5037,25 @@ focus_tree = {
 		completion_reward = {
 			set_cosmetic_tag = greater_SER
 		}
+	}
+
+	focus = {
+		id = YUG_serbian_imperialism
+		icon = GFX_goal_generic_territory_or_war
+		cost = 5
+		prerequisite = {
+			focus = YUG_greater_serbia
+		}
+		available = {
+			NOT = { has_completed_focus = YUG_end_the_regency }
+		}
+		x = 0
+		y = 1
+		relative_position_id = YUG_greater_serbia
+		ai_will_do = {
+			factor = 10
+		}
+		completion_reward = { }
 	}
 
 	focus = {
