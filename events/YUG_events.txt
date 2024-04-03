@@ -151,9 +151,6 @@ country_event = {
 
 	option = {
 		name = YUG_event.5.a
-		trigger = {
-			num_of_controlled_states > 1
-		}
 		ai_chance = { 
 			factor = 100
 		}
@@ -692,5 +689,342 @@ country_event = {
 				}
 			}
 		}
+	}
+}
+
+#Signing the Tripartite Pact
+country_event = {
+	id = YUG_event.11
+	title = YUG_event.11.t
+	desc = YUG_event.11.desc
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+
+	immediate = {
+		get_best_alliance_match_democratic_effect = yes
+	}
+
+	option = {
+		name = DOD_yugoslavia.70.a
+		ai_chance = {
+			factor = 10
+		}
+		add_opinion_modifier = { target = YUG modifier = medium_increase }
+		reverse_add_opinion_modifier = { target = YUG modifier = medium_increase }
+		if = {
+			limit = { 
+				ROM = {
+					NOT = { tag = var:best_leader }
+					is_faction_leader = yes
+					NOT = {
+						has_government = FROM
+					}
+				}
+			}
+			ROM = { country_event = { id = YUG_event.112 days = 20 } }
+		}
+		if = {
+			limit = { 
+				HUN = {
+					NOT = { tag = var:best_leader }
+					is_faction_leader = yes
+					NOT = {
+						has_government = FROM
+					}
+				}
+			}
+			HUN = { country_event = { id = YUG_event.112 days = 20 } }
+		}
+		if = {
+			limit = { 
+				SOV = {
+					NOT = { tag = var:best_leader }
+					is_faction_leader = yes
+					NOT = {
+						has_government = FROM
+					}
+				}
+			}
+			SOV = { country_event = { id = YUG_event.112 days = 20 } }
+		}
+		if = {
+			limit = { 
+				FRA = {
+					NOT = { tag = var:best_leader }
+					is_faction_leader = yes
+					NOT = {
+						has_government = FROM
+					}
+				}
+			}
+			FRA = { country_event = { id = YUG_event.112 days = 20 } }
+		}
+		if = {
+			limit = { 
+				ENG = {
+					NOT = { tag = var:best_leader }
+					is_faction_leader = yes
+					NOT = {
+						has_government = FROM
+					}
+				}
+			}
+			ENG = { country_event = { id = YUG_event.112 days = 20 } }
+		}
+		var:best_leader = {
+			country_event = { id = YUG_event.112 days = 20 }
+		}
+	}
+
+	option = {
+		name = DOD_yugoslavia.70.b
+		ai_chance = {
+			factor = 0
+		}
+		YUG = { country_event = YUG_event.111 }
+	}
+}
+
+#Yugo is informed of their choice
+country_event = {
+	id = YUG_event.111
+	title = YUG_event.111.t
+	desc = {
+		text = YUG_event.111.tripartite_rejection
+		trigger = {
+			FROM = {
+				has_government = fascism
+			}
+		}
+	}
+	desc = {
+		text = YUG_event.111.allied_objection
+		trigger = {
+			FROM = {
+				tag = var:best_leader
+				NOT = {
+					has_government = fascism
+				}
+			}
+		}
+	}
+	desc = {
+		text = YUG_event.111.allied_objection_no_best
+		trigger = {
+			FROM = {
+				NOT = {
+					tag = var:best_leader
+					has_government = fascism
+				}
+			}
+		}
+	}
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = has_already_decided_yugo_coup_flag
+		}
+		get_best_alliance_match_democratic_effect = yes
+	}
+
+	option = {
+		name = YUG_event.111.a
+		ai_chance = {
+			factor = 10
+		}
+		if = {
+			limit = {
+				FROM = { has_government = fascism }
+			}
+			add_opinion_modifier = { target = FROM modifier = small_decrease }
+			FROM = { add_opinion_modifier = { target = YUG modifier = small_decrease } }
+		}
+		else = {
+			if = {
+				limit = {
+					ITA = {
+						exists = yes
+						has_capitulated = no
+						has_government = fascism
+					}
+				}
+				ITA = {
+					create_wargoal = {
+						type = annex_everything
+						target = YUG
+					}
+				}
+			}
+			else = {
+				get_best_alliance_match_fascism_effect = yes
+				var:best_leader = {
+					create_wargoal = {
+						type = annex_everything
+						target = YUG
+					}
+				}
+			}
+		}
+		set_politics = {
+			ruling_party = neutrality
+		}
+		uncomplete_national_focus = {
+			focus = YUG_join_axis
+		}
+	}
+
+	option = {
+		name = YUG_event.111.b #resist Britain's response
+		trigger = {
+			FROM = {
+				NOT = { has_government = fascism }
+				tag = var:best_leader
+			}
+		}
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		YUG_start_peters_coup = yes
+	}
+
+	option = {
+		name = YUG_event.111.c #resist Britain's response
+		trigger = {
+			FROM = {
+				NOT = {
+					has_government = fascism
+					tag = var:best_leader
+				}
+			}
+		}
+		ai_chance = {
+			factor = 40
+		}
+		add_stability = 0.01
+	}
+}
+#England can demand Paul to step down
+country_event = {
+	id = YUG_event.112
+	title = YUG_event.112.t
+	desc = YUG_event.112.desc
+	picture = GFX_report_event_election_vote
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = {
+			set_country_flag = has_already_decided_yugo_coup_flag
+		}
+	}
+
+	option = {
+		name = YUG_event.112.a
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0.5
+				has_opinion = {
+					target = YUG
+					value = 25
+				}
+			}
+			modifier = {
+				factor = 0.5
+				has_opinion = {
+					target = YUG
+					value = 100
+				}
+			}
+			modifier = {
+				factor = 0.5
+				has_opinion = {
+					target = YUG
+					value = 150
+				}
+			}
+		}
+		YUG = { country_event = { id = YUG_event.111 days = 15 random_days = 6 } }
+	}
+	option = {
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 2
+				has_guaranteed = YUG
+			}
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+				FROM = { is_ai = yes }
+			}
+		}
+		name = YUG_event.112.b
+	}
+}
+#England can demand Paul to step down
+country_event = {
+	id = YUG_event.12
+	title = YUG_event.12.t
+	desc = YUG_event.12.desc
+	picture = GFX_report_event_generic_italian_celebration
+	
+	is_triggered_only = yes
+
+	option = {
+		name = YUG_event.12.a
+		ai_chance = {
+			factor = 30
+		}
+		YUG = { country_event = { id = YUG_event.121 hours = 8 } }
+	}
+	option = {
+		ai_chance = {
+			factor = 10
+		}
+		name = YUG_event.12.b
+		YUG = { country_event = { id = YUG_event.122 hours = 12 } }
+	}
+}
+country_event = {
+	id = YUG_event.121
+	title = YUG_event.121.t
+	desc = YUG_event.121.desc
+	picture = GFX_report_event_generic_italian_celebration
+	
+	is_triggered_only = yes
+
+	option = {
+		name = YUG_event.121.a
+		ai_chance = {
+			factor = 30
+		}
+		ITA = {
+			puppet = YUG
+		}
+	}
+}
+country_event = {
+	id = YUG_event.122
+	title = YUG_event.122.t
+	desc = YUG_event.122.desc
+	picture = GFX_report_event_ITA_grand_council
+	
+	is_triggered_only = yes
+
+	option = {
+		name = YUG_event.122.a
+		ai_chance = {
+			factor = 30
+		}
+		add_stability = -0.05
 	}
 }
