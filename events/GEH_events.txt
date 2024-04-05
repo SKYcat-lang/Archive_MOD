@@ -636,9 +636,24 @@ country_event = { # 협상 끝
 		else = {
 			country_event = GEH_event.45
 		}
-		GEH = {
-			country_event = GEH_event.50
-		}
+        if = {
+            limit = {
+                GEH = {
+                    GEH_is_phase_prologue_trigger = yes
+                }
+            }
+		    GEH = {
+			    country_event = GEH_event.50
+    		}
+        }
+        else_if = {
+            limit = {
+                GEH = { GEH_is_phase_zero_trigger = yes }
+            }
+            GEH = {
+                country_event = GEH_event.50
+            }
+        }
 	}
 }
 country_event = { # 전쟁해군의 협상 개입
@@ -1263,6 +1278,9 @@ country_event = { # 쟤네 협상 끝남
 				GEM = {
 					has_country_flag = GEH_discipline_enforcement_flag
 				}
+                GEH = {
+                    GEH_is_phase_zero_trigger = yes
+                }
 			}
 		}
 		ai_chance = {
@@ -1309,6 +1327,9 @@ country_event = { # 쟤네 협상 끝남
 				GEM = {
 					has_country_flag = GEH_discipline_enforcement_flag
 				}
+                GEH = {
+                    GEH_is_phase_zero_trigger = yes
+                }
 			}
 		}
 		add_stability = -0.05
@@ -1321,9 +1342,22 @@ country_event = { # 쟤네 협상 끝남
 			GEM = {
 				has_country_flag = GEH_discipline_enforcement_flag
 			}
+            NOT = {
+                GEH = {
+                    GEH_is_phase_zero_trigger = yes
+                }
+            }
 		}
 		add_war_support = 0.05
         set_country_flag = GEH_punggi
+	}
+	option = { 
+		name = GEH_event.50.d
+		trigger = {
+			GEH = {
+				GEH_is_phase_zero_trigger = yes
+			}
+		}
 	}
 }
 country_event = { # 마코토 재신임투표 탈락
@@ -2229,6 +2263,7 @@ country_event = { #
 	
 	option = { 
 		name = NextPhase.3.a 
+    	add_ideas = GEH_Greater_War
         custom_effect_tooltip = NextPhase_1_tt
         set_country_flag = GEH_phase_three_begins_flag
         hidden_effect = {
