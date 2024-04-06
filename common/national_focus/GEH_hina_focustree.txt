@@ -2525,6 +2525,9 @@ focus_tree = {
 		cost = 2
 		available = {
 		}
+        bypass = {
+            has_country_flag = Complete_exile_wehrmacht
+        }
         prerequisite = { focus = GEH_first_congress_focus }
         allow_branch = {
         }
@@ -2563,18 +2566,25 @@ focus_tree = {
 					modifier = GEH_ucantusefactory_2
 				}
 			}
-            if = {
-                limit = { country_exists = GEA }
-                declare_war_on = {
-                    target = GEA
-                    type = annex_everything
+            every_country = {
+                limit = {
+                    controls_state = 59
+                    controls_state = 56
+                    OR = {
+                        tag = GEN
+                        tag = GEA
+                        tag = GEF
+                    }
                 }
-            }
-            else_if = {
-                limit = { country_exists = GEN }
-                declare_war_on = {
-                    target = GEN
-                    type = annex_everything
+                GEH = {
+					create_wargoal = { 
+						type = take_state
+						target = PREV
+						expire = 0
+						generator = {
+							56 59
+						}
+					}
                 }
             }
 		}
@@ -2585,7 +2595,14 @@ focus_tree = {
 		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
 		cost = 2
 		available = {
-            has_war = NO
+            custom_trigger_tooltip = {
+                tooltip = GEH_exile_Wehrmacht_2_tt
+                OR = {
+                    GEA = { controls_state = 59 }
+                    GEN = { controls_state = 59 }
+                    GEF = { controls_state = 59 }
+                }
+            }
 		}
         prerequisite = { focus = GEH_hit_wehrmacht }
         allow_branch = {
