@@ -1171,6 +1171,9 @@ GEM_club_problem_decision = {
 				mission = GEH_gourmet_research_society_up
 				days = -50
 			}
+			hidden_effect = {
+				set_country_flag = GEH_hot_spring_department_down_flag				
+			}
 		}
 	}
 
@@ -1221,42 +1224,6 @@ GEM_state_government_takeover_categorie = {
 				}
 			}
 		}
-	}
-}
- GEH_kick_HEU_categories = {
-	GEH_attack_heu_decision = {
-		icon = GFX_decision_revolt
-		allowed = {
-		}
-		ai_will_do = {
-			factor = 10
-		}
-    	available = {
-			always = no
-    	} 
-		
-
-		visible = {
-		}
-		activation = {
-			has_country_flag = GEH_kick_heu
-		}
-		
-		fire_only_once = yes
-		is_good = no
-		days_mission_timeout = 3
-		timeout_effect = { 
-			GEH = {
-				declare_war_on = {
-					target = HEU
-					type = annex_everything
-				}
-			}
-		}
-		complete_effect = {
-		}
-
-
 	}
 }
 GEH_war_defence_category = {
@@ -1498,6 +1465,71 @@ political_actions = {
                     has_war = no
                     has_completed_focus = GEM_war_with_trinity
                 }
+				add = 400
+			}
+		}
+    }
+    GEH_exile_Wehrmacht_decision = {
+
+		priority = 90
+		icon = GFX_decision_Prefect_team
+		allowed = {
+			original_tag = GEH
+		}
+
+		visible = {
+            custom_trigger_tooltip = {
+                tooltip = GEH_exile_Wehrmacht_tt
+                OR = {
+                    GEA = { controls_state = 59 }
+                    GEN = { controls_state = 59 }
+                    GEF = { controls_state = 59 }
+                }
+            }
+            NOT = { has_completed_focus = GEH_hit_wehrmacht }
+		}
+        available = {
+            custom_trigger_tooltip = {
+                tooltip = GEH_exile_Wehrmacht_tt
+                OR = {
+                    GEA = { controls_state = 59 }
+                    GEN = { controls_state = 59 }
+                    GEF = { controls_state = 59 }
+                }
+            }
+            NOT = { has_completed_focus = GEH_hit_wehrmacht }
+        }
+		
+		cost = 0
+
+		complete_effect = {
+            set_country_flag = Complete_exile_wehrmacht
+            every_country = {
+                limit = {
+                    controls_state = 59
+                    OR = {
+                        tag = GEN
+                        tag = GEA
+                        tag = GEF
+                    }
+                }
+                GEH = {
+                    declare_war_on = {
+				        target = PREV
+				        type = annex_everything
+                    }
+                }
+            }
+		}
+
+		ai_will_do = {
+			base = 50
+			modifier = {
+                NOT = {
+    				GEM = { controls_state = 59 }
+    				GEH = { controls_state = 59 }
+                }
+                GEH ={ controls_state = 55 }
 				add = 400
 			}
 		}

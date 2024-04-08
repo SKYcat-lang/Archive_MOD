@@ -47,7 +47,7 @@ country_event = { #제2회 공회의
 	}
 }
 
-country_event = { #루트 해금
+country_event = { #아리우스 학생의 이탈
 	id = ARI_event.3
 	title = ARI_event.3.t
 	desc = ARI_event.3.d
@@ -58,25 +58,53 @@ country_event = { #루트 해금
 
 	option = {
 		name = ARI_event.3.a
-		add_stability = -0.30
-		custom_effect_tooltip = ARI_event_3_tt
+		add_manpower = -8500
 	}
 }
 
-country_event = { #루트 폐기
+country_event = { #교전
 	id = ARI_event.4
 	title = ARI_event.4.t
-	desc = ARI_event.4.d
+	desc = {
+		text = ARI_event.4.d
+		trigger = {
+			check_variable = { GEI_Secure_Royal_Blood_help_var < 1 }
+		}
+	}
+	desc = {
+		text = ARI_event.4.d_2
+		trigger = {
+			check_variable = { GEI_Secure_Royal_Blood_help_var = 1 }
+		}
+	}
+	desc = {
+		text = ARI_event.4.d_3
+		trigger = {
+			check_variable = { GEI_Secure_Royal_Blood_help_var = 2 }
+		}
+	}
 	picture = GFX_report_event_generic_read_write
 
-	fire_only_once = yes
 	is_triggered_only = yes
 
 	option = {
+		add_to_variable = { GEI_Secure_Royal_Blood_help_var = 1 }
 		name = ARI_event.4.a
-		add_stability = 0.15
-		custom_effect_tooltip = ARI_event_4_tt
-		set_country_flag = ARI_atsuko_fired
+		trigger = {
+			NOT = {
+				check_variable = { GEI_Secure_Royal_Blood_help_var = 2 }
+			}
+		}
+	}
+	option = {
+		add_to_variable = { GEI_Secure_Royal_Blood_help_var = 1 }
+		name = ARI_event.4.b
+		trigger = {
+			check_variable = { GEI_Secure_Royal_Blood_help_var = 2 }
+		}
+		hidden_effect = {
+			country_event = { id = ARI_event.8 days = 30 random_days = 15 }
+		}
 	}
 }
 
@@ -84,7 +112,7 @@ country_event = { #상황 파악
 	id = ARI_event.5
 	title = ARI_event.5.t
 	desc = ARI_event.5.d
-	picture = GFX_report_event_generic_read_write
+	picture = GFX_event_none_picture
 
 	fire_only_once = yes
 	is_triggered_only = yes
@@ -92,5 +120,125 @@ country_event = { #상황 파악
 	option = {
 		name = ARI_event.5.a
 		add_stability = 0.05
+	}
+}
+
+country_event = { #상황 파악
+	id = ARI_event.6
+	title = ARI_event.6.t
+	desc = ARI_event.6.d
+	picture = GFX_event_none_picture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.6.a
+		add_stability = 0.10
+	}
+}
+
+country_event = { #상황 파악
+	id = ARI_event.7
+	title = ARI_event.7.t
+	desc = ARI_event.7.d
+	picture = GFX_event_none_picture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.7.a
+		add_stability = 0.10
+	}
+}
+
+country_event = { #아츠코 투항
+	id = ARI_event.8
+	title = ARI_event.8.t
+	desc = ARI_event.8.d
+	picture = GFX_event_none_picture
+
+	fire_only_once = yes
+	is_triggered_only = no
+
+	trigger = {
+		check_variable = {
+			GEI_Secure_Royal_Blood_help_var > 2
+		}
+	}
+	mean_time_to_happen = {
+		days = 150
+		modifier = {
+			factor = 2       # Amount of days is multiplied by 20% for POL.
+			check_variable = {
+				GEI.GEI_Secure_Royal_Blood_Battle_var > 29
+			}
+		}
+		modifier = {
+			factor = 0.2      # Amount of days is multiplied by 20% for POL.
+			check_variable = {
+				GEI.GEI_Secure_Royal_Blood_Battle_var < 30
+			}
+		}
+	}
+
+	option = {
+		name = ARI_event.8.a
+		add_stability = -0.10
+	}
+}
+
+country_event = { #베아트리체의 요구
+	id = ARI_event.9
+	title = ARI_event.9.t
+	desc = ARI_event.9.d
+	picture = GFX_event_none_picture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.9.a
+		ai_chance = {
+			factor = 3
+		}
+		add_war_support = 0.10
+		GEI = {
+			random_list = {
+				2 = {
+					country_event = { id = GEI_event.3 hours = 6 }
+				}
+				8 = {
+					country_event = { id = GEI_event.4 hours = 6 }
+					set_variable = { GEI_Secure_Royal_Blood_Search_var = 0 } #-> 수색
+					set_variable = { GEI_Secure_Royal_Blood_Battle_var = 0 } #-> 승률
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ARI_event.9.b
+		add_war_support = -0.30
+		GEI = {
+			country_event = { id = GEI_event.2 hours = 6 }
+		}
+	}
+}
+
+country_event = { #아리우스 스쿼드의 패주
+	id = ARI_event.10
+	title = ARI_event.10.t
+	desc = ARI_event.10.d
+	picture = GFX_event_none_picture
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.10.a
+		add_stability = -0.10
+		add_war_support = -0.10
 	}
 }
