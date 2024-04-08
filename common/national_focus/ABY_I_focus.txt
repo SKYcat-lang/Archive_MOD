@@ -75,7 +75,7 @@ focus_tree = {
 				id = 3583
 				name = ABY_ostrava
 			}
-			set_cosmetic_tag = ABY_czech_republic
+			
 			set_capital = {
 				state = 9
 			}
@@ -84,6 +84,20 @@ focus_tree = {
 			}
 			75 = {
 				set_state_name = ABY_state_morava
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_completed_focus = ABY_focus_gyeyak
+					}
+				}
+				set_cosmetic_tag = ABY_czech_republic
+			}
+			if = {
+				limit = {
+					has_completed_focus = ABY_focus_gyeyak
+				}
+				set_cosmetic_tag = ABY_czech_socialism_republic
 			}
 			#중점 완료시 얻는 보상
 		}
@@ -213,11 +227,16 @@ focus_tree = {
 			NOT = {
 				is_in_faction_with = SHA
 			}
-			controls_state = 9
-			controls_state = 69
-			controls_state = 72
-			controls_state = 74
-			controls_state = 75#중점 선행조건
+			OR = {
+				AND = {
+					controls_state = 9
+					controls_state = 69
+					controls_state = 72
+					controls_state = 74
+					controls_state = 75
+				}
+				NOT = { HYA = { exists = yes } }
+			}#중점 선행조건
 		}
 
 		select_effect = {
@@ -1444,7 +1463,7 @@ focus_tree = {
 	focus = {
 		id = ABY_focus_custom_puppet   #중점명
 		icon = GFX_ABY_focus_1      #아이콘
- 		cost = 10.00          #중점 일수(주)
+ 		cost = 0.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
 		}
@@ -1461,7 +1480,7 @@ focus_tree = {
 			#중점 통과 조건
 		}
 		available = {
-			#중점 선행조건
+			always = no#중점 선행조건
 		}
 
 		select_effect = {
@@ -1477,7 +1496,7 @@ focus_tree = {
 	focus = {
 		id = ABY_focus_enead   #중점명
 		icon = GFX_ABY_focus_1      #아이콘
- 		cost = 10.00          #중점 일수(주)
+ 		cost = 0.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
 		}
@@ -1494,7 +1513,7 @@ focus_tree = {
 			#중점 통과 조건
 		}
 		available = {
-			#중점 선행조건
+			always = no#중점 선행조건
 		}
 
 		select_effect = {
@@ -2739,7 +2758,7 @@ focus_tree = {
 		mutually_exclusive = {
 			#반대되는 중점
 		}
-		x = 7      #좌표
+		x = 5      #좌표
 		y = 1
 		relative_position_id = ABY_focus_diplomacy_main
 		bypass = {
@@ -2777,7 +2796,7 @@ focus_tree = {
 		mutually_exclusive = {
 			#반대되는 중점
 		}
-		x = 11      #좌표
+		x = 9      #좌표
 		y = 1
 		relative_position_id = ABY_focus_diplomacy_main
 		bypass = {
@@ -3237,39 +3256,6 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = ABY_focus_with_valkyrie   #중점명
-		#icon = GFX_      #아이콘
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_kivotos_diplomacy  #이전 중점
-		}
-		prerequisite = {
-			focus = ABY_focus_search_allience  #이전 중점
-		}
-		mutually_exclusive = {
-			focus = ABY_focus_ask_valkyrie#반대되는 중점
-		}
-		x = -2      #좌표
-		y = 1
-		relative_position_id = ABY_focus_kivotos_diplomacy
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-			#중점 선행조건
-		}
-
-		select_effect = {
-			#중점 시작시 얻는 보상
-		}
-		completion_reward = {
-			#중점 완료시 얻는 보상
-		}
-	}
-	focus = {
 		id = ABY_focus_ask_valkyrie   #중점명
 		#icon = GFX_      #아이콘
  		cost = 5.00          #중점 일수(주)
@@ -3282,10 +3268,7 @@ focus_tree = {
 		prerequisite = {
 			focus = ABY_focus_search_allience  #이전 중점
 		}
-		mutually_exclusive = {
-			focus = ABY_focus_with_valkyrie#반대되는 중점
-		}
-		x = -4      #좌표
+		x = -2      #좌표
 		y = 1
 		relative_position_id = ABY_focus_kivotos_diplomacy
 		bypass = {
@@ -4047,9 +4030,6 @@ focus_tree = {
 		prerequisite = {  
 			focus = ABY_focus_civil_cooperate#이전 중점
 		}
-		prerequisite = {  
-			focus = ABY_focus_unite_czech#이전 중점
-		}
 		mutually_exclusive = {
 			#반대되는 중점
 		}
@@ -4090,7 +4070,20 @@ focus_tree = {
 				id =  BA_news.64
 				days = 3
 			}
-			set_cosmetic_tag = ABY_czech_socialism_republic#중점 완료시 얻는 보상
+			if = {
+				limit = {
+					NOT = {
+						has_completed_focus = ABY_focus_unite_czech
+					}
+				}
+				set_cosmetic_tag = ABY_czech_socialism_government
+			}
+			if = {
+				limit = {
+					has_completed_focus = ABY_focus_unite_czech
+				}
+				set_cosmetic_tag = ABY_czech_socialism_republic
+			}#중점 완료시 얻는 보상
 		}
 	}
 	focus = {
@@ -4156,36 +4149,6 @@ focus_tree = {
 			#중점 완료시 얻는 보상
 		}
 	}
-	focus = {
-		id = ABY_focus_labor_law   #중점명
-		#icon = GFX_      #아이콘
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_civil_cooperate#이전 중점
-		}
-		mutually_exclusive = {
-			#반대되는 중점
-		}
-		x = 2      #좌표
-		y = 1
-		relative_position_id = ABY_focus_civil_cooperate
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-			#중점 선행조건
-		}
-
-		select_effect = {
-			#중점 시작시 얻는 보상
-		}
-		completion_reward = {
-			#중점 완료시 얻는 보상
-		}
-	}
 #	focus = {
 #		id = ABY_focus_accept_labor_acceptence   #중점명
 #		#icon = GFX_      #아이콘
@@ -4214,36 +4177,6 @@ focus_tree = {
 #		completion_reward = {
 #			#중점 완료시 얻는 보상
 #	}
-	focus = {
-		id = ABY_focus_zapotoky   #중점명
-		#icon = GFX_      #아이콘
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_labor_law#이전 중점
-		}
-		mutually_exclusive = {
-			#반대되는 중점
-		}
-		x = 0      #좌표
-		y = 1
-		relative_position_id = ABY_focus_labor_law
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-			#중점 선행조건
-		}
-
-		select_effect = {
-			#중점 시작시 얻는 보상
-		}
-		completion_reward = {
-			#중점 완료시 얻는 보상
-		}
-	}
 	focus = {
 		id = ABY_focus_accept_mid_range   #중점명
 		#icon = GFX_      #아이콘
@@ -4396,7 +4329,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_new_way   #중점명
-		#icon = GFX_      #아이콘
+		icon = GFX_ABY_focus_1      #아이콘
  		cost = 10.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -4427,6 +4360,7 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
+			set_cosmetic_tag = ABY_prague_union
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -5121,7 +5055,7 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 3      #좌표
+		x = 1      #좌표
 		y = 1
 		relative_position_id = ABY_focus_new_way
 		bypass = {
@@ -5184,6 +5118,9 @@ focus_tree = {
 		prerequisite = {
 			focus = ABY_focus_wave_shield#이전 중점
 		}
+		prerequisite = {
+			focus = ABY_focus_pure_revolution_way#이전 중점
+		}
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
@@ -5215,13 +5152,15 @@ focus_tree = {
 			#중점의 타입
 		}
 		prerequisite = {
-			focus = ABY_focus_new_way  #이전 중점
+			focus = ABY_focus_new_way
+			focus = ABY_focus_old_things
+			focus = ABY_focus_vienna_council  #이전 중점
 		}
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 1      #좌표
-		y = 1
+		x = 4      #좌표
+		y = 2
 		relative_position_id = ABY_focus_new_way
 		bypass = {
 			#중점 통과 조건
@@ -5240,7 +5179,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_ocuupied_lands    #중점명
-		icon = GFX_ABY_focus_1      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -5251,16 +5190,14 @@ focus_tree = {
 			focus = ABY_focus_end_of_fascism
 			focus = ABY_focus_Freedom
 			focus = ABY_focus_new_way
-			focus = ABY_focus_poland_help
-			focus = ABY_focus_america_help
-			focus = ABY_focus_millenium_help
-			focus = ABY_focus_english_help  #이전 중점
+			focus = ABY_focus_vienna_council
+			focus = ABY_focus_old_things  #이전 중점
 		}
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
 		x = -2      #좌표
-		y = 1
+		y = 2
 		relative_position_id = ABY_focus_Freedom
 		bypass = {
 			#중점 통과 조건
@@ -5279,7 +5216,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_ocuupied_lands_army    #중점명
-		icon = GFX_ABY_focus_1      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -5310,7 +5247,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_ocuupied_lands_industry    #중점명
-		icon = GFX_ABY_focus_1      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -5341,7 +5278,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_ocuupied_lands_accept    #중점명
-		icon = GFX_ABY_focus_1      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -5372,7 +5309,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_ocuupied_lands_people_security    #중점명
-		icon = GFX_ABY_focus_1      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -5465,54 +5402,11 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = ABY_focus_free_for_saying    #중점명
-		icon = GFX_ABY_focus_1      #아이콘
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			  #이전 중점
-		}
-		prerequisite = {
-			focus = ABY_focus_pure_revolution_way  #이전 중점
-		}
-		prerequisite = {
-			  #이전 중점
-		}
-		mutually_exclusive = {
-			    #반대되는 중점
-		}
-		x = 1      #좌표
-		y = 1
-		relative_position_id = ABY_focus_pure_revolution_way
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-			custom_trigger_tooltip = {
-				has_idea = ABY_idea_threat_of_komintern3
-				tooltip = ABY_free_tt
-			}
-			#중점 선행조건
-		}
-
-		select_effect = {
-			#중점 시작시 얻는 보상
-		}
-		completion_reward = {
-			#중점 완료시 얻는 보상
-		}
-	}
-	focus = {
 		id = ABY_focus_real_communism    #중점명
 		icon = GFX_ABY_focus_1      #아이콘
  		cost = 10.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_free_for_saying  #이전 중점
 		}
 		prerequisite = {
 			focus = ABY_focus_better_life  #이전 중점
@@ -5526,9 +5420,9 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 1      #좌표
+		x = 0      #좌표
 		y = 1
-		relative_position_id = ABY_focus_free_for_saying
+		relative_position_id = ABY_focus_atand_alone
 		bypass = {
 			#중점 통과 조건
 		}
@@ -9643,14 +9537,14 @@ focus_tree = {
 			#중점의 타입
 		}
 		prerequisite = {
-			focus = ABY_focus_united_states  #이전 중점
+			focus = ABY_focus_vienna_zoongze  #이전 중점
 		}
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 4      #좌표
+		x = -1      #좌표
 		y = 1
-		relative_position_id = ABY_focus_united_states
+		relative_position_id = ABY_focus_demend_vanat
 		bypass = {
 			#중점 통과 조건
 		}
