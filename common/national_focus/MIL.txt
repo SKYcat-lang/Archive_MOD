@@ -1138,6 +1138,7 @@ focus_tree = {
 			}
 		}
 		available = {
+			is_subject = no
 			NOT = {
 				has_completed_focus = MIL_hierarchy
 				has_completed_focus = MIL_himari_expulsion
@@ -1334,9 +1335,8 @@ focus_tree = {
 		relative_position_id = MIL_communist_society
 
 		available = {
-			not = {
-				has_war_with = SOU
-			}
+			NOT = { has_war_with = SOU }
+			SOU = { NOT = { is_ally_with = FRA } }
 		}
 		
 		bypass = {
@@ -1375,6 +1375,7 @@ focus_tree = {
 		relative_position_id = MIL_diplomatic_with_SOV
 		
 		available = {
+			is_subject = no
 			is_in_faction = no
 			not = { has_war_with = SOU }
 			SOV_comintern_joinable = yes 
@@ -1533,6 +1534,7 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_council_focus }
 		available = {
+			is_subject = no
 			OR = {
 				has_war = yes
 				has_war_support > 0.80
@@ -1582,6 +1584,15 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = MIL_hostile_to_SOV }
 		mutually_exclusive = { focus = MIL_ourselves }
+		available = {
+			is_subject = no
+		}
+		bypass = {
+			OR = {
+				is_subject_of = SHE
+				is_ally_with = SHE
+			}
+		}
 		x = 0
 		y = 1
 		relative_position_id = MIL_hostile_to_SOV
@@ -1613,6 +1624,7 @@ focus_tree = {
 		prerequisite = { focus = MIL_hostile_to_SOV }
 		mutually_exclusive = { focus = MIL_with_SHE }
 		available = {
+			is_subject = no
 			is_in_faction = no
 		}
 		x = -3
@@ -1657,6 +1669,12 @@ focus_tree = {
 		icon = GFX_focus_SWE_socialist_reforms
 		cost = 5.00
 		prerequisite = { focus = MIL_with_SHE }
+		available = {
+			OR = {
+				is_subject = no
+				is_subject_of = SHE
+			}
+		}
 		x = 0
 		y = 2
 		relative_position_id = MIL_with_SHE
@@ -1692,7 +1710,10 @@ focus_tree = {
 		completion_reward = {
 			FRA = {
 				add_stability = -0.05
-				add_ideas = communist_influence_weak
+				add_timed_idea = {
+					idea = communist_influence_weak
+					days = 180
+				}
 			}
 		}	
 	}
@@ -1742,25 +1763,17 @@ focus_tree = {
 		icon = GFX_focus_FIN_socialist_welfare
 		cost = 5.00
 		prerequisite = { focus = MIL_second_federation focus = MIL_millenium_autonomous_school }
+		available = {
+			has_idea = MIL_Millennium_Science_School_idea
+		}
 		x = 2
 		y = 4
 		relative_position_id = MIL_ourselves
 		completion_reward = {
-		}	
-	}
-
-	focus = { #경제특구 설치
-		id = MIL_special_economic_zone
-		icon = GFX_focus_spa_the_spanish_miracle
-		cost = 10.00
-		prerequisite = { focus = MIL_state_capitalism }
-		x = 1
-		y = 1
-		relative_position_id = MIL_state_capitalism
-		completion_reward = {
-			unlock_decision_category_tooltip = MIL_special_economic_zone_categories
-			set_variable = { MIL_special_economic_zone_max_var = 3 }
-			set_variable = { MIL_special_economic_zone_var = 0 }
+			swap_ideas = {
+				remove_idea = MIL_Millennium_Science_School_idea
+				add_idea = MIL_Millennium_Soviet_Science_School_idea
+			}
 		}	
 	}
 
@@ -1789,7 +1802,7 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_state_capitalism }
 		x = 0
-		y = 3
+		y = 1
 		relative_position_id = MIL_state_capitalism
 		completion_reward = {
 			add_dynamic_modifier = {
@@ -1803,7 +1816,7 @@ focus_tree = {
 		icon = GFX_focus_generic_modernize_industry
 		cost = 10.00
 		prerequisite = { focus = MIL_NEP }
-		x = -2
+		x = 0
 		y = 1
 		relative_position_id = MIL_NEP
 		completion_reward = {
@@ -1812,14 +1825,29 @@ focus_tree = {
 			add_to_variable = { MIL_NEP_idea_research_speed_factor = 0.05 }
 		}	
 	}
+
+	focus = { #경제특구 설치
+		id = MIL_special_economic_zone
+		icon = GFX_focus_spa_the_spanish_miracle
+		cost = 10.00
+		prerequisite = { focus = MIL_partial_market_opening }
+		x = 0
+		y = 1
+		relative_position_id = MIL_partial_market_opening
+		completion_reward = {
+			unlock_decision_category_tooltip = MIL_special_economic_zone_categories
+			set_variable = { MIL_special_economic_zone_max_var = 3 }
+			set_variable = { MIL_special_economic_zone_var = 0 }
+		}	
+	}
 		
 	focus = { #핵심 산업 통제
 		id = MIL_control_of_key_industries
 		icon = GFX_focus_generic_conspiracy
 		cost = 10.00
-		prerequisite = { focus = MIL_NEP }
-		x = 0
-		y = 1
+		prerequisite = { focus = MIL_partial_market_opening }
+		x = -1
+		y = 3
 		relative_position_id = MIL_NEP
 		completion_reward = {
 			custom_effect_tooltip = MIL_control_of_key_industries_tt
@@ -1832,9 +1860,10 @@ focus_tree = {
 		id = MIL_agricultural_management_act
 		icon = GFX_focus_generic_farmland
 		cost = 10.00
-		prerequisite = { focus = MIL_NEP }
+		prerequisite = { focus = MIL_partial_market_opening }
+		prerequisite = { focus = MIL_market_control }
 		x = 2
-		y = 1
+		y = 2
 		relative_position_id = MIL_NEP
 		completion_reward = {
 			custom_effect_tooltip = MIL_agricultural_management_act_tt
@@ -1886,9 +1915,8 @@ focus_tree = {
 		id = MIL_market_control
 		icon = GFX_goal_generic_improve_relations
 		cost = 10.00
-		prerequisite = { focus = MIL_special_economic_zone }
-		prerequisite = { focus = MIL_millennium_central_bank }
-		x = -2
+		prerequisite = { focus = MIL_NEP focus = MIL_millennium_central_bank }
+		x = -1
 		y = 1
 		relative_position_id = MIL_millennium_central_bank
 		completion_reward = {
@@ -1977,6 +2005,9 @@ focus_tree = {
 		icon = GFX_goal_generic_position_armies
 		cost = 10.00
 		prerequisite = { focus = MIL_acceptance_of_the_franc focus = MIL_cryptocurrency }
+		available = {
+			is_subject = no
+		}
 		x = 1
 		y = 2
 		relative_position_id = MIL_acceptance_of_the_franc
@@ -2004,6 +2035,9 @@ focus_tree = {
 		icon = GFX_focus_attack_france
 		cost = 10.00
 		prerequisite = { focus = MIL_diplomatic_irrigation_improvements }
+		available = {
+			is_subject = no
+		}
 		x = 1
 		y = 1
 		relative_position_id = MIL_diplomatic_irrigation_improvements
@@ -2028,6 +2062,9 @@ focus_tree = {
 		icon = GFX_focus_generic_north_atlantic_fleet
 		cost = 10.00
 		prerequisite = { focus = MIL_diplomatic_irrigation_improvements }
+		available = {
+			is_subject = no
+		}
 		x = -1
 		y = 1
 		relative_position_id = MIL_diplomatic_irrigation_improvements
@@ -2052,6 +2089,9 @@ focus_tree = {
 		icon = GFX_focus_generic_befriend_usa
 		cost = 10.00
 		prerequisite = { focus = MIL_atlantic_diplomacy }
+		available = {
+			is_subject = no
+		}
 		x = 0
 		y = 1
 		relative_position_id = MIL_atlantic_diplomacy
@@ -2076,6 +2116,7 @@ focus_tree = {
 		prerequisite = { focus = MIL_france_isolation }
 		mutually_exclusive = { focus = MIL_hegemony_alliance }
 		available = {
+			is_subject = no
 			has_global_flag = MIL_FRA_cut_bad_flag
 			is_in_faction = no
 			NOT = { has_war_with = ENG }
@@ -2123,6 +2164,7 @@ focus_tree = {
 		prerequisite = { focus = MIL_industrial_exchanges_USA }
 		mutually_exclusive = { focus = MIL_treaty_england }
 		available = {
+			is_subject = no
 			is_in_faction = no
 			NOT = { has_war_with = USA }
 			USA = { 
