@@ -16,7 +16,7 @@ focus_tree = {
 		id = MIL_railway_connection
 		icon = GFX_goal_generic_construct_infrastructure
 		cost = 5.00
-		x = 12
+		x = 15
 		y = 0
 		completion_reward = {
 			if = {
@@ -1105,9 +1105,10 @@ focus_tree = {
 				ideology = communism
 				popularity = 0.10
 			}
+			add_stability = -0.05
 			add_timed_idea = {
 				idea = MIL_wealth_redistribution
-				days = 365
+				days = 280
 			}
 		}	
 	}
@@ -1138,6 +1139,7 @@ focus_tree = {
 			}
 		}
 		available = {
+			is_subject = no
 			NOT = {
 				has_completed_focus = MIL_hierarchy
 				has_completed_focus = MIL_himari_expulsion
@@ -1153,6 +1155,7 @@ focus_tree = {
 		}
 		relative_position_id = MIL_soviet_model
 		completion_reward = {
+			add_stability = -0.15
 			hidden_effect = {
 				set_cosmetic_tag = MIL_COM
 			}
@@ -1334,9 +1337,8 @@ focus_tree = {
 		relative_position_id = MIL_communist_society
 
 		available = {
-			not = {
-				has_war_with = SOU
-			}
+			NOT = { has_war_with = SOU }
+			SOU = { NOT = { is_ally_with = FRA } }
 		}
 		
 		bypass = {
@@ -1370,11 +1372,15 @@ focus_tree = {
 		icon = GFX_goal_support_communism
 		cost = 5.00
 		prerequisite = { focus = MIL_diplomatic_with_SOV }
-		x = 0
+		bypass = {
+			is_in_faction_with = SOV
+		}
+		x = 1
 		y = 1
 		relative_position_id = MIL_diplomatic_with_SOV
 		
 		available = {
+			is_subject = no
 			is_in_faction = no
 			not = { has_war_with = SOU }
 			SOV_comintern_joinable = yes 
@@ -1386,14 +1392,44 @@ focus_tree = {
 		}	
 	}
 		
+	focus = { #밀레니엄의 국제적 위치
+		id = MIL_milleniums_international_position
+		icon = GFX_focus_SOV_stalins_cult_of_personality
+		cost = 5.00
+		prerequisite = { focus = MIL_join_SOV }
+		x = -1
+		y = 1
+		relative_position_id = MIL_join_SOV
+		completion_reward = {
+			custom_effect_tooltip = MIL_milleniums_international_position_tt
+			add_to_variable = { MIL_semina_idea_war_support_factor = 0.10 }
+			custom_effect_tooltip = enter_tt
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = MIL_Millennium_Science_School_idea
+					add_idea = MIL_Millennium_Soviet_Science_School_idea
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = { has_idea = MIL_Millennium_Science_School_idea }
+					swap_ideas = {
+						remove_idea = MIL_Millennium_Science_School_idea
+						add_idea = MIL_Millennium_Soviet_Science_School_idea
+					}
+				}
+			}
+		}	
+	}
+		
 	focus = { #국제 산업
 		id = MIL_international_industry
 		icon = GFX_goal_generic_soviet_construction
-		cost = 10.00
-		prerequisite = { focus = MIL_diplomatic_with_SOV }
-		x = 2
+		cost = 5.00
+		prerequisite = { focus = MIL_join_SOV }
+		x = 1
 		y = 1
-		relative_position_id = MIL_diplomatic_with_SOV
+		relative_position_id = MIL_join_SOV
 		completion_reward = {
 			random_owned_controlled_state = {
 				limit = {
@@ -1430,6 +1466,85 @@ focus_tree = {
 							instant_build = yes
 						}
 					}
+				}
+			}
+		}	
+	}
+		
+	focus = { #중앙의 정치화
+		id = MIL_millenium_politburo
+		icon = GFX_focus_SOV_the_supreme_soviet
+		cost = 5.00
+		prerequisite = { focus = MIL_milleniums_international_position focus = MIL_international_industry }
+		x = 0
+		y = 2
+		relative_position_id = MIL_join_SOV
+		completion_reward = {
+			custom_effect_tooltip = MIL_MIL_millenium_politburo_tt
+			add_to_variable = { MIL_semina_idea_political_power_factor = 0.05 }
+			add_to_variable = { MIL_semina_idea_drift_defence_factor = 0.10 }
+			add_to_variable = { MIL_semina_idea_communism_drift = 0.05 }
+			add_to_variable = { MIL_semina_idea_consumer_goods_factor = 0.05 }
+			custom_effect_tooltip = enter_tt
+			hidden_effect = {
+				remove_dynamic_modifier = { modifier = MIL_veritas_idea }
+				add_dynamic_modifier = { modifier = MIL_millenium_politburo_idea }
+			}
+		}	
+	}
+		
+	focus = { #일국사회주의
+		id = MIL_socialism_in_one_country
+		icon = GFX_focus_SOV_socialism_in_one_country
+		cost = 5.00
+		prerequisite = { focus = MIL_millenium_politburo }
+		x = 0
+		y = 2
+		relative_position_id = MIL_millenium_politburo
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
 				}
 			}
 		}	
@@ -1531,8 +1646,10 @@ focus_tree = {
 		id = MIL_enemy_of_the_revolution
 		icon = GFX_goal_generic_war_with_comintern
 		cost = 10.00
+		prerequisite = { focus = MIL_scientific_socialism focus = MIL_socialism_in_one_country }
 		prerequisite = { focus = MIL_council_focus }
 		available = {
+			is_subject = no
 			OR = {
 				has_war = yes
 				has_war_support > 0.80
@@ -1582,6 +1699,15 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = MIL_hostile_to_SOV }
 		mutually_exclusive = { focus = MIL_ourselves }
+		available = {
+			is_subject = no
+		}
+		bypass = {
+			OR = {
+				is_in_faction_with = SHE
+				is_subject_of = SHE
+			}
+		}
 		x = 0
 		y = 1
 		relative_position_id = MIL_hostile_to_SOV
@@ -1603,6 +1729,7 @@ focus_tree = {
 			SHE = {
 				country_event = generic.2
 			}
+			custom_effect_tooltip = MIL_with_SHE_tt
 		}	
 	}
 		
@@ -1613,7 +1740,9 @@ focus_tree = {
 		prerequisite = { focus = MIL_hostile_to_SOV }
 		mutually_exclusive = { focus = MIL_with_SHE }
 		available = {
+			is_subject = no
 			is_in_faction = no
+			NOT = { has_country_flag = MIL_coupdetat_flag }
 		}
 		x = -3
 		y = 1
@@ -1627,6 +1756,10 @@ focus_tree = {
 		   	}
 			set_rule = { can_create_factions = yes }
 			create_faction = MIL_communist_faction
+			custom_effect_tooltip = MIL_ourselves_tt
+			add_to_variable = { MIL_semina_idea_political_power_factor = -0.15 }
+			add_to_variable = { MIL_semina_idea_drift_defence_factor = -0.10 }
+			custom_effect_tooltip = enter_tt
 		}	
 	}
 		
@@ -1657,6 +1790,12 @@ focus_tree = {
 		icon = GFX_focus_SWE_socialist_reforms
 		cost = 5.00
 		prerequisite = { focus = MIL_with_SHE }
+		available = {
+			OR = {
+				is_subject = no
+				is_subject_of = SHE
+			}
+		}
 		x = 0
 		y = 2
 		relative_position_id = MIL_with_SHE
@@ -1677,6 +1816,10 @@ focus_tree = {
 			add_stability = -0.10
 			
 			MIL_Resistance_idea_down = yes
+			custom_effect_tooltip = MIL_resistance_suppression_tt
+			add_to_variable = {
+				MIL_res_destroy_var = 10
+			}
 		}	
 	}
 		
@@ -1692,7 +1835,10 @@ focus_tree = {
 		completion_reward = {
 			FRA = {
 				add_stability = -0.05
-				add_ideas = communist_influence_weak
+				add_timed_idea = {
+					idea = communist_influence_weak
+					days = 180
+				}
 			}
 		}	
 	}
@@ -1742,25 +1888,17 @@ focus_tree = {
 		icon = GFX_focus_FIN_socialist_welfare
 		cost = 5.00
 		prerequisite = { focus = MIL_second_federation focus = MIL_millenium_autonomous_school }
+		available = {
+			has_idea = MIL_Millennium_Science_School_idea
+		}
 		x = 2
 		y = 4
 		relative_position_id = MIL_ourselves
 		completion_reward = {
-		}	
-	}
-
-	focus = { #경제특구 설치
-		id = MIL_special_economic_zone
-		icon = GFX_focus_spa_the_spanish_miracle
-		cost = 10.00
-		prerequisite = { focus = MIL_state_capitalism }
-		x = 1
-		y = 1
-		relative_position_id = MIL_state_capitalism
-		completion_reward = {
-			unlock_decision_category_tooltip = MIL_special_economic_zone_categories
-			set_variable = { MIL_special_economic_zone_max_var = 3 }
-			set_variable = { MIL_special_economic_zone_var = 0 }
+			swap_ideas = {
+				remove_idea = MIL_Millennium_Science_School_idea
+				add_idea = MIL_Millennium_socialism_Science_School_idea
+			}
 		}	
 	}
 
@@ -1789,7 +1927,7 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_state_capitalism }
 		x = 0
-		y = 3
+		y = 1
 		relative_position_id = MIL_state_capitalism
 		completion_reward = {
 			add_dynamic_modifier = {
@@ -1803,7 +1941,7 @@ focus_tree = {
 		icon = GFX_focus_generic_modernize_industry
 		cost = 10.00
 		prerequisite = { focus = MIL_NEP }
-		x = -2
+		x = 0
 		y = 1
 		relative_position_id = MIL_NEP
 		completion_reward = {
@@ -1812,14 +1950,29 @@ focus_tree = {
 			add_to_variable = { MIL_NEP_idea_research_speed_factor = 0.05 }
 		}	
 	}
+
+	focus = { #경제특구 설치
+		id = MIL_special_economic_zone
+		icon = GFX_focus_spa_the_spanish_miracle
+		cost = 10.00
+		prerequisite = { focus = MIL_partial_market_opening }
+		x = 1
+		y = 1
+		relative_position_id = MIL_partial_market_opening
+		completion_reward = {
+			unlock_decision_category_tooltip = MIL_special_economic_zone_categories
+			set_variable = { MIL_special_economic_zone_max_var = 3 }
+			set_variable = { MIL_special_economic_zone_var = 0 }
+		}	
+	}
 		
 	focus = { #핵심 산업 통제
 		id = MIL_control_of_key_industries
 		icon = GFX_focus_generic_conspiracy
 		cost = 10.00
-		prerequisite = { focus = MIL_NEP }
+		prerequisite = { focus = MIL_partial_market_opening }
 		x = 0
-		y = 1
+		y = 3
 		relative_position_id = MIL_NEP
 		completion_reward = {
 			custom_effect_tooltip = MIL_control_of_key_industries_tt
@@ -1832,14 +1985,53 @@ focus_tree = {
 		id = MIL_agricultural_management_act
 		icon = GFX_focus_generic_farmland
 		cost = 10.00
-		prerequisite = { focus = MIL_NEP }
-		x = 2
-		y = 1
+		prerequisite = { focus = MIL_partial_market_opening }
+		prerequisite = { focus = MIL_market_control }
+		x = 3
+		y = 2
 		relative_position_id = MIL_NEP
 		completion_reward = {
 			custom_effect_tooltip = MIL_agricultural_management_act_tt
 			add_to_variable = { MIL_NEP_idea_production_factory_efficiency_gain_factor = 0.05 }
 			add_to_variable = { MIL_NEP_idea_global_building_slots_factor = 0.10 }
+		}	
+	}
+		
+	focus = { #공격적 외교
+		id = MIL_projection_of_force
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		cost = 5.00
+		prerequisite = { focus = MIL_special_economic_zone focus = MIL_agricultural_management_act }
+		mutually_exclusive = { focus = MIL_diplomatic_irrigation_improvements }
+		x = 2
+		y = 3
+		relative_position_id = MIL_NEP
+		completion_reward = {
+			every_country = {
+				limit = {
+					OR = {
+						num_of_factories > 60	
+						num_of_controlled_states > 30
+						has_army_manpower = {
+							size > 1000000
+						}
+						tag = FRA
+						tag = USA
+						tag = ENG
+					}
+				}
+				add_opinion_modifier = {
+					target = MIL
+					modifier = small_decrease
+				}
+			}
+			army_experience = 25
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.25
+				uses = 1
+				category = land_doctrine
+			}
 		}	
 	}
 		
@@ -1886,9 +2078,8 @@ focus_tree = {
 		id = MIL_market_control
 		icon = GFX_goal_generic_improve_relations
 		cost = 10.00
-		prerequisite = { focus = MIL_special_economic_zone }
-		prerequisite = { focus = MIL_millennium_central_bank }
-		x = -2
+		prerequisite = { focus = MIL_NEP focus = MIL_millennium_central_bank }
+		x = -1
 		y = 1
 		relative_position_id = MIL_millennium_central_bank
 		completion_reward = {
@@ -1975,8 +2166,12 @@ focus_tree = {
 	focus = { #국제 외교
 		id = MIL_diplomatic_irrigation_improvements
 		icon = GFX_goal_generic_position_armies
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_acceptance_of_the_franc focus = MIL_cryptocurrency }
+		mutually_exclusive = { focus = MIL_projection_of_force }
+		available = {
+			is_subject = no
+		}
 		x = 1
 		y = 2
 		relative_position_id = MIL_acceptance_of_the_franc
@@ -1989,6 +2184,9 @@ focus_tree = {
 						has_army_manpower = {
 							size > 1000000
 						}
+						tag = FRA
+						tag = USA
+						tag = ENG
 					}
 				}
 				add_opinion_modifier = {
@@ -2004,6 +2202,9 @@ focus_tree = {
 		icon = GFX_focus_attack_france
 		cost = 10.00
 		prerequisite = { focus = MIL_diplomatic_irrigation_improvements }
+		available = {
+			is_subject = no
+		}
 		x = 1
 		y = 1
 		relative_position_id = MIL_diplomatic_irrigation_improvements
@@ -2028,6 +2229,9 @@ focus_tree = {
 		icon = GFX_focus_generic_north_atlantic_fleet
 		cost = 10.00
 		prerequisite = { focus = MIL_diplomatic_irrigation_improvements }
+		available = {
+			is_subject = no
+		}
 		x = -1
 		y = 1
 		relative_position_id = MIL_diplomatic_irrigation_improvements
@@ -2052,6 +2256,9 @@ focus_tree = {
 		icon = GFX_focus_generic_befriend_usa
 		cost = 10.00
 		prerequisite = { focus = MIL_atlantic_diplomacy }
+		available = {
+			is_subject = no
+		}
 		x = 0
 		y = 1
 		relative_position_id = MIL_atlantic_diplomacy
@@ -2076,6 +2283,7 @@ focus_tree = {
 		prerequisite = { focus = MIL_france_isolation }
 		mutually_exclusive = { focus = MIL_hegemony_alliance }
 		available = {
+			is_subject = no
 			has_global_flag = MIL_FRA_cut_bad_flag
 			is_in_faction = no
 			NOT = { has_war_with = ENG }
@@ -2123,6 +2331,7 @@ focus_tree = {
 		prerequisite = { focus = MIL_industrial_exchanges_USA }
 		mutually_exclusive = { focus = MIL_treaty_england }
 		available = {
+			is_subject = no
 			is_in_faction = no
 			NOT = { has_war_with = USA }
 			USA = { 
@@ -2188,6 +2397,1294 @@ focus_tree = {
 		}	
 	}
 
+	focus = { #밀레니엄 방위위원회
+		id = MIL_millenium_defense_committee
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		cost = 5.00
+		allow_branch = {
+			NOT = {
+				has_country_flag = MIL_fuck_flag
+			}
+		}
+		x = 15
+		y = 3
+		relative_position_id = MIL_railway_connection
+		completion_reward = {
+			add_war_support = 0.15
+		}	
+	}
+
+	focus = { #제2경제 처리
+		id = MIL_market_subordination
+		icon = GFX_goal_generic_more_territorial_claims
+		cost = 10.00
+		prerequisite = { focus = MIL_millenium_engineer_department_war_bureau focus = MIL_preparing_for_the_coming_war }
+		available = {
+			has_idea = FRA_MIL_basement_economy
+		}
+		x = 0
+		y = 5
+		relative_position_id = MIL_millenium_defense_committee
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			
+			country_event = {
+				id = FRA_prov_event.128
+				days = 8
+			}
+			hidden_effect = {
+				FRA ={
+					country_event = {
+						id = FRA_prov_event.127
+						days = 8
+					}
+				}
+			}
+		}	
+	}
+		
+	focus = { #해안 너머의 위협
+		id = MIL_threat_from_beyond_the_coast
+		icon = GFX_focus_generic_coastal_fort
+		cost = 5.00
+		prerequisite = { focus = MIL_millenium_defense_committee }
+		x = 3
+		y = 1
+		relative_position_id = MIL_millenium_defense_committee
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					dockyard > 0
+					free_building_slots = {
+						building = dockyard
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					dockyard > 0
+					free_building_slots = {
+						building = dockyard
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+		}	
+	}
+		
+	focus = { #해양 패권에 도전
+		id = MIL_challenging_maritime_hegemony
+		icon = GFX_focus_generic_navy_battleship2
+		cost = 10.00
+		prerequisite = { focus = MIL_threat_from_beyond_the_coast }
+		mutually_exclusive = { focus = MIL_asymmetric_forces }
+		x = 0
+		y = 2
+		relative_position_id = MIL_threat_from_beyond_the_coast
+		completion_reward = {
+			navy_experience = 50
+			if = { #MTG 
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				if = {
+					limit = { #Carrier 4 
+						has_tech = advanced_ship_hull_carrier
+					}
+					#Equipment Variant
+					create_equipment_variant = {
+						name = "Great War Class"
+						type = ship_hull_carrier_3
+						name_group = SOV_CV_HISTORICAL
+						parent_version = 0
+						allow_without_tech = yes #Makes no difference since focus requires appropriate tech (above), but it improves tooltip
+						modules = {
+							fixed_ship_deck_slot_1 = ship_deck_space
+							fixed_ship_deck_slot_2 = ship_deck_space
+							fixed_ship_anti_air_slot = ship_anti_air_2
+							fixed_ship_radar_slot = empty
+							fixed_ship_engine_slot = carrier_ship_engine_4
+							fixed_ship_secondaries_slot = ship_secondaries_1
+							front_1_custom_slot = ship_deck_space
+						}
+					}
+					#Line Production
+					hidden_effect = {
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_carrier_3
+								creator = "MIL"
+								version_name = "Great War Class"
+							}
+							name = "Science"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+					}
+				}
+				else_if = {
+					limit = { #Carrier 3
+						has_tech = improved_ship_hull_carrier
+					}
+					#Equipment Variant
+					create_equipment_variant = {
+						name = "Great War Class"
+						type = ship_hull_carrier_2
+						name_group = SOV_CV_HISTORICAL
+						parent_version = 0
+						allow_without_tech = yes #Makes no difference since focus requires appropriate tech (above), but it improves tooltip
+						modules = {
+							fixed_ship_deck_slot_1 = ship_deck_space
+							fixed_ship_deck_slot_2 = ship_deck_space
+							fixed_ship_anti_air_slot = ship_anti_air_2
+							fixed_ship_radar_slot = empty
+							fixed_ship_engine_slot = carrier_ship_engine_3
+							fixed_ship_secondaries_slot = ship_secondaries_1
+							front_1_custom_slot = ship_deck_space
+						}
+					}
+					#Line Production
+					hidden_effect = {
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_carrier_2
+								creator = "MIL"
+								version_name = "Great War Class"
+							}
+							name = "Science"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+					}
+				}
+				else_if = {
+					limit = { #Carrier 2
+						has_tech = basic_ship_hull_carrier
+					}
+					#Equipment Variant
+					create_equipment_variant = {
+						name = "Great War Class"
+						type = ship_hull_carrier_1
+						name_group = SOV_CV_HISTORICAL
+						parent_version = 0
+						allow_without_tech = yes #Makes no difference since focus requires appropriate tech (above), but it improves tooltip
+						modules = {
+							fixed_ship_deck_slot_1 = ship_deck_space
+							fixed_ship_deck_slot_2 = ship_deck_space
+							fixed_ship_anti_air_slot = ship_anti_air_2
+							fixed_ship_radar_slot = empty
+							fixed_ship_engine_slot = carrier_ship_engine_2
+							fixed_ship_secondaries_slot = ship_secondaries_1
+							front_1_custom_slot = ship_deck_space
+						}
+					}
+					#Line Production
+					hidden_effect = {
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_carrier_1
+								creator = "MIL"
+								version_name = "Great War Class"
+							}
+							name = "Science"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+					}
+				}
+				else = {  #Carrier 1
+					if = {
+						limit = {
+							NOT = { has_tech = early_ship_hull_carrier }
+						}
+						set_technology = { early_ship_hull_carrier = 1 }
+					}
+					#Equipment Variant
+					create_equipment_variant = {
+						name = "Great War Class"
+						type = ship_hull_carrier_conversion_ca
+						name_group = SOV_CV_HISTORICAL
+						parent_version = 0
+						allow_without_tech = yes #Makes no difference since focus requires appropriate tech (above), but it improves tooltip
+						modules = {
+							fixed_ship_deck_slot_1 = ship_deck_space
+							fixed_ship_deck_slot_2 = ship_deck_space
+							fixed_ship_anti_air_slot = ship_anti_air_2
+							fixed_ship_radar_slot = empty
+							fixed_ship_engine_slot = carrier_ship_engine_1
+							fixed_ship_secondaries_slot = ship_secondaries_1
+						}
+					}
+					#Line Production
+					hidden_effect = {
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_carrier_conversion_ca
+								creator = "MIL"
+								version_name = "Great War Class"
+							}
+							name = "Science"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+					}
+				}
+			}
+
+			##############
+			### NO MTG ###
+			##############
+			else = {
+				if = {
+					limit = { #Carrier 4 
+						has_tech = advanced_carrier
+					}
+					create_equipment_variant = {
+						name = "Great War Class"
+						type = carrier_4
+						allow_without_tech = yes #Makes no difference since focus requires appropriate tech (above), but it improves tooltip
+						upgrades = {
+							ship_deckspace_upgrade = 4
+							carrier_armor_upgrade = 4
+							ship_engine_upgrade = 3
+							ship_reliability_upgrade = 3
+						}
+					}
+					add_equipment_production = {
+						equipment = {
+							type = carrier_4
+							creator = "MIL"
+							version_name = "Great War Class"
+						}
+						requested_factories = 1
+						progress = 0.45
+						amount = 1
+					}
+				}
+				else_if = {
+					limit = { #Carrier 3
+						has_tech = improved_carrier
+					}
+					create_equipment_variant = {
+						name = "Great War Class"
+						type = carrier_3
+						allow_without_tech = yes #Makes no difference since focus requires appropriate tech (above), but it improves tooltip
+						upgrades = {
+							ship_deckspace_upgrade = 3
+							carrier_armor_upgrade = 3
+							ship_engine_upgrade = 3
+							ship_reliability_upgrade = 2
+						}
+					}
+					add_equipment_production = {
+						equipment = {
+							type = carrier_3
+							creator = "MIL"
+							version_name = "Great War Class"
+						}
+						requested_factories = 1
+						progress = 0.45
+						amount = 1
+					}
+				}
+				else_if = {
+					limit = { #Carrier 2
+						has_tech = basic_carrier
+					}
+					create_equipment_variant = {
+						name = "Great War Class"
+						type = carrier_2
+						allow_without_tech = yes #Makes no difference since focus requires appropriate tech (above), but it improves tooltip
+						upgrades = {
+							ship_deckspace_upgrade = 2
+							carrier_armor_upgrade = 2
+							ship_engine_upgrade = 2
+							ship_reliability_upgrade = 2
+						}
+					}
+					add_equipment_production = {
+						equipment = {
+							type = carrier_2
+							creator = "MIL"
+							version_name = "Great War Class"
+						}
+						requested_factories = 1
+						progress = 0.45
+						amount = 1
+					}
+				}
+				else = {  #Carrier 1
+					if = {
+						limit = {
+							NOT = { has_tech = early_carrier }
+						}
+						set_technology = { early_carrier = 1 }
+					}
+					create_equipment_variant = {
+						name = "Great War Class"
+						type = carrier_1
+						allow_without_tech = yes #Makes no difference since focus requires appropriate tech (above), but it improves tooltip
+						upgrades = {
+							ship_deckspace_upgrade = 2
+							carrier_armor_upgrade = 1
+							ship_engine_upgrade = 2
+							ship_reliability_upgrade = 1
+						}
+					}
+					add_equipment_production = {
+						equipment = {
+							type = carrier_1
+							creator = "MIL"
+							version_name = "Great War Class"
+						}
+						requested_factories = 1
+						progress = 0.45
+						amount = 1
+					}
+				}
+			}
+			#####################################################################################
+			if = {
+				limit = {
+					not = { has_dlc = "Man the Guns" }
+				}
+				add_tech_bonus = {
+					name = MIL_challenging_maritime_hegemony
+					bonus = 3.0
+					uses = 1
+					category = shbb_tech	
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						not = { has_tech = ship_hull_super_heavy }
+					}
+					set_technology = {
+						ship_hull_super_heavy = 1
+					}
+				}
+				create_equipment_variant = {
+					name = "Super Millenium Class"
+					type = ship_hull_super_heavy_1
+					name_group = JAP_BB_HISTORICAL
+					parent_version = 0
+					allow_without_tech = yes #Makes no difference since focus grants appropriate tech (above), but it improves tooltip
+					modules = {
+						fixed_ship_battery_slot = ship_super_heavy_battery_1
+						fixed_ship_anti_air_slot = ship_anti_air_2
+						fixed_ship_fire_control_system_slot = ship_fire_control_system_1
+						fixed_ship_radar_slot = empty
+						fixed_ship_engine_slot = heavy_ship_engine_2
+						fixed_ship_secondaries_slot = ship_secondaries_2
+						fixed_ship_armor_slot = ship_armor_shbb
+						front_1_custom_slot = ship_anti_air_2
+						front_2_custom_slot = empty
+						mid_1_custom_slot = empty
+						mid_2_custom_slot = ship_secondaries_2
+						mid_3_custom_slot = ship_secondaries_2
+						rear_1_custom_slot = ship_super_heavy_battery_1
+						rear_2_custom_slot = ship_airplane_launcher_1
+					}
+				}
+				custom_effect_tooltip = MIL_yamato_tt
+				hidden_effect = {
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_super_heavy_1
+							creator = "JAP" 
+							version_name = "Super Millenium Class"
+						}
+						name = "Engineering Department Class" 
+						requested_factories = 1
+						progress = 0.50
+						amount = 1
+					}
+					add_equipment_production = {
+						equipment = {
+							type = ship_hull_super_heavy_1
+							creator = "JAP" 
+							version_name = "Super Millenium Class"
+						}
+						name = "Seminar Class" 
+						requested_factories = 1
+						progress = 0.50
+						amount = 1
+					}
+				}
+			}
+		}	
+	}
+		
+	focus = { #비대칭 전력
+		id = MIL_asymmetric_forces
+		icon = GFX_goal_generic_navy_submarine
+		cost = 10.00
+		prerequisite = { focus = MIL_threat_from_beyond_the_coast }
+		mutually_exclusive = { focus = MIL_challenging_maritime_hegemony }
+		x = -2
+		y = 2
+		relative_position_id = MIL_threat_from_beyond_the_coast
+		completion_reward = {
+			navy_experience = 50
+
+			add_tech_bonus = {
+				name = MIL_asymmetric_forces
+				bonus = 1.0
+				uses = 1
+				category = ss_tech
+			}
+			if = { #MTG 
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				if = {
+					limit = { #Carrier 4 
+						has_tech = advanced_ship_hull_submarine
+					}
+					#Equipment Variant
+					create_equipment_variant = {
+						name = "CC Class"
+						type = ship_hull_submarine_4
+						name_group = SOV_CV_HISTORICAL
+						parent_version = 0
+						modules = {
+							fixed_ship_torpedo_slot = ship_torpedo_sub_4
+							fixed_ship_engine_slot = sub_ship_engine_4
+							rear_1_custom_slot = empty
+						}
+					}
+					#Line Production
+					hidden_effect = {
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_4
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 1"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_4
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 1"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_4
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 1"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_4
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 1"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_4
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 1"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+					}
+				}
+				else_if = {
+					limit = { #Carrier 3
+						has_tech = improved_ship_hull_submarine
+					}
+					#Equipment Variant
+					create_equipment_variant = {
+						name = "CC Class"
+						type = ship_hull_submarine_3
+						name_group = SOV_CV_HISTORICAL
+						parent_version = 0
+						modules = {
+							fixed_ship_torpedo_slot = ship_torpedo_sub_4
+							fixed_ship_engine_slot = sub_ship_engine_4
+							rear_1_custom_slot = empty
+						}
+					}
+					#Line Production
+					hidden_effect = {
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_3
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 1"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_3
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 2"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_3
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 3"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_3
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 4"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_3
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 5"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+					}
+				}
+				else_if = {
+					limit = { #Carrier 2
+						has_tech = basic_ship_hull_submarine
+					}
+					#Equipment Variant
+					create_equipment_variant = {
+						name = "CC Class"
+						type = ship_hull_submarine_2
+						name_group = SOV_CV_HISTORICAL
+						parent_version = 0
+						modules = {
+							fixed_ship_torpedo_slot = ship_torpedo_sub_2
+							fixed_ship_engine_slot = sub_ship_engine_2
+							rear_1_custom_slot = empty
+						}
+					}
+					#Line Production
+					hidden_effect = {
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_2
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 1"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_2
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 2"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_2
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 3"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_2
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 4"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = ship_hull_submarine_2
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 5"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+					}
+				}
+				else = {  #Carrier 1
+					if = {
+						limit = {
+							NOT = { has_tech = early_submarine }
+						}
+						set_technology = { early_submarine = 1 }
+					}
+					#Equipment Variant
+					create_equipment_variant = {
+						name = "CC Class"
+						type = submarine_1
+						name_group = SOV_CV_HISTORICAL
+						parent_version = 0
+						modules = {
+							fixed_ship_torpedo_slot = ship_torpedo_sub_4
+							fixed_ship_engine_slot = sub_ship_engine_4
+							rear_1_custom_slot = empty
+						}
+					}
+					#Line Production
+					hidden_effect = {
+						add_equipment_production = {
+							equipment = {
+								type = submarine_1
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 1"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = submarine_1
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 2"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = submarine_1
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 3"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = submarine_1
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 4"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+						add_equipment_production = {
+							equipment = {
+								type = submarine_1
+								creator = "MIL"
+								version_name = "CC Class"
+							}
+							name = "Intelligence Ship 5"
+							requested_factories = 1
+							progress = 0.45
+							amount = 1
+						}
+					}
+				}
+			}
+
+			##############
+			### NO MTG ###
+			##############
+			else = {
+				if = {
+					limit = { #Carrier 4 
+						has_tech = advanced_carrier
+					}
+					create_equipment_variant = {
+						name = "Great War Class"
+						type = carrier_4
+						allow_without_tech = yes #Makes no difference since focus requires appropriate tech (above), but it improves tooltip
+						upgrades = {
+							ship_deckspace_upgrade = 4
+							carrier_armor_upgrade = 4
+							ship_engine_upgrade = 3
+							ship_reliability_upgrade = 3
+						}
+					}
+					add_equipment_production = {
+						equipment = {
+							type = carrier_4
+							creator = "MIL"
+							version_name = "Great War Class"
+						}
+						requested_factories = 1
+						progress = 0.45
+						amount = 1
+					}
+				}
+				else_if = {
+					limit = { #Carrier 3
+						has_tech = improved_carrier
+					}
+					create_equipment_variant = {
+						name = "Great War Class"
+						type = carrier_3
+						allow_without_tech = yes #Makes no difference since focus requires appropriate tech (above), but it improves tooltip
+						upgrades = {
+							ship_deckspace_upgrade = 3
+							carrier_armor_upgrade = 3
+							ship_engine_upgrade = 3
+							ship_reliability_upgrade = 2
+						}
+					}
+					add_equipment_production = {
+						equipment = {
+							type = carrier_3
+							creator = "MIL"
+							version_name = "Great War Class"
+						}
+						requested_factories = 1
+						progress = 0.45
+						amount = 1
+					}
+				}
+				else_if = {
+					limit = { #Carrier 2
+						has_tech = basic_carrier
+					}
+					create_equipment_variant = {
+						name = "Great War Class"
+						type = carrier_2
+						allow_without_tech = yes #Makes no difference since focus requires appropriate tech (above), but it improves tooltip
+						upgrades = {
+							ship_deckspace_upgrade = 2
+							carrier_armor_upgrade = 2
+							ship_engine_upgrade = 2
+							ship_reliability_upgrade = 2
+						}
+					}
+					add_equipment_production = {
+						equipment = {
+							type = carrier_2
+							creator = "MIL"
+							version_name = "Great War Class"
+						}
+						requested_factories = 1
+						progress = 0.45
+						amount = 1
+					}
+				}
+				else = {  #Carrier 1
+					if = {
+						limit = {
+							NOT = { has_tech = early_carrier }
+						}
+						set_technology = { early_carrier = 1 }
+					}
+					create_equipment_variant = {
+						name = "Great War Class"
+						type = carrier_1
+						allow_without_tech = yes #Makes no difference since focus requires appropriate tech (above), but it improves tooltip
+						upgrades = {
+							ship_deckspace_upgrade = 2
+							carrier_armor_upgrade = 1
+							ship_engine_upgrade = 2
+							ship_reliability_upgrade = 1
+						}
+					}
+					add_equipment_production = {
+						equipment = {
+							type = carrier_1
+							creator = "MIL"
+							version_name = "Great War Class"
+						}
+						requested_factories = 1
+						progress = 0.45
+						amount = 1
+					}
+				}
+			}
+			custom_effect_tooltip = MIL_asymmetric_forces_tt
+		}	
+	}
+		
+	focus = { #항공 우위 지속
+		id = MIL_maintaining_air_superiority
+		icon = GFX_goal_generic_air_production
+		cost = 10.00
+		prerequisite = { focus = MIL_threat_from_beyond_the_coast }
+		x = 2
+		y = 1
+		relative_position_id = MIL_threat_from_beyond_the_coast
+		completion_reward = {
+			air_experience = 25
+
+			add_tech_bonus = {
+				name = MIL_maintaining_air_superiority
+				bonus = 0.75
+				uses = 2
+				category = light_fighter
+				category = cas_bomber
+			}
+		}	
+	}
+		
+	focus = { #대륙간 폭격기
+		id = MIL_intercontinental_bomber
+		icon = GFX_goal_generic_air_bomber
+		cost = 10.00
+		prerequisite = { focus = MIL_maintaining_air_superiority }
+		x = 2
+		y = 2
+		relative_position_id = MIL_threat_from_beyond_the_coast
+		completion_reward = {
+
+			add_tech_bonus = {
+				name = MIL_intercontinental_bomber
+				bonus = 0.85
+				uses = 2
+				category = cat_heavy_fighter
+				category = tactical_bomber
+				category = cat_strategic_bomber
+			}
+		}	
+	}
+		
+	focus = { #생산 최대화
+		id = MIL_preparing_for_the_coming_war
+		icon = GFX_focus_generic_torpedo_production
+		cost = 10.00
+		prerequisite = { focus = MIL_asymmetric_forces focus = MIL_challenging_maritime_hegemony }
+		prerequisite = { focus = MIL_intercontinental_bomber }
+		x = 0
+		y = 3
+		relative_position_id = MIL_threat_from_beyond_the_coast
+		completion_reward = {
+		}	
+	}
+		
+	focus = { #방위산업
+		id = MIL_the_economy
+		icon = GFX_goal_generic_defence
+		cost = 5.00
+		prerequisite = { focus = MIL_millenium_defense_committee }
+		x = -3
+		y = 1
+		relative_position_id = MIL_millenium_defense_committee
+		completion_reward = {
+			add_tech_bonus = {
+				name = MIL_the_economy
+				bonus = 1
+				uses = 2
+				category = motorized_equipment
+				category = support_tech
+			}
+		}	
+	}
+		
+	focus = { #대도시 투자
+		id = MIL_city_investment
+		icon = GFX_goal_generic_army_doctrines
+		cost = 10.00
+		prerequisite = { focus = MIL_the_economy }
+		x = -1
+		y = 1
+		relative_position_id = MIL_the_economy
+		completion_reward = {
+			army_experience = 50
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.50
+				uses = 1
+				category = land_doctrine
+			}
+			custom_effect_tooltip = MIL_focused_research_unlock_tt
+			unlock_decision_tooltip = MIL_focused_research_engineering_cannon
+			unlock_decision_tooltip = MIL_focused_research_engineering_tank
+			unlock_decision_tooltip = MIL_focused_research_engineering_navy
+			unlock_decision_tooltip = MIL_focused_research_engineering_air
+			custom_effect_tooltip = MIL_focused_research_sup_tt
+			set_country_flag = MIL_focused_research_engineering_cannon_onflag
+			set_country_flag = MIL_focused_research_engineering_tank_onflag
+			set_country_flag = MIL_focused_research_engineering_navy_onflag
+			set_country_flag = MIL_focused_research_engineering_air_onflag
+		}	
+	}
+		
+	focus = { #시설 현대화
+		id = MIL_facility_modernization
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 10.00
+		prerequisite = { focus = MIL_the_economy }
+		x = 1
+		y = 1
+		relative_position_id = MIL_the_economy
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 3
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 3
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 4
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 4
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 4
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}	
+	}
+		
+	focus = { #현대적인 전차 생산
+		id = MIL_modern_tank_technology
+		icon = GFX_focus_generic_tank_production
+		cost = 10.00
+		prerequisite = { focus = MIL_facility_modernization }
+		x = 2
+		y = 2
+		relative_position_id = MIL_the_economy
+		completion_reward = {
+			add_tech_bonus = {
+				name = MIL_modern_tank_technology
+				bonus = 0.75
+				uses = 2
+				category = armor
+			}
+			if = {
+				limit = {
+					has_dlc = "No Step Back"
+				}
+				#T-34 tank template
+				if = {
+					limit = {
+						OR = {
+							has_tech = artillery3
+							has_tech = antitank3
+						}
+					}
+					create_equipment_variant = {
+						name = "ML-02"
+						type = medium_tank_chassis_2
+						parent_version = 0
+						modules = {
+							main_armament_slot = tank_medium_cannon_2
+							turret_type_slot = tank_medium_two_man_tank_turret
+							suspension_type_slot = tank_christie_suspension
+							armor_type_slot = tank_welded_armor
+							engine_type_slot = tank_diesel_engine
+							special_type_slot_1 = sloped_armor
+						}
+						upgrades = {
+							tank_nsb_engine_upgrade = 10
+							tank_nsb_armor_upgrade = 7
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						OR = {
+							has_tech = artillery1
+							has_tech = antitank1
+						}
+					}
+					create_equipment_variant = {
+						name = "ML-02"
+						type = medium_tank_chassis_2
+						parent_version = 0
+						modules = {
+							main_armament_slot = tank_medium_cannon
+							turret_type_slot = tank_medium_two_man_tank_turret
+							suspension_type_slot = tank_christie_suspension
+							armor_type_slot = tank_welded_armor
+							engine_type_slot = tank_diesel_engine
+							special_type_slot_1 = sloped_armor
+						}
+						upgrades = {
+							tank_nsb_engine_upgrade = 10
+							tank_nsb_armor_upgrade = 7
+						}
+					}
+				}
+				else_if = { #Why? You ruined your T-34
+					limit = {
+						has_tech = interwar_artillery
+					}
+					create_equipment_variant = {
+						name = "ML-02"
+						type = medium_tank_chassis_2
+						parent_version = 0
+						modules = {
+							main_armament_slot = tank_small_cannon_2
+							turret_type_slot = tank_medium_two_man_tank_turret
+							suspension_type_slot = tank_christie_suspension
+							armor_type_slot = tank_welded_armor
+							engine_type_slot = tank_diesel_engine
+							special_type_slot_1 = sloped_armor
+						}
+						upgrades = {
+							tank_nsb_engine_upgrade = 10
+							tank_nsb_armor_upgrade = 7
+						}
+					}
+				}
+				else = { #Don't do this to yourself dude
+					create_equipment_variant = {
+						name = "ML-02"
+						type = medium_tank_chassis_2
+						parent_version = 0
+						modules = {
+							main_armament_slot = tank_small_cannon
+							turret_type_slot = tank_medium_two_man_tank_turret
+							suspension_type_slot = tank_christie_suspension
+							armor_type_slot = tank_welded_armor
+							engine_type_slot = tank_diesel_engine
+							special_type_slot_1 = sloped_armor
+						}
+						upgrades = {
+							tank_nsb_engine_upgrade = 10
+							tank_nsb_armor_upgrade = 7
+						}
+					}
+				}
+			}
+		}	
+	}
+		
+	focus = { #소총 개량
+		id = MIL_rifle_improvement
+		icon = GFX_goal_generic_army_artillery
+		cost = 10.00
+		prerequisite = { focus = MIL_city_investment focus = MIL_facility_modernization }
+		x = 0
+		y = 2
+		relative_position_id = MIL_the_economy
+		completion_reward = {
+
+			add_tech_bonus = {
+				name = MIL_rifle_improvement
+				bonus = 1.00
+				uses = 2
+				category = infantry_weapons
+			}
+		}	
+	}
+		
+	focus = { #체계적인 전술 수립
+		id = MIL_establishing_army_tactics
+		icon = GFX_focus_chi_army_reform
+		cost = 10.00
+		prerequisite = { focus = MIL_city_investment }
+		x = -2
+		y = 2
+		relative_position_id = MIL_the_economy
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.35
+				uses = 2
+				category = land_doctrine
+			}
+		}	
+	}
+		
+	focus = { #밀레니엄 엔지니어부 전쟁국
+		id = MIL_millenium_engineer_department_war_bureau
+		icon = GFX_goal_generic_territory_or_war
+		cost = 10.00
+		prerequisite = { focus = MIL_establishing_army_tactics }
+		prerequisite = { focus = MIL_rifle_improvement }
+		prerequisite = { focus = MIL_modern_tank_technology }
+		bypass = {
+			NOT = { has_dlc = "Arms Against Tyranny" }
+		}
+		x = 0
+		y = 3
+		relative_position_id = MIL_the_economy
+		completion_reward = {
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				mio:MIL_engineering_department_tank = {
+					unlock_mio_trait_tooltip = MIL_unlimited_modifications_allowed_tank
+				}
+				mio:MIL_engineering_department_air = {
+					unlock_mio_trait_tooltip = MIL_unlimited_modifications_allowed_air
+				}
+				mio:MIL_engineering_department_navy = {
+					unlock_mio_trait_tooltip = MIL_unlimited_modifications_allowed_navy
+				}
+			}
+		}	
+	}
+
 	focus = { # 세미나 호출
 		id = MIL_SEMINA
 		icon = GFX_MIL_semina_hochul
@@ -2206,7 +3703,14 @@ focus_tree = {
 				}
 			}
 		}
-		x = 40
+		offset = {
+			x = -5
+			y = 0
+			trigger = {
+				has_country_flag = MIL_fuck_flag
+			}
+		}
+		x = 43
 		y = 0
 
 		ai_will_do = {
@@ -2416,32 +3920,8 @@ focus_tree = {
 		id = MIL_intensified_disagreements
 		icon = GFX_focus_generic_court
 		cost = 5.00
-		offset = {
-			x = -7
-			y = 0
-			trigger = {
-				has_game_rule = {
-					rule = obsolete_focus_branches_visibility
-					option = HIDE
-				}
-				OR = {
-					has_completed_focus = MIL_rebuilt_school2
-					has_completed_focus = MIL_rebuilt_school1
-				}
-			}
-		}
-		offset = {
-			x = -2
-			y = 0
-			trigger = {
-				has_game_rule = {
-					rule = obsolete_focus_branches_visibility
-					option = HIDE
-				}
-				has_completed_focus = MIL_rebuilt_school1
-			}
-		}
-		x = 50
+		relative_position_id = MIL_SEMINA
+		x = 10
 		y = 1
 		prerequisite = { focus = MIL_SEMINA }
 		allow_branch = {
@@ -3490,10 +4970,6 @@ focus_tree = {
 			add_to_variable = { MIL_semina_idea_political_power_factor = 0.15 }
 			add_to_variable = { MIL_semina_idea_drift_defence_factor = 0.20 }
 			custom_effect_tooltip = enter_tt
-			hidden_effect = {
-				remove_dynamic_modifier = { modifier = MIL_veritas_idea }
-				add_dynamic_modifier = { modifier = MIL_great_council_idea }
-			}
 		}	
 	}
 
@@ -5867,6 +7343,21 @@ focus_tree = {
 						picture = "gfx/leaders/MIL/MIL_seminar_character_Portrait.tga"
 						ideology = technocracy
 					}
+					create_country_leader = {
+						name = MIL_africa_general
+						picture = "gfx/leaders/MIL/MIL_seminar_character_Portrait.tga"
+						ideology = technocracy_communism
+					}
+					create_country_leader = {
+						name = MIL_africa_general
+						picture = "gfx/leaders/MIL/MIL_seminar_character_Portrait.tga"
+						ideology = oligarchism
+					}
+					create_country_leader = {
+						name = MIL_africa_general
+						picture = "gfx/leaders/MIL/MIL_seminar_character_Portrait.tga"
+						ideology = fascism_ideology
+					}
 				}
 				ALG = {
 					set_popularities = {
@@ -5884,6 +7375,8 @@ focus_tree = {
 					autonomy_state = autonomy_collaboration_government
 				}
 			}
+			custom_effect_tooltip = MIL_res_down_tt
+			set_global_flag = STOP_FRA_prepare_war_flag
 		}	
 	}
 
@@ -6488,203 +7981,6 @@ focus_tree = {
 				}
 			}
 			custom_effect_tooltip = MIL_preemptive_intervention_1_tt
-		}	
-	}
-		
-	focus = { #산업 기반 복원
-		id = MIL_the_economy
-		icon = GFX_goal_generic_production
-		cost = 5.00
-		prerequisite = { focus = MIL_network_recovery }
-		x = -4
-		y = 1
-		relative_position_id = MIL_network_recovery
-		completion_reward = {
-			add_tech_bonus = {
-				name = industrial_bonus
-				bonus = 2.0
-				uses = 1
-				category = industry
-			}
-		}	
-	}
-
-	focus = { #시장 종속화
-		id = MIL_market_subordination
-		icon = GFX_goal_generic_more_territorial_claims
-		cost = 5.00
-		prerequisite = { focus = MIL_the_economy }
-		available = {
-			has_idea = FRA_MIL_basement_economy
-		}
-		x = -1
-		y = 1
-		relative_position_id = MIL_the_economy
-		completion_reward = {
-			random_owned_controlled_state = {
-				limit = {
-					free_building_slots = {
-						building = industrial_complex
-						size > 0
-						include_locked = yes
-					}
-					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = industrial_complex
-										size > 0
-										include_locked = yes
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				limit = {
-					free_building_slots = {
-						building = industrial_complex
-						size > 0
-						include_locked = yes
-					}
-					OR = {
-						is_in_home_area = yes
-						NOT = {
-							owner = {
-								any_owned_state = {
-									free_building_slots = {
-										building = industrial_complex
-										size > 0
-										include_locked = yes
-									}
-									is_in_home_area = yes
-								}
-							}
-						}
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
-			
-			country_event = {
-				id = FRA_prov_event.128
-				days = 8
-			}
-			hidden_effect = {
-				FRA ={
-					country_event = {
-						id = FRA_prov_event.127
-						days = 8
-					}
-				}
-			}
-		}	
-	}
-		
-	focus = { #대도시 투자
-		id = MIL_city_investment
-		icon = GFX_goal_generic_army_doctrines
-		cost = 10.00
-		prerequisite = { focus = MIL_the_economy }
-		x = 1
-		y = 1
-		relative_position_id = MIL_the_economy
-		completion_reward = {
-			army_experience = 15
-			add_doctrine_cost_reduction = {
-				name = land_doc_bonus
-				cost_reduction = 0.50
-				uses = 1
-				category = land_doctrine
-			}
-			custom_effect_tooltip = MIL_focused_research_unlock_tt
-			unlock_decision_tooltip = MIL_focused_research_engineering_cannon
-			unlock_decision_tooltip = MIL_focused_research_engineering_tank
-			unlock_decision_tooltip = MIL_focused_research_engineering_navy
-			unlock_decision_tooltip = MIL_focused_research_engineering_air
-			custom_effect_tooltip = MIL_focused_research_sup_tt
-			set_country_flag = MIL_focused_research_engineering_cannon_onflag
-			set_country_flag = MIL_focused_research_engineering_tank_onflag
-			set_country_flag = MIL_focused_research_engineering_navy_onflag
-			set_country_flag = MIL_focused_research_engineering_air_onflag
-		}	
-	}
-		
-	focus = { #시설 현대화
-		id = MIL_facility_modernization
-		icon = GFX_goal_generic_small_arms
-		cost = 10.00
-		prerequisite = { focus = MIL_market_subordination focus = MIL_city_investment }
-		x = -1
-		y = 1
-		relative_position_id = MIL_city_investment
-		completion_reward = {
-			random_owned_controlled_state = {
-				limit = {
-					infrastructure < 3
-				}
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				limit = {
-					infrastructure < 3
-				}
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				limit = {
-					infrastructure < 4
-				}
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				limit = {
-					infrastructure < 4
-				}
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				limit = {
-					infrastructure < 4
-				}
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
 		}	
 	}
 		
