@@ -132,6 +132,7 @@ focus_tree = {
 			set_country_flag = MIL_focused_research_industry_innovation_onflag
 			
 			MIL_Resistance_idea_down = yes
+			add_to_variable = { MIL_res_has_war_with_france_var = 10 }
 		}	
 	}
 	focus = { #산업 자동화
@@ -1817,9 +1818,8 @@ focus_tree = {
 			
 			MIL_Resistance_idea_down = yes
 			custom_effect_tooltip = MIL_resistance_suppression_tt
-			add_to_variable = {
-				MIL_res_destroy_var = 10
-			}
+			add_to_variable = { MIL_res_destroy_var = 10 }
+			add_to_variable = { MIL_res_has_war_with_france_var = 10 }
 		}	
 	}
 		
@@ -2407,7 +2407,7 @@ focus_tree = {
 			}
 		}
 		x = 15
-		y = 3
+		y = 0
 		relative_position_id = MIL_railway_connection
 		completion_reward = {
 			add_war_support = 0.15
@@ -2502,6 +2502,30 @@ focus_tree = {
 					}
 				}
 			}
+			add_to_variable = { MIL_res_has_war_with_france_var = 10 }
+		}	
+	}
+		
+	focus = { # 선제 개입
+		id = MIL_preemptive_intervention_1
+		icon = GFX_focus_BRA_end_the_state_of_emergency
+		cost = 5.00
+		prerequisite = { focus = MIL_market_subordination }
+		mutually_exclusive = { focus = MIL_science_focused_investment }
+		bypass = {
+			NOT = { has_idea = MIL_neutrality_idea }
+		}
+		x = 0
+		y = 1
+		relative_position_id = MIL_market_subordination
+		completion_reward = {
+			hidden_effect = {
+				swap_ideas = {
+					remove_idea = MIL_neutrality_idea
+					add_idea = MIL_interventionism_idea
+				}
+			}
+			custom_effect_tooltip = MIL_preemptive_intervention_1_tt
 		}	
 	}
 		
@@ -3687,6 +3711,380 @@ focus_tree = {
 			}
 		}	
 	}
+		
+	focus = { # 과학과 연구의 학원
+		id = MIL_academy_of_science_and_research
+		icon = GFX_MIL_Science_ctiy
+		cost = 5.00
+		x = 8
+		y = 0
+		relative_position_id = MIL_millenium_defense_committee
+		completion_reward = {
+			add_research_slot = 1
+		}	
+	}
+		
+	focus = { # 타워 네트워크 복원
+		id = MIL_tower_network_restoration
+		icon = GFX_focus_research
+		cost = 5.00
+		prerequisite = { focus = MIL_academy_of_science_and_research }
+		prerequisite = { focus = MIL_network_recovery }
+		x = 3
+		y = 4
+		relative_position_id = MIL_academy_of_science_and_research
+		completion_reward = {
+			add_ideas = MIL_internet_1
+		}	
+	}
+		
+	focus = { # 자유로운 지식의 공유
+		id = MIL_free_knowledge_sharing
+		icon = GFX_goal_generic_scientific_exchange
+		cost = 5.00
+		prerequisite = { focus = MIL_tower_network_restoration }
+		x = 0
+		y = 1
+		relative_position_id = MIL_tower_network_restoration
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = MIL_internet_1
+				add_idea = MIL_internet_2
+			}
+		}	
+	}
+		
+	focus = { # 미래의 지성인
+		id = MIL_future_intellectuals
+		icon = GFX_focus_research
+		cost = 5.00
+		prerequisite = { focus = MIL_academy_of_science_and_research }
+		x = 0
+		y = 1
+		relative_position_id = MIL_academy_of_science_and_research
+		completion_reward = {
+		}	
+	}
+		
+	focus = { # 보편적 교육
+		id = MIL_universal_education
+		icon = GFX_goal_generic_improve_relations
+		cost = 5.00
+		prerequisite = { focus = MIL_future_intellectuals }
+		mutually_exclusive = { focus = MIL_talent_selection_system }
+		x = -1
+		y = 1
+		relative_position_id = MIL_future_intellectuals
+		completion_reward = {
+			add_ideas = MIL_universal_education_idea
+		}	
+	}
+		
+	focus = { # 인재 선발 시스템
+		id = MIL_talent_selection_system
+		icon = GFX_focus_generic_self_management
+		cost = 5.00
+		prerequisite = { focus = MIL_future_intellectuals }
+		mutually_exclusive = { focus = MIL_universal_education }
+		x = 1
+		y = 1
+		relative_position_id = MIL_future_intellectuals
+		completion_reward = {
+			add_ideas = MIL_talent_selection_system_idea
+		}	
+	}
+		
+	focus = { # 밀레니엄 일반 공학 학원
+		id = MIL_millennium_general_engineering_academy
+		icon = GFX_focus_research2
+		cost = 10.00
+		prerequisite = { focus = MIL_universal_education focus = MIL_talent_selection_system }
+		prerequisite = { focus = MIL_preparing_for_the_coming_war }
+		available = {
+			num_of_factories > 200
+		}
+		x = -2
+		y = 5
+		relative_position_id = MIL_academy_of_science_and_research
+		completion_reward = {
+			add_research_slot = 1
+		}	
+	}
+		
+	focus = { # 과학 집중 투자
+		id = MIL_science_focused_investment
+		icon = GFX_focus_BRA_reach_out_to_military_dem
+		cost = 10.00
+		available = {
+			OR = {
+				has_completed_focus = MIL_rebuilt_school1
+				has_completed_focus = MIL_rebuilt_school2
+			}
+		}
+		mutually_exclusive = { focus = MIL_preemptive_intervention_1 }
+		prerequisite = { focus = MIL_universal_education focus = MIL_talent_selection_system }
+		prerequisite = { focus = MIL_free_knowledge_sharing }
+		x = 0
+		y = 6
+
+		ai_will_do = {
+			factor = 0
+		}
+		relative_position_id = MIL_academy_of_science_and_research
+		completion_reward = {
+			add_research_slot = 1
+			add_ideas = MIL_science_focused_investment_idea
+		}	
+	}
+		
+	focus = { # 원자의 비밀
+		id = MIL_the_power_of_atoms
+		icon = GFX_goal_generic_production2
+		cost = 10.00
+		prerequisite = { focus = MIL_science_focused_investment }
+		mutually_exclusive = { focus = MIL_go_to_the_space }
+		available = {
+			has_tech = atomic_research
+		}
+		x = -4
+		y = 1
+		relative_position_id = MIL_science_focused_investment
+		completion_reward = {
+			unlock_decision_category_tooltip = MIL_the_power_of_atoms_decision
+			unlock_decision_tooltip = MIL_focused_research_nuclear
+			set_country_flag = MIL_focused_research_nuclear_onflag
+
+			set_variable = { the_power_of_atoms_value = 0 }
+			set_variable = { MIL_hydrogen_bomb_var = 0 }
+			set_variable = { MIL_neutron_bomb_var = 0 }
+		}	
+	}
+		
+	focus = { # 한계 돌파
+		id = MIL_breaking_limits
+		icon = GFX_focus_rom_parties_end
+		cost = 5.00
+		prerequisite = { focus = MIL_the_power_of_atoms }
+		mutually_exclusive = { focus = MIL_destroyer_of_worlds }
+		available = {
+		}
+		x = -1
+		y = 1
+		relative_position_id = MIL_the_power_of_atoms
+		completion_reward = {
+			add_country_leader_trait = MIL_atomic_exploration
+		}	
+	}
+		
+	focus = { # 세계의 파괴자
+		id = MIL_destroyer_of_worlds
+		icon = GFX_focus_wonderweapons
+		cost = 5.00
+		prerequisite = { focus = MIL_the_power_of_atoms }
+		mutually_exclusive = { focus = MIL_breaking_limits }
+		available = {
+		}
+		x = 1
+		y = 1
+		relative_position_id = MIL_the_power_of_atoms
+		completion_reward = {
+			add_tech_bonus = {
+				name = MIL_go_to_the_space
+				bonus = 3.0
+				uses = 1
+				category = nuclear
+			}
+		}	
+	}
+		
+	focus = { # 중수로
+		id = MIL_mass_energy_equivalence
+		icon = GFX_focus_research
+		cost = 10.00
+		prerequisite = { focus = MIL_breaking_limits focus = MIL_destroyer_of_worlds }
+		available = {
+		}
+		x = 0
+		y = 2
+		relative_position_id = MIL_the_power_of_atoms
+		completion_reward = {
+			custom_effect_tooltip = MIL_tokamak_construction_tt
+			add_to_variable = { the_power_of_atoms_value = 150 }
+			add_ideas = MIL_heavy_water_reactor_idea
+		}	
+	}
+		
+	focus = { # 토카막 건설
+		id = MIL_tokamak_construction
+		icon = GFX_goal_generic_production
+		cost = 5.00
+		prerequisite = { focus = MIL_breaking_limits }
+		prerequisite = { focus = MIL_mass_energy_equivalence }
+		available = {
+		}
+		x = -1
+		y = 3
+		relative_position_id = MIL_the_power_of_atoms
+		completion_reward = {
+		}	
+	}
+		
+	focus = { # 수소폭탄
+		id = MIL_hydrogen_bomb
+		icon = GFX_goal_generic_production
+		cost = 5.00
+		prerequisite = { focus = MIL_destroyer_of_worlds }
+		mutually_exclusive = { focus = MIL_neutron_bomb }
+		available = {
+		}
+		x = 2
+		y = 2
+		relative_position_id = MIL_the_power_of_atoms
+		completion_reward = {
+			set_country_flag = BA_hydrogen_bomb_flag
+			custom_effect_tooltip = MIL_hydrogen_bomb_tt
+		}	
+	}
+		
+	focus = { # 중성자탄
+		id = MIL_neutron_bomb
+		icon = GFX_goal_generic_production
+		cost = 5.00
+		prerequisite = { focus = MIL_destroyer_of_worlds }
+		mutually_exclusive = { focus = MIL_hydrogen_bomb }
+		available = {
+		}
+		x = 4
+		y = 2
+		relative_position_id = MIL_the_power_of_atoms
+		completion_reward = {
+			set_country_flag = BA_neutron_bomb_flag
+			custom_effect_tooltip = MIL_neutron_bomb_tt
+		}	
+	}
+		
+	focus = { # 우주를 향해
+		id = MIL_go_to_the_space
+		icon = GFX_focus_rocketry
+		cost = 10.00
+		prerequisite = { focus = MIL_science_focused_investment }
+		mutually_exclusive = { focus = MIL_the_power_of_atoms }
+		x = 4
+		y = 1
+		relative_position_id = MIL_science_focused_investment
+		completion_reward = {
+			add_country_leader_trait = MIL_starchaser
+			set_variable = { MIL_satellite_dynamic_modifier_civilian_intel_factor = 0.02 }
+			set_variable = { MIL_satellite_dynamic_modifier_airforce_intel_factor = 0.04 }
+			set_variable = { MIL_satellite_dynamic_modifier_army_intel_factor = 0.04 }
+			set_variable = { MIL_satellite_dynamic_modifier_navy_intel_factor = 0.10 }
+
+			set_variable = { MIL_satellite_dynamic_modifier_army_attack_factor = 0.01 }
+			set_variable = { MIL_satellite_dynamic_modifier_army_defence_factor = 0.01 }
+			
+			set_variable = { MIL_satellite_dynamic_modifier_max_planning_factor = 0.02 }
+			set_variable = { MIL_satellite_dynamic_modifier_recon_factor = 0.02 }
+			set_variable = { MIL_satellite_dynamic_modifier_planning_speed = 0.02 }
+			add_tech_bonus = {
+				name = GER_rocketry_focus
+				bonus = 1.0
+				uses = 2
+				category = rocketry
+			}
+			add_tech_bonus = {
+				name = GER_rocketry_focus
+				bonus = 1.0
+				uses = 2
+				category = jet_technology
+			}
+			set_country_flag = MIL_go_to_the_space_flag
+		}	
+	}
+		
+	focus = { # 우주 발사체 설계
+		id = MIL_space_launch_vehicle_design
+		icon = GFX_MIL_space_launch_vehicle_design
+		cost = 5.00
+		prerequisite = { focus = MIL_go_to_the_space }
+		available = {
+			has_tech = improved_machine_tools
+			has_tech = experimental_rockets
+		}
+		x = 2
+		y = 1
+		relative_position_id = MIL_go_to_the_space
+		completion_reward = {
+			add_tech_bonus = {
+				name = MIL_go_to_the_space
+				bonus = 1.0
+				uses = 1
+				category = rocketry
+			}
+		}	
+	}
+		
+	focus = { # 추진체 개발
+		id = MIL_propulsion_development
+		icon = GFX_goal_generic_army_artillery
+		cost = 5.00
+		prerequisite = { focus = MIL_go_to_the_space }
+		available = {
+			has_tech = oil_processing
+			has_tech = fuel_refining2
+		}
+		x = 0
+		y = 1
+		relative_position_id = MIL_go_to_the_space
+		completion_reward = {
+			add_tech_bonus = {
+				name = MIL_go_to_the_space
+				bonus = 1.0
+				uses = 1
+				category = synth_resources
+			}
+		}	
+	}
+		
+	focus = { # 위성 설계
+		id = MIL_satellite_design
+		icon = GFX_MIL_satellite_design
+		cost = 5.00
+		prerequisite = { focus = MIL_go_to_the_space }
+		available = {
+			has_tech = computing_machine
+		}
+		x = -2
+		y = 1
+		relative_position_id = MIL_go_to_the_space
+		completion_reward = {
+			add_tech_bonus = {
+				name = MIL_go_to_the_space
+				bonus = 1.0
+				uses = 2
+				category = rocketry
+			}
+		}	
+	}
+		
+	focus = { # 인공위성 발사
+		id = MIL_satellite_launch
+		icon = GFX_MIL_satellite_launch
+		cost = 10.00
+		prerequisite = { focus = MIL_propulsion_development }
+		prerequisite = { focus = MIL_satellite_design }
+		prerequisite = { focus = MIL_space_launch_vehicle_design }
+		available = {
+			has_tech = improved_rocket_engines
+			has_tech = improved_computing_machine
+			has_tech = fuel_refining3
+		}
+		x = 0
+		y = 1
+		relative_position_id = MIL_propulsion_development
+		completion_reward = {
+			country_event = { id = MIL_event.22 hours = 6 }
+		}	
+	}
 
 	focus = { # 세미나 호출
 		id = MIL_SEMINA
@@ -3713,7 +4111,7 @@ focus_tree = {
 				has_country_flag = MIL_fuck_flag
 			}
 		}
-		x = 43
+		x = 48
 		y = 0
 
 		ai_will_do = {
@@ -4184,6 +4582,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = MIL_Rio_intensified
 		completion_reward = {
+			MIL_Resistance_idea_up = yes
 			add_power_balance_value = {
 				id = MIL_power_balance
 				value = -0.10
@@ -4352,8 +4751,13 @@ focus_tree = {
 				}
 			}
 			hidden_effect = {
-				remove_dynamic_modifier = { modifier = MIL_semina_idea }
-				add_dynamic_modifier = { modifier = MIL_veritas_idea }
+				if = {
+					limit = {
+						has_dynamic_modifier = { modifier = MIL_semina_idea }
+					}
+					remove_dynamic_modifier = { modifier = MIL_semina_idea }
+					add_dynamic_modifier = { modifier = MIL_veritas_idea }
+				}
 			}
 			if = {
 				limit = {
@@ -6560,7 +6964,7 @@ focus_tree = {
 	focus = { # 자원 확보
 		id = MIL_secure_resources
 		icon = GFX_focus_generic_steel
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_securing_slush_funds }
 		prerequisite = { focus = MIL_thorough_administrative_surveillance }
 		mutually_exclusive = { focus = MIL_secure_oil }
@@ -6594,7 +6998,7 @@ focus_tree = {
 	focus = { # 석유 확보
 		id = MIL_secure_oil
 		icon = GFX_goal_generic_oil_refinery
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_securing_slush_funds }
 		prerequisite = { focus = MIL_fiscal_austerity }
 		prerequisite = { focus = MIL_thorough_administrative_surveillance }
@@ -6666,7 +7070,7 @@ focus_tree = {
 	focus = { # 통제권
 		id = MIL_control
 		icon = GFX_goal_generic_demand_territory
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_secure_oil focus = MIL_secure_resources }
 		x = 0
 		y = 2
@@ -6832,7 +7236,7 @@ focus_tree = {
 	focus = { # 중앙화
 		id = MIL_centralization
 		icon = GFX_focus_generic_industry_2
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_central_administrative_system }
 		mutually_exclusive = { focus = MIL_accounting_first }
 		x = 0
@@ -6848,7 +7252,7 @@ focus_tree = {
 	focus = { # 회계 우선
 		id = MIL_accounting_first
 		icon = GFX_goal_generic_improve_relations
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_central_administrative_system }
 		mutually_exclusive = { focus = MIL_centralization }
 		x = 2
@@ -6864,7 +7268,7 @@ focus_tree = {
 	focus = { # 밀레니엄의 중심
 		id = MIL_center_of_the_millennium
 		icon = GFX_goal_generic_improve_relations
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_central_administrative_system }
 		x = -1
 		y = 2
@@ -6880,7 +7284,7 @@ focus_tree = {
 	focus = { # 동아리 지원 확대
 		id = MIL_expanding_club_support
 		icon = GFX_goal_generic_improve_relations
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_UshioNoa }
 		x = 0
 		y = 1
@@ -6934,7 +7338,7 @@ focus_tree = {
 	focus = { # 명령경제 완화
 		id = MIL_command_economy
 		icon = GFX_focus_DEN_no_regulations
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_mil_rework }
 		x = 0
 		y = 2
@@ -6948,7 +7352,7 @@ focus_tree = {
 	focus = { # 동아리 자치
 		id = MIL_club_autonomy
 		icon = GFX_goal_generic_cavalry
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_mil_rework }
 		x = 1
 		y = 1
@@ -7494,6 +7898,7 @@ focus_tree = {
 			unlock_decision_tooltip = MIL_focused_research_cooperation
 			custom_effect_tooltip = MIL_focused_research_sup_tt
 			set_country_flag = MIL_focused_research_cooperation_onflag
+			add_to_variable = { MIL_res_has_war_with_france_var = 5 }
 		}	
 	}
 
@@ -7523,6 +7928,7 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = MIL_parliament
+			add_to_variable = { MIL_res_has_war_with_france_var = 5 }
 		}	
 	}
 
@@ -7591,399 +7997,7 @@ focus_tree = {
 		relative_position_id = MIL_establishment_parliament
 		completion_reward = {
 			unlock_decision_tooltip = MIL_res_down
-		}	
-	}
-		
-	focus = { # 과학과 연구의 학원
-		id = MIL_academy_of_science_and_research
-		icon = GFX_MIL_Science_ctiy
-		cost = 10.00
-		offset = {
-			x = -13
-			y = 0
-			trigger = {
-				has_game_rule = {
-					rule = obsolete_focus_branches_visibility
-					option = HIDE
-				}
-				OR = {
-					has_completed_focus = MIL_rebuilt_school2
-					has_completed_focus = MIL_rebuilt_school1
-				}
-			}
-		}
-		x = 60
-		y = 0
-		relative_position_id = MIL_SEMINA
-		completion_reward = {
-			add_research_slot = 1
-		}	
-	}
-		
-	focus = { # 타워 네트워크 복원
-		id = MIL_tower_network_restoration
-		icon = GFX_focus_research
-		cost = 5.00
-		prerequisite = { focus = MIL_academy_of_science_and_research }
-		x = -1
-		y = 1
-		relative_position_id = MIL_academy_of_science_and_research
-		completion_reward = {
-			add_ideas = MIL_internet_1
-		}	
-	}
-		
-	focus = { # 자유로운 지식의 공유
-		id = MIL_free_knowledge_sharing
-		icon = GFX_goal_generic_scientific_exchange
-		cost = 5.00
-		prerequisite = { focus = MIL_tower_network_restoration }
-		x = 0
-		y = 1
-		relative_position_id = MIL_tower_network_restoration
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = MIL_internet_1
-				add_idea = MIL_internet_2
-			}
-		}	
-	}
-		
-	focus = { # 미래의 지성인
-		id = MIL_future_intellectuals
-		icon = GFX_focus_research
-		cost = 5.00
-		prerequisite = { focus = MIL_academy_of_science_and_research }
-		x = 2
-		y = 1
-		relative_position_id = MIL_academy_of_science_and_research
-		completion_reward = {
-		}	
-	}
-		
-	focus = { # 보편적 교육
-		id = MIL_universal_education
-		icon = GFX_goal_generic_improve_relations
-		cost = 10.00
-		prerequisite = { focus = MIL_future_intellectuals }
-		mutually_exclusive = { focus = MIL_talent_selection_system }
-		x = -1
-		y = 1
-		relative_position_id = MIL_future_intellectuals
-		completion_reward = {
-			add_ideas = MIL_universal_education_idea
-		}	
-	}
-		
-	focus = { # 인재 선발 시스템
-		id = MIL_talent_selection_system
-		icon = GFX_focus_generic_self_management
-		cost = 10.00
-		prerequisite = { focus = MIL_future_intellectuals }
-		mutually_exclusive = { focus = MIL_universal_education }
-		x = 1
-		y = 1
-		relative_position_id = MIL_future_intellectuals
-		completion_reward = {
-			add_ideas = MIL_talent_selection_system_idea
-		}	
-	}
-		
-	focus = { # 과학 집중 투자
-		id = MIL_science_focused_investment
-		icon = GFX_focus_research2
-		cost = 10.00
-		available = {
-			OR = {
-				has_completed_focus = MIL_rebuilt_school1
-				has_completed_focus = MIL_rebuilt_school2
-			}
-		}
-		mutually_exclusive = { focus = MIL_preemptive_intervention_1 }
-		prerequisite = { focus = MIL_universal_education focus = MIL_talent_selection_system }
-		prerequisite = { focus = MIL_free_knowledge_sharing }
-		x = 0
-		y = 3
-
-		ai_will_do = {
-			factor = 0
-		}
-		relative_position_id = MIL_academy_of_science_and_research
-		completion_reward = {
-			add_research_slot = 1
-			add_ideas = MIL_science_focused_investment_idea
-		}	
-	}
-		
-	focus = { # 원자의 비밀
-		id = MIL_the_power_of_atoms
-		icon = GFX_goal_generic_production2
-		cost = 10.00
-		prerequisite = { focus = MIL_science_focused_investment }
-		mutually_exclusive = { focus = MIL_go_to_the_space }
-		available = {
-			has_tech = atomic_research
-		}
-		x = -4
-		y = 1
-		relative_position_id = MIL_science_focused_investment
-		completion_reward = {
-			unlock_decision_category_tooltip = MIL_the_power_of_atoms_decision
-			unlock_decision_tooltip = MIL_focused_research_nuclear
-			set_country_flag = MIL_focused_research_nuclear_onflag
-
-			set_variable = { the_power_of_atoms_value = 0 }
-			set_variable = { MIL_hydrogen_bomb_var = 0 }
-			set_variable = { MIL_neutron_bomb_var = 0 }
-		}	
-	}
-		
-	focus = { # 한계 돌파
-		id = MIL_breaking_limits
-		icon = GFX_focus_rom_parties_end
-		cost = 5.00
-		prerequisite = { focus = MIL_the_power_of_atoms }
-		mutually_exclusive = { focus = MIL_destroyer_of_worlds }
-		available = {
-		}
-		x = -1
-		y = 1
-		relative_position_id = MIL_the_power_of_atoms
-		completion_reward = {
-			add_country_leader_trait = MIL_atomic_exploration
-		}	
-	}
-		
-	focus = { # 세계의 파괴자
-		id = MIL_destroyer_of_worlds
-		icon = GFX_focus_wonderweapons
-		cost = 5.00
-		prerequisite = { focus = MIL_the_power_of_atoms }
-		mutually_exclusive = { focus = MIL_breaking_limits }
-		available = {
-		}
-		x = 1
-		y = 1
-		relative_position_id = MIL_the_power_of_atoms
-		completion_reward = {
-			add_tech_bonus = {
-				name = MIL_go_to_the_space
-				bonus = 3.0
-				uses = 1
-				category = nuclear
-			}
-		}	
-	}
-		
-	focus = { # 중수로
-		id = MIL_mass_energy_equivalence
-		icon = GFX_focus_research
-		cost = 10.00
-		prerequisite = { focus = MIL_breaking_limits focus = MIL_destroyer_of_worlds }
-		available = {
-		}
-		x = 0
-		y = 2
-		relative_position_id = MIL_the_power_of_atoms
-		completion_reward = {
-			custom_effect_tooltip = MIL_tokamak_construction_tt
-			add_to_variable = { the_power_of_atoms_value = 150 }
-			add_ideas = MIL_heavy_water_reactor_idea
-		}	
-	}
-		
-	focus = { # 토카막 건설
-		id = MIL_tokamak_construction
-		icon = GFX_goal_generic_production
-		cost = 5.00
-		prerequisite = { focus = MIL_breaking_limits }
-		prerequisite = { focus = MIL_mass_energy_equivalence }
-		available = {
-		}
-		x = -1
-		y = 3
-		relative_position_id = MIL_the_power_of_atoms
-		completion_reward = {
-		}	
-	}
-		
-	focus = { # 수소폭탄
-		id = MIL_hydrogen_bomb
-		icon = GFX_goal_generic_production
-		cost = 5.00
-		prerequisite = { focus = MIL_destroyer_of_worlds }
-		mutually_exclusive = { focus = MIL_neutron_bomb }
-		available = {
-		}
-		x = 2
-		y = 2
-		relative_position_id = MIL_the_power_of_atoms
-		completion_reward = {
-			set_country_flag = BA_hydrogen_bomb_flag
-			custom_effect_tooltip = MIL_hydrogen_bomb_tt
-		}	
-	}
-		
-	focus = { # 중성자탄
-		id = MIL_neutron_bomb
-		icon = GFX_goal_generic_production
-		cost = 5.00
-		prerequisite = { focus = MIL_destroyer_of_worlds }
-		mutually_exclusive = { focus = MIL_hydrogen_bomb }
-		available = {
-		}
-		x = 4
-		y = 2
-		relative_position_id = MIL_the_power_of_atoms
-		completion_reward = {
-			set_country_flag = BA_neutron_bomb_flag
-			custom_effect_tooltip = MIL_neutron_bomb_tt
-		}	
-	}
-		
-	focus = { # 우주를 향해
-		id = MIL_go_to_the_space
-		icon = GFX_focus_rocketry
-		cost = 10.00
-		prerequisite = { focus = MIL_science_focused_investment }
-		mutually_exclusive = { focus = MIL_the_power_of_atoms }
-		x = 4
-		y = 1
-		relative_position_id = MIL_science_focused_investment
-		completion_reward = {
-			add_country_leader_trait = MIL_starchaser
-			set_variable = { MIL_satellite_dynamic_modifier_civilian_intel_factor = 0.02 }
-			set_variable = { MIL_satellite_dynamic_modifier_airforce_intel_factor = 0.04 }
-			set_variable = { MIL_satellite_dynamic_modifier_army_intel_factor = 0.04 }
-			set_variable = { MIL_satellite_dynamic_modifier_navy_intel_factor = 0.10 }
-
-			set_variable = { MIL_satellite_dynamic_modifier_army_attack_factor = 0.01 }
-			set_variable = { MIL_satellite_dynamic_modifier_army_defence_factor = 0.01 }
-			
-			set_variable = { MIL_satellite_dynamic_modifier_max_planning_factor = 0.02 }
-			set_variable = { MIL_satellite_dynamic_modifier_recon_factor = 0.02 }
-			set_variable = { MIL_satellite_dynamic_modifier_planning_speed = 0.02 }
-			add_tech_bonus = {
-				name = GER_rocketry_focus
-				bonus = 1.0
-				uses = 2
-				category = rocketry
-			}
-			add_tech_bonus = {
-				name = GER_rocketry_focus
-				bonus = 1.0
-				uses = 2
-				category = jet_technology
-			}
-			set_country_flag = MIL_go_to_the_space_flag
-		}	
-	}
-		
-	focus = { # 우주 발사체 설계
-		id = MIL_space_launch_vehicle_design
-		icon = GFX_MIL_space_launch_vehicle_design
-		cost = 5.00
-		prerequisite = { focus = MIL_go_to_the_space }
-		available = {
-			has_tech = improved_machine_tools
-			has_tech = experimental_rockets
-		}
-		x = 2
-		y = 1
-		relative_position_id = MIL_go_to_the_space
-		completion_reward = {
-			add_tech_bonus = {
-				name = MIL_go_to_the_space
-				bonus = 1.0
-				uses = 1
-				category = rocketry
-			}
-		}	
-	}
-		
-	focus = { # 추진체 개발
-		id = MIL_propulsion_development
-		icon = GFX_goal_generic_army_artillery
-		cost = 5.00
-		prerequisite = { focus = MIL_go_to_the_space }
-		available = {
-			has_tech = oil_processing
-			has_tech = fuel_refining2
-		}
-		x = 0
-		y = 1
-		relative_position_id = MIL_go_to_the_space
-		completion_reward = {
-			add_tech_bonus = {
-				name = MIL_go_to_the_space
-				bonus = 1.0
-				uses = 1
-				category = synth_resources
-			}
-		}	
-	}
-		
-	focus = { # 위성 설계
-		id = MIL_satellite_design
-		icon = GFX_MIL_satellite_design
-		cost = 5.00
-		prerequisite = { focus = MIL_go_to_the_space }
-		available = {
-			has_tech = computing_machine
-		}
-		x = -2
-		y = 1
-		relative_position_id = MIL_go_to_the_space
-		completion_reward = {
-			add_tech_bonus = {
-				name = MIL_go_to_the_space
-				bonus = 1.0
-				uses = 2
-				category = rocketry
-			}
-		}	
-	}
-		
-	focus = { # 인공위성 발사
-		id = MIL_satellite_launch
-		icon = GFX_MIL_satellite_launch
-		cost = 10.00
-		prerequisite = { focus = MIL_propulsion_development }
-		prerequisite = { focus = MIL_satellite_design }
-		prerequisite = { focus = MIL_space_launch_vehicle_design }
-		available = {
-			has_tech = improved_rocket_engines
-			has_tech = improved_computing_machine
-			has_tech = fuel_refining3
-		}
-		x = 0
-		y = 1
-		relative_position_id = MIL_propulsion_development
-		completion_reward = {
-			country_event = { id = MIL_event.22 hours = 6 }
-		}	
-	}
-		
-	focus = { # 선제 개입
-		id = MIL_preemptive_intervention_1
-		icon = GFX_goal_generic_occupy_states_ongoing_war
-		cost = 5.00
-		prerequisite = { focus = MIL_millennium_science_school }
-		mutually_exclusive = { focus = MIL_science_focused_investment }
-		bypass = {
-			NOT = { has_idea = MIL_neutrality_idea }
-		}
-		x = 10
-		y = 1
-		relative_position_id = MIL_millennium_science_school
-		completion_reward = {
-			hidden_effect = {
-				swap_ideas = {
-					remove_idea = MIL_neutrality_idea
-					add_idea = MIL_interventionism_idea
-				}
-			}
-			custom_effect_tooltip = MIL_preemptive_intervention_1_tt
+			add_to_variable = { MIL_res_has_war_with_france_var = 10 }
 		}	
 	}
 		
