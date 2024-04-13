@@ -2326,3 +2326,76 @@ news_event = { # 밀레니엄에서 일어난 반란
 		name = BA_news.68.c
 	}
 }
+
+# Trotsky Assassination
+news_event = {
+	id = BA_news.70
+	title = BA_news.70.t
+	desc = BA_news.70.d
+	picture = GFX_news_event_024
+	
+	major = yes
+	
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			if = {
+				limit = {
+					tag = SOV
+				}
+				SOV_kill_trotsky_effect = yes
+			}
+		}
+	}
+	
+	option = {
+		name = BA_news.70.a
+		trigger = { 
+			NOT = {
+				TAG = SOV 
+				is_in_faction_with = SOV
+				has_completed_focus = RED_accept_trotskism
+			}
+		}
+	}
+	option = {
+		name = BA_news.70.q
+		trigger = {
+			NOT = { is_in_faction_with = SOV }
+			has_completed_focus = RED_accept_trotskism
+		}
+
+		effect_tooltip = {
+			retire_character = MEX_leon_trotsky
+		}
+	}
+
+	option = {
+		name = BA_news.70.b
+		trigger = { TAG = SOV }
+
+		if = {
+			limit = {
+				has_idea = trotskyite_plot_nsb
+			}
+			effect_tooltip = {
+				retire_character = SOV_lev_trotsky
+				swap_ideas = {
+					remove_idea = trotskyite_plot_nsb
+					add_idea = trotskyite_plot_purged
+				}
+			}
+		}
+	}
+
+	option = {
+		name = BA_news.70.c
+		trigger = { 
+			is_in_faction_with = SOV
+			NOT = {
+				tag = SOV
+			} 
+		}
+	}
+}
