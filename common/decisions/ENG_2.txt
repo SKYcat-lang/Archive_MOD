@@ -748,19 +748,8 @@ political_actions = {
 			GEI = {
 				has_country_flag = The_Colour_country_flag
 			}
-		}
-		available = {
-			has_war_with = GEI	
-			surrender_progress > 0.40
-			NOT = { has_country_flag = ENG_request_for_protection_flag }
-		}
-	
-		cost = 25
-	
-		complete_effect = {
-			set_country_flag = ENG_request_for_protection_flag
-			if = {
-				limit = {
+			OR = {
+				AND = {
 					any_country = {
 						has_war_with = GEI
 						is_major = yes
@@ -775,6 +764,53 @@ political_actions = {
 						}
 					}
 				}
+				AND = {
+					USA = {
+						exists = yes
+						has_capitulated = no
+						is_major = yes
+						is_ally_with = ROOT
+						OR = {
+							has_government = ROOT
+							has_government = neutrality
+						}
+					}
+				}
+			}
+		}
+		available = {
+			has_war_with = GEI	
+			surrender_progress > 0.40
+			NOT = { has_country_flag = ENG_request_for_protection_flag }
+		}
+	
+		cost = 25
+	
+		complete_effect = {
+			set_country_flag = ENG_request_for_protection_flag
+			if = {
+				limit = {
+					USA = {
+						exists = yes
+						has_capitulated = no
+						is_major = yes
+						is_ally_with = ROOT
+						OR = {
+							has_government = ROOT
+							has_government = neutrality
+						}
+					}
+				}
+				USA = {
+					set_autonomy = {
+						target = ROOT
+						autonomous_state = autonomy_supervised_state
+						end_wars = no
+						end_civil_wars = no
+					}
+				}
+			}
+			else = {
 				random_country = {
 					limit = {
 						has_war_with = GEI
@@ -789,16 +825,6 @@ political_actions = {
 							has_government = neutrality
 						}
 					}
-					set_autonomy = {
-						target = ROOT
-						autonomous_state = autonomy_supervised_state
-						end_wars = no
-						end_civil_wars = no
-					}
-				}
-			}
-			else = {
-				USA = {
 					set_autonomy = {
 						target = ROOT
 						autonomous_state = autonomy_supervised_state
