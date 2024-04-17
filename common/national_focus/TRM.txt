@@ -1873,294 +1873,275 @@
 				can_declare_war_without_wargoal_when_in_war = yes
 			}
 		}
-
 	}
 	focus = {
-		id = TRM_redwinter_attack
-		icon = GFX_goal_redwinter_kill
-		cost = 3.00
+		id = TRM_alliance_with_Sanhaijing
+		icon = GFX_focus_attack_SHA
+		cost = 5.00
 		prerequisite = {
 			focus = TRM_domination
 		}
-		available = {
-		}
-		bypass = {
-			NOT = {
-				country_exists = RED
-			}
-		}
+        mutually_exclusive = {
+            focus = TRM_anschluss
+        }
+		available = { 
+            is_subject = no
+            is_faction_leader = yes
+            SHA = {
+                has_government = fascism
+                NOT = {
+                    is_in_faction = yes
+                    is_faction_leader = yes
+                }
+            }
+        }
 		ai_will_do = {
-			base = 3000
+            base = 40
 		}
 		relative_position_id = TRM_domination
-		x = -0
+		x = 0
 		y = 1
 		completion_reward = {
-			create_wargoal = {
-				target = RED
-				type = annex_everything
-			}
-		}
 
-	}
-	focus = {
-		id = TRM_war_with_aru
-		icon = GFX_goal_TRN_Problem_Solver_68
-		cost = 1.00
-		prerequisite = {
-			focus = TRM_6th_weeks
-		}
-		ai_will_do = {
-			base = 3000
-		}
-		bypass = {
-			NOT = {
-				country_exists = HEU
-			}
-		}
-		x = -4
-		y = 1
-		relative_position_id = TRM_redwinter_attack
-		completion_reward = {
-			create_wargoal = {
-				target = HEU
-				type = annex_everything
-			}
 		}
 	}
 	focus = {
-		id = TRM_kill_technology_arona
-		icon = GFX_goal_fall_gelb
-		cost = 3.00
-		prerequisite = {
-			focus = TRM_6th_weeks
-		}
-		ai_will_do = {
-			base = 3000
-		}
-		bypass = {
-			NOT = {
-				country_exists = COU
-				country_exists = KSP
-				country_exists = SHE
-			}
-		}
-		x = -2
-		y = 1
-		relative_position_id = TRM_redwinter_attack
-		completion_reward = {
-			create_wargoal = {
-				target = SHE
-				type = annex_everything
-			}
-			if = {
-				limit ={
-					COU = { exists = yes }
-				}
-				create_wargoal = { target = COU type = annex_everything }
-			}
-			if = {
-				limit ={ KSP = { exists = yes } }
-				create_wargoal = {
-					target = KSP
-					type = annex_everything
-				}
-			}
-		}
-	}
-	focus = {
-		id = TRM_6th_weeks
-		icon = GFX_goal_attack_flance
-		cost = 3.00
+		id = TRM_anschluss
+		icon = GFX_goal_anschluss
+		cost = 5.00
 		prerequisite = {
 			focus = TRM_domination
 		}
-		available = {
-		}
+        mutually_exclusive = {
+            focus = TRM_alliance_with_Sanhaijing
+        }
+		available = { 
+            is_subject = no
+            is_faction_leader = yes
+			has_army_manpower = { size > 549999 }
+        }
 		ai_will_do = {
-			base = 3000
+            base = 40
+		}
+		relative_position_id = TRM_domination
+		x = 3
+		y = 1
+		completion_reward = {
+
+		}
+	}
+	focus = {
+		id = TRM_sudetenland_or_war
+		icon = GFX_goal_last_day_on_abydos
+		cost = 5.00
+		prerequisite = {
+			focus = TRM_anschluss
+            focus = TRM_alliance_with_Sanhaijing
+		}
+		available = { 
+            is_subject = no
+            NOT = {
+			    ABY = { is_in_faction_with = TRM }
+			    has_war = yes
+            }
+        }
+        bypass = {
+            NOT ={
+                ABY = {
+                    owns_state = 985
+                }
+            }
+        }
+        mutually_exclusive = {
+            focus = TRM_the_southern_thrust
+        }
+		ai_will_do = {
+            base = 40
+		}
+		relative_position_id = TRM_anschluss
+		x = -1
+		y = 1
+		completion_reward = {
+
+		}
+	}
+	focus = {
+		id = TRM_preemptive_invasion_of_HYA
+		icon = GFX_goal_TRN_HYAKKIYAKO_attack
+		cost = 5.00
+		prerequisite = {
+			focus = TRM_sudetenland_or_war
+		}
+		available = { 
+            is_subject = no
+            NOT = {
+			    ABY = { is_in_faction_with = TRM }
+			    has_war = yes
+            }
+        }
+		ai_will_do = {
+            base = 40
+		}
+		relative_position_id = TRM_sudetenland_or_war
+		x = 0
+		y = 2
+		completion_reward = {
+
+		}
+	}
+	focus = {
+		id = TRM_the_southern_thrust
+		icon = GFX_goal_generic_military_sphere
+		cost = 5.00
+		prerequisite = {
+			focus = TRM_anschluss
+		}
+		available = { 
+            is_subject = no
+            NOT = {
+			    has_war = yes
+            }
+			OR = {
+				country_exists = HYA
+				country_exists = SHA
+				country_exists = ABY
+			}
+        }
+		ai_will_do = {
+            base = 40
+		}
+        mutually_exclusive = {
+            focus = TRM_sudetenland_or_war
+        }
+		relative_position_id = TRM_anschluss
+		x = 1
+		y = 1
+		completion_reward = {
+			if = {
+				limit = { 
+					HYA = {
+						OR = {
+							owns_state = 9
+							owns_state = 75
+						}
+					} 
+				}
+				create_wargoal = {
+					type = take_state_focus
+					target = HYA
+					expire = 0
+					generator = { 75 9 }
+				}
+			}
+			if = {
+				limit = { 
+					SHA = {
+						OR = {
+							owns_state = 4
+							owns_state = 152
+						}
+					} 
+				}			
+				create_wargoal = {
+					type = take_state_focus
+					target = SHA
+					expire = 0
+					generator = { 4 152 }
+				}
+			}
+			if = {
+				limit = {
+					ABY = {
+						owns_state = 985
+					} 
+				}			
+				create_wargoal = {
+					type = take_state_focus
+					target = ABY
+					expire = 0
+					generator = { 985 }
+				}
+			}
+		}
+	}
+	focus = {
+		id = TRM_Arona_focus
+		icon = GFX_goal_fall_gelb
+		cost = 5.00
+		prerequisite = {
+            focus = TRM_alliance_with_Sanhaijing
+            focus = TRM_anschluss
+		}
+		available = {
+        }
+		ai_will_do = {
+            base = 40
+		}
+		relative_position_id = TRM_alliance_with_Sanhaijing
+		x = -1
+		y = 2
+		completion_reward = {
+
+		}
+	}
+	focus = {
+		id = TRM_heu_focus
+		icon = GFX_goal_TRN_Problem_Solver_68
+		cost = 5.00
+		prerequisite = {
+            focus = TRM_alliance_with_Sanhaijing
+            focus = TRM_anschluss
+		}
+		available = {
+        }
+		ai_will_do = {
+            base = 40
+		}
+		relative_position_id = TRM_alliance_with_Sanhaijing
+		x = 1
+		y = 2
+		completion_reward = {
+
+		}
+	}
+	focus = {
+		id = TRM_war_with_Millennium
+		icon = GFX_goal_attack_flance
+		cost = 5.00
+		prerequisite = {
+            focus = TRM_Arona_focus
+            focus = TRM_heu_focus
+		}
+		available = {
+        }
+		ai_will_do = {
+            base = 40
+		}
+		relative_position_id = TRM_Arona_focus
+		x = 1
+		y = 1
+		completion_reward = {
+
+		}
+	}
+	focus = {
+		id = TRM_fucking_communism
+        text = GER_anti_comitern_pact
+		icon = GFX_goal_redwinter_kill
+		cost = 5.00
+		prerequisite = {
+            focus = TRM_domination
+		}
+		available = {
+        }
+		ai_will_do = {
+            base = 40
 		}
 		relative_position_id = TRM_domination
 		x = -3
 		y = 1
 		completion_reward = {
-			random_country = {
-	 		 	limit = {
-	     			 owns_state = 16
-	  				}
-				 TRM = {
-					create_wargoal = {
-					    type = take_state_focus
-					    target = PREV
-					    generator = { 16 }
-	  				}
-    			}
-    		}
-			random_country = {
-	 		 	limit = {
-	     			 owns_state = 14
-	  				}
-				 TRM = {
-					create_wargoal = {
-					    type = take_state_focus
-					    target = PREV
-					    generator = { 14 }
-	  				}
-    			}
-    		}
-		}
-	}
-	focus = {
-		id = TRM_war_with_str
-		icon = GFX_goal_operations_kai
-		cost = 3.00
-		prerequisite = { focus = TRM_redwinter_attack }
-		bypass = {
-			NOT = { country_exists = KAI }
-		}
-		x = 3
-		y = 1
-		relative_position_id = TRM_6th_weeks
-		completion_reward = {
-			random_country = {
-	 		 	limit = { owns_state = 126 }
-				 TRM = {
-					create_wargoal = {
-					    type = take_state_focus
-					    target = PREV
-					    generator = { 126 }
-	  				}
-    			}
-    		}
-		}
-	}
-	focus = {
-		id = TRM_abydos_ultimatum
-		icon = GFX_goal_last_day_on_abydos
-		cost = 3.00
-		prerequisite = {
-			focus = TRM_domination
-		}
-		available = {
-		}
-		bypass = {
-		}
-		ai_will_do = {
-			base = 3000
-		}
-		relative_position_id = TRM_domination
-		x = 3
-		y = 1
-		completion_reward = {
-			if = {
-				limit = {
-					ABY = { exists = yes }
-				}
-				create_wargoal = {
-					target = ABY
-					type = annex_everything
-				}
-			}
-			else = {
-				every_country = {
-					limit = { controls_state = 985 }
-					TRM = {
-						create_wargoal = {
-							type = take_state_focus
-							target = PREV
-							generator = { 985 }
-						}
-					}
-				}
-			}
-		}
-	}
-	focus = {
-		id = TRM_war_with_hya
-		icon = GFX_goal_TRN_HYAKKIYAKO_attack
-		cost = 3.00
-		prerequisite = {
-			focus = TRM_abydos_ultimatum
-		}
-		ai_will_do = {
-			base = 3000
-		}
-		relative_position_id = TRM_abydos_ultimatum
-		x = 1
-		y = 1
-		completion_reward = {
-			if = {
-				limit = {
-					HYA = { exists = yes }
-				}
-				create_wargoal = {
-					target = HYA
-					type = annex_everything
-				}
-			}
-			else = {
-				every_country = {
-					limit = {
-						OR = {
-							controls_state = 984
-							controls_state = 152
-							controls_state = 4
-							controls_state = 153
-							controls_state = 848
-						}
-					}
-					TRM = {
-						create_wargoal = {
-							type = annex_everything
-							target = PREV
-						}
-					}
-				}
-			}
-		}
-	}
-	focus = {
-		id = TRM_war_sha
-		icon = GFX_goal_road_to_austria
-		cost = 3.00
-		prerequisite = {
-			focus = TRM_abydos_ultimatum
-		}
-		ai_will_do = {
-			base = 3000
-		}
-		relative_position_id = TRM_abydos_ultimatum
-		x = -1
-		y = 1
-		completion_reward = {
-			if = {
-				limit = {
-					SHA = { exists = yes }
-				}
-				create_wargoal = {
-					target = SHA
-					type = annex_everything
-				}
-			}
-			else = {
-				every_country = {
-					limit = {
-						OR = {
-							controls_state = 984
-							controls_state = 152
-							controls_state = 4
-							controls_state = 153
-							controls_state = 848
-						}
-					}
-					TRM = {
-						create_wargoal = {
-							type = annex_everything
-							target = PREV
-						}
-					}
-				}
-			}
+
 		}
 	}
 	focus = {
@@ -2169,7 +2150,9 @@
 		cost = 8.00
 
 		text_icon = NORDIC_focus_style
-
+        prerequisite = {
+            focus = TRM_newfocus_28
+        }
 		available = {
 			has_war = NO
 			custom_trigger_tooltip = {
@@ -2188,24 +2171,9 @@
 		ai_will_do = {
 			base = 3000
 		}
-		prerequisite = {
-			focus = TRM_war_with_str
-		}
-		prerequisite = {
-			focus = TRM_kill_technology_arona
-		}
-		prerequisite = {
-			focus = TRM_war_with_aru
-		}
-		prerequisite = {
-			focus = TRM_war_with_hya
-		}
-		prerequisite = {
-			focus = TRM_war_sha
-		}
 		x = 3
-		y = 2
-		relative_position_id = TRM_6th_weeks
+		y = 0
+		relative_position_id = TRM_newfocus_27
 		completion_reward = { # 미카는 신이야..!!
 			news_event = { id = BA_news.9 days = 3 }
 			hidden_effect = {
@@ -2219,15 +2187,17 @@
 		icon = GFX_goal_TRN_GO_TO_EAST
 		cost = 10.00
 		available = { }
+        prerequisite = {
+            #focus =TRM_domination
+        }
 		will_lead_to_war_with = SOV
 		will_lead_to_war_with = POL
 		ai_will_do = {
 			base = 3000
 		}
-		prerequisite = { focus = TMR_serious_situation }
 		x = 0
-		y = 1
-		relative_position_id = TMR_serious_situation
+		y = 5
+		relative_position_id = TRM_domination
 		completion_reward = {
 			create_wargoal = {
 				target = SOV
