@@ -748,31 +748,53 @@ political_actions = {
 			GEI = {
 				has_country_flag = The_Colour_country_flag
 			}
+			OR = {
+				AND = {
+					any_country = {
+						has_war_with = GEI
+						is_major = yes
+						is_ally_with = ROOT
+						NOT = {
+							tag = ENG
+							tag = USA
+						}
+						OR = {
+							has_government = ROOT
+							has_government = neutrality
+						}
+					}
+				}
+				AND = {
+					USA = {
+						exists = yes
+						has_capitulated = no
+						is_major = yes
+						is_ally_with = ROOT
+					}
+				}
+			}
 		}
 		available = {
 			has_war_with = GEI	
 			surrender_progress > 0.40
+			NOT = { has_country_flag = ENG_request_for_protection_flag }
 		}
 	
 		cost = 25
 	
 		complete_effect = {
+			set_country_flag = ENG_request_for_protection_flag
 			if = {
 				limit = {
-					any_country = {
-						has_war_with = GEI
+					USA = {
+						exists = yes
+						has_capitulated = no
 						is_major = yes
 						is_ally_with = ROOT
-						NOT = { tag = ENG }
 					}
 				}
-				random_country = {
-					limit = {
-						has_war_with = GEI
-						is_major = yes
-						is_ally_with = ROOT
-						NOT = { tag = ENG }
-					}
+				USA = {
+					set_country_flag = ENG_end_of_protection_flag
 					set_autonomy = {
 						target = ROOT
 						autonomous_state = autonomy_supervised_state
@@ -782,13 +804,71 @@ political_actions = {
 				}
 			}
 			else = {
-				USA = {
+				random_country = {
+					limit = {
+						has_war_with = GEI
+						is_major = yes
+						is_ally_with = ROOT
+						NOT = {
+							tag = ENG
+							tag = USA
+						}
+						OR = {
+							has_government = ROOT
+							has_government = neutrality
+						}
+					}
+					set_country_flag = ENG_end_of_protection_flag
 					set_autonomy = {
 						target = ROOT
 						autonomous_state = autonomy_supervised_state
 						end_wars = no
 						end_civil_wars = no
 					}
+				}
+			}
+		}
+	}
+	ENG_end_of_protection = {
+		icon = GFX_decision_eng_puppet_usa
+	
+		priority = 99
+		ai_will_do = {
+			base = 4000
+		}
+	
+		allowed = {
+			original_tag = ENG
+		}
+		visible = {
+			has_country_flag = ENG_request_for_protection_flag
+		}
+		available = {
+			any_country = {
+				has_country_flag = ENG_end_of_protection_flag
+				has_subject = PREV
+			}
+			OR = {
+				NOT = {
+					has_war_with = GEI
+				}
+				surrender_progress < 0.01
+				controls_state = 126
+			}
+		}
+	
+		cost = 25
+	
+		complete_effect = {
+			every_country = {
+				limit = {
+					has_country_flag = ENG_end_of_protection_flag
+				}
+				set_autonomy = {
+					target = ENG
+					autonomous_state = autonomy_free
+					end_wars = no
+					end_civil_wars = no
 				}
 			}
 		}

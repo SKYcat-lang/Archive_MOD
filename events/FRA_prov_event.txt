@@ -2031,7 +2031,7 @@ news_event = {
 }
 
 country_event = {
-	#교리 업뎃 - 안쓰는 이벤트 개발자 이벤트
+	#탈식민화 이후 인도차이나
 	id = FRA_prov_event.54
 	title = FRA_prov_event.54.t
 	desc = FRA_prov_event.54.d
@@ -2040,6 +2040,51 @@ country_event = {
 	hidden = yes
 	option = {
 		name = FRA_prov_event.54.a
+		VIN = {
+			if = {
+				limit = {
+					has_idea = VIN_colonists_resist_0
+				}
+				remove_ideas = VIN_colonists_resist_0
+			}
+			if = {
+				limit = {
+					has_idea = VIN_colonists_resist_1
+				}
+				remove_ideas = VIN_colonists_resist_1
+			}
+			if = {
+				limit = {
+					has_idea = VIN_colonists_resist_2
+				}
+				remove_ideas = VIN_colonists_resist_2
+			}
+			if = {
+				limit = {
+					has_idea = VIN_colonists_resist_3
+				}
+				remove_ideas = VIN_colonists_resist_3
+			}
+			if = {
+				limit = {
+					has_idea = FRA_government_general_1
+				}
+				remove_ideas = FRA_government_general_1
+			}
+			if = {
+				limit = {
+					has_idea = FRA_government_general_2
+				}
+				remove_ideas = FRA_government_general_2
+			}
+			if = {
+				limit = {
+					has_idea = FRA_government_general
+				}
+				remove_ideas = FRA_government_general
+			}
+		}
+		add_political_power = 5
 	}
 }
 
@@ -2409,6 +2454,14 @@ country_event = {
 		add_ideas = FRA_volunteer_com
 		custom_effect_tooltip = FRA_prov_event.69_tt
 		hidden_effect = {
+			if = {
+				limit={VIN = {
+					has_war = no
+					has_civil_war = no
+					is_puppet_of = FRA
+				}}
+				country_event = FRA_prov_event.54
+			}
 			MOR = {
 				every_core_state = {
 					limit = {
@@ -2831,43 +2884,29 @@ country_event = {
 			long_name = FRA_party_rebuild
 			name = FRA_party_rebuild
 		}
-		set_politics = {
-			ruling_party = neutrality
-			elections_allowed = no
-		}
 		add_popularity = {
 			ideology = neutrality
-			popularity = 0.3
+			popularity = 0.1
 		}
 		set_cosmetic_tag = FRA_win_tag
-		remove_ideas = FRA_pierre
-		FRA_pierre_laval = {
-			set_can_be_fired_in_advisor_role = {
-				value = yes
-			}
+		hidden_effect = {
+			complete_national_focus = FRA_focus_win_pet_0
 		}
 	}
 	option = {
 		name = FRA_prov_event.75.b
-		set_politics = {
-			ruling_party = democratic
-			elections_allowed = yes
-		}
-		add_popularity = {
-			ideology = democratic
-			popularity = 0.5
-		}
 		set_party_name = {
 			ideology = neutrality
 			long_name = FRA_party_mil
 			name = FRA_party_mil
 		}
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.1
+		}
 		set_cosmetic_tag = FRA_win_tag
-		remove_ideas = FRA_pierre
-		FRA_pierre_laval = {
-			set_can_be_fired_in_advisor_role = {
-				value = yes
-			}
+		hidden_effect = {
+			complete_national_focus = FRA_focus_win_pet_1
 		}
 	}
 }
@@ -4285,19 +4324,13 @@ country_event = {
 			popularity = -0.1
 		}
 		hidden_effect = {
-            news_event = { id = BA_news.66 }
+            news_event = { id = BA_news.66 days = 3 }
 			set_country_flag = FRA_exile_is_over
 			load_focus_tree = {
 				tree = FRA_focus
 				keep_completed = yes
 			}
 			mark_focus_tree_layout_dirty = yes
-		}
-		hidden_effect = {
-			news_event = {
-				id = BA_news.29
-				days = 5
-			}
 		}
 		custom_effect_tooltip = FRA_prov_event.120_tt
 	}
@@ -5073,6 +5106,10 @@ country_event ={
 				type = infrastructure
 				level = 1
 			}
+			add_resource = {
+				type = steel
+				amount = -10
+			}
 		}
 		16 = {
 			remove_building = {
@@ -5155,6 +5192,14 @@ country_event ={
 			remove_building = {
 				type = infrastructure
 				level = 1
+			}
+			add_resource = {
+				type = steel
+				amount = -20
+			}
+			add_resource = {
+				type = aluminium
+				amount = -30
 			}
 		}
 		25 = {
@@ -5265,6 +5310,84 @@ country_event ={
 	option = {
 		name = FRA_prov_event.152.c
 		add_stability = 0.01
+	}
+}
+country_event ={
+	#동부 황폐화
+	id = FRA_prov_event.153
+	title = FRA_prov_event.153.t
+	desc = FRA_prov_event.153.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	picture = GFX_report_event_ger_civil_war
+	option = {
+		name = FRA_prov_event.146.a
+		17 = {
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+			add_resource = {
+				type = steel
+				amount = -20
+			}
+		}
+		27 = {
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+			add_resource = {
+				type = aluminium
+				amount = -5
+			}
+		}
+		21 = {
+			remove_building = {
+				type = dockyard
+				level = 1
+			}
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+			add_resource = {
+				type = aluminium
+				amount = -45
+			}
+		}
+		20 = {
+			remove_building = {
+				type = industrial_complex
+				level = 1
+			}
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+			add_resource = {
+				type = aluminium
+				amount = -30
+			}
+			add_resource = {
+				type = steel
+				amount = -25
+			}
+		}
+		32 = {
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+			add_resource = {
+				type = aluminium
+				amount = -20
+			}
+			add_resource = {
+				type = steel
+				amount = -10
+			}
+		}
 	}
 }
 add_namespace = FRA_pro
@@ -5588,6 +5711,25 @@ country_event = {
 	option = { #군대에서 배제
 		name = FRA_recover.5.b
 		add_political_power = 30
+	}
+}
+country_event = {
+	#소유권 분쟁
+	id = FRA_recover.6
+	title = FRA_recover.6.t
+	desc = FRA_recover.6.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	hidden = no
+	option = { #망명자들에게 재산을 돌려주자
+		name = FRA_recover.6.a
+		add_stability = -0.05
+		add_political_power = -30
+	}
+	option = { #망명자들에게 배상해주자
+		name = FRA_recover.6.b
+		add_war_support = -0.15
+		add_political_power = -80
 	}
 }
 
