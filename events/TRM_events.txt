@@ -2243,17 +2243,65 @@ country_event = {
 			add_stability = -0.01
 		}
 }
-country_event = { # 국민정신 끝나면 알려줌
+country_event = { # 방공협정
 	id = TRM_event.98
 	title = TRM_event.98.t
 	desc = TRM_event.98.desc
-	picture = GFX_report_event_british_inspect_troops
+	picture = GFX_report_event_japan_europe_pact
 	
     is_triggered_only = yes
-	fire_only_once = no
 	
 	option = { 
-		name = TRM_event.98.a
+		name = germany.5.a
+		ai_chance = {
+			factor = 75
+			modifier = {
+				factor = 4
+				has_opinion = {
+					target = SOV
+					value < -10
+				}
+			}
+			modifier = {
+				factor = 0.5
+				has_opinion = {
+					target = TRM
+					value < -10
+				}
+			}
+			modifier = {
+				factor = 0
+				has_war = yes
+			}
+			modifier = {
+				factor = 0
+				tag = JAP
+				has_completed_focus = JAP_the_unthinkable_option
+			}
+			modifier = {
+				factor = 0
+				is_literally_china = yes
+				JAP = { has_completed_focus = JAP_purge_the_kodoha_faction }
+			}
+			modifier = {
+				factor = 0
+				tag = JAP
+				has_completed_focus = JAP_purge_the_kodoha_faction
+				date > 1938.1.1
+			}
+		}
+		set_country_flag = anti_comintern_member
+		TRM = { add_opinion_modifier = { target = ROOT modifier = anti_comintern_pact_opinion } }
+		add_opinion_modifier = { target = TRM modifier = anti_comintern_pact_opinion }
+		SOV  = { add_opinion_modifier = { target = ROOT modifier = pact_against_us } }
+	}
+	option = { 
+		name = germany.5.b
+		trigger = { NOT = { is_puppet_of = TRM } }
+		ai_chance = {
+			factor = 25
+		}
+		TRM =  { add_opinion_modifier = { target = ROOT modifier = refused_anti_comintern_pact_opinion } }
 	}
 }
 country_event = { # 시스터후드의 정계 개입

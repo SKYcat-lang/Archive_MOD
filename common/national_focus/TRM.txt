@@ -1899,7 +1899,7 @@
             base = 40
 		}
 		relative_position_id = TRM_domination
-		x = 0
+		x = -2
 		y = 1
 		completion_reward = {
 
@@ -1924,7 +1924,7 @@
             base = 40
 		}
 		relative_position_id = TRM_domination
-		x = 3
+		x = 2
 		y = 1
 		completion_reward = {
 
@@ -2124,14 +2124,40 @@
 
 		}
 	}
+    focus = {
+		id = TRM_We_need_Denmark_milk
+		icon = GFX_goal_TRM_We_Need_Denmark_Milk
+		cost = 5.00
+		prerequisite = {
+			focus = TRM_domination
+		}
+        mutually_exclusive = {
+            focus = TRM_fucking_communism
+        }
+		available = {
+			is_subject = no
+            NOT = { has_government = communism }
+		}
+		will_lead_to_war_with = RED
+		ai_will_do = {
+		}
+		relative_position_id = TRM_domination
+		x = 6
+		y = 1
+		completion_reward = {
+		}
+	}
 	focus = {
 		id = TRM_fucking_communism
         text = GER_anti_comitern_pact
-		icon = GFX_goal_redwinter_kill
+        icon = GFX_goal_anti_comintern_pact
 		cost = 5.00
 		prerequisite = {
             focus = TRM_domination
 		}
+        mutually_exclusive = {
+            focus = TRM_We_need_Denmark_milk
+        }
 		available = {
 			is_subject = no
 			NOT = { has_government = communism }
@@ -2142,13 +2168,82 @@
             base = 40
 		}
 		relative_position_id = TRM_domination
-		x = -3
+		x = 4
 		y = 1
 		completion_reward = {
 			SOU = { add_opinion_modifier = { target = ROOT modifier = pact_against_us } }
 			RED = { add_opinion_modifier = { target = ROOT modifier = pact_against_us } }
 			add_named_threat = { threat = 2 name = GER_anti_comitern_pact }
-
+			every_other_country = {
+				limit = {
+					NOT = { tag = ROOT }
+					NOT = { has_war_with = ROOT }
+					NOT = { is_in_faction_with = SOU }
+                    NOT = { tag = GER }
+					is_subject = no
+					OR = {
+						capital_scope = {
+								is_on_continent = europe
+						}
+						num_of_factories > 30
+					}
+					OR = {
+						has_government = fascism 
+						AND = {
+							is_neighbor_of = SOU
+							NOT = { has_government = communism }
+						}
+					}
+				}
+				country_event = TRM_event.98
+			}
+		}
+	}
+	focus = {
+		id = TRM_redwinter_war_goal
+		icon = GFX_goal_redwinter_kill
+		cost = 5.00
+		prerequisite = {
+			focus = TRM_fucking_communism
+            focus = TRM_We_need_Denmark_milk
+		}
+		available = {
+			is_subject = no
+            NOT = { has_government = communism }
+		}
+		bypass = {
+            OR = {
+			    NOT = { country_exists = RED }
+                has_war_with = RED
+            }
+		}
+		will_lead_to_war_with = RED
+		ai_will_do = {
+		}
+		relative_position_id = TRM_fucking_communism
+		x = 1
+		y = 2
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = TRM_Finland_puppet_focus
+		icon = GFX_goal_generic_forceful_treaty
+		cost = 5.00
+		prerequisite = {
+			focus = TRM_redwinter_war_goal
+		}
+		available = { }
+		ai_will_do = {
+		}
+		relative_position_id = TRM_redwinter_war_goal
+		x = 0
+		y = 1
+		completion_reward = {
+            custom_effect_tooltip = if_they_accept_tt
+            effect_tooltip = {
+                TRM_Finland_puppet = yes
+            }
 		}
 	}
 	focus = {
@@ -2193,16 +2288,23 @@
 		id = TRN_GO_TO_EAST
 		icon = GFX_goal_TRN_GO_TO_EAST
 		cost = 10.00
-		available = { }
+		available = {
+			is_subject = no
+            NOT = { has_government = communism }
+        }
         prerequisite = {
             focus =TRM_war_with_Millennium
+            focus =TRM_preemptive_invasion_of_HYA
+            focus =TRM_Finland_puppet_focus
+        }
+        prerequisite = {
         }
 		will_lead_to_war_with = SOV
 		will_lead_to_war_with = POL
         ai_will_do = {
 			base = 3000
 		}
-		x = 0
+		x = 1
 		y = 5
 		relative_position_id = TRM_domination
 		completion_reward = {
@@ -3716,8 +3818,11 @@
 			focus = TRM_newfocus_7
 		}
 		available = {
+            custom_trigger_tooltip = {
+                tooltip = THIS_IS_WIP_TT
+			    has_country_flag = GAEBALJUNG
+            }
 			has_completed_focus = TRN_yurijono_seia
-			has_country_flag = GAEBALJUNG
 		}
 		allow_branch = {
 			NOT = {
