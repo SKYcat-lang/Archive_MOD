@@ -915,48 +915,44 @@ country_event = {
 
 	}
 }
-country_event = { 
+country_event = {  # 안슐루스 압박
 	id = TRM_event.48
 	title = TRM_event.48.t
 	desc = TRM_event.48.desc
-	picture = GFX_report_event_Problem_Solver_68
+	picture = GFX_report_event_hitler_parade
 	
 	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = { #
 		name = TRM_event.48.a
-		ai_chance = {
-			base = 50
-		}
-		HEU = {
-			add_stability = 0.05
-			add_war_support = 0.05
-		}
+        ai_chance = {
+			base = 30
+			modifier = {
+                strength_ratio = { tag = TRM ratio < 0.5 }
+				factor = 3
+			}
+			modifier = {
+                strength_ratio = { tag = TRM ratio > 0.5 }
+				factor = 0.5
+			}
+			modifier = {
+                has_war_with = TRM
+				factor = 0
+			}
+        }
 		TRM = {
-			add_state_claim = 8
+			country_event = { id = TRM_event.50 }
 		}
-		
+		custom_effect_tooltip = GAME_OVER_TT
 	}
 	option = { #
 		name = TRM_event.48.b
-		custom_effect_tooltip = TRM_heu_problem
-		ai_chance = {
-			base = 0
-			modifier = {
-				add = -100
-				TRM = {
-					has_country_leader = {
-						character = TRN_alzk
-					}
-				}
-			}
-		}
-		puppet = HEU
-		set_country_flag = HEU_boksok
+		#custom_effect_tooltip = TRM_heu_problem
+        
 	}
 }
-country_event = { 
+country_event = { # 우이 고용 이벤트
 	id = TRM_event.49
 	title = TRM_event.49.t
 	desc = TRM_event.49.desc
@@ -969,23 +965,26 @@ country_event = {
 		name = TRM_event.49.a
 	}
 }
-country_event = { 
+country_event = {  # 안슐루스 성공
 	id = TRM_event.50
 	title = TRM_event.50.t
 	desc = TRM_event.50.desc
-	picture = GFX_event_none_picture
+	picture = GFX_report_event_german_speech
 	
 	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = { #
 		name = TRM_event.50.a
-		TRM = {
-			country_event = { id = TRM_event.51 }
-		}
+        TRM = {
+			annex_country = {
+			    target = SHA
+    			transfer_troops = no
+			}
+        }
 	}
 }
-country_event = { 
+country_event = {  # 안슐루스 실패
 	id = TRM_event.51
 	title = TRM_event.51.t
 	desc = TRM_event.51.desc
@@ -996,16 +995,19 @@ country_event = {
 	
 	option = { 
 		name = TRM_event.51.a
-		BAY = {
+		TRM = {
 			country_event = { id = TRM_event.52 }
-			declare_war_on = {
-				target = ROOT
-				type = annex_everything
-			}
+            effect_tooltip = {
+			    create_wargoal = {
+                    target = SHA
+                    type = annex_everything
+                    expire = 0
+                }
+            }
 		}
 	}
 }
-country_event = { 
+country_event = { # 주데텐란트 내놔
 	id = TRM_event.52
 	title = TRM_event.52.t
 	desc = TRM_event.52.desc
@@ -1018,7 +1020,7 @@ country_event = {
 		name = TRM_event.52.a
 		}
 }
-country_event = { 
+country_event = { # 덴마크 내놔
 	id = TRM_event.53
 	title = TRM_event.53.t
 	desc = TRM_event.53.desc
@@ -1031,7 +1033,7 @@ country_event = {
 		name = TRM_event.53.a
 	}
 }
-country_event = { 
+country_event = { # 주데텐 - 실패
 	id = TRM_event.54
 	title = TRM_event.54.t
 	desc = TRM_event.54.desc
@@ -1044,7 +1046,7 @@ country_event = {
 		name = TRM_event.54.a
 	}
 }
-country_event = { 
+country_event = { # 주데텐 성공
 	id = TRM_event.55
 	title = TRM_event.55.t
 	desc = TRM_event.55.desc

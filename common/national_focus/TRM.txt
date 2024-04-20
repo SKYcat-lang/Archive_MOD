@@ -1866,7 +1866,7 @@
 			}
 		}
 		relative_position_id = TRM_germany_union
-		x = 4
+		x = 3
 		y = 1
 		completion_reward = {
 			set_rule = {
@@ -1899,7 +1899,7 @@
             base = 40
 		}
 		relative_position_id = TRM_domination
-		x = -2
+		x = 2
 		y = 1
 		completion_reward = {
             SHA = {
@@ -1920,15 +1920,21 @@
 		available = { 
             is_subject = no
             is_faction_leader = yes
-			has_army_manpower = { size > 549999 }
+			has_army_manpower = { size > 749999 }
         }
 		ai_will_do = {
             base = 40
 		}
 		relative_position_id = TRM_domination
-		x = 2
+		x = -2
 		y = 1
 		completion_reward = {
+            SHA = {
+                country_event = { 
+                    id = TRM_event.48 
+                    days = 1
+                }
+            }
 
 		}
 	}
@@ -1960,8 +1966,8 @@
 		ai_will_do = {
             base = 40
 		}
-		relative_position_id = TRM_anschluss
-		x = -1
+		relative_position_id = TRM_alliance_with_Sanhaijing
+		x = 1
 		y = 1
 		completion_reward = {
 
@@ -1977,8 +1983,7 @@
 		available = { 
             is_subject = no
             NOT = {
-			    ABY = { is_in_faction_with = TRM }
-			    has_war = yes
+			    HYA = { is_in_faction_with = TRM }
             }
         }
 		ai_will_do = {
@@ -1993,7 +1998,7 @@
 	}
 	focus = {
 		id = TRM_the_southern_thrust
-		icon = GFX_goal_generic_military_sphere
+		icon = GFX_goal_TRM_southern_offensive
 		cost = 5.00
 		prerequisite = {
 			focus = TRM_anschluss
@@ -2006,6 +2011,7 @@
 			OR = {
 				country_exists = HYA
 				country_exists = ABY
+				country_exists = SHA
 			}
         }
 		ai_will_do = {
@@ -2014,8 +2020,8 @@
         mutually_exclusive = {
             focus = TRM_sudetenland_or_war
         }
-		relative_position_id = TRM_anschluss
-		x = 1
+		relative_position_id = TRM_alliance_with_Sanhaijing
+		x = -1
 		y = 1
 		completion_reward = {
 			if = {
@@ -2035,6 +2041,23 @@
 				}
 			}
 			if = {
+				limit = { 
+					SHA = {
+						OR = {
+							owns_state = 4
+							owns_state = 152
+							owns_state = 984
+						}
+					} 
+				}
+				create_wargoal = {
+					type = take_state_focus
+					target = SHA
+					expire = 0
+					generator = { 984 152 4 }
+				}
+			}
+			if = {
 				limit = {
 					ABY = {
 						owns_state = 985
@@ -2050,6 +2073,27 @@
 		}
 	}
 	focus = {
+		id = TRM_balkan_diplomacy
+		icon = GFX_focus_generic_balkan_diplomacy
+		cost = 5.00
+		prerequisite = {
+			focus = TRM_anschluss
+            focus = TRM_sudetenland_or_war
+		}
+		available = { 
+            is_subject = no
+        }
+		ai_will_do = {
+            base = 40
+		}
+		relative_position_id = TRM_the_southern_thrust
+		x = 0
+		y = 1
+        completion_reward = {
+
+        }
+	}
+	focus = {
 		id = TRM_Arona_focus
 		icon = GFX_goal_fall_gelb
 		cost = 5.00
@@ -2058,11 +2102,13 @@
             focus = TRM_anschluss
 		}
 		available = {
+            is_subject = no
+            NOT = { is_in_faction_with = SHE }
         }
 		ai_will_do = {
             base = 40
 		}
-		relative_position_id = TRM_alliance_with_Sanhaijing
+		relative_position_id = TRM_anschluss
 		x = -1
 		y = 2
 		completion_reward = {
@@ -2078,11 +2124,13 @@
             focus = TRM_anschluss
 		}
 		available = {
+            is_subject = no
+            NOT = { is_in_faction_with = HEU }
         }
 		ai_will_do = {
             base = 40
 		}
-		relative_position_id = TRM_alliance_with_Sanhaijing
+		relative_position_id = TRM_anschluss
 		x = 1
 		y = 2
 		completion_reward = {
@@ -2098,6 +2146,10 @@
             focus = TRM_heu_focus
 		}
 		available = {
+            is_subject = no
+            NOT = {
+			    MIL = { is_in_faction_with = MIL }
+            }
         }
 		ai_will_do = {
             base = 40
@@ -2122,6 +2174,7 @@
 		available = {
 			is_subject = no
             NOT = { has_government = communism }
+            NOT = { is_in_faction_with = RED }
 		}
 		will_lead_to_war_with = RED
 		ai_will_do = {
@@ -2130,6 +2183,9 @@
 		x = 6
 		y = 1
 		completion_reward = {
+            RED = {
+                country_event = { id = TRM_event.53 }
+            }
 		}
 	}
 	focus = {
@@ -2277,12 +2333,13 @@
 			is_subject = no
             NOT = { has_government = communism }
         }
-        prerequisite = {
-            focus =TRM_war_with_Millennium
-            focus =TRM_preemptive_invasion_of_HYA
-            focus =TRM_Finland_puppet_focus
+        prerequisite = { 
+            focus =TRM_war_with_Millennium 
+            focus = TRM_Finland_puppet_focus
         }
         prerequisite = {
+            focus =TRM_preemptive_invasion_of_HYA
+            focus = TRM_balkan_diplomacy
         }
 		will_lead_to_war_with = SOV
 		will_lead_to_war_with = POL
