@@ -1,7 +1,94 @@
 add_namespace = RED_event
 add_namespace = RED_unite_kibotos
+add_namespace = RED_instability_system
 
 
+country_event = { # 군정청: 민주주의 지지도가 30% 이상일때 격발 히든 이벤트
+	id = RED_instability_system.1
+	title = RED_instability_system.1.t
+	desc = RED_instability_system.1.d
+
+	hidden = yes
+
+	mean_time_to_happen = {
+		days = 2
+	}
+
+	trigger = {
+		RED_this_country_is_under_military_government = yes
+		RED_instability_system_operational = yes
+		democratic > 0.30
+	}
+
+	immediate = {
+		RED_instability_system_up_effect = yes
+		add_popularity = {
+			ideology = democratic
+			popularity = -0.15
+		}
+		if = { limit = { has_idea = RED_military_government_idea_3 is_subject = yes }
+			OVERLORD = { country_event = { id = RED_instability_system.2 days = 2 } }
+		}
+	}
+}
+country_event = { # 붉은겨울: 하나라도 불안정함 도달시 알림
+	id = RED_instability_system.2
+	title = RED_instability_system.2.t
+	desc = RED_instability_system.2.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = RED_instability_system.2.a
+		add_political_power = 10
+		add_command_power = 10
+		custom_effect_tooltip = RED_instability_system_2_tt
+	}
+}
+country_event = { # 군정청: 무작위로 발생하는 이벤트
+	id = RED_instability_system.3
+	title = RED_instability_system.3.t
+	desc = RED_instability_system.3.d
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = { id = RED_instability_system.3 days = 80 random_days = 70 }
+		}
+	}
+	
+	option = {
+		name = RED_instability_system.3.a
+		ai_chance = {
+			factor = 7
+		}
+		add_stability = -0.05
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.02
+		}
+	}
+	option = {
+		name = RED_instability_system.3.b
+		ai_chance = {
+			factor = 10
+		}
+		trigger = {
+			has_political_power > 50
+			NOT = {
+				has_idea = RED_military_government_idea_3
+				has_idea = RED_military_government_idea_4
+			}
+		}
+		add_political_power = -50
+		add_popularity = {
+			ideology = democratic
+			popularity = -0.20
+		}
+	}
+}
 country_event = { # 고틀란드냐 전쟁이냐
 	id = RED_event.1
 	title = RED_event.1.t
