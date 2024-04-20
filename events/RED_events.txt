@@ -93,17 +93,233 @@ country_event = { # 군정청: 00의 봄
 	id = RED_instability_system.4
 	title = RED_instability_system.4.t
 	desc = RED_instability_system.4.d
+	picture = GFX_report_event_BOL_bolivian_socialist_revolution
 
 	is_triggered_only = yes
 	immediate = {
-		set_country_flag = RED_instability_system_independence_flag
+		set_global_flag = RED_instability_system_independence_flag
 	}
 	
 	option = {
 		name = RED_instability_system.4.a
-		add_political_power = 10
-		add_command_power = 10
-		custom_effect_tooltip = RED_instability_system_2_tt
+		if = { limit = { tag = RE4 }
+			FIN = {
+				annex_country = {
+					target = ROOT
+					transfer_troops = yes
+				}
+				set_technology = {
+					kivotos_infantry_weapons = 1
+				}
+				set_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함
+				set_country_flag = kivotos_research_on
+				set_country_flag = RED_instability_system_independence_country_flag
+				news_event = BA_news.72
+			}
+		}
+		if = { limit = { tag = RE3 }
+			SWE = {
+				annex_country = {
+					target = ROOT
+					transfer_troops = yes
+				}
+				set_technology = {
+					kivotos_infantry_weapons = 1
+				}
+				set_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함
+				set_country_flag = kivotos_research_on
+				set_country_flag = RED_instability_system_independence_country_flag
+			}
+		}
+		if = { limit = { tag = RE2 }
+			NOR = {
+				annex_country = {
+					target = ROOT
+					transfer_troops = yes
+				}
+				set_technology = {
+					kivotos_infantry_weapons = 1
+				}
+				set_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함
+				set_country_flag = kivotos_research_on
+				set_country_flag = RED_instability_system_independence_country_flag
+			}
+		}
+		if = { limit = { tag = RE1 }
+			DEN = {
+				annex_country = {
+					target = ROOT
+					transfer_troops = yes
+				}
+				set_technology = {
+					kivotos_infantry_weapons = 1
+				}
+				set_variable = { ROOT.halo_infantry_cap = 6 } # 사단 제한, 헤일로 보병의 사단 제한과 같아야 함
+				set_country_flag = kivotos_research_on
+				set_country_flag = RED_instability_system_independence_country_flag
+			}
+		}
+		every_country = {
+			limit = {
+				has_country_flag = RED_instability_system_independence_country_flag
+			}
+			division_template = {
+				name = "Scandinavian Independence Army"
+				priority = 1
+				division_names_group = SWE_INF_01
+				is_locked = no
+
+				regiments = {
+					infantry = { x = 0 y = 0 }
+					infantry = { x = 0 y = 1 }
+					infantry = { x = 0 y = 2 }
+					infantry = { x = 1 y = 0 }
+					infantry = { x = 1 y = 1 }
+					infantry = { x = 1 y = 2 }
+				}
+			}
+			every_controlled_state = {
+				create_unit = {
+					division = "name = \"Scandinavian Independence Army\" division_template = \"Scandinavian Independence Army\" start_experience_factor = 0.8 start_equipment_factor = 0.35"
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Scandinavian Independence Army\" division_template = \"Scandinavian Independence Army\" start_experience_factor = 0.5 start_equipment_factor = 0.10"
+					owner = PREV
+				}
+			}
+			news_event = BA_news.72
+		}
+	}
+	option = {
+		name = RED_instability_system.4.b
+		if = { limit = { tag = RE4 }
+			random_owned_state = {
+				transfer_state_to = FIN
+			}
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						is_owned_by = FIN
+					}
+				}
+				transfer_state_to = FIN
+			}
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						is_owned_by = FIN
+					}
+				}
+				transfer_state_to = FIN
+			}
+			FIN = { set_country_flag = RED_instability_system_independence_country_flag }
+		}
+		if = { limit = { tag = RE3 }
+			random_owned_state = {
+				transfer_state_to = SWE
+			}
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						is_owned_by = SWE
+					}
+				}
+				transfer_state_to = SWE
+			}
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						is_owned_by = SWE
+					}
+				}
+				transfer_state_to = SWE
+			}
+			SWE = { set_country_flag = RED_instability_system_independence_country_flag }
+		}
+		if = { limit = { tag = RE2 }
+			random_owned_state = {
+				transfer_state_to = NOR
+			}
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						is_owned_by = NOR
+					}
+				}
+				transfer_state_to = NOR
+			}
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						is_owned_by = NOR
+					}
+				}
+				transfer_state_to = NOR
+			}
+			NOR = { set_country_flag = RED_instability_system_independence_country_flag }
+		}
+		if = { limit = { tag = RE1 }
+			random_owned_state = {
+				transfer_state_to = DEN
+			}
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						is_owned_by = DEN
+					}
+				}
+				transfer_state_to = DEN
+			}
+			random_owned_controlled_state = {
+				limit = {
+					any_neighbor_state = {
+						is_owned_by = DEN
+					}
+				}
+				transfer_state_to = DEN
+			}
+			DEN = { set_country_flag = RED_instability_system_independence_country_flag }
+		}
+
+		every_country = {
+			limit = {
+				has_country_flag = RED_instability_system_independence_country_flag
+			}
+			division_template = {
+				name = "Scandinavian Independence Army"
+				priority = 1
+				division_names_group = SWE_INF_01
+				is_locked = no
+
+				regiments = {
+					infantry = { x = 0 y = 0 }
+					infantry = { x = 0 y = 1 }
+					infantry = { x = 0 y = 2 }
+					infantry = { x = 1 y = 0 }
+					infantry = { x = 1 y = 1 }
+					infantry = { x = 1 y = 2 }
+				}
+			}
+			every_controlled_state = {
+				create_unit = {
+					division = "name = \"Scandinavian Independence Army\" division_template = \"Scandinavian Independence Army\" start_experience_factor = 0.8 start_equipment_factor = 0.35"
+					owner = PREV
+				}
+				create_unit = {
+					division = "name = \"Scandinavian Independence Army\" division_template = \"Scandinavian Independence Army\" start_experience_factor = 0.5 start_equipment_factor = 0.10"
+					owner = PREV
+				}
+			}
+			ROOT = {
+				declare_war_on = {
+					target = PREV
+					type = annex_everything
+				}
+				add_civil_war_target = PREV
+			}
+			news_event = BA_news.72
+		}
 	}
 }
 country_event = { # 고틀란드냐 전쟁이냐
