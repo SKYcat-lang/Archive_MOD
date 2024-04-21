@@ -130,10 +130,6 @@ focus_tree = {
 			focus = FRA_focus_win_2.2
 		}
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = FRA_admin_not_good_3
-				add_idea = FRA_admin_not_good_4
-			}
 			country_event = {
 				id = FRA_recover.5
 				days = 4
@@ -413,7 +409,10 @@ focus_tree = {
 					days = 3
 				}
 			}
-			remove_ideas = FRA_admin_not_good_4
+			swap_ideas = {
+				remove_idea = FRA_admin_not_good_3
+				add_idea = FRA_admin_not_good_4
+			}
 			set_rule = {
 				can_join_factions = yes
 			}
@@ -430,6 +429,11 @@ focus_tree = {
 		cost = 5
 		x = -2
 		y = 1
+		allow_branch = {
+			FRA_military_conference = {
+				is_country_leader = yes
+			}
+		}
 		relative_position_id = FRA_focus_win_10
 		prerequisite = {
 			focus = FRA_focus_win_10
@@ -452,6 +456,11 @@ focus_tree = {
 		relative_position_id = FRA_focus_win_10
 		x = 2
 		y = 1
+		allow_branch = {
+			FRA_military_conference = {
+				is_country_leader = yes
+			}
+		}
 		prerequisite = {
 			focus = FRA_focus_win_10
 		}
@@ -488,7 +497,12 @@ focus_tree = {
 				popularity = -0.1
 			}
 			hidden_effect = {
-				news_event ={ id= BA_news.29 day=3}
+				news_event ={ id= BA_news.29 days=3}
+			}
+			FRA_pierre_laval = {
+				set_can_be_fired_in_advisor_role = {
+					value = yes
+				}
 			}
 		}
 	}
@@ -549,6 +563,12 @@ focus_tree = {
 			focus = FRA_focus_win_pet_6
 		}
 		completion_reward = {
+			add_ideas = FRA_pet_no_union
+			add_popularity = {
+				ideology = communism
+				popularity = 0.1
+			}
+			add_war_support = -0.1
 		}
 	}
 	focus = {
@@ -566,6 +586,12 @@ focus_tree = {
 			focus = FRA_focus_win_pet_5
 		}
 		completion_reward = {
+			add_ideas = FRA_pet_one_union
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.03
+			}
+			add_war_support = -0.05
 		}
 	}
 	focus = {
@@ -580,6 +606,7 @@ focus_tree = {
 			focus = FRA_focus_win_pet_2
 		}
 		completion_reward = {
+			remove_ideas = FRA_admin_not_good_4
 		}
 	}
 	focus = {
@@ -612,6 +639,15 @@ focus_tree = {
 			focus = FRA_focus_win_pet_1
 		}
 		completion_reward = {
+			add_war_support = 0.05
+			add_popularity = {
+				ideology = communism
+				popularity = 0.1
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.1
+			}
 		}
 	}
 	focus = {
@@ -626,6 +662,8 @@ focus_tree = {
 			focus = FRA_focus_win_pet_9
 		}
 		completion_reward = {
+			add_political_power = 30
+			remove_ideas = FRA_admin_not_good_4
 		}
 	}
 	focus = {
@@ -639,7 +677,15 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_win_pet_1
 		}
+		available = {
+			democratic > 0.3
+		}
 		completion_reward = {
+			set_politics = {
+				ruling_party = democratic
+				elections_allowed = yes
+			}
+			add_ideas = FRA_petain_idea
 		}
 	}
 	focus = {
@@ -654,6 +700,7 @@ focus_tree = {
 			focus = FRA_focus_win_pet_11
 		}
 		completion_reward = {
+			deactivate_advisor = FRA_pierre
 		}
 	}
 	focus = {
@@ -668,6 +715,10 @@ focus_tree = {
 			focus = FRA_focus_win_pet_11
 		}
 		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = -0.15
+			}
 		}
 	}
 	focus = {
@@ -702,7 +753,7 @@ focus_tree = {
 		icon = GFX_goal_generic_occupy_states_ongoing_war
 		cost = 5
 		x = 10
-		y = 16
+		y = 13
 		available = {
 			always = no
 		}
@@ -718,19 +769,19 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#유화책
+		#외교적 실리주의
 		id = FRA_focus_win_12
 		cost = 5
-		x = 3
-		y = 17
+		x = 0
+		y = 14
 		mutually_exclusive = {
 			focus = FRA_focus_win_13
 		}
 		mutually_exclusive = {
 			focus = FRA_focus_win_14
 		}
-		available = {
-			has_country_flag = GAEBALJUNG
+		mutually_exclusive = {
+			focus = FRA_focus_win_15
 		}
 		prerequisite = {
 			focus = FRA_focus_win_11
@@ -758,8 +809,8 @@ focus_tree = {
 		id = FRA_focus_win_13
 		icon = GFX_focus_SWI_fortify_border_with_france
 		cost = 5
-		x = 10
-		y = 17
+		x = 7
+		y = 14
 		available = {
 			NOT = {
 				is_in_faction_with = ENG
@@ -772,6 +823,9 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = FRA_focus_win_14
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_win_15
 		}
 		prerequisite = {
 			focus = FRA_focus_win_11
@@ -791,12 +845,12 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#구질서 복구
+		#유럽 정상화
 		id = FRA_focus_win_14
 		cost = 5
 		icon = GFX_focus_generic_support_the_left_right
-		x = 17
-		y = 17
+		x = 14
+		y = 14
 		available = {
 			is_in_faction_with = ENG
 			NOT = {
@@ -811,6 +865,37 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = FRA_focus_win_12
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_win_15
+		}
+		completion_reward = {
+		}
+	}
+	focus = {
+		#노동자 국제주의
+		id = FRA_focus_win_15
+		cost = 5
+		icon = GFX_focus_generic_support_the_left_right
+		x = 20
+		y = 14
+		available = {
+			is_in_faction_with = ENG
+			NOT = {
+				has_government = communism
+			}
+		}
+		prerequisite = {
+			focus = FRA_focus_win_11
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_win_13
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_win_12
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_win_14
 		}
 		completion_reward = {
 		}
@@ -1736,7 +1821,7 @@ focus_tree = {
 		#SRT에 자치 제안
 		id = FRA_focus_concil_0
 		cost = 5
-		x = 0
+		x = -4
 		y = 1
 		bypass = {
 			NOT = {
@@ -1749,6 +1834,9 @@ focus_tree = {
 		prerequisite = {
 			focus = FRA_focus_win_12
 		}
+		mutually_exclusive = {
+			focus = FRA_focus_concil_1
+		}
 		completion_reward = {
 			SRT = {
 				country_event = FRA_prov_event.86
@@ -1756,14 +1844,17 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#북부 영토 반환 요구
+		#브르타뉴 공세
 		id = FRA_focus_concil_1
 		cost = 5
 		x = -2
 		y = 1
-		relative_position_id = FRA_focus_concil_0
-		prerequisite = {
+		mutually_exclusive = {
 			focus = FRA_focus_concil_0
+		}
+		relative_position_id = FRA_focus_win_12
+		prerequisite = {
+			focus = FRA_focus_win_12
 		}
 		completion_reward = {
 			every_country = {
@@ -1778,22 +1869,20 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#일본압박
+		#SRT의 행방
 		id = FRA_focus_concil_2
 		cost = 5
-		x = 2
-		y = 1
-		relative_position_id = FRA_focus_concil_0
+		x = -3
+		y = 2
+		relative_position_id = FRA_focus_win_12
 		prerequisite = {
 			focus = FRA_focus_concil_0
+			focus = FRA_focus_concil_1
+		}
+		available = {
+			owns_state = 14
 		}
 		completion_reward = {
-			JAP = {
-				country_event = {
-					id = FRA_prov_event.92
-					days = 1
-				}
-			}
 		}
 	}
 	focus = {
@@ -1802,66 +1891,74 @@ focus_tree = {
 		cost = 5
 		x = 0
 		y = 1
-		relative_position_id = FRA_focus_concil_0
+		relative_position_id = FRA_focus_win_12
 		prerequisite = {
-			focus = FRA_focus_concil_0
+			focus = FRA_focus_win_12
 		}
 		completion_reward = {
-			create_faction = fac_FRA_antifa
-			hidden_effect = {
-				every_country = {
-					limit = {
-						has_government = fascism
-					}
-					every_country = {
-						limit = {
-							NOT = {
-								has_government = fascism
-							}
-							is_neighbor_of = PREV
-						}
-						country_event = {
-							id = FRA_prov_event.95
-							days = 2
-						}
-					}
-				}
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.05
 			}
-			custom_effect_tooltip = FRA_focus_concil_3_tt
 		}
 	}
 	focus = {
-		#	
+		#스페인 파쇼 정권 분쇄
 		id = FRA_focus_concil_4
 		cost = 5
 		x = 0
-		y = 2
-		relative_position_id = FRA_focus_concil_0
+		y = 3
+		relative_position_id = FRA_focus_win_12
 		prerequisite = {
-			focus = FRA_focus_concil_3
+			focus = FRA_focus_concil_6
 		}
 		available = {
-			ITA = {
-				OR = {
-					has_government = fascism
-					has_government = neutrality
-				}
+			SPR = {
+				has_government = fascism
 			}
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_concil_5
 		}
 		completion_reward = {
 			create_wargoal = {
-				target = ITA
+				target = SPR
 				type = topple_government
 			}
 		}
 	}
 	focus = {
-		#중앙 파시스트 분쇄
+		#스페인과의 친선
 		id = FRA_focus_concil_5
 		cost = 5
 		x = 2
+		y = 3
+		relative_position_id = FRA_focus_win_12
+		prerequisite = {
+			focus = FRA_focus_concil_6
+		}
+		mutually_exclusive = {
+			focus = FRA_focus_concil_4
+		}
+		available = {
+			SPR = {
+				has_government = fascism
+			}
+		}
+		completion_reward = {
+			create_wargoal = {
+				target = SPR
+				type = topple_government
+			}
+		}
+	}
+	focus = {
+		#니스 회담
+		id = FRA_focus_concil_6
+		cost = 5
+		x = 1
 		y = 2
-		relative_position_id = FRA_focus_concil_0
+		relative_position_id = FRA_focus_win_12
 		prerequisite = {
 			focus = FRA_focus_concil_3
 		}
@@ -1886,32 +1983,48 @@ focus_tree = {
 		}
 	}
 	focus = {
-		#서부 파시스트 분쇄
-		id = FRA_focus_concil_6
+		#키보토스 외교
+		id = FRA_focus_concil_7
 		cost = 5
-		x = -2
+		x = -1
 		y = 2
-		available = {
-		}
-		bypass = {
-			NOT = {
-				SPR = {
-					OR = {
-						has_government = fascism
-						has_government = neutrality
-					}
-				}
-			}
-		}
-		relative_position_id = FRA_focus_concil_0
+		relative_position_id = FRA_focus_win_12
 		prerequisite = {
 			focus = FRA_focus_concil_3
 		}
 		completion_reward = {
-			create_wargoal = {
-				target = SPR
-				type = topple_government
+		}
+	}
+	focus = {
+		#반나치 협약
+		id = FRA_focus_concil_8
+		cost = 5
+		x = -2
+		y = 3
+		relative_position_id = FRA_focus_win_12
+		prerequisite = {
+			focus = FRA_focus_concil_7
+		}
+		completion_reward = {
+		}
+	}
+	focus = {
+		#이존재 기업체와의 계약
+		id = FRA_focus_concil_9
+		cost = 5
+		x = -1
+		y = 4
+		available = {
+			KAI = {
+				exists = yes
+				has_capitulated = no
 			}
+		}
+		relative_position_id = FRA_focus_win_12
+		prerequisite = {
+			focus = FRA_focus_concil_7
+		}
+		completion_reward = {
 		}
 	}
 	focus = {
