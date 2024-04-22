@@ -166,8 +166,184 @@ BA_puppet_on_action_effect = { #이것은 종주국이 ROOT 일때 괴뢰국 범
 	}
 }
 
-YUG_debug_effect = {
-	YUG = {ITA = { country_event = YUG_event.11 }}
+
+BANOKVT_get_best_alliance_match_democratic_effect = { #arguably a trigger, but it does stuff so we keep it in here. If this is your first time seeing this, welcome to my personal hell.
+	if = {
+		limit = {
+			any_other_country = {
+				is_faction_leader = yes
+				is_major = yes
+				has_government = democratic
+				NOT = {
+					has_war_with = ROOT
+					Kivotos_tag = yes
+				}
+				set_temp_variable = { ROOT.best_leader = this }
+				set_temp_variable = { ROOT.best_leader_score = 0 }
+			}
+		}
+	}
+	if = {
+		limit = {
+			all_other_country = {
+				is_faction_leader = yes
+				is_major = yes
+				has_government = democratic
+				NOT = {
+					has_war_with = ROOT
+					Kivotos_tag = yes
+				}
+				set_temp_variable = { this.leader_score = num_of_factories }
+				add_to_temp_variable = { this.leader_score = num_battalions }
+				all_of_scopes = {
+					array = allies
+					add_to_temp_variable = { PREV.leader_score = num_of_factories }
+					add_to_temp_variable = { PREV.leader_score = num_battalions }
+				}
+				if = {
+					limit = {
+						capital_scope = {
+							is_on_continent = ROOT
+						}
+					}
+					multiply_temp_variable = { leader_score = 2 }
+				}
+				if = {
+					limit = {
+						any_neighbor_country = { tag = ROOT }
+					}
+					multiply_temp_variable = { leader_score = 1.25 }
+				}
+				if = {
+					limit = {
+						check_variable = { ROOT.best_leader_score < leader_score }
+						set_temp_variable = { ROOT.best_leader = this }
+						set_temp_variable = { ROOT.best_leader_score = leader_score }
+					}
+				}
+			}
+		}
+	}
+}
+
+BANOKVT_get_best_alliance_match_fascism_effect = { #arguably a trigger, but it does stuff so we keep it in here. If this is your first time seeing this, welcome to my personal hell.
+	if = {
+		limit = {
+			any_other_country = {
+				is_faction_leader = yes
+				is_major = yes
+				has_government = fascism
+				NOT = {
+					has_war_with = ROOT
+					Kivotos_tag = yes
+				}
+				set_temp_variable = { ROOT.best_leader = this }
+				set_temp_variable = { ROOT.best_leader_score = 0 }
+			}
+		}
+	}
+	if = {
+		limit = {
+			all_other_country = {
+
+				is_faction_leader = yes
+				is_major = yes
+				has_government = fascism
+				NOT = {
+					has_war_with = ROOT
+					Kivotos_tag = yes
+				}
+
+				set_temp_variable = { this.leader_score = num_of_factories }
+				add_to_temp_variable = { this.leader_score = num_battalions }
+				all_of_scopes = {
+					array = allies
+					add_to_temp_variable = { PREV.leader_score = num_of_factories }
+					add_to_temp_variable = { PREV.leader_score = num_battalions }
+				}
+				if = {
+					limit = {
+						capital_scope = {
+							is_on_continent = ROOT
+						}
+					}
+					multiply_temp_variable = { this.leader_score = 2 }
+				}
+				if = {
+					limit = {
+						any_neighbor_country = { tag = ROOT }
+					}
+					multiply_temp_variable = { this.leader_score = 1.25 }
+				}
+				if = {
+					limit = {
+						check_variable = { ROOT.best_leader_score < this.leader_score }
+					}
+					set_temp_variable = { ROOT.best_leader = this }
+					set_temp_variable = { ROOT.best_leader_score = this.leader_score }
+				}
+			}
+		}
+	}
+}
+
+BANOKVT_get_best_alliance_match_communism_effect = { #arguably a trigger, but it does stuff so we keep it in here. If this is your first time seeing this, welcome to my personal hell.
+	if = {
+		limit = {
+			any_other_country = {
+				is_faction_leader = yes
+				is_major = yes
+				has_government = communism
+				NOT = {
+					has_war_with = ROOT
+					Kivotos_tag = yes
+				}
+				set_temp_variable = { ROOT.best_leader = this }
+				set_temp_variable = { ROOT.best_leader_score = 0 }
+			}
+		}
+	}
+	if = {
+		limit = {
+			all_other_country = {
+				is_faction_leader = yes
+				is_major = yes
+				has_government = communism
+				NOT = {
+					has_war_with = ROOT
+					Kivotos_tag = yes
+				}
+				set_temp_variable = { this.leader_score = num_of_factories }
+				add_to_temp_variable = { this.leader_score = num_battalions }
+				all_of_scopes = {
+					array = allies
+					add_to_temp_variable = { PREV.leader_score = num_of_factories }
+					add_to_temp_variable = { PREV.leader_score = num_battalions }
+				}
+				if = {
+					limit = {
+						capital_scope = {
+							is_on_continent = ROOT
+						}
+					}
+					multiply_temp_variable = { leader_score = 2 }
+				}
+				if = {
+					limit = {
+						any_neighbor_country = { tag = ROOT }
+					}
+					multiply_temp_variable = { leader_score = 1.25 }
+				}
+				if = {
+					limit = {
+						check_variable = { ROOT.best_leader_score < leader_score }
+						set_temp_variable = { ROOT.best_leader = this }
+						set_temp_variable = { ROOT.best_leader_score = leader_score }
+					}
+				}
+			}
+		}
+	}
 }
 
 TRM_won_the_gehenna_effect = {
