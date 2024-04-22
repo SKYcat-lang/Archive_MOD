@@ -561,7 +561,7 @@ country_event = {
             }
 	}
 }
-country_event = {  # 총력전
+country_event = {  # 안씀
 	id = TRM_event.28
 	title = TRM_event.28.t
 	desc = TRM_event.28.desc
@@ -574,7 +574,7 @@ country_event = {  # 총력전
 
 	}
 }
-country_event = { 
+country_event = {  # 안씀
 	id = TRM_event.30
 	title = TRM_event.30.t
 	desc = TRM_event.30.desc
@@ -587,7 +587,7 @@ country_event = {
 	}
 }
 
-country_event = { #
+country_event = { # 안씀
 	id = TRM_event.31
 	title = TRM_event.31.t
 	desc = TRM_event.31.desc
@@ -599,8 +599,6 @@ country_event = { #
 	
 	option = {
 		name = TRM_event.31.a
-		#activate_mission = TRN_arius_squad_smash
-		set_country_flag = TRN_arius_squad_smash_decision_visible
 	}
 }
 country_event = { # 안씀
@@ -1014,8 +1012,98 @@ country_event = { # 주데텐란트 내놔
 	is_triggered_only = yes
 	
 	option = { #
-		name = TRM_event.52.a
+		name = germany.122.a
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0.8
+				strength_ratio = { tag = TRM ratio < 0.5 }
+			}
+			modifier = {
+				factor = 0.8
+				has_opinion = { target = TRM value > 99 }
+			}
+			modifier = {
+				factor = 0.8
+				strength_ratio = { tag = TRM ratio < 0.3 }
+			}
+			modifier = {
+				factor = 0.8
+				strength_ratio = { tag = TRM ratio < 0.2 }
+			}
+			modifier = {
+				factor = 0.5
+				strength_ratio = { tag = TRM ratio < 0.1 }
+			}
 		}
+		if = {
+			limit = {
+				is_in_faction_with = TRM
+				is_subject = no
+			}
+			remove_from_faction = ABY #kicked from faction
+		}
+        effect_tooltip = {
+			TRM = {
+				add_state_claim = 985
+				add_state_claim = 74
+				create_wargoal = {
+					type = take_state_focus
+					target = ABY
+					generator = { 985 74 }
+				}
+			}
+		}
+        hidden_effect = {
+            TRM = { country_event = { id = TRM_event.54 hours = 3 } }
+        }
+	}
+	option = { #
+		name = germany.122.b
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				any_other_country = {
+					is_major = yes
+					has_guaranteed = ABY
+				}
+			}
+			modifier = {
+				factor = 0
+				any_other_country = {
+					is_major = yes
+					is_in_faction_with = ABY
+				}
+			}
+			modifier = {
+				factor = 0.8
+				any_other_country = {
+					is_major = no
+					has_guaranteed = ABY
+				}
+			}
+			modifier = {
+				factor = 0.8
+				is_in_faction = yes
+				NOT = {
+					any_other_country = {
+						is_major = yes
+						is_in_faction_with = ABY
+					}
+				}
+			}
+		}
+		effect_tooltip = {
+			TRM = {
+				transfer_state = 985
+				transfer_state = 74
+			}
+		}
+        hidden_effect = {
+            TRM = { country_event = { id = TRM_event.54 hours = 3 } }
+        }
+	}
 }
 country_event = { # 덴마크 내놔
 	id = TRM_event.53
@@ -1032,15 +1120,39 @@ country_event = { # 덴마크 내놔
 }
 country_event = { # 주데텐 - 실패
 	id = TRM_event.54
-	title = TRM_event.54.t
-	desc = TRM_event.54.desc
+	title = germany.123.t
+	desc = germany.123.d
 	picture = GFX_event_none_picture
 	
 	fire_only_once = yes
 	is_triggered_only = yes
 	
 	option = { #
-		name = TRM_event.54.a
+		name = germany.123.a
+		add_state_claim = 985
+		add_state_claim = 74
+		if = {
+			limit = {
+				ABY = { is_subject_of = FROM }
+				FROM = {
+					is_in_faction_with = TRM
+					is_faction_leader = no
+				}
+			}
+			remove_from_faction = ABY
+			remove_from_faction = FROM
+		}
+		985 = {
+			controller = {
+				TRM = {
+					create_wargoal = {
+						type = take_state_focus
+						target = PREV
+						generator = { 985 74 }
+					}
+				}
+			}
+		}
 	}
 }
 country_event = { # 주데텐 성공
@@ -1054,6 +1166,10 @@ country_event = { # 주데텐 성공
 	
 	option = { #
 		name = TRM_event.55.a 
+		add_state_core = 985
+		transfer_state = 985
+		add_state_core = 74
+		transfer_state = 74
 	}
 }
 
@@ -1107,7 +1223,7 @@ country_event = {
 	
 	option = { #
 		name = TRM_event.58.a
-		country_event = { id = TRM_event.31 days = 3}
+		set_country_flag = TRN_arius_squad_smash_decision_visible
 	}
 }
 country_event = { 
