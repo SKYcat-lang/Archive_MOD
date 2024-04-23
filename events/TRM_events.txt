@@ -173,7 +173,7 @@ country_event = {
 	}
 }
 country_event = {
-	id = TRM_event.9 # 사용하지 않음 안씀
+	id = TRM_event.9 # 
 	title = TRM_event.9.t
 	desc = TRM_event.9.desc
 	picture = GFX_event_trm_event_9
@@ -561,7 +561,7 @@ country_event = {
             }
 	}
 }
-country_event = {  # 안씀
+country_event = {  # 반붉은겨울 협정
 	id = TRM_event.28
 	title = TRM_event.28.t
 	desc = TRM_event.28.desc
@@ -571,10 +571,28 @@ country_event = {  # 안씀
 	
 	option = { #
 		name = TRM_event.28.a
-
+		ai_chance = {
+			factor = 10
+		}
+		add_ideas = anti_soviet_pact
+		SOV = {
+			remove_opinion_modifier = { target = ROOT modifier = BA_pact_against_us }
+			add_opinion_modifier = { target = ROOT modifier = BA_worse_pact_against_us }
+		}
+		RED = {
+			remove_opinion_modifier = { target = ROOT modifier = BA_pact_against_us }
+			add_opinion_modifier = { target = ROOT modifier = BA_worse_pact_against_us }
+		}
+	}
+	option = {
+		name = germany.83.b		#refuse
+		trigger = { NOT = { is_puppet_of = TRM } }
+		ai_chance = {
+			factor = 2
+		}
 	}
 }
-country_event = {  # 안씀
+country_event = {  # 핀란드한테 보내는 최후통첩...real
 	id = TRM_event.30
 	title = TRM_event.30.t
 	desc = TRM_event.30.desc
@@ -583,15 +601,38 @@ country_event = {  # 안씀
 	is_triggered_only = yes
 	
 	option = { #
+		name = TRM_event.30.b
+        effect_tooltip = {
+            set_cosmetic_tag = TRN_FIN
+            TRM = {
+                puppet = FIN
+            }
+        }
+        TRM = {
+            country_event = TRM_event.32
+        }
+	}
+	option = { #
 		name = TRM_event.30.a
+        effect_tooltip = {
+            TRM = {
+                create_wargoal = {
+                    type = puppet_wargoal_focus
+                    target = ROOT
+                }
+            }
+        }
+        TRM = {
+            country_event = TRM_event.31
+        }
 	}
 }
 
-country_event = { # 안씀
+country_event = { # 요구를 거부한 핀란드
 	id = TRM_event.31
 	title = TRM_event.31.t
 	desc = TRM_event.31.desc
-	picture = GFX_event_trm_event_31
+	picture = GFX_event_none_picture
 
 	is_triggered_only = yes
 	
@@ -599,20 +640,28 @@ country_event = { # 안씀
 	
 	option = {
 		name = TRM_event.31.a
+        TRM = {
+            create_wargoal = {
+                type = puppet_wargoal_focus
+                target = FROM
+            }
+        }
 	}
 }
-country_event = { # 안씀
+country_event = { # 요구를 수락한 핀란드
 	id = TRM_event.32 
 	title = TRM_event.32.t
-	desc = TRM_event.32.desc
-	picture = GFX_event_trm_event_32
+	desc = TRM_event.31.desc
+	picture = GFX_event_none_picture
 
 	is_triggered_only = yes
 	
 	fire_only_once = no
 	
 	option = {
-		name = TRM_event.32.a
+		name = TRM_event.36.a
+        puppet = FIN
+        FIN = { set_cosmetic_tag = TRN_FIN }
 	}
 }
 country_event = { # 안씀
@@ -1116,6 +1165,9 @@ country_event = { # 덴마크 내놔
 	
 	option = { #
 		name = TRM_event.53.a
+        TRM = {
+			add_opinion_modifier = { target = ROOT modifier = rejected_demands }
+        }
 	}
 }
 country_event = { # 주데텐 - 실패
@@ -2401,7 +2453,7 @@ country_event = { # 방공협정
 		set_country_flag = anti_comintern_member
 		TRM = { add_opinion_modifier = { target = ROOT modifier = anti_comintern_pact_opinion } }
 		add_opinion_modifier = { target = TRM modifier = anti_comintern_pact_opinion }
-		SOV  = { add_opinion_modifier = { target = ROOT modifier = pact_against_us } }
+		SOV  = { add_opinion_modifier = { target = ROOT modifier = BA_pact_against_us } }
 	}
 	option = { 
 		name = germany.5.b

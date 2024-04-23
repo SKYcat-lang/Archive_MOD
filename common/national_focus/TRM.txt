@@ -2002,14 +2002,32 @@
 		completion_reward = {
             if = {
                 limit = {
-                    HYA = { exist = yes }
+                    NOT = {
+                        country_exists = HYA
+                    }
                 }
                 create_wargoal = {
     			    type = annex_everything
                     target = 9.controller
                 }
             }
-
+			if = {
+				limit = { 
+                    country_exists = HYA
+					HYA = {
+						OR = {
+							owns_state = 9
+							owns_state = 75
+						}
+					} 
+				}
+				create_wargoal = {
+					type = take_state_focus
+					target = HYA
+					expire = 0
+					generator = { 75 9 }
+				}
+			}
 		}
 	}
 	focus = {
@@ -2027,7 +2045,6 @@
 			OR = {
 				country_exists = HYA
 				country_exists = ABY
-				country_exists = SHA
 			}
         }
 		ai_will_do = {
@@ -2134,7 +2151,7 @@
             }
             if = {
                 limit = {
-                    COU = { exists = yes }
+                    country_exists = COU
                 }
                 create_wargoal = {
         			type = annex_everything
@@ -2143,7 +2160,7 @@
             }
             if = {
                 limit = {
-                    KSP = { exists = yes }
+                    country_exists = KSP
                 }
                 create_wargoal = {
         			type = annex_everything
@@ -2211,9 +2228,6 @@
 		prerequisite = {
 			focus = TRM_domination
 		}
-        mutually_exclusive = {
-            focus = TRM_fucking_communism
-        }
 		available = {
 			is_subject = no
             NOT = { has_government = communism }
@@ -2239,9 +2253,6 @@
 		prerequisite = {
             focus = TRM_domination
 		}
-        mutually_exclusive = {
-            focus = TRM_We_need_Denmark_milk
-        }
 		available = {
 			is_subject = no
 			NOT = { has_government = communism }
@@ -2255,8 +2266,8 @@
 		x = 4
 		y = 1
 		completion_reward = {
-			SOU = { add_opinion_modifier = { target = ROOT modifier = pact_against_us } }
-			RED = { add_opinion_modifier = { target = ROOT modifier = pact_against_us } }
+			SOU = { add_opinion_modifier = { target = ROOT modifier = BA_pact_against_us } }
+			RED = { add_opinion_modifier = { target = ROOT modifier = BA_pact_against_us } }
 			add_named_threat = { threat = 2 name = GER_anti_comitern_pact }
 			every_other_country = {
 				limit = {
@@ -2284,12 +2295,60 @@
 		}
 	}
 	focus = {
+		id = TRM_fucking_communism_fact
+		icon = GFX_focus_attack_soviet
+		cost = 5.00
+		prerequisite = {
+			focus = TRM_fucking_communism
+		}
+		available = {
+			is_subject = no
+			has_army_manpower = { size > 849999 } 
+			RED = {
+				has_government = communism
+			}
+		}
+		ai_will_do = {
+            base = 0 
+		}
+		relative_position_id = TRM_fucking_communism
+		x = 0
+		y = 2
+		completion_reward = {
+			hidden_effect = {
+				RED = { remove_opinion_modifier = { target = ROOT modifier = BA_pact_against_us } }
+				SOU = { remove_opinion_modifier = { target = ROOT modifier = BA_pact_against_us } }
+				add_ideas = anti_soviet_pact
+			}
+			custom_effect_tooltip = TRM_anti_soviet_pact_tt_3
+			custom_effect_tooltip = TRM_anti_soviet_pact_tt
+			custom_effect_tooltip = TRM_anti_soviet_pact_tt_2
+			RED = { add_opinion_modifier = { target = ROOT modifier = BA_worse_pact_against_us } }
+			SOU = { add_opinion_modifier = { target = ROOT modifier = BA_worse_pact_against_us } }
+            every_other_country = {
+				limit = {
+					has_opinion_modifier = anti_comintern_pact_opinion
+					OR = {
+						NOT = { is_in_faction = yes }
+						is_in_faction_with = TRM
+					}
+					NOT = { tag = TRM }
+					NOT = { has_war_with = TRM }
+				}
+				country_event = TRM_event.28
+			}
+			hidden_effect = {
+				news_event = { hours = 12 id = news.215 }
+			}
+		}
+	}
+	focus = {
 		id = TRM_redwinter_war_goal
 		icon = GFX_goal_redwinter_kill
 		cost = 5.00
 		prerequisite = {
 			focus = TRM_fucking_communism
-            focus = TRM_We_need_Denmark_milk
+			focus = TRM_We_need_Denmark_milk
 		}
 		available = {
 			is_subject = no
@@ -2305,9 +2364,29 @@
 		ai_will_do = {
 		}
 		relative_position_id = TRM_fucking_communism
-		x = 1
+		x = 2
 		y = 2
 		completion_reward = {
+			IF = {
+				limit = { RED = { has_civil_war = no } }
+				create_wargoal = {
+					type = annex_everything
+					target = RED
+					expire = 0
+				}
+			}
+			ELSE = {
+				every_country = {
+					limit = { original_tag = RED }
+					TRM = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV
+							expire = 0
+						}
+					}
+				}
+			}
 		}
 	}
 	focus = {
@@ -2324,9 +2403,22 @@
 		x = 0
 		y = 1
 		completion_reward = {
+            country_event = TRM_event.30
             custom_effect_tooltip = if_they_accept_tt
             effect_tooltip = {
-                TRM_Finland_puppet = yes
+                FIN = {
+                    set_cosmetic_tag = TRN_FIN
+                }
+                puppet = FIN
+            }
+            custom_effect_tooltip = if_they_refuse_tt
+            effect_tooltip = {
+                TRM = {
+                    create_wargoal = {
+                        target = FIN
+                        type = puppet_wargoal_focus
+                    }
+                }
             }
 		}
 	}
