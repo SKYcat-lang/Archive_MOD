@@ -948,7 +948,7 @@ focus_tree = {
 		cost = 0
 
 		x = 13
-		y = 0
+		y = 5
 
 		available = { always = no }
 
@@ -1061,10 +1061,13 @@ focus_tree = {
 	focus = {# 새로운 이집트의 여명
 		id = EGY_new_egypt_start
 		icon = none
-		cost = 5
+		cost = 10
 
 		prerequisite = {
 			focus = EGY_reform_religion
+		}
+		mutually_exclusive = {
+			focus = EGY_king_ousted
 		}
 
 		x = 0
@@ -1078,6 +1081,47 @@ focus_tree = {
 			country_event = { id = egy.12 days = 1 }
 		}
 	}
+	focus = {# 쫓겨난 국왕
+		id = EGY_king_ousted
+		icon = none
+		cost = 10
+
+		prerequisite = {
+			focus = EGY_reform_religion
+		}
+		mutually_exclusive = {
+			focus = EGY_new_egypt_start
+		}
+
+		x = 8
+		y = 1
+		relative_position_id = EGY_reform_religion
+
+		available = { always = no } 
+
+		completion_reward = {
+			#대충 국왕 지지도 나락가서 
+		}
+	}
+	focus = {# 이집트 공화국
+		id = EGY_the_egypt_republic
+		icon = none
+		cost = 10
+
+		prerequisite = {
+			focus = EGY_king_ousted
+		}
+
+		x = 0
+		y = 1
+		relative_position_id = EGY_king_ousted
+
+		available = { always = no } 
+
+		completion_reward = {
+			#이집트 공화국 등장
+		}
+	}
 	focus = {# 비나 문제
 		id = EGY_binah_problem
 		icon = none
@@ -1085,17 +1129,113 @@ focus_tree = {
 
 		prerequisite = {
 			focus = EGY_new_egypt_start
+			focus = EGY_king_ousted
 		}
 
-		x = -2
+		x = 4
 		y = 1
 		relative_position_id = EGY_new_egypt_start
 
-		available = { has_country_leader = { character = EGY_farouk_i ruling_only = yes } } 
+		available = { has_idea = EGY_Binah } 
+
+		bypass = {
+			NOT = {
+				has_idea = EGY_Binah
+			}
+		}
 
 		completion_reward = {
-			add_political_power = 50
-			country_event = { id = egy.12 days = 1 }
+			
+		}
+	}
+	focus = {# 구역 봉쇄 계획
+		id = EGY_shut_down_provinces
+		icon = none
+		cost = 5
+
+		prerequisite = {
+			focus = EGY_binah_problem
+		}
+		
+		available = { has_idea = EGY_Binah }
+		bypass = {
+			NOT = {
+				has_idea = EGY_Binah
+			}
+		}
+
+
+		x = 0
+		y = 1
+		relative_position_id = EGY_binah_problem
+
+		completion_reward = {
+			
+		}
+	}
+	focus = {# 피해 최소화
+		id = EGY_minimize_damage
+		icon = none
+		cost = 5
+
+		prerequisite = {
+			focus = EGY_shut_down_provinces
+		}
+		
+		available = { has_idea = EGY_Binah }
+		bypass = {
+			NOT = {
+				has_idea = EGY_Binah
+			}
+		}
+
+
+		x = 0
+		y = 1
+		relative_position_id = EGY_shut_down_provinces
+
+		completion_reward = {
+			
+		}
+	}
+	focus = {# 입헌군주제
+		id = EGY_democracy_in_the_arabs
+		icon = none
+		cost = 5
+
+		prerequisite = {
+			focus = EGY_new_egypt_start
+		}
+		mutually_exclusive = {
+			focus = EGY_sultan_monarchy
+		}
+
+		x = -3
+		y = 1
+		relative_position_id = EGY_new_egypt_start
+		
+		completion_reward = {
+			
+		}
+	}
+	focus = {# 술탄의 군주정(비동맹)
+		id = EGY_sultan_monarchy
+		icon = none
+		cost = 5
+
+		prerequisite = {
+			focus = EGY_new_egypt_start
+		}
+		mutually_exclusive = {
+			focus = EGY_democracy_in_the_arabs
+		}
+
+		x = -7
+		y = 1
+		relative_position_id = EGY_new_egypt_start
+		
+		completion_reward = {
+			
 		}
 	}
 

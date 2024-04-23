@@ -370,11 +370,10 @@ country_event = { # 개혁의 결과
 
 	is_triggered_only = yes
 
-	option = { # 개혁 결과
+	option = { # 개혁 결과, 다음 단계로...
 		name = egy.12.a
-		if = { 
-			limit = { check_variable = { EGY_reform_stacks < 2 } }
-			add_ideas = EGY_empower_sultan_reform
+		trigger = {
+			check_variable = { EGY_reform_stacks > 1 } 
 		}
 		if = { 
 			limit = {  
@@ -384,10 +383,118 @@ country_event = { # 개혁의 결과
 				}
 			}
 			add_ideas = EGY_conservative_reform
+			hidden_effect = {
+				country_event = { id = egy.21 days = 1 }
+			}
 		}
 		if = { 
 			limit = { check_variable = { EGY_reform_stacks > 14 } }
 			add_ideas = EGY_liberal_reform
+			hidden_effect = {
+				country_event = { id = egy.18 days = 1 }
+			}
+		}
+		
+	}
+	option = { # 개혁 결과, 다음 단계로...
+		name = egy.12.b
+		trigger = {
+			check_variable = { EGY_reform_stacks < 2 } 
+		}
+		if = { 
+			limit = { check_variable = { EGY_reform_stacks < 2 } }
+			add_ideas = EGY_empower_sultan_reform
+		}
+		hidden_effect = {
+			country_event = { id = egy.19 days = 1 }
+		}
+	}
+}
+country_event = { # Liberal Egypt
+	id = egy.18
+	title = egy.18.t
+	desc = egy.18.d
+	picture = GFX_report_event_EGY_farouk_crowd
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event egy.18 option egy.18.a"
+		name = egy.18.a
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.08
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.08
+		}
+	}
+}
+country_event = { # King Ousted
+	id = egy.19
+	title = egy.19.t
+	desc = egy.19.d
+	picture = GFX_report_event_EGY_farouk_crowd
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event egy.19 option egy.19.a"
+		name = egy.19.a
+		retire_character = EGY_farouk_i
+		set_politics = {
+			ruling_party = democratic
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.25
+		}
+		create_country_leader = {
+			name = "임시 의회"
+			desc = "POLITICS_FALLEN_GOVERNMENT_DESC"
+			picture = GFX_portrait_Fallen_Government
+			expire = "1965.1.1"
+			ideology = conservatism
+			traits = {
+				
+			}
+		}
+		complete_national_focus = EGY_king_ousted
+	}
+}
+country_event = { # Absolutist Egypt
+	id = egy.20
+	title = egy.20.t
+	desc = egy.20.d
+	picture = GFX_report_event_EGY_farouk_crowd
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event egy.20 option egy.20.a"
+		name = egy.20.a
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.25
+		}
+	}
+}
+country_event = { # Conservative Egypt
+	id = egy.21
+	title = egy.21.t
+	desc = egy.21.d
+	picture = GFX_report_event_EGY_farouk_crowd
+
+	is_triggered_only = yes
+
+	option = {
+		log = "[GetLogInfo]: event egy.19 option egy.19.a"
+		name = egy.21.a
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.08
 		}
 	}
 }
