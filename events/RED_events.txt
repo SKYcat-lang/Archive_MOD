@@ -146,9 +146,13 @@ country_event = { # 군정청: 00의 봄
 	
 	option = {
 		name = RED_instability_system.4.a
-		overlord = {
-			save_global_event_target_as = RED_instability_system_independence_overlord_target
+		if = { limit = { is_subject = yes }
+			overlord = {
+				save_global_event_target_as = RED_instability_system_independence_overlord_target
+			}
+			set_global_flag = RED_instability_system_rebellion_overlordyes_flag
 		}
+		else = {}
 		if = { limit = { tag = RE4 }
 			FIN = { save_event_target_as = RED_instability_system_independence_country_target }
 		}
@@ -228,7 +232,7 @@ country_event = { # 군정청: 00의 봄
 				}
 			}
 			set_country_flag = RED_instability_system_military_government_rebellion
-			country_event = { id = RED_instability_system.5 hours = 8 }
+			country_event = RED_instability_system.5
 			if = { limit = { ROOT = { is_ai = no } }
 				change_tag_from = ROOT
 			}
@@ -358,7 +362,7 @@ country_event = { # 군정청: 00의 봄
 				}
 				add_civil_war_target = PREV
 			}
-			country_event = { id = RED_instability_system.5 hours = 8 }
+			country_event = RED_instability_system.5
 		}
 	}
 }
@@ -373,9 +377,16 @@ country_event = { # 군정청: 00의 봄 - 히든 이벤트
 	immediate = {
 		news_event = { id = BA_news.72 }
 		if = { limit = { has_country_flag = RED_instability_system_military_government_rebellion }
-			event_target:RED_instability_system_independence_overlord_target = {
-				country_event = { id = RED_instability_system.6 days = 4 }
-				set_country_flag = RED_instability_system_hard_process
+			if = {
+				limit = {
+					has_global_flag = RED_instability_system_rebellion_overlordyes_flag
+				}
+				clr_global_flag = RED_instability_system_rebellion_overlordyes_flag
+				
+				event_target:RED_instability_system_independence_overlord_target = {
+					country_event = { id = RED_instability_system.6 days = 4 }
+					set_country_flag = RED_instability_system_hard_process
+				}
 			}
 		}
 	}
