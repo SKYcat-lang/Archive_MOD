@@ -50,7 +50,7 @@ country_event = {
 		}
 		add_equipment_to_stockpile = {
 			type = infantry_equipment
-			amount = 1000
+			amount = 100
 		}
 		army_experience = 1
 		add_political_power = 30
@@ -2178,7 +2178,7 @@ country_event = {
 			limit = {
 				is_core_of = MIL
 			}
-			add_manpower = -2000
+			add_manpower = -200
 		}
 	}
 	option = {
@@ -2188,7 +2188,7 @@ country_event = {
 			limit = {
 				is_core_of = MIL
 			}
-			add_manpower = -2000
+			add_manpower = -200
 		}}
 		set_global_flag = MIL_i_dont_want_fra_resistance_event
 	}
@@ -3204,108 +3204,166 @@ country_event = {
 }
 
 country_event = {
-	#SRT에 자치 제안
+	#레지스탕스 히든 이벤트 무한 반복
 	id = FRA_prov_event.86
 	title = FRA_prov_event.86.t
 	desc = FRA_prov_event.86.d
 	is_triggered_only = yes
-	fire_only_once = yes
-	option = {
-		#ㅇㅋ
-		name = FRA_prov_event.86.a
-		add_stability = 0.1
-		FRA = {
-			country_event = {
-				id = FRA_prov_event.87
-				days = 3
+	hidden = yes
+	trigger = {
+		NOT = { has_global_flag = STOP_FRA_prepare_war_flag }
+	}
+	immediate = {
+		country_event = {
+			id = FRA_prov_event.86
+			days = 70
+			random_days = 40
+		}
+		random_list = {
+			999 = {
+				country_event = {
+					id = FRA_prov_event.87
+					random_days = 50
+				}
+                modifier = {
+                    NOT = { check_variable = { global.BA_resistance_n_var = 3 } }
+                    factor = 0                
+                }
 			}
+			999 = {
+				country_event = {
+					id = FRA_prov_event.88
+					random_days = 50
+				}
+				
+                modifier = {
+                    NOT = { check_variable = { global.BA_resistance_e_var = 3 } }
+                    factor = 0                
+                }
+			}
+			1 = {}
 		}
 	}
 	option = {
-		#족가
-		name = FRA_prov_event.86.b
-		add_war_support = 0.1
-		ai_chance = {
-			base = 2
-		}
-		FRA = {
-			country_event = {
-				id = FRA_prov_event.88
-				days = 3
-			}
-		}
+		
 	}
 }
 
 country_event = {
-	#SRT의 수락
+	#레지스탕스 - 연구속도
 	id = FRA_prov_event.87
 	title = FRA_prov_event.87.t
 	desc = FRA_prov_event.87.d
 	is_triggered_only = yes
-	fire_only_once = yes
 	option = {
-		#ㅇㅋ
 		name = FRA_prov_event.87.a
-		set_autonomy = {
-			target = SRT
-			autonomy_state = autonomy_dominion
-		}
-		hidden_effect = {
-			SRT = {
-				set_politics = {
-					ruling_party = fascism
+		random_list = {
+			1 = {
+				add_tech_bonus = {
+					category = infantry_tech
+					bonus = 0.08
+					uses = 1
 				}
-				set_popularities = {
-					fascism = 70
-					communism = 30
+			}
+			1 = {
+				add_tech_bonus = {
+					category = support_tech
+					bonus = 0.08
+					uses = 1
 				}
-				set_cosmetic_tag = SRT_dominion
+			}
+			1 = {
+				add_tech_bonus = {
+					category = artillery
+					bonus = 0.08
+					uses = 1
+				}
+			}
+			1 = {
+				add_tech_bonus = {
+					category = electronics
+					bonus = 0.08
+					uses = 1
+				}
+			}
+			1 = {
+				add_tech_bonus = {
+					category = cat_production
+					bonus = 0.08
+					uses = 1
+				}
+			}
+			1 = {
+				add_tech_bonus = {
+					category = construction_tech
+					bonus = 0.08
+					uses = 1
+				}
+			}
+			1 = {
+				add_tech_bonus = {
+					category = cat_synth_oil
+					bonus = 0.08
+					uses = 1
+				}
 			}
 		}
+		add_political_power = 5
 	}
 }
 
 country_event = {
-	#SRT의 거절
+	#레지스탕스 - 건설과 채굴
 	id = FRA_prov_event.88
 	title = FRA_prov_event.88.t
 	desc = FRA_prov_event.88.d
 	is_triggered_only = yes
-	fire_only_once = yes
 	option = {
 		name = FRA_prov_event.88.a
-		declare_war_on = {
-			target = SRT
-			type = annex_everything
+		add_timed_idea = {
+			idea = FRA_industry_tools
+			days = 45
 		}
+		add_political_power = 5
 	}
 }
 
 country_event = {
-	#안 씀
+	#대규모 탄압을 피해 온 레지스탕스
 	id = FRA_prov_event.89
 	title = FRA_prov_event.89.t
 	desc = FRA_prov_event.89.d
 	is_triggered_only = yes
-	fire_only_once = yes
 	option = {
 		name = FRA_prov_event.89.a
-	}
-	option = {
-		name = FRA_prov_event.89.b
+		add_manpower = 2000
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = 2000
+		}
+		army_experience = 5
+		add_war_support = 0.03
+		custom_effect_tooltip = FRA_prov_event.89_tt
 	}
 }
 
 country_event = {
-	#안 씀
+	#위 이벤트 밀레니엄 입장
 	id = FRA_prov_event.90
 	title = FRA_prov_event.90.t
 	desc = FRA_prov_event.90.d
 	is_triggered_only = yes
-	fire_only_once = yes
+	immediate = {
+		country_event = FRA_prov_event.89
+	}
 	option = {
 		name = FRA_prov_event.90.a
+		random_owned_state = {
+			limit = {
+				is_core_of = FRA
+			}
+			add_manpower = -2000
+		}
 	}
 }
 
