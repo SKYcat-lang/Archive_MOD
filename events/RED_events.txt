@@ -149,6 +149,10 @@ country_event = { # 군정청: 00의 봄
 		if = { limit = { is_subject = yes }
 			overlord = {
 				save_global_event_target_as = RED_instability_system_independence_overlord_target
+				set_truce = {
+					target = ROOT
+					days = 1080
+				}
 			}
 			set_global_flag = RED_instability_system_rebellion_overlordyes_flag
 		}
@@ -201,12 +205,6 @@ country_event = { # 군정청: 00의 봄
 				}
 			}
 			clr_country_flag = RED_instability_system_independence_country_flag
-			if = { limit = { country_exists = RED }
-				set_truce = {
-					target = RED
-					days = 280
-				}
-			}
 			if = { limit = { country_exists = RE1 }
 				set_truce = {
 					target = RE1
@@ -382,7 +380,7 @@ country_event = { # 군정청: 00의 봄 - 히든 이벤트
 					has_global_flag = RED_instability_system_rebellion_overlordyes_flag
 				}
 				clr_global_flag = RED_instability_system_rebellion_overlordyes_flag
-				
+
 				event_target:RED_instability_system_independence_overlord_target = {
 					country_event = { id = RED_instability_system.6 days = 4 }
 					set_country_flag = RED_instability_system_hard_process
@@ -404,17 +402,25 @@ country_event = { # 붉은겨울: 00의 봄 - 평화 제의
 	
 	option = {
 		name = RED_instability_system.6.a
-		if = { limit = { FROM = { tag = DEN } }
-			activate_mission = RED_military_government_attack_DEN
+		if = { limit = { tag = RED }
+			if = { limit = { FROM = { tag = DEN } }
+				activate_mission = RED_military_government_attack_DEN
+			}
+			if = { limit = { FROM = { tag = NOR } }
+				activate_mission = RED_military_government_attack_NOR
+			}
+			if = { limit = { FROM = { tag = SWE } }
+				activate_mission = RED_military_government_attack_SWE
+			}
+			if = { limit = { FROM = { tag = FIN } }
+				activate_mission = RED_military_government_attack_FIN
+			}
 		}
-		if = { limit = { FROM = { tag = NOR } }
-			activate_mission = RED_military_government_attack_NOR
-		}
-		if = { limit = { FROM = { tag = SWE } }
-			activate_mission = RED_military_government_attack_SWE
-		}
-		if = { limit = { FROM = { tag = FIN } }
-			activate_mission = RED_military_government_attack_FIN
+		else = {
+			create_wargoal = {
+				target = FROM
+				type = puppet_wargoal_focus
+			}
 		}
 		FROM = {
 			country_event = { id = RED_instability_system.61 days = 1 }
