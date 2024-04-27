@@ -285,7 +285,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_war_support = 0.05
-			declare_war_on = {
+			create_wargoal = {
 				type = take_state_focus
 				target = SHA
 				generator = { 984 }
@@ -357,7 +357,7 @@ focus_tree = {
 		#mutually_exclusive = { focus = HYA_focus_ }
 		x = -1
 		y = 2
-		cost = 10
+		cost = 5
 		available = {
 			has_defensive_war = yes
 		}   
@@ -1047,6 +1047,10 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 30
 			add_ideas = HYA_trust_committee
+			add_power_balance_modifier = {
+				id = HYA_centralization_bop
+				modifier = HYA_guiding_principles_split
+			}
 		}
 	}
 	focus = { #백화요란 분쟁조정위원회
@@ -1065,6 +1069,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_political_power = 60
+			add_stability  = -0.10
 			add_popularity = {
 				ideology = neutrality
 				popularity = 0.10
@@ -1088,6 +1093,11 @@ focus_tree = {
 			set_variable = { HYA_hyakkayouran_conflict_resolution_council_operative_slot = 0 }
 			set_variable = { HYA_hyakkayouran_conflict_resolution_council_political_advisor_cost_factor = 0 }
 			set_variable = { HYA_hyakkayouran_conflict_resolution_council_opinion_gain_monthly_same_ideology_factor = 0 }
+
+			add_power_balance_modifier = {
+				id = HYA_centralization_bop
+				modifier = HYA_guiding_principles_authority
+			}
 		}
 	}
 	focus = { #반 학원 활동 단속
@@ -1133,6 +1143,18 @@ focus_tree = {
 		bypass = {
 		}
 		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						is_power_balance_in_range = {
+							id = HYA_centralization_bop
+							range < HYA_centralization_bop_very_splits  
+						}
+					}
+				}
+				custom_effect_tooltip = HYA_focus_69_tt
+				add_stability  = -0.10
+			}
 			add_popularity = {
 				ideology = neutrality
 				popularity = 0.05
@@ -1177,10 +1199,6 @@ focus_tree = {
 			OR = {
 				has_government = neutrality
 				neutrality > 0.25
-			}
-			is_power_balance_in_range = {
-				id = HYA_centralization_bop
-				range < HYA_centralization_bop_very_splits  
 			}
 		}   
 		bypass = {
@@ -1305,9 +1323,17 @@ focus_tree = {
 		bypass = {
 		}
 		completion_reward = {
-			add_power_balance_value = {
-				id = HYA_centralization_bop
-				value = -0.1 
+			if = {
+				limit = {
+					NOT = {
+						is_power_balance_in_range = {
+							id = HYA_centralization_bop
+							range < HYA_centralization_bop_very_splits  
+						}
+					}
+				}
+				custom_effect_tooltip = HYA_focus_69_tt
+				add_stability  = -0.10
 			}
 			add_political_power = 60
 			add_stability = 0.10
@@ -1341,13 +1367,17 @@ focus_tree = {
 		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
 		prerequisite = { focus = HYA_focus_65 focus = HYA_focus_95 }
 		mutually_exclusive = { focus = HYA_focus_96 }
-		x = 1
+		x = 0
 		y = 5
 		cost = 10
 		available = {
 			OR = {
 				has_government = neutrality
 				neutrality > 0.40
+			}
+			is_power_balance_in_range = {
+				id = HYA_centralization_bop
+				range < HYA_centralization_bop_balanced  
 			}
 		}   
 		bypass = {
@@ -1504,6 +1534,10 @@ focus_tree = {
 		cost = 10
 		search_filters = {FOCUS_FILTER_POLITICAL}
 		available = {
+			is_power_balance_in_range = {
+				id = HYA_centralization_bop
+				range > HYA_centralization_bop_balanced  
+			}
 		}   
 		bypass = {
 		}
@@ -1560,6 +1594,22 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_stability = 0.15
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
 		}
 	}
 	focus = { # 음양부의 주도
@@ -1582,6 +1632,14 @@ focus_tree = {
 				ideology = democratic
 				popularity = 0.10
 			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
 		}
 	}
 	focus = { # 권력 분립
@@ -1592,6 +1650,10 @@ focus_tree = {
 		mutually_exclusive = { focus = HYA_focus_62 }
 		available = {
 			has_civil_war = no
+			is_power_balance_in_range = {
+				id = HYA_centralization_bop
+				range > HYA_centralization_bop_very_splits  
+			}
 		}   
 		x = -3
 		y = 1
@@ -1604,6 +1666,22 @@ focus_tree = {
 			add_popularity = {
 				ideology = democratic
 				popularity = -0.10
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
 			}
 		}
 	}
@@ -2662,7 +2740,7 @@ focus_tree = {
 	focus = { # 권위 해방
 		relative_position_id = HYA_focus_87
 		id = HYA_focus_88
-		icon = GFX_focus_spr_anarchism_knows_no_borders
+		icon = GFX_focus_generic_support_the_left_right
 		prerequisite = { focus = HYA_focus_87 }
 		mutually_exclusive = { focus = HYA_focus_89 }
 		x = 0
@@ -2702,7 +2780,7 @@ focus_tree = {
 	focus = { # 아나키즘 수용
 		relative_position_id = HYA_focus_88
 		id = HYA_focus_90
-		icon = GFX_focus_generic_support_the_left_right
+		icon = GFX_focus_spr_anarchism_knows_no_borders
 		prerequisite = { focus = HYA_focus_88 }
 		mutually_exclusive = { focus = HYA_focus_91 }
 		x = -1
