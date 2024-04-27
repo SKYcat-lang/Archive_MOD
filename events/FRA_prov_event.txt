@@ -3368,28 +3368,95 @@ country_event = {
 }
 
 country_event = {
-	#안 씀
+	#철도 완공
 	id = FRA_prov_event.91
 	title = FRA_prov_event.91.t
 	desc = FRA_prov_event.91.d
 	is_triggered_only = yes
 	fire_only_once = yes
+	picture = GFX_report_event_generic_train
 	option = {
 		name = FRA_prov_event.91.a
-		add_political_power = -50
+		898 = {
+			BA_increase_state_category_by_one_level = yes
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+			}
+			add_building_construction = {
+				type = supply_node
+				level = 1
+				province = 2044
+			}
+			add_compliance = 0.05
+		}
+		899 = {
+			BA_increase_state_category_by_one_level = yes
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+			}
+			add_compliance = 0.05
+		}
+		build_railway = {
+			level = 1
+			build_only_on_allied = yes
+			fallback = yes
+			start_state = 898
+			target_state = 899
+			path = {2044 12383 10812 10915 2012}
+		}
+		unlock_decision_tooltip = FRA_more_sahara_rail
 	}
 }
 
 country_event = {
-	#안 씀
+	#철도 호황
 	id = FRA_prov_event.92
 	title = FRA_prov_event.92.t
 	desc = FRA_prov_event.92.d
 	is_triggered_only = yes
 	fire_only_once = yes
+	picture = GFX_report_event_generic_train
 	option = {
-		#자원채굴권만 좀;;
 		name = FRA_prov_event.92.a
+		if = {
+			limit = {
+				has_country_flag = FRA_sahara_rail_flag
+			}
+			898 = {
+				BA_increase_state_category_by_one_level = yes
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+				}
+			}
+			899 = {
+				BA_increase_state_category_by_one_level = yes
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+				}
+			}
+		}
+		else = {
+			899 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
+		custom_effect_tooltip = FRA_prov_event.92_tt
 	}
 }
 
@@ -4293,6 +4360,10 @@ country_event = {
 				ideology = neutrality
 				long_name = FRA_neutrality_party_mil_gov
 				name = FRA_neutrality_party_mil_gov
+			}
+			country_event = {
+				id = FRA_prov_event.86
+				days = 100
 			}
 		}
 	}
