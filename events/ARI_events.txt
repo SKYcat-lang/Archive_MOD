@@ -38,11 +38,7 @@ country_event = { #제2회 공회의
 
 	option = {
 		name = ARI_event.2.a
-		add_stability = -0.30
-		every_state = {
-			limit = { is_core_of = TRM }
-			add_core_of = ROOT
-		}
+		add_stability = -0.10
 		news_event = BA_news.46
 	}
 }
@@ -240,5 +236,73 @@ country_event = { #아리우스 스쿼드의 패주
 		name = ARI_event.10.a
 		add_stability = -0.10
 		add_war_support = -0.10
+	}
+}
+# Event spawning pro-Kaiser deserter unit
+country_event = {
+	id = ARI_event.70
+	title = ARI_event.70.t
+	desc = ARI_event.70.d
+	picture = GFX_report_event_german_troops
+
+	fire_only_once = no
+	
+	trigger = {
+		original_tag = ARI
+		has_idea = ARI_german_defectors_1
+	}
+
+	mean_time_to_happen = {
+		days = 90
+	}
+	
+	# Good
+	option = {
+		name = excellent
+		if = {
+			limit = {
+				any_state = {
+					is_fully_controlled_by = ROOT
+					is_on_continent = europe
+				}
+			}
+			random_state = {
+				limit = {
+					is_fully_controlled_by = ROOT
+					is_on_continent = europe
+				}
+				create_unit = {
+					division = "division_template = \"Deutsches Freikorps\" start_experience_factor = 0.5 start_equipment_factor = 0.25"
+					owner = ARI
+				}
+			}
+		}
+		else = {
+			random_state = {
+				limit = {
+					is_fully_controlled_by = ROOT
+				}
+				create_unit = {
+					division = "division_template = \"Deutsches Freikorps\" start_experience_factor = 0.5 start_equipment_factor = 0.25"
+					owner = ARI
+				}
+			}
+		}
+	}
+}
+
+# Event informing Germany of pro-Kaiser deserters
+country_event = {
+	id = ARI_event.71
+	title = ARI_event.71.t
+	desc = ARI_event.71.d
+	picture = GFX_report_event_german_troops
+
+	is_triggered_only = yes
+	
+	# Damn them!
+	option = {
+		name = ARI_event.71.a
+		add_ideas = ARI_german_defectors_2
 	}
 }
