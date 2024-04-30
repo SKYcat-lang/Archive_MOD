@@ -155,3 +155,363 @@ GEM_HEU_border = {
 		value = 50
 	}
 }
+
+TRM_unit_production = {
+	allowed = {
+		original_tag = TRM
+	}
+	enable = {
+		always = yes
+	}
+	abort = {
+		always = no
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = garrison
+		value = 4
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = paratroopers
+		value = 0
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = mountaineers
+		value = 0
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = marines
+		value = 0
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = cavalry
+		value = -100
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = motorized
+		value = 0 #because doctrine this = 2
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = mechanized
+		value = -5 #because doctrine this = 0
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = armor
+		value = -7 #because doctrine this = 3
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = infantry
+		value = 75 #88 to 70
+	}
+}
+
+TRM_anti_armor = {
+	allowed = {
+		original_tag = TRM
+	}
+	enable = {
+		ai_wants_divisions > 5 #Decreasing the amount of motorized the AI wants
+
+		any_enemy_country = {
+			ROOT = {
+				estimated_intel_max_armor = {
+					tag = PREV
+					value > 25
+				}
+			}
+		}
+	}
+	abort = {
+		ai_wants_divisions < 6 #Decreasing the amount of motorized the AI wants
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = motorized
+		value = 15
+	}
+}
+
+TRM_armored_production = {
+	allowed = {
+		original_tag = TRM
+	}
+	enable = {
+		date > 1938.8.1
+		ai_wants_divisions > 10 #Decreasing the amount of tanks the AI wants
+	}
+	abort = {
+		OR = {
+			ai_wants_divisions < 10 #Decreasing the amount of tanks the AI wants
+		}
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = armor
+		value = 2
+	}
+}
+
+TRM_halt_light_armor_production_in_transitioning = {
+	allowed = {
+		original_tag = TRM
+	}
+	enable = {
+		has_template_majority_unit = medium_armor
+		OR = {
+			has_equipment = { light_tank_chassis > 600 }
+			date > 1938.8.1
+		}
+	}
+	abort = {
+		always = no  # once we start we never go back to light armor
+	}
+
+	ai_strategy = {
+		type = equipment_variant_production_factor
+		id = light_tank_chassis
+		value = -100
+	}
+	
+	ai_strategy = {
+		type = equipment_variant_production_factor
+		id = medium_tank_chassis
+		value = 50
+	}
+	
+	ai_strategy = {
+		type = equipment_production_factor
+		id = artillery
+		value = -50 #downprio this for some more tanks
+	}
+	
+}
+
+TRM_stockpile_less_early_game = {
+	allowed = {
+		original_tag = TRM
+	}
+
+	enable = {
+		date < 1940.1.1
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = {
+		type = equipment_stockpile_surplus_ratio
+		value = -20 # reduce while we build up in case of CZE or Austria issues
+	}
+}
+
+
+TRM_highered_armored_production = {
+	allowed = {
+		original_tag = TRM
+	}
+	enable = {
+		num_of_military_factories > 59
+	}
+	abort = {
+		num_of_military_factories < 60
+	}
+
+	ai_strategy = {
+		type = role_ratio
+		id = armor
+		value = 2
+	}
+}
+
+TRM_dont_waste_xp_until_medium_armor = {
+	allowed = {
+		original_tag = TRM
+	}
+	enable = {
+		always = yes
+	}
+	abort = {
+		has_template_majority_unit = medium_armor
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = paratrooper
+		value = -100
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = mountaineers
+		value = -100
+	}
+}
+
+TRM_super_boost_light_for_med_armor = {
+	allowed = {
+		original_tag = TRM
+	}
+	enable = {
+		OR = {
+			has_tech = basic_medium_tank
+			has_tech = basic_medium_tank_chassis
+		}
+		NOT = { has_template_ai_majority_unit = medium_armor }
+	}
+
+	abort = {
+		has_template_ai_majority_unit = medium_armor
+	}
+
+	# lets do changes more often during this period too
+	ai_strategy = {
+		type = land_xp_spend_priority
+		id = division_template
+		value = 100
+	}
+
+	# this is gateway
+	ai_strategy = {
+		type = template_prio
+		id = light_armor
+		value = 100
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = medium_armor
+		value = 150
+	}
+
+	# Germany is set up to change their SS division into medium armor.
+	ai_strategy = {
+		type = template_prio
+		id = motorized
+		value = 200
+	}
+}
+
+TRM_super_boost_light_for_modern_armor = {
+	allowed = {
+		original_tag = TRM
+	}
+	enable = {
+		OR = {
+			has_tech = main_battle_tank
+			has_tech = main_battle_tank_chassis
+		}
+		NOT = { has_template_ai_majority_unit = modern_armor }
+	}
+
+	abort = {
+		has_template_ai_majority_unit = modern_armor
+	}
+
+	# lets do changes more often during this period too
+	ai_strategy = {
+		type = land_xp_spend_priority
+		id = division_template
+		value = 100
+	}
+
+	# this is gateway
+	ai_strategy = {
+		type = template_prio
+		id = medium_armor
+		value = 100
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = modern_armor
+		value = 150
+	}
+}
+
+TRM_how_about_some_more_transport_planes = {
+	allowed = {
+		original_tag = TRM
+	}
+	enable = {
+		num_of_military_factories > 50
+	}
+	abort_when_not_enabled = yes
+
+	ai_strategy = {
+		type = equipment_production_min_factories
+		id = air_transport
+		value = 1
+	}
+}
+
+
+TRM_template_design = {
+	allowed = {
+		original_tag = TRM
+	}
+	enable = {
+		date < 1940.1.1
+	}
+	abort = {
+		date > 1940.1.1
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = infantry
+		value = 20
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = artillery
+		value = 20
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = motorized
+		value = -50
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = cavalry
+		value = -100
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = light_armor
+		value = 30
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = heavy_armor
+		value = -50
+	}
+
+	ai_strategy = {
+		type = template_prio
+		id = paratroopers
+		value = -50
+	}
+}
