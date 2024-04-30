@@ -20,10 +20,10 @@ focus_tree = {
 		icon = GFX_goal_generic_construction
 		x = 2
 		y = 0
-		cost = 10
+		cost = 5
 
 		completion_reward = {
-			141 = {
+			140 = {
 				add_building_construction = {
 					type = infrastructure
 					level = 1
@@ -37,53 +37,25 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
-			139 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-			138 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-			99 = {
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
 		}
 	}
 	focus = { # 북부 도로 재개발
 		id = RED_road_to_north
-		icon = GFX_goal_generic_construction
+		icon = GFX_goal_generic_construct_infrastructure
 		x = 2
 		y = 0
 		relative_position_id = RED_road_to_south
-		cost = 10
+		cost = 5
 
 		completion_reward = {
 			38 = { 
 				add_building_construction = {
 					type = infrastructure
-					level = 2
+					level = 1
 					instant_build = yes
 				}
 			}
-			918 = { 
-				add_building_construction = {
-					type = infrastructure
-					level = 2
-					instant_build = yes
-				}
-			}
-			666 = { 
+			140 = { 
 				add_building_construction = {
 					type = infrastructure
 					level = 1
@@ -94,30 +66,18 @@ focus_tree = {
 	}
 	focus = { # 토지 조사
 		id = RED_land_research
-		icon = GFX_focus_generic_industry_1
+		icon = GFX_focus_generic_treaty
 		x = 1
 		y = 1
-		cost = 10
+		cost = 5
 		relative_position_id = RED_road_to_south
 
 		prerequisite = { focus = RED_road_to_south focus = RED_road_to_north }
 
 		completion_reward = {
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-				type = industrial_complex
-				level = 1
-				instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-				type = industrial_complex
-				level = 1
-				instant_build = yes
-				}
+			swap_ideas = {
+				remove_idea = RED_doomed_economy_idea
+				add_idea = RED_doomed_economy_idea_1
 			}
 			random_owned_controlled_state = {
 				add_extra_state_shared_building_slots = 2
@@ -125,6 +85,7 @@ focus_tree = {
 			random_owned_controlled_state = {
 				add_extra_state_shared_building_slots = 2
 			}
+			add_stability = 0.1
 		}
 	}
 	focus = { # 경제 발전 계획
@@ -135,7 +96,7 @@ focus_tree = {
 		x = 0
 		y = 1
 		relative_position_id = RED_land_research
-		cost = 10
+		cost = 5
 
 		available = {
 		}
@@ -143,19 +104,24 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 
 		completion_reward = {
+			swap_ideas = {
+				remove_idea = RED_doomed_economy_idea_1
+				add_idea = RED_doomed_economy_idea_2
+			}
 			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 				type = industrial_complex
-				level = 2
+				level = 1
 				instant_build = yes
 				}
 			}
-			if = {
-				limit = {has_idea = RED_doomed_economy_idea }
-				swap_ideas = {
-					remove_idea = RED_doomed_economy_idea 
-					add_idea = RED_economy_recover_idea
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
 				}
 			}
 		}
@@ -168,7 +134,7 @@ focus_tree = {
 		x = -2
 		y = 1
 		relative_position_id = RED_economy_dev_plan
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 1
@@ -215,7 +181,7 @@ focus_tree = {
 		x = 0
 		y = 1
 		relative_position_id = RED_economy_dev_plan
-		cost = 10
+		cost = 5
 
 		bypass = {
 			OR = {
@@ -238,17 +204,33 @@ focus_tree = {
 
 		prerequisite = { focus = RED_entice_publicworks }
 		x = -2
-		y = 2
+		y = 1
 		relative_position_id = RED_entice_publicworks
-		cost = 10
+		cost = 5
 
 		completion_reward = {
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-				type = industrial_complex
-				level = 1
-				instant_build = yes
+			if = {
+				limit = {
+					has_idea = RED_economy_recover_idea
+				}
+				swap_ideas = {
+					remove_idea = RED_economy_recover_idea
+					add_idea = RED_economy_recover_idea_1
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = RED_economy_recover_idea_1
+				}
+				swap_ideas = {
+					remove_idea = RED_economy_recover_idea_1
+					add_idea = RED_economy_recover_idea_2
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_doomed_economy_idea_2
+					add_idea = RED_economy_recover_idea
 				}
 			}
 			random_owned_controlled_state = {
@@ -276,24 +258,48 @@ focus_tree = {
 
 		prerequisite = { focus = RED_entice_publicworks }
 		x = 2
-		y = 2
+		y = 1
 		relative_position_id = RED_entice_publicworks
-		cost = 10
+		cost = 5
 
 		completion_reward = {
+			if = {
+				limit = {
+					has_idea = RED_economy_recover_idea
+				}
+				swap_ideas = {
+					remove_idea = RED_economy_recover_idea
+					add_idea = RED_economy_recover_idea_1
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = RED_economy_recover_idea_1
+				}
+				swap_ideas = {
+					remove_idea = RED_economy_recover_idea_1
+					add_idea = RED_economy_recover_idea_2
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_doomed_economy_idea_2
+					add_idea = RED_economy_recover_idea
+				}
+			}
 			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 				type = arms_factory
-				level = 2
+				level = 1
 				instant_build = yes
 				}
 			}
 			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 				type = arms_factory
-				level = 2
+				level = 1
 				instant_build = yes
 				}
 			}
@@ -324,6 +330,30 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			if = {
+				limit = {
+					has_idea = RED_economy_recover_idea
+				}
+				swap_ideas = {
+					remove_idea = RED_economy_recover_idea
+					add_idea = RED_economy_recover_idea_1
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = RED_economy_recover_idea_1
+				}
+				swap_ideas = {
+					remove_idea = RED_economy_recover_idea_1
+					add_idea = RED_economy_recover_idea_2
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_doomed_economy_idea_2
+					add_idea = RED_economy_recover_idea
+				}
+			}
 			random_owned_controlled_state = {
 				limit = {
 					has_resources_amount = {
@@ -450,7 +480,7 @@ focus_tree = {
 		x = 0
 		y = 3
 		relative_position_id = RED_upgrade_heavy_industry
-		cost = 10
+		cost = 5
 
 		available = {
 			num_of_controlled_factories > 50
@@ -472,12 +502,12 @@ focus_tree = {
 	focus = { # 미래식 생산라인
 		id = RED_future_production_line
 
-		icon = GFX_focus_generic_tank_production
+		icon = GFX_goal_munitions_factories
 		prerequisite = { focus = RED_upgrade_army_industry }
 		x = 0
 		y = 3
 		relative_position_id = RED_upgrade_army_industry
-		cost = 10
+		cost = 5
 
 		available = {
 			num_of_controlled_factories > 40
@@ -485,7 +515,7 @@ focus_tree = {
 
 		completion_reward = {
 			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 				type = arms_factory
 				level = 1
@@ -493,15 +523,7 @@ focus_tree = {
 				}
 			}
 			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-				type = arms_factory
-				level = 1
-				instant_build = yes
-				}
-			}
-			random_owned_controlled_state = {
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 				type = arms_factory
 				level = 1
@@ -510,17 +532,13 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				bonus = 0.75
-				uses = 2
+				uses = 1
 				category = cat_production
 			}
 			add_tech_bonus = {
 				bonus = 0.75
-				uses = 2
+				uses = 1
 				category = artillery
-			}
-			add_timed_idea = {
-				idea = RED_future_production_line_idea
-				days = 140
 			}
 		}
 	}
@@ -529,10 +547,11 @@ focus_tree = {
 
 		icon = GFX_focus_generic_industry_3
 		prerequisite = { focus = RED_industrial_futurization }
-		x = 0
+		prerequisite = { focus = RED_future_production_line }
+		x = 2
 		y = 1
 		relative_position_id = RED_industrial_futurization
-		cost = 10
+		cost = 5
 
 		cancel_if_invalid = yes
 
@@ -541,27 +560,42 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			if = {
-				limit = {has_idea = RED_economy_recover_idea }
-				swap_ideas = {
-					remove_idea = RED_economy_recover_idea 
-					add_idea = RED_miracle_economy_idea
-				}
+			remove_ideas = RED_economy_recover_idea_2
+		}
+	}
+	focus = { # 현지 지식인 지원
+		id = RED_native_intellect
+
+		icon = GFX_focus_NORDIC_dem_research
+		prerequisite = { focus = RED_economy_dev_plan }
+		x = 3
+		y = 1
+		relative_position_id = RED_economy_dev_plan
+		cost = 5
+
+		available = {
+		}
+		mutually_exclusive = {
+			focus = RED_national_specialists
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				category = electronics
+				bonus = 0.2
 			}
-			else = {
-				add_ideas = RED_miracle_economy_idea
-			}
+			add_stability = -0.05
 		}
 	}
 	focus = { # 지식해방전선에 투자
 		id = RED_national_specialists
 
-		icon = GFX_focus_spa_the_spanish_miracle
+		icon = GFX_focus_NORDIC_com_research
 		prerequisite = { focus = RED_economy_dev_plan }
-		x = 4
+		x = 5
 		y = 1
 		relative_position_id = RED_economy_dev_plan
-		cost = 10
+		cost = 5
 
 		available = {
 		}
@@ -577,18 +611,17 @@ focus_tree = {
 		id = RED_knowledge_liberation
 
 		icon = GFX_focus_research
-		prerequisite = { focus = RED_national_specialists }
-		x = 0
-		y = 2
+		prerequisite = { focus = RED_national_specialists focus = RED_native_intellect}
+		x = -1
+		y = 1
 		relative_position_id = RED_national_specialists
-		cost = 10
+		cost = 5
 
 		available = {
 		}
 
 		completion_reward = {
 			add_research_slot = 1
-			add_ideas = RED_knowledge_liberation_idea
 		}
 	}
 	focus = { #	지식을 위해!
@@ -630,8 +663,7 @@ focus_tree = {
 
 		icon = GFX_focus_wonderweapons
 		prerequisite = { focus = RED_for_knowledge }
-		prerequisite = { focus = RED_future_production_line }
-		x = -2
+		x = -1
 		y = 1
 		cost = 20
 		relative_position_id = RED_for_knowledge
@@ -651,8 +683,7 @@ focus_tree = {
 		id = RED_rocket_romance
 		icon = GFX_focus_rocketry
 		prerequisite = { focus = RED_for_knowledge }
-		prerequisite = { focus = RED_future_production_line }
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = RED_for_knowledge
 		cost = 20
