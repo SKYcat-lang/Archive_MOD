@@ -32,7 +32,7 @@ TRN_country_collapse_decisions = {
 		is_good = no
 		modifier = {
 		}
-		days_mission_timeout = 70
+		days_mission_timeout = 120
 		timeout_effect = {
 			TRN_country_collapse_up = yes
 			activate_mission = TRN_country_collapse
@@ -45,14 +45,15 @@ TRN_country_collapse_decisions = {
 	}
 	TRM_calm_storm = { 
 		icon = GFX_decision_generic_break_treaty
-		allowed = {
-		}
     	available = {
-			always = no
-    	} 
-		ai_will_do = {
-			base = 100
-		}
+			event_target:TRM_collapse_event_target = {
+				OR = {
+					exists = no
+					has_capitulated = yes
+					is_subject_of = ROOT
+				}
+			}
+    	}
 		
 		activation = {
 			always =  no
@@ -64,27 +65,12 @@ TRN_country_collapse_decisions = {
 		is_good = no
 		modifier = {
 		}
-		days_mission_timeout = 10
+		days_mission_timeout = 70
 		timeout_effect = {
-			NSD = {
-				declare_war_on = {
-					target = KPD
-					type = annex_everything
-				}
-				declare_war_on = {
-					target = TRM
-					type = annex_everything
-				}
-			}
-			KPD = {
-				declare_war_on = {
-					target = TRM
-					type = annex_everything
-				}
-			}
+			country_event = TRN_collapse_event.1
 		}
 		complete_effect = {
-			
+			add_ideas = TRM_collapse_3
 		}
 	}
 }
