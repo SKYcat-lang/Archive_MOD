@@ -599,6 +599,9 @@ focus_tree = {
 
 		available = {
 		}
+		mutually_exclusive = {
+			focus = RED_native_intellect
+		}
 
 		completion_reward = {
 			add_timed_idea = { 
@@ -3041,7 +3044,7 @@ focus_tree = {
 
 	
 # 체리노 축출 루트
-	focus = { # 체리노 축출
+	focus = { # 2월 총파업
 		id = RED_dipose_cherino
 		icon = GFX_focus_generic_workers_and_farmers_rise
 
@@ -3051,7 +3054,7 @@ focus_tree = {
 		x = 120
 		y = 0
 
-		cost = 10
+		cost = 5
 
 		bypass = {
 			NOT = {
@@ -3060,66 +3063,102 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_political_power = 50
-			promote_character = RED_minori
-			set_party_name = {
-				ideology = communism
-				long_name = PublicWorksDepartment
-				name = LaborParty
+			swap_ideas = {
+				remove_idea = RED_threat_of_coup
+				add_idea = RED_threat_of_coup_1
 			}
-			if = {
-				limit = { 
-					has_idea = RED_threat_of_coup
-				}
-				remove_ideas = RED_threat_of_coup
-			}
-			hidden_effect = {
-				#뉴스 이벤트
-			}
+			activate_mission = RED_feburary_strike_1
 		}
 	}
-	focus = { # 노동자 세상
+	focus = { # 빈농 지지 확보
 		id =  RED_labor_world
 		icon = GFX_focus_SOV_breadbasket_of_the_union
 		prerequisite = { focus = RED_dipose_cherino }
 		x = 0
 		y = 1
 		relative_position_id = RED_dipose_cherino
-
-		cost = 10
-
-		completion_reward = {
-			add_stability = 0.30
-			add_war_support = -0.30
-			add_ideas = RED_labor_world_idea
-			add_dynamic_modifier = {
-				modifier = RED_labor_party_dynamic_modifier
-			}
-			hidden_effect = {
-				complete_national_focus = RED_entice_publicworks
+		available = {
+			NOT = {
+				has_completed_focus = RED_the_threats_abound
 			}
 		}
+
+		cost = 4
+
+		completion_reward = {
+			add_stability = -0.05
+			add_war_support = -0.05
+			add_political_power = 30
+			custom_effect_tooltip = RED_labor_world_tt
+		}
 	}
-	focus = { #오직 노동자만을 위해
+	focus = { # 혁명군사평의회
+		id =  RED_RMC
+		icon = GFX_focus_SOV_builder_of_the_red_army
+		prerequisite = { focus = RED_dipose_cherino }
+		x = 2
+		y = 1
+		relative_position_id = RED_dipose_cherino
+		available = {
+			NOT = {
+				has_completed_focus = RED_the_threats_abound
+			}
+		}
+
+		cost = 4
+
+		completion_reward = {
+			add_stability = -0.05
+			add_war_support = -0.05
+			add_political_power = 30
+			custom_effect_tooltip = RED_RMC_tt
+		}
+	}
+	focus = { # 현지 좌파와 결합
+		id =  RED_native_leftists
+		icon = GFX_focus_chi_cooperation_with_the_communists
+		prerequisite = { focus = RED_dipose_cherino }
+		x = -2
+		y = 1
+
+		available = {
+			NOT = {
+				has_completed_focus = RED_the_threats_abound
+			}
+		}
+		relative_position_id = RED_dipose_cherino
+
+		cost = 4
+
+		completion_reward = {
+			add_stability = -0.05
+			add_war_support = -0.05
+			add_political_power = 30
+			custom_effect_tooltip = RED_native_leftists_tt
+		}
+	}
+	focus = { #'메이데이'
 		id = RED_the_threats_abound
 		available = {
+			always = no
 		}
 		bypass = {
 		}
-		prerequisite = { focus = RED_labor_world }
+		prerequisite = { focus = RED_labor_world focus = RED_native_leftists focus = RED_RMC}
 		
-		icon = GFX_goal_generic_defence
+		icon = GFX_focus_focus_fra_revolution_utmost
 		x = 0
 		y = 1
 		relative_position_id = RED_labor_world
-		cost = 10
+		cost = 2
 
-		completion_reward = {
-			add_ideas = RED_the_threats_abound_idea
-			set_rule = {
-				can_create_factions = yes
-			}
-			create_faction = "FifthInternational"
+		completion_reward = {       
+            promote_character = RED_minori
+            set_party_name = {
+                ideology = communism
+                long_name = PublicWorksDepartment
+                name = LaborParty
+            }
 		}
 	}
 	focus = { #사무부 축출
@@ -3143,6 +3182,20 @@ focus_tree = {
 				country = GEN
 				relation = guarantee
 			}
+		}
+	}
+	focus = { #작업장으로의 복귀
+		id = RED_back_to_workplace
+		prerequisite = { focus = RED_the_threats_abound }
+
+		icon = GFX_goal_unknown
+		x = -3
+		y = 1
+		relative_position_id = RED_the_threats_abound
+		cost = 2
+		
+		completion_reward = {
+			remove_ideas = RED_threat_of_coup_4
 		}
 	}
 	focus = { #용역부 권한 강화
