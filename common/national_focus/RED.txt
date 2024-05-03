@@ -641,18 +641,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			if = {
-				limit = {
-					has_idea = RED_knowledge_liberation_idea
-				}
-				swap_ideas = {
-					remove_idea = RED_knowledge_liberation_idea
-					add_idea = RED_for_knowledge_idea
-				}
-			}
-			else = {
-				add_ideas = RED_for_knowledge_idea
-			}
+			add_ideas = RED_for_knowledge_idea
 			if = {
 				limit = { 
 					has_idea = RED_invest_frontline_idea
@@ -3061,7 +3050,9 @@ focus_tree = {
 				has_character = RED_cherino
 			}
 		}
-
+		available = {
+			date < 1936.5.1
+		}
 		completion_reward = {
 			swap_ideas = {
 				remove_idea = RED_threat_of_coup
@@ -3108,9 +3099,8 @@ focus_tree = {
 		cost = 4
 
 		completion_reward = {
-			add_stability = -0.05
-			add_war_support = -0.05
-			add_political_power = 30
+			add_command_power = 10
+			army_experience = 10
 			custom_effect_tooltip = RED_RMC_tt
 		}
 	}
@@ -3131,9 +3121,10 @@ focus_tree = {
 		cost = 4
 
 		completion_reward = {
-			add_stability = -0.05
-			add_war_support = -0.05
-			add_political_power = 30
+			add_popularity = {
+				ideology = communism
+				popularity = -0.05
+			}
 			custom_effect_tooltip = RED_native_leftists_tt
 		}
 	}
@@ -3161,154 +3152,189 @@ focus_tree = {
             }
 		}
 	}
-	focus = { #사무부 축출
+	focus = { #사무국 축출
 		id = RED_deal_with_ger
-		available = {
-			NOT = { has_war_with = GEN }
-		}
-		bypass = {
-			NOT = { country_exists = GEN }
-		}
 		prerequisite = { focus = RED_the_threats_abound }
 
-		icon = GFX_goal_unknown
+		icon = GFX_focus_generic_support_the_left_right
 		x = -1
 		y = 1
 		relative_position_id = RED_the_threats_abound
-		cost = 10
+		cost = 3
 		
 		completion_reward = {
-			diplomatic_relation = {
-				country = GEN
-				relation = guarantee
-			}
+			unlock_decision_tooltip = RED_ousting_office
 		}
 	}
 	focus = { #작업장으로의 복귀
 		id = RED_back_to_workplace
 		prerequisite = { focus = RED_the_threats_abound }
 
-		icon = GFX_goal_unknown
+		icon = GFX_goal_generic_construct_civilian
 		x = -3
 		y = 1
 		relative_position_id = RED_the_threats_abound
-		cost = 2
+		cost = 3
 		
 		completion_reward = {
-			remove_ideas = RED_threat_of_coup_4
-		}
-	}
-	focus = { #용역부 권한 강화
-		id = RED_communist_diplo
-		icon = GFX_goal_unknown
-		x = -1
-		y = 2
-		relative_position_id = RED_deal_with_ger
-		prerequisite = { focus = RED_freedom_of_thought }
-
-		cost = 10
-
-		available = {
-			
-		}
-
-		completion_reward = {
-			every_other_country = {
-				limit = {
-					is_major = yes
-					OR = {
-						has_government = fascism
-						has_government = democratic
-						has_government = neutrality
-					}
-				}
-				add_opinion_modifier = { target = RED modifier = RED_communist_diplo_modifier }
+			swap_ideas = {
+				remove_idea = RED_threat_of_coup_4
+				add_idea = RED_threat_of_coup_5
 			}
 		}
 	}
-	focus = { #체리노 동상 파괴
-		id = RED_geh_versus_trm
-		icon = GFX_goal_unknown
-		x = 2
-		y = 0
-		relative_position_id = RED_communist_diplo
-		prerequisite = { focus = RED_freedom_of_thought }
-		cost = 10
+	focus = { #혁명을 수호하라!
+		id = RED_defense_revolution
+		prerequisite = { focus = RED_the_threats_abound }
 
-		available = {
-		}
-		bypass = {
-			OR = {
-				has_war_with = GEH
-				has_war_with = TRM
-			}
-		}
+		icon = GFX_focus_SWE_refuge_for_revolutionaries
+		x = 3
+		y = 1
+		relative_position_id = RED_the_threats_abound
+		cost = 3
 		
 		completion_reward = {
-			add_war_support = 0.15
-		}
-	}
-	focus = { #체리노 처리
-		id = RED_attack_geh
-		prerequisite = { focus = RED_freedom_of_thought }
-		icon = GFX_goal_unknown
-		x = 2
-		y = 0
-		relative_position_id = RED_geh_versus_trm
-		cost = 10
-
-		available = {
-			GEH = {
-				has_government = fascism
-			}
-		}
-		bypass = {
-			OR = {
-				NOT = { country_exists = GEH }
-				GEH = { NOT = { has_government =  fascism } }
-			}
-		}
-		
-		completion_reward = {
+			add_command_power = 10
+			add_ideas = RED_the_threats_abound_idea
 			if = {
 				limit = {
-					country_exists = GEH
+					has_completed_focus = RED_RMC
 				}
-				create_wargoal = {
-					target = GEH
-					type = annex_everything
+				country_event = {
+					id = RED_minori_event.7
+					days = 3
 				}
 			}
 		}
 	}
-	focus = { #해방이다!
+	focus = { #전투노조
+		id = RED_communist_diplo
+		icon = GFX_focus_FIN_finnish_federation_of_trade_unions
+		x = -1
+		y = 1
+		relative_position_id = RED_deal_with_ger
+		prerequisite = { focus = RED_back_to_workplace }
+
+		cost = 3
+
+		completion_reward = {
+			if = {
+				limit = {NOT={
+					has_template = "militia"}
+				}
+				division_template = {
+					priority = 0
+					name = "militia"
+					regiments = {
+						irregular_infantry = {
+							x = 0
+							y = 0
+						}
+						irregular_infantry = {
+							x = 0
+							y = 1
+						}
+						irregular_infantry = {
+							x = 0
+							y = 2
+						}
+						irregular_infantry = {
+							x = 1
+							y = 0
+						}
+						irregular_infantry = {
+							x = 1
+							y = 1
+						}
+						irregular_infantry = {
+							x = 1
+							y = 2
+						}
+					}
+				}
+			}
+			every_owned_state = {
+				limit = {
+					is_demilitarized_zone = no
+				}
+				create_unit = {
+					division = "name = \"Public Works Department\" division_template = \"militia\" start_experience_factor = 0.05 start_equipment_factor = 0.5"
+					owner = RED
+				}
+				create_unit = {
+					division = "name = \"Armed Workers\" division_template = \"militia\" start_experience_factor = 0.05 start_equipment_factor = 0.5"
+					owner = RED
+				}
+			}
+		}
+	}
+	focus = { #덴마크 군정청 기습
+		id = RED_attack_geh
+		prerequisite = { focus = RED_defense_revolution }
+		icon = GFX_focus_generic_invade_denmark
+		x = -1
+		y = 1
+		relative_position_id = RED_defense_revolution
+		cost = 3
+
+		available = {
+			139 = {
+				is_demilitarized_zone = no
+			}
+			has_war = no
+		}
+		bypass = {
+			RE1 = {
+				exists = no
+			}
+		}
+		
+		completion_reward = {
+			start_border_war = {
+				change_state_after_war = yes
+				attacker = {
+					state = 139
+					on_win = RED_minori_event.9
+					on_lose = RED_minori_event.9
+					num_provinces = 6
+				}
+				defender = {
+					state = 138
+					on_win = RED_minori_event.9
+					on_lose = RED_minori_event.9
+					num_provinces = 7
+				}
+			}
+		}
+	}
+	focus = { #반혁명 저지
 		id = RED_anti_fascism_policy
-		icon = GFX_goal_unknown
+		icon = GFX_focus_generic_workers
 		prerequisite = { focus = RED_communist_diplo }
-		prerequisite = { focus = RED_geh_versus_trm }
+		prerequisite = { focus = RED_freedom_of_thought }
 		prerequisite = { focus = RED_attack_geh }
+		select_effect = {
+			country_event = {
+				id = RED_minori_event.11
+				days = 3
+			}
+		}
+		cancelable = no
 		x = -2
 		y = 1
 		relative_position_id = RED_attack_geh
-		cost = 10
-
-		cancel_if_invalid = yes
-
+		cost = 2
 		available = {
-			has_war = no
-		}
-
-		completion_reward = {
-			every_other_country = {
-				limit = {
-					has_government = fascism
-				}
-				add_opinion_modifier = { target = RED modifier = SOV_anti_fascist_policies_bad } 
+			RE2 = {
+				exists = no
 			}
+		}
+		completion_reward = {
+			add_political_power = 50
 		}
 	}
 
-	focus = { #혁명 지속화
+	focus = { #혁명의 불꽃
 		id = RED_maintaining_the_fire
 		available = {
 		}
@@ -3316,44 +3342,45 @@ focus_tree = {
 		}
 		prerequisite = { focus = RED_the_threats_abound }
 		
-		icon = GFX_goal_unknown
+		icon = GFX_focus_CHL_union_of_hispanic_republics
 		x = 1
 		y = 2
 		relative_position_id = RED_labor_world
-		cost = 10
+		cost = 3
 
 		available_if_capitulated = yes
 		search_filters = {FOCUS_FILTER_WAR_SUPPORT}
 		completion_reward = {
-			add_ideas = RED_voluteer_corps_idea
+			swap_ideas = {
+				remove_idea = RED_redwinter_idea
+				add_idea = RED_fire_of_revolution
+			}
 			add_war_support = 0.10
 		}
 	}
-	focus = { #노동자를 위한 적기
+	focus = { #자율적인 지역 평의회
 		id = RED_freedom_of_thought
-		available = {
-			num_of_factories > 50
-		}
-		bypass = {
-		}
 		prerequisite = { focus = RED_deal_with_ger }
 		prerequisite = { focus = RED_maintaining_the_fire }
 		
-		icon = GFX_focus_research
+		icon = GFX_focus_generic_improve_the_administration
 		x = -1
 		y = 1
 		relative_position_id = RED_maintaining_the_fire
-		cost = 10
-
+		cost = 3
 		available_if_capitulated = yes
 		search_filters = {FOCUS_FILTER_RESEARCH}
 		completion_reward = {
-			add_research_slot = 1
+			add_command_power = 10
+			swap_ideas = {
+				remove_idea = RED_fire_of_revolution
+				add_idea = RED_fire_of_revolution_1
+			}
 		}
 	}
-	focus = { #새 평의회 구성 
+	focus = { #사회주의 신헌법
 		id = RED_new_council
-		icon = GFX_goal_unknown
+		icon = GFX_focus_ARG_legitimize_the_PCA
 		prerequisite = { focus = RED_anti_fascism_policy }
 		x = 0
 		y = 1
