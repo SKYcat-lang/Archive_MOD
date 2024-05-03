@@ -347,6 +347,68 @@ country_event = { #2번 걸림 ㅎ
 		set_country_flag = TRM_tail_chasing_flag
 	}
 }
+country_event = { #경찰여단
+	id = ARI_event.69
+	title = ARI_event.69.t
+	desc = ARI_event.69.d
+	picture = GFX_report_event_german_troops_paris
+
+	fire_only_once = no
+	
+	trigger = {
+		original_tag = ARI
+		ARI = {
+			has_idea = ARI_german_leadership
+		}
+		any_country = {
+			OR = {
+				original_tag = ARI
+				is_in_faction_with = ARI
+				is_subject_of = ARI
+				has_country_flag = ARI_puppet_state
+			}
+			any_controlled_state = {
+				is_fully_controlled_by = PREV
+				NOT = { has_state_flag = ARI_exercise_of_executive_orders_state_flag }
+				is_core_of = GER
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 2
+	}
+
+	option = {
+		name = ARI_event.69.a
+		every_country = {
+			limit = {
+				OR = {
+					original_tag = ARI
+					is_in_faction_with = ARI
+					is_subject_of = ARI
+					has_country_flag = ARI_puppet_state
+				}
+			}
+			every_state = {
+				limit = {
+					is_fully_controlled_by = PREV
+					NOT = { has_state_flag = ARI_exercise_of_executive_orders_state_flag }
+					is_core_of = GER
+				}
+				set_state_flag = ARI_exercise_of_executive_orders_state_flag
+				create_unit = {
+					division = "division_template = \"Ordnungspolizei\" start_experience_factor = 0.3 start_equipment_factor = 0.60"
+					owner = ARI
+				}
+				create_unit = {
+					division = "division_template = \"Ordnungspolizei\" start_experience_factor = 0.2 start_equipment_factor = 0.40"
+					owner = ARI
+				}
+			}
+		}
+	}
+}
 # Event spawning pro-Kaiser deserter unit
 country_event = {
 	id = ARI_event.70
