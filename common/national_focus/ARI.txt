@@ -103,45 +103,63 @@ focus_tree = {
 		}
 		available = {
 			is_subject = no
-			controls_state = 64
-			TRM = {
-				OR = {
-					exists = no
-					is_subject_of = ARI
-					has_capitulated = yes
-				}
-			}
-		}
-		cost = 10
-		x = 3
-		y = 4
-		relative_position_id = ARI_use_hanran
-
-		available = {
-			NOT = { has_war_with = TRM }
-		}
-
-		completion_reward = {
-			add_political_power = 120
-			TRM = {
-				every_core_state = {
-					add_core_of = ROOT
-				}
-			}
-			every_country = {
-				limit = {
-					original_tag = TRM
+			OR = {
+				controls_state = 64
+				any_country = {
+					controls_state = 64
 					OR = {
 						is_subject_of = ARI
 						has_country_flag = ARI_puppet_state
 					}
 				}
-				ARI = {
-					annex_country = {
-						target = PREV
-						transfer_troops = yes
+			}
+			controls_state = 188
+			controls_state = 763
+			controls_state = 5
+			controls_state = 807
+		}
+		cost = 5
+		x = 3
+		y = 4
+		relative_position_id = ARI_use_hanran
+
+		completion_reward = {
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = BA_ARI_bitter_revanchism_2
+					add_idea = BA_ARI_bitter_revanchism_3
+				}
+			}
+			hidden_effect = {
+				if = {  
+					limit = { has_idea = BA_ARI_bitter_revanchism_2 }
+					swap_ideas = {
+						remove_idea = BA_ARI_bitter_revanchism_2
+						add_idea = BA_ARI_bitter_revanchism_3
 					}
 				}
+				else_if = {  
+					limit = { has_idea = BA_ARI_bitter_revanchism }
+					swap_ideas = {
+						remove_idea = BA_ARI_bitter_revanchism
+						add_idea = BA_ARI_bitter_revanchism_3
+					}
+				}
+				else = {
+					add_idea = BA_ARI_bitter_revanchism_3
+				}
+			}
+			add_political_power = 120
+			add_state_core = 188
+			add_state_core = 763
+			add_state_core = 5
+			add_state_core = 807
+			every_controlled_state = {
+				limit = {
+					is_core_of = TRM
+				}
+				add_resistance = -10
+				add_compliance = 10
 			}
 		}
 	}
@@ -717,7 +735,6 @@ focus_tree = {
 
 		completion_reward = {
 			custom_effect_tooltip = ARI_anti_trinity_arius_german_united_front_tt
-			add_to_variable = { ARI_arian_army_attack_factor = 0.05 }
 			add_to_variable = { ARI_arian_war_support_factor = 0.10 }
 			add_to_variable = { ARI_nazi_party_war_support_factor = 0.10 }
 			add_political_power = 20
@@ -1131,6 +1148,10 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_reichssicherheitshauptamt_tt
+			add_to_variable = { ARI_nazi_party_war_support_factor = 0.10 }
+			add_to_variable = { ARI_nazi_party_army_attack_factor = 0.05 }
+			add_to_variable = { ARI_nazi_party_army_defence_factor = 0.05 }
 		}
 	}
 
