@@ -3436,8 +3436,17 @@ country_event = {
 	title = TRN_collapse_event.1.t
 	desc = TRN_collapse_event.1.desc
 	picture = GFX_event_redemption
-	fire_only_once = yes 
+
+	fire_only_once = no
 	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_global_flag = TRN_collapse_event_proceeding_flag }
+	}
+
+	immediate = {
+		set_global_flag = TRN_collapse_event_proceeding_flag
+	}
 	
 	option = { #
 		name = TRN_collapse_event.1.a
@@ -3479,9 +3488,13 @@ country_event = {
 		}
 		hidden_effect = {
 			random_list = {
-				100 = { #유격대
+				100 = { #유격대 - 유격대는 북부 민주주의와 남부 공산주의 2번 봉기합니다.
 					random_list = {
 						10 = {
+							modifier = {
+								NOT = { controls_state = 61 }
+								factor = 0
+							}
 							modifier = {
 								has_country_flag = TRN_collapse_event_democratic_party
 								factor = 0
@@ -3493,6 +3506,10 @@ country_event = {
 						}
 						10 = {
 							modifier = {
+								NOT = { controls_state = 65 }
+								factor = 0
+							}
+							modifier = {
 								has_country_flag = TRN_collapse_event_communism_party
 								factor = 0
 							}
@@ -3503,9 +3520,17 @@ country_event = {
 					}
 					set_country_flag = TRN_collapse_event_communism_party
 				}
-				100 = { #나치당
+				100 = { #나치당 - 평범한 봉기 프로토콜 들
+					modifier = {
+						NOT = { controls_state = 66 }
+						factor = 0
+					}
 					modifier = {
 						has_country_flag = TRN_collapse_event_fascism_party
+						factor = 0
+					}
+					modifier = { #나치당은 미소노 미카가 집권한 이후 봉기하지 않습니다
+						has_completed_focus = TRM_newfocus_27
 						factor = 0
 					}
 					if = { limit = { has_war = no }
@@ -3513,8 +3538,63 @@ country_event = {
 					}
 					set_country_flag = TRN_collapse_event_fascism_party
 				}
-				1 = {
+				100 = { #카스팔루그 / 파시스트 집권 이후에 발생
+					modifier = {
+						NOT = { controls_state = 63 }
+						factor = 0
+					}
+					modifier = {
+						has_country_flag = TRN_collapse_event_cathpalug
+						factor = 0
+					}
+					modifier = { #카스팔루그는 미소노 미카 집권 이전에 봉기하지 않습니다.
+						NOT = { has_completed_focus = TRM_newfocus_27 }
+						factor = 0
+					}
+					if = { limit = { has_war = no }
+						63 = { set_demilitarized_zone = yes }
+					}
+					set_country_flag = TRN_collapse_event_cathpalug
+				}
+				100 = { #트리니티 자경단 / 파시스트 집권 이후에 발생
+					modifier = {
+						NOT = { controls_state = 60 }
+						factor = 0
+					}
+					modifier = {
+						has_country_flag = TRN_collapse_event_vigilante
+						factor = 0
+					}
+					modifier = { #트리니티 자경단은 미소노 미카 집권 이전에 봉기하지 않습니다.
+						NOT = { has_completed_focus = TRM_newfocus_27 }
+						factor = 0
+					}
+					if = { limit = { has_war = no }
+						60 = { set_demilitarized_zone = yes }
+					}
+					set_country_flag = TRN_collapse_event_vigilante
+				}
+				80 = { #지금 페로로들을 부르마
+					modifier = {
+						NOT = { controls_state = 64 }
+						factor = 0
+					}
+					modifier = {
+						has_country_flag = TRN_collapse_event_hifumi
+						factor = 0
+					}
+					modifier = { #아자타니 히후미는 미소노 미카 집권 이전에 인류를 배신하지 않습니다.
+						NOT = { has_completed_focus = TRM_newfocus_27 }
+						factor = 0
+					}
+					if = { limit = { has_war = no }
+						64 = { set_demilitarized_zone = yes }
+					}
+					set_country_flag = TRN_collapse_event_hifumi
+				}
+				1 = { #만약 아무 것도 없다면...
 					add_political_power = -300
+					set_country_flag = TRN_collapse_event_none_flag
 				}
 			}
 		}
@@ -3533,21 +3613,10 @@ country_event = {
 		hidden_effect = {
 			if = { limit = { has_country_flag = TRN_collapse_event_communism_party }
 				if = { limit = { has_country_flag = TRN_collapse_event_democratic_party }
-					clr_country_flag = TRN_collapse_event_democratic_party
 					KPD_country_creation_effect = yes
 					KPD = {
+						add_ideas = BA_GER_defense
 						add_ideas = KPD_TRM_collapse
-						if = {
-							limit = {
-								NOT = {
-									any_country = { has_idea = BA_GER_defense }
-								}
-							}
-							add_ideas = BA_GER_defense
-						}
-						else = {
-							add_ideas = BA_GER_defense_week
-						}
 						transfer_state = 61
 						61 = {
 							set_demilitarized_zone = no
@@ -3594,17 +3663,7 @@ country_event = {
 				else = {
 					KPD_country_creation_effect = yes
 					KPD = {
-						if = {
-							limit = {
-								NOT = {
-									any_country = { has_idea = BA_GER_defense }
-								}
-							}
-							add_ideas = BA_GER_defense
-						}
-						else = {
-							add_ideas = BA_GER_defense_week
-						}
+						add_ideas = BA_GER_defense
 						add_ideas = KPD_TRM_collapse
 						transfer_state = 65
 						65 = {
@@ -3653,17 +3712,7 @@ country_event = {
 			if = { limit = { has_country_flag = TRN_collapse_event_fascism_party }
 				NSD_country_creation_effect = yes
 				NSD = {
-					if = {
-						limit = {
-							NOT = {
-								any_country = { has_idea = BA_GER_defense }
-							}
-						}
-						add_ideas = BA_GER_defense
-					}
-					else = {
-						add_ideas = BA_GER_defense_week
-					}
+					add_ideas = BA_GER_defense
 					add_ideas = KPD_TRM_collapse
 					transfer_state = 66
 					66 = {
@@ -3704,6 +3753,157 @@ country_event = {
 					save_global_event_target_as = TRM_collapse_event_target
 				}
 			}
+			if = { limit = { has_country_flag = TRN_collapse_event_cathpalug }
+				CathPalug_country_creation_effect = yes
+				event_target:TRM_collapse_country_creation = {
+					add_ideas = BA_GER_defense
+					add_ideas = TRM_outlaw_country
+					transfer_state = 63
+					63 = {
+						set_demilitarized_zone = no
+						create_unit = {
+							division = "name = \"Thugs\" division_template = \"Halo Infantry Division\" start_experience_factor = 1"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Thugs\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.5 start_equipment_factor = 0.3"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Thugs\" division_template = \"Halo Infantry Division\" start_experience_factor = 1 start_equipment_factor = 0.4"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Thugs\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.8 start_equipment_factor = 0.7"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Outlaw\" division_template = \"Outlaw\" start_experience_factor = 0.8 start_equipment_factor = 0.3"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Outlaw\" division_template = \"Outlaw\" start_experience_factor = 0.6 start_equipment_factor = 0.8"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Outlaw\" division_template = \"Outlaw\" start_experience_factor = 0.6 start_equipment_factor = 0.5"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Outlaw\" division_template = \"Outlaw\" start_experience_factor = 0.6 start_equipment_factor = 0.2"
+							owner = PREV
+						}
+					}
+					declare_war_on = {
+						target = TRM
+						type = annex_everything
+					}
+					save_global_event_target_as = TRM_collapse_event_target
+				}
+			}
+			if = { limit = { has_country_flag = TRN_collapse_event_vigilante }
+				Vigilante_country_creation_effect = yes
+				event_target:TRM_collapse_country_creation = {
+					add_ideas = BA_GER_defense
+					add_ideas = TRM_outlaw_country
+					transfer_state = 60
+					60 = {
+						set_demilitarized_zone = no
+						create_unit = {
+							division = "name = \"Vigilante Corps\" division_template = \"Halo Infantry Division\" start_experience_factor = 1 start_equipment_factor = 0.8"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Vigilante Corps\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.5 start_equipment_factor = 0.3"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Vigilante Corps\" division_template = \"Halo Infantry Division\" start_experience_factor = 1 start_equipment_factor = 0.4"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Vigilante Corps\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.8 start_equipment_factor = 0.4"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Citizen Brigade\" division_template = \"Citizen Brigade\" start_experience_factor = 0.8 start_equipment_factor = 0.3"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Citizen Brigade\" division_template = \"Citizen Brigade\" start_experience_factor = 0.6 start_equipment_factor = 0.8"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Citizen Brigade\" division_template = \"Citizen Brigade\" start_experience_factor = 0.6 start_equipment_factor = 0.5"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Citizen Brigade\" division_template = \"Citizen Brigade\" start_experience_factor = 0.6 start_equipment_factor = 0.2"
+							owner = PREV
+						}
+					}
+					declare_war_on = {
+						target = TRM
+						type = annex_everything
+					}
+					save_global_event_target_as = TRM_collapse_event_target
+				}
+			}
+			if = { limit = { has_country_flag = TRN_collapse_event_hifumi }
+				Hifumi_country_creation_effect = yes
+				event_target:TRM_collapse_country_creation = {
+					add_ideas = BA_GER_defense
+					add_ideas = TRM_outlaw_country
+					transfer_state = 64
+					64 = {
+						set_demilitarized_zone = no
+						create_unit = {
+							division = "name = \"Cultist\" division_template = \"Halo Infantry Division\" start_experience_factor = 1 start_equipment_factor = 0.8"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Cultist\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.5 start_equipment_factor = 0.3"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Cultist\" division_template = \"Halo Infantry Division\" start_experience_factor = 1 start_equipment_factor = 0.4"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Cultist\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.8 start_equipment_factor = 0.4"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Cultist\" division_template = \"Halo Infantry Division\" start_experience_factor = 0.8 start_equipment_factor = 0.6"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Cultist\" division_template = \"Cultist\" start_experience_factor = 0.8 start_equipment_factor = 0.3"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Cultist\" division_template = \"Cultist\" start_experience_factor = 0.6 start_equipment_factor = 0.8"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Cultist\" division_template = \"Cultist\" start_experience_factor = 0.6 start_equipment_factor = 0.5"
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"Cultist\" division_template = \"Cultist\" start_experience_factor = 0.6 start_equipment_factor = 0.2"
+							owner = PREV
+						}
+					}
+					declare_war_on = {
+						target = TRM
+						type = annex_everything
+					}
+					save_global_event_target_as = TRM_collapse_event_target
+				}
+			}
+			if = { limit = { has_country_flag = TRN_collapse_event_none_flag }
+				#무언가 작업을 해야 함
+			}
 		}
 	}
 	
@@ -3717,15 +3917,8 @@ country_event = {
 		ai_chance = {
 			factor = 0
 		}
-		if = { limit = { has_country_flag = TRN_collapse_event_communism_party }
-			KPD = {
-				change_tag_from = ROOT
-			}
-		}
-		if = { limit = { has_country_flag = TRN_collapse_event_fascism_party }
-			NSD = {
-				change_tag_from = ROOT
-			}
+		event_target:TRM_collapse_event_target  = {
+			change_tag_from = ROOT
 		}
 	}
 }
