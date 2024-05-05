@@ -710,7 +710,8 @@ focus_tree = {
 		icon = GFX_goal_support_fascism
 		cost = 5
 		mutually_exclusive = { focus = KAI_corp_convention }
-		available = { has_completed_focus = KAI_FOCUS_8 has_country_flag = GAEBALJUNG }
+		available = { has_completed_focus = KAI_FOCUS_8 }
+		available = { has_country_flag = GAEBALJUNG }
 		x = 26
 		y = 0
 		relative_position_id = KAI_corp_convention
@@ -750,6 +751,9 @@ focus_tree = {
 		prerequisite = {
 			focus = KAI_corp_fascism
 		}
+        bypass = {
+            has_idea = KAI_unjust_contract
+        }
 		x = 1
 		y = 1
 		relative_position_id = KAI_corp_fascism
@@ -770,6 +774,11 @@ focus_tree = {
 		cost = 10
 		x = -1
 		y = 1
+        bypass = {
+            has_dynamic_modifier = {
+                modifier = KAI_Wechsel
+            }
+        }
 		relative_position_id = KAI_bank_unity
 		completion_reward = {
 			add_popularity = {
@@ -784,7 +793,7 @@ focus_tree = {
 		icon = GFX_focus_generic_north_atlantic_fleet
 		prerequisite = { focus = KAI_buy_stocks }
 		prerequisite = { focus = KAI_advance_president }
-		cost = 10
+		cost = 5
 		x = -2
 		y = 1
 		relative_position_id = KAI_buy_stocks
@@ -810,32 +819,33 @@ focus_tree = {
 	}
 	focus = { # 아프리카 식민지 확보
 		id = KAI_apeurikasingminjihwakbo
-		icon = GFX_focus_generic_africa_liberation
+		icon = GFX_focus_generic_africa_naval
 		prerequisite = { focus = KAI_Daeseoyanghamdae }
 		select_effect = {
-			country_event = { id = KAI_event.103 days = 5 }
 		}
 		cost = 10
-		x = -3
+		x = -4
 		y = 1
 		relative_position_id = KAI_Daeseoyanghamdae
 		completion_reward = {
-			every_country = {
-				limit = {
-					capital_scope = {
-						is_on_continent = africa
-					}
-					is_major = no
-					is_subject = no
-					NOT = { 
-						tag = FRA
-					}
-				}
-				create_wargoal = {
-					target = PREV
-					type = annex_everything
-				}
-			}
+			country_event = { id = KAI_event.103 }
+		}
+	}
+	focus = { # 스페인령 아프리카 강탈
+		id = KAI_Spanish_africa_robbery
+		icon = GFX_focus_ARG_demand_spanish_compensation
+		prerequisite = { focus = KAI_apeurikasingminjihwakbo }
+		cost = 5
+        available = {
+            SPR = {
+                has_civil_war = yes
+            }
+            NOT = { has_global_flag = scw_over }
+        }
+		x = 1
+		y = 1
+		relative_position_id = KAI_apeurikasingminjihwakbo
+		completion_reward = {
 		}
 	}
 	focus = { # 아프리카 정복전쟁
@@ -848,7 +858,7 @@ focus_tree = {
 		relative_position_id = KAI_apeurikasingminjihwakbo
 		completion_reward = {
 			add_ideas = KAI_Africa_is_mine
-			custom_effect_tooltip = KAI_apeurikajeongbokjeonjaeng_tt
+			#custom_effect_tooltip = KAI_apeurikajeongbokjeonjaeng_tt
 			every_country = { 
 				limit = {
 					capital_scope = { is_on_continent = africa }
@@ -863,10 +873,11 @@ focus_tree = {
 						TAG = POR
 					}
 				}
-				create_wargoal = { 
-					target = PREV
-					type = annex_everything
-				}
+                save_event_target_as = Africa_Country
+			}
+            create_wargoal = { 
+				target = event_target:Africa_Country
+    			type = annex_everything
 			}
 		}
 	}
@@ -878,22 +889,35 @@ focus_tree = {
 			focus = KAI_South_America_dispute
 		}
 		cost = 10
-		x = 2
-		y = 1
+		x = 0
+		y = 2
 		relative_position_id = KAI_apeurikajeongbokjeonjaeng
 		completion_reward = {
 			add_ideas = KAI_Resistance_Crushing_idea
 		}
 	}
+	focus = { # 신대륙의 가능성
+		id = KAI_Possibilities_in_the_New_World
+		icon = GFX_focus_BRA_north_and_south_america
+		prerequisite = {
+			focus = KAI_Daeseoyanghamdae
+		}
+		cost = 10
+		x = 0
+		y = 1
+		relative_position_id = KAI_Daeseoyanghamdae
+		completion_reward = {
+            
+		}
+	}
 	focus = { # 
 		id = KAI_South_America_Mooyuk
-		icon = GFX_focus_por_recover_brazil
-		prerequisite = { focus = KAI_Daeseoyanghamdae }
-		available = { has_country_flag = GAEBALJUNG }
+		icon = GFX_focus_generic_south_america
+		prerequisite = { focus = KAI_Possibilities_in_the_New_World }
 		cost = 10
 		x = -1
 		y = 1
-		relative_position_id = KAI_Daeseoyanghamdae
+		relative_position_id = KAI_Possibilities_in_the_New_World
 		completion_reward = {
 			VEN = {
 				country_event = KAI_event.100
@@ -926,6 +950,60 @@ focus_tree = {
 		unlock_decision_tooltip = KAI_SA_VEN_COL_war 
 		unlock_decision_tooltip = KAI_SA_COL_ECU_war
 		unlock_decision_tooltip = KAI_SA_ARG_BRA_war
+		}
+	}
+	focus = { # 
+		id = KAI_North_America_trade
+		icon = GFX_focus_por_recover_brazil
+		prerequisite = { focus = KAI_Possibilities_in_the_New_World }
+		available = {  }
+		cost = 10
+		x = 2
+		y = 1
+		relative_position_id = KAI_Possibilities_in_the_New_World
+		completion_reward = {
+		}
+	}
+	focus = { # 미국 침공
+		id = KAI_invasion_usa
+		icon = GFX_focus_generic_attack_usa
+		prerequisite = { focus = KAI_North_America_trade }
+		available = {  }
+		cost = 10
+        mutually_exclusive = {
+            focus = KAI_operatives_deployed
+        }
+		x = 1
+		y = 1
+		relative_position_id = KAI_North_America_trade
+		completion_reward = {
+		}
+	}
+	focus = { # 미국 하원 로비
+		id = KAI_operatives_deployed
+		icon = GFX_focus_generic_american_investments
+		prerequisite = { focus = KAI_North_America_trade }
+		available = {  }
+		cost = 10
+        mutually_exclusive = {
+            focus = KAI_invasion_usa
+        }
+		x = -1
+		y = 1
+		relative_position_id = KAI_North_America_trade
+		completion_reward = {
+		}
+	}
+	focus = { # 투표 조작하기 ㅋㅋ
+		id = KAI_vote_rigging
+		icon = GFX_focus_ARG_keep_it_in_the_party
+		prerequisite = { focus = KAI_operatives_deployed }
+		available = {  }
+		cost = 10
+		x = 0
+		y = 1
+		relative_position_id = KAI_operatives_deployed
+		completion_reward = {
 		}
 	}
 	focus = { # 
@@ -986,6 +1064,9 @@ focus_tree = {
 		prerequisite = { focus = KAI_bank_unity }
 		prerequisite = { focus = KAI_fire_opposition }
 		cost = 10
+        bypass = {
+            NOT = { has_idea = BA_isolation }
+        }
 		x = 3
 		y = 1
 		relative_position_id = KAI_bank_unity
@@ -995,6 +1076,10 @@ focus_tree = {
 			}
 			add_stability = 0.15
 			add_war_support = 0.30
+            swap_ideas = {
+                add_idea = export_focus
+                remove_idea = BA_isolation
+            }
 		}
 	}
 	focus = { # 
@@ -1004,7 +1089,7 @@ focus_tree = {
 			focus = KAI_advance_president
 		}
 		cost = 10
-		x = 2
+		x = 1
 		y = 1
 		relative_position_id = KAI_advance_president
 		completion_reward = {
@@ -1023,30 +1108,57 @@ focus_tree = {
 			
 		}
 	}
-	focus = { # 
-		id = KAI_Marketing
-		icon = GFX_goal_generic_trade
-		prerequisite = {
-			focus = KAI_advance_president
-		}
-		cost = 10
-		x = 0
-		y = 1
-		relative_position_id = KAI_advance_president
-		completion_reward = {
-			
-		}
-	}
-	focus = { # 
+	focus = { #
 		id = KAI_africa_Arms_factory
 		icon = GFX_focus_generic_africa_factory
 		prerequisite = { focus = KAI_apeurikasingminjihwakbo }
+        available = {
+            owns_state = 702
+        }
 		cost = 10
 		x = -1
 		y = 1
 		relative_position_id = KAI_apeurikasingminjihwakbo
 		completion_reward = {
-			
+            702 = {
+				if = {
+					limit = {
+						free_building_slots = {
+							building = dockyard
+							size > 0
+							include_locked = yes
+						}
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = dockyard
+						level = 1
+						instant_build = yes
+					}
+				}
+				add_building_construction = {
+					type = anti_air_building
+					level = 2
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 2
+					instant_build = yes
+					province = 3151
+				}
+				if = {
+					limit = {
+						ROOT = { has_tech = radio_detection }
+						radar_station < 1
+					}
+					add_building_construction = {
+						type = radar_station
+						level = 1
+						instant_build = yes
+					}
+				}
+            }
 		}
 	}
 

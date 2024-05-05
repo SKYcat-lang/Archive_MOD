@@ -258,10 +258,10 @@ country_event = { # 우리 함대로는 저기로 못가는데? 아 ㅋㅋ;
 
 	option = {
 		name = KAI_event.103.a
-		hidden_effect = { country_event = { id = KAI_event.104 days = 7 } }
+		hidden_effect = { country_event = { id = KAI_event.104 } }
 	}
 }
-country_event = { # 그래서 우리가 포르투갈 식민지 뺏어서 해결했다 개추좀 ㅋㅋ
+country_event = { # 포르투갈 식민지 뺏기?
 	id = KAI_event.104
 	title = KAI_event.104.t
 	desc = KAI_event.104.d
@@ -270,15 +270,26 @@ country_event = { # 그래서 우리가 포르투갈 식민지 뺏어서 해결�
 	fire_only_once = yes
     is_triggered_only = yes
 
-	option = {
+	option = { # 점령 
 		name = KAI_event.104.a
-		hidden_effect = { country_event = KAI_event.105 }
+		hidden_effect = { 
+            country_event = KAI_event.105 
+        }
 		ROOT = {
 			transfer_state = 702
 		}
 	}
+	option = { # 돈으로 구매
+		name = KAI_event.104.b
+        POR = {
+            country_event = { 
+                id = KAI_event.106
+                #days = 1
+            }
+        }
+	}
 }
-country_event = { # 포르투갈 네가 뭘 할 수 있는데? 아 ㅋㅋ
+country_event = { # 강탈하면포르투갈의반응
 	id = KAI_event.105
 	title = KAI_event.105.t
 	desc = KAI_event.105.d
@@ -295,5 +306,59 @@ country_event = { # 포르투갈 네가 뭘 할 수 있는데? 아 ㅋㅋ
 				modifier = KAI_Portugal
 			}
 		}
+	}
+}
+country_event = { # 포르투갈한테 섬 팔지 제의하기
+	id = KAI_event.106
+	title = KAI_event.106.t
+	desc = KAI_event.106.d
+	picture = GFX_report_event_NOR_quisling_rally
+
+	fire_only_once = yes
+    is_triggered_only = yes
+
+	option = { #판매 하기
+		name = KAI_event.106.a
+        ai_chance = {
+
+        }
+        KAI = {
+            country_event = KAI_event.107
+        }
+	}
+	option = { #판매안하기
+		name = KAI_event.106.b
+        KAI = {
+            country_event = KAI_event.108
+        }
+	}
+}
+
+country_event = { # var 체크해서 100 넘으면 미국이 전쟁 목표를 가짐
+	id = KAI_event.200
+	title = KAI_event.200.t
+	desc = KAI_event.200.d
+	picture = GFX_report_event_NOR_royal_family_exiled
+
+	fire_only_once = yes
+    is_triggered_only = no
+    trigger = {
+        tag = KAI
+		check_variable = {
+			KAI_usa_threat > 95 
+		}
+    }
+    mean_time_to_happen = {
+        days = 2
+    }
+
+	option = {
+		name = KAI_event.2.a
+        USA = {
+            create_wargoal = {
+                target = ROOT
+                type = puppet_wargoal_focus
+            }
+        }
 	}
 }
