@@ -414,7 +414,9 @@ country_event = { #체리노의 운명
 	option = {
 		name = RED_minori_event.11.a
 		RE2 = {
-			kill_country_leader = yes
+			RED_cherino = {
+				retire = yes
+			}
 		}
 		remove_ideas = RED_threat_of_coup_5
 		country_event = {
@@ -643,7 +645,7 @@ country_event = { #사회주의 신헌법 - 다당제
 			name = RED_fascism_PDP
 		}
 		country_event = {
-			id = RED_minori_event.20
+			id = RED_minori_event.22
 			days = 5
 		}
 	}
@@ -651,7 +653,7 @@ country_event = { #사회주의 신헌법 - 다당제
 		name = RED_minori_event.19.b
 		add_war_support = -0.03
 		country_event = {
-			id = RED_minori_event.20
+			id = RED_minori_event.22
 			days = 5
 		}
 	}
@@ -682,7 +684,7 @@ country_event = { #독립한 군정청 조지기
 	is_triggered_only = yes
 	option = { #ㄱㄱ
 		name = RED_minori_event.21.a
-		declare_war_on = {
+		create_wargoal = {
 			target = FROM
 			type = annex_everything
 		}
@@ -693,6 +695,59 @@ country_event = { #독립한 군정청 조지기
 		}
 		name = RED_minori_event.21.b
 		add_war_support = -0.05
+	}
+}
+country_event = { #사회주의 신헌법 - 도시명
+	id = RED_minori_event.22
+	title = RED_minori_event.22.t
+	desc = RED_minori_event.22.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { #현지인들을 존중하자
+		name = RED_minori_event.22.a
+		set_province_name = {
+			id = 6050
+			name = RED_victorypoint_stockholm
+		}
+		set_province_name = {
+			id = 383
+			name = RED_victorypoint_yetebori
+		}
+		set_province_name = {
+			id = 6310
+			name = RED_victorypoint_udebala
+		}
+		set_province_name = {
+			id = 156
+			name = RED_victorypoint_paloon
+		}
+		country_event = {
+			id = RED_minori_event.20
+			days = 5
+		}
+	}
+	option = { #선대 혁명가들을 기리자.
+		name = RED_minori_event.22.b
+		set_province_name = {
+			id = 6050
+			name = RED_victorypoint_marx
+		}
+		set_province_name = {
+			id = 383
+			name = RED_victorypoint_blanki
+		}
+		set_province_name = {
+			id = 6310
+			name = RED_victorypoint_praudhon
+		}
+		set_province_name = {
+			id = 156
+			name = RED_victorypoint_bakunin
+		}
+		country_event = {
+			id = RED_minori_event.20
+			days = 5
+		}
 	}
 }
 
@@ -1818,7 +1873,7 @@ country_event = { #망명위원회의 설립
 		unlock_decision_category_tooltip = RED_invite_trotskists_dec_cat
 	}
 }
-country_event = { 
+country_event = { #안 씀 
 	id = RED_event.15
 	title = RED_event.15.t
 	desc = RED_event.15.d
@@ -1829,7 +1884,7 @@ country_event = {
 		name = RED_event.15.o 
 	}
 }
-country_event = { #산별노조의 출범
+country_event = { #노동자 공화국
 	id = RED_event.16
 	title = RED_event.16.t
 	desc = RED_event.16.d
@@ -1837,11 +1892,30 @@ country_event = { #산별노조의 출범
 
 	is_triggered_only = yes
 	option = {
-		name = RED_event.16.o
-		add_ideas = RED_worker_union_2
+		hidden_effect = {
+			remove_ideas = RED_struggle_at_production_2
+			remove_ideas = RED_mechanized_agri_1
+		}
+		if = {
+			limit = {
+				has_idea = RED_syndicalism
+			}
+			swap_ideas = {
+				remove_idea = RED_syndicalism
+				add_idea = RED_syndicalism_2
+			}
+		}
+		else = {
+			swap_ideas = {
+				remove_idea = RED_syndicalism_1
+				add_idea = RED_syndicalism_3
+			}
+		}
+		custom_effect_tooltip = RED_worker_republic_tt
+		name = RED_event.16.a
 	}
 } 
-country_event = { #노동자를 위한 노동을
+country_event = { #노조 국민정신 합치기
 	id = RED_event.17
 	title = RED_event.17.t
 	desc = RED_event.17.d
@@ -1849,17 +1923,33 @@ country_event = { #노동자를 위한 노동을
 
 	is_triggered_only = yes
 	option = {
-		name = RED_event.17.o
+		name = RED_event.17.a
 		hidden_effect = {
 			remove_ideas = RED_infrastructure_union
-			remove_ideas = RED_Civilian_factory_union_ideas
-			remove_ideas = RED_military_union_ideas
-			add_ideas = RED_the_worker_union
+			remove_ideas = RED_Civilian_factory_union
+			remove_ideas = RED_military_union
+			remove_ideas = RED_education_union_1
+			remove_ideas = RED_soldier_union_1
+		}
+		if = {
+			limit = {
+				has_idea = RED_syndicalism
+			}
+			swap_ideas = {
+				remove_idea = RED_syndicalism
+				add_idea = RED_syndicalism_1
+			}
+		}
+		else = {
+			swap_ideas = {
+				remove_idea = RED_syndicalism_2
+				add_idea = RED_syndicalism_3
+			}
 		}
 		custom_effect_tooltip = RED_work_to_worker_tt
 	}
 }
-country_event = { #자주관리
+country_event = { #안 씀
 	id = RED_event.18
 	title = RED_event.18.t
 	desc = RED_event.18.d
@@ -1897,11 +1987,10 @@ country_event = { #여전히 남아있는 위협
 	}
 }
 
-country_event = { #국제 노동자들의 쉼터
+country_event = { #주 3일제
 	id = RED_event.21
 	title = RED_event.21.t
 	desc = RED_event.21.d
-	picture = GFX_report_event_french_resistance_01
 	is_triggered_only = yes
 	option = {
 		name = RED_event.21.a
