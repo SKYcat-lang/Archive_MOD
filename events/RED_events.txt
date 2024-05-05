@@ -84,7 +84,6 @@ country_event = { #엄습하는 반혁명
 	fire_only_once = yes
 	option = {
 		name = RED_minori_event.5.a
-		end_puppet = RE2
 		RED_cherino = {
 			set_nationality = RE2
 		}
@@ -558,11 +557,12 @@ country_event = { #사회주의 신헌법 - 혁명위원회 해산
 	fire_only_once = yes
 	option = {
 		name = RED_minori_event.16.a
+		hidden_effect={
 		create_country_leader = {
 			name = RED_constitutionary_assembly
 			picture = GFX_portrait_SOV_supreme_soviet
 			ideology = syndicalism
-		}
+		}}
 		set_party_name = {
 			ideology = communism
 			long_name = RED_constitutionary_assembly
@@ -671,6 +671,28 @@ country_event = { #사회주의 신헌법 - 선거
 			name = PublicWorksDepartment
 		}
 		add_political_power = 5
+
+		set_cosmetic_tag = RED_worker_republic
+	}
+}
+country_event = { #독립한 군정청 조지기
+	id = RED_minori_event.21
+	title = RED_minori_event.21.t
+	desc = RED_minori_event.21.d
+	is_triggered_only = yes
+	option = { #ㄱㄱ
+		name = RED_minori_event.21.a
+		declare_war_on = {
+			target = FROM
+			type = annex_everything
+		}
+	}
+	option = { #ㄴㄴ
+		ai_chance = {
+			base = 0
+		}
+		name = RED_minori_event.21.b
+		add_war_support = -0.05
 	}
 }
 
@@ -1013,6 +1035,20 @@ country_event = { # 군정청: 00의 봄
 	immediate = {
 		set_global_flag = RED_instability_system_independence_flag
 		RED_instability_system_remove_effect = yes
+		if = {
+			limit = {
+				RED = {
+					has_completed_focus = RED_dipose_cherino
+					has_war_with = RE2
+				}
+			}
+			RED = {
+				country_event = {
+					id = RED_minori_event.21
+					days = 3
+				}
+			}
+		}
 	}
 	
 	option = {
@@ -1869,36 +1905,9 @@ country_event = { #국제 노동자들의 쉼터
 	is_triggered_only = yes
 	option = {
 		name = RED_event.21.a
-	}
-}
-
-country_event = {
-	id = REd_event.22
-	title = REd_event.22.t
-	desc = RED_event.22.d
-	picture = GFX_report_event_generic_conference
-	is_triggered_only = yes
-	option = {
-		name = RED_event.22.a
-	}
-}
-
-country_event = {
-	id = RED_event.23
-	title = RED_event.23.t
-	desc = RED_event.23.d
-	picture = GFX_report_event_tur_the_montreux_convention
-	is_triggered_only = yes
-	option = {
-		name = RED_event.23.a 
-		custom_effect_tooltip = RED_worker_republic_tt
-		hidden_effect = {
-			remove_ideas = RED_Great_Council
-			remove_ideas = RED_worekrs_research_ideas
-			remove_ideas = RED_HYUSIK_ideas
-			remove_ideas = RED_worekrunion3
-			remove_ideas = RED_worekr_pro_idea
-			add_ideas = RED_WORKERREPUBLIC
+		swap_ideas = {
+			remove_idea = RED_HYUSIK_ideas
+			add_idea = RED_HYUSIK_ideas_1
 		}
 	}
 }

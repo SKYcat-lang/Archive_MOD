@@ -3040,7 +3040,7 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = RED_our_leader_cherino
 		}
-		x = 120
+		x = 130
 		y = 0
 
 		cost = 5
@@ -3144,6 +3144,7 @@ focus_tree = {
 		cost = 2
 
 		completion_reward = {
+			hidden_effect={
 			create_country_leader = {
 				name = RED_revolutionary_committee
 				picture = GFX_portrait_SOV_supreme_soviet
@@ -3151,11 +3152,11 @@ focus_tree = {
 				traits = {
 					revolutionary_council
 				}
-			}
+			}}
             set_party_name = {
                 ideology = communism
-                long_name = RED_revolutionary_committee
-                name = RED_revolutionary_committee_long
+                long_name = RED_revolutionary_committee_long
+                name = RED_revolutionary_committee
             }
 		}
 	}
@@ -3411,10 +3412,23 @@ focus_tree = {
 		prerequisite = { focus = RED_new_council }
 		mutually_exclusive = { focus = RED_council_for_party }
 		relative_position_id = RED_new_council
-		x = -4
+		x = -6
 		y = 1
 
 		cost = 5
+		available = {
+			RED_minori = {
+				is_country_leader = yes
+			}
+		}
+		completion_reward = {
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = RED_fire_of_revolution_1
+					add_idea = RED_syndicalism
+				}
+			}
+		}
 
 		search_filters = { FOCUS_FILTER_POLITICAL }
 	}
@@ -3424,7 +3438,7 @@ focus_tree = {
 		prerequisite = { focus = RED_new_council }
 		mutually_exclusive = { focus = RED_council_for_worker }
 		relative_position_id = RED_new_council 
-		x = 4
+		x = 6
 		y = 1
 		available = {
 			has_country_flag = GAEBALJUNG
@@ -3438,12 +3452,12 @@ focus_tree = {
 # 군 개편 중점
 
 
-	focus = { #노동조합 확대
+	focus = { #생산을 향한 투쟁
 		id = RED_to_left
-		icon = GFX_focus_por_workers_of_iberia
+		icon = GFX_focus_CHL_domestic_production_of_the_willys_mb
 		prerequisite = { focus = RED_council_for_worker }
 		relative_position_id = RED_council_for_worker
-		x = 2
+		x = 4
 		y = 1
 
 		cost = 5
@@ -3451,10 +3465,10 @@ focus_tree = {
 		search_filters = { FOCUS_FILTER_POLITICAL }
 
 		completion_reward = {
-			add_political_power = 50	
+			add_ideas = RED_struggle_at_production
 		}
 	}
-	focus= { #노동조합 권한 강화
+	focus= { #민주적인 공업화
 		id = RED_workerparty_upgrade
 		icon = GFX_goal_generic_soviet_construction
 		prerequisite = {
@@ -3465,8 +3479,38 @@ focus_tree = {
 		x = 1
 		y = 1
 		completion_reward = {
-			add_political_power = 20
-			add_ideas = RED_worker_union_2
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
+	}
+	focus = { #노동자 전문화
+		id = RED_worekr_pro
+		icon = GFX_focus_SOV_breadbasket_of_the_union
+		prerequisite = {
+			focus = RED_to_left 
+		}
+		relative_position_id = RED_to_left
+		cost = 5
+		x = -1
+		y = 1
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = RED_struggle_at_production
+				add_idea = RED_struggle_at_production_1
+			}
+			add_political_power = -35
 		}
 	}
 	focus = { #산별노조 설치
@@ -3484,22 +3528,7 @@ focus_tree = {
 			add_political_power = 30
 		}
 	}
-	focus = { #노동자 전문화
-		id = RED_worekr_pro
-		icon = GFX_focus_SOV_breadbasket_of_the_union
-		prerequisite = {
-			focus = RED_to_left 
-		}
-		relative_position_id = RED_to_left
-		cost = 5
-		x = -1
-		y = 1
-		completion_reward = {
-			add_ideas = RED_worekr_pro_idea
-			add_political_power = -35
-		}
-	}
-	focus = { #군수노조
+	focus = { #방산노조
 		id = RED_military_union
 		icon = GFX_focus_NORDIC_com_selector_civilian
 		prerequisite = {
@@ -3510,11 +3539,10 @@ focus_tree = {
 		x = -1
 		y = 1
 		completion_reward = {
-			add_ideas = RED_military_union_ideas
-			add_political_power = 30
+			add_ideas = RED_military_union
 		}
 	}
-	focus = { #민공노조
+	focus = { #제조노조
 		id = RED_Civilian_factory_union
 		icon = GFX_focus_NORDIC_com_capstone_civilian
 		prerequisite = {
@@ -3525,11 +3553,10 @@ focus_tree = {
 		x = 0
 		y = 2
 		completion_reward = {
-			add_ideas = RED_Civilian_factory_union_ideas
-			add_political_power = 30
+			add_ideas = RED_Civilian_factory_union
 		}
 	}
-	focus = { #기반노조
+	focus = { #건설노조
 		id = RED_infrastructure_union
 		icon = GFX_focus_NORDIC_com_civilian
 		prerequisite = {
@@ -3541,71 +3568,124 @@ focus_tree = {
 		y = 1
 		completion_reward = {
 			add_ideas = RED_infrastructure_union
-			add_political_power = 30
 		}
 	}
-	focus = { #혁명의 방파제
-		id = RED_land_defend
-		icon = GFX_focus_SWI_complete_siegfried_line
+	focus = { #교육노조
+		id = RED_education_union
+		icon = GFX_focus_NORDIC_com_institution_2
 		prerequisite = {
-			focus = RED_military_union
+			focus = RED_industrial_union
 		}
-		relative_position_id = RED_military_union
+		relative_position_id = RED_industrial_union
+		cost = 5
+		x = 2
+		y = 2
+		completion_reward = {
+			add_ideas = RED_infrastructure_union
+		}
+	}
+	focus = { #병사노조
+		id = RED_soldier_union
+		icon = GFX_focus_NORDIC_com_selector_army
+		prerequisite = {
+			focus = RED_industrial_union
+		}
+		relative_position_id = RED_industrial_union
+		cost = 5
+		x = -2
+		y = 2
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = RED_RMC_idea
+				}
+				swap_ideas = {
+					remove_idea = RED_RMC_idea
+					add_idea = RED_soldier_union
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_the_threats_abound_idea
+					add_idea = RED_soldier_union
+				}
+			}
+		}
+	}
+	focus = { #군산복합체
+		id = RED_mil-ind_complex
+		icon = GFX_goal_Military_Mobilisation
+		prerequisite = {
+			focus = RED_soldier_union
+		}
+		relative_position_id = RED_industrial_union
+		cost = 5
+		x = -2
+		y = 4
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = RED_soldier_union
+				add_idea = RED_soldier_union_1
+			}
+		}
+	}
+	focus = { #주택개발위원회
+		id = RED_housing_committee
+		icon = GFX_focus_SWE_institute_of_technology
+		prerequisite = {
+			focus = RED_infrastructure_union
+		}
+		relative_position_id = RED_infrastructure_union
 		cost = 5
 		x = 0
 		y = 2
 		completion_reward = {
-			if = {
-				limit = { controls_state = 141 }
-				141 = {
-					set_building_level = {
-						type = bunker
-						level = 3
-						province = {
-							all_provinces = yes
-							limit_to_border = yes 
-							level < 3
-						}
-					}
-				}
+			38 = {
+				BA_increase_state_category_by_one_level = yes
 			}
-			if = {
-				limit = { controls_state = 913 }
-				913 = {
-					set_building_level = {
-						type = bunker
-						level = 3
-						province = {
-							all_provinces = yes
-							limit_to_border = yes 
-							level < 3
-							
-						}
-					}
-				}
+			141 = {
+				BA_increase_state_category_by_one_level = yes
 			}
-			if = {
-				limit = { controls_state = 37 }
-				37 = {
-					set_building_level = {
-						type = bunker
-						level = 3
-						province = {
-							all_provinces = yes
-							limit_to_border = yes 
-							level < 3
-							
-						}
-					}
-				}
+			140 = {
+				BA_increase_state_category_by_one_level = yes
 			}
-		}	
+			913 = {
+				BA_increase_state_category_by_one_level = yes
+			}
+			139 = {
+				BA_increase_state_category_by_one_level = yes
+			}
+		}
 	}
-	focus = { #혁명수도 스톡홀름
+	focus = { #노동과 교육의 결합
+		id = RED_combine_of_edu_and_labor
+		icon = GFX_focus_NOR_moscows_education_centers
+		prerequisite = {
+			focus = RED_education_union
+		}
+		relative_position_id = RED_education_union
+		cost = 5
+		x = 0
+		y = 2
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = RED_education_union
+				add_idea = RED_education_union_1
+			}
+			add_research_slot = 1
+		}
+	}
+	focus = { #혁명 도시
 		id = RED_revolution_city
 		icon = GFX_focus_NORDIC_com_capstone_research
 		prerequisite = {
 			focus = RED_Civilian_factory_union
+		}
+		prerequisite = {
+			focus = RED_housing_committee
+		}
+		prerequisite = {
+			focus = RED_gun_gaebal
 		}
 		relative_position_id = RED_Civilian_factory_union
 		cost = 5
@@ -3628,15 +3708,15 @@ focus_tree = {
 
 		}
 	}
-	focus = { #독자적 총기 개발
+	focus = { #총기 개발
 		id = RED_gun_gaebal
 		icon = GFX_goal_panzerwaffe
 		prerequisite = {
-			focus = RED_infrastructure_union
+			focus = RED_military_union
 		}
 		relative_position_id = RED_infrastructure_union
 		cost = 5
-		x = 0
+		x = -2
 		y = 2
 		completion_reward = {
 			add_tech_bonus = {
@@ -3647,58 +3727,51 @@ focus_tree = {
 			}
 		}	
 	}
-	focus = { #노동자를 위한 노동을
+	focus = { #노동해방을 향해서
 		id = RED_work_for_worker
 		icon = GFX_focus_ITA_il_sol_dell_avvenire
 		prerequisite = {
 			focus = RED_revolution_city
+		}prerequisite = {
+			focus = RED_mil-ind_complex
+		}prerequisite = {
+			focus = RED_gun_gaebal
+		}prerequisite = {
+			focus = RED_housing_committee
+		}prerequisite = {
+			focus = RED_combine_of_edu_and_labor
 		}
 		relative_position_id = RED_gun_gaebal
 		cost = 2
-		x = -1
+		x = 1
 		y = 2
 		completion_reward = {
 			add_political_power = 50
 			country_event = { id = RED_event.17 }
 		}
 	}
-	focus = { #노동조합 자주관리
-		id = RED_union_igwan
-		icon = GFX_focus_FIN_the_second_finnish_civil_war
-		prerequisite = {
-			focus = RED_workerparty_upgrade
-		}
-		relative_position_id = RED_workerparty_upgrade
-		cost = 5
-		x = 0
-		y = 2
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = RED_worker_union_2
-				add_idea = RED_worekrunion3
-			}
-			country_event = { id = RED_event.18 } 
-		}
-	}
-	focus = { #지역학교 장려
+	focus = { #추가적인 푸딩 배급
 		id = RED_school_communism
-		icon = GFX_focus_NOR_moscows_education_centers
+		icon = GFX_focus_generic_concessions
 		prerequisite = {
 			focus = RED_worekr_pro
 		}
 		relative_position_id = RED_worekr_pro
-		cost = 2
+		cost = 5
 		x = -1
 		y = 1
 		completion_reward = {
-			add_ideas = RED_school_communism_ideas
+			add_timed_idea = {
+				idea = RED_additional_pudding
+				days = 720
+			}
 		}
 	}
-	focus = { #국제 노동자들의 쉼터
+	focus = { #주 3일제
 		id = RED_HYUSIK
 		icon = GFX_focus_ICE_embrace_the_workers_revolution
 		prerequisite = {
-			focus = RED_worekr_pro
+			focus = RED_school_communism
 		}
 		relative_position_id = RED_worekr_pro
 		cost = 5
@@ -3706,12 +3779,29 @@ focus_tree = {
 		y = 2
 		completion_reward = {
 			add_ideas = RED_HYUSIK_ideas
-			country_event = { id = RED_event.21 }
+			country_event = { id = RED_event.21 days = 8 }
 		}
 	}
-	focus = { #개간?
-		id = RED_gaegan_silsi
-		icon = GFX_focus_generic_farmland
+	focus = { #가장 선진적인 노동권
+		id = RED_worekrs_research
+		icon = GFX_focus_FIN_socialist_welfare
+		prerequisite = {
+			focus = RED_HYUSIK
+		}
+		relative_position_id = RED_school_communism
+		cost = 5
+		x = 0 
+		y = 2
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = RED_struggle_at_production_1
+				add_idea = RED_struggle_at_production_2
+			}
+		}
+	}
+	focus = { #농업 기계화
+		id = RED_mechanize_agri
+		icon = GFX_focus_NZL_bob_semple_tank
 		prerequisite = {
 			focus = RED_worekr_pro
 		}
@@ -3723,43 +3813,45 @@ focus_tree = {
 		x = 1
 		y = 1
 		completion_reward = {
-			666 = {
-				add_extra_state_shared_building_slots = 2
+			add_ideas = RED_mechanized_agri
+		}
+	}
+	focus = { #농지 확대
+		id = RED_gaegan_silsi
+		icon = GFX_focus_generic_farmland
+		prerequisite = {
+			focus = RED_mechanize_agri
+		}
+		relative_position_id = RED_worekr_pro
+		cost = 6
+		x = 1
+		y = 3
+		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = infrastructure
 					level = 1
 					instant_build = yes
 				}
 			}
-			918 = {
-				add_extra_state_shared_building_slots = 2
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = infrastructure
 					level = 1
 					instant_build = yes
 				}
 			}
-			38 = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
-			}
-			917 = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = infrastructure
-					level = 1
-					instant_build = yes
-				}
+			swap_ideas = {
+				remove_idea = RED_mechanized_agri
+				add_idea = RED_mechanized_agri_1
 			}
 		}
 	}
-	focus = { #노동자 평의회 설치
+	focus = { #사회주의 공업단지
 		id = RED_council_set_up
-		icon = GFX_focus_FIN_jaeger_movement
+		icon = GFX_focus_generic_communist_industry
 		prerequisite = { 
 			focus = RED_workerparty_upgrade 
 		}
@@ -3768,41 +3860,67 @@ focus_tree = {
 		x = 1 
 		y = 1
 		completion_reward = {
-			country_event = { id = RED_event.22 }
-			add_ideas = RED_set_up_council
-		}
-	}
-	focus = { 
-		id = RED_worekrs_research
-		icon = GFX_focus_NORDIC_com_research
-		prerequisite = {
-			focus = RED_school_communism
-		}
-		relative_position_id = RED_school_communism
-		cost = 3
-		x = 0 
-		y = 2
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = RED_school_communism_ideas
-				add_idea = RED_worekrs_research_ideas
+			913 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			add_victory_points = {
+				province = 9393
+				value = 8
 			}
 		}
 	}
-	focus = {
-		id = RED_asdfdd
-		icon = GFX_focus_NORDIC_com_form_alliance
+	focus = { #계획도시
+		id = RED_union_igwan
+		icon = GFX_focus_generic_modernize_industry
 		prerequisite = {
 			focus = RED_council_set_up
 		}
-		relative_position_id = RED_council_set_up
-		cost = 3
+		relative_position_id = RED_workerparty_upgrade
+		cost = 5
 		x = 0
 		y = 2
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = RED_set_up_council
-				add_idea = RED_Great_Council
+			913 = {
+				BA_increase_state_category_by_one_level = yes
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+				}
+			}
+		}
+	}
+	focus = { #광업 증진
+		id = RED_asdfdd
+		icon = GFX_focus_generic_mining_industry
+		prerequisite = {
+			focus = RED_union_igwan
+		}
+		relative_position_id = RED_council_set_up
+		cost = 5
+		x = 0
+		y = 2
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					steel > 20
+				}
+				add_resource = {
+					type = steel
+					amount = 5
+				}
+			}
+			every_owned_state = {
+				limit = {
+					tungsten > 10
+				}
+				add_resource = {
+					type = tungsten
+					amount = 5
+				}
 			}
 		}
 	}
@@ -3810,10 +3928,7 @@ focus_tree = {
 		id = RED_worker_republic 
 		icon = GFX_focus_generic_workers
 		prerequisite = {
-			focus = RED_HYUSIK
-		}
-		prerequisite = {
-			focus = RED_union_igwan
+			focus = RED_gaegan_silsi
 		}
 		prerequisite = {
 			focus = RED_worekrs_research
@@ -3824,7 +3939,6 @@ focus_tree = {
 		relative_position_id = RED_HYUSIK
 		cost = 5
 		completion_reward = {
-			country_event = { id = RED_event.23 }
 			add_political_power = 50
 		}
 		x = 1
