@@ -251,7 +251,132 @@ NSD_country_creation_effect = {
 		add_core_of = NSD
 	}
 }
-
+TRM_collapse_event_scripted_effect = {
+	hidden_effect = {
+		random_list = {
+			100 = { #유격대 - 유격대는 북부 민주주의와 남부 공산주의 2번 봉기합니다.
+				modifier = {
+					NOT = {
+						controls_state = 61
+						controls_state = 65
+					}
+					factor = 0
+				}
+				modifier = {
+					has_country_flag = TRN_collapse_event_democratic_party
+					has_country_flag = TRN_collapse_event_communism_party
+					factor = 0
+				}
+				random_list = {
+					10 = {
+						modifier = {
+							NOT = { controls_state = 61 }
+							factor = 0
+						}
+						modifier = {
+							has_country_flag = TRN_collapse_event_democratic_party
+							factor = 0
+						}
+						if = { limit = { has_war = no }
+							61 = { set_demilitarized_zone = yes }
+						}
+						set_country_flag = TRN_collapse_event_democratic_party
+					}
+					10 = {
+						modifier = {
+							NOT = { controls_state = 65 }
+							factor = 0
+						}
+						modifier = {
+							has_country_flag = TRN_collapse_event_communism_party
+							factor = 0
+						}
+						if = { limit = { has_war = no }
+							65 = { set_demilitarized_zone = yes }
+						}
+					}
+				}
+				set_country_flag = TRN_collapse_event_communism_party
+			}
+			100 = { #나치당 - 평범한 봉기 프로토콜 들
+				modifier = {
+					NOT = { controls_state = 66 }
+					factor = 0
+				}
+				modifier = {
+					has_country_flag = TRN_collapse_event_fascism_party
+					factor = 0
+				}
+				modifier = { #나치당은 미소노 미카가 집권한 이후 봉기하지 않습니다
+					has_completed_focus = TRM_newfocus_27
+					factor = 0
+				}
+				if = { limit = { has_war = no }
+					66 = { set_demilitarized_zone = yes }
+				}
+				set_country_flag = TRN_collapse_event_fascism_party
+			}
+			100 = { #카스팔루그 / 파시스트 집권 이후에 발생
+				modifier = {
+					NOT = { controls_state = 63 }
+					factor = 0
+				}
+				modifier = {
+					has_country_flag = TRN_collapse_event_cathpalug
+					factor = 0
+				}
+				modifier = { #카스팔루그는 미소노 미카 집권 이전에 봉기하지 않습니다.
+					NOT = { has_completed_focus = TRM_newfocus_27 }
+					factor = 0
+				}
+				if = { limit = { has_war = no }
+					63 = { set_demilitarized_zone = yes }
+				}
+				set_country_flag = TRN_collapse_event_cathpalug
+			}
+			100 = { #트리니티 자경단 / 파시스트 집권 이후에 발생
+				modifier = {
+					NOT = { controls_state = 60 }
+					factor = 0
+				}
+				modifier = {
+					has_country_flag = TRN_collapse_event_vigilante
+					factor = 0
+				}
+				modifier = { #트리니티 자경단은 미소노 미카 집권 이전에 봉기하지 않습니다.
+					NOT = { has_completed_focus = TRM_newfocus_27 }
+					factor = 0
+				}
+				if = { limit = { has_war = no }
+					60 = { set_demilitarized_zone = yes }
+				}
+				set_country_flag = TRN_collapse_event_vigilante
+			}
+			80 = { #지금 페로로들을 부르마
+				modifier = {
+					NOT = { controls_state = 64 }
+					factor = 0
+				}
+				modifier = {
+					has_country_flag = TRN_collapse_event_hifumi
+					factor = 0
+				}
+				modifier = { #아자타니 히후미는 미소노 미카 집권 이전에 인류를 배신하지 않습니다.
+					NOT = { has_completed_focus = TRM_newfocus_27 }
+					factor = 0
+				}
+				if = { limit = { has_war = no }
+					64 = { set_demilitarized_zone = yes }
+				}
+				set_country_flag = TRN_collapse_event_hifumi
+			}
+			1 = { #만약 아무 것도 없다면...
+				add_political_power = -300
+				set_country_flag = TRN_collapse_event_none_flag
+			}
+		}
+	}
+}
 CathPalug_country_creation_effect = {
 	create_dynamic_country = {
 		original_tag = TRM
