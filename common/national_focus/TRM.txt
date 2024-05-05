@@ -2,6 +2,7 @@
 	id = TRM_focus_tree
 	continuous_focus_position = { x = 50 y = 1500 }
 	shared_focus = BA_new_world_technology
+	shared_focus = Eden_formation_of_alliance_treaty_organization
 	country = {
 		factor = 0
 		modifier = {
@@ -810,6 +811,10 @@
 		x = 40
 		y = 0
 		completion_reward = {
+			add_days_mission_timeout = {
+				mission = TRN_country_collapse
+				days = 120
+			}
 			custom_effect_tooltip = TRM_first_focus_tt
 			add_political_power = 120
 			add_stability = -0.2
@@ -819,7 +824,7 @@
 			}
 			add_days_mission_timeout = {
 				mission = TRN_country_collapse
-				days = 120
+				days = 60
 			}
 		}
 
@@ -840,6 +845,7 @@
 		}
 		relative_position_id = TRM_newfocus_0
 		completion_reward = {
+			TRN_country_collapse_down = yes
 			add_stability = -0.15
 		}
 		x = -2
@@ -867,6 +873,7 @@
 		x = 2
 		y = 1
 		completion_reward = {
+			TRN_country_collapse_down = yes
 			add_stability = -0.15
 		}
 
@@ -892,6 +899,7 @@
 		x = 0
 		y = 2
 		completion_reward = {
+			TRN_country_collapse_down = yes
 			add_war_support = 0.05
 			add_stability = 0.05
             effect_tooltip = {
@@ -1057,6 +1065,7 @@
 		y = 1
 		relative_position_id = TRN_yurijono_seia
 		completion_reward = {
+			TRN_country_collapse_down = yes
 			custom_effect_tooltip = TRM_TURIJONO_SEIA_TT
 			hidden_effect = {
 				TRN_tpdldk = {
@@ -1163,13 +1172,16 @@
 		x = -1
 		y = 1
 		completion_reward = {
+			add_days_mission_timeout = {
+				mission = TRN_country_collapse
+				days = 50
+			}
 			custom_effect_tooltip = TRN_nagisa_cahin_2_tt
 			custom_effect_tooltip = TRM_filius_loyalty__40_tt
 			add_to_variable = { TRM_filius_loyalty = -40 }
 			TRM_internal_factions_loyalty_change = yes
 			hidden_effect = {
 				country_event =  { id = TRM_event.67 hours = 1 }
-				retire_character = TRN_skrltk
 			}
 		}
 
@@ -1197,6 +1209,7 @@
 		x = 1
 		y = 1
 		completion_reward = {
+			TRN_country_collapse_down = yes
 			custom_effect_tooltip = TRM_lets_go_kill_Heydrich
 		}
 
@@ -1219,18 +1232,19 @@
 		x = -1
 		y = 3
 		completion_reward = {
-		add_political_power = 120
-		add_ideas = TRM_mika_trinity
-		country_event = { id = TRM_event.14 days = 3 } # 문제아 해결
-		hidden_effect = {
-			country_event = { id = TRM_event.7 days = 5 }
-		}
-		custom_effect_tooltip = TRM_pater_loyalty_30_tt
-		add_to_variable = { TRM_pater_loyalty = 30 }
-		TRM_internal_factions_loyalty_change = yes
-		custom_effect_tooltip = TRM_pater_popularity_20_tt
-		add_to_variable = { TRM_pater_popularity = 20 }
-		TRM_internal_factions_popularity_change = yes
+			TRN_country_collapse_down = yes
+			add_political_power = 120
+			add_ideas = TRM_mika_trinity
+			country_event = { id = TRM_event.14 days = 3 } # 문제아 해결
+			hidden_effect = {
+				country_event = { id = TRM_event.7 days = 5 }
+			}
+			custom_effect_tooltip = TRM_pater_loyalty_30_tt
+			add_to_variable = { TRM_pater_loyalty = 30 }
+			TRM_internal_factions_loyalty_change = yes
+			custom_effect_tooltip = TRM_pater_popularity_20_tt
+			add_to_variable = { TRM_pater_popularity = 20 }
+			TRM_internal_factions_popularity_change = yes
 		}
 
 	}
@@ -1251,6 +1265,7 @@
 		x = 1
 		y = 3
 		completion_reward = {
+			TRN_country_collapse_down = yes
 			add_popularity = {
 				ideology = fascism
 				popularity = 0.99
@@ -1287,6 +1302,11 @@
 		x = 0
 		y = 4
 		completion_reward = {
+			add_days_mission_timeout = {
+				mission = TRN_country_collapse
+				days = 80
+			}
+			TRN_country_collapse_down = yes
 			#pater_nazism
 			set_cosmetic_tag = TRINITY_REICH
 			add_ideas = TRM_steel_reich_debuff
@@ -1413,6 +1433,7 @@
 		y = 0
 		relative_position_id = TRM_naechi
 		completion_reward = {
+			TRN_country_collapse_down = yes
             add_one_random_military_factory = yes
             add_one_random_military_factory = yes
             if = {
@@ -1501,6 +1522,7 @@
 		y = 2
 		#relative_position_id = TRN_gisauihon
 		completion_reward = {
+			TRN_country_collapse_down = yes
 			add_political_power = 120
 			add_war_support = 0.05
 			country_event = { id = TRM_event.25 hours = 1 }
@@ -1606,7 +1628,17 @@
 		prerequisite = {
 			focus = TRM_germany_union
 		}
-		ai_will_do = { base = 40 }
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+        }
 		available = { }
 		x = -5
 		y = 1
@@ -1621,7 +1653,17 @@
 		icon = GFX_goal_gwanryuje_jaijungbee
 		cost = 10.00
 		prerequisite = { focus = TRN_doklisanupyi_him }
-		ai_will_do = { base = 40 }
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+        }
 		x = -2
 		y = 1
 		relative_position_id = TRN_doklisanupyi_him
@@ -1639,8 +1681,16 @@
 		cost = 10.00
 		prerequisite = { focus = TRN_gwanryuje_jaijungbee }
 		ai_will_do = {
-			base = 40
-		}
+			base = 500
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+        }
 		x = -1
 		y = 1
 		relative_position_id = TRN_gwanryuje_jaijungbee
@@ -1675,7 +1725,17 @@
 		icon = GFX_goal_state_economy
 		cost = 10.00
 		prerequisite = { focus = TRN_gwanryuje_jaijungbee }
-		ai_will_do = { base = 40 }
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+        }
 		x = 1
 		y = 1
 		relative_position_id = TRN_gwanryuje_jaijungbee
@@ -1712,6 +1772,17 @@
 		prerequisite = { focus = TRN_doklisanupyi_him }
 		x = 1
 		y = 1
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+        }
 		relative_position_id = TRN_doklisanupyi_him
 		completion_reward = {
 			#country_event = { id = TRN_after_war_event.11 days = 1 }
@@ -1730,6 +1801,17 @@
 		prerequisite = { focus = TRN_doklisanupyi_him }
 		x = 3
 		y = 1
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+        }
 		relative_position_id = TRN_doklisanupyi_him
 		completion_reward = {
 			#country_event = { id = TRN_after_war_event.12 days = 1 }
@@ -1750,6 +1832,17 @@
 		}
 		x = 3
 		y = 2
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+        }
 		relative_position_id = TRN_doklisanupyi_him
 		completion_reward = {
 			add_ideas = TRN_research_buff
@@ -1762,6 +1855,17 @@
 		prerequisite = {
 			focus = TRN_yungu_e_tuja
 		}
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+        }
 		x = -2
 		y = 1
 		relative_position_id = TRN_yungu_e_tuja
@@ -1796,6 +1900,17 @@
         prerequisite = { focus = TRN_gyungje_hyu_ul_bub }
 		x = 0
 		y = 2
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+        }
 		relative_position_id = TRN_gwanryuje_jaijungbee
 		completion_reward = {
 			#country_event = { id = TRN_after_war_event.16 days = 1 }
@@ -1809,7 +1924,17 @@
 		cost = 10.00
         prerequisite = { focus = TRN_jaegun_wanryu  }
         prerequisite = { focus = TRM_Library_Committee }
-		ai_will_do = { base = 40 }
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 2
+				has_war = no
+			}
+        }
 		x = 1
 		y = 1
 		relative_position_id = TRN_jaegun_wanryu
@@ -1859,14 +1984,18 @@
 
 		}
 		ai_will_do = {
-			base = 0.001
+			base = 500
 			modifier = {
-				add = 20
-				date < 1941.01.01
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
 			}
 		}
 		relative_position_id = TRM_germany_union
-		x = 4
+		x = 3
 		y = 1
 		completion_reward = {
 			set_rule = {
@@ -1896,10 +2025,18 @@
             }
         }
 		ai_will_do = {
-            base = 40
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
 		}
 		relative_position_id = TRM_domination
-		x = -2
+		x = 2
 		y = 1
 		completion_reward = {
             SHA = {
@@ -1920,15 +2057,29 @@
 		available = { 
             is_subject = no
             is_faction_leader = yes
-			has_army_manpower = { size > 549999 }
+			has_army_manpower = { size > 749999 }
         }
 		ai_will_do = {
-            base = 40
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
 		}
 		relative_position_id = TRM_domination
-		x = 2
+		x = -2
 		y = 1
 		completion_reward = {
+            SHA = {
+                country_event = { 
+                    id = TRM_event.48 
+                    days = 1
+                }
+            }
 
 		}
 	}
@@ -1958,13 +2109,21 @@
             focus = TRM_the_southern_thrust
         }
 		ai_will_do = {
-            base = 40
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
 		}
-		relative_position_id = TRM_anschluss
-		x = -1
+		relative_position_id = TRM_alliance_with_Sanhaijing
+		x = 1
 		y = 1
 		completion_reward = {
-
+            ABY = { country_event = TRM_event.52 }
 		}
 	}
 	focus = {
@@ -1977,23 +2136,64 @@
 		available = { 
             is_subject = no
             NOT = {
-			    ABY = { is_in_faction_with = TRM }
-			    has_war = yes
+			    HYA = { is_in_faction_with = TRM }
             }
         }
 		ai_will_do = {
-            base = 40
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
 		}
+        bypass = {
+            is_in_faction_with = SHA
+            SHA = {
+                owns_state = 9
+                owns_state = 69
+            }
+        }
 		relative_position_id = TRM_sudetenland_or_war
 		x = 0
 		y = 2
 		completion_reward = {
-
+            if = {
+                limit = {
+                    NOT = {
+                        country_exists = HYA
+                    }
+                }
+                create_wargoal = {
+    			    type = annex_everything
+                    target = 9.controller
+                }
+            }
+			if = {
+				limit = { 
+                    country_exists = HYA
+					HYA = {
+						OR = {
+							owns_state = 9
+							owns_state = 75
+						}
+					} 
+				}
+				create_wargoal = {
+					type = take_state_focus
+					target = HYA
+					expire = 0
+					generator = { 75 9 }
+				}
+			}
 		}
 	}
 	focus = {
 		id = TRM_the_southern_thrust
-		icon = GFX_goal_generic_military_sphere
+		icon = GFX_goal_TRM_southern_offensive
 		cost = 5.00
 		prerequisite = {
 			focus = TRM_anschluss
@@ -2009,13 +2209,21 @@
 			}
         }
 		ai_will_do = {
-            base = 40
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
 		}
         mutually_exclusive = {
             focus = TRM_sudetenland_or_war
         }
-		relative_position_id = TRM_anschluss
-		x = 1
+		relative_position_id = TRM_alliance_with_Sanhaijing
+		x = -1
 		y = 1
 		completion_reward = {
 			if = {
@@ -2035,6 +2243,23 @@
 				}
 			}
 			if = {
+				limit = { 
+					SHA = {
+						OR = {
+							owns_state = 4
+							owns_state = 152
+							owns_state = 984
+						}
+					} 
+				}
+				create_wargoal = {
+					type = take_state_focus
+					target = SHA
+					expire = 0
+					generator = { 984 152 4 }
+				}
+			}
+			if = {
 				limit = {
 					ABY = {
 						owns_state = 985
@@ -2050,6 +2275,35 @@
 		}
 	}
 	focus = {
+		id = TRM_balkan_diplomacy
+		icon = GFX_focus_generic_balkan_diplomacy
+		cost = 5.00
+		prerequisite = {
+			focus = TRM_anschluss
+            focus = TRM_sudetenland_or_war
+		}
+		available = { 
+            is_subject = no
+        }
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		relative_position_id = TRM_the_southern_thrust
+		x = 0
+		y = 1
+        completion_reward = {
+
+        }
+	}
+	focus = {
 		id = TRM_Arona_focus
 		icon = GFX_goal_fall_gelb
 		cost = 5.00
@@ -2058,15 +2312,46 @@
             focus = TRM_anschluss
 		}
 		available = {
+            is_subject = no
+            NOT = { is_in_faction_with = SHE }
         }
 		ai_will_do = {
-            base = 40
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
 		}
-		relative_position_id = TRM_alliance_with_Sanhaijing
+		relative_position_id = TRM_anschluss
 		x = -1
 		y = 2
 		completion_reward = {
-
+            create_wargoal = {
+    			type = annex_everything
+                target = SHE
+            }
+            if = {
+                limit = {
+                    country_exists = COU
+                }
+                create_wargoal = {
+        			type = annex_everything
+                    target = COU
+                }
+            }
+            if = {
+                limit = {
+                    country_exists = KSP
+                }
+                create_wargoal = {
+        			type = annex_everything
+                    target = KSP
+                }
+            }
 		}
 	}
 	focus = {
@@ -2078,15 +2363,28 @@
             focus = TRM_anschluss
 		}
 		available = {
+            is_subject = no
+            NOT = { is_in_faction_with = HEU }
         }
 		ai_will_do = {
-            base = 40
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
 		}
-		relative_position_id = TRM_alliance_with_Sanhaijing
+		relative_position_id = TRM_anschluss
 		x = 1
 		y = 2
 		completion_reward = {
-
+            create_wargoal = {
+    			type = annex_everything
+                target = 8.controller
+            }
 		}
 	}
 	focus = {
@@ -2098,15 +2396,30 @@
             focus = TRM_heu_focus
 		}
 		available = {
+            is_subject = no
+            NOT = {
+			    MIL = { is_in_faction_with = MIL }
+            }
         }
 		ai_will_do = {
-            base = 40
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
 		}
 		relative_position_id = TRM_Arona_focus
 		x = 1
 		y = 1
 		completion_reward = {
-
+            create_wargoal = {
+    			type = annex_everything
+                target = 16.controller
+            }
 		}
 	}
     focus = {
@@ -2116,20 +2429,30 @@
 		prerequisite = {
 			focus = TRM_domination
 		}
-        mutually_exclusive = {
-            focus = TRM_fucking_communism
-        }
 		available = {
 			is_subject = no
             NOT = { has_government = communism }
+            NOT = { is_in_faction_with = RED }
 		}
 		will_lead_to_war_with = RED
 		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
 		}
 		relative_position_id = TRM_domination
 		x = 6
 		y = 1
 		completion_reward = {
+            RED = {
+                country_event = { id = TRM_event.53 }
+            }
 		}
 	}
 	focus = {
@@ -2140,9 +2463,6 @@
 		prerequisite = {
             focus = TRM_domination
 		}
-        mutually_exclusive = {
-            focus = TRM_We_need_Denmark_milk
-        }
 		available = {
 			is_subject = no
 			NOT = { has_government = communism }
@@ -2150,7 +2470,15 @@
 			NOT = { is_in_faction_with = SOU }
         }
 		ai_will_do = {
-            base = 40
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
 		}
 		relative_position_id = TRM_domination
 		x = 4
@@ -2185,12 +2513,60 @@
 		}
 	}
 	focus = {
+		id = TRM_fucking_communism_fact
+		icon = GFX_focus_attack_soviet
+		cost = 5.00
+		prerequisite = {
+			focus = TRM_fucking_communism
+		}
+		available = {
+			is_subject = no
+			has_army_manpower = { size > 849999 } 
+			RED = {
+				has_government = communism
+			}
+		}
+		ai_will_do = {
+            base = 0 
+		}
+		relative_position_id = TRM_fucking_communism
+		x = 0
+		y = 2
+		completion_reward = {
+			hidden_effect = {
+				RED = { remove_opinion_modifier = { target = ROOT modifier = pact_against_us } }
+				SOU = { remove_opinion_modifier = { target = ROOT modifier = pact_against_us } }
+				add_ideas = anti_soviet_pact
+			}
+			custom_effect_tooltip = TRM_anti_soviet_pact_tt_3
+			custom_effect_tooltip = TRM_anti_soviet_pact_tt
+			custom_effect_tooltip = TRM_anti_soviet_pact_tt_2
+			RED = { add_opinion_modifier = { target = ROOT modifier = worse_pact_against_us } }
+			SOU = { add_opinion_modifier = { target = ROOT modifier = worse_pact_against_us } }
+            every_other_country = {
+				limit = {
+					has_opinion_modifier = anti_comintern_pact_opinion
+					OR = {
+						NOT = { is_in_faction = yes }
+						is_in_faction_with = TRM
+					}
+					NOT = { tag = TRM }
+					NOT = { has_war_with = TRM }
+				}
+				country_event = TRM_event.28
+			}
+			hidden_effect = {
+				news_event = { hours = 12 id = news.215 }
+			}
+		}
+	}
+	focus = {
 		id = TRM_redwinter_war_goal
 		icon = GFX_goal_redwinter_kill
 		cost = 5.00
 		prerequisite = {
 			focus = TRM_fucking_communism
-            focus = TRM_We_need_Denmark_milk
+			focus = TRM_We_need_Denmark_milk
 		}
 		available = {
 			is_subject = no
@@ -2204,11 +2580,40 @@
 		}
 		will_lead_to_war_with = RED
 		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
 		}
 		relative_position_id = TRM_fucking_communism
-		x = 1
+		x = 2
 		y = 2
 		completion_reward = {
+			IF = {
+				limit = { RED = { has_civil_war = no } }
+				create_wargoal = {
+					type = annex_everything
+					target = RED
+					expire = 0
+				}
+			}
+			ELSE = {
+				every_country = {
+					limit = { original_tag = RED }
+					TRM = {
+						create_wargoal = {
+							type = annex_everything
+							target = PREV
+							expire = 0
+						}
+					}
+				}
+			}
 		}
 	}
 	focus = {
@@ -2220,14 +2625,38 @@
 		}
 		available = { }
 		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
 		}
 		relative_position_id = TRM_redwinter_war_goal
 		x = 0
 		y = 1
 		completion_reward = {
+            FIN = {
+                country_event = TRM_event.30
+            }
             custom_effect_tooltip = if_they_accept_tt
             effect_tooltip = {
-                TRM_Finland_puppet = yes
+                FIN = {
+                    set_cosmetic_tag = TRN_FIN
+                }
+                puppet = FIN
+            }
+            custom_effect_tooltip = if_they_refuse_tt
+            effect_tooltip = {
+                TRM = {
+                    create_wargoal = {
+                        target = FIN
+                        type = puppet_wargoal_focus
+                    }
+                }
             }
 		}
 	}
@@ -2239,6 +2668,9 @@
 		text_icon = NORDIC_focus_style
         prerequisite = {
             focus = TRM_newfocus_28
+        }
+        prerequisite = {
+            focus = TRM_newfocus_26
         }
 		available = {
 			has_war = NO
@@ -2255,15 +2687,26 @@
 				controls_state  = 9 # 음양부
 			}
 		}
+		offset = {
+			x = -8
+			y = 0
+			trigger = {
+				has_completed_focus = TRM_newfocus_7
+			}
+		}
 		ai_will_do = {
 			base = 3000
 		}
-		x = 3
+		x = 4
 		y = 0
 		relative_position_id = TRM_newfocus_27
 		completion_reward = { # 미카는 신이야..!!
-			news_event = { id = BA_news.9 days = 3 }
+		    country_event = {
+		    	id = TRM_event.26
+    			days = 3
+		    }
 			hidden_effect = {
+			    news_event = { id = BA_news.9 days = 3 }
 				TRM_endsieg_effect = yes
 				country_event = { id = TRM_event.3000 days = 3 }
 			}
@@ -2277,17 +2720,26 @@
 			is_subject = no
             NOT = { has_government = communism }
         }
-        prerequisite = {
-            focus =TRM_war_with_Millennium
-            focus =TRM_preemptive_invasion_of_HYA
-            focus =TRM_Finland_puppet_focus
+        prerequisite = { 
+            focus =TRM_war_with_Millennium 
+            focus = TRM_Finland_puppet_focus
         }
         prerequisite = {
+            focus =TRM_preemptive_invasion_of_HYA
+            focus = TRM_balkan_diplomacy
         }
 		will_lead_to_war_with = SOV
 		will_lead_to_war_with = POL
-        ai_will_do = {
-			base = 3000
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 0.5
+				has_war = yes
+			}
+			modifier = {
+				factor = 3
+				has_war = no
+			}
 		}
 		x = 1
 		y = 5
@@ -3238,6 +3690,7 @@
 		y = 1
 		relative_position_id = TMR_anti_gehenna
 		completion_reward ={
+			TRN_country_collapse_down = yes
 			custom_effect_tooltip = TRM_tooltip_attack_gehenna
 			hidden_effect = {
 				country_event = { id = TRM_event.34 days = 10 }
@@ -3277,100 +3730,6 @@
 		}
 	}
 	focus = {
-		id = TRM_arius_annex #아리우스 노빠구 선전포고
-		icon = GFX_goal_anschluss
-		will_lead_to_war_with  = ARI
-		cost = 5.00
-		prerequisite = {
-			focus = TRM_newfocus_21
-		}
-		ai_will_do = {
-			base = 30
-		}
-		available = {
-			country_exists = ARI
-			TRM = {
-				any_neighbor_country = {
-					tag = ARI
-				}
-			}
-		}
-		bypass = {
-			NOT = {
-				country_exists = ARI
-			}
-		}
-
-		x = -2
-		y = 1
-		relative_position_id = TRM_newfocus_21
-		completion_reward = {
-			create_wargoal = {
-				target = ARI
-				type = annex_everything
-			}
-		}
-
-	}
-	focus = {
-		id = TRN_trinity_arius_annex
-		icon = GFX_goal_generic_more_territorial_claims
-		cost = 5
-		prerequisite = {
-			focus = TRM_arius_annex
-		}
-		available = {
-			85 = { is_fully_controlled_by = TRM }
-		}
-		ai_will_do = {
-			base = 100
-		}
-		relative_position_id = TRM_arius_annex
-		x = 0
-		y = 1
-		completion_reward = {
-			add_state_core = 85
-		}
-	}
-	focus = {
-		id = TRN_trinity_arius_gaebal
-		icon = GFX_focus_generic_the_giant_wakes
-		cost = 5
-		prerequisite = {
-			focus = TRN_trinity_arius_annex
-		}
-		available = {
-			85 = { is_fully_controlled_by = TRM }
-		}
-		ai_will_do = {
-			base = 100
-		}
-		relative_position_id = TRN_trinity_arius_annex
-		x = 0
-		y = 1
-		completion_reward = {
-			85 = {
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = industrial_complex
-					level = 2
-					instant_build = yes
-				}
-				add_extra_state_shared_building_slots = 2
-				add_building_construction = {
-					type = arms_factory
-					level = 2
-					instant_build = yes
-				}
-				set_state_name = BA_Trinity_Basilica
-			}
-			set_province_name = {
-				id = 362
-				name = BA_Trinity_Basilica_2
-			}
-		}
-	}
-	focus = {
 		id = TRM_anti_gehenna_focus_2 #게헨나 격하운동
 		icon = GFX_goal_hmmngshinso_broken
 		cost = 10.00
@@ -3384,8 +3743,25 @@
 		x = 3
 		y = 1
 		completion_reward = {
-			custom_effect_tooltip = TRINITY_after_war_2_tt
-			country_event = { id = TRM_event.27 }
+			#country_event = { id = TRM_event.27 }
+            custom_effect_tooltip = Change_MegacityName
+            55 = {
+                clr_state_flag = Megacity_GEH_Senter
+                set_state_flag = Megacity_GEH_trinity_Senter
+            }
+            custom_effect_tooltip = tooltip_white_line
+			set_province_name = {
+                id = 6469
+                name = "BA_Essen"
+            }
+			set_province_name = {
+                id = 6488
+                name = "BA_Frankfurt"
+            }
+			set_province_name = {
+                id = 692
+                 name = "BA_Munich"
+            }
 		}
 	}
 	focus = {
@@ -3954,6 +4330,10 @@
 		relative_position_id = TRN_nagisa_gyehek
 		prerequisite = { focus = TRN_nagisa_gyehek }
 		completion_reward = {
+			add_days_mission_timeout = {
+				mission = TRN_country_collapse
+				days = 50
+			}
 			if = {
 				limit = {
 					check_variable = { TRM_pater_popularity > 1 }
@@ -3971,7 +4351,7 @@
 	focus = {
 		id = TRN_anti_mika_cudeta
 		icon = GFX_focus_spr_masters_of_our_own_fate
-		x = -2
+		x = -3
 		y = 2
 		cost = 5
 		available = { has_country_flag = nagisa_imprisoned_flag }
@@ -4057,7 +4437,7 @@
 			focus = TRN_anti_mika_cudeta
 		}
 		relative_position_id = TRN_nagisa_gyehek
-		x = -2
+		x = -3
 		y = 3
 		completion_reward = {
 			TRN_skrltk = {
@@ -4089,6 +4469,7 @@
 		prerequisite = { focus = TRN_Suppressing_mika }
 		prerequisite = { focus = TRN_please_shut_up }
 		completion_reward = {
+			TRN_country_collapse_down = yes
 			country_event = { id = TRM_event.364 hours = 8 }
 		}
 	}
@@ -4196,7 +4577,7 @@
 	focus = {
 		id = TRN_steel_of_woman
 		icon = GFX_goal_TRN_Removing_doubt
-		x = 2
+		x = 1
 		y = 3
 		cost = 5
 		available = {
@@ -4215,7 +4596,7 @@
 	focus = {
 		id = TRN_united_academy
 		icon = GFX_goal_TRN_steel_of_academy
-		x = 0
+		x = -1
 		y = 3
 		cost = 5
 		available = {
@@ -4239,7 +4620,7 @@
 	focus = {
 		id = TRN_uber_alles
 		icon = GFX_goal_TRN_Hegemony
-		x = 1
+		x = 0
 		y = 4
 		cost = 1.5
 		available = {
@@ -4251,6 +4632,11 @@
 		prerequisite = { focus = TRN_steel_of_woman }
 		prerequisite = { focus = TRN_united_academy }
 		completion_reward = {
+			add_days_mission_timeout = {
+				mission = TRN_country_collapse
+				days = 80
+			}
+			TRN_country_collapse_down = yes
 			add_political_power = 100
             remove_ideas = TRM_great_depression_2
 			add_dynamic_modifier = { modifier = TRN_trinity_uber_alles_idea }
@@ -4262,7 +4648,7 @@
 	focus = {
 		id = TRN_Have_hand_to_gehhenna
 		icon = GFX_goal_GEH_Pax_Gehennia
-		x = -2
+		x = -3
 		y = 5
 		cost = 5
 		available = {
@@ -4299,7 +4685,7 @@
 	focus = {
 		id = TRN_reunited_eden_pact
 		icon = GFX_goal_TRN_end_of_long_bad_time
-		x = -2
+		x = -3
 		y = 6
 		cost = 5
 		bypass = {
@@ -4337,7 +4723,7 @@
 	focus = {
 		id = TRN_insik_getmore
 		icon = GFX_goal_TRN_hwahawe_with_gehhena
-		x = -1
+		x = -4
 		y = 7
 		cost = 5
 		bypass = {
@@ -4359,7 +4745,7 @@
 	focus = {
 		id = TRN_mannam_with_gehenna
 		icon = GFX_goal_TRN_have_with_dongaris
-		x = 1
+		x = -2
 		y = 7
 		cost = 5
 		bypass = {
@@ -4391,6 +4777,8 @@
 			}
 		}
 		relative_position_id = TRN_nagisa_gyehek
+		prerequisite = { focus = TRN_war_with_knight_templar }
+		prerequisite = { focus = TRN_sisterhood_army focus = TRN_relief_knights_army }
 		prerequisite = { focus = TRN_insik_getmore }
 		prerequisite = { focus = TRN_mannam_with_gehenna }
 		completion_reward = {
@@ -5108,14 +5496,14 @@
 	focus = {
 		id = TRN_bbul_evils_nomore
 		icon = GFX_goal_TRN_cant_with_gehenna
-		x = -4
-		y = 6
+		x = 4
+		y = 1
 		cost = 7
 		bypass = {
 			has_war_with = ABY
 		}
-		relative_position_id = TRN_nagisa_gyehek
-		prerequisite = { focus = TRN_Have_hand_to_gehhenna }
+		relative_position_id = TRN_uber_alles
+		prerequisite = { focus = TRN_uber_alles }
 		completion_reward = {
 			add_stability = -0.05
 			ABY = { country_event = { id = TRM_event.369 hours = 3 } }
@@ -5150,8 +5538,8 @@
 	focus = {
 		id = TRN_more_conscriptions
 		icon = GFX_goal_generic_attack_allies
-		x = -3
-		y = 7
+		x = 3
+		y = 2
 		cost = 5
 		bypass = {
 			OR = {
@@ -5159,7 +5547,7 @@
 				has_war_with = GEM
 			}
 		}
-		relative_position_id = TRN_nagisa_gyehek
+		relative_position_id = TRN_uber_alles
 		prerequisite = { focus = TRN_bbul_evils_nomore }
 		completion_reward = {
 			if = {
@@ -5179,8 +5567,8 @@
 	focus = {
 		id = TRN_war_with_knight_templar
 		icon = GFX_focus_SWI_helvetic_junta
-		x = -5
-		y = 7
+		x = 4
+		y = 3
 		cost = 6.5
 		bypass = {
 			OR = {
@@ -5188,7 +5576,7 @@
 				has_war_with = GEM
 			}
 		}
-		relative_position_id = TRN_nagisa_gyehek
+		relative_position_id = TRN_uber_alles
 		prerequisite = { focus = TRN_bbul_evils_nomore }
 		completion_reward = {
 			add_ideas = TRN_Knight_Templar_idea
@@ -5196,14 +5584,56 @@
 	}
 
 	focus = {
-		id = TRN_arius_gotta_out
-		icon = GFX_goal_generic_territory_or_war
-		x = 4
-		y = 5
-		cost = 1.5
+		id = TRM_tail_chasing #꼬리 잡기
+		icon = GFX_goal_generic_secret_weapon
+		will_lead_to_war_with  = ARI
+		cost = 5.00
+		ai_will_do = {
+			base = 200
+		}
 		available = {
+			has_country_flag = TRM_tail_chasing_flag
+		}
+		bypass = {
 			NOT = {
-				has_country_flag = nagisa_imprisoned_flag
+				country_exists = ARI
+			}
+		}
+
+		x = 0
+		y = 2
+		relative_position_id = TRN_yurijono_seia_ser
+		completion_reward = {
+			TRN_country_collapse_down = yes
+			add_days_mission_timeout = {
+				mission = TRN_country_collapse
+				days = 50
+			}
+		}
+
+	}
+
+	focus = {
+		id = TRM_arius_annex #아리우스 노빠구 선전포고
+		icon = GFX_goal_anschluss
+		will_lead_to_war_with  = ARI
+		cost = 5.00
+		prerequisite = {
+			focus = TRN_uber_alles
+			focus = TRM_newfocus_27
+		}
+		prerequisite = {
+			focus = TRM_tail_chasing
+		}
+		ai_will_do = {
+			base = 30
+		}
+		available = {
+			country_exists = ARI
+			TRM = {
+				any_neighbor_country = {
+					tag = ARI
+				}
 			}
 		}
 		bypass = {
@@ -5211,76 +5641,55 @@
 				country_exists = ARI
 			}
 		}
-		relative_position_id = TRN_nagisa_gyehek
-		prerequisite = { focus = TRN_uber_alles }
-		completion_reward = {
-			ARI = {
-				country_event = { id = TRM_event.94 hours = 8 }
-			}
-		}
-	}
 
-	focus = {
-		id = TRN_Arius_gonna_trinity
-		icon = GFX_goal_generic_position_armies
-		x = 4
-		y = 6
-		cost = 8
-		available = {
-			NOT = {
-				has_country_flag = nagisa_imprisoned_flag
-			}
-			OR = {
-				ARI = {
-					is_subject_of = TRM
-				}
-				85 = { is_fully_controlled_by = TRM }
-			}
-		}
-		relative_position_id = TRN_nagisa_gyehek
-		mutually_exclusive = { focus = TRN_Arius_gonna_trinity2 }
-		prerequisite = { focus = TRN_arius_gotta_out }
+		x = 0
+		y = 3
+		relative_position_id = TRN_yurijono_seia_ser
 		completion_reward = {
-			add_state_core = 85
-			annex_country = { target = ARI transfer_troops = yes }
+			TRN_country_collapse_remove = yes
+			create_wargoal = {
+				target = ARI
+				type = annex_everything
+			}
 		}
-	}
 
+	}
 	focus = {
-		id = TRN_Arius_gonna_trinity2
-		icon = GFX_goal_generic_major_war
-		x = 6
-		y = 6
+		id = TRN_trinity_arius_gaebal
+		icon = GFX_goal_generic_more_territorial_claims
 		cost = 5
+		prerequisite = {
+			focus = TRM_arius_annex
+		}
 		available = {
-			NOT = {
-				has_country_flag = nagisa_imprisoned_flag
-				country_exists = ARI
-			}
 			85 = { is_fully_controlled_by = TRM }
 		}
-		relative_position_id = TRN_nagisa_gyehek
-		mutually_exclusive = { focus = TRN_Arius_gonna_trinity }
-		prerequisite = { focus = TRN_arius_gotta_out }
+		ai_will_do = {
+			base = 100
+		}
+		relative_position_id = TRM_arius_annex
+		x = 0
+		y = 2
 		completion_reward = {
 			add_state_core = 85
-		}
-	}
-
-	focus = {
-		id = TRN_Arius_perfect_trinity
-		icon = GFX_goal_generic_major_alliance
-		x = 5
-		y = 7
-		cost = 4
-		relative_position_id = TRN_nagisa_gyehek
-		prerequisite = { focus = TRN_Arius_gonna_trinity focus = TRN_Arius_gonna_trinity2 }
-		completion_reward = {
-			add_political_power = 25
-			add_stability = 0.05
+			85 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+				set_state_name = BA_Trinity_Basilica
+			}
 			set_province_name = {
 				id = 362
-				name = BA_Trinity_Basilica
+				name = BA_Trinity_Basilica_2
 			}
 		}
 	}
@@ -5297,7 +5706,7 @@
 			focus = TRN_Request_assistance_from_relief_knights
 		}
 		relative_position_id = TRN_nagisa_gyehek
-		x = 0
+		x = -1
 		y = 5
 		completion_reward = {
 
@@ -5326,7 +5735,7 @@
 			focus = TRN_Request_assistance_from_Sisterhood
 		}
 		relative_position_id = TRN_nagisa_gyehek
-		x = 2
+		x = 1
 		y = 5
 		completion_reward = {
 
@@ -5357,7 +5766,7 @@
 		}
 		prerequisite = { focus = TRN_Request_assistance_from_Sisterhood }
 		relative_position_id = TRN_nagisa_gyehek
-		x = 0
+		x = -1
 		y = 6
 		completion_reward = {
 		    custom_effect_tooltip = TRN_tooltip_add_war_support_1
@@ -5395,7 +5804,7 @@
 		}
 		prerequisite = { focus = TRN_Request_assistance_from_relief_knights }
 		relative_position_id = TRN_nagisa_gyehek
-		x = 2
+		x = 1
 		y = 6
 		completion_reward = {
 			custom_effect_tooltip = TRN_tooltip_add_attdef

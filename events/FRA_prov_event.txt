@@ -1,6 +1,18 @@
 add_namespace = FRA_prov_event
 add_namespace = FRA_recover
 country_event = {
+	id = FRA_prov_event.2000
+	title = FRA_prov_event.2000.t
+	desc = FRA_prov_event.2000.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = FRA_prov_event.2000.a
+		load_focus_tree = FRA_focus_win
+	}
+}
+
+country_event = {
 	#망명
 	id = FRA_prov_event.1
 	title = FRA_prov_event.1.t
@@ -38,7 +50,7 @@ country_event = {
 		}
 		add_equipment_to_stockpile = {
 			type = infantry_equipment
-			amount = 1000
+			amount = 100
 		}
 		army_experience = 1
 		add_political_power = 30
@@ -2037,7 +2049,7 @@ country_event = {
 	desc = FRA_prov_event.54.d
 	is_triggered_only = yes
 	fire_only_once = yes
-	hidden = yes
+	hidden = no
 	option = {
 		name = FRA_prov_event.54.a
 		VIN = {
@@ -2166,7 +2178,7 @@ country_event = {
 			limit = {
 				is_core_of = MIL
 			}
-			add_manpower = -2000
+			add_manpower = -200
 		}
 	}
 	option = {
@@ -2176,7 +2188,7 @@ country_event = {
 			limit = {
 				is_core_of = MIL
 			}
-			add_manpower = -2000
+			add_manpower = -200
 		}}
 		set_global_flag = MIL_i_dont_want_fra_resistance_event
 	}
@@ -3192,203 +3204,266 @@ country_event = {
 }
 
 country_event = {
-	#SRT에 자치 제안
+	#레지스탕스 히든 이벤트 무한 반복
 	id = FRA_prov_event.86
 	title = FRA_prov_event.86.t
 	desc = FRA_prov_event.86.d
 	is_triggered_only = yes
-	fire_only_once = yes
-	option = {
-		#ㅇㅋ
-		name = FRA_prov_event.86.a
-		add_stability = 0.1
-		FRA = {
-			country_event = {
-				id = FRA_prov_event.87
-				days = 3
+	hidden = yes
+	trigger = {
+		NOT = { has_global_flag = STOP_FRA_prepare_war_flag }
+	}
+	immediate = {
+		country_event = {
+			id = FRA_prov_event.86
+			days = 70
+			random_days = 40
+		}
+		random_list = {
+			999 = {
+				country_event = {
+					id = FRA_prov_event.87
+					random_days = 50
+				}
+                modifier = {
+                    NOT = { check_variable = { global.BA_resistance_n_var = 3 } }
+                    factor = 0                
+                }
 			}
+			999 = {
+				country_event = {
+					id = FRA_prov_event.88
+					random_days = 50
+				}
+				
+                modifier = {
+                    NOT = { check_variable = { global.BA_resistance_e_var = 3 } }
+                    factor = 0                
+                }
+			}
+			1 = {}
 		}
 	}
 	option = {
-		#족가
-		name = FRA_prov_event.86.b
-		add_war_support = 0.1
-		ai_chance = {
-			base = 10
-		}
-		FRA = {
-			country_event = {
-				id = FRA_prov_event.88
-				days = 3
-			}
-		}
+		
 	}
 }
 
 country_event = {
-	#SRT의 수락
+	#레지스탕스 - 연구속도
 	id = FRA_prov_event.87
 	title = FRA_prov_event.87.t
 	desc = FRA_prov_event.87.d
 	is_triggered_only = yes
-	fire_only_once = yes
 	option = {
-		#ㅇㅋ
 		name = FRA_prov_event.87.a
-		set_autonomy = {
-			target = SRT
-			autonomy_state = autonomy_dominion
-		}
-		hidden_effect = {
-			SRT = {
-				set_politics = {
-					ruling_party = fascism
+		random_list = {
+			1 = {
+				add_tech_bonus = {
+					category = infantry_tech
+					bonus = 0.08
+					uses = 1
 				}
-				set_popularities = {
-					fascism = 70
-					communism = 30
+			}
+			1 = {
+				add_tech_bonus = {
+					category = support_tech
+					bonus = 0.08
+					uses = 1
 				}
-				set_cosmetic_tag = SRT_dominion
+			}
+			1 = {
+				add_tech_bonus = {
+					category = artillery
+					bonus = 0.08
+					uses = 1
+				}
+			}
+			1 = {
+				add_tech_bonus = {
+					category = electronics
+					bonus = 0.08
+					uses = 1
+				}
+			}
+			1 = {
+				add_tech_bonus = {
+					category = cat_production
+					bonus = 0.08
+					uses = 1
+				}
+			}
+			1 = {
+				add_tech_bonus = {
+					category = construction_tech
+					bonus = 0.08
+					uses = 1
+				}
+			}
+			1 = {
+				add_tech_bonus = {
+					category = cat_synth_oil
+					bonus = 0.08
+					uses = 1
+				}
 			}
 		}
+		add_political_power = 5
 	}
 }
 
 country_event = {
-	#SRT의 거절
+	#레지스탕스 - 건설과 채굴
 	id = FRA_prov_event.88
 	title = FRA_prov_event.88.t
 	desc = FRA_prov_event.88.d
 	is_triggered_only = yes
-	fire_only_once = yes
 	option = {
 		name = FRA_prov_event.88.a
-		declare_war_on = {
-			target = SRT
-			type = annex_everything
+		add_timed_idea = {
+			idea = FRA_industry_tools
+			days = 45
 		}
+		add_political_power = 5
 	}
 }
 
 country_event = {
-	#북부 영토 반환 요구
+	#대규모 탄압을 피해 온 레지스탕스
 	id = FRA_prov_event.89
 	title = FRA_prov_event.89.t
 	desc = FRA_prov_event.89.d
 	is_triggered_only = yes
-	fire_only_once = yes
 	option = {
 		name = FRA_prov_event.89.a
-		diplomatic_relation = {
-			country = FRA
-			relation = non_aggression_pact
+		add_manpower = 2000
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = 2000
 		}
-		every_state = {
-			limit = {
-				is_owned_by = ROOT
-				is_claimed_by = FRA
-			}
-			transfer_state_to = FRA
-			set_demilitarized_zone = yes
-		}
-		FRA = {
-			country_event = {
-				id = FRA_prov_event.90
-				days = 3
-			}
-		}
-	}
-	option = {
-		name = FRA_prov_event.89.b
-		FRA = {
-			create_wargoal = {
-				target = ROOT
-				type = take_claimed_state
-			}
-			country_event = {
-				id = FRA_prov_event.91
-				days = 3
-			}
-		}
+		army_experience = 5
+		add_war_support = 0.03
+		custom_effect_tooltip = FRA_prov_event.89_tt
 	}
 }
 
 country_event = {
-	#반환 받음
+	#위 이벤트 밀레니엄 입장
 	id = FRA_prov_event.90
 	title = FRA_prov_event.90.t
 	desc = FRA_prov_event.90.d
 	is_triggered_only = yes
-	fire_only_once = yes
+	immediate = {
+		hidden_effect = {
+			FRA = {country_event = FRA_prov_event.89}
+		}
+	}
 	option = {
 		name = FRA_prov_event.90.a
-		add_popularity = {
-			ideology = var:current_party_ideology_group
-			popularity = 0.03
+		random_owned_state = {
+			limit = {
+				is_core_of = FRA
+			}
+			add_manpower = -2000
 		}
 	}
 }
 
 country_event = {
-	#못받음
+	#철도 완공
 	id = FRA_prov_event.91
 	title = FRA_prov_event.91.t
 	desc = FRA_prov_event.91.d
 	is_triggered_only = yes
 	fire_only_once = yes
+	picture = GFX_report_event_generic_train
 	option = {
 		name = FRA_prov_event.91.a
-		add_political_power = -50
+		898 = {
+			BA_increase_state_category_by_one_level = yes
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+			}
+			add_building_construction = {
+				type = supply_node
+				level = 1
+				province = 2044
+			}
+			add_compliance = 0.05
+		}
+		899 = {
+			BA_increase_state_category_by_one_level = yes
+			add_building_construction = {
+				type = infrastructure
+				level = 1
+			}
+			add_compliance = 0.05
+		}
+		build_railway = {
+			level = 1
+			build_only_on_allied = yes
+			fallback = yes
+			start_state = 898
+			target_state = 899
+			path = {2044 12383 10812 10915 2012}
+		}
+		unlock_decision_tooltip = FRA_more_sahara_rail
 	}
 }
 
 country_event = {
-	#일본 압박
+	#철도 호황
 	id = FRA_prov_event.92
 	title = FRA_prov_event.92.t
 	desc = FRA_prov_event.92.d
 	is_triggered_only = yes
 	fire_only_once = yes
+	picture = GFX_report_event_generic_train
 	option = {
-		#자원채굴권만 좀;;
 		name = FRA_prov_event.92.a
-		every_owned_state = {
+		if = {
 			limit = {
-				OR = {
-					state = 728
-					state = 670
-					state = 671
-					state = 286
-					state = 741
+				has_country_flag = FRA_sahara_rail_flag
+			}
+			898 = {
+				BA_increase_state_category_by_one_level = yes
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
 				}
 			}
-			transfer_state_to = FRA
-		}
-		FRA = {
-			country_event = {
-				id = FRA_prov_event.93
-				days = 3
+			899 = {
+				BA_increase_state_category_by_one_level = yes
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+				}
 			}
 		}
-	}
-	option = {
-		#족가
-		name = FRA_prov_event.92.b
-		add_war_support = 0.05
-		ai_chance = {
-			base = 10
-		}
-		FRA = {
-			country_event = {
-				id = FRA_prov_event.94
-				days = 3
+		else = {
+			899 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
 			}
 		}
+		custom_effect_tooltip = FRA_prov_event.92_tt
 	}
 }
 
 country_event = {
-	#받음
+	#안씀
 	id = FRA_prov_event.93
 	title = FRA_prov_event.93.t
 	desc = FRA_prov_event.93.d
@@ -3400,7 +3475,7 @@ country_event = {
 }
 
 country_event = {
-	#못받음
+	#안씀
 	id = FRA_prov_event.94
 	title = FRA_prov_event.94.t
 	desc = FRA_prov_event.94.d
@@ -3408,21 +3483,11 @@ country_event = {
 	fire_only_once = yes
 	option = {
 		name = FRA_prov_event.94.a
-		every_country = {
-			limit = {
-				has_war_with = JAP
-			}
-			add_timed_idea = {
-				idea = FRA_support
-				days = 400
-			}
-			send_embargo = JAP
-		}
 	}
 }
 
 country_event = {
-	#반파시즘 세력 초대
+	#안 씀
 	id = FRA_prov_event.95
 	title = FRA_prov_event.95.t
 	desc = FRA_prov_event.95.d
@@ -4297,6 +4362,10 @@ country_event = {
 				ideology = neutrality
 				long_name = FRA_neutrality_party_mil_gov
 				name = FRA_neutrality_party_mil_gov
+			}
+			country_event = {
+				id = FRA_prov_event.86
+				days = 100
 			}
 		}
 	}
@@ -6316,5 +6385,7 @@ country_event = {
 		retire_character = FRA_leon_blum
 		retire_character = FRA_edouard_daladier
 		retire_character = FRA_maurice_thorez
+		set_country_flag = BA_ban_democratic_parties_flag
+		set_country_flag = BA_ban_communism_parties_flag
 	}
 }

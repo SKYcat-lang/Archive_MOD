@@ -75,6 +75,9 @@ political_actions = {
         fire_only_once = yes
 	 	ai_will_do = { base = 10 }
 		available = {
+            TRM = {
+                has_completed_focus = TRN_GO_TO_EAST
+            }
 			surrender_progress > 0.70
 			is_subject = no
 			has_war_with = TRM
@@ -503,22 +506,6 @@ BA_sov_pol_war_decision = {
 		fire_only_once = yes
 	}
 }
-debug_decisions = {
-    TRM_auto_complete_focus_after_war = {
-		priority = 80
-		allowed = {
-			always = yes
-		}
-
-		visible = {
-			is_ai = no
-			is_debug = yes
-		}
-		complete_effect = {
-            complete_national_focus = TRM_after_war
-		}
-    }
-}
 BA_sov_making_ssr_cat = { 
 	POL_ssr_dec = {
 		cost = 10
@@ -758,6 +745,78 @@ BA_sov_making_ssr_cat = {
 			}
 			set_autonomy = {
 				target = PER
+				autonomy_state = autonomy_collaboration_government
+			}
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			base = 100
+		}
+	}
+	AFG_ssr_dec = {
+		cost = 10
+		days_remove = 50
+		icon = GFX_decision_SOV_secure_the_administration
+		visible = {
+			owns_state = 415
+		}
+		available = {
+			NOT = {
+				has_war_with = AFG
+			}
+		}
+		remove_effect = {
+			every_owned_state = {
+				limit = {
+					is_core_of = AFG
+					NOT = {
+						is_core_of = SOV
+						is_claimed_by = SOV
+					}
+				}
+				transfer_state_to = AFG
+			}
+			AFG = {
+				set_variable = { collaboration_formed_by = ROOT }
+			}
+			set_autonomy = {
+				target = AFG
+				autonomy_state = autonomy_collaboration_government
+			}
+		}
+		fire_only_once = yes
+		ai_will_do = {
+			base = 100
+		}
+	}
+	IRQ_ssr_dec = {
+		cost = 10
+		days_remove = 50
+		icon = GFX_decision_SOV_secure_the_administration
+		visible = {
+			owns_state = 291
+		}
+		available = {
+			NOT = {
+				has_war_with = IRQ
+			}
+		}
+		remove_effect = {
+			every_owned_state = {
+				limit = {
+					is_core_of = IRQ
+					NOT = {
+						is_core_of = SOV
+						is_claimed_by = SOV
+					}
+				}
+				transfer_state_to = IRQ
+			}
+			IRQ = {
+				set_variable = { collaboration_formed_by = ROOT }
+			}
+			set_autonomy = {
+				target = IRQ
 				autonomy_state = autonomy_collaboration_government
 			}
 		}

@@ -2,6 +2,7 @@ focus_tree = {
 	id = ARI_focus_tree
 	continuous_focus_position = { x = 10 y = 1250 }
 	shared_focus = BA_new_world_technology
+	shared_focus = Eden_formation_of_alliance_treaty_organization
 	country = {
 		factor = 0
 		modifier = {
@@ -15,7 +16,7 @@ focus_tree = {
         id = ARI_use_hanran #혼란 이용
 		icon = GFX_goal_generic_major_war
 		dynamic = yes
-        cost = 10.00
+        cost = 5.00
         x = 14
         y = 0
         completion_reward = {
@@ -27,7 +28,7 @@ focus_tree = {
         id = ARI_quiet_rearmament #조용한 재무장
 		icon = GFX_focus_secret_rearmament
 		dynamic = yes
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = ARI_use_hanran }
         x = -2
         y = 1
@@ -47,7 +48,7 @@ focus_tree = {
 		dynamic = yes
         cost = 5.00
 		prerequisite = { focus = ARI_quiet_rearmament }
-        x = -2
+        x = -1
         y = 1
 		relative_position_id = ARI_quiet_rearmament
 		available = {
@@ -58,6 +59,10 @@ focus_tree = {
 		}
         completion_reward = {
 			add_political_power = 50
+			swap_ideas = {
+				remove_idea = BA_ARI_bitter_revanchism
+				add_idea = BA_ARI_bitter_revanchism_2
+			}
 		}
     }
 	focus = {
@@ -90,24 +95,71 @@ focus_tree = {
 		id = ARI_deny_trinity #삼위일체론 부정
 		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
 		prerequisite = {
-			focus = ARI_TRM_penetration
-			focus = ARI_contact_with_azusa
 			focus = ARI_from_end_to_end
+			focus = ARI_vanitas_vanitatum
+		}
+		prerequisite = {
+			focus = ARI_second_council
+		}
+		available = {
+			is_subject = no
+			OR = {
+				controls_state = 64
+				any_country = {
+					controls_state = 64
+					OR = {
+						is_subject_of = ARI
+						has_country_flag = ARI_puppet_state
+					}
+				}
+			}
+			controls_state = 188
+			controls_state = 763
+			controls_state = 5
+			controls_state = 807
 		}
 		cost = 5
-		x = 1
-		y = 2
-		relative_position_id = ARI_deceptive_operation
-
-		available = {
-			NOT = { has_war_with = TRM }
-		}
+		x = 3
+		y = 4
+		relative_position_id = ARI_use_hanran
 
 		completion_reward = {
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = BA_ARI_bitter_revanchism_2
+					add_idea = BA_ARI_bitter_revanchism_3
+				}
+			}
+			hidden_effect = {
+				if = {  
+					limit = { has_idea = BA_ARI_bitter_revanchism_2 }
+					swap_ideas = {
+						remove_idea = BA_ARI_bitter_revanchism_2
+						add_idea = BA_ARI_bitter_revanchism_3
+					}
+				}
+				else_if = {  
+					limit = { has_idea = BA_ARI_bitter_revanchism }
+					swap_ideas = {
+						remove_idea = BA_ARI_bitter_revanchism
+						add_idea = BA_ARI_bitter_revanchism_3
+					}
+				}
+				else = {
+					add_ideas = BA_ARI_bitter_revanchism_3
+				}
+			}
 			add_political_power = 120
-			swap_ideas = {
-				remove_idea = BA_ARI_bitter_revanchism
-				add_idea = BA_ARI_bitter_revanchism_2
+			add_state_core = 188
+			add_state_core = 763
+			add_state_core = 5
+			add_state_core = 807
+			every_controlled_state = {
+				limit = {
+					is_core_of = TRM
+				}
+				add_resistance = -10
+				add_compliance = 10
 			}
 		}
 	}
@@ -144,7 +196,7 @@ focus_tree = {
 		dynamic = yes
         cost = 10.00
 		prerequisite = { focus = ARI_quiet_rearmament }
-        x = 1
+        x = 2
         y = 2
 		relative_position_id = ARI_quiet_rearmament
         completion_reward = {
@@ -159,8 +211,8 @@ focus_tree = {
 			focus = ARI_use_hanran
 		}
 		dynamic = yes
-		cost = 10
-		x = 1
+		cost = 5
+		x = 2
 		y = 1
 		relative_position_id = ARI_use_hanran
 		completion_reward = {
@@ -181,7 +233,7 @@ focus_tree = {
 			focus = ARI_nationalize_war_industry
 		}
 		dynamic = yes
-		cost = 10
+		cost = 5
 		x = 0
 		y = 2
 		relative_position_id = ARI_nationalize_war_industry
@@ -190,16 +242,30 @@ focus_tree = {
 		}
 	}
 
+	focus = {# 사태 파악
+		id = ARI_emergency_now
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 5
+		x = 25
+		y = 0
+		available = {
+			num_of_factories < 20
+		}
+		ai_will_do = { factor = 0 }
+		completion_reward = {
+			country_event = { id = ARI_event.5 hours = 8 }
+		}
+	}
+
     focus = {
         id = ARI_war_with_trinity #트리니티와의 전쟁
 		icon = GFX_focus_attack_TRN
 		dynamic = yes
         cost = 10.00
-		prerequisite = { 
-			focus = ARI_from_end_to_end 
-		}
+
 		prerequisite = {
-			focus = ARI_vanitas_vanitatum
+			focus = ARI_use_hanran
+			focus = ARI_emergency_now
 		}
 
 		available = {
@@ -212,8 +278,9 @@ focus_tree = {
 			has_war_with = TRM
 		}
 
-        x = 14
-        y = 4
+		x = 5
+		y = 1
+		relative_position_id = ARI_use_hanran
         completion_reward = {
 			if = {
 				limit = {
@@ -246,13 +313,14 @@ focus_tree = {
 			focus = ARI_war_with_trinity
 		}
 		available = {
-			has_war = no
-			is_puppet = no
-			OR = {
-				NOT = {
-					country_exists = TRM
+			is_subject = no
+			TRM = {
+				OR = {
+					exists = no
+					has_capitulated = yes
+					is_subject_of = ARI
+					has_country_flag = ARI_puppet_state
 				}
-				has_subject = TRM
 			}
 		}
 		cost = 10
@@ -268,29 +336,13 @@ focus_tree = {
 		}
 	}
 
-	focus = {# 사태 파악
-		id = ARI_emergency_now
-		icon = GFX_goal_generic_neutrality_focus
-		cost = 2
-		x = 25
-		y = 0
-		available = {
-			has_country_flag = GAEBALJUNG
-			num_of_factories < 20
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-			country_event = { id = ARI_event.5 hours = 8 }
-		}
-	}
-
 	focus = { #현지 정당과 접촉
 		id = ARI_contact_with_local_parties
 		icon = GFX_goal_tripartite_pact
 		prerequisite = {
 			focus = ARI_emergency_now
 		}
-		cost = 3
+		cost = 5
 		x = 1
 		y = 1
 		relative_position_id = ARI_emergency_now
@@ -309,7 +361,7 @@ focus_tree = {
 		prerequisite = {
 			focus = ARI_emergency_now
 		}
-		cost = 3
+		cost = 5
 		x = -1
 		y = 1
 		relative_position_id = ARI_emergency_now
@@ -344,6 +396,18 @@ focus_tree = {
 				remove_idea = ARI_undisturbed_wareconomy
 				add_idea = ARI_wareconomy
 			}
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.10
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.10
+			}
 		}
 	}
 
@@ -354,7 +418,7 @@ focus_tree = {
 			focus = ARI_understanding_of_local_conditions
 		}
 		mutually_exclusive = { focus = ARI_from_the_bottom_up }
-		cost = 10
+		cost = 5
 		x = 2
 		y = 3
 		relative_position_id = ARI_emergency_now
@@ -363,6 +427,11 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_war_support = 0.10
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.10
+			}
 		}
 	}
 
@@ -372,7 +441,7 @@ focus_tree = {
 		prerequisite = {
 			focus = ARI_exercise_of_dominance
 		}
-		cost = 10
+		cost = 5
 		x = 1
 		y = 1
 		relative_position_id = ARI_exercise_of_dominance
@@ -381,6 +450,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_dynamic_modifier = { modifier = ARI_nazi_party }
 		}
 	}
 
@@ -390,8 +460,8 @@ focus_tree = {
 		prerequisite = {
 			focus = ARI_recognition_of_the_nazi_party
 		}
-		cost = 10
-		x = -1
+		cost = 5
+		x = 1
 		y = 1
 		relative_position_id = ARI_recognition_of_the_nazi_party
 
@@ -399,6 +469,8 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_close_contact_with_germans_tt
+			add_to_variable = { ARI_nazi_party_conscription = 0.05 }
 		}
 	}
 
@@ -408,8 +480,8 @@ focus_tree = {
 		prerequisite = {
 			focus = ARI_recognition_of_the_nazi_party
 		}
-		cost = 10
-		x = 1
+		cost = 5
+		x = -1
 		y = 1
 		relative_position_id = ARI_recognition_of_the_nazi_party
 
@@ -417,6 +489,15 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_manpower = 12000
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 3000
+			}
+			add_equipment_to_stockpile = {
+				type = support_equipment
+				amount = 150
+			}
 		}
 	}
 
@@ -428,7 +509,7 @@ focus_tree = {
 		}
 		mutually_exclusive = { focus = ARI_exercise_of_dominance }
 		
-		cost = 10
+		cost = 5
 		x = -2
 		y = 3
 		relative_position_id = ARI_emergency_now
@@ -437,6 +518,16 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_stability = -0.05
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			add_ideas = ARI_political_landscape_changes
 		}
 	}
 
@@ -446,7 +537,7 @@ focus_tree = {
 		prerequisite = {
 			focus = ARI_from_the_bottom_up
 		}
-		cost = 10
+		cost = 5
 		x = -2
 		y = 2
 		relative_position_id = ARI_from_the_bottom_up
@@ -455,6 +546,17 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_god_is_dead_tt
+			add_to_variable = { ARI_arian_political_power_gain = 0.15 }
+			add_to_variable = { ARI_arian_consumer_goods_factor = -0.05 }
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
 		}
 	}
 
@@ -465,7 +567,7 @@ focus_tree = {
 			focus = ARI_from_the_bottom_up
 			focus = ARI_exercise_of_dominance
 		}
-		cost = 10
+		cost = 5
 		x = 2
 		y = 1
 		relative_position_id = ARI_from_the_bottom_up
@@ -474,6 +576,9 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_solidarity_with_trade_unions_tt
+			add_to_variable = { ARI_arian_industrial_capacity_factory = 0.05 }
+			add_to_variable = { ARI_arian_industrial_capacity_dockyard = 0.05 }
 		}
 	}
 
@@ -481,10 +586,10 @@ focus_tree = {
 		id = ARI_german_nationalism
 		icon = GFX_focus_generic_spread_fascism
 		prerequisite = {
-			focus = ARI_from_the_bottom_up
+			focus = ARI_solidarity_with_trade_unions
 		}
 		mutually_exclusive = { focus = ARI_the_proletariat }
-		cost = 10
+		cost = 5
 		x = 0
 		y = 1
 		relative_position_id = ARI_solidarity_with_trade_unions
@@ -493,6 +598,9 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_german_nationalism_tt
+			add_to_variable = { ARI_arian_war_support_factor = 0.10 }
+			add_to_variable = { ARI_arian_conscription_factor = 0.10 }
 		}
 	}
 
@@ -502,7 +610,7 @@ focus_tree = {
 		prerequisite = {
 			focus = ARI_from_the_bottom_up
 		}
-		cost = 10
+		cost = 5
 		x = 0
 		y = 1
 		relative_position_id = ARI_from_the_bottom_up
@@ -511,6 +619,12 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_class_theory_tt
+			add_to_variable = { ARI_arian_production_factory_max_efficiency_factor = 0.05 }
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.10
+			}
 		}
 	}
 
@@ -521,7 +635,7 @@ focus_tree = {
 			focus = ARI_class_theory
 		}
 		mutually_exclusive = { focus = ARI_german_nationalism }
-		cost = 10
+		cost = 5
 		x = 0
 		y = 2
 		relative_position_id = ARI_from_the_bottom_up
@@ -530,6 +644,13 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_the_proletariat_tt
+			add_to_variable = { ARI_arian_production_factory_efficiency_gain_factor = -0.05 }
+			add_to_variable = { ARI_arian_production_factory_max_efficiency_factor = 0.10 }
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
 		}
 	}
 
@@ -549,9 +670,14 @@ focus_tree = {
 		relative_position_id = ARI_from_the_bottom_up
 
 		available = {
+            custom_trigger_tooltip = {
+                tooltip = THIS_IS_WIP_TT
+			    has_country_flag = GAEBALJUNG
+            }
 		}
 
 		completion_reward = {
+			add_political_power = 120
 		}
 	}
 
@@ -571,9 +697,20 @@ focus_tree = {
 		relative_position_id = ARI_solidarity_with_trade_unions
 
 		available = {
+            custom_trigger_tooltip = {
+                tooltip = THIS_IS_WIP_TT
+			    has_country_flag = GAEBALJUNG
+            }
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_we_are_arians_tt
+			add_to_variable = { ARI_nazi_party_stability_factor = 0.10 }
+			if = { limit = { has_dynamic_modifier = { modifier = ARI_nazi_party } }
+				custom_effect_tooltip = ARI_we_are_arians_tooltip
+				add_to_variable = { ARI_nazi_party_stability_factor = -0.10 }
+			}
+			add_political_power = 80
 		}
 	}
 
@@ -582,12 +719,10 @@ focus_tree = {
 		icon = GFX_goal_generic_more_territorial_claims
 		prerequisite = {
 			focus = ARI_german_nationalism
+			focus = ARI_contact_with_resistance_groups
 		}
 		prerequisite = {
 			focus = ARI_close_contact_with_germans
-		}
-		prerequisite = {
-			focus = ARI_contact_with_resistance_groups
 		}
 		mutually_exclusive = { focus = ARI_dismantling_nazism focus = ARI_we_are_arians }
 		cost = 10
@@ -599,6 +734,16 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_anti_trinity_arius_german_united_front_tt
+			add_to_variable = { ARI_arian_war_support_factor = 0.10 }
+			add_to_variable = { ARI_nazi_party_war_support_factor = 0.10 }
+			add_political_power = 20
+			add_stability = -0.10
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.10
+			}
+			remove_ideas = BA_ARI_tragedy
 		}
 	}
 
@@ -615,9 +760,16 @@ focus_tree = {
 		relative_position_id = ARI_from_the_bottom_up
 
 		available = {
+			communism > 0.40
 		}
 
 		completion_reward = {
+			set_politics = {
+				ruling_party = communism
+				elections_allowed = no
+				long_name = ARI_focus_communism_party_long
+				name = ARI_focus_communism_party
+			}
 		}
 	}
 
@@ -634,9 +786,22 @@ focus_tree = {
 		relative_position_id = ARI_from_the_bottom_up
 
 		available = {
+			fascism < 0.40
+			communism < 0.40
 		}
 
 		completion_reward = {
+			set_politics = {
+				ruling_party = neutrality
+				elections_allowed = no
+				long_name = ARI_parliament_neutrality_party_long
+				name = ARI_parliament_neutrality_party
+			}
+			set_party_name = {
+				ideology = democratic
+				long_name = ARI_parliament_party_long
+				name = ARI_parliament_party
+			}
 		}
 	}
 
@@ -655,6 +820,9 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_arius_nationalism_tt
+			add_to_variable = { ARI_arian_war_support_factor = 0.10 }
+			add_to_variable = { ARI_arian_army_org_factor = 0.05 }
 		}
 	}
 
@@ -676,6 +844,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_ideas = ARI_arian_liberation_army
 		}
 	}
 
@@ -695,6 +864,16 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_integration_of_administrative_system_tt
+			add_to_variable = { ARI_arian_production_factory_efficiency_gain_factor = -0.05 }
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
 		}
 	}
 
@@ -704,15 +883,88 @@ focus_tree = {
 		prerequisite = {
 			focus = ARI_integration_of_administrative_system
 		}
-		cost = 5
+		cost = 10
 		x = 0
 		y = 2
 		relative_position_id = ARI_integration_of_administrative_system
 
 		available = {
+			is_subject = no
+			has_war_with = TRM
+		}
+		bypass = {
+			AND = {
+				is_in_faction_with = TRM
+				TRM = { has_government = ROOT } 
+			}
 		}
 
 		completion_reward = {
+			if = {
+				limit = {
+					is_in_faction = yes
+					NOT = { has_war_with = GEN }
+					GEN = {
+						has_completed_focus = GEN_GER_government
+					}
+				}
+				leave_faction = yes
+				GEN = { country_event = { id = generic.2 } }
+			}
+			if = {
+				limit = {
+					is_in_faction = no
+					NOT = { has_war_with = GEN }
+					GEN = {
+						has_completed_focus = GEN_GER_government
+					}
+				}
+				GEN = { country_event = { id = generic.2 } }
+			}
+			if = {
+				limit = {
+					has_war_with = TRM
+				}
+				custom_effect_tooltip = ARI_acceptance_of_exiles_tt
+				hidden_effect = { add_ideas = ARI_german_defectors_1 }
+				division_template = {
+					name = "Deutsches Freikorps"
+					priority = 1
+					division_names_group = GEN_INF_01
+					is_locked = yes
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+			
+	    			   	infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+						infantry = { x = 1 y = 2 }
+					}
+		
+					support = {
+						engineer = { x = 0 y = 0 }
+						recon = { x = 0 y = 1 }
+						artillery = { x = 0 y = 2 }
+					}
+				}
+				TRM = {
+					add_ideas = ARI_german_defectors_2
+					country_event = { id = ARI_event.70 }
+				}
+			}
+			if = {
+				limit = {
+					NOT = { has_war_with = TRM }
+				}
+				effect_tooltip = {
+					custom_effect_tooltip = ARI_acceptance_of_exiles_tt
+					TRM = {
+						add_ideas = ARI_german_defectors_2
+						country_event = { id = ARI_event.71 }
+					}
+				}
+			}
 		}
 	}
 
@@ -728,9 +980,21 @@ focus_tree = {
 		relative_position_id = ARI_exercise_of_dominance
 
 		available = {
+			is_subject = no
+			has_government = fascism
 		}
 
 		completion_reward = {
+			add_country_leader_role = {
+				character = ARI_reinhard_heydrich
+				promote_leader = no
+				country_leader = {
+					ideology = nazism
+					expire = "1965.1.1.1"
+					traits = { ARI_reinhard_heydrich_Atrait }
+				}
+			}
+			add_ideas = ARI_reinhard_heydrich_idea_1
 		}
 	}
 
@@ -746,9 +1010,31 @@ focus_tree = {
 		relative_position_id = ARI_meeting
 
 		available = {
+			is_subject = no
+			has_government = fascism
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_security_chief_of_former_germany_tt
+			add_trait = {
+				character = ARI_reinhard_heydrich
+				ideology = nazism
+				trait = ARI_reinhard_heydrich_Btrait
+		   	}
+			hidden_effect = {
+				if = { limit = { has_idea = ARI_reinhard_heydrich_idea_1 }
+					swap_ideas = {
+						remove_idea = ARI_reinhard_heydrich_idea_1
+						add_idea = ARI_reinhard_heydrich_idea_2
+					}
+				}
+				if = { limit = { has_idea = ARI_reinhard_heydrich_idea_1_D }
+					swap_ideas = {
+						remove_idea = ARI_reinhard_heydrich_idea_1_D
+						add_idea = ARI_reinhard_heydrich_idea_2_D
+					}
+				}
+			}
 		}
 	}
 
@@ -764,9 +1050,34 @@ focus_tree = {
 		relative_position_id = ARI_security_chief_of_former_germany
 
 		available = {
+			is_subject = no
+			has_government = fascism
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_exercise_of_executive_orders_tooltip
+			hidden_effect = {
+				add_ideas = ARI_german_leadership
+				division_template = {
+					name = "Ordnungspolizei"
+					priority = 1
+					division_names_group = GEN_SS_01
+					is_locked = yes
+					regiments = {
+						militia = { x = 0 y = 0 }
+						militia = { x = 0 y = 1 }
+						militia = { x = 0 y = 2 }
+			
+						militia = { x = 1 y = 0 }
+						militia = { x = 1 y = 1 }
+						militia = { x = 1 y = 2 }
+					}
+		
+					support = {
+						recon = { x = 0 y = 0 }
+					}
+				}
+			}
 		}
 	}
 
@@ -782,9 +1093,38 @@ focus_tree = {
 		relative_position_id = ARI_security_chief_of_former_germany
 
 		available = {
+			is_subject = no
+			has_government = fascism
 		}
 
 		completion_reward = {
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ARI_reinhard_heydrich_idea_2
+					add_idea = ARI_reinhard_heydrich_idea_3
+				}
+			}
+			hidden_effect = {
+				ARI_reinhard_heydrich = {
+					swap_country_leader_traits = {
+						remove = ARI_reinhard_heydrich_Atrait
+						add = ARI_reinhard_heydrich_Ctrait
+						ideology = nazism
+					}
+				}
+				if = { limit = { has_idea = ARI_reinhard_heydrich_idea_2 }
+					swap_ideas = {
+						remove_idea = ARI_reinhard_heydrich_idea_2
+						add_idea = ARI_reinhard_heydrich_idea_3
+					}
+				}
+				if = { limit = { has_idea = ARI_reinhard_heydrich_idea_2_D }
+					swap_ideas = {
+						remove_idea = ARI_reinhard_heydrich_idea_2_D
+						add_idea = ARI_reinhard_heydrich_idea_3_D
+					}
+				}
+			}
 		}
 	}
 
@@ -803,9 +1143,15 @@ focus_tree = {
 		relative_position_id = ARI_security_chief_of_former_germany
 
 		available = {
+			is_subject = no
+			has_government = fascism
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_reichssicherheitshauptamt_tt
+			add_to_variable = { ARI_nazi_party_war_support_factor = 0.10 }
+			add_to_variable = { ARI_nazi_party_army_attack_factor = 0.05 }
+			add_to_variable = { ARI_nazi_party_army_defence_factor = 0.05 }
 		}
 	}
 
@@ -821,9 +1167,32 @@ focus_tree = {
 		relative_position_id = ARI_meeting
 
 		available = {
+			has_government = fascism
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_gotthold_ephraim_lessing_tt
+			add_to_variable = { ARI_arian_stability_factor = -0.05 }
+			add_to_variable = { ARI_arian_army_org_factor = 0.05 }
+			add_to_variable = { ARI_arian_monthly_population = -0.10 }
+			add_political_power = 120
+			add_war_support = 0.20
+			hidden_effect = {
+				remove_dynamic_modifier = {
+					modifier = ARI_arian_faith
+				}
+				add_dynamic_modifier = {
+					modifier = ARI_gottglaubig
+				}
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
 		}
 	}
 
@@ -842,9 +1211,35 @@ focus_tree = {
 		relative_position_id = ARI_gotthold_ephraim_lessing
 
 		available = {
+			has_government = fascism
 		}
 
 		completion_reward = {
+			add_trait = {
+				character = ARI_reinhard_heydrich
+				ideology = nazism
+				trait = dictator
+		   	}
+			hidden_effect = {
+				if = { limit = { has_idea = ARI_reinhard_heydrich_idea_1 }
+					swap_ideas = {
+						remove_idea = ARI_reinhard_heydrich_idea_1
+						add_idea = ARI_reinhard_heydrich_idea_1_D
+					}
+				}
+				if = { limit = { has_idea = ARI_reinhard_heydrich_idea_2 }
+					swap_ideas = {
+						remove_idea = ARI_reinhard_heydrich_idea_2
+						add_idea = ARI_reinhard_heydrich_idea_2_D
+					}
+				}
+				if = { limit = { has_idea = ARI_reinhard_heydrich_idea_3 }
+					swap_ideas = {
+						remove_idea = ARI_reinhard_heydrich_idea_3
+						add_idea = ARI_reinhard_heydrich_idea_3_D
+					}
+				}
+			}
 		}
 	}
 
@@ -860,9 +1255,14 @@ focus_tree = {
 		relative_position_id = ARI_gotthold_ephraim_lessing
 
 		available = {
+			has_government = fascism
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_brainwashing_procedure_tt
+			add_to_variable = { ARI_arian_political_power_factor = 0.10 }
+			add_to_variable = { ARI_arian_war_support_factor = 0.05 }
+			add_to_variable = { ARI_nazi_party_drift_defence_factor = 0.30 }
 		}
 	}
 
@@ -877,14 +1277,44 @@ focus_tree = {
 			focus = ARI_purge_of_opposition
 		}
 		cost = 10
-		x = -1
+		x = 0
 		y = 3
 		relative_position_id = ARI_gotthold_ephraim_lessing
 
 		available = {
+			is_subject = no
+			has_government = fascism
 		}
 
 		completion_reward = {
+			if = { limit = { can_be_country_leader = ARI_reinhard_heydrich }
+				promote_character = ARI_reinhard_heydrich
+			}
+			else = {
+				add_country_leader_role = {
+					character = ARI_reinhard_heydrich
+					promote_leader = yes
+					country_leader = {
+						ideology = nazism
+						expire = "1965.1.1.1"
+						traits = { ARI_reinhard_heydrich_Atrait }
+					}
+				}
+			}
+			if = { limit = { has_idea = ARI_reinhard_heydrich_idea_1 }
+				remove_ideas = ARI_reinhard_heydrich_idea_1
+			}
+			if = { limit = { has_idea = ARI_reinhard_heydrich_idea_2 }
+				remove_ideas = ARI_reinhard_heydrich_idea_2
+			}
+			if = { limit = { has_idea = ARI_reinhard_heydrich_idea_3 }
+				remove_ideas = ARI_reinhard_heydrich_idea_3
+			}
+			set_party_name = {
+				ideology = fascism
+				long_name = GER_fascism_party_long
+				name = GER_fascism_party
+			}
 		}
 	}
 
@@ -903,9 +1333,13 @@ focus_tree = {
 		relative_position_id = ARI_anti_trinity_arius_german_united_front
 
 		available = {
+			is_subject = no
+			has_government = fascism
 		}
 
 		completion_reward = {
+			add_political_power = 60
+			
 		}
 	}
 	

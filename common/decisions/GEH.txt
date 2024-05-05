@@ -1290,6 +1290,53 @@ GEH_war_defence_category = {
 		}
 	}
 }
+GEH_State_government_dismantlement_work_category = {
+	GEH_state_government_dismantlement_work = {
+		icon = GFX_decision_eng_trade_unions_support
+		highlight_states = {
+			highlight_state_targets = {
+				state = FROM
+			}
+			highlight_color_while_active = 3
+			highlight_color_before_active = 2
+		}
+		target_array = GEH.controlled_states
+		state_target = yes
+		target_trigger = {
+			FROM = {
+				has_dynamic_modifier = {
+					modifier = GEH_state_government
+				}
+			}
+		}
+		on_map_mode = map_and_decisions_view
+		ai_will_do = {
+			factor = 200
+		}
+		visible = {
+			tag = GEH
+		}
+		available = {
+			political_power_daily > 0
+		}
+		
+		cost = 5
+		
+		days_remove = 59
+
+		modifier = {
+			political_power_cost = 0.35
+		}
+		
+		remove_effect = {
+			FROM = {
+				remove_dynamic_modifier = {
+					modifier = GEH_state_government
+				}
+			}
+		}
+	}
+}
 war_measures = {
 	GEM_surrender = {
 		icon = GFX_decision_generic_form_nation
@@ -1489,6 +1536,7 @@ political_actions = {
 		allowed = {
 			original_tag = GEH
 		}
+        fire_only_once = yes
 
 		visible = {
             custom_trigger_tooltip = {
@@ -1510,7 +1558,7 @@ political_actions = {
                     GEF = { controls_state = 59 }
                 }
             }
-            GEH = { controls_state = 55 }
+            GEH = { owns_state = 55 }
             NOT = { has_completed_focus = GEH_hit_wehrmacht }
         }
 		
@@ -1543,7 +1591,7 @@ political_actions = {
     				GEM = { controls_state = 59 }
     				GEH = { controls_state = 59 }
                 }
-                GEH ={ controls_state = 55 }
+                GEH ={ owns_state = 55 }
 				add = 400
 			}
 		}

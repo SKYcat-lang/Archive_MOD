@@ -3,12 +3,24 @@ TRN_country_collapse_decisions = {
 		icon = GFX_decision_generic_break_treaty
 
 		activation = {
-			always = no
+			OR = {
+				has_idea = TRM_collapse_4
+				has_idea = TRM_collapse_3
+				has_idea = TRM_collapse_2
+				has_idea = TRM_collapse_1
+			}
 	 	}
 
 		allowed = {
+			original_tag = TRM
 		}
     	available = {
+			NOT = {
+				has_idea = TRM_collapse_4
+				has_idea = TRM_collapse_3
+				has_idea = TRM_collapse_2
+				has_idea = TRM_collapse_1
+			}
 			has_country_flag = TRM_bunggoehajima
     	} 
 		
@@ -20,28 +32,28 @@ TRN_country_collapse_decisions = {
 		is_good = no
 		modifier = {
 		}
-		days_mission_timeout = 14
+		days_mission_timeout = 120
 		timeout_effect = {
-			custom_effect_tooltip = TRN_country_collapse_fali
-			hidden_effect = {
-				country_event = { id = TRM_event.29 }
-			}
+			TRN_country_collapse_up = yes
+			activate_mission = TRN_country_collapse
 		}
 		complete_effect = {
+			remove_ideas = TRM_collapse_4
 			custom_effect_tooltip = TRN_country_collapse_success
 			add_stability = 0.05
 		}
 	}
-	TRM_calm_storm = { 
+	TRM_calm_storm = {
 		icon = GFX_decision_generic_break_treaty
-		allowed = {
-		}
     	available = {
-			always = no
-    	} 
-		ai_will_do = {
-			base = 100
-		}
+			event_target:TRM_collapse_event_target = {
+				OR = {
+					exists = no
+					has_capitulated = yes
+					is_subject_of = ROOT
+				}
+			}
+    	}
 		
 		activation = {
 			always =  no
@@ -53,27 +65,34 @@ TRN_country_collapse_decisions = {
 		is_good = no
 		modifier = {
 		}
-		days_mission_timeout = 10
+		days_mission_timeout = 70
 		timeout_effect = {
-			NSD = {
-				declare_war_on = {
-					target = KPD
-					type = annex_everything
-				}
-				declare_war_on = {
-					target = TRM
-					type = annex_everything
-				}
-			}
-			KPD = {
-				declare_war_on = {
-					target = TRM
-					type = annex_everything
-				}
-			}
+			#진압 실패 - 총체적 붕괴 이벤트 체인 시작
+			country_event = TRN_collapse_event.3
 		}
 		complete_effect = {
-			
+			add_ideas = TRM_collapse_3
+
+			#붕괴 이벤트가 진압되었으니 다시 국민정신을 제공하고 존재하는 모든 플래그를 제거합니다. (초기화)
+			clr_global_flag = TRN_collapse_event_proceeding_flag
+			if = { limit = { has_country_flag = TRN_collapse_event_communism_party }
+				clr_country_flag = TRN_collapse_event_communism_party
+			}
+			if = { limit = { has_country_flag = TRN_collapse_event_democratic_party }
+				clr_country_flag = TRN_collapse_event_democratic_party
+			}
+			if = { limit = { has_country_flag = TRN_collapse_event_fascism_party }
+				clr_country_flag = TRN_collapse_event_fascism_party
+			}
+			if = { limit = { has_country_flag = TRN_collapse_event_cathpalug }
+				clr_country_flag = TRN_collapse_event_cathpalug
+			}
+			if = { limit = { has_country_flag = TRN_collapse_event_vigilante }
+				clr_country_flag = TRN_collapse_event_vigilante
+			}
+			if = { limit = { has_country_flag = TRN_collapse_event_hifumi }
+				clr_country_flag = TRN_collapse_event_hifumi
+			}
 		}
 	}
 }
@@ -1655,7 +1674,7 @@ TRM_kivotos_core_states_categories = {
 			# country_event = 
 		} 
 		remove_effect = {
-			NEN = {
+            event_target:Trinity_Puppet_RUS = {
 				set_cosmetic_tag = TRN_SOV_Reich
 				annex_country = {
 					target = TRV
@@ -1673,9 +1692,28 @@ TRM_kivotos_core_states_categories = {
 					target = TRU
 					transfer_troops = yes
 				}
-			}
+                every_state = {
+                    limit = {
+                        OR = {
+                            is_core_of = TRV
+                            is_core_of = TRS
+                            is_core_of = TRU
+                            is_core_of = TRE
+                        }
+                    }
+                    add_core_of = event_target:Trinity_Puppet_RUS
+                }
+            }
+            country_event = TRM_Event.104
+            hidden_effect = {
+                every_state = {
+                    remove_core_of = TRV
+                    remove_core_of = TRS
+                    remove_core_of = TRU
+                    remove_core_of = TRE
+                }
+            }
         }
-
 	}
 	TRN_KAPKAS_HOLY_MANDATE = {
 		allowed = { }
@@ -1781,6 +1819,7 @@ TRM_kivotos_core_states_categories = {
 			add_state_core = 30
 			add_state_core = 15
 			add_state_core = 23
+            BA_puppet_on_action_effect = yes
 			hidden_effect = {
 			create_country_leader = {
 				name = "TRN_dkdhahfl_alsp"
@@ -1869,10 +1908,32 @@ TRM_kivotos_core_states_categories = {
 	}
 	TRM_RED_Reichskommissariat = {
 		available = {
-			any_state = { 
-				is_core_of = RED
-				is_controlled_by = TRM
-			}
+            custom_trigger_tooltip = {
+                tooltip = TRM_RED_Reichskommissariat_tt
+                controls_state = 912
+                controls_state = 99
+                controls_state = 37
+                controls_state = 911
+                controls_state = 138
+                controls_state = 139
+                controls_state = 915
+                controls_state = 140
+                controls_state = 913
+                controls_state = 919
+                controls_state = 141
+                controls_state = 916
+                controls_state = 38
+                controls_state = 110
+                controls_state = 921
+                controls_state = 922
+                controls_state = 142
+                controls_state = 143
+                controls_state = 923
+                controls_state = 924
+                controls_state = 144
+                controls_state = 918
+                controls_state = 666
+            }
 		}
 		visible = { }
 		cost = 100
@@ -1917,6 +1978,9 @@ TRM_kivotos_core_states_categories = {
 					limit = { is_core_of = SWE }
 					add_core_of = PREV
 				}
+                load_focus_tree = {
+					tree = GEH_lose_focus_tree
+                }
 				create_country_leader = {
 					name = "Josef_Terboven_Name"
 					desc = ""
@@ -1945,7 +2009,11 @@ TRM_kivotos_core_states_categories = {
 				transfer_state = 921
 				transfer_state = 922
 				transfer_state = 916
+				transfer_state = 911
+				transfer_state = 99
+				transfer_state = 37
 				set_cosmetic_tag = TRN_RED
+                BA_puppet_on_action_effect = yes
 				set_capital = { state = 37 }
 				set_party_name = {
 					ideology = fascism
@@ -1962,21 +2030,35 @@ TRM_kivotos_core_states_categories = {
 				}
 				TRM = { puppet = PREV }
 			}
-			TRM = {
-				transfer_state = 99
-				transfer_state = 911
-				transfer_state = 37
-			}
+			TRM = { transfer_state = 912 }
 			}
 		}
 	}
 	TRM_SPR_Reichskommissariat = {
 		available = {
-			has_war = no
-			any_state = { 
-				is_core_of = SPR
-				is_controlled_by = TRM
-			}
+			has_war = No
+            controls_state = 176
+            controls_state = 172
+            controls_state = 166
+            controls_state = 165
+            controls_state = 793
+            controls_state = 167
+            controls_state = 791
+            controls_state = 174
+            controls_state = 790
+            controls_state = 171
+            controls_state = 788
+            controls_state = 41
+            controls_state = 168
+            controls_state = 789
+            controls_state = 169
+            controls_state = 173
+            controls_state = 177
+            controls_state = 180
+            controls_state = 181
+            controls_state = 112
+            controls_state = 795
+            controls_state = 179
 		}
 		visible = { }
 		cost = 100
@@ -2241,6 +2323,53 @@ TRM_after_school_sweets_club = {
         }
 	}
 
+}
+debug_decisions = {
+    TRM_auto_complete_focus_after_war = {
+		priority = 80
+		allowed = {
+			always = yes
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+            tag = TRM
+		}
+		complete_effect = {
+            complete_national_focus = TRM_after_war
+		}
+    }
+    TRM_auto_complete_focus_newfocus27 = {
+		priority = 80
+		allowed = {
+			always = yes
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+            tag = TRM
+		}
+		complete_effect = {
+            complete_national_focus = TRM_newfocus_27
+		}
+    }
+    TRM_auto_complete_focus_TRM_domination = {
+		priority = 80
+		allowed = {
+			always = yes
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+            tag = TRM
+		}
+		complete_effect = {
+            complete_national_focus = TRM_domination
+		}
+    }
 }
 
 

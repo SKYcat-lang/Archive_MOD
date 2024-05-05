@@ -38,10 +38,21 @@ country_event = { #제2회 공회의
 
 	option = {
 		name = ARI_event.2.a
-		add_stability = -0.30
-		every_state = {
-			limit = { is_core_of = TRM }
-			add_core_of = ROOT
+		add_stability = -0.10
+		every_country = {
+			limit = {
+				original_tag = TRM
+				OR = {
+					is_subject_of = ARI
+					has_country_flag = ARI_puppet_state
+				}
+			}
+			ARI = {
+				annex_country = {
+					target = PREV
+					transfer_troops = yes
+				}
+			}
 		}
 		news_event = BA_news.46
 	}
@@ -119,7 +130,7 @@ country_event = { #상황 파악
 
 	option = {
 		name = ARI_event.5.a
-		add_stability = 0.05
+		add_stability = -0.05
 	}
 }
 
@@ -134,7 +145,7 @@ country_event = { #상황 파악
 
 	option = {
 		name = ARI_event.6.a
-		add_stability = 0.10
+		add_stability = 0.05
 	}
 }
 
@@ -149,7 +160,7 @@ country_event = { #상황 파악
 
 	option = {
 		name = ARI_event.7.a
-		add_stability = 0.10
+		add_stability = 0.05
 	}
 }
 
@@ -240,5 +251,239 @@ country_event = { #아리우스 스쿼드의 패주
 		name = ARI_event.10.a
 		add_stability = -0.10
 		add_war_support = -0.10
+	}
+}
+
+country_event = { #트리니티 불안도 증가 이벤트 1
+	id = ARI_event.11
+	title = ARI_event.11.t
+	desc = ARI_event.11.d
+	picture = GFX_event_none_picture
+
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.11.a
+		TRN_country_collapse_up = yes
+		add_stability = -0.05
+	}
+}
+country_event = { #트리니티 불안도 증가 이벤트 2
+	id = ARI_event.12
+	title = ARI_event.12.t
+	desc = ARI_event.12.d
+	picture = GFX_event_none_picture
+
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.12.a
+		TRN_country_collapse_up = yes
+		add_manpower = -1000
+	}
+}
+country_event = { #트리니티 불안도 증가 이벤트 2
+	id = ARI_event.13
+	title = ARI_event.13.t
+	desc = ARI_event.13.d
+	picture = GFX_event_none_picture
+
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.13.a
+		TRN_country_collapse_up = yes
+		add_war_support = -0.05
+	}
+}
+country_event = { #걸림 ㅎ
+	id = ARI_event.14
+	title = ARI_event.14.t
+	desc = ARI_event.14.d
+	picture = GFX_event_none_picture
+
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.14.a
+		custom_effect_tooltip = ARI_event_14_tt
+		add_to_variable = { ARI_eye_var = -1 }
+		add_war_support = 0.05
+		set_country_flag = {
+			flag = ARI_penetration_stop_flag
+			days = 70
+			value = 1
+		}
+		if = {
+			limit = {
+				has_global_flag = ARI_event_14_flag
+			}
+			set_global_flag = ARI_event_14_overflag
+		}
+		else = {
+			set_global_flag = ARI_event_14_flag
+		}
+	}
+}
+country_event = { #2번 걸림 ㅎ
+	id = ARI_event.15
+	title = ARI_event.15.t
+	desc = ARI_event.15.d
+	picture = GFX_event_none_picture
+
+	fire_only_once = yes
+	is_triggered_only = no
+
+	trigger = {
+		tag = TRM
+		has_global_flag = ARI_event_14_overflag
+	}
+	mean_time_to_happen = {
+		days = 35
+	}
+
+	option = {
+		name = ARI_event.15.a
+		set_country_flag = TRM_tail_chasing_flag
+	}
+}
+country_event = { #경찰여단
+	id = ARI_event.69
+	title = ARI_event.69.t
+	desc = ARI_event.69.d
+	picture = GFX_report_event_german_troops_paris
+
+	fire_only_once = no
+	
+	trigger = {
+		original_tag = ARI
+		ARI = {
+			has_idea = ARI_german_leadership
+		}
+		any_country = {
+			OR = {
+				original_tag = ARI
+				is_in_faction_with = ARI
+				is_subject_of = ARI
+				has_country_flag = ARI_puppet_state
+			}
+			any_controlled_state = {
+				is_fully_controlled_by = PREV
+				NOT = { has_state_flag = ARI_exercise_of_executive_orders_state_flag }
+				is_core_of = GER
+			}
+		}
+	}
+
+	mean_time_to_happen = {
+		days = 2
+	}
+
+	option = {
+		name = excellent
+		every_country = {
+			limit = {
+				OR = {
+					original_tag = ARI
+					is_in_faction_with = ARI
+					is_subject_of = ARI
+					has_country_flag = ARI_puppet_state
+				}
+			}
+			every_state = {
+				limit = {
+					is_fully_controlled_by = PREV
+					NOT = { has_state_flag = ARI_exercise_of_executive_orders_state_flag }
+					is_core_of = GER
+				}
+				set_state_flag = ARI_exercise_of_executive_orders_state_flag
+				create_unit = {
+					division = "division_template = \"Ordnungspolizei\" start_experience_factor = 0.3 start_equipment_factor = 0.60"
+					owner = ARI
+				}
+				create_unit = {
+					division = "division_template = \"Ordnungspolizei\" start_experience_factor = 0.2 start_equipment_factor = 0.40"
+					owner = ARI
+				}
+			}
+		}
+	}
+}
+# Event spawning pro-Kaiser deserter unit
+country_event = {
+	id = ARI_event.70
+	title = ARI_event.70.t
+	desc = ARI_event.70.d
+	picture = GFX_report_event_german_troops
+
+	fire_only_once = no
+	
+	trigger = {
+		original_tag = ARI
+		has_idea = ARI_german_defectors_1
+	}
+
+	mean_time_to_happen = {
+		days = 90
+	}
+	
+	# Good
+	option = {
+		name = excellent
+		if = {
+			limit = {
+				any_state = {
+					is_fully_controlled_by = ROOT
+					is_on_continent = europe
+				}
+			}
+			random_state = {
+				limit = {
+					is_fully_controlled_by = ROOT
+					is_on_continent = europe
+				}
+				create_unit = {
+					division = "division_template = \"Deutsches Freikorps\" start_experience_factor = 0.5 start_equipment_factor = 0.25"
+					owner = ARI
+				}
+			}
+		}
+		else = {
+			random_state = {
+				limit = {
+					is_fully_controlled_by = ROOT
+				}
+				create_unit = {
+					division = "division_template = \"Deutsches Freikorps\" start_experience_factor = 0.5 start_equipment_factor = 0.25"
+					owner = ARI
+				}
+			}
+		}
+	}
+}
+
+# Event informing Germany of pro-Kaiser deserters
+country_event = {
+	id = ARI_event.71
+	title = ARI_event.71.t
+	desc = ARI_event.71.d
+	picture = GFX_report_event_german_troops
+
+	is_triggered_only = yes
+	
+	# Damn them!
+	option = {
+		name = ARI_event.71.a
+		trigger = {
+			NOT = { has_government = fascism }
+		}
+		add_ideas = ARI_german_defectors_2
+	}
+	option = {
+		name = ARI_event.71.b
+		trigger = {
+			has_government = fascism
+		}
+		add_ideas = ARI_german_defectors_2
 	}
 }

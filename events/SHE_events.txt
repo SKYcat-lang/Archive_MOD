@@ -142,7 +142,19 @@ country_event = {
 				NOT = {
 					has_government = fascism
 				}
-				add = 10
+				add = 8
+			}
+			modifier = {
+				NOT = {
+					has_government = neutrality
+				}
+				add = 3
+			}
+			modifier = {
+				NOT = {
+					has_government = democratic
+				}
+				add = 3
 			}
 			modifier = {
 				is_puppet_of = SHE
@@ -151,21 +163,21 @@ country_event = {
 			modifier = {
 				has_opinion = {
     				target = SHE
-    				value < 0
+    				value > 0
 				}
 				factor = 0.5
 			}
 			modifier = {
 				has_opinion = {
     				target = SHE
-    				value < 30
+    				value > 30
 				}
 				factor = 2
 			}
 			modifier = {
 				has_opinion = {
     				target = SHE
-    				value < 50
+    				value > 50
 				}
 				factor = 2
 			}
@@ -176,7 +188,10 @@ country_event = {
 		}
 		every_other_country = {
 			limit = { is_subject_of = ROOT }
-			puppet = FROM
+			FROM = {
+				puppet = PREV
+			}
+			country_event = { id = SHE_event.18 days = 15 random_days = 10 random_hours = 24 }
 		}
 		FROM = {
 			annex_country = {
@@ -203,7 +218,7 @@ country_event = {
 			}
 		}
 		name = SHE_event.5.b
-		FROM = { 
+		FROM = {
 			faction_leader = {
 				remove_from_faction = ROOT
 			}
@@ -617,5 +632,88 @@ country_event = {
 	
 	option = {
 		name = SHE_event.17.a
+	}
+}
+country_event = {
+	id = SHE_event.18
+	title = SHE_event.18.t
+	desc = SHE_event.18.desc
+	picture = GFX_report_event_she_all_integration
+	
+    is_triggered_only = yes
+	immediate = {
+		if = { 
+			limit = { 
+				OR = {
+					tag = RE1
+					tag = RE2
+					tag = RE3
+					tag = RE4
+				} 
+				NOT = { has_global_flag = RED_provisional_government_flag }
+			}
+			set_global_flag = RED_provisional_government_flag
+		}
+	}
+	
+	option = {
+		name = SHE_event.18.a
+		add_stability = -0.02
+	}
+	option = {
+		name = SHE_event.18.b
+		ai_chance = {
+			modifier = {
+				factor = 0
+				OR = {
+					tag = RE1
+					tag = RE2
+					tag = RE3
+					tag = RE4
+				}
+			}
+		}
+
+		add_stability = 0.05
+		add_war_support = 0.05
+		if = {
+			limit = {
+				is_subject = yes
+			}
+			overlord = {
+				end_puppet = ROOT
+			}
+		}
+	}
+	option = {
+		name = SHE_event.18.RED
+		trigger = {
+			OR = {
+				tag = RE1
+				tag = RE2
+				tag = RE3
+				tag = RE4
+			}
+			NOT = { has_global_flag = RED_provisional_government_flag }
+		}
+		ai_chance = {
+			factor = 4000
+		}
+
+		add_stability = 0.05
+		add_war_support = 0.20
+		if = {
+			limit = {
+				is_subject = yes
+			}
+			overlord = {
+				end_puppet = ROOT
+			}
+		}
+		set_cosmetic_tag = RED_provisional_government
+		RED_instability_system_remove_effect = yes
+		if = { limit = { has_idea = RED_democratic_resistancel_idea }
+			remove_ideas = RED_democratic_resistancel_idea
+		}
 	}
 }

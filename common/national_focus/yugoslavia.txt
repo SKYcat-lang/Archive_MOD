@@ -1925,6 +1925,7 @@ focus_tree = {
 		available_if_capitulated = no
 		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
+			custom_effect_tooltip = YUG_united_kingdom_tt
 			every_other_country = {
 				limit = {
 					capital_scope = {
@@ -2505,7 +2506,7 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = YUG_western_focus
 		}
-		x = 40
+		x = 37
 		y = 0
 		ai_will_do = {
 			factor = 20
@@ -2529,7 +2530,7 @@ focus_tree = {
 			focus = YUG_rejection_of_left_wing_extremism
 		}
 		cost = 5
-		x = 0
+		x = 6
 		y = 1
 		relative_position_id = YUG_Establishment_of_the_Republic
 		ai_will_do = {
@@ -3415,11 +3416,27 @@ focus_tree = {
 		available = {
 			is_subject = no
 			OR = {
-				BUL = {
-					is_subject_of = YUG
+				AND = {
+					BUL = {
+						is_subject_of = YUG
+					}
 				}
-				ALB = {
-					is_subject_of = YUG
+				AND = {
+					has_full_control_of_state = 48
+					has_full_control_of_state = 801
+					has_full_control_of_state = 212
+					has_full_control_of_state = 211
+				}
+			}
+			OR = {
+				AND = {
+					ALB = {
+						is_subject_of = YUG
+					}
+				}
+				AND = {
+					has_full_control_of_state = 934
+					has_full_control_of_state = 44
 				}
 			}
 		}
@@ -3746,11 +3763,8 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = YUG_recognize_the_soviet_union
 		}
-		allow_branch = {
-			is_debug = yes
-		}
 		cost = 5
-		x = -8
+		x = -6
 		y = 1
 		relative_position_id = YUG_Establishment_of_the_Republic
 		ai_will_do = {
@@ -3767,15 +3781,16 @@ focus_tree = {
 				ideology = democratic
 				popularity = 0.05
 			}
+			add_ideas = YUG_weak_parliament
 		}
 	}
 
 	focus = {
 		id = YUG_end_of_compromism
-		icon = GFX_focus_generic_support_the_left_right
+		icon = GFX_goal_generic_dangerous_deal
 		prerequisite = { focus = YUG_rejection_of_left_wing_extremism }
 		cost = 5
-		x = 0
+		x = -1
 		y = 1
 		ai_will_do = {
 			factor = 10
@@ -3812,11 +3827,11 @@ focus_tree = {
 		id = YUG_underground_organization_integration
 		icon = GFX_goal_generic_production2
 		prerequisite = { 
-			focus = YUG_end_of_compromism
+			focus = YUG_rejection_of_left_wing_extremism
 		}
 		cost = 5
-		x = 0
-		y = 2
+		x = 1
+		y = 1
 		ai_will_do = {
 			factor = 20
 		}
@@ -3845,14 +3860,13 @@ focus_tree = {
 		icon = GFX_goal_generic_improve_relations
 		cost = 5
 		prerequisite = {
-			focus = YUG_oust_the_fascists
-			focus = YUG_rejection_of_left_wing_extremism
+			focus = YUG_Constitution_Reform
 		}
 		allow_branch = {
 			is_debug = yes
 		}
-		x = 7
-		y = 1
+		x = 5
+		y = 2
 		ai_will_do = {
 			factor = 10
 		}
@@ -3882,7 +3896,7 @@ focus_tree = {
 			factor = 30
 		}
 		completion_reward = {
-			add_ideas = YUG_Idea_With_Independent_Democratic_Party
+			add_ideas = YUG_weak_parliament
 		}
 	}
 	
@@ -3948,29 +3962,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = YUG_Anti_Extremism
-		icon = GFX_focus_spr_crush_the_revolution
-		cost = 5
-		prerequisite = {
-			focus = YUG_With_Independent_Democratic_Party
-		}
-		x = -1
-		y = 1
-		ai_will_do = {
-			factor = 10
-		}
-		relative_position_id = YUG_With_Independent_Democratic_Party
-		completion_reward = {
-			add_ideas = YUG_Idea_Anti_Extremism
-		}
-	}
-
-	focus = {
 		id = YUG_strengthening_of_parliamentary_powers
-		icon = GFX_goal_generic_neutrality_focus
+		icon = GFX_focus_generic_strike_at_democracy1
 		cost = 5
 		prerequisite = {
 			focus = YUG_With_Independent_Democratic_Party
+			focus = YUG_end_of_compromism
 		}
 		x = 1
 		y = 1
@@ -3979,6 +3976,162 @@ focus_tree = {
 		}
 		relative_position_id = YUG_With_Independent_Democratic_Party
 		completion_reward = {
+			swap_ideas = {
+				remove_idea = YUG_weak_parliament
+				add_idea = YUG_parliament
+			}
+			add_timed_idea = {
+				idea = YUG_Idea_Anti_Extremism
+				days = 365
+			}
+		}
+	}
+
+	focus = {
+		id = YUG_alliance_with_france
+		icon = GFX_focus_chi_reach_out_to_france
+		prerequisite = { focus = YUG_strengthening_of_parliamentary_powers }
+		mutually_exclusive = { focus = YUG_alliance_with_the_uk }
+		x = 1
+		y = 1
+		relative_position_id = YUG_strengthening_of_parliamentary_powers
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 200
+		}
+
+		available = {
+			is_in_faction = no
+			FRA = {
+				hidden_trigger = { 
+					exists = yes
+					has_capitulated = no
+				}
+				is_faction_leader = yes 
+				has_civil_war = no	
+				NOT = { has_war_with = ROOT }
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+			add_ai_strategy = {
+				type = alliance
+				id = FRA
+				value = 200
+			}
+			FRA = {
+				add_ai_strategy = {
+					type = alliance
+					id = ROOT
+					value = 200
+				}
+			}
+			FRA = {
+				country_event = generic.2
+			}
+		}
+	}
+	
+	focus = {
+		id = YUG_alliance_with_the_uk
+		icon = GFX_focus_ARG_join_the_allies
+		prerequisite = { focus = YUG_strengthening_of_parliamentary_powers }
+		mutually_exclusive = { focus = YUG_alliance_with_france }
+		x = -1
+		y = 1
+		relative_position_id = YUG_strengthening_of_parliamentary_powers
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 200
+		}
+
+		available = {
+			is_in_faction = no
+			any_other_country = { 
+				hidden_trigger = { 
+					exists = yes
+					has_capitulated = no
+				}
+				has_government = democratic
+				is_faction_leader = yes 
+				has_civil_war = no	
+				NOT = {
+					has_war_with = ROOT
+					Kivotos_tag = yes
+				}
+			}
+			if = {
+				limit = {
+					ENG = { has_government = democratic }
+				}
+				NOT = {
+					any_other_country = {
+						is_in_faction_with = ENG
+						has_war_with = YUG
+					}
+				}
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+			every_other_country = {
+				limit = {
+					OR = {
+						has_government = democratic
+						has_government = neutrality
+					}
+					OR = {
+						original_tag = USA
+						original_tag = ENG
+						original_tag = FRA
+						original_tag = CAN
+					}
+				}
+				add_opinion_modifier = { 
+					target = ROOT
+					modifier = medium_increase
+				}
+			}
+			if = {
+				limit = {
+					ENG = {
+						exists = yes
+						has_government = democratic
+						is_faction_leader = yes
+					}
+				}
+				ENG = {
+					country_event = generic.2
+				}
+			}
+			else = {
+				BANOKVT_get_best_alliance_match_democratic_effect = yes
+				var:best_leader = {
+					country_event = generic.2
+				}
+			}
 		}
 	}
 
@@ -3987,11 +4140,10 @@ focus_tree = {
 		icon = GFX_focus_generic_strike_at_democracy2
 		cost = 5
 		prerequisite = {
-			focus = YUG_Anti_Extremism
-			focus = YUG_With_Socialist_Party
+			focus = YUG_end_of_compromism
 		}
 		prerequisite = {
-			focus = YUG_strengthening_of_parliamentary_powers
+			focus = YUG_With_Socialist_Party
 		}
 		prerequisite = {
 			focus = YUG_underground_organization_integration
@@ -4031,6 +4183,68 @@ focus_tree = {
 					add_idea = YUG_Idea_Constitutional_Monarchy
 				}
 			}
+		}
+	}
+
+	focus = {
+		id = YUG_multinational_state
+		icon = GFX_focus_generic_self_management
+		prerequisite = { focus = YUG_General_Election }
+		mutually_exclusive = { focus = YUG_yugoslavian_nationalism }
+		x = 1
+		y = 1
+		relative_position_id = YUG_General_Election
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 200
+		}
+
+		available = {
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = YUG_yugoslavian_nationalism
+		icon = GFX_focus_generic_support_the_left_right
+		prerequisite = { focus = YUG_General_Election }
+		mutually_exclusive = { focus = YUG_multinational_state }
+		x = -1
+		y = 1
+		relative_position_id = YUG_General_Election
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 200
+		}
+
+		available = {
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
 		}
 	}
 
@@ -5651,7 +5865,7 @@ focus_tree = {
 	focus = {
 		id = YUG_industrialization_program
 		icon = GFX_goal_generic_construction
-		x = 52
+		x = 55
 		y = 0
 
 		cost = 10
@@ -6778,7 +6992,7 @@ focus_tree = {
 	focus = {
 		id = YUG_modernize_the_air_force
 		icon = GFX_goal_generic_air_doctrine
-		x = 59
+		x = 62
 		y = 0
 
 		cost = 10
@@ -7441,7 +7655,7 @@ focus_tree = {
 	focus = {
 		id = YUG_army_modernization
 		icon = GFX_goal_generic_army_doctrines
-		x = 69
+		x = 72
 
 		cost = 10
 
@@ -8178,7 +8392,7 @@ focus_tree = {
 		id = YUG_expand_the_split_shipyards
 		icon = GFX_goal_generic_construct_naval_dockyard
 		mutually_exclusive = { focus = YUG_expand_the_serbian_shipyards }
-		x = 77
+		x = 80
 		y = 0
 
 		cost = 10
