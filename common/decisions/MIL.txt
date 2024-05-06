@@ -2107,6 +2107,7 @@ FRA_prepare_war = {
 				has_global_flag = MIL_res_destroy_flag
 				has_global_flag = MIL_res_army_flag
 				has_country_flag = MIL_rule_flag
+				has_country_flag = MIL_resistance_suppression_decisions_flag
 				has_global_flag = STOP_FRA_prepare_war_flag
 			}
 		}
@@ -2981,6 +2982,76 @@ FRA_prepare_war = {
 	}
 }
 MIL_defensive_war = {
+	MIL_resistance_suppression_decisions = {
+		icon = GFX_decision_generic_prepare_civil_war
+		
+		allowed = {
+			original_tag = MIL
+		}
+
+		available = {
+			surrender_progress > 0.25
+		}
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				has_war_with = FRA
+				factor = 20
+			}
+			modifier = {
+				has_defensive_war = yes
+				factor = 20
+			}
+			modifier = {
+				surrender_progress > 0.1
+				factor = 5
+			}
+			modifier = {
+				surrender_progress > 0.2
+				factor = 5
+			}
+			modifier = {
+				surrender_progress > 0.3
+				factor = 10
+			}
+			modifier = {
+				surrender_progress > 0.5
+				factor = 4000
+			}
+		}
+		
+		cost = 100
+
+		days_remove = 280
+		days_re_enable = 80
+
+		cancel_trigger = {
+			has_war = no
+		}
+
+		modifier = {
+			political_power_cost = 0.50
+			custom_modifier_tooltip = MIL_resistance_suppression_decisions_tt
+		}
+		cancel_effect = {
+			if = { limit = { has_country_flag = MIL_resistance_suppression_decisions_flag }
+				clr_country_flag = MIL_resistance_suppression_decisions_flag
+			}
+		}
+		complete_effect = {
+			news_event = { id = BA_news.80 hours = 12 }
+			set_country_flag = {
+				flag = MIL_resistance_suppression_decisions_flag
+				days = 280
+			}
+		}
+		remove_effect = {
+			if = { limit = { has_country_flag = MIL_resistance_suppression_decisions_flag }
+				clr_country_flag = MIL_resistance_suppression_decisions_flag
+			}
+		}
+	}
 	MIL_automated_robotic_armament = {
 		icon = GFX_decision_generic_factory
 		
