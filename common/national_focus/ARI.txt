@@ -164,6 +164,48 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = ARI_step_onto_the_world_stage #세계를 향한 도약
+		icon = GFX_goal_generic_propaganda
+		prerequisite = {
+			focus = ARI_deny_trinity
+		}
+		available = {
+			num_of_factories > 20
+		}
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = ARI_deny_trinity
+
+		completion_reward = {
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ARI_wareconomy
+					add_idea = war_economy
+				}
+			}
+			hidden_effect = {
+				if = {  
+					limit = { has_idea = ARI_undisturbed_wareconomy }
+					swap_ideas = {
+						remove_idea = ARI_undisturbed_wareconomy
+						add_idea = war_economy
+					}
+				}
+				else_if = {  
+					limit = { has_idea = ARI_wareconomy }
+					swap_ideas = {
+						remove_idea = ARI_undisturbed_wareconomy
+						add_idea = war_economy
+					}
+				}
+				else = {
+					add_ideas = war_economy
+				}
+			}
+		}
+	}
+	focus = {
         id = ARI_TRM_penetration #트리니티 침투
 		icon = GFX_focus_prc_infiltration
 		dynamic = yes
@@ -249,7 +291,6 @@ focus_tree = {
 		x = 25
 		y = 0
 		available = {
-			num_of_factories < 20
 		}
 		ai_will_do = { factor = 0 }
 		completion_reward = {
@@ -805,15 +846,38 @@ focus_tree = {
 		}
 	}
 
+	focus = { #자유를 향한 외침
+		id = ARI_cry_for_freedom
+		icon = GFX_focus_generic_strike_at_democracy2
+		prerequisite = {
+			focus = ARI_parliamentarism
+			focus = ARI_arius_nationalism
+		}
+		cost = 10
+		x = -2
+		y = 2
+		relative_position_id = ARI_we_are_arians
+
+		available = {
+			has_completed_focus = ARI_from_the_bottom_up
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ARI_cry_for_freedom_tt
+			add_to_variable = { ARI_arian_production_factory_efficiency_gain_factor = 0.05 }
+			add_to_variable = { ARI_arian_army_org_factor = 0.10 }
+		}
+	}
+
 	focus = { #아리우스 민족주의
 		id = ARI_arius_nationalism
 		icon = GFX_goal_generic_propaganda
 		prerequisite = {
 			focus = ARI_we_are_arians
 		}
-		cost = 10
+		cost = 5
 		x = 0
-		y = 3
+		y = 1
 		relative_position_id = ARI_we_are_arians
 
 		available = {
@@ -830,14 +894,11 @@ focus_tree = {
 		id = ARI_national_liberation_army
 		icon = GFX_goal_generic_military_sphere
 		prerequisite = {
-			focus = ARI_acceptance_of_exiles
-		}
-		prerequisite = {
 			focus = ARI_arius_nationalism
 		}
-		cost = 10
-		x = 1
-		y = 4
+		cost = 5
+		x = 0
+		y = 3
 		relative_position_id = ARI_we_are_arians
 
 		available = {
@@ -845,6 +906,52 @@ focus_tree = {
 
 		completion_reward = {
 			add_ideas = ARI_arian_liberation_army
+		}
+	}
+
+	focus = { #반트리니티 민족위원회
+		id = ARI_anti_trinity_national_committee
+		icon = GFX_goal_generic_national_unity
+		prerequisite = {
+			focus = ARI_national_liberation_army
+		}
+		prerequisite = {
+			focus = ARI_cry_for_freedom
+		}
+		cost = 10
+		x = -2
+		y = 4
+		relative_position_id = ARI_we_are_arians
+
+		available = {
+		}
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ARI_arian_liberation_army
+				add_idea = ARI_peoples_liberation_army
+			}
+		}
+	}
+
+	focus = { #독일 독립 약속
+		id = ARI_german_promise_of_independence
+		icon = GFX_focus_ger_oppose_hitler
+		prerequisite = {
+			focus = ARI_national_liberation_army
+		}
+		prerequisite = {
+			focus = ARI_acceptance_of_exiles
+		}
+		cost = 10
+		x = 2
+		y = 4
+		relative_position_id = ARI_we_are_arians
+
+		available = {
+		}
+
+		completion_reward = {
 		}
 	}
 
@@ -861,6 +968,7 @@ focus_tree = {
 		relative_position_id = ARI_exercise_of_dominance
 
 		available = {
+			has_completed_focus = ARI_exercise_of_dominance
 		}
 
 		completion_reward = {
@@ -1318,17 +1426,56 @@ focus_tree = {
 		}
 	}
 
-	focus = { #독일 임시정부
-		id = ARI_german_provisional_government
-		icon = GFX_goal_generic_territory_or_war
+	focus = { #2차 장검의 밤
+		id = ARI_night_of_the_long_knives
+		icon = GFX_goal_radio_silence
 		prerequisite = {
 			focus = ARI_control_of_arius
 		}
 		prerequisite = {
 			focus = ARI_reichssicherheitshauptamt
 		}
+		mutually_exclusive = { focus = ARI_german_provisional_government }
 		cost = 10
 		x = 4
+		y = 6
+		relative_position_id = ARI_anti_trinity_arius_german_united_front
+
+		available = {
+			is_subject = no
+			has_government = fascism
+			controls_state = 60
+			controls_state = 61
+			controls_state = 62
+			controls_state = 63
+			controls_state = 64
+			controls_state = 65
+			controls_state = 66
+			controls_state = 67
+			controls_state = 68
+		}
+
+		completion_reward = {
+			add_political_power = 60
+			GER = {
+				every_core_state = {
+					add_core_of = ARI
+				}
+			}
+			set_cosmetic_tag = ARI_german
+		}
+	}
+
+	focus = { #독일 임시정부
+		id = ARI_german_provisional_government
+		icon = GFX_goal_generic_territory_or_war
+		prerequisite = {
+			focus = ARI_control_of_arius
+			focus = ARI_german_promise_of_independence
+		}
+		mutually_exclusive = { focus = ARI_night_of_the_long_knives }
+		cost = 10
+		x = 0
 		y = 6
 		relative_position_id = ARI_anti_trinity_arius_german_united_front
 
