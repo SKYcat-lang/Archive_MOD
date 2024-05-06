@@ -414,6 +414,9 @@ country_event = { #체리노의 운명
 	option = {
 		name = RED_minori_event.11.a
 		RE2 = {
+			hidden_effect = {
+				kill_country_leader = yes
+			}
 			RED_cherino = {
 				retire = yes
 			}
@@ -485,7 +488,10 @@ country_event = { #덴마크 군정청 좆바름
 			target = RE1
 		}
 		add_war_support = 0.1
-		add_command_power = 10
+		add_equipment_to_stockpile = {
+			type = infantry_equipment_0
+			amount = 3000
+		}
 	}
 }
 country_event = { #조선노동자
@@ -684,9 +690,21 @@ country_event = { #독립한 군정청 조지기
 	is_triggered_only = yes
 	option = { #ㄱㄱ
 		name = RED_minori_event.21.a
-		create_wargoal = {
-			target = FROM
-			type = annex_everything
+		if = {
+			limit = {
+				FROM = {
+					tag = RE3
+				}
+			}
+			activate_mission = RED_military_government_attack_SWE
+		}
+		if = {
+			limit = {
+				FROM = {
+					tag = RE1
+				}
+			}
+			activate_mission = RED_military_government_attack_DEN
 		}
 	}
 	option = { #ㄴㄴ
@@ -747,6 +765,71 @@ country_event = { #사회주의 신헌법 - 도시명
 		country_event = {
 			id = RED_minori_event.20
 			days = 5
+		}
+	}
+}
+country_event = { #자주
+	id = RED_minori_event.23
+	title = RED_minori_event.23.t
+	desc = RED_minori_event.23.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { #해외 자본 국유화
+		name = RED_minori_event.23.a
+		random_owned_controlled_state = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+			}
+		}
+		random_owned_controlled_state = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+			}
+		}
+		add_stability = -0.05
+		add_political_power = -30
+	}
+}
+country_event = { #평등
+	id = RED_minori_event.24
+	title = RED_minori_event.24.t
+	desc = RED_minori_event.24.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { #이민자들을 환영합시다.
+		name = RED_minori_event.24.a
+		every_owned_state = {
+			add_manpower = 1000
+		}
+		add_stability = -0.05
+	}
+}
+country_event = { #해방
+	id = RED_minori_event.25
+	title = RED_minori_event.25.t
+	desc = RED_minori_event.25.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = { #핍박받는 세계민중들을 돕자
+		name = RED_minori_event.25.a
+		every_country = {
+			limit = {
+				NOT = {
+					OR = {
+						is_ally_with = RED
+						tag = RED
+						is_puppet_of = RED
+					}
+				}
+			}
+			add_opinion_modifier = {
+				target = RED
+				modifier = communism_leanings_bad
+			}
 		}
 	}
 }
@@ -1998,5 +2081,9 @@ country_event = { #주 3일제
 			remove_idea = RED_HYUSIK_ideas
 			add_idea = RED_HYUSIK_ideas_1
 		}
+	}
+	option = { #안바꿀건데?
+		name = RED_event.21.b
+		add_war_support = 0.05
 	}
 }
