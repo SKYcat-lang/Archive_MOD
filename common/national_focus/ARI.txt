@@ -164,6 +164,48 @@ focus_tree = {
 		}
 	}
 	focus = {
+		id = ARI_step_onto_the_world_stage #세계를 향한 도약
+		icon = GFX_goal_generic_propaganda
+		prerequisite = {
+			focus = ARI_deny_trinity
+		}
+		available = {
+			num_of_factories > 20
+		}
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = ARI_deny_trinity
+
+		completion_reward = {
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ARI_wareconomy
+					add_idea = war_economy
+				}
+			}
+			hidden_effect = {
+				if = {  
+					limit = { has_idea = ARI_undisturbed_wareconomy }
+					swap_ideas = {
+						remove_idea = ARI_undisturbed_wareconomy
+						add_idea = war_economy
+					}
+				}
+				else_if = {  
+					limit = { has_idea = ARI_wareconomy }
+					swap_ideas = {
+						remove_idea = ARI_undisturbed_wareconomy
+						add_idea = war_economy
+					}
+				}
+				else = {
+					add_ideas = war_economy
+				}
+			}
+		}
+	}
+	focus = {
         id = ARI_TRM_penetration #트리니티 침투
 		icon = GFX_focus_prc_infiltration
 		dynamic = yes
@@ -249,7 +291,6 @@ focus_tree = {
 		x = 25
 		y = 0
 		available = {
-			num_of_factories < 20
 		}
 		ai_will_do = { factor = 0 }
 		completion_reward = {
