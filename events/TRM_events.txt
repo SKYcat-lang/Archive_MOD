@@ -2,6 +2,7 @@ add_namespace = TRM_event
 add_namespace = TRN_after_war_event
 add_namespace = TRN_faction_event
 add_namespace = TRN_collapse_event
+add_namespace = TRM_diplomacy_event
 
 country_event = {
 	id = TRM_event.1
@@ -387,6 +388,9 @@ country_event = { #미카 집권 이벤트 (진짜 중요!!)
 				long_name = "DONDOTHAT"
 				name = "DONDOTHAT_short"
 			}
+            set_country_flag = BA_ban_neutrality_parties_flag
+            set_country_flag = BA_ban_communism_parties_flag
+            set_country_flag = BA_ban_democratic_parties_flag
 			activate_advisor = TRN_alzk_political_advisor
 		}
 	}
@@ -2644,6 +2648,137 @@ country_event = { # 모스크바 총독부는 누굴로?
             }
         }
     }
+}
+country_event = { # Give me State 102
+	id = TRM_diplomacy_event.1
+	title = TRM_diplomacy_event.1.t
+	desc = TRM_diplomacy_event.1.d
+	picture = GFX_report_event_german_troops
+
+	is_triggered_only = yes
+
+	option = { # 찬성
+		name = TRM_diplomacy_event.1.a
+        ai_chance = {
+			base = 30
+			modifier = {
+                strength_ratio = { tag = TRM ratio < 0.5 }
+				factor = 3
+			}
+			modifier = {
+                strength_ratio = { tag = TRM ratio > 0.5 }
+				factor = 0.5
+			}
+			modifier = {
+                has_war_with = TRM
+				factor = 0
+			}
+        }
+        effect_tooltip = {
+            FROM = {
+                transfer_state = 102
+            }
+        }
+        hidden_effect = {
+            FROM = { country_event = TRM_diplomacy_event.2 }
+        }
+	}
+	option = { # 반대 
+		name = TRM_diplomacy_event.1.b
+		ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				any_other_country = {
+					is_major = yes
+					has_guaranteed = ROOT
+				}
+			}
+			modifier = {
+				factor = 0
+				any_other_country = {
+					is_major = yes
+					is_in_faction_with = ROOT
+				}
+			}
+			modifier = {
+				factor = 0.8
+				any_other_country = {
+					is_major = no
+					has_guaranteed = ROOT
+				}
+			}
+			modifier = {
+				factor = 0.8
+				is_in_faction = yes
+				NOT = {
+					any_other_country = {
+						is_major = yes
+						is_in_faction_with = ROOT
+					}
+				}
+			}
+		}
+        effect_tooltip = {
+            FROM = {
+                create_wargoal = {
+                    type = take_state
+					target = ROOT
+					generator = { 102 }
+                }
+            }
+        }
+        hidden_effect = {
+            FROM = {
+                country_event = TRM_diplomacy_event.3
+            }
+        }
+	}
+}
+country_event = { # Give me State 102 - 찬성
+	id = TRM_diplomacy_event.2
+	title = TRM_diplomacy_event.2.t
+	desc = TRM_diplomacy_event.2.d
+	picture = GFX_report_event_german_troops
+
+	is_triggered_only = yes
+
+	option = { # 찬성 반응
+		name = TRM_diplomacy_event.2.a
+        transfer_state = 102
+	}
+}
+country_event = { # Give me State 102 - 반대
+	id = TRM_diplomacy_event.3
+	title = TRM_diplomacy_event.3.t
+	desc = TRM_diplomacy_event.3.d
+	picture = GFX_report_event_german_troops
+
+	is_triggered_only = yes
+
+	option = { # 반대 반응
+		name = TRM_diplomacy_event.3.a
+            ROOT = {
+                create_wargoal = {
+                    type = take_state
+					target = FROM
+					generator = { 102 }
+                }
+            }
+	}
+}
+country_event = { # 헝가리 지지 선언
+	id = TRM_diplomacy_event.4
+	title = TRM_diplomacy_event.4.t
+	desc = TRM_diplomacy_event.4.d
+	picture = GFX_report_event_german_troops
+
+	is_triggered_only = yes
+
+	option = { # 
+		name = TRM_diplomacy_event.4.a
+
+	}
 }
 add_namespace = TRN_opposition
 country_event = { # 작전 중지
