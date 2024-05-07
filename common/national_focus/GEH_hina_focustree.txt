@@ -1919,9 +1919,6 @@ focus_tree = {
 		id = GEH_zero_congress_focus
 		icon = GFX_goal_Perfect_team_zero_congress
 		cost = 10
-        allow_branch = {
-            GEH_is_phase_prologue_trigger = yes
-        }
         select_effect = {
             country_event=hina.4
             add_political_power = 100
@@ -2130,37 +2127,15 @@ focus_tree = {
 	}
 
 	focus = {
-		id = GEH_artillery_effort
-        text = GEH_war_factory_focus_4
-		icon = GFX_goal_generic_army_artillery
-		prerequisite = { focus = GEH_reorganize_military }
-		x = 0
-		y = 1
-		relative_position_id = GEH_reorganize_military
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-		completion_reward = {
-			add_tech_bonus = {
-				name = artillery_bonus
-				bonus = 1.0
-				uses = 2
-				category = artillery
-			}
-		}
-	}
-
-	focus = {
 		id = GEH_support_companies
 		icon = GFX_focus_generic_truck
 		prerequisite = { 
-            focus = GEH_artillery_effort 
+            focus = GEH_reorganize_military 
             focus = GEH_motorization_effort
         }
 		x = 0
-		y = 1
-		relative_position_id = GEH_artillery_effort
+		y = 2
+		relative_position_id = GEH_reorganize_military
 		cost = 10
 		ai_will_do = {
 			factor = 1
@@ -2220,7 +2195,7 @@ focus_tree = {
 	focus = {
 		id = GEH_aviation_effort
 		icon = GFX_goal_generic_build_airforce
-		x = 9
+		x = 5
 		y = 1
         prerequisite = {
             focus = GEH_submit_to_central_government
@@ -2315,137 +2290,6 @@ focus_tree = {
 			}
 		}
 	}
-	focus = {
-		id = GEH_prepare_for_war
-		icon = GFX_goal_generic_position_armies
-		x = 5
-		y = 1
-        prerequisite = {
-            focus = GEH_submit_to_central_government
-        }
-        relative_position_id = GEH_submit_to_central_government
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-		completion_reward = {
-			add_war_support = 0.1
-		}
-	}
-
-	focus = {
-		id = GEH_war_preparations
-		icon = GFX_goal_generic_propaganda
-		prerequisite = { focus = GEH_prepare_for_war }
-        available = {
-            has_defensive_war = yes
-        }
-		x = 1
-		y = 2
-		relative_position_id = GEH_prepare_for_war
-		cost = 5
-		ai_will_do = {
-			factor = 1
-		}
-		completion_reward = {
-			add_war_support = 0.1
-			army_experience = 25
-            add_ideas = GEH_Greater_War
-		}
-	}
-
-	focus = {
-		id = GEH_ready_for_war_2
-		icon = GFX_goal_generic_demand_territory
-		prerequisite = { focus = GEH_war_preparations }
-		x = 0
-		y = 1
-		relative_position_id = GEH_war_preparations
-		cost = 10
-		ai_will_do = {
-			factor = 1
-		}
-		completion_reward = {
-			add_war_support = 0.15
-            swap_ideas = {
-                add_idea = GEH_Greater_War_II
-                remove_idea = GEH_Greater_War
-            }
-		}
-	}
-	focus = {
-		id = GEH_same_focus_1
-        text = GEM_defend_gehenna
-		icon = GFX_goal_generic_military_sphere
-		prerequisite = { focus = GEH_prepare_for_war }
-		x = -1
-		y = 1
-        available = {
-            has_war_with = TRM
-        }
-		relative_position_id = GEH_prepare_for_war
-		cost = 5
-		ai_will_do = {
-			factor = 1
-		}
-		completion_reward = {
-			add_ideas = GEM_ethnic_hatred_idea
-		}
-	}
-	focus = {
-		id = GEH_same_focus_2
-        text = GEM_ethnic_hatred
-		icon = GFX_goal_generic_occupy_states_ongoing_war
-		prerequisite = { focus = GEH_same_focus_1 }
-		x = 0
-		y = 1
-		relative_position_id = GEH_same_focus_1
-		cost = 5
-		ai_will_do = {
-			factor = 1
-		}
-		completion_reward = {
-            if = {
-				limit = {
-					has_idea = GEM_ethnic_hatred_idea
-				}
-				swap_ideas = {
-					remove_idea = GEM_ethnic_hatred_idea
-					add_idea = GEM_ethnic_hatred_idea_2
-				}
-				else = {
-					add_ideas = GEM_ethnic_hatred_idea_2
-				}
-			}
-		}
-	}
-	focus = {
-		id = GEH_same_focus_3
-        text = GEM_march_of_the_demons
-		icon = GFX_goal_generic_territory_or_war
-		prerequisite = { focus = GEH_same_focus_2 }
-		x = 0
-		y = 1
-		relative_position_id = GEH_same_focus_2
-		cost = 5
-		ai_will_do = {
-			factor = 1
-		}
-		completion_reward = {
-			if = {
-				limit = {
-					has_idea = GEM_ethnic_hatred_idea_2
-				}
-				swap_ideas = {
-					remove_idea = GEM_ethnic_hatred_idea_2
-					add_idea = GEM_ethnic_hatred_idea_3
-				}
-				else = {
-					add_ideas = GEM_ethnic_hatred_idea_3
-				}
-			}
-		}
-	}
     focus = {
 		id = GEH_Alliance_with_Pandemonium_Society
 		icon = GFX_goal_generic_forceful_treaty
@@ -2496,13 +2340,10 @@ focus_tree = {
 		available = {
             has_country_flag = GEH_discipline_enforcement_flag
 		}
-        allow_branch = {
-            GEH_is_phase_zero_trigger = YES
-        }
         ai_will_do = {
             base = 200
         }
-		x = 10
+		x = 40
 		y = 2
 		completion_reward = {
             add_political_power = 25
@@ -2519,9 +2360,6 @@ focus_tree = {
 		cost = 2
 		available = {
 		}
-        allow_branch = {
-            GEH_is_phase_zero_trigger = YES
-        }
         ai_will_do = {
             base = 333
         }
@@ -2541,9 +2379,6 @@ focus_tree = {
 		cost = 2
 		available = {
 		}
-        allow_branch = {
-            GEH_is_phase_zero_trigger = YES
-        }
         prerequisite = {
             focus = GEH_Prefect_Team_muster
         }
@@ -2563,9 +2398,6 @@ focus_tree = {
 		cost = 2
 		available = {
 		}
-        allow_branch = {
-            GEH_is_phase_zero_trigger = YES
-        }
         prerequisite = {
             focus = GEH_Prefect_Team_muster
         }
@@ -2594,12 +2426,6 @@ focus_tree = {
         prerequisite = { focus = GEH_rework_focus_1 }
         prerequisite = { focus = GEH_rework_focus_2 }
         prerequisite = { focus = GEH_rework_focus_3 }
-        allow_branch = {
-            OR = {
-                GEH_is_phase_one_trigger = YES
-                GEH_is_phase_zero_trigger = YES
-            }
-        }
         relative_position_id = GEH_Prefect_Team_muster
 		x = 0
 		y = 3
@@ -2614,9 +2440,6 @@ focus_tree = {
 		available = {
 		}
         prerequisite = { focus = GEH_fear_eyes_ }
-        allow_branch = {
-            GEH_is_phase_one_trigger = YES
-        }
         ai_will_do = {
             base = 40
         }
@@ -2649,9 +2472,6 @@ focus_tree = {
             }
         }
         prerequisite = { focus = GEH_Conquer_the_Central }
-        allow_branch = {
-            GEH_is_phase_one_trigger = YES
-        }
         ai_will_do = {
             base = 40
         }
@@ -2671,9 +2491,6 @@ focus_tree = {
 		available = {
 		}
         prerequisite = { focus = GEH_attack_plan_ONE_FOUR_TWO }
-        allow_branch = {
-            GEH_is_phase_one_trigger = YES
-        }
         bypass = {
             NOT = {
                 has_war_with = GEM
@@ -2699,9 +2516,6 @@ focus_tree = {
 		available = {
 		}
         prerequisite = { focus = GEH_fear_eyes_ }
-        allow_branch = {
-            GEH_is_phase_one_trigger = YES
-        }
         bypass = {
             NOT = {
                 has_war_with = GEM
@@ -2724,9 +2538,6 @@ focus_tree = {
 		available = {
 		}
         prerequisite = { focus = GEH_Officer_Appeasement }
-        allow_branch = {
-            GEH_is_phase_one_trigger = YES
-        }
         bypass = {
             NOT = {
                 has_war_with = GEM
@@ -2760,9 +2571,6 @@ focus_tree = {
             }
         }
         prerequisite = { focus = GEH_Securing_supplies }
-        allow_branch = {
-            GEH_is_phase_one_trigger = YES
-        }
         relative_position_id = GEH_Securing_supplies
 		x = -0
 		y = 1
@@ -2806,9 +2614,6 @@ focus_tree = {
             focus = GEH_Conquer_the_Central 
             focus = GEH_Officer_Appeasement
         }
-        allow_branch = {
-            GEH_is_phase_one_trigger = YES
-        }
         relative_position_id = GEH_fear_eyes_
 		x = 0
 		y = 3
@@ -2832,8 +2637,6 @@ focus_tree = {
             focus = GEH_Second_attack_plan
             focus = GEH_Armoury_Raid_2
         }
-        allow_branch = {
-        }
         relative_position_id = GEH_Pandemonium_Society_Building_Control
 		x = 0
 		y = 1
@@ -2845,21 +2648,17 @@ focus_tree = {
 		id = GEH_first_congress_focus
 		icon = GFX_goal_Perfect_team_first_congress
 		cost = 6
-		x = 20
+		x = 60
 		y = 2
 
 		cancelable = no
 		ai_will_do = { base = 1000 }
         available = {
             owns_state = 55
-        }
-		allow_branch = {
-            OR = {
-			    GEH_is_phase_two_trigger = yes
-                GEH_is_phase_three_trigger = yes
-			    GEH_is_phase_four_trigger = yes
+            NOT = {
+                country_exists = GEM
             }
-		}
+        }
         select_effect = {
             country_event = { id = hina.1 }
         }
@@ -4070,9 +3869,9 @@ focus_tree = {
 		id = GEH_Trinity_war
 		icon = GFX_focus_attack_TRN
 		cost = 1
-		x = 10
-		y = 0
-        relative_position_id = GEH_first_congress_focus
+		x = 15
+		y = 3
+        relative_position_id = GEH_zero_congress_focus
 		ai_will_do = { 
             base = 1000 
 			modifier = {
@@ -4087,12 +3886,6 @@ focus_tree = {
         available = {
             has_war_with = TRM
         }
-		allow_branch = {
-            OR = {
-			    GEH_is_phase_three_trigger = yes
-			    GEH_is_phase_four_trigger = yes
-            }
-		}
 		completion_reward = {
 			add_war_support = 0.1
 		}
@@ -4412,6 +4205,9 @@ focus_tree = {
         relative_position_id = GEH_Trinity_war
 		ai_will_do = { base = 0 }
         available = {
+            has_dynamic_modifier = {
+                modifier = GEH_Chinatsu_idea
+            }
         }
         prerequisite = {
             focus = GEH_Trinity_war
@@ -4491,13 +4287,10 @@ focus_tree = {
 		icon = GFX_goal_GEH_newgehenna
 		cost = 10
 
-		relative_position_id = GEH_war_focus_6
-		x = 3
-		y = 2
+		relative_position_id = GEH_first_congress_focus
+		x = 0
+		y = 7
 
-		allow_branch = {
-			GEH_is_phase_four_trigger = yes
-		}
 		available = {
 			is_subject = no
 		}
@@ -4525,9 +4318,6 @@ focus_tree = {
 		x = -5
 		y = 1
 
-		allow_branch = {
-			GEH_is_phase_four_trigger = yes
-		}
 		available = {
 			is_subject = no
 		}
@@ -4558,9 +4348,6 @@ focus_tree = {
 		x = -2
 		y = 1
 
-		allow_branch = {
-			GEH_is_phase_four_trigger = yes
-		}
 		available = {
 			is_subject = no
 		}
@@ -4591,9 +4378,6 @@ focus_tree = {
 		x = 0
 		y = 1
 
-		allow_branch = {
-			GEH_is_phase_four_trigger = yes
-		}
 		available = {
 			is_subject = no
 		}
@@ -4624,9 +4408,6 @@ focus_tree = {
 		x = 2
 		y = 1
 
-		allow_branch = {
-			GEH_is_phase_four_trigger = yes
-		}
 		available = {
 			is_subject = no
 		}
@@ -4657,9 +4438,6 @@ focus_tree = {
 		x = 1
 		y = 1
 
-		allow_branch = {
-			GEH_is_phase_four_trigger = yes
-		}
 		available = {
 			is_subject = no
 		}
@@ -4690,9 +4468,6 @@ focus_tree = {
 		x = 1
 		y = 1
 
-		allow_branch = {
-			GEH_is_phase_four_trigger = yes
-		}
 		available = {
 			is_subject = no
 		}
@@ -4726,9 +4501,6 @@ focus_tree = {
 		x = 1
 		y = 2
 
-		allow_branch = {
-			GEH_is_phase_four_trigger = yes
-		}
 		available = {
 			is_subject = no
 		}
@@ -4762,9 +4534,6 @@ focus_tree = {
 		x = 0
 		y = 2
 
-		allow_branch = {
-			GEH_is_phase_four_trigger = yes
-		}
 		available = {
             NOT = {
 			    has_country_flag = TRM_start_bop_flag
