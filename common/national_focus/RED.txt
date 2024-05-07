@@ -3503,7 +3503,18 @@ focus_tree = {
 		prerequisite = {
 			focus = RED_minori_diplo_4
 		}
-		completion_reward = { }
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = RED_revolutionary_isolationism_1
+				add_idea = RED_revolutionary_isolationism_2
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
+			}
+			random_owned_controlled_state = {
+				add_extra_state_shared_building_slots = 1
+			}
+		}
 	}
 	focus = { #혁명전쟁 대비
 		id = RED_minori_diplo_6
@@ -3516,7 +3527,14 @@ focus_tree = {
 			focus = RED_minori_diplo_1
 			focus = RED_minori_diplo_2
 		}
-		completion_reward = { }
+		completion_reward = {
+			#디시전 추가
+			unlock_decision_tooltip = RED_prepare_revolutionary_war_1
+			unlock_decision_tooltip = RED_prepare_revolutionary_war_2
+			unlock_decision_tooltip = RED_prepare_revolutionary_war_3
+			unlock_decision_tooltip = RED_prepare_revolutionary_war_4
+			unlock_decision_tooltip = RED_prepare_revolutionary_war_5
+		}
 	}
 	focus = { #전학공투회의
 		id = RED_minori_diplo_7
@@ -3528,20 +3546,37 @@ focus_tree = {
 		prerequisite = {
 			focus = RED_minori_diplo_6
 		}
-		completion_reward = { }
+		completion_reward = {
+			custom_effect_tooltip = RED_add_halo_cap_3_tt
+			hidden_effect = {
+				set_variable = { BA_halo_infantry_cap_edit_var = 2 }
+				BA_halo_infantry_cap_edit_effect = yes
+			}
+			add_war_support = 0.05
+		}
 	}
-	focus = { #해외 조직과 연대
-		id = RED_minori_diplo_8
-		icon = GFX_focus_spr_unify_the_london_bureau
+	focus = { #노동자 국제주의
+		id = RED_minori_diplo_10
+		icon = GFX_focus_SOV_international_union_of_soviet_republics
 		cost = 5
 		x = 1
 		y = 4
 		relative_position_id = RED_new_council
 		prerequisite = {
-			focus = RED_minori_diplo_3
 			focus = RED_minori_diplo_2
+			focus = RED_minori_diplo_3
 		}
-		completion_reward = { }
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = RED_comprehensive_engagement_policy
+				add_idea = RED_workers_internationalism
+			}
+			set_rule = {
+				can_create_factions = yes
+			}
+
+			create_faction = RED_workers_international
+		}
 	}
 	focus = { #적색 의용대
 		id = RED_minori_diplo_9
@@ -3551,13 +3586,29 @@ focus_tree = {
 		y = 5
 		relative_position_id = RED_new_council
 		prerequisite = {
-			focus = RED_minori_diplo_8
+			focus = RED_minori_diplo_10
 		}
-		completion_reward = { }
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = RED_workers_internationalism
+				add_idea = RED_workers_internationalism_1
+			}
+			every_country = {
+				limit = {
+					NOT = {
+						has_government = communism
+					}
+				}
+				add_popularity = {
+					ideology = communism
+					popularity = 0.01
+				}
+			}
+		}
 	}
-	focus = { #노동자 국제주의
-		id = RED_minori_diplo_10
-		icon = GFX_focus_SOV_international_union_of_soviet_republics
+	focus = { #해외 조직과 연대
+		id = RED_minori_diplo_8
+		icon = GFX_focus_spr_unify_the_london_bureau
 		cost = 5
 		x = 3
 		y = 4
@@ -3565,7 +3616,17 @@ focus_tree = {
 		prerequisite = {
 			focus = RED_minori_diplo_3
 		}
-		completion_reward = { }
+		completion_reward = {
+			every_country = {
+				limit = {
+					is_neighbor_of = RED
+				}
+				add_popularity = {
+					ideology = communism
+					popularity = 0.05
+				}
+			}
+		}
 	}
 	focus = { #적핀란드 계획
 		id = RED_minori_diplo_11
@@ -3575,9 +3636,15 @@ focus_tree = {
 		y = 5
 		relative_position_id = RED_new_council
 		prerequisite = {
-			focus = RED_minori_diplo_10
+			focus = RED_minori_diplo_8
 		}
-		completion_reward = { }
+		completion_reward = {
+			declare_war_on = {
+				target = FIN
+				type = annex_everything
+			}
+			unlock_decision_tooltip = RED_red_fin_plan
+		}
 	}
 	focus = { #반자본주의
 		id = RED_minori_diplo_12
@@ -3590,7 +3657,16 @@ focus_tree = {
 			focus = RED_minori_diplo_5
 			focus = RED_minori_diplo_7
 		}
-		completion_reward = { }
+		completion_reward = {
+			every_country = {
+				limit = {
+					has_government = democratic
+				}
+				RED = {
+					send_embargo = prev
+				}
+			}
+		}
 	}
 	focus = { #반파시즘
 		id = RED_minori_diplo_13
@@ -3603,7 +3679,47 @@ focus_tree = {
 			focus = RED_minori_diplo_9
 			focus = RED_minori_diplo_7
 		}
-		completion_reward = { }
+		available = {
+			any_country = {
+				has_government = fascism
+				has_war_with = RED
+			}
+		}
+		bypass = {
+			ITA = {
+				OR = {
+					exists = no
+					NOT = {
+						has_government = fascism
+					}
+				}
+			}
+			TRM = {
+				OR = {
+					exists = no
+					NOT = {
+						has_government = fascism
+					}
+				}
+			}
+		}
+		completion_reward = {
+			random_other_country = {
+				limit = {
+					has_government = fascism
+					has_war_with = RED
+				}
+				every_country = {
+					limit = {
+						has_war_with = prev
+					}
+					add_timed_idea = {
+						idea = RED_anti_fascism
+						days = 720
+					}
+				}
+			}
+		}
 	}
 	focus = { #반볼셰비키
 		id = RED_minori_diplo_14
@@ -3616,7 +3732,15 @@ focus_tree = {
 			focus = RED_minori_diplo_9
 			focus = RED_minori_diplo_11
 		}
-		completion_reward = { }
+		available = {
+			has_army_manpower = { size > 999999 }
+		}
+		completion_reward = {
+			declare_war_on = {
+				target = SOV
+				type = puppet_wargoal_focus
+			}
+		}
 	}
 	focus = { #세계혁명
 		id = RED_minori_diplo_15
@@ -3634,7 +3758,15 @@ focus_tree = {
 		prerequisite = {
 			focus = RED_minori_diplo_14
 		}
-		completion_reward = { }
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = RED_workers_internationalism_1
+				add_idea = RED_workers_internationalism_2
+			}
+			remove_ideas = RED_revolutionary_isolationism_2
+			add_political_power = 100
+			add_war_support = 0.1
+		}
 	}
 
 	focus = { #노동자를 위한 의회를
