@@ -3648,6 +3648,10 @@ focus_tree = {
 					popularity = 0.05
 				}
 			}
+			unlock_decision_tooltip = RED_minori_ally_with_KAI
+			unlock_decision_tooltip = RED_minori_ally_with_IRE
+			unlock_decision_tooltip = RED_minori_ally_with_SHE
+			unlock_decision_tooltip = RED_minori_ally_with_MIL
 		}
 	}
 	focus = { #적핀란드 계획
@@ -3680,12 +3684,23 @@ focus_tree = {
 			focus = RED_minori_diplo_7
 		}
 		completion_reward = {
-			every_country = {
+			if = {
 				limit = {
-					has_government = democratic
+					MIL = {
+						NOT = {
+							has_government = communism
+						}
+					}
 				}
-				RED = {
-					send_embargo = prev
+				create_wargoal = {
+					target = MIL
+					type = puppet_wargoal_focus
+				}
+			}
+			else = {
+				create_wargoal = {
+					target = FRA
+					type = puppet_wargoal_focus
 				}
 			}
 		}
@@ -3701,45 +3716,21 @@ focus_tree = {
 			focus = RED_minori_diplo_9
 			focus = RED_minori_diplo_7
 		}
-		available = {
-			any_country = {
-				has_government = fascism
-				has_war_with = RED
-			}
-		}
-		bypass = {
-			ITA = {
-				OR = {
-					exists = no
-					NOT = {
-						has_government = fascism
-					}
-				}
-			}
-			TRM = {
-				OR = {
-					exists = no
-					NOT = {
-						has_government = fascism
-					}
-				}
-			}
+		ai_will_do = {
+			base = -100
 		}
 		completion_reward = {
-			random_other_country = {
-				limit = {
-					has_government = fascism
-					has_war_with = RED
-				}
-				every_country = {
-					limit = {
-						has_war_with = prev
-					}
-					add_timed_idea = {
-						idea = RED_anti_fascism
-						days = 720
-					}
-				}
+			create_wargoal = {
+				target = TRM
+				type = puppet_wargoal_focus
+			}
+			create_wargoal = {
+				target = ITA
+				type = puppet_wargoal_focus
+			}
+			add_timed_idea = {
+				idea = RED_anti_fascism
+				days = 720
 			}
 		}
 	}
@@ -3758,7 +3749,7 @@ focus_tree = {
 			has_army_manpower = { size > 999999 }
 		}
 		completion_reward = {
-			declare_war_on = {
+			create_wargoal = {
 				target = SOV
 				type = puppet_wargoal_focus
 			}
