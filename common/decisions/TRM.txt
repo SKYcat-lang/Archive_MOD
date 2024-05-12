@@ -45,11 +45,42 @@ TRN_country_collapse_decisions = {
 	TRM_calm_storm = {
 		icon = GFX_decision_generic_break_treaty
     	available = {
-			event_target:TRM_collapse_event_target = {
-				OR = {
-					exists = no
+			if = {
+				limit = {
+					NOT = { has_country_flag = TRM_calm_storm_flag }
+				}
+				event_target:TRM_collapse_event_target = {
+					OR = {
+						exists = no
+						has_capitulated = yes
+						is_subject_of = ROOT
+					}
+				}
+			}
+			else = {
+				KPD = {
+					OR = {
+						exists = no
+						NOT = { has_war_with = ROOT }
+						has_capitulated = yes
+						is_subject_of = ROOT
+					}
+				}
+				NSD = {
+					OR = {
+						exists = no
+						NOT = { has_war_with = ROOT }
+						has_capitulated = yes
+						is_subject_of = ROOT
+					}
+				}
+				any_country = {
+					OR = {
+						original_tag = TRM
+						original_tag = POL
+					}
+					has_war_with = ROOT
 					has_capitulated = yes
-					is_subject_of = ROOT
 				}
 			}
     	}
@@ -68,6 +99,12 @@ TRN_country_collapse_decisions = {
 		timeout_effect = {
 			#진압 실패 - 총체적 붕괴 이벤트 체인 시작
 			country_event = TRN_collapse_event.3
+			activate_mission = TRM_calm_storm
+			set_country_flag = TRM_calm_storm_flag
+			add_days_mission_timeout = {
+				mission = TRM_calm_storm
+				days = -15
+			}
 		}
 		complete_effect = {
 			add_ideas = TRM_collapse_3
