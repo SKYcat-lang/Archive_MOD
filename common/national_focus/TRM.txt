@@ -822,10 +822,6 @@
 				set_country_flag = TRM_bunggoehajima
 				country_event = { id = TRM_event.1 }
 			}
-			add_days_mission_timeout = {
-				mission = TRN_country_collapse
-				days = 60
-			}
 		}
 
 	}
@@ -2300,7 +2296,7 @@
 		x = 0
 		y = 1
         completion_reward = {
-
+            unlock_decision_category_tooltip = TRM_balkan_diplomacy_categories
         }
 	}
 	focus = {
@@ -2430,6 +2426,7 @@
 			focus = TRM_domination
 		}
 		available = {
+            has_country_flag = GAEBALJUNG
 			is_subject = no
             NOT = { has_government = communism }
             NOT = { is_in_faction_with = RED }
@@ -2464,6 +2461,8 @@
             focus = TRM_domination
 		}
 		available = {
+            has_country_flag = GAEBALJUNG
+            
 			is_subject = no
 			NOT = { has_government = communism }
 			NOT = { is_in_faction_with = RED }
@@ -4351,7 +4350,7 @@
 	focus = {
 		id = TRN_anti_mika_cudeta
 		icon = GFX_focus_spr_masters_of_our_own_fate
-		x = -3
+		x = -2
 		y = 2
 		cost = 5
 		available = { has_country_flag = nagisa_imprisoned_flag }
@@ -5592,7 +5591,10 @@
 			base = 200
 		}
 		available = {
-			has_country_flag = TRM_tail_chasing_flag
+			OR = {
+				has_country_flag = TRM_tail_chasing_flag
+				date > 1940.6.1
+			}
 		}
 		bypass = {
 			NOT = {
@@ -5636,20 +5638,17 @@
 				}
 			}
 		}
-		bypass = {
-			NOT = {
-				country_exists = ARI
-			}
-		}
 
 		x = 0
 		y = 3
 		relative_position_id = TRN_yurijono_seia_ser
 		completion_reward = {
 			TRN_country_collapse_remove = yes
-			create_wargoal = {
-				target = ARI
-				type = annex_everything
+			if = { limit = { country_exists = ARI }
+				create_wargoal = {
+					target = ARI
+					type = annex_everything
+				}
 			}
 		}
 

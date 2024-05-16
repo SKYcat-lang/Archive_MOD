@@ -1,4 +1,51 @@
 add_namespace = KPD_event
+add_namespace = TCA_shared
+#ask for Soviet volunteers - event for SOV
+country_event = {
+	id = TCA_shared.1
+	title = TCA_shared.1.t
+	desc = { text = TCA_shared.1.desc_a trigger = { FROM = { has_government = communism } } }
+	desc = { text = TCA_shared.1.desc_b trigger = { NOT = { FROM = { has_government = communism } } } }
+	picture = GFX_report_event_china_soviet_volunteers
+
+	is_triggered_only = yes
+	
+	option = { #accept
+		name = TCA_shared.1.a
+		ai_chance = {
+			base = 70
+		}
+		set_country_flag = TCA_soviet_volunteer_group
+		air_experience = 25
+		add_ai_strategy = {
+			type = send_volunteers_desire
+			id = ROOT
+			value = 200
+		}
+		add_ai_strategy = {
+			type = support
+			id = ROOT
+			value = 200
+		}
+		unlock_decision_tooltip = TCA_soviet_volunteer_group
+	}
+
+	option = { #refuse
+		name = TCA_shared.1.b
+		ai_chance = {
+			base = 30
+			modifier = {
+				SOV_is_on_historical_plan_trigger = yes
+				factor = 0
+			}
+		}
+		reverse_add_opinion_modifier = { target = FROM modifier = CHI_refused_support }
+		add_war_support = -0.1
+		MIL = {
+			add_opinion_modifier = { target = SOV modifier = large_increase }
+		}
+	}
+}
 country_event = {
 	#폴란드 : 땅내놔
 	id = KPD_event.1

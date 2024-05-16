@@ -3,7 +3,7 @@ focus_tree = {
 	country = {
 		factor = 0
 		modifier = {
-			add = -1000
+			add = 10
 			tag = FRA
 		}
 	}
@@ -808,7 +808,7 @@ focus_tree = {
 		x = 10
 		y = 13
 		available = {
-			always = no
+			has_completed_focus = FRA_focus_win_10
 		}
 		completion_reward = {
 			every_core_state = {
@@ -841,21 +841,7 @@ focus_tree = {
 			focus = FRA_focus_win_11
 		}
 		completion_reward = {
-			every_country = {
-				limit = {
-					is_ally_with = FRA
-					NOT = {
-						tag = FRA
-						is_puppet_of = FRA
-					}
-				}
-				add_timed_idea = {
-					idea = FRA_thanks
-					days = 150
-				}
-			}
-			dismantle_faction = yes
-			leave_faction = yes
+			add_stability = 0.1
 		}
 	}
 	focus = {
@@ -866,6 +852,9 @@ focus_tree = {
 		x = 6
 		y = 14
 		available = {
+			NOT = {
+				has_government = democratic
+			}
 		}
 		mutually_exclusive = {
 			focus = FRA_focus_win_12
@@ -918,14 +907,11 @@ focus_tree = {
 		#노동자 국제주의
 		id = FRA_focus_win_15
 		cost = 5
-		icon = GFX_focus_generic_support_the_left_right
+		icon = GFX_focus_SOV_proclaim_soviet_hegemony
 		x = 25
 		y = 14
 		available = {
-			is_in_faction_with = ENG
-			NOT = {
-				has_government = communism
-			}
+			has_country_flag = GAEBALJUNG
 		}
 		prerequisite = {
 			focus = FRA_focus_win_11
@@ -1289,7 +1275,7 @@ focus_tree = {
 	focus = {
 		#이탈리아 회유
 		id = FRA_focus_old_16
-		icon = GFX_focus_attack_italy
+		icon = GFX_focus_befriend_italy
 		cost = 5
 		x = 5
 		y = 1
@@ -1742,13 +1728,6 @@ focus_tree = {
 		cost = 5
 		x = -4
 		y = 1
-		bypass = {
-			NOT = {
-				SRT = {
-					owns_state = 14
-				}
-			}
-		}
 		relative_position_id = FRA_focus_win_12
 		prerequisite = {
 			focus = FRA_focus_win_12
@@ -1757,6 +1736,42 @@ focus_tree = {
 			focus = FRA_focus_concil_1
 		}
 		completion_reward = {
+			if = {
+				limit = {
+					NOT = {
+						owns_state = 29
+					}
+				}
+				random_other_country = {
+					limit = {
+						owns_state = 29
+					}
+					FRA = {
+						declare_war_on = {
+							target = prev
+							type = take_core_state
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						owns_state = 14
+					}
+				}
+				random_other_country = {
+					limit = {
+						owns_state = 14
+					}
+					FRA = {
+						declare_war_on = {
+							target = prev
+							type = take_core_state
+						}
+					}
+				}
+			}
 		}
 	}
 	focus = {
@@ -1774,15 +1789,6 @@ focus_tree = {
 			focus = FRA_focus_win_12
 		}
 		completion_reward = {
-			every_country = {
-				limit = {
-					OR = {
-						owns_state = 29
-						owns_state = 971
-					}
-				}
-				country_event = FRA_prov_event.89
-			}
 		}
 	}
 	focus = {

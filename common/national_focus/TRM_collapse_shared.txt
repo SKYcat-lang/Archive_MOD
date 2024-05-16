@@ -1,0 +1,2338 @@
+
+shared_focus = {
+	id = TCA_invite_foreign_investors 
+	icon = GFX_focus_generic_concessions
+	x = 40
+	y = 0
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	allow_branch = {
+		OR = {
+			original_tag = KPD
+			original_tag = SIL
+			original_tag = TRM
+		}
+	}
+
+	available = {
+
+	}
+
+	bypass = {
+		
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		add_offsite_building = { type = industrial_complex level = 2 }
+	}
+}
+shared_focus = {
+	id = TCA_mission_to_the_us
+	icon = GFX_focus_generic_befriend_usa
+	prerequisite = { focus = TCA_invite_foreign_investors }
+	x = -6
+	y = 1
+	relative_position_id = TCA_invite_foreign_investors
+	cost = 5
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 4
+			tag = SIL
+		}
+	}
+
+	available = {
+		OR = {
+			USA_will_support = yes
+			has_government = neutrality
+			USA = { has_government = ROOT }
+		}
+		USA = {
+			has_capitulated = no
+			NOT = {
+				has_War_with = ROOT
+			}
+		}
+	}
+
+	bypass = {
+		is_in_faction_with = USA
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		USA = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = CHI_mission_to_the_us
+			}
+			add_ai_strategy = {
+				type = alliance
+				id = ROOT
+				value = 100
+			}
+			add_ai_strategy = {
+				type = protect
+				id = ROOT
+				value = 100
+			}
+			add_ai_strategy = {
+				type = send_volunteers_desire
+				id = ROOT
+				value = 100
+			}
+			add_ai_strategy = {
+				type = support
+				id = ROOT
+				value = 100
+			}
+		}
+	}
+}
+shared_focus = {
+	id = TCA_hire_chennault
+	icon = GFX_focus_generic_military_mission
+	prerequisite = { focus = TCA_mission_to_the_us }
+	x = -1
+	y = 1
+	relative_position_id = TCA_mission_to_the_us
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 4
+			tag = SIL
+		}
+	}
+
+	available = {
+		USA_will_support = yes
+		is_subject = no
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		army_experience = 15
+		add_ideas = TCA_american_officer_corps
+	}
+}
+
+shared_focus = {
+	id = TCA_fighter_purchases
+	icon = GFX_goal_generic_build_airforce
+	prerequisite = { focus = TCA_hire_chennault }
+	x = 0
+	y = 1
+	relative_position_id = TCA_hire_chennault
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 4
+			tag = SIL
+		}
+	}
+
+	available = {
+		USA_will_support = yes
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		custom_effect_tooltip = CHI_purchase_fighters_tt
+		if = {
+			limit = {
+				has_dlc = "Arms Against Tyranny"
+			}
+			add_equipment_subsidy = {
+				cic = 500
+				equipment_type = small_plane_airframe
+				seller_tags = { USA } 
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						has_dlc = "By Blood Alone"
+					}
+				}
+				if = {
+					limit = {
+						not = {
+							has_tech = early_fighter
+						}
+					}
+					set_technology = { early_fighter = 1 }
+				}
+				add_equipment_to_stockpile = { type = fighter_equipment_0 amount = 50 producer = USA }
+			}
+			else = {
+				if = {
+					limit = {
+						not = {
+							has_tech = iw_small_airframe
+						}
+					}
+					set_technology = { iw_small_airframe = 1 }
+				}
+				add_equipment_to_stockpile = { type = small_plane_airframe_1 amount = 50 producer = USA variant_name = "P-36A"}
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = TCA_camco
+	icon = GFX_goal_generic_construct_mil_factory
+	prerequisite = { focus = TCA_fighter_purchases }
+	x = 0
+	y = 1
+	relative_position_id = TCA_fighter_purchases
+
+	cost = 5
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 4
+			tag = SIL
+		}
+	}
+
+	available = {
+		USA_will_support = yes
+		is_subject = no
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	completion_reward = {
+
+		IF = {
+			limit = {
+				has_dlc = "Arms Against Tyranny"
+			}
+			mio:GEN_messerschmitt_organization = {
+				add_mio_size = 1
+				add_mio_funds = 500
+			}
+			mio:GEN_junkers_organization = {
+				add_mio_size = 1
+				add_mio_funds = 500
+			}
+		}
+
+		ELSE = {
+			air_experience = 25
+		}
+	}
+}
+shared_focus = {
+	id = TCA_closer_ties_with_us
+	icon = GFX_goal_generic_improve_relations
+	prerequisite = { focus = TCA_mission_to_the_us }
+	mutually_exclusive = { focus = TCA_rapprochement_with_soviet_union }
+	x = 1
+	y = 1
+	relative_position_id = TCA_mission_to_the_us
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 4
+			tag = PRC
+		}
+		modifier = {
+			factor = 4
+			tag = CHI
+		}
+	}
+
+	available = {
+		NOT = { has_war_with = USA }
+		NOT = { has_global_flag = falkenhausen_recalled }
+		USA_will_support = yes
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		add_offsite_building = { type = industrial_complex level = 1 }
+	}
+}
+shared_focus = {
+	id = TCA_mission_to_the_soviet_union
+	icon = GFX_focus_chi_mission_to_the_soviet_union
+	prerequisite = { focus = TCA_invite_foreign_investors }
+	x = 4
+	y = 0
+	relative_position_id = TCA_mission_to_the_us
+
+	cost = 5
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 4
+			tag = KPD
+		}
+		modifier = {
+			factor = 4
+			tag = SIL
+		}
+	}
+
+	available = {
+		SOV = { has_government = communism }
+		OR = {
+			has_government = neutrality
+			SOV = { has_government = ROOT }
+			SOV_will_support = yes
+		}
+		not = {
+			has_War_with = SOV
+		}
+		SOV = {
+			has_capitulated = no
+		}
+	}
+
+	bypass = {
+		is_in_faction_with = SOV
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		SOV = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = CHI_mission_to_the_soviet_union
+			}
+			add_ai_strategy = {
+				type = alliance
+				id = ROOT
+				value = 100
+			}
+			add_ai_strategy = {
+				type = protect
+				id = ROOT
+				value = 100
+			}
+			add_ai_strategy = {
+				type = send_volunteers_desire
+				id = ROOT
+				value = 100
+			}
+			add_ai_strategy = {
+				type = support
+				id = ROOT
+				value = 100
+			}
+		}
+	}
+}
+shared_focus = {
+	id = TCA_reach_out_to_france
+	icon = GFX_focus_chi_reach_out_to_france
+	mutually_exclusive = { focus = TCA_maintenance_of_the_new_order_system }
+	prerequisite = { focus = TCA_invite_foreign_investors }
+	x = 5
+	y = 0
+	relative_position_id = TCA_mission_to_the_soviet_union
+
+	cost = 5
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		OR = {
+			has_government = neutrality
+			FRA = { has_government = ROOT }
+			FRA_will_support = yes
+		}
+		not = {
+			has_war_with = FRA
+		}
+		FRA = {
+			has_capitulated = no
+		}
+	}
+
+	bypass = {
+		
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		FRA = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = CHI_reach_out_to_france
+			}
+			add_ai_strategy = {
+				type = alliance
+				id = ROOT
+				value = 100
+			}
+			add_ai_strategy = {
+				type = protect
+				id = ROOT
+				value = 100
+			}
+			add_ai_strategy = {
+				type = send_volunteers_desire
+				id = ROOT
+				value = 100
+			}
+			add_ai_strategy = {
+				type = support
+				id = ROOT
+				value = 100
+			}
+		}
+	}
+}
+shared_focus = {
+	id = TCA_maintenance_of_the_new_order_system
+	icon = GFX_goal_generic_improve_relations
+	mutually_exclusive = { focus = TCA_reach_out_to_france }
+	prerequisite = { focus = TCA_invite_foreign_investors }
+	x = 2
+	y = 0
+	relative_position_id = TCA_reach_out_to_france
+
+	cost = 5
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		OR = {
+			has_government = neutrality
+			MIL = { has_government = ROOT }
+			SHE = { has_government = ROOT }
+			COU = { has_government = ROOT }
+			AND = {
+				MIL = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = MIL
+						}
+					}
+				}
+			}
+			AND = {
+				SHE = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = SHE
+						}
+					}
+				}
+			}
+			AND = {
+				COU = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = COU
+						}
+					}
+				}
+			}
+		}
+		NOT = {
+			OR = {
+				has_war_with = MIL
+				has_war_with = SHE
+				has_war_with = COU
+			}
+		}
+		OR = {
+			MIL = {
+				has_capitulated = no
+			}
+			SHE = {
+				has_capitulated = no
+			}
+			COU = {
+				has_capitulated = no
+			}
+		}
+	}
+
+	bypass = {
+		
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		MIL = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = large_increase
+			}
+			add_ai_strategy = {
+				type = alliance
+				id = ROOT
+				value = 30
+			}
+			add_ai_strategy = {
+				type = protect
+				id = ROOT
+				value = 30
+			}
+			add_ai_strategy = {
+				type = send_volunteers_desire
+				id = ROOT
+				value = 100
+			}
+			add_ai_strategy = {
+				type = support
+				id = ROOT
+				value = 100
+			}
+		}
+		SHE = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = large_increase
+			}
+			add_ai_strategy = {
+				type = alliance
+				id = ROOT
+				value = 30
+			}
+			add_ai_strategy = {
+				type = protect
+				id = ROOT
+				value = 30
+			}
+			add_ai_strategy = {
+				type = send_volunteers_desire
+				id = ROOT
+				value = 100
+			}
+			add_ai_strategy = {
+				type = support
+				id = ROOT
+				value = 100
+			}
+		}
+		COU = {
+			add_opinion_modifier = {
+				target = ROOT
+				modifier = large_increase
+			}
+			add_ai_strategy = {
+				type = alliance
+				id = ROOT
+				value = 30
+			}
+			add_ai_strategy = {
+				type = protect
+				id = ROOT
+				value = 30
+			}
+			add_ai_strategy = {
+				type = send_volunteers_desire
+				id = ROOT
+				value = 100
+			}
+			add_ai_strategy = {
+				type = support
+				id = ROOT
+				value = 100
+			}
+		}
+	}
+}
+shared_focus = {
+	id = TCA_small_arms_expertise
+	icon = GFX_focus_secret_rearmament
+	prerequisite = { focus = TCA_reach_out_to_france }
+	x = -2
+	y = 1
+	relative_position_id = TCA_reach_out_to_france
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		FRA_will_support = yes
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = TCA_small_arms_expertise
+			bonus = 1.0
+			uses = 1
+			category = infantry_weapons
+		}
+	}
+}
+
+shared_focus = {
+	id = TCA_pursuit_of_harmony
+	icon = GFX_focus_ARG_strengthening_the_concordancia
+	prerequisite = { focus = TCA_maintenance_of_the_new_order_system }
+	x = 2
+	y = 1
+	relative_position_id = TCA_maintenance_of_the_new_order_system
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		OR = {
+			AND = {
+				MIL = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = MIL
+						}
+					}
+				}
+			}
+			AND = {
+				SHE = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = SHE
+						}
+					}
+				}
+			}
+			AND = {
+				COU = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = COU
+						}
+					}
+				}
+			}
+		}
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	completion_reward = {
+		custom_effect_tooltip = TCA_pursuit_of_harmony_tt
+		set_country_flag = kivotos_research_on
+	}
+}
+shared_focus = {
+	id = TCA_new_world_technology_new
+	icon = GFX_goal_generic_fortify_city
+
+	prerequisite = {
+		focus = TCA_pursuit_of_harmony
+	}
+	relative_position_id = TCA_pursuit_of_harmony
+	
+	x = 0
+	y = 1
+
+	cost = 5
+
+	ai_will_do = {
+		base = 1
+	}
+
+	available = {
+
+	}
+
+	bypass = {
+		has_tech = kivotos_halo_upgrade
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = mystic_engineering_bonus
+			bonus = 3.0
+			technology = kivotos_halo_upgrade
+		}
+	}
+}
+
+shared_focus = {
+	id = TCA_new_world_technology_halo
+	icon = GFX_goal_generic_special_forces
+
+	prerequisite = {
+		focus = TCA_pursuit_of_harmony
+	}
+	relative_position_id = TCA_pursuit_of_harmony
+	
+	x = 2
+	y = 1
+
+	cost = 5
+
+	ai_will_do = {
+		
+	}
+
+	available = {
+
+	}
+
+	bypass = {
+		
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = mystic_engineering_bonus
+			bonus = 0.5
+			uses = 1
+			category = mystic_engineering
+		}
+	}
+}
+shared_focus = {
+	id = TCA_new_world_technology_halo_heavy
+	icon = GFX_goal_generic_construct_military
+
+	prerequisite = {
+		focus = TCA_new_world_technology_halo
+		focus = TCA_new_world_technology_new
+	}
+	relative_position_id = TCA_pursuit_of_harmony
+	
+	x = 1
+	y = 2
+
+	cost = 10
+
+	ai_will_do = {
+		
+	}
+
+	available = {
+
+	}
+
+	bypass = {
+		
+	}
+	
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = mystic_engineering_bonus
+			bonus = 1.0
+			uses = 2
+			category = mystic_engineering
+		}
+	}
+}
+shared_focus = {
+	id = TCA_french_military_mission
+	icon = GFX_goal_generic_defence
+	prerequisite = { focus = TCA_small_arms_expertise }
+	x = 0
+	y = 1
+	relative_position_id = TCA_small_arms_expertise
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		FRA_will_support = yes
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		air_experience = 25
+		if = {
+			limit = {
+				NOT = {
+					any_other_country = {
+						any_army_leader = {
+							has_id = 604
+						}
+					}
+				}
+			}
+			create_corps_commander = {
+				name = "Charles Berger"
+				gfx = GFX_europe_generic_land_1
+				attack_skill = 2
+				defense_skill = 3
+				planning_skill = 2
+				logistics_skill = 3
+				id = 604
+				skill = 3
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					any_other_country = {
+						any_army_leader = {
+							has_id = 605
+						}
+					}
+				}
+			}
+			create_corps_commander = {
+				name = "Jean Beauton"
+				gfx = GFX_europe_generic_land_2
+				attack_skill = 2
+				defense_skill = 3
+				planning_skill = 2
+				logistics_skill = 3
+				id = 605
+				skill = 3
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					any_other_country = {
+						any_army_leader = {
+							has_id = 606
+						}
+					}
+				}
+			}
+			create_corps_commander = {
+				name = "Thierry BÃ©nÃ©dicte"
+				gfx = GFX_europe_generic_land_3
+				attack_skill = 2
+				defense_skill = 3
+				planning_skill = 2
+				logistics_skill = 3
+				id = 606
+				skill = 3
+			}
+		}
+	}
+}
+shared_focus = {
+	id = TCA_investment_into_shipbuilding
+	icon = GFX_goal_generic_construct_naval_dockyard
+	prerequisite = { focus = TCA_reach_out_to_france focus = TCA_maintenance_of_the_new_order_system }
+	x = 1
+	y = 1
+	relative_position_id = TCA_reach_out_to_france
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		any_state = {
+			is_controlled_by = ROOT
+			is_coastal = yes
+		}
+		OR = {
+			FRA_will_support = yes
+			AND = {
+				MIL = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = MIL
+						}
+					}
+				}
+			}
+			AND = {
+				SHE = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = SHE
+						}
+					}
+				}
+			}
+			AND = {
+				COU = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = COU
+						}
+					}
+				}
+			}
+		}
+	}
+
+	complete_tooltip = {
+		navy_experience = 25
+		random_state = {
+			limit = {
+				has_state_flag = TAC_investment_into_shipbuilding_DY
+			}
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = {
+				type = dockyard
+				level = 2
+				instant_build = yes
+			}
+		}
+	}
+
+	completion_reward = {
+		navy_experience = 25
+		random_owned_controlled_state = {
+			limit = {
+				is_coastal = yes
+				free_building_slots = {
+					building = dockyard
+					size > 2
+					include_locked = yes
+				}
+			}
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = {
+				type = dockyard
+				level = 2
+				instant_build = yes
+			}
+			set_state_flag = TAC_investment_into_shipbuilding_DY
+		}
+	}
+}
+shared_focus = {
+	id = TCA_construction_battalions
+	icon = GFX_goal_generic_construction2
+	prerequisite = { focus = TCA_investment_into_shipbuilding }
+	x = -1
+	y = 1
+	relative_position_id = TCA_investment_into_shipbuilding
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		OR = {
+			FRA_will_support = yes
+			AND = {
+				MIL = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = MIL
+						}
+					}
+				}
+			}
+			AND = {
+				SHE = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = SHE
+						}
+					}
+				}
+			}
+			AND = {
+				COU = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = COU
+						}
+					}
+				}
+			}
+		}
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	complete_tooltip = {
+		navy_experience = 25
+		random_state = {
+			limit = {
+				has_state_flag = TCA_construction_battalions_DY
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = dockyard
+				level = 1
+				instant_build = yes
+			}
+		}
+	}
+
+	completion_reward = {
+		add_ideas = TCA_construction_battalions
+		random_owned_controlled_state = {
+			limit = {
+				is_coastal = yes
+				free_building_slots = {
+					building = dockyard
+					size > 1
+					include_locked = yes
+				}
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = dockyard
+				level = 1
+				instant_build = yes
+			}
+			set_state_flag = TCA_construction_battalions_DY
+		}
+		add_tech_bonus = {
+			name = TCA_construction_battalions
+			bonus = 1.0
+			uses = 1
+			category = engineers_tech
+		}
+	}
+}
+
+shared_focus = {
+	id = TCA_order_destroyers
+	icon = GFX_goal_generic_navy_anti_submarine
+	prerequisite = { focus = TCA_investment_into_shipbuilding }
+	x = 1
+	y = 1
+	relative_position_id = TCA_investment_into_shipbuilding
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		OR = {
+			FRA_will_support = yes
+			AND = {
+				MIL = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = MIL
+						}
+					}
+				}
+			}
+			AND = {
+				SHE = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = SHE
+						}
+					}
+				}
+			}
+			AND = {
+				COU = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = COU
+						}
+					}
+				}
+			}
+		}
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = TCA_order_destroyers
+			bonus = 1.0
+			uses = 2
+			category = dd_tech
+		}
+	}
+}
+
+
+shared_focus = {
+	id = TCA_light_cruiser_project
+	icon = GFX_goal_generic_navy_cruiser
+	prerequisite = { focus = TCA_construction_battalions }
+	prerequisite = { focus = TCA_order_destroyers }
+	mutually_exclusive = { focus = TCA_modern_submarines }
+	x = -1
+	y = 2
+	relative_position_id = TCA_investment_into_shipbuilding
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		OR = {
+			FRA_will_support = yes
+			AND = {
+				MIL = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = MIL
+						}
+					}
+				}
+			}
+			AND = {
+				SHE = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = SHE
+						}
+					}
+				}
+			}
+			AND = {
+				COU = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = COU
+						}
+					}
+				}
+			}
+		}
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = CHI_light_cruiser_project
+			bonus = 1.0
+			uses = 1
+			category = cl_tech
+		}
+	}
+}
+
+shared_focus = {
+	id = TCA_modern_submarines
+	icon = GFX_goal_generic_navy_submarine
+	prerequisite = { focus = TCA_construction_battalions }
+	prerequisite = { focus = TCA_order_destroyers }
+	mutually_exclusive = { focus = TCA_light_cruiser_project }
+	x = 1
+	y = 2
+	relative_position_id = TCA_investment_into_shipbuilding
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		OR = {
+			FRA_will_support = yes
+			AND = {
+				MIL = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = MIL
+						}
+					}
+				}
+			}
+			AND = {
+				SHE = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = SHE
+						}
+					}
+				}
+			}
+			AND = {
+				COU = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = COU
+						}
+					}
+				}
+			}
+		}
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = TCA_modern_submarines
+			bonus = 1.0
+			uses = 1
+			category = ss_tech
+		}
+	}
+}
+
+shared_focus = {
+	id = TCA_train_marines
+	icon = GFX_goal_generic_amphibious_assault
+	prerequisite = { focus = TCA_light_cruiser_project focus = TCA_modern_submarines }
+	x = 0
+	y = 3
+	relative_position_id = TCA_investment_into_shipbuilding
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		OR = {
+			FRA_will_support = yes
+			AND = {
+				MIL = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = MIL
+						}
+					}
+				}
+			}
+			AND = {
+				SHE = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = SHE
+						}
+					}
+				}
+			}
+			AND = {
+				COU = {
+					exists = yes
+					has_capitulated = no
+					NOT = {
+						has_war_with = ROOT
+					}
+					OR = {
+						has_opinion = { target = ROOT value > 74 }
+						is_in_faction_with = ROOT
+						ROOT = {
+							is_subject_of = COU
+						}
+					}
+				}
+			}
+		}
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	completion_reward = {
+		add_ideas = CHI_train_marines
+		add_tech_bonus = {
+			name = CHI_train_marines
+			bonus = 1.0
+			uses = 1
+			category = marine_tech
+		}
+	}
+}
+
+shared_focus = {
+	id = TCA_heavy_cruiser_project
+	icon = GFX_goal_generic_navy_battleship
+	prerequisite = { focus = TCA_light_cruiser_project }
+	x = -1
+	y = 1
+	relative_position_id = TCA_light_cruiser_project
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		USA_will_support = yes
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = TCA_heavy_cruiser_project
+			bonus = 1.0
+			uses = 1
+			category = ca_tech
+		}
+	}
+}
+
+shared_focus = {
+	id = TCA_coastal_patrol_planes
+	icon = GFX_goal_generic_air_naval_bomber
+	prerequisite = { focus = TCA_modern_submarines }
+	x = 1
+	y = 1
+	relative_position_id = TCA_modern_submarines
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = CHI_coastal_patrol_planes
+			bonus = 1.0
+			uses = 1
+			category = naval_bomber
+		}
+	}
+}
+
+shared_focus = {
+	id = TCA_naval_aviation
+	icon = GFX_goal_generic_navy_carrier
+	prerequisite = { focus = TCA_heavy_cruiser_project focus = TCA_coastal_patrol_planes }
+	x = 2
+	y = 1
+	relative_position_id = TCA_heavy_cruiser_project
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = CHI_naval_aviation
+			bonus = 1.0
+			uses = 2
+			category = cv_tech
+		}
+		activate_mission_tooltip = CHI_build_a_carrier
+	}
+}
+
+shared_focus = {
+	id = TCA_rapprochement_with_soviet_union
+	icon = GFX_goal_support_communism
+	prerequisite = { focus = TCA_mission_to_the_soviet_union }
+	mutually_exclusive = { focus = TCA_closer_ties_with_us }
+	x = -1
+	y = 1
+	relative_position_id = TCA_mission_to_the_soviet_union
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		SOV_will_support = yes
+	}
+
+	bypass = {
+		OR = {
+			has_non_aggression_pact_with = SOV
+			is_in_faction_with = SOV
+		}
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	completion_reward = {
+		diplomatic_relation = {
+			country = SOV
+			relation = non_aggression_pact
+			active = yes
+		}
+	}
+}
+shared_focus = {
+	id = TCA_invite_soviet_advisers
+	icon = GFX_focus_generic_soviet_politics
+	prerequisite = { focus = TCA_mission_to_the_soviet_union }
+	x = 1
+	y = 1
+	relative_position_id = TCA_mission_to_the_soviet_union
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 4
+			tag = KPD
+		}
+	}
+
+	available = {
+		SOV_will_support = yes	
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		create_corps_commander = {
+			name = "Aleksandr Cherepanov"
+			gfx = GFX_portrait_sov_aleksandr_cherepanov 
+			skill = 3
+			attack_skill = 3
+			defense_skill = 3
+			planning_skill = 2
+			logistics_skill = 2
+			id = 600
+		}
+	}
+}
+
+shared_focus = {
+	id = TCA_elite_mountaineers
+	icon = GFX_goal_generic_allies_build_infantry
+	prerequisite = { focus = TCA_invite_soviet_advisers focus = TCA_small_arms_expertise }
+	x = -1
+	y = 2
+	relative_position_id = TCA_small_arms_expertise
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 2
+		modifier = {
+			factor = 0.1
+			NOT = {
+				has_tech = tech_mountaineers # Wait for the full benefit
+			}
+		}
+		modifier = {
+			factor = 4
+			tag = KPD
+		}
+	}
+
+	available = {
+		OR = {
+			FRA_will_support = yes
+			SOV_will_support = yes
+		}
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	completion_reward = {		
+		add_ideas = CHI_elite_mountaineers
+		add_tech_bonus = {
+			name = TCA_elite_mountaineers
+			bonus = 1.0
+			uses = 1
+			category = mountaineers_tech
+		}
+		if = {
+			limit = {
+				has_tech = tech_mountaineers
+			}
+			custom_effect_tooltip = CHI_free_mountain_template_tt
+			division_template = {
+				name = "Chinese Mountain Division"
+				division_names_group = CHI_MNT_01
+				regiments = {
+					mountaineers = { x = 0 y = 0 }
+					mountaineers = { x = 0 y = 1 }
+					mountaineers = { x = 0 y = 2 }
+		
+					mountaineers = { x = 1 y = 0 }
+					mountaineers = { x = 1 y = 1 }
+					mountaineers = { x = 1 y = 2 }
+		
+					mountaineers = { x = 2 y = 0 }
+					artillery_brigade = { x = 2 y = 1 }
+					artillery_brigade = { x = 2 y = 2 }
+				}
+				support = {
+					artillery = { x = 0 y = 0 }
+				}
+			}
+		}
+	}
+}
+
+shared_focus = {
+	id = TCA_the_soviet_volunteer_group
+	icon = GFX_goal_demand_sudetenland
+	prerequisite = { focus = TCA_invite_soviet_advisers }
+	x = 0
+	y = 1
+	relative_position_id = TCA_invite_soviet_advisers
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 4
+			tag = KPD
+		}
+		modifier = {
+			factor = 4
+			tag = SIL
+		}
+	}
+
+	available = {
+		SOV_will_support = yes
+	}
+
+	bypass = {
+		any_other_country = {
+			has_completed_focus = CHI_the_soviet_volunteer_group
+		}
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		SOV = { country_event = TCA_shared.1 }
+	}
+}
+shared_focus = {
+	id = TCA_purchase_tanks
+	icon = GFX_goal_generic_army_tanks
+	prerequisite = { focus = TCA_closer_ties_with_us focus = TCA_rapprochement_with_soviet_union }
+	x = 1
+	y = 1
+	relative_position_id = TCA_closer_ties_with_us
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 4
+			tag = KPD
+		}
+		modifier = {
+			factor = 4
+			tag = SIL
+		}
+	}
+
+	available = {
+		OR = {
+			GER_will_support = yes
+			SOV_will_support = yes
+		}
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		if = {
+			limit = {
+				has_dlc = "Arms Against Tyranny"
+			}
+			if = {
+				limit = {
+					OR = {
+						has_military_industrial_organization = GEN_porsche_organization
+						has_military_industrial_organization = GEN_henschel_organization
+						has_military_industrial_organization = GEN_daimler_benz_organization
+					}
+				}
+				if = { limit = { has_military_industrial_organization = GEN_porsche_organization }
+					mio:GEN_porsche_organization = {
+						add_mio_size = 1
+						add_mio_funds = 500
+					}
+				}
+				if = { limit = { has_military_industrial_organization = GEN_henschel_organization }
+					mio:GEN_henschel_organization = {
+						add_mio_size = 1
+						add_mio_funds = 500
+					}
+				}
+				if = { limit = { has_military_industrial_organization = GEN_daimler_benz_organization }
+					mio:GEN_daimler_benz_organization = {
+						add_mio_size = 1
+						add_mio_funds = 500
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						has_dlc = "No Step Back"
+					}
+				}
+				if = {
+					limit = {
+						not = {
+							has_tech = gwtank
+						}
+					}
+					set_technology = { gwtank = 1 }
+				}
+				if = {
+					limit = {
+						has_completed_focus = TCA_closer_ties_with_us
+					}
+					add_equipment_to_stockpile = { type = light_tank_equipment_1 amount = 100 producer = USA }
+				}
+				if = {
+					limit = {
+						has_completed_focus = TCA_rapprochement_with_soviet_union
+					}
+					add_equipment_to_stockpile = { type = light_tank_equipment_1 amount = 100 producer = SOV }
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						not = {
+							has_tech = gwtank_chassis
+						}
+					}
+					set_technology = { gwtank_chassis = 1 }
+				}
+				if = {
+					limit = {
+						has_completed_focus = TCA_closer_ties_with_us
+					}
+					add_equipment_to_stockpile = { type = light_tank_chassis_1 amount = 100 producer = USA  variant_name = "M2A2"} 
+				}
+				if = {
+					limit = {
+						has_completed_focus = TCA_rapprochement_with_soviet_union
+					}
+					add_equipment_to_stockpile = { type = light_tank_chassis_1 amount = 100 producer = SOV variant_name = "T-26TU mod. 1933" }
+				}
+			}
+		}
+		else = {
+			army_experience = 25
+		}
+	}
+}
+shared_focus = {
+	id = TCA_hire_soviet_designer
+	icon = GFX_goal_generic_soviet_construction
+	prerequisite = { focus = TCA_purchase_tanks }
+	prerequisite = { focus = TCA_rapprochement_with_soviet_union }
+	x = 1
+	y = 1
+	relative_position_id = TCA_purchase_tanks
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 4
+			tag = KPD
+		}
+	}
+
+	available = {
+		SOV_will_support = yes
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = TCA_hire_soviet_designer
+			bonus = 1.0
+			uses = 1
+			category = armor
+		}
+		
+		IF = {
+			limit = {
+				has_dlc = "Arms Against Tyranny"
+			}
+			custom_effect_tooltip = available_mio_tt
+			show_mio_tooltip = GEN_SOV_morozov_design_bureau_organization
+
+			mio:GEN_SOV_morozov_design_bureau_organization = {
+				add_mio_size = 1
+				add_mio_funds = 500
+			}
+		}
+		ELSE = {
+			custom_effect_tooltip = available_designer
+			show_ideas_tooltip = GEN_SOV_morozov_design_bureau
+		}
+	}
+}
+shared_focus = {
+	id = TCA_joint_tank_development
+	icon = GFX_goal_generic_scientific_exchange
+	prerequisite = { focus = TCA_hire_soviet_designer }
+	x = 2
+	y = 2
+	relative_position_id = TCA_purchase_tanks
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 4
+			tag = KPD
+		}
+	}
+
+	available = {
+		SOV_will_support = yes
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		SOV = { add_to_tech_sharing_group = TCA_joint_tank_development }
+		add_to_tech_sharing_group = TCA_joint_tank_development
+	}
+}
+shared_focus = {
+	id = TCA_chinese_panzers
+	icon = GFX_goal_generic_production2
+	prerequisite = { focus = TCA_purchase_tanks }
+	prerequisite = { focus = TCA_closer_ties_with_us }
+	x = -1
+	y = 1
+	relative_position_id = TCA_purchase_tanks
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		GER_will_support = yes
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = TCA_chinese_panzers
+			bonus = 1.0
+			uses = 2
+			category = armor
+		}
+	}
+}
+shared_focus = {
+	id = TCA_tank_plant
+	icon = GFX_goal_generic_construct_mil_factory
+	prerequisite = { focus = TCA_chinese_panzers }
+	x = -2
+	y = 2
+	relative_position_id = TCA_purchase_tanks
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+	}
+
+	available = {
+		GER_will_support = yes
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	complete_tooltip = {
+		random_state = {
+			limit = {
+				has_state_flag = TCA_tank_plant_AF
+			}
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = {
+				type = arms_factory
+				level = 2
+				instant_build = yes
+			}
+		}
+	}
+
+	completion_reward = {
+		random_owned_controlled_state = {
+			limit = {
+				is_fully_controlled_by = ROOT
+				free_building_slots = {
+					building = arms_factory
+					size > 1
+					include_locked = yes
+				}
+			}
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = {
+				type = arms_factory
+				level = 2
+				instant_build = yes
+			}
+			set_state_flag = TCA_tank_plant_AF
+		}
+	}
+}
+
+shared_focus = {
+	id = TCA_experimental_mechanised_unit
+	icon = GFX_goal_generic_cavalry
+	prerequisite = { focus = TCA_chinese_panzers focus = TCA_hire_soviet_designer }
+	x = 0
+	y = 2
+	relative_position_id = TCA_purchase_tanks
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 4
+			tag = KPD
+		}
+		modifier = {
+			factor = 4
+			tag = SIL
+		}
+	}
+
+	available = {
+		capital_scope = { is_fully_controlled_by = ROOT }
+		has_tech = motorised_infantry
+		OR = {
+			GER_will_support = yes
+			SOV_will_support = yes
+		}
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = no
+
+	completion_reward = {
+		custom_effect_tooltip = CHI_experimental_mechanised_unit_effect
+		if = {
+			limit = {
+				has_dlc = "Arms Against Tyranny"
+			}
+			if = {
+				limit = {
+					NOT = {
+						has_completed_focus = CHI_closer_ties_with_germany
+						has_completed_focus = CHI_closer_ties_with_germany
+					}
+				}
+				add_equipment_subsidy = {
+					cic = 500
+					equipment_type = motorized_equipment
+					seller_trigger = CHI_tank_seller_for_subsidy
+				}
+			}
+			else_if = {
+				limit = {
+					has_completed_focus = CHI_closer_ties_with_germany
+				}
+				add_equipment_subsidy = {
+					cic = 500
+					equipment_type = motorized_equipment
+					seller_tags = { GER } 
+				}
+			}
+			else_if = {
+				limit = {
+					has_completed_focus = CHI_rapprochement_with_soviet_union
+				}
+				add_equipment_subsidy = {
+					cic = 500
+					equipment_type = motorized_equipment
+					seller_tags = { SOV } 
+				}
+			}
+		}
+		hidden_effect = {
+			division_template = {
+				name = "Experimental Mechanised Division"
+				division_names_group = GEN_MEC_01
+				priority = 2
+				regiments = {
+					light_armor = { x = 0 y = 0 }
+					light_armor = { x = 0 y = 1 }
+		
+					motorized = { x = 1 y = 0 }
+					motorized = { x = 1 y = 1 }
+					motorized = { x = 1 y = 2 }
+					motorized = { x = 1 y = 3 }
+				}
+				support = {
+					
+				}
+			}
+			if = {
+				limit = { NOT = { has_dlc = "No Step Back" } }
+				if = {
+					limit = {
+						has_completed_focus = TCA_mission_to_the_us 
+					}
+					capital_scope = {
+						create_unit = {
+							division = "name = \"200. Mechanised Division\" division_template = \"Experimental Mechanised Division\" start_experience_factor = 1.0 force_equipment_variants = { light_tank_equipment_1 = { creator = \"USA\" } }" 
+							owner = ROOT
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_completed_focus = TCA_mission_to_the_soviet_union
+					}
+					capital_scope = {
+						create_unit = {
+							division = "name = \"200. Mechanised Division\" division_template = \"Experimental Mechanised Division\" start_experience_factor = 1.0 force_equipment_variants = { light_tank_equipment_1 = { creator = \"SOV\" } }" 
+							owner = ROOT
+						}
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						has_completed_focus = TCA_mission_to_the_us 
+					}
+					capital_scope = {
+						create_unit = {
+							division = "name = \"200. Mechanised Division\" division_template = \"Experimental Mechanised Division\" start_experience_factor = 1.0 force_equipment_variants = { light_tank_chassis_1 = { creator = \"USA\" version_name = \"M2A2\"} }" 
+							owner = ROOT
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_completed_focus = TCA_mission_to_the_soviet_union
+					}
+					capital_scope = {
+						create_unit = {
+							division = "name = \"200. Mechanised Division\" division_template = \"Experimental Mechanised Division\" start_experience_factor = 1.0 force_equipment_variants = { light_tank_chassis_1 = { creator = \"SOV\" version_name = \"T-26TU mod. 1933\"} }" 
+							owner = ROOT
+						}
+					}
+				}
+			}			
+		}
+	}
+}
+shared_focus = {
+	id = TCA_combined_arms_warfare
+	icon = GFX_goal_generic_army_doctrines
+	prerequisite = { focus = TCA_experimental_mechanised_unit }
+	x = 0
+	y = 3
+	relative_position_id = TCA_purchase_tanks
+
+	cost = 10
+
+	ai_will_do = {
+		factor = 1
+		modifier = {
+			factor = 4
+			tag = PRC
+		}
+	}
+
+	available = {
+		OR = {
+			GER_will_support = yes
+			SOV_will_support = yes
+		}
+	}
+
+	bypass = {
+
+	}
+
+	cancel_if_invalid = yes
+	continue_if_invalid = no
+	available_if_capitulated = yes
+
+	completion_reward = {
+		add_tech_bonus = {
+			name = CHI_combined_arms_warfare
+			bonus = 1.0
+			uses = 1
+			category = cat_mechanized_equipment
+		}
+	}
+}

@@ -53,6 +53,10 @@ ARI_penetration = {
 						retire_ideology_leader = fascism
 						retire_ideology_leader = neutrality
 					}
+					ROOT = {
+						puppet = PREV
+					}
+					BA_puppet_on_action_effect = yes
 				}
 			}
 		}
@@ -174,6 +178,7 @@ ARI_penetration = {
 					ROOT = {
 						puppet = PREV
 					}
+					BA_puppet_on_action_effect = yes
 				}
 			}
 		}
@@ -412,7 +417,6 @@ ARI_restoration_of_germany = {
 		}
 
 		available = {
-			has_completed_focus = ARI_recognition_of_the_nazi_party
 			controls_state = 60
 			controls_state = 61
 			controls_state = 62
@@ -440,17 +444,100 @@ ARI_restoration_of_germany = {
 		
 		remove_effect = {
 			custom_effect_tooltip = ARI_german_government_restored_tt
+			set_global_flag = ARI_restored_german_government_flag
+
 			hidden_effect = {
-				every_state = {
-					limit = {
-						is_core_of = GER
-						is_core_of = TRM
+				create_dynamic_country = {
+					original_tag = GER
+					copy_tag = GER
+					add_political_power = 100
+					every_state = {
+						limit = {
+							OR = {
+								AND = {
+									is_core_of = GER
+									is_core_of = TRM
+								}
+								state = 762
+								state = 86
+							}
+							NOT = {
+								state = 5
+								state = 763
+								state = 807
+								state = 188
+							}
+						}
+						PREV = {
+							transfer_state = PREV
+						}
 					}
-					add_core_of = ROOT
+					ROOT = {
+						set_autonomy = {
+							target = PREV
+							autonomous_state = autonomy_personal_union
+							end_wars = no
+							end_civil_wars = no
+						}
+					}
+					create_country_leader = {
+						name = ARI_german_country_leader
+						picture = "gfx/leaders/ARI/ARI_german_reconstruction_government.tga"
+						expire = "1965.1.1"
+						ideology = nazism
+						traits = {
+						}
+					}
+					add_dynamic_modifier = {
+						modifier = ARI_german_reconstruction_government
+					}
+					set_variable = { ARI_german_reconstruction_government_cic_to_overlord_factor = 0.35 }
+					set_variable = { ARI_german_reconstruction_government_mic_to_overlord_factor = 0.70 }
 				}
 			}
-			if = { limit = { has_completed_focus = ARI_anti_trinity_arius_german_united_front }
-				set_cosmetic_tag = ARI_german
+		}
+	}
+	ARI_government_functions_transfer = {
+		icon = GFX_decision_eng_trade_unions_support
+
+		visible = {
+			any_country = {
+				original_tag = GER
+				is_subject_of = ROOT
+				has_dynamic_modifier = { modifier = ARI_german_reconstruction_government }
+			}
+			has_global_flag = ARI_restored_german_government_flag
+		}
+
+		available = {
+			has_completed_focus = ARI_harmony_with_the_new_world
+		}
+
+		ai_will_do = {
+			factor = 1000
+		}
+
+		fire_only_once = no
+
+		cost = 50
+
+		priority = 100
+		
+		days_remove = 14
+
+		modifier = {
+			political_power_factor = -0.1
+		}
+		
+		remove_effect = {
+			every_country = {
+				limit = {
+					original_tag = GER
+					is_subject_of = ARI
+				}
+				custom_effect_tooltip = ARI_government_functions_transfer_tt
+				add_to_variable = { ARI_german_reconstruction_government_cic_to_overlord_factor = -0.05 }
+				add_to_variable = { ARI_german_reconstruction_government_mic_to_overlord_factor = -0.10 }
 			}
 		}
 	}
@@ -473,8 +560,11 @@ ARI_restoration_of_germany = {
 			}
 		}
 
+		visible = {
+			has_global_flag = ARI_restored_german_government_flag
+		}
+
 		available = {
-			has_completed_focus = ARI_german_provisional_government
 			controls_state = 42
 			controls_state = 50
 			controls_state = 51
@@ -505,15 +595,25 @@ ARI_restoration_of_germany = {
 		remove_effect = {
 			custom_effect_tooltip = ARI_german_return_to_rule_of_west_germany_tt
 			hidden_effect = {
-				every_state = {
+				every_country = {
 					limit = {
-						OR = {
-							is_core_of = GEM
-							is_core_of = GEA
-						}
-						is_core_of = GER
+						original_tag = GER
+						is_subject_of = ARI
 					}
-					add_core_of = ROOT
+					every_state = {
+						limit = {
+							OR = {
+								is_core_of = GEM
+								is_core_of = GEA
+							}
+							NOT = {
+								is_core_of = GEH
+							}
+							is_core_of = GER
+						}
+						add_core_of = PREV
+						transfer_state_to = PREV
+					}
 				}
 			}
 		}
@@ -529,8 +629,11 @@ ARI_restoration_of_germany = {
 			}
 		}
 
+		visible = {
+			has_global_flag = ARI_restored_german_government_flag
+		}
+
 		available = {
-			has_completed_focus = ARI_german_provisional_government
 			controls_state = 52
 			controls_state = 53
 			controls_state = 54
@@ -553,11 +656,19 @@ ARI_restoration_of_germany = {
 		remove_effect = {
 			custom_effect_tooltip = ARI_german_return_to_rule_of_bavaria_tt
 			hidden_effect = {
-				every_state = {
+				every_country = {
 					limit = {
-						is_core_of = GEH
+						original_tag = GER
+						is_subject_of = ARI
 					}
-					add_core_of = ROOT
+					every_state = {
+						limit = {
+							is_core_of = GEH
+							is_core_of = GER
+						}
+						add_core_of = PREV
+						transfer_state_to = PREV
+					}
 				}
 			}
 		}
@@ -575,8 +686,13 @@ ARI_restoration_of_germany = {
 			}
 		}
 
-		available = {
+		visible = {
+			has_global_flag = ARI_restored_german_government_flag
 			has_completed_focus = ARI_german_provisional_government
+		}
+
+		available = {
+			has_completed_focus = ARI_german_lands
 			controls_state = 4
 			controls_state = 152
 			controls_state = 153
@@ -601,11 +717,18 @@ ARI_restoration_of_germany = {
 		remove_effect = {
 			custom_effect_tooltip = ARI_german_national_unification_tt
 			hidden_effect = {
-				every_state = {
+				every_country = {
 					limit = {
-						is_core_of = AUS
+						original_tag = GER
+						is_subject_of = ARI
 					}
-					add_core_of = ROOT
+					every_state = {
+						limit = {
+							is_core_of = AUS
+						}
+						add_core_of = PREV
+						transfer_state_to = PREV
+					}
 				}
 			}
 		}
@@ -620,9 +743,12 @@ ARI_restoration_of_germany = {
 				state = 74
 			}
 		}
-
-		available = {
+		visible = {
+			has_global_flag = ARI_restored_german_government_flag
 			has_completed_focus = ARI_german_provisional_government
+		}
+		available = {
+			has_completed_focus = ARI_german_lands
 			controls_state = 985
 			controls_state = 69
 			controls_state = 74
@@ -643,9 +769,18 @@ ARI_restoration_of_germany = {
 		}
 		
 		remove_effect = {
-			add_state_core = 985
-			add_state_core = 69
-			add_state_core = 74
+			every_country = {
+				limit = {
+					original_tag = GER
+					is_subject_of = ARI
+				}
+				transfer_state = 985
+				transfer_state = 69
+				transfer_state = 74
+				add_state_core = 985
+				add_state_core = 69
+				add_state_core = 74
+			}
 		}
 	}
 	ARI_germanization_of_alsace_lorraine = {
@@ -657,9 +792,12 @@ ARI_restoration_of_germany = {
 				state = 976
 			}
 		}
-
-		available = {
+		visible = {
+			has_global_flag = ARI_restored_german_government_flag
 			has_completed_focus = ARI_german_provisional_government
+		}
+		available = {
+			has_completed_focus = ARI_german_lands
 			controls_state = 28
 			controls_state = 976
 		}
@@ -679,8 +817,16 @@ ARI_restoration_of_germany = {
 		}
 		
 		remove_effect = {
-			add_state_core = 28
-			add_state_core = 976
+			every_country = {
+				limit = {
+					original_tag = GER
+					is_subject_of = ARI
+				}
+				transfer_state = 28
+				transfer_state = 976
+				add_state_core = 28
+				add_state_core = 976
+			}
 		}
 	}
 }
