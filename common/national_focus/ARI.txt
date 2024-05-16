@@ -1979,6 +1979,10 @@ focus_tree = {
 
 		available = {
 			is_subject = no
+			any_country = {
+				original_tag = GER
+				is_subject_of = ROOT
+			}
 		}
 
 		completion_reward = {
@@ -1986,10 +1990,7 @@ focus_tree = {
 			add_to_variable = { ARI_nazi_party_stability_factor = -0.10 }
 			every_other_country = {
 				limit = {
-					capital_scope = {
-						is_on_continent = europe
-					}
-					NOT = { original_tag = YUG }
+					original_tag = GER
 					is_subject_of = ROOT
 				}
 				add_autonomy_score = {
@@ -2011,16 +2012,35 @@ focus_tree = {
 			focus = ARI_german_provisional_government
 		}
 		mutually_exclusive = { focus = ARI_trustee_administration_continuation }
-		cost = 5
+		cost = 10
 		x = 2
 		y = 1
 		relative_position_id = ARI_german_provisional_government
 
 		available = {
 			is_subject = no
+			any_country = {
+				original_tag = GER
+				is_subject_of = ROOT
+			}
 		}
 
 		completion_reward = {
+			set_country_flag = ARI_harmony_with_the_new_world_flag
+			every_other_country = {
+				limit = {
+					original_tag = GER
+					is_subject_of = ROOT
+				}
+				add_autonomy_score = {
+					value = 25
+					localization = ARI_harmony_with_the_new_world
+				}
+				add_opinion_modifier = { 
+					target = ROOT
+					modifier = medium_increase
+				}
+			}
 		}
 	}
 
@@ -2142,6 +2162,10 @@ focus_tree = {
 				}
 			}
 			set_cosmetic_tag = ARI_german
+			set_capital = {
+				state = 64
+				remember_old_capital = no
+			}
 			country_event = { id = ARI_event.16 hours = 8 }
 		}
 	}
@@ -2152,13 +2176,6 @@ focus_tree = {
 		prerequisite = {
 			focus = ARI_trustee_administration_continuation
 		}
-		available = {
-			any_country = {
-				original_tag = GER
-				is_subject_of = ROOT
-				compare_autonomy_progress_ratio < 0.50
-			}
-		}
 		cost = 5
 		x = 1
 		y = 1
@@ -2166,19 +2183,24 @@ focus_tree = {
 
 		available = {
 			is_subject = no
+			any_country = {
+				original_tag = GER
+				is_subject_of = ROOT
+				compare_autonomy_progress_ratio < 0.50
+			}
 		}
 
 		completion_reward = {
 			custom_effect_tooltip = ARI_we_are_arians_tooltip
 			add_to_variable = { ARI_nazi_party_stability_factor = -0.10 }
-			every_country = {
+			every_other_country = {
 				limit = {
 					original_tag = GER
 					is_subject_of = ROOT
 				}
 				custom_effect_tooltip = ARI_exploitation_of_vested_interests_tt
-				set_variable = { ARI_german_reconstruction_government_cic_to_overlord_factor = 0.35 }
-				set_variable = { ARI_german_reconstruction_government_mic_to_overlord_factor = 0.70 }
+				set_variable = { ARI_german_reconstruction_government_cic_to_overlord_factor = 0.45 }
+				set_variable = { ARI_german_reconstruction_government_mic_to_overlord_factor = 0.80 }
 			}
 		}
 	}
@@ -2189,13 +2211,6 @@ focus_tree = {
 		prerequisite = {
 			focus = ARI_exploitation_of_vested_interests
 		}
-		available = {
-			any_country = {
-				original_tag = GER
-				is_subject_of = ROOT
-				compare_autonomy_progress_ratio < 0.30
-			}
-		}
 		cost = 5
 		x = 0
 		y = 1
@@ -2203,13 +2218,18 @@ focus_tree = {
 
 		available = {
 			is_subject = no
+			any_country = {
+				original_tag = GER
+				is_subject_of = ROOT
+				compare_autonomy_progress_ratio < 0.30
+			}
 		}
 
 		completion_reward = {
 			custom_effect_tooltip = ARI_we_are_arians_tooltip
 			add_to_variable = { ARI_nazi_party_stability_factor = -0.10 }
 			add_political_power = 100
-			every_country = {
+			every_other_country = {
 				limit = {
 					original_tag = GER
 					is_subject_of = ROOT
@@ -2225,13 +2245,6 @@ focus_tree = {
 		prerequisite = {
 			focus = ARI_suppression_of_opposition
 		}
-		available = {
-			any_country = {
-				original_tag = GER
-				is_subject_of = ROOT
-				compare_autonomy_progress_ratio < 0.05
-			}
-		}
 		cost = 10
 		x = 0
 		y = 2
@@ -2239,6 +2252,11 @@ focus_tree = {
 
 		available = {
 			is_subject = no
+			any_country = {
+				original_tag = GER
+				is_subject_of = ROOT
+				compare_autonomy_progress_ratio < 0.05
+			}
 		}
 
 		completion_reward = {
@@ -2246,7 +2264,49 @@ focus_tree = {
 				modifier = ARI_nazi_party
 			}
 			custom_effect_tooltip = enter_tt
-			every_country = {
+			every_other_country = {
+				limit = {
+					original_tag = GER
+					is_subject_of = ROOT
+				}
+				every_controlled_state = { limit = { is_core_of = PREV }
+					add_core_of = ARI
+				}
+				ARI = {
+					annex_country = {
+						target = PREV
+						transfer_troops = yes
+					}
+				}
+			}
+		}
+	}
+
+	focus = { #이문화 통합
+		id = ARI_intercultural_integration
+		icon = GFX_goal_tripartite_pact
+		prerequisite = {
+			focus = ARI_harmony_with_the_new_world
+		}
+		cost = 10
+		x = 3
+		y = 1
+		relative_position_id = ARI_harmony_with_the_new_world
+
+		available = {
+			is_subject = no
+			any_country = {
+				original_tag = GER
+				is_subject_of = ROOT
+			}
+			has_country_flag = {
+				flag = ARI_harmony_with_the_new_world_flag
+				days > 180
+			}
+		}
+
+		completion_reward = {
+			every_other_country = {
 				limit = {
 					original_tag = GER
 					is_subject_of = ROOT
@@ -2258,6 +2318,50 @@ focus_tree = {
 					}
 				}
 			}
+			GER = {
+				every_core_state = {
+					add_core_of = ARI
+				}
+			}
+			set_cosmetic_tag = ARI_union_german
+			if = { 
+				limit = { 
+					OR = {
+						controls_state = 64 
+						any_country = {
+							original_tag = GER
+							is_subject_of = ROOT
+							controls_state = 64 
+						}
+					}
+				}
+				set_capital = {
+					state = 64
+					remember_old_capital = no
+				}
+			}
+		}
+	}
+
+	focus = { #베를린 군사 재판
+		id = ARI_berlin_military_tribunal
+		icon = GFX_focus_BRA_tribunal
+		prerequisite = {
+			focus = ARI_intercultural_integration
+			focus = ARI_night_of_the_long_knives
+		}
+		cost = 10
+		x = 0
+		y = 1
+		relative_position_id = ARI_night_of_the_long_knives
+
+		available = {
+			is_subject = no
+		}
+
+		completion_reward = {
+		    set_province_name = { id = 6521 name = Berlin }
+			country_event = { id = ARI_event.18 hours = 8 }
 		}
 	}
 }
