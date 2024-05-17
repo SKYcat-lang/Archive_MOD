@@ -94,7 +94,7 @@ country_event = { #교전
 			check_variable = { GEI_Secure_Royal_Blood_help_var = 2 }
 		}
 	}
-	picture = GFX_report_event_generic_read_write
+	picture = GFX_event_none_picture
 
 	is_triggered_only = yes
 
@@ -105,6 +105,27 @@ country_event = { #교전
 			NOT = {
 				check_variable = { GEI_Secure_Royal_Blood_help_var = 2 }
 			}
+		}
+		if = { limit = { NOT = { has_country_flag = ARI_empty_conference_room_flag } }
+			add_country_leader_role = {
+				character = ARI_empty_conference_room
+				promote_leader = yes
+				country_leader = {
+					ideology = fascism_ideology
+					expire = "1965.1.1.1"
+					traits = { ARI_empty_conference_room_trait }
+				}
+			}
+			add_country_leader_role = {
+				character = ARI_empty_conference_room
+				promote_leader = yes
+				country_leader = {
+					ideology = despotism
+					expire = "1965.1.1.1"
+					traits = { ARI_empty_conference_room_trait }
+				}
+			}
+			set_country_flag = ARI_empty_conference_room_flag
 		}
 	}
 	option = {
@@ -197,6 +218,17 @@ country_event = { #아츠코 투항
 	option = {
 		name = ARI_event.8.a
 		add_stability = -0.10
+		remove_country_leader_role = {
+			character = ARI_empty_conference_room
+			ideology = fascism_ideology
+		}
+		remove_country_leader_role = {
+			character = ARI_empty_conference_room
+			ideology = despotism
+		}
+		hidden_effect = {
+			country_event = { id = ARI_event.24 days = 25 }
+		}
 	}
 }
 
@@ -251,6 +283,20 @@ country_event = { #아리우스 스쿼드의 패주
 		name = ARI_event.10.a
 		add_stability = -0.10
 		add_war_support = -0.10
+		atsuko = {
+			set_character_flag = Hakari_Atsuko_GEI
+		}
+		remove_country_leader_role = {
+			character = ARI_empty_conference_room
+			ideology = fascism_ideology
+		}
+		remove_country_leader_role = {
+			character = ARI_empty_conference_room
+			ideology = despotism
+		}
+		hidden_effect = {
+			country_event = { id = ARI_event.24 days = 25 }
+		}
 	}
 }
 
@@ -608,6 +654,23 @@ country_event = { #라인하르트 하이드리히의 망명
 				}
 				set_nationality = ROOT
 			}
+		}
+	}
+}
+country_event = { #군사 재판 끝
+	id = ARI_event.24
+	title = ARI_event.24.t
+	desc = ARI_event.24.d
+	picture = GFX_report_event_soviet_soldiers_tank
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.24.a
+		add_stability = 0.05
+		atsuko = {
+			clr_character_flag = Hakari_Atsuko_GEI
 		}
 	}
 }
