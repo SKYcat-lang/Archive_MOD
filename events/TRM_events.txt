@@ -2651,66 +2651,42 @@ country_event = { # Give me State 102
 	is_triggered_only = yes
 
 	option = { # 찬성
-		name = TRM_diplomacy_event.1.a
+		name = BBA_italy_interaction_events.8.a
         ai_chance = {
-			base = 30
-			modifier = {
-                strength_ratio = { tag = TRM ratio < 0.5 }
-				factor = 3
-			}
-			modifier = {
-                strength_ratio = { tag = TRM ratio > 0.5 }
-				factor = 0.5
-			}
-			modifier = {
-                has_war_with = TRM
-				factor = 0
-			}
-        }
+			base = 90
+		}
         effect_tooltip = {
-            FROM = {
-                transfer_state = 102
-            }
+			if = {
+				limit = {
+					ROOT = {	
+						OR = {		
+							owns_state = 103
+							any_subject_country = {
+								is_ai= yes
+								owns_state = 103
+							}
+						}
+					}
+				}
+				FROM = {
+					transfer_state = 103
+				}
+			}
         }
         hidden_effect = {
-            FROM = { country_event = TRM_diplomacy_event.2 }
+            FROM = { 
+                country_event = {
+                    id = TRM_diplomacy_event.2 
+                    days = 1
+                    random_days = 2
+                }
+            }
         }
 	}
 	option = { # 반대 
-		name = TRM_diplomacy_event.1.b
-		ai_chance = {
-			factor = 50
-			modifier = {
-				factor = 0
-				any_other_country = {
-					is_major = yes
-					has_guaranteed = ROOT
-				}
-			}
-			modifier = {
-				factor = 0
-				any_other_country = {
-					is_major = yes
-					is_in_faction_with = ROOT
-				}
-			}
-			modifier = {
-				factor = 0.8
-				any_other_country = {
-					is_major = no
-					has_guaranteed = ROOT
-				}
-			}
-			modifier = {
-				factor = 0.8
-				is_in_faction = yes
-				NOT = {
-					any_other_country = {
-						is_major = yes
-						is_in_faction_with = ROOT
-					}
-				}
-			}
+		name = BBA_italy_interaction_events.8.b
+        ai_chance = {
+			base = 10
 		}
         effect_tooltip = {
             FROM = {
@@ -2737,20 +2713,37 @@ country_event = { # Give me State 102 - 찬성
 	is_triggered_only = yes
 
 	option = { # 찬성 반응
-		name = TRM_diplomacy_event.2.a
-        transfer_state = 102
+		name = BBA_italy_interaction_events.30.a 
+        if = {
+			limit = {
+				OR = {
+					FROM = {
+						owns_state = 102
+					}
+					FROM = {
+						any_subject_country = {
+							is_ai= yes
+							owns_state = 102
+						}
+					}
+				}
+			}
+			ROOT = {
+				transfer_state = 102
+			}
+		}
 	}
 }
 country_event = { # Give me State 102 - 반대
 	id = TRM_diplomacy_event.3
 	title = TRM_diplomacy_event.3.t
 	desc = TRM_diplomacy_event.3.d
-	picture = GFX_report_event_german_troops
+	picture = GFX_report_event_generic_read_write
 
 	is_triggered_only = yes
 
 	option = { # 반대 반응
-		name = TRM_diplomacy_event.3.a
+		name = BBA_italy_interaction_events.10.a
             ROOT = {
                 create_wargoal = {
                     type = take_state
@@ -2758,19 +2751,310 @@ country_event = { # Give me State 102 - 반대
 					generator = { 102 }
                 }
             }
+			ROOT = {
+				add_opinion_modifier = {
+					target = FROM
+					modifier = BUL_rejected_our_proposal
+				}
+			}
 	}
 }
 country_event = { # 헝가리 지지 선언
 	id = TRM_diplomacy_event.4
 	title = TRM_diplomacy_event.4.t
 	desc = TRM_diplomacy_event.4.d
-	picture = GFX_report_event_german_troops
+	picture = GFX_report_event_generic_read_write
 
 	is_triggered_only = yes
 
-	option = { # 
-		name = TRM_diplomacy_event.4.a
+	
+	option = { 
+		name = BBA_italy_interaction_events.30.a 
 
+		ai_chance = { 
+			base = 100
+		}
+
+		ROOT = {
+			add_opinion_modifier = {
+			    target = FROM
+			    modifier = ITA_recognized_our_claims
+			}
+		}
+		FROM = {
+			give_guarantee = ROOT
+		}
+		ROOT = {
+			give_guarantee = FROM
+		}
+		IF = {
+			limit = {
+				NOT = {
+					45 = {
+						is_claimed_by = ROOT
+					}
+				}
+			}
+			45 = {
+				add_claim_by = ROOT
+			}
+		}
+		IF = {
+			limit = {
+				45 = {
+					is_claimed_by = FROM
+				}
+			}
+			45 = {
+				remove_claim_by = FROM
+			}
+		}
+		IF = {
+			limit = {
+				OR = {
+					45 = {
+						is_controlled_by = FROM
+					}
+					any_country = {
+						is_subject_of = FROM
+						controls_state = 45
+					}
+				}
+			}
+			ROOT = {
+				transfer_state = 45
+			}
+		}
+		IF = {
+			limit = {
+				any_country = {
+					is_subject_of = FROM
+					controls_state = 45
+				}
+			}
+			random_country = {
+				limit = { controls_state = 45 }
+				country_event = {
+					id = BBA_italy_interaction_events.17
+					days = 0
+				}
+			}
+		}
+	}
+
+	# blasphemy that is
+	option = { 
+		name = TRM_diplomacy_event.4.b
+		ai_chance = { 
+			base = 0
+		}
+	}
+}
+country_event = { # 헝가리 - 루마니아 국경 재조정
+	id = TRM_diplomacy_event.5
+	title = TRM_diplomacy_event.5.t
+	desc = TRM_diplomacy_event.5.desc
+	picture = GFX_report_event_vienna_award_hungary
+
+	is_triggered_only = yes
+
+	option = { # 트란실바니아 일부를 헝가리에게 
+		name = germany.20.a
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 100
+				is_historical_focus_on = yes
+			}
+		}
+		add_named_threat = { 
+            threat = 2 
+            name = TRM_second_vienna_award
+        }
+        ROM = {
+            country_event = { id = TRM_diplomacy_event.6 }
+        }
+	}
+	option = { # 트란실바니아 전부를 헝가리에게 
+		name = germany.20.b
+		ai_chance = {
+			factor = 10
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+		add_named_threat = { 
+            threat = 5
+            name = TRM_second_vienna_award
+        }
+        ROM = {
+            country_event = { id = TRM_diplomacy_event.7 }
+        }
+	}
+	option = { # 트란실바니아 그냥 냅둬라
+		name = germany.20.c
+		ai_chance = {
+			factor = 1
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+		}
+        HUN = {
+            country_event = {
+                id = TRM_event.1
+            }
+        }
+	}
+}
+country_event = { # 북트란실바니아 만 주기 - 루마니아 반응
+	id = TRM_diplomacy_event.6
+	title = TRM_diplomacy_event.6.t
+	desc = TRM_diplomacy_event.6.d
+	picture = GFX_report_event_vienna_award_hungary
+
+	is_triggered_only = yes
+
+	option = { # 북트란실바니아 주기
+		name = romania.2.a
+        ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 10
+				is_historical_focus_on = yes
+			}
+        }
+        set_global_flag = ROM_select_only_north
+        HUN = {
+            country_event = { 
+                id = TRM_diplomacy_event.9
+            }
+        }
+	}
+	option = { # 북트란실바니아 주기 거부
+		name = romania.2.b
+        ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+        }
+        FROM = {
+            country_event = { id =TRM_diplomacy_event.8 }
+        }
+	}
+}
+country_event = { # 트란실바니아 전체 주기 - 루마니아 반응
+	id = TRM_diplomacy_event.7
+	title = TRM_diplomacy_event.6.t
+	desc = TRM_diplomacy_event.7.d
+	picture = GFX_report_event_vienna_award_hungary
+
+	is_triggered_only = yes
+
+	option = { # 트란실바니아 주기
+		name = romania.2.a
+        ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 0
+				is_historical_focus_on = yes
+			}
+        }
+        set_global_flag = ROM_select_all
+        HUN = {
+            country_event = { 
+                id = TRM_diplomacy_event.9
+            }
+        }
+	}
+	option = { # 트란실바니아 주기 거부
+		name = romania.2.b
+        ai_chance = {
+			factor = 50
+			modifier = {
+				factor = 10
+				is_historical_focus_on = yes
+			}
+        }
+        FROM = {
+            country_event = { id =TRM_diplomacy_event.8 }
+        }
+	}
+}
+country_event = { # 트란실바니아 거부하면 이 이벤트로 전쟁 걸림
+	id = TRM_diplomacy_event.8
+	title = TRM_diplomacy_event.8.t
+	desc = TRM_diplomacy_event.8.d
+	picture = GFX_report_event_vienna_award_hungary
+
+	is_triggered_only = yes
+
+	option = { # 전쟁 목표 걸리기
+		name = BBA_italy_research_agreement.2.a
+        create_wargoal = {
+            target = FROM
+            type = topple_government
+			expire = 0
+        }
+	}
+}
+country_event = { # 트란실바니아 양도하면 이 이벤트가 보여야 함
+	id = TRM_diplomacy_event.9
+	title = TRM_diplomacy_event.9.t
+	desc = TRM_diplomacy_event.9.d
+	picture = GFX_report_event_vienna_award_hungary
+
+	is_triggered_only = yes
+
+	option = { # 북트란실바니아 주기
+		name = hungary.2.a
+        trigger = {
+            has_global_flag = ROM_select_only_north
+        }
+        ROOT = {
+            transfer_state = 76
+            every_owned_state = {
+                limit = { is_core_of = ROM }
+                add_compliance = 25
+            }
+        }
+	}
+    option = { # 트란실바니아 전체 주기
+		name = hungary.2.a
+        trigger = {
+            has_global_flag = ROM_select_all
+        }
+        ROOT = {
+            transfer_state = 76
+            transfer_state = 84
+            transfer_state = 83
+            transfer_state = 82
+            every_owned_state = {
+                limit = { is_core_of = ROM }
+                add_compliance = 25
+            }
+        }
+	}
+}
+country_event = { # 헝가리와 사이 나빠진 TRM
+	id = TRM_diplomacy_event.10
+	title = TRM_diplomacy_event.10.t
+	desc = TRM_diplomacy_event.10.d
+	picture = GFX_report_event_vienna_award_hungary
+
+	is_triggered_only = yes
+
+	option = { # 전쟁 목표 걸리기
+		name = BBA_italy_pact.2.a
+        ROOT = {
+            add_opinion_modifier = {
+                target = FROM
+                modifier = refused_help
+            }
+        }
 	}
 }
 add_namespace = TRN_opposition

@@ -868,7 +868,13 @@ TRN_after_war_decisions = {
 	TRM_wargoal_FRM = {
 		icon = GFX_decision_eng_blackshirt_march
 		allowed = { }
-    	available = { } 
+    	available = {
+            country_exists = FRM
+            FRM = {
+                controls_state = 976
+                controls_state = 28
+            }
+        } 
 		ai_will_do = { 
             base = 100
         }
@@ -880,6 +886,12 @@ TRN_after_war_decisions = {
 		
         days_remove = 25
         complete_effect = {
+                if = {
+                    limit = {
+                        is_in_faction_with = FRM
+                    }
+                    remove_from_faction = FRM
+                }
             TRM = {
                 declare_war_on = {
                     target = FRM
@@ -948,9 +960,6 @@ TRN_Seia_problem_decisions = {
 		days_remove = 10
 		visible = {
 		}
-		#activation = {
-		#	has_country_flag = TRN_who_is_criminal_start
-		#}
 		cost = 15
 		
 		fire_only_once = yes
@@ -998,7 +1007,7 @@ TRN_Seia_problem_decisions = {
 		}
 
 		visible = { 
-			has_country_flag = TRN_who_is_criminal_flag_2
+			has_country_flag = TRN_who_is_criminal_flag
 		}
 		days_remove = 10
 		
@@ -1028,6 +1037,12 @@ TRN_Seia_problem_decisions = {
 
 
 		visible = { 
+			custom_trigger_tooltip = {
+				tooltip = TRN_who_is_criminal_tt
+				has_country_flag = TRN_who_is_criminal_flag
+				has_country_flag = TRN_who_is_criminal_flag_2
+				has_country_flag = TRN_who_is_criminal_flag_3
+			}
 		}
 		
 		fire_only_once = yes
@@ -2201,27 +2216,20 @@ TRM_balkan_diplomacy_categories = {
     }
     TRM_alliance_with_Romania = {
         priority = 50
-        icon = GFX_decision_hol_draw_up_staff_plans
+        icon = GFX_decision_hol_exchange_intelligence_data
         allowed = {
             tag = TRM
-        }
-        targets = {
-            ROM
         }
         available = {
             NOT = {
                 has_country_flag = TRM_alliance_with_Hungary_flag
             }
             is_faction_leader = yes
-            ROM = {
+			has_government = fascism
+            HUN = {
 				has_government = fascism
                 exists = yes
-                has_war = no
                 NOT = { has_war_with = ROOT }
-                has_opinion = {
-                    target = ROOT
-                    value > 39
-                }
             }
         }
         visible = {}
@@ -2241,24 +2249,16 @@ TRM_balkan_diplomacy_categories = {
     }
     TRM_alliance_with_bulgaria = {
         priority = 50
-        icon = GFX_decision_hol_draw_up_staff_plans
+        icon = GFX_decision_hol_exchange_intelligence_data
         allowed = {
             tag = TRM
         }
-        targets = {
-            BUL
-        }
         available = {
             is_faction_leader = yes
+			has_government = fascism
             BUL = {
-				has_government = fascism
                 exists = yes
-                has_war = no
                 NOT = { has_war_with = ROOT }
-                has_opinion = {
-                    target = ROOT
-                    value > 39
-                }
             }
         }
         visible = {}
@@ -2278,33 +2278,26 @@ TRM_balkan_diplomacy_categories = {
     }
     TRM_alliance_with_Hungary = {
         priority = 50
-        icon = GFX_decision_hol_draw_up_staff_plans
+        icon = GFX_decision_hol_exchange_intelligence_data
         allowed = {
             tag = TRM
-        }
-        targets = {
-            HUN
         }
         available = {
             NOT = {
                 has_country_flag = TRM_alliance_with_Romania_flag
             }
             is_faction_leader = yes
+			has_government = fascism
             HUN = {
 				has_government = fascism
                 exists = yes
-                has_war = no
                 NOT = { has_war_with = ROOT }
-                has_opinion = {
-                    target = ROOT
-                    value > 39
-                }
             }
         }
         visible = {}
         cost = 25
         ai_will_do = {
-            factor = 1
+            factor = 30
         }
         fire_only_once = yes
         complete_effect = {
@@ -2314,6 +2307,70 @@ TRM_balkan_diplomacy_categories = {
                 }
             }
             set_country_flag = TRM_alliance_with_Hungary_flag
+        }
+    }
+    TRM_Schidsspruch = {
+        priority = 50
+        icon = GFX_decision_eng_trade_unions_support
+        allowed = {
+            tag = TRM
+        }
+        available = {
+            NOT = { has_country_flag = TRM_alliance_with_Romania_flag }
+            has_country_flag = TRM_alliance_with_Hungary_flag
+            is_in_faction_with = HUN
+            is_faction_leader = yes
+            76 = {
+                is_claimed_by = HUN
+                owner = {
+                    tag = ROM
+                }
+            }
+        }
+        visible = {
+            has_country_flag = TRM_alliance_with_Hungary_flag - > 테스트 다 해보면 앞에 # 지우기
+            is_in_faction_with = HUN
+        }
+        ai_will_do = {
+            factor = 1
+        }
+        fire_only_once = yes
+        complete_effect = {
+            country_event = {
+                id = TRM_diplomacy_event.5
+                hours = 5 
+                random_days = 6
+            }
+        }
+    }
+    TRM_support_the_hungarians = {
+        priority = 50
+        icon = GFX_decision_generic_political_rally
+        allowed = {
+            tag = TRM
+        }
+        available = {
+			HUN = {
+				has_government = fascism
+			}
+            is_in_faction_with = HUN
+        }
+        visible = {
+            has_country_flag = TRM_alliance_with_Hungary_flag - > 테스트 다 해보면 앞에 # 지우기
+            is_in_faction_with = HUN
+        }
+        ai_will_do = {
+            factor = 1
+        }
+        fire_only_once = yes
+        complete_effect = {
+            HUN = {
+                country_event = {
+                    id = TRM_diplomacy_event.4
+                    hours = 2
+                    random_hours = 5
+                }
+            }
         }
     }
 }
@@ -2330,11 +2387,11 @@ political_actions = {
 		}
 		visible = {
 			surrender_progress > 0.7
-	  		SOV = { controls_state = 64 }
+	  		SOV = { controls_state = 86 }
 			has_completed_focus = TRN_GO_TO_EAST
 		}
 		complete_effect = {
-			SOV_WIN_Great_Patriotic_War = YES
+			#SOV_WIN_Great_Patriotic_War = YES
 	        news_event = { id = BA_news.41 hours = 5 }
 		}
 	}
@@ -2564,6 +2621,21 @@ debug_decisions = {
 		}
 		complete_effect = {
             complete_national_focus = TRM_domination
+		}
+    }
+    TRM_auto_complete_focus_TRM_balkan_diplomacy = {
+		priority = 80
+		allowed = {
+			always = yes
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+            tag = TRM
+		}
+		complete_effect = {
+            complete_national_focus = TRM_balkan_diplomacy
 		}
     }
 }
