@@ -17,10 +17,55 @@ focus_tree = {
 		icon = GFX_goal_generic_major_war
 		dynamic = yes
         cost = 5.00
-        x = 14
+        x = 20
         y = 0
         completion_reward = {
 			add_political_power = 120
+		}
+    }
+
+    focus = {
+        id = ARI_war_with_trinity #트리니티와의 전쟁
+		icon = GFX_focus_attack_TRN
+		dynamic = yes
+        cost = 10.00
+
+		available = {
+			is_puppet = no
+			date > 1940.1.1
+			NOT = { is_in_faction_with = TRM }
+		}
+
+		bypass = {
+			has_war_with = TRM
+		}
+
+		x = -5
+		y = 1
+		relative_position_id = ARI_use_hanran
+        completion_reward = {
+			if = {
+				limit = {
+					has_tech = nukes
+				}
+				news_event = { id = BA_news.36 hours = 6 }
+				TRM = {
+					launch_nuke = {
+						province = 6521
+						state = capital
+						controller = TRM
+						use_nuke = no
+					}
+					add_timed_idea = {
+						idea = ARI_make_collapse
+						days = 120
+					}
+				}
+			}
+			create_wargoal = {
+				target = TRM
+				type = annex_everything
+			}
 		}
     }
 
@@ -30,7 +75,7 @@ focus_tree = {
 		dynamic = yes
 		cost = 5.00
 		prerequisite = { focus = ARI_use_hanran }
-        x = -2
+        x = 2
         y = 1
 		relative_position_id = ARI_use_hanran
         completion_reward = {
@@ -48,7 +93,7 @@ focus_tree = {
 		dynamic = yes
         cost = 5.00
 		prerequisite = { focus = ARI_quiet_rearmament }
-        x = -1
+        x = 1
         y = 1
 		relative_position_id = ARI_quiet_rearmament
 		available = {
@@ -119,9 +164,9 @@ focus_tree = {
 			controls_state = 807
 		}
 		cost = 5
-		x = 3
-		y = 4
-		relative_position_id = ARI_use_hanran
+		x = 0
+		y = 3
+		relative_position_id = ARI_war_with_trinity
 
 		completion_reward = {
 			effect_tooltip = {
@@ -259,7 +304,7 @@ focus_tree = {
 		dynamic = yes
         cost = 10.00
 		prerequisite = { focus = ARI_quiet_rearmament }
-        x = 2
+        x = -2
         y = 2
 		relative_position_id = ARI_quiet_rearmament
         completion_reward = {
@@ -275,7 +320,7 @@ focus_tree = {
 		}
 		dynamic = yes
 		cost = 5
-		x = 2
+		x = -2
 		y = 1
 		relative_position_id = ARI_use_hanran
 		completion_reward = {
@@ -311,70 +356,6 @@ focus_tree = {
 			add_ideas = ARI_vanitas_vanitatum_idea
 		}
 	}
-
-	focus = {# 사태 파악
-		id = ARI_emergency_now
-		icon = GFX_goal_generic_neutrality_focus
-		cost = 5
-		x = 25
-		y = 0
-		available = {
-		}
-		ai_will_do = { factor = 0 }
-		completion_reward = {
-			country_event = { id = ARI_event.5 hours = 8 }
-		}
-	}
-
-    focus = {
-        id = ARI_war_with_trinity #트리니티와의 전쟁
-		icon = GFX_focus_attack_TRN
-		dynamic = yes
-        cost = 10.00
-
-		prerequisite = {
-			focus = ARI_use_hanran
-			focus = ARI_emergency_now
-		}
-
-		available = {
-			is_puppet = no
-			date > 1940.1.1
-			NOT = { is_in_faction_with = TRM }
-		}
-
-		bypass = {
-			has_war_with = TRM
-		}
-
-		x = 5
-		y = 1
-		relative_position_id = ARI_use_hanran
-        completion_reward = {
-			if = {
-				limit = {
-					has_tech = nukes
-				}
-				news_event = { id = BA_news.36 hours = 6 }
-				TRM = {
-					launch_nuke = {
-						province = 6521
-						state = capital
-						controller = TRM
-						use_nuke = no
-					}
-					add_timed_idea = {
-						idea = ARI_make_collapse
-						days = 120
-					}
-				}
-			}
-			declare_war_on = {
-				type = annex_everything
-				target = TRM
-			}
-		}
-    }
 	focus = {
 		id = ARI_second_council #제2회 공회의
 		icon = GFX_goal_generic_forceful_treaty
@@ -401,7 +382,352 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_research_slot = 1
 			country_event = { id = ARI_event.2 hours = 24 }
+		}
+	}
+
+	focus = { #5개년 계획 추진
+		id = ARI_five_year_plan_implementation
+		icon = GFX_focus_generic_industry_1
+		prerequisite = {
+			focus = ARI_deny_trinity
+		}
+		available = {
+			is_subject = no
+		}
+		cost = 5
+		x = -3
+		y = 1
+		relative_position_id = ARI_deny_trinity
+
+		complete_tooltip = {
+			every_state = {
+				limit = { has_state_flag = ARI_five_year_plan_implementation_1C }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+
+		}
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = PREV
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = ARI_five_year_plan_implementation_1C
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = PREV
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = ARI_five_year_plan_implementation_1C
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = PREV
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = ARI_five_year_plan_implementation_1C
+			}
+		}
+	} 
+
+	focus = { #기간산업체
+		id = ARI_core_industries
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = {
+			focus = ARI_five_year_plan_implementation
+		}
+		available = {
+			is_subject = no
+		}
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = ARI_five_year_plan_implementation
+
+
+		completion_reward = {
+			add_ideas = FRA_rad_gigan
+		}
+	}
+
+	focus = { #독일 기업 투자
+		id = ARI_german_corporate_investment
+		icon = GFX_focus_research
+		prerequisite = {
+			focus = ARI_five_year_plan_implementation
+		}
+		available = {
+			is_subject = no
+		}
+		cost = 10
+		x = -1
+		y = 1
+		relative_position_id = ARI_five_year_plan_implementation
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	focus = { #산업 동원 계획
+		id = ARI_industrial_mobilization_plan
+		icon = GFX_goal_generic_production2
+		prerequisite = {
+			focus = ARI_german_corporate_investment
+			focus = ARI_core_industries
+		}
+		available = {
+			is_subject = no
+		}
+		cost = 10
+		x = 0
+		y = 2
+		relative_position_id = ARI_five_year_plan_implementation
+
+		completion_reward = {
+			add_offsite_building = {
+				type = arms_factory
+				level = 3
+			}
+		}
+	}
+
+	focus = { #게헨나와 전쟁 준비
+		id = ARI_gehenna_war_preparations 
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = {
+			focus = ARI_deny_trinity
+		}
+		available = {
+			is_subject = no
+		}
+		cost = 5
+		x = 3
+		y = 1
+		relative_position_id = ARI_deny_trinity
+
+		completion_reward = {
+			add_tech_bonus = {
+				category = infantry_weapons
+				category = cat_anti_air
+				category = artillery
+				uses = 3
+				bonus = 1.0
+			}
+		}
+	}
+	focus = {
+		id = ARI_kickstart_the_war_industry # 전시 산업
+		prerequisite = { focus = ARI_gehenna_war_preparations }
+		available = {
+
+		}
+		ai_will_do = {
+			base = 100
+		}
+		icon = GFX_goal_generic_construct_mil_factory
+		x = 1
+		y = 1
+		relative_position_id = ARI_gehenna_war_preparations
+		cost = 5
+		complete_tooltip = {
+			every_state = {
+				limit = { has_state_flag = ARI_state_flag }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+
+		}
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = PREV
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = ARI_state_flag
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = PREV
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = ARI_state_flag
+			}
+		}
+	}
+	focus = {
+		id = ARI_prepare_for_the_inevitable # 초토화 작전
+		icon = GFX_focus_SWE_let_fly_all_guns
+		available = {
+			has_completed_focus = ARI_from_end_to_end
+		}
+		ai_will_do = {
+			base = 100
+		}
+		prerequisite = { focus = ARI_gehenna_war_preparations }
+
+
+		x = -1
+		y = 1
+		relative_position_id = ARI_gehenna_war_preparations
+		cost = 5.00
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = ARI_from_end_to_end_idea
+				add_idea = ARI_prepare_for_the_inevitable
+			}
+		}
+	}
+	focus = {
+		id = ARI_military_training # 군사 훈련
+		icon = GFX_focus_generic_license_production
+		available = {
+
+		}
+		ai_will_do = {
+			base = 100
+		}
+		prerequisite = { focus = ARI_prepare_for_the_inevitable }
+		prerequisite = { focus = ARI_kickstart_the_war_industry }
+
+		x = -1
+		y = 1
+		relative_position_id = ARI_kickstart_the_war_industry
+		cost = 10.00
+		completion_reward = {
+			army_experience = 25
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.75
+				uses = 3
+				category = land_doctrine
+			}
+
+		}
+	}
+
+	focus = { #게헨나 침공
+		id = ARI_gehenna_invasion
+		icon = GFX_focus_attack_GEH
+		prerequisite = {
+			focus = ARI_industrial_mobilization_plan
+		}
+		prerequisite = {
+			focus = ARI_military_training
+		}
+
+		available = {
+			is_puppet = no
+			has_army_manpower = { size > 349999 }
+			NOT = { is_in_faction_with = GEM }
+		}
+
+		bypass = {
+			has_war_with = GEM
+		}
+		cost = 10
+		x = 0
+		y = 5
+		relative_position_id = ARI_deny_trinity
+
+		completion_reward = {
+			create_wargoal = {
+				target = GEM
+				type = annex_everything
+			}
+			create_wargoal = {
+				target = GEH
+				type = annex_everything
+			}
+		}
+	}
+
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	####################################    이 밑은 정치중점임    ###############################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+	############################################################################################################
+
+	focus = {# 사태 파악
+		id = ARI_emergency_now
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 5
+		x = 35
+		y = 0
+		available = {
+		}
+		ai_will_do = { factor = 0 }
+		completion_reward = {
+			country_event = { id = ARI_event.5 hours = 8 }
 		}
 	}
 
@@ -767,6 +1093,10 @@ focus_tree = {
 		relative_position_id = ARI_solidarity_with_trade_unions
 
 		available = {
+            custom_trigger_tooltip = {
+                tooltip = THIS_IS_WIP_TT
+			    has_country_flag = GAEBALJUNG
+            }
 		}
 
 		completion_reward = {
@@ -1328,7 +1658,7 @@ focus_tree = {
 
 		completion_reward = {
 			custom_effect_tooltip = ARI_integration_of_administrative_system_tt
-			add_to_variable = { ARI_arian_production_factory_efficiency_gain_factor = -0.05 }
+			add_to_variable = { ARI_arian_production_factory_efficiency_gain_factor = 0.05 }
 			random_owned_controlled_state = {
 				limit = {
 					free_building_slots = {
@@ -2218,6 +2548,7 @@ focus_tree = {
 				}
 				add_ideas = BA_ARI_bitter_revanchism_GER
 			}
+			add_ideas = ARI_student_resistance
 		}
 	}
 	
@@ -2395,6 +2726,8 @@ focus_tree = {
 			set_rule = {	
 				can_create_factions = yes
 			}
+			custom_effect_tooltip = enter_tt
+			add_ideas = ARI_student_resistance
 		}
 	}
 
@@ -2417,6 +2750,361 @@ focus_tree = {
 		completion_reward = {
 		    set_province_name = { id = 6521 name = Berlin }
 			country_event = { id = ARI_event.18 hours = 8 }
+			add_stability = 0.10
+		}
+	}
+
+	focus = { #트리니티 문화 말살
+		id = ARI_trinity_cultural_annihilation
+		icon = GFX_goal_TRN_Blocking_attacks_from_the_outside
+		prerequisite = {
+			focus = ARI_berlin_military_tribunal
+		}
+		cost = 10
+		x = -1
+		y = 1
+		relative_position_id = ARI_berlin_military_tribunal
+
+		available = {
+		}
+
+		completion_reward = {
+			effect_tooltip = {
+				remove_ideas = ARI_student_resistance
+			}
+			hidden_effect = {
+				if = { limit = { has_idea = ARI_student_resistance }
+					remove_ideas = ARI_student_resistance
+				}
+			}
+			set_province_name = { id = 6558 name = Poznan }
+			set_province_name = { id = 6332 name = Konigsberg }
+		    set_province_name = { id = 9347 name = Hamburg }
+			#set_province_name = { id = 6469 name = Dusseldorf }
+			#set_province_name = { id = 6488 name = Frankfurt }
+			#set_province_name = { id = 692 name = Munich }
+		}
+	}
+
+	focus = { #민족공동체 활성화
+		id = ARI_national_community_revitalization
+		icon = GFX_focus_generic_reorient_production
+		prerequisite = {
+			focus = ARI_berlin_military_tribunal
+		}
+		cost = 10
+		x = 1
+		y = 1
+		relative_position_id = ARI_berlin_military_tribunal
+
+		available = {
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ARI_national_community_revitalization_tt
+			add_to_variable = { ARI_nazi_party_political_power_gain = 0.05 }
+			add_to_variable = { ARI_nazi_party_consumer_goods_factor = 0.05 }
+			add_to_variable = { ARI_nazi_party_industrial_capacity_factory = 0.05 }
+			add_to_variable = { ARI_nazi_party_industrial_capacity_dockyard = 0.05 }
+		}
+	}
+
+	focus = { #독일노동전선
+		id = ARI_german_labor_front
+		icon = GFX_goal_generic_union_agreement
+		prerequisite = {
+			focus = ARI_intercultural_integration
+			focus = ARI_night_of_the_long_knives
+		}
+		cost = 10
+		x = -3
+		y = 1
+		relative_position_id = ARI_night_of_the_long_knives
+
+		available = {
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = { #국가재건동맹 수립
+		id = ARI_formation_of_the_national_reconstruction_alliance
+		icon = GFX_goal_generic_construction2
+		prerequisite = {
+			focus = ARI_german_labor_front
+		}
+		cost = 10
+		x = 0
+		y = 1
+		relative_position_id = ARI_german_labor_front
+
+		available = {
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = ARI_land_reconstruction_project
+				days = 180
+			}
+		}
+	}
+
+	focus = { #경제자립주의
+		id = ARI_economic_autarky
+		icon = GFX_focus_generic_german_trade
+		prerequisite = {
+			focus = ARI_formation_of_the_national_reconstruction_alliance
+		}
+		cost = 5
+		x = 0
+		y = 2
+		relative_position_id = ARI_german_labor_front
+
+		available = {
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ARI_economic_autarky_tt
+			add_to_variable = { ARI_nazi_party_production_lack_of_resource_penalty_factor = -0.10 }
+			add_war_support = 0.05
+		}
+	}
+
+	focus = { #민족 융화 추진
+		id = ARI_cultural_integration_efforts
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = {
+			focus = ARI_intercultural_integration
+		}
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = ARI_intercultural_integration
+
+		available = {
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ARI_cultural_integration_efforts_tt
+			add_to_variable = { ARI_arian_conscription = -0.005 }
+			add_to_variable = { ARI_arian_production_factory_max_efficiency_factor = 0.05 }
+			add_to_variable = { ARI_arian_production_speed_buildings_factor = 0.05 }
+		}
+	}
+
+	focus = { #독일 민족에 대한 새로운 정의
+		id = ARI_redefinition_of_the_german_nation
+		icon = GFX_goal_generic_neutrality_focus
+		prerequisite = {
+			focus = ARI_cultural_integration_efforts
+		}
+		cost = 10
+		x = 0
+		y = 2
+		relative_position_id = ARI_cultural_integration_efforts
+
+		available = {
+		}
+
+		completion_reward = {
+			add_political_power = 60
+			add_stability = 0.15
+		}
+	}
+
+	focus = { #테러와의 전쟁
+		id = ARI_war_on_terror
+		icon = GFX_focus_generic_annex_country
+		prerequisite = {
+			focus = ARI_night_of_the_long_knives
+		}
+		cost = 5
+		x = 3
+		y = 1
+		relative_position_id = ARI_night_of_the_long_knives
+
+		available = {
+		}
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = ARI_crackdown_on_anti_government_activities
+				days = 280
+			}
+		}
+	}
+
+	focus = { #수용소 확장
+		id = ARI_large_scale_expansion_of_detention_facilities
+		icon = GFX_goal_tmr_kill_jew_kill_more_jews_focus
+		prerequisite = {
+			focus = ARI_war_on_terror
+		}
+		cost = 10
+		x = 0
+		y = 2
+		relative_position_id = ARI_war_on_terror
+
+		available = {
+		}
+
+		completion_reward = {
+			custom_effect_tooltip = ARI_large_scale_expansion_of_detention_facilities_tt
+			add_to_variable = { ARI_nazi_party_resistance_target = -0.10 }
+			add_political_power = 120
+			add_stability = 0.05
+		}
+	}
+
+	focus = { #독일 민족의 대게르만국
+		id = ARI_greater_germania
+		icon = GFX_focus_generic_fascist_propaganda
+		prerequisite = {
+			focus = ARI_redefinition_of_the_german_nation
+			focus = ARI_large_scale_expansion_of_detention_facilities
+		}
+		prerequisite = {
+			focus = ARI_trinity_cultural_annihilation
+			focus = ARI_national_community_revitalization
+		}
+		cost = 10
+		x = 0
+		y = 3
+		relative_position_id = ARI_berlin_military_tribunal
+
+		available = {
+			is_subject = no
+			custom_trigger_tooltip = {
+				tooltip = ARI_greater_germania_tooltip_TRM
+				controls_state = 5
+				controls_state = 763
+				controls_state = 60
+				controls_state = 61
+				controls_state = 62
+				controls_state = 63
+				controls_state = 64
+				controls_state = 65
+				controls_state = 66
+				controls_state = 67
+				controls_state = 68
+			}
+
+			custom_trigger_tooltip = {
+				tooltip = ARI_greater_germania_tooltip_GEM
+				controls_state = 42
+				controls_state = 50
+				controls_state = 51
+				controls_state = 55
+				controls_state = 56
+				controls_state = 57
+				controls_state = 58
+				controls_state = 59
+				controls_state = 909
+				controls_state = 975
+				controls_state = 978
+			}
+
+			custom_trigger_tooltip = {
+				tooltip = ARI_greater_germania_tooltip_GEH
+				controls_state = 52
+				controls_state = 53
+				controls_state = 54
+			}
+
+			custom_trigger_tooltip = {
+				tooltip = ARI_greater_germania_tooltip_SHA
+				controls_state = 4
+				controls_state = 152
+				controls_state = 153
+				controls_state = 848
+				controls_state = 984
+			}
+
+			custom_trigger_tooltip = {
+				tooltip = ARI_greater_germania_tooltip_SUD
+				controls_state = 985
+				controls_state = 69
+				controls_state = 74
+			}
+		}
+
+		completion_reward = {
+			set_cosmetic_tag = ARI_greater_german_reich
+			GER = {
+				every_core_state = {
+					limit = {
+						NOT = { is_core_of = ARI }
+					}
+					add_core_of = ARI
+				}
+			}
+
+			AUS = {
+				every_core_state = {
+					limit = {
+						NOT = { is_core_of = ARI }
+					}
+					add_core_of = ARI
+				}
+			}
+
+			every_state = {
+				limit = {
+					NOT = { is_core_of = ARI }
+					OR = {
+						state = 985
+						state = 69
+						state = 74
+					}
+				}
+				add_core_of = ARI
+			}
 		}
 	}
 }
