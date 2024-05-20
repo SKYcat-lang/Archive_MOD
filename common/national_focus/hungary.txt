@@ -1,21 +1,245 @@
+﻿### search_filters = {FOCUS_FILTER_POLITICAL}
+### search_filters = {FOCUS_FILTER_RESEARCH}
+### search_filters = {FOCUS_FILTER_INDUSTRY}
+### search_filters = {FOCUS_FILTER_STABILITY}
+### search_filters = {FOCUS_FILTER_WAR_SUPPORT}
+### search_filters = {FOCUS_FILTER_MANPOWER}
+### search_filters = {FOCUS_FILTER_ANNEXATION}
+
 focus_tree = {
-	id = HUN_focus
+	id = hungarian_focus
+	
 	country = {
 		factor = 0
+		
 		modifier = {
-			add = 20
+			add = 10
 			tag = HUN
+			#always = no
+			has_dlc = "Death or Dishonor"
 		}
 	}
+	
 	default = no
+
 	continuous_focus_position = { x = 50 y = 2200 }	
+
+	focus = {
+		id = HUN_debugfocus
+		icon = GFX_goal_generic_consumer_goods
+		allow_branch = {
+			is_debug = yes
+		}
+		cost = 10
+		x = 10
+		y = 15
+		available = {
+		}
+		bypass = {
+		}
+		completion_reward = {
+			add_political_power = 120
+		}
+	}
+
+	focus = {
+		id = HUN_rapproachement_with_little_entente
+		icon = GFX_focus_generic_little_entente
+		prerequisite = { focus = HUN_debugfocus }
+		x = 0
+		y = 1
+		relative_position_id = HUN_debugfocus
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				OR = {
+					NOT = { has_idea = HUN_treaty_of_triannon_aat }
+					AND = {
+						ROM = {
+							OR = {
+								exists = no
+								is_puppet = yes
+							}
+						}
+						FRA = {
+							OR = {
+								exists = no
+								is_puppet = yes
+								NOT = { has_completed_focus = FRA_strengthen_the_little_entente }
+							}
+						}
+					}
+				}
+			}
+			else = {
+				OR = {
+					NOT = { has_idea = HUN_treaty_of_triannon }
+					AND = {
+						ROM = {
+							OR = {
+								exists = no
+								is_puppet = yes
+							}
+						}
+						FRA = {
+							OR = {
+								exists = no
+								is_puppet = yes
+								NOT = { has_completed_focus = FRA_strengthen_the_little_entente }
+							}
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			if = {
+				limit = {
+					FRA = { 
+						exists = yes
+						is_subject = no
+						has_completed_focus = FRA_strengthen_the_little_entente 
+					}
+				}
+				FRA = { country_event = { id = DOD_hungary.30 } }
+			}
+			if = {
+				limit = {
+					country_exists = ROM
+					OR = {
+						FRA = { NOT = { has_completed_focus = FRA_strengthen_the_little_entente } }
+						FRA = { exists = no }
+						FRA = { is_subject = yes }
+					}
+				}
+				ROM = { country_event = { id = DOD_hungary.30 } }
+			}
+			
+		}
+	}
+
+	focus = {
+		id = HUN_the_balkan_pact
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = HUN_debugfocus }
+		x = 2
+		y = 1
+		relative_position_id = HUN_debugfocus
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 60
+		}
+
+		available = {
+			is_in_faction = no
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			set_rule = { can_create_factions = yes } 
+			create_faction = HUN_BALKAN_FACTION
+		}
+	}
+
+	focus = {
+		id = HUN_responsible_government
+		icon = GFX_goal_support_democracy
+		prerequisite = { focus = HUN_debugfocus }
+		x = 4
+		y = 1
+		relative_position_id = HUN_debugfocus
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 50
+		}
+
+		available = {
+			democratic > 0.4
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_politics = { ruling_party = democratic }
+			hold_election = HUN
+
+			swap_ideas = {
+				add_idea = HUN_his_majestys_government
+				remove_idea = HUN_hungarian_monarchy_democratic
+			}
+			hidden_effect = {
+				if = {
+					limit = { 
+						#has_dlc = "Battle for the Bosporus" #TODO
+					}
+					remove_opinion_modifier = {
+						target = CZE
+						modifier = BFTB_incongruous_neighbors
+					}
+					remove_opinion_modifier = {
+						target = ROM
+						modifier = BFTB_incongruous_neighbors
+					}
+					remove_opinion_modifier = {
+						target = YUG
+						modifier = BFTB_incongruous_neighbors
+					}
+					every_country = {
+						limit = {
+							has_opinion_modifier = BFTB_balkan_pact_enemy
+						}
+						remove_opinion_modifier = {
+							target = HUN
+							modifier = BFTB_balkan_pact_enemy
+						}
+					}
+				}
+			}
+		}
+	}
+
 	focus = { #
-		text = HUN_balanced_budget
 		#relative_position_id = HUN_foc_
-		id = HUN_foc_1
+		id = HUN_balanced_budget
 		icon = GFX_goal_generic_consumer_goods
 		#prerequisite = { focus = HUN_foc_ }
-		mutually_exclusive = { focus = HUN_foc_2 }
+		mutually_exclusive = { focus = HUN_economic_intervention }
 		cost = 10
 		x = 5
 		y = 0
@@ -28,12 +252,11 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_strengthen_the_monarchists
-		relative_position_id = HUN_foc_1
-		id = HUN_foc_1-1
+		relative_position_id = HUN_balanced_budget
+		id = HUN_strengthen_the_monarchists
 		icon = GFX_focus_generic_support_the_left_right
-		prerequisite = { focus = HUN_foc_1 }
-		mutually_exclusive = { focus = HUN_foc_1-2 }
+		prerequisite = { focus = HUN_balanced_budget }
+		mutually_exclusive = { focus = HUN_elect_a_democratic_king }
 		cost = 10
 		x = 3
 		y = 1
@@ -50,11 +273,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_elect_a_king
-		relative_position_id = HUN_foc_1-1
-		id = HUN_foc_1-1-1
+		relative_position_id = HUN_strengthen_the_monarchists
+		id = HUN_elect_a_king
 		icon = GFX_focus_hun_elect_a_king
-		prerequisite = { focus = HUN_foc_1-1 }
+		prerequisite = { focus = HUN_strengthen_the_monarchists }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 0
@@ -73,12 +295,11 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_invite_the_habsburg_prince
-		relative_position_id = HUN_foc_1-1
-		id = HUN_foc_1-1-2
+		relative_position_id = HUN_strengthen_the_monarchists
+		id = HUN_invite_the_habsburg_prince
 		icon = GFX_focus_generic_home_defense
-		prerequisite = { focus = HUN_foc_1-1-1 }
-		mutually_exclusive = { focus = HUN_foc_1-1-3 }
+		prerequisite = { focus = HUN_elect_a_king }
+		mutually_exclusive = { focus = HUN_elect_a_fascist_king }
 		cost = 10
 		x = -3
 		y = 2
@@ -117,7 +338,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-3
 		icon = GFX_focus_ger_revive_kaiserreich
 		prerequisite = { focus = HUN_foc_1-1-2-1 }
@@ -137,7 +358,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-2
 		icon = GFX_focus_SWE_attack_landsorganisationen
 		prerequisite = { focus = HUN_foc_1-1-2-1 }
@@ -164,10 +385,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-1
 		icon = GFX_focus_generic_diplomatic_treaty
-		prerequisite = { focus = HUN_foc_1-1-2 }
+		prerequisite = { focus = HUN_invite_the_habsburg_prince }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 5
 		x = 3
@@ -207,10 +428,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-5
 		icon = GFX_goal_road_to_austria
-		prerequisite = { focus = HUN_foc_1-1-2 }
+		prerequisite = { focus = HUN_invite_the_habsburg_prince }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 0
@@ -257,9 +478,8 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_proclaim_the_restoration_of_austria_hungary
-		relative_position_id = HUN_foc_1-1-2
-		id = HUN_foc_1-1-2-6
+		relative_position_id = HUN_invite_the_habsburg_prince
+		id = HUN_proclaim_the_restoration_of_austria_hungary
 		icon = GFX_focus_proclaim_the_restauration_of_Austria_Hungary
 		prerequisite = { focus = HUN_foc_1-1-2-5 }
 		#mutually_exclusive = { focus = HUN_foc_ }
@@ -287,10 +507,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-7
 		icon = GFX_goal_generic_occupy_states_ongoing_war
-		prerequisite = { focus = HUN_foc_1-1-2-6 }
+		prerequisite = { focus = HUN_proclaim_the_restoration_of_austria_hungary }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 1
@@ -311,10 +531,11 @@ focus_tree = {
 		will_lead_to_war_with = SLO
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
-		id = HUN_foc_1-1-2-8
+		text = HUN_foc_1-1-2-8
+		relative_position_id = HUN_invite_the_habsburg_prince
+		id = HUN_protect_czechoslovakia
 		icon = GFX_goal_generic_more_territorial_claims
-		prerequisite = { focus = HUN_foc_1-1-2-6 }
+		prerequisite = { focus = HUN_proclaim_the_restoration_of_austria_hungary }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -1
@@ -341,11 +562,11 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-9
 		icon = GFX_focus_YUG_autonomous_transylvania
 		prerequisite = { focus = HUN_foc_1-1-2-7 }
-		prerequisite = { focus = HUN_foc_1-1-2-8 }
+		prerequisite = { focus = HUN_protect_czechoslovakia }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 0
@@ -379,7 +600,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-10
 		icon = GFX_focus_generic_polish_deal
 		prerequisite = { focus = HUN_foc_1-1-2-9 }
@@ -417,7 +638,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-11
 		icon = GFX_focus_YUG_dissolve_serbia
 		prerequisite = { focus = HUN_foc_1-1-2-9 }
@@ -454,9 +675,8 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_march_to_the_shore
-		relative_position_id = HUN_foc_1-1-2
-		id = HUN_foc_1-1-2-12
+		relative_position_id = HUN_invite_the_habsburg_prince
+		id = HUN_march_to_the_shore
 		icon = GFX_focus_YUG_banovina_of_croatia
 		prerequisite = { focus = HUN_foc_1-1-2-11 }
 		#mutually_exclusive = { focus = HUN_foc_ }
@@ -497,11 +717,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_reclaim_venetia
-		relative_position_id = HUN_foc_1-1-2
-		id = HUN_foc_1-1-2-13
+		relative_position_id = HUN_invite_the_habsburg_prince
+		id = HUN_reclaim_venetia
 		icon = GFX_focus_attack_italy
-		prerequisite = { focus = HUN_foc_1-1-2-12 }
+		prerequisite = { focus = HUN_march_to_the_shore }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 0
@@ -536,9 +755,8 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_claim_the_bucovina
-		relative_position_id = HUN_foc_1-1-2
-		id = HUN_foc_1-1-2-14
+		relative_position_id = HUN_invite_the_habsburg_prince
+		id = HUN_claim_the_bucovina
 		icon = GFX_focus_generic_strike_at_democracy2
 		prerequisite = { focus = HUN_foc_1-1-2-10 }
 		#mutually_exclusive = { focus = HUN_foc_ }
@@ -567,10 +785,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-15
 		icon = GFX_focus_YUG_safeguard_bosnia
-		prerequisite = { focus = HUN_foc_1-1-2-12 }
+		prerequisite = { focus = HUN_march_to_the_shore }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -1
@@ -599,11 +817,11 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-16
 		icon = GFX_goal_tfv_strengthen_commonwealth_ties
-		prerequisite = { focus = HUN_foc_1-1-2-13 }
-		prerequisite = { focus = HUN_foc_1-1-2-14 }
+		prerequisite = { focus = HUN_reclaim_venetia }
+		prerequisite = { focus = HUN_claim_the_bucovina }
 		prerequisite = { focus = HUN_foc_1-1-2-15 }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
@@ -619,9 +837,8 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_reclaim_the_empire
-		relative_position_id = HUN_foc_1-1-2
-		id = HUN_foc_1-1-2-17
+		relative_position_id = HUN_invite_the_habsburg_prince
+		id = HUN_reclaim_the_empire
 		icon = GFX_goal_generic_major_war
 		prerequisite = { focus = HUN_foc_1-1-2-16 }
 		#mutually_exclusive = { focus = HUN_foc_ }
@@ -654,10 +871,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-18
 		icon = GFX_goal_generic_neutrality_focus
-		prerequisite = { focus = HUN_foc_1-1-2-6 }
+		prerequisite = { focus = HUN_proclaim_the_restoration_of_austria_hungary }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 5
 		x = -3
@@ -671,7 +888,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-19
 		icon = GFX_focus_generic_military_mission
 		prerequisite = { focus = HUN_foc_1-1-2-18 }
@@ -702,7 +919,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-20
 		icon = GFX_goal_generic_propaganda
 		prerequisite = { focus = HUN_foc_1-1-2-19 }
@@ -720,7 +937,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-21
 		icon = GFX_focus_generic_monarchy_2
 		prerequisite = { focus = HUN_foc_1-1-2-19 }
@@ -743,7 +960,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-22
 		icon = GFX_focus_por_concordat
 		prerequisite = { focus = HUN_foc_1-1-2-18 }
@@ -760,7 +977,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-2
+		relative_position_id = HUN_invite_the_habsburg_prince
 		id = HUN_foc_1-1-2-23
 		icon = GFX_focus_SWE_form_rfsu
 		prerequisite = { focus = HUN_foc_1-1-2-22 }
@@ -784,12 +1001,11 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_elect_a_fascist_king
-		relative_position_id = HUN_foc_1-1
-		id = HUN_foc_1-1-3
+		relative_position_id = HUN_strengthen_the_monarchists
+		id = HUN_elect_a_fascist_king
 		icon = GFX_goal_molotov_ribbentrop_pact
-		prerequisite = { focus = HUN_foc_1-1-1 }
-		mutually_exclusive = { focus = HUN_foc_1-1-2 }
+		prerequisite = { focus = HUN_elect_a_king }
+		mutually_exclusive = { focus = HUN_invite_the_habsburg_prince }
 		cost = 10
 		x = 3
 		y = 2
@@ -820,11 +1036,12 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1
-		id = HUN_foc_1-2
+		text = HUN_foc_1-2
+		relative_position_id = HUN_balanced_budget
+		id = HUN_elect_a_democratic_king
 		icon = GFX_goal_support_democracy
-		prerequisite = { focus = HUN_foc_1 }
-		mutually_exclusive = { focus = HUN_foc_1-1 }
+		prerequisite = { focus = HUN_balanced_budget }
+		mutually_exclusive = { focus = HUN_strengthen_the_monarchists }
 		cost = 10
 		x = -3
 		y = 1
@@ -845,12 +1062,11 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_economic_intervention
 		#relative_position_id = HUN_foc_
-		id = HUN_foc_2
+		id = HUN_economic_intervention
 		icon = GFX_goal_generic_demand_territory
 		#prerequisite = { focus = HUN_foc_ }
-		mutually_exclusive = { focus = HUN_foc_1 }
+		mutually_exclusive = { focus = HUN_balanced_budget }
 		cost = 10
 		x = 21
 		y = 0
@@ -863,12 +1079,11 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_strengthen_fascists
-		relative_position_id = HUN_foc_2
-		id = HUN_foc_2-1
+		relative_position_id = HUN_economic_intervention
+		id = HUN_strengthen_fascists
 		icon = GFX_goal_support_fascism
-		prerequisite = { focus = HUN_foc_2 }
-		mutually_exclusive = { focus = HUN_foc_2-2 }
+		prerequisite = { focus = HUN_economic_intervention }
+		mutually_exclusive = { focus = HUN_council_of_peoples_commissars }
 		cost = 10
 		x = -8
 		y = 1
@@ -882,11 +1097,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_renounce_the_treaty_of_trianon
-		relative_position_id = HUN_foc_2-1
-		id = HUN_foc_2-1-1
+		relative_position_id = HUN_strengthen_fascists
+		id = HUN_renounce_the_treaty_of_trianon
 		icon = GFX_focus_renounce_the_treaty_of_trianon
-		prerequisite = { focus = HUN_foc_1-1-3 focus = HUN_foc_2-1 }
+		prerequisite = { focus = HUN_elect_a_fascist_king focus = HUN_strengthen_fascists }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 0
@@ -922,10 +1136,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-1
+		relative_position_id = HUN_strengthen_fascists
 		id = HUN_foc_2-1-2
 		icon = GFX_goal_generic_political_pressure
-		prerequisite = { focus = HUN_foc_1-1 focus = HUN_foc_2-1 }
+		prerequisite = { focus = HUN_strengthen_the_monarchists focus = HUN_strengthen_fascists }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -1
@@ -954,10 +1168,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-1
+		relative_position_id = HUN_strengthen_fascists
 		id = HUN_foc_2-1-3
 		icon = GFX_focus_befriend_italy
-		prerequisite = { focus = HUN_foc_2-1-1 }
+		prerequisite = { focus = HUN_renounce_the_treaty_of_trianon }
 		mutually_exclusive = { focus = HUN_foc_2-1-6 }
 		cost = 10
 		x = 0
@@ -985,9 +1199,8 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_renew_the_rome_protocols
-		relative_position_id = HUN_foc_2-1
-		id = HUN_foc_2-1-4
+		relative_position_id = HUN_strengthen_fascists
+		id = HUN_renew_the_rome_protocols
 		icon = GFX_goal_generic_positive_trade_relations
 		prerequisite = { focus = HUN_foc_2-1-3 }
 		#mutually_exclusive = { focus = HUN_foc_ }
@@ -1028,11 +1241,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_alliance_with_italy
-		relative_position_id = HUN_foc_2-1
-		id = HUN_foc_2-1-5
+		relative_position_id = HUN_strengthen_fascists
+		id = HUN_alliance_with_italy
 		icon = GFX_goal_generic_major_alliance
-		prerequisite = { focus = HUN_foc_2-1-4 }
+		prerequisite = { focus = HUN_renew_the_rome_protocols }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 0
@@ -1084,10 +1296,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-1
+		relative_position_id = HUN_strengthen_fascists
 		id = HUN_foc_2-1-6
 		icon = GFX_goal_generic_dangerous_deal
-		prerequisite = { focus = HUN_foc_2-1 }
+		prerequisite = { focus = HUN_strengthen_fascists }
 		mutually_exclusive = { focus = HUN_foc_2-1-3 }
 		cost = 10
 		x = 2
@@ -1121,8 +1333,8 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-1
-		id = HUN_foc_2-1-7
+		relative_position_id = HUN_strengthen_fascists
+		id = HUN_protect_austria
 		icon = GFX_goal_generic_forceful_treaty
 		prerequisite = { focus = HUN_foc_2-1-6 }
 		#mutually_exclusive = { focus = HUN_foc_2 }
@@ -1179,10 +1391,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-1
+		relative_position_id = HUN_strengthen_fascists
 		id = HUN_foc_2-1-8
 		icon = GFX_goal_generic_alliance
-		prerequisite = { focus = HUN_foc_2-1-7 }
+		prerequisite = { focus = HUN_protect_austria }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 2
@@ -1242,11 +1454,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_reaffirm_territorial_claims
-		relative_position_id = HUN_foc_2-1
-		id = HUN_foc_2-1-9
+		relative_position_id = HUN_strengthen_fascists
+		id = HUN_reaffirm_territorial_claims
 		icon = GFX_goal_generic_territory_or_war
-		prerequisite = { focus = HUN_foc_2-1-1 }
+		prerequisite = { focus = HUN_renounce_the_treaty_of_trianon }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -2
@@ -1266,11 +1477,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_demand_transylvania
-		relative_position_id = HUN_foc_2-1
-		id = HUN_foc_2-1-10
+		relative_position_id = HUN_strengthen_fascists
+		id = HUN_demand_transylvania
 		icon = GFX_focus_generic_attack_romania
-		prerequisite = { focus = HUN_foc_2-1-9 }
+		prerequisite = { focus = HUN_reaffirm_territorial_claims }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -4
@@ -1311,11 +1521,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_demand_the_vojvodina
-		relative_position_id = HUN_foc_2-1
-		id = HUN_foc_2-1-11
+		relative_position_id = HUN_strengthen_fascists
+		id = HUN_demand_the_vojvodina
 		icon = GFX_focus_invite_yugoslavia
-		prerequisite = { focus = HUN_foc_2-1-9 }
+		prerequisite = { focus = HUN_reaffirm_territorial_claims }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -2
@@ -1352,11 +1561,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_claim_overlordship_over_slovakia
-		relative_position_id = HUN_foc_2-1
-		id = HUN_foc_2-1-12
+		relative_position_id = HUN_strengthen_fascists
+		id = HUN_claim_overlordship_over_slovakia
 		icon = GFX_goal_generic_occupy_states_ongoing_war
-		prerequisite = { focus = HUN_foc_2-1-9 }
+		prerequisite = { focus = HUN_reaffirm_territorial_claims }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 0
@@ -1383,10 +1591,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-1
+		relative_position_id = HUN_strengthen_fascists
 		id = HUN_foc_2-1-13
 		icon = GFX_goal_generic_construct_mil_factory
-		prerequisite = { focus = HUN_foc_2-1-10 focus = HUN_foc_2-1-11 focus = HUN_foc_2-1-12 }
+		prerequisite = { focus = HUN_demand_transylvania focus = HUN_demand_the_vojvodina focus = HUN_claim_overlordship_over_slovakia }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 0
@@ -1427,11 +1635,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_proclaim_greater_hungary
-		relative_position_id = HUN_foc_2-1
-		id = HUN_foc_2-1-14
+		relative_position_id = HUN_strengthen_fascists
+		id = HUN_proclaim_greater_hungary
 		icon = GFX_focus_proclaim_the_restauration_of_Austria_Hungary
-		prerequisite = { focus = HUN_foc_2-1-10 focus = HUN_foc_2-1-11 focus = HUN_foc_2-1-12 }
+		prerequisite = { focus = HUN_demand_transylvania focus = HUN_demand_the_vojvodina focus = HUN_claim_overlordship_over_slovakia }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -2
@@ -1459,10 +1666,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-1
+		relative_position_id = HUN_strengthen_fascists
 		id = HUN_foc_2-1-15
 		icon = GFX_focus_generic_adriatic_sea_focus
-		prerequisite = { focus = HUN_foc_2-1-14 }
+		prerequisite = { focus = HUN_proclaim_greater_hungary }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -2
@@ -1487,10 +1694,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-1
+		relative_position_id = HUN_strengthen_fascists
 		id = HUN_foc_2-1-16
 		icon = GFX_goal_anti_comintern_pact
-		prerequisite = { focus = HUN_foc_2-1 }
+		prerequisite = { focus = HUN_strengthen_fascists }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 1
@@ -1517,7 +1724,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-1
+		relative_position_id = HUN_strengthen_fascists
 		id = HUN_foc_2-1-17
 		icon = GFX_focus_generic_military_academy
 		prerequisite = { focus = HUN_foc_2-1-16 }
@@ -1567,10 +1774,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-3
+		relative_position_id = HUN_elect_a_fascist_king
 		id = HUN_foc_2-1-18
 		icon = GFX_goal_tfv_strengthen_commonwealth_ties
-		prerequisite = { focus = HUN_foc_1-1-3 }
+		prerequisite = { focus = HUN_elect_a_fascist_king }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -1
@@ -1585,7 +1792,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_1-1-3
+		relative_position_id = HUN_elect_a_fascist_king
 		id = HUN_foc_2-1-19
 		icon = GFX_focus_ger_return_of_the_kaiser
 		prerequisite = { focus = HUN_foc_2-1-18 }
@@ -1604,12 +1811,11 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_council_of_peoples_commissars
-		relative_position_id = HUN_foc_2
-		id = HUN_foc_2-2
+		relative_position_id = HUN_economic_intervention
+		id = HUN_council_of_peoples_commissars
 		icon = GFX_goal_support_communism
-		prerequisite = { focus = HUN_foc_2 }
-		mutually_exclusive = { focus = HUN_foc_2-1 }
+		prerequisite = { focus = HUN_economic_intervention }
+		mutually_exclusive = { focus = HUN_strengthen_fascists }
 		cost = 10
 		x = 2
 		y = 1
@@ -1627,11 +1833,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_assassinate_horthy
-		relative_position_id = HUN_foc_2-2
-		id = HUN_foc_2-2-1
+		relative_position_id = HUN_council_of_peoples_commissars
+		id = HUN_assassinate_horthy
 		icon = GFX_focus_hun_assassinate_horthy
-		prerequisite = { focus = HUN_foc_2-2 }
+		prerequisite = { focus = HUN_council_of_peoples_commissars }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 0
@@ -1655,11 +1860,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_the_hungarian_red_army
-		relative_position_id = HUN_foc_2-2
-		id = HUN_foc_2-2-2
+		relative_position_id = HUN_council_of_peoples_commissars
+		id = HUN_the_hungarian_red_army
 		icon = GFX_focus_SOV_builder_of_the_red_army
-		prerequisite = { focus = HUN_foc_2-2-1 }
+		prerequisite = { focus = HUN_assassinate_horthy }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -3
@@ -1686,10 +1890,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-3
 		icon = GFX_focus_generic_soviet_politics
-		prerequisite = { focus = HUN_foc_2-2-1 }
+		prerequisite = { focus = HUN_assassinate_horthy }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -1
@@ -1725,10 +1929,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-4
 		icon = GFX_focus_SOV_the_last_purge
-		prerequisite = { focus = HUN_foc_2-2-1 }
+		prerequisite = { focus = HUN_assassinate_horthy }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 1
@@ -1764,10 +1968,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-5
 		icon = GFX_goal_generic_national_unity
-		prerequisite = { focus = HUN_foc_2-2-1 }
+		prerequisite = { focus = HUN_assassinate_horthy }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -4
@@ -1816,12 +2020,11 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_the_revolutionary_council
-		relative_position_id = HUN_foc_2-2
-		id = HUN_foc_2-2-6
+		relative_position_id = HUN_council_of_peoples_commissars
+		id = HUN_the_revolutionary_council
 		icon = GFX_focus_YUG_pan_slavic_congress
 		prerequisite = { focus = HUN_foc_2-2-3 focus = HUN_foc_2-2-4 }
-		mutually_exclusive = { focus = HUN_foc_2-2-7 }
+		mutually_exclusive = { focus = HUN_join_comintern }
 		cost = 10
 		x = -2
 		y = 3
@@ -1837,12 +2040,11 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		text = HUN_join_comintern
-		relative_position_id = HUN_foc_2-2
-		id = HUN_foc_2-2-7
+		relative_position_id = HUN_council_of_peoples_commissars
+		id = HUN_join_comintern
 		icon = GFX_focus_chi_mission_to_the_soviet_union
 		prerequisite = { focus = HUN_foc_2-2-3 focus = HUN_foc_2-2-4 }
-		mutually_exclusive = { focus = HUN_foc_2-2-6 }
+		mutually_exclusive = { focus = HUN_the_revolutionary_council }
 		cost = 10
 		x = 1
 		y = 3
@@ -1874,11 +2076,11 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-8
 		icon = GFX_focus_SWE_refuge_for_revolutionaries
 		prerequisite = { focus = HUN_foc_2-2-5 }
-		prerequisite = { focus = HUN_foc_2-2-6 }
+		prerequisite = { focus = HUN_the_revolutionary_council }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -3
@@ -1894,10 +2096,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-10
 		icon = GFX_focus_generic_communist_industry
-		prerequisite = { focus = HUN_foc_2-2-7 }
+		prerequisite = { focus = HUN_join_comintern }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -1
@@ -1932,7 +2134,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-11	
 		icon = GFX_focus_generic_balkans_focus
 		prerequisite = { focus = HUN_foc_2-2-8 }
@@ -1954,7 +2156,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-12
 		icon = GFX_goal_generic_intelligence_exchange
 		prerequisite = { focus = HUN_foc_2-2-8 }
@@ -1990,7 +2192,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-13
 		icon = GFX_focus_eng_concessions_to_the_trade_unions
 		prerequisite = { focus = HUN_foc_2-2-12 }
@@ -2028,7 +2230,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-14
 		icon = GFX_focus_ARG_women_in_industry
 		prerequisite = { focus = HUN_foc_2-2-12 }
@@ -2064,7 +2266,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-15
 		icon = GFX_focus_eng_move_to_secure_the_dominions
 		prerequisite = { focus = HUN_foc_2-2-14 }
@@ -2118,7 +2320,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-16
 		icon = GFX_focus_generic_total_war
 		prerequisite = { focus = HUN_foc_2-2-15 }
@@ -2137,7 +2339,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-17
 		icon = GFX_goal_generic_improve_relations
 		prerequisite = { focus = HUN_foc_2-2-15 }
@@ -2163,7 +2365,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-18
 		icon = GFX_goal_generic_army_doctrines
 		prerequisite = { focus = HUN_foc_2-2-13 }
@@ -2190,7 +2392,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-19
 		icon = GFX_focus_SWE_socialist_reforms
 		prerequisite = { focus = HUN_foc_2-2-11 }
@@ -2222,7 +2424,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-20
 		icon = GFX_goal_generic_military_sphere
 		prerequisite = { focus = HUN_foc_2-2-11 }
@@ -2254,7 +2456,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-21
 		icon = GFX_focus_generic_balkan_diplomacy
 		prerequisite = { focus = HUN_foc_2-2-19 }
@@ -2330,7 +2532,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-22
 		icon = GFX_focus_ger_strike_at_the_source
 		prerequisite = { focus = HUN_foc_2-2-18 focus = HUN_foc_2-2-16 focus = HUN_foc_2-2-17 focus = HUN_foc_2-2-21 }
@@ -2355,7 +2557,7 @@ focus_tree = {
 		will_lead_to_war_with = SOV
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-23
 		icon = GFX_focus_spr_the_anti_fascist_workers_revolution
 		prerequisite = { focus = HUN_foc_2-2-22 }
@@ -2385,10 +2587,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-24
 		icon = GFX_focus_SOV_mobilization_plan
-		prerequisite = { focus = HUN_foc_2-2-7 }
+		prerequisite = { focus = HUN_join_comintern }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 1
@@ -2410,10 +2612,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-25
 		icon = GFX_focus_generic_socialist_science
-		prerequisite = { focus = HUN_foc_2-2-7 }
+		prerequisite = { focus = HUN_join_comintern }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = 3
@@ -2431,7 +2633,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-26
 		icon = GFX_focus_rom_preserve_romania
 		prerequisite = { focus = HUN_foc_2-2-10 focus = HUN_foc_2-2-24 focus = HUN_foc_2-2-25 }
@@ -2480,7 +2682,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-27
 		icon = GFX_goal_demand_sudetenland
 		prerequisite = { focus = HUN_foc_2-2-10 focus = HUN_foc_2-2-24 focus = HUN_foc_2-2-25 }
@@ -2525,7 +2727,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-28
 		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
 		prerequisite = { focus = HUN_foc_2-2-26 focus = HUN_foc_2-2-27 }
@@ -2557,10 +2759,10 @@ focus_tree = {
 		will_lead_to_war_with = SLO
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-29
 		icon = GFX_focus_CZE_german_puppet
-		prerequisite = { focus = HUN_foc_2-2-7 }
+		prerequisite = { focus = HUN_join_comintern }
 		mutually_exclusive = { focus = HUN_foc_L-1 }
 		cost = 10
 		x = 5
@@ -2584,7 +2786,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-30
 		icon = GFX_focus_generic_military_academy
 		prerequisite = { focus = HUN_foc_2-2-29 }
@@ -2602,7 +2804,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-31
 		icon = GFX_goal_generic_soviet_construction
 		prerequisite = { focus = HUN_foc_2-2-29 }
@@ -2634,7 +2836,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-32
 		icon = GFX_focus_generic_self_management
 		prerequisite = { focus = HUN_foc_2-2-30 }
@@ -2659,7 +2861,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-33
 		icon = GFX_focus_SOV_merge_plants
 		prerequisite = { focus = HUN_foc_2-2-31 }
@@ -2692,7 +2894,7 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-2-34
 		icon = GFX_focus_SOV_socialism_in_one_country
 		prerequisite = { focus = HUN_foc_2-2-32 focus = HUN_foc_2-2-33 }
@@ -2738,10 +2940,10 @@ focus_tree = {
 		}
 	}
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_2-3
 		icon = GFX_goal_generic_war_with_comintern
-		prerequisite = { focus = HUN_foc_2-2 }
+		prerequisite = { focus = HUN_council_of_peoples_commissars }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 5
 		x = -6
@@ -2837,7 +3039,7 @@ focus_tree = {
 	}
 	## 레닌주의를 수호하라! ##
 	focus = { #
-		relative_position_id = HUN_foc_2-2
+		relative_position_id = HUN_council_of_peoples_commissars
 		id = HUN_foc_L-1
 		icon = GFX_focus_SOV_the_path_of_marxism_leninism
 		prerequisite = { focus = HUN_foc_2-2-28 }
@@ -2853,21 +3055,22 @@ focus_tree = {
 		completion_reward = {
 		}
 	}
-	#######################################
-	########## 바닐라 헝가리 중점 돚거 ####
-	#######################################
+
+	############################
+	##### INDUSTRY BRANCH ######
+	############################
+
 	focus = {
-		id = BA_HUN_industrial_revitalization
+		id = HUN_industrial_revitalization
 		icon = GFX_goal_generic_construction
 		x = 35
 		y = 0
 
-		cost = 5
+		cost = 10
 
 		ai_will_do = {
 			factor = 90
 		}
-	text = HUN_industrial_revitalization
 
 		available = {
 
@@ -2893,13 +3096,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_reintegrate_the_railroads
+		id = HUN_reintegrate_the_railroads
 		icon = GFX_goal_generic_construct_infrastructure
-		prerequisite = { focus = BA_HUN_industrial_revitalization }
-	text = HUN_reintegrate_the_railroads
+		prerequisite = { focus = HUN_industrial_revitalization }
 		x = 0
 		y = 1
-		relative_position_id = BA_HUN_industrial_revitalization
+		relative_position_id = HUN_industrial_revitalization
 
 		cost = 10
 
@@ -2950,6 +3152,14 @@ focus_tree = {
 					level = 1
 					instant_build = yes
 				}
+			}
+			if = {
+				limit = { country_exists = AUS }
+				reverse_add_opinion_modifier = { target = AUS modifier = HUN_reintegrate_the_railroads }
+			}
+			if = {
+				limit = { country_exists = CZE }
+				reverse_add_opinion_modifier = { target = CZE modifier = HUN_reintegrate_the_railroads }
 			}
 		}
 
@@ -3011,13 +3221,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_support_domestic_industry
+		id = HUN_support_domestic_industry
 		icon = GFX_goal_generic_construct_civ_factory
-		prerequisite = { focus = BA_HUN_reintegrate_the_railroads }
-	text = HUN_support_domestic_industry
+		prerequisite = { focus = HUN_reintegrate_the_railroads }
 		x = -1
 		y = 2
-		relative_position_id = BA_HUN_industrial_revitalization
+		relative_position_id = HUN_industrial_revitalization
 
 		cost = 10
 
@@ -3073,14 +3282,13 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_support_urbanization
+		id = HUN_support_urbanization
 		icon = GFX_goal_generic_construction
-		prerequisite = { focus = BA_HUN_reintegrate_the_railroads }
-	text = HUN_support_urbanization
+		prerequisite = { focus = HUN_reintegrate_the_railroads }
 		x = 1
 		y = 2
-		relative_position_id = BA_HUN_industrial_revitalization
-		cost = 5
+		relative_position_id = HUN_industrial_revitalization
+		cost = 10
 
 		ai_will_do = {
 			factor = 90
@@ -3123,13 +3331,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_institute_for_industrial_techniques
+		id = HUN_institute_for_industrial_techniques
 		icon = GFX_focus_research
-		prerequisite = { focus = BA_HUN_support_urbanization focus = BA_HUN_support_domestic_industry }
-	text = HUN_institute_for_industrial_techniques
+		prerequisite = { focus = HUN_support_urbanization focus = HUN_support_domestic_industry }
 		x = 0
 		y = 3
-		relative_position_id = BA_HUN_industrial_revitalization
+		relative_position_id = HUN_industrial_revitalization
 		cost = 10
 
 		ai_will_do = {
@@ -3156,13 +3363,12 @@ focus_tree = {
 
 
 	focus = {
-		id = BA_HUN_announce_the_gyor_program
+		id = HUN_announce_the_gyor_program
 		icon = GFX_goal_generic_production
-		prerequisite = { focus = BA_HUN_institute_for_industrial_techniques }
-	text = HUN_announce_the_gyor_program
+		prerequisite = { focus = HUN_institute_for_industrial_techniques }
 		x = 0
 		y = 4
-		relative_position_id = BA_HUN_industrial_revitalization
+		relative_position_id = HUN_industrial_revitalization
 
 		cost = 10
 
@@ -3198,14 +3404,13 @@ focus_tree = {
 	############################
 
 	focus = {
-		id = BA_HUN_civilian_industry
+		id = HUN_civilian_industry
 		icon = GFX_goal_generic_construct_civ_factory
-		prerequisite = { focus = BA_HUN_announce_the_gyor_program }
-	text = HUN_civilian_industry
-		mutually_exclusive = { focus = BA_HUN_domestic_arms_industry }
+		prerequisite = { focus = HUN_announce_the_gyor_program }
+		mutually_exclusive = { focus = HUN_domestic_arms_industry }
 		x = -1
 		y = 1
-		relative_position_id = BA_HUN_announce_the_gyor_program
+		relative_position_id = HUN_announce_the_gyor_program
 
 		cost = 10
 
@@ -3263,13 +3468,12 @@ focus_tree = {
 	
 
 	focus = {
-		id = BA_HUN_invite_foreign_investors
+		id = HUN_invite_foreign_investors
 		icon = GFX_goal_generic_intelligence_exchange
-		prerequisite = { focus = BA_HUN_civilian_industry }
-	text = HUN_invite_foreign_investors
-		x = -1
+		prerequisite = { focus = HUN_civilian_industry }
+		x = -2
 		y = 1
-		relative_position_id = BA_HUN_civilian_industry
+		relative_position_id = HUN_civilian_industry
 
 		cost = 10
 
@@ -3296,13 +3500,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_expand_the_manfred_weiss_steel_works
+		id = HUN_expand_the_manfred_weiss_steel_works
 		icon = GFX_goal_generic_construct_civilian
-		prerequisite = { focus = BA_HUN_invite_foreign_investors }
-	text = HUN_expand_the_manfred_weiss_steel_works
+		prerequisite = { focus = HUN_invite_foreign_investors }
 		x = -3
 		y = 2
-		relative_position_id = BA_HUN_civilian_industry
+		relative_position_id = HUN_civilian_industry
 
 		cost = 10
 
@@ -3368,13 +3571,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_expand_the_aluminum_industry
+		id = HUN_expand_the_aluminum_industry
 		icon = GFX_goal_generic_construct_civilian
-		prerequisite = { focus = BA_HUN_invite_foreign_investors }
-	text = HUN_expand_the_aluminum_industry
+		prerequisite = { focus = HUN_invite_foreign_investors }
 		x = -1
 		y = 2
-		relative_position_id = BA_HUN_civilian_industry
+		relative_position_id = HUN_civilian_industry
 
 		cost = 10
 
@@ -3406,14 +3608,13 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_expand_the_technical_university_of_budapest
+		id = HUN_expand_the_technical_university_of_budapest
 		icon = GFX_focus_research
-		prerequisite = { focus = BA_HUN_expand_the_manfred_weiss_steel_works }
-	text = HUN_expand_the_technical_university_of_budapest
-		prerequisite = { focus = BA_HUN_expand_the_aluminum_industry }
+		prerequisite = { focus = HUN_expand_the_manfred_weiss_steel_works }
+		prerequisite = { focus = HUN_expand_the_aluminum_industry }
 		x = -2
 		y = 3
-		relative_position_id = BA_HUN_civilian_industry
+		relative_position_id = HUN_civilian_industry
 
 		cost = 10
 
@@ -3444,14 +3645,13 @@ focus_tree = {
 	############################
 
 	focus = {
-		id = BA_HUN_domestic_arms_industry
+		id = HUN_domestic_arms_industry
 		icon = GFX_goal_generic_construct_mil_factory
-		prerequisite = { focus = BA_HUN_announce_the_gyor_program }
-	text = HUN_domestic_arms_industry
-		mutually_exclusive = { focus = BA_HUN_civilian_industry }
+		prerequisite = { focus = HUN_announce_the_gyor_program }
+		mutually_exclusive = { focus = HUN_civilian_industry }
 		x = 1
 		y = 1
-		relative_position_id = BA_HUN_announce_the_gyor_program
+		relative_position_id = HUN_announce_the_gyor_program
 
 		cost = 10
 
@@ -3536,13 +3736,12 @@ focus_tree = {
 	
 
 	focus = {
-		id = BA_HUN_aeronautic_technology_institute
+		id = HUN_aeronautic_technology_institute
 		icon = GFX_focus_research
-		prerequisite = { focus = BA_HUN_domestic_arms_industry }
-	text = HUN_aeronautic_technology_institute
+		prerequisite = { focus = HUN_domestic_arms_industry }
 		x = 1
 		y = 1
-		relative_position_id = BA_HUN_domestic_arms_industry
+		relative_position_id = HUN_domestic_arms_industry
 
 		cost = 10
 
@@ -3569,13 +3768,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_boost_hungarian_aviation_industry
+		id = HUN_boost_hungarian_aviation_industry
 		icon = GFX_goal_generic_construct_mil_factory
-		prerequisite = { focus = BA_HUN_aeronautic_technology_institute }
-	text = HUN_boost_hungarian_aviation_industry
+		prerequisite = { focus = HUN_aeronautic_technology_institute }
 		x = 1
 		y = 3
-		relative_position_id = BA_HUN_domestic_arms_industry
+		relative_position_id = HUN_domestic_arms_industry
 
 		cost = 10
 
@@ -3636,13 +3834,12 @@ focus_tree = {
 	############################
 
 	focus = {
-		id = BA_HUN_autarky
+		id = HUN_autarky
 		icon = GFX_goal_generic_construct_civ_factory
-		prerequisite = { focus = BA_HUN_civilian_industry focus = BA_HUN_domestic_arms_industry }
-	text = HUN_autarky
+		prerequisite = { focus = HUN_civilian_industry focus = HUN_domestic_arms_industry }
 		x = 0
 		y = 2
-		relative_position_id = BA_HUN_announce_the_gyor_program
+		relative_position_id = HUN_announce_the_gyor_program
 
 		cost = 10
 
@@ -3674,13 +3871,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_synthetic_industry
+		id = HUN_synthetic_industry
 		icon = GFX_goal_generic_oil_refinery
-		prerequisite = { focus = BA_HUN_autarky }
-	text = HUN_synthetic_industry
+		prerequisite = { focus = HUN_autarky }
 		x = 0
 		y = 3
-		relative_position_id = BA_HUN_announce_the_gyor_program
+		relative_position_id = HUN_announce_the_gyor_program
 
 		cost = 10
 
@@ -3739,8 +3935,13 @@ focus_tree = {
 			}
 		}
 	}
+
+	############################
+	##### MILITARY STUFFS ######
+	############################
+
 	focus = {
-		id = BA_HUN_secret_rearmament
+		id = HUN_secret_rearmament
 		icon = GFX_focus_secret_rearmament
 		x = 46
 		y = 0
@@ -3750,7 +3951,6 @@ focus_tree = {
 		ai_will_do = {
 			factor = 80
 		}
-	text = HUN_secret_rearmament
 
 		available = {
 
@@ -3784,15 +3984,14 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_war_games
+		id = HUN_war_games
 		icon = GFX_goal_poland_goal
-		prerequisite = { focus = BA_HUN_secret_rearmament }
-	text = HUN_war_games
+		prerequisite = { focus = HUN_secret_rearmament }
 		x = -1
 		y = 1
-		relative_position_id = BA_HUN_secret_rearmament
+		relative_position_id = HUN_secret_rearmament
 
-		cost = 5
+		cost = 10
 
 		ai_will_do = {
 			factor = 70
@@ -3816,15 +4015,14 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_theoretical_air_efforts
+		id = HUN_theoretical_air_efforts
 		icon = GFX_goal_generic_air_doctrine
-		prerequisite = { focus = BA_HUN_secret_rearmament }
-	text = HUN_theoretical_air_efforts
+		prerequisite = { focus = HUN_secret_rearmament }
 		x = 1
 		y = 1
-		relative_position_id = BA_HUN_secret_rearmament
+		relative_position_id = HUN_secret_rearmament
 
-		cost = 5
+		cost = 10
 
 		ai_will_do = {
 			factor = 70
@@ -3854,13 +4052,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_bled_agreement
+		id = HUN_bled_agreement
 		icon = GFX_goal_generic_military_deal
-		prerequisite = { focus = BA_HUN_war_games focus = BA_HUN_theoretical_air_efforts }
-	text = HUN_bled_agreement
+		prerequisite = { focus = HUN_war_games focus = HUN_theoretical_air_efforts }
 		x = 0
 		y = 2
-		relative_position_id = BA_HUN_secret_rearmament
+		relative_position_id = HUN_secret_rearmament
 
 		cost = 10
 
@@ -3948,14 +4145,15 @@ focus_tree = {
 		}
 	}
 
+
 	focus = {
 		id = BA_HUN_focus_halo
 		icon = GFX_focus_ETH_freedom_at_gunpoint
-		prerequisite = { focus = BA_HUN_bled_agreement }
+		prerequisite = { focus = HUN_bled_agreement }
 		#mutually_exclusive = { focus = BA_HUN_focus_ }
 		x = 0
-		y = 3	
-		relative_position_id = BA_HUN_secret_rearmament
+		y = 1
+		relative_position_id = HUN_bled_agreement
 	
 		cost = 8
 	
@@ -3997,13 +4195,12 @@ focus_tree = {
 	############################
 
 	focus = {
-		id = BA_HUN_establish_the_air_force
+		id = HUN_establish_the_air_force
 		icon = GFX_goal_generic_build_airforce
-		prerequisite = { focus = BA_HUN_bled_agreement }
-	text = HUN_establish_the_air_force
+		prerequisite = { focus = HUN_bled_agreement }
 		x = -5
 		y = 4
-		relative_position_id = BA_HUN_secret_rearmament
+		relative_position_id = HUN_secret_rearmament
 
 		cost = 10
 
@@ -4036,16 +4233,15 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_indigenous_designs
+		id = HUN_indigenous_designs
 		icon = GFX_goal_generic_air_production
-		prerequisite = { focus = BA_HUN_establish_the_air_force }
-	text = HUN_indigenous_designs
-		prerequisite = { focus = BA_HUN_boost_hungarian_aviation_industry }
-		mutually_exclusive = { focus = BA_HUN_license_foreign_designs }
-		mutually_exclusive = { focus = BA_HUN_joint_air_development }
+		prerequisite = { focus = HUN_establish_the_air_force }
+		prerequisite = { focus = HUN_boost_hungarian_aviation_industry }
+		mutually_exclusive = { focus = HUN_license_foreign_designs }
+		mutually_exclusive = { focus = HUN_joint_air_development }
 		x = -2
 		y = 5
-		relative_position_id = BA_HUN_establish_the_air_force
+		relative_position_id = HUN_establish_the_air_force
 
 		cost = 10
 
@@ -4072,14 +4268,13 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_heavy_fighter_effort
+		id = HUN_heavy_fighter_effort
 		icon = GFX_goal_generic_air_fighter
-		prerequisite = { focus = BA_HUN_indigenous_designs }
-	text = HUN_heavy_fighter_effort
-		mutually_exclusive = { focus = BA_HUN_light_fighter_effort }
+		prerequisite = { focus = HUN_indigenous_designs }
+		mutually_exclusive = { focus = HUN_light_fighter_effort }
 		x = -3
 		y = 1
-		relative_position_id = BA_HUN_indigenous_designs
+		relative_position_id = HUN_indigenous_designs
 
 		cost = 10
 
@@ -4112,14 +4307,13 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_light_fighter_effort
+		id = HUN_light_fighter_effort
 		icon = GFX_goal_generic_air_fighter2
-		prerequisite = { focus = BA_HUN_indigenous_designs }
-	text = HUN_light_fighter_effort
-		mutually_exclusive = { focus = BA_HUN_heavy_fighter_effort }
+		prerequisite = { focus = HUN_indigenous_designs }
+		mutually_exclusive = { focus = HUN_heavy_fighter_effort }
 		x = -1
 		y = 1
-		relative_position_id = BA_HUN_indigenous_designs
+		relative_position_id = HUN_indigenous_designs
 
 		cost = 10
 
@@ -4152,14 +4346,13 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_cas_focus
+		id = HUN_cas_focus
 		icon = GFX_goal_generic_CAS
-		prerequisite = { focus = BA_HUN_indigenous_designs }
-	text = HUN_cas_focus
-		mutually_exclusive = { focus = BA_HUN_tac_focus }
+		prerequisite = { focus = HUN_indigenous_designs }
+		mutually_exclusive = { focus = HUN_tac_focus }
 		x = 1
 		y = 1
-		relative_position_id = BA_HUN_indigenous_designs
+		relative_position_id = HUN_indigenous_designs
 
 		cost = 10
 
@@ -4192,14 +4385,13 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_tac_focus
+		id = HUN_tac_focus
 		icon = GFX_goal_generic_air_bomber
-		prerequisite = { focus = BA_HUN_indigenous_designs }
-	text = HUN_tac_focus
-		mutually_exclusive = { focus = BA_HUN_cas_focus }
+		prerequisite = { focus = HUN_indigenous_designs }
+		mutually_exclusive = { focus = HUN_cas_focus }
 		x = 3
 		y = 1
-		relative_position_id = BA_HUN_indigenous_designs
+		relative_position_id = HUN_indigenous_designs
 
 		cost = 10
 
@@ -4232,15 +4424,14 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_license_foreign_designs
+		id = HUN_license_foreign_designs
 		icon = GFX_focus_generic_license_production
-		prerequisite = { focus = BA_HUN_establish_the_air_force }
-	text = HUN_license_foreign_designs
-		mutually_exclusive = { focus = BA_HUN_indigenous_designs }
-		mutually_exclusive = { focus = BA_HUN_joint_air_development }
+		prerequisite = { focus = HUN_establish_the_air_force }
+		mutually_exclusive = { focus = HUN_indigenous_designs }
+		mutually_exclusive = { focus = HUN_joint_air_development }
 		x = 5
 		y = 5
-		relative_position_id = BA_HUN_establish_the_air_force
+		relative_position_id = HUN_establish_the_air_force
 
 		cost = 10
 
@@ -4266,13 +4457,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_fighter_competition
+		id = HUN_fighter_competition
 		icon = GFX_goal_generic_air_fighter
-		prerequisite = { focus = BA_HUN_license_foreign_designs }
-	text = HUN_fighter_competition
+		prerequisite = { focus = HUN_license_foreign_designs }
 		x = -1
 		y = 1
-		relative_position_id = BA_HUN_license_foreign_designs
+		relative_position_id = HUN_license_foreign_designs
 
 		cost = 10
 
@@ -4362,13 +4552,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_bomber_competition
+		id = HUN_bomber_competition
 		icon = GFX_goal_generic_air_bomber
-		prerequisite = { focus = BA_HUN_license_foreign_designs }
-	text = HUN_bomber_competition
+		prerequisite = { focus = HUN_license_foreign_designs }
 		x = 1
 		y = 1
-		relative_position_id = BA_HUN_license_foreign_designs
+		relative_position_id = HUN_license_foreign_designs
 
 		cost = 10
 
@@ -4458,15 +4647,14 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_joint_air_development
+		id = HUN_joint_air_development
 		icon = GFX_goal_generic_air_production
-		prerequisite = { focus = BA_HUN_establish_the_air_force }
-	text = HUN_joint_air_development
-		mutually_exclusive = { focus = BA_HUN_license_foreign_designs }
-		mutually_exclusive = { focus = BA_HUN_indigenous_designs }
+		prerequisite = { focus = HUN_establish_the_air_force }
+		mutually_exclusive = { focus = HUN_license_foreign_designs }
+		mutually_exclusive = { focus = HUN_indigenous_designs }
 		x = 2
 		y = 5
-		relative_position_id = BA_HUN_establish_the_air_force
+		relative_position_id = HUN_establish_the_air_force
 
 		cost = 10
 
@@ -4495,6 +4683,16 @@ focus_tree = {
 				}
 				add_to_tech_sharing_group = HUN_joint_air_development_group
 			}
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				add_equipment_subsidy = {
+					cic = 1000
+					equipment_type = small_plane_airframe
+					seller_trigger = is_allied_seller_trigger
+				}
+			}
 		}
 	}
 
@@ -4503,13 +4701,12 @@ focus_tree = {
 	############################
 
 	focus = {
-		id = BA_HUN_army_maneuvers
+		id = HUN_army_maneuvers
 		icon = GFX_goal_generic_army_doctrines
-		prerequisite = { focus = BA_HUN_bled_agreement }
-	text = HUN_army_maneuvers
+		prerequisite = { focus = HUN_bled_agreement }
 		x = 6
 		y = 1
-		relative_position_id = BA_HUN_bled_agreement
+		relative_position_id = HUN_bled_agreement
 
 		cost = 10
 
@@ -4546,14 +4743,13 @@ focus_tree = {
 	############################
 
 	focus = {
-		id = BA_HUN_mobile_focus
+		id = HUN_mobile_focus
 		icon = GFX_goal_generic_cavalry
-		prerequisite = { focus = BA_HUN_army_maneuvers }
-	text = HUN_mobile_focus
-		mutually_exclusive = { focus = BA_HUN_home_defense }
+		prerequisite = { focus = HUN_army_maneuvers }
+		mutually_exclusive = { focus = HUN_home_defense }
 		x = -2
 		y = 1
-		relative_position_id = BA_HUN_army_maneuvers
+		relative_position_id = HUN_army_maneuvers
 
 		cost = 10
 
@@ -4585,13 +4781,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_the_botond
+		id = HUN_the_botond
 		icon = GFX_goal_generic_army_motorized
-		prerequisite = { focus = BA_HUN_mobile_focus }
-	text = HUN_the_botond
+		prerequisite = { focus = HUN_mobile_focus }
 		x = -2
 		y = 1
-		relative_position_id = BA_HUN_mobile_focus
+		relative_position_id = HUN_mobile_focus
 
 		cost = 10
 
@@ -4623,13 +4818,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_motorized_logistics
+		id = HUN_motorized_logistics
 		icon = GFX_goal_generic_army_motorized
-		prerequisite = { focus = BA_HUN_the_botond }
-	text = HUN_motorized_logistics
+		prerequisite = { focus = HUN_the_botond }
 		x = -1
 		y = 4
-		relative_position_id = BA_HUN_mobile_focus
+		relative_position_id = HUN_mobile_focus
 
 		cost = 10
 
@@ -4662,14 +4856,13 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_develop_tanks
+		id = HUN_develop_tanks
 		icon = GFX_goal_generic_army_tanks
-		prerequisite = { focus = BA_HUN_mobile_focus }
-	text = HUN_develop_tanks
-		mutually_exclusive = { focus = BA_HUN_assault_gun_focus }
+		prerequisite = { focus = HUN_mobile_focus }
+		mutually_exclusive = { focus = HUN_assault_gun_focus }
 		x = 0
 		y = 1
-		relative_position_id = BA_HUN_mobile_focus
+		relative_position_id = HUN_mobile_focus
 
 		cost = 10
 
@@ -4701,14 +4894,13 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_assault_gun_focus
+		id = HUN_assault_gun_focus
 		icon = GFX_goal_generic_army_artillery2
-		prerequisite = { focus = BA_HUN_mobile_focus focus = BA_HUN_home_defense }
-	text = HUN_assault_gun_focus
-		mutually_exclusive = { focus = BA_HUN_develop_tanks }
+		prerequisite = { focus = HUN_mobile_focus focus = HUN_home_defense }
+		mutually_exclusive = { focus = HUN_develop_tanks }
 		x = 2
 		y = 1
-		relative_position_id = BA_HUN_mobile_focus
+		relative_position_id = HUN_mobile_focus
 
 		cost = 10
 
@@ -4735,13 +4927,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_joint_tank_procurement
+		id = HUN_joint_tank_procurement
 		icon = GFX_goal_generic_build_tank
-		prerequisite = { focus = BA_HUN_develop_tanks focus = BA_HUN_assault_gun_focus }
-	text = HUN_joint_tank_procurement
+		prerequisite = { focus = HUN_develop_tanks focus = HUN_assault_gun_focus }
 		x = 1
 		y = 2
-		relative_position_id = BA_HUN_mobile_focus
+		relative_position_id = HUN_mobile_focus
 
 		cost = 10
 
@@ -4770,18 +4961,31 @@ focus_tree = {
 				}
 				add_to_tech_sharing_group = HUN_joint_tank_development_group
 			}
-			
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				add_equipment_subsidy = {
+					cic = 500
+					equipment_type = light_tank_chassis
+					seller_trigger = is_allied_seller_trigger
+				}
+				add_equipment_subsidy = {
+					cic = 500
+					equipment_type = medium_tank_chassis
+					seller_trigger = is_allied_seller_trigger
+				}
+			}
 		}
 	}
 
 	focus = {
-		id = BA_HUN_armored_warfare
+		id = HUN_armored_warfare
 		icon = GFX_goal_generic_army_artillery
-		prerequisite = { focus = BA_HUN_the_botond }
-	text = HUN_armored_warfare
+		prerequisite = { focus = HUN_the_botond }
 		x = 0
 		y = 1
-		relative_position_id = BA_HUN_the_botond
+		relative_position_id = HUN_the_botond
 
 		cost = 10
 
@@ -4813,13 +5017,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_mobile_corps_doctrine
+		id = HUN_mobile_corps_doctrine
 		icon = GFX_goal_generic_army_doctrines
-		prerequisite = { focus = BA_HUN_armored_warfare }
-	text = HUN_mobile_corps_doctrine
+		prerequisite = { focus = HUN_armored_warfare }
 		x = 0
 		y = 2
-		relative_position_id = BA_HUN_the_botond
+		relative_position_id = HUN_the_botond
 
 		cost = 10
 
@@ -4855,14 +5058,13 @@ focus_tree = {
 	############################
 
 	focus = {
-		id = BA_HUN_home_defense
+		id = HUN_home_defense
 		icon = GFX_goal_generic_fortify_city
-		prerequisite = { focus = BA_HUN_army_maneuvers }
-	text = HUN_home_defense
-		mutually_exclusive = { focus = BA_HUN_mobile_focus }
+		prerequisite = { focus = HUN_army_maneuvers }
+		mutually_exclusive = { focus = HUN_mobile_focus }
 		x = 2
 		y = 1
-		relative_position_id = BA_HUN_army_maneuvers
+		relative_position_id = HUN_army_maneuvers
 
 		cost = 10
 
@@ -4894,13 +5096,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_danuvia_submachine_guns
+		id = HUN_danuvia_submachine_guns
 		icon = GFX_goal_generic_small_arms
-		prerequisite = { focus = BA_HUN_home_defense }
-	text = HUN_danuvia_submachine_guns
+		prerequisite = { focus = HUN_home_defense }
 		x = 0
 		y = 1
-		relative_position_id = BA_HUN_home_defense
+		relative_position_id = HUN_home_defense
 
 		cost = 10
 
@@ -4932,13 +5133,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_artillery_effort
+		id = HUN_artillery_effort
 		icon = GFX_goal_generic_army_artillery
-		prerequisite = { focus = BA_HUN_danuvia_submachine_guns }
-	text = HUN_artillery_effort
+		prerequisite = { focus = HUN_danuvia_submachine_guns }
 		x = 0
 		y = 2
-		relative_position_id = BA_HUN_home_defense
+		relative_position_id = HUN_home_defense
 
 		cost = 10
 
@@ -4970,13 +5170,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_light_infantry_divisions_doctrine
+		id = HUN_light_infantry_divisions_doctrine
 		icon = GFX_goal_generic_special_forces
-		prerequisite = { focus = BA_HUN_danuvia_submachine_guns }
-	text = HUN_light_infantry_divisions_doctrine
+		prerequisite = { focus = HUN_danuvia_submachine_guns }
 		x = 2
 		y = 2
-		relative_position_id = BA_HUN_home_defense
+		relative_position_id = HUN_home_defense
 
 		cost = 10
 
@@ -5060,13 +5259,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_form_parachute_battalions
+		id = HUN_form_parachute_battalions
 		icon = GFX_focus_generic_paratrooper
-		prerequisite = { focus = BA_HUN_light_infantry_divisions_doctrine }
-	text = HUN_form_parachute_battalions
+		prerequisite = { focus = HUN_light_infantry_divisions_doctrine }
 		x = 2
 		y = 3
-		relative_position_id = BA_HUN_home_defense
+		relative_position_id = HUN_home_defense
 
 		cost = 10
 
@@ -5102,13 +5300,12 @@ focus_tree = {
 	############################
 
 	focus = {
-		id = BA_HUN_naval_warfare
+		id = HUN_naval_warfare
 		icon = GFX_goal_generic_build_navy
-		prerequisite = { focus = BA_HUN_secret_rearmament }
-	text = HUN_naval_warfare
+		prerequisite = { focus = HUN_secret_rearmament }
 		x = 12
 		y = 1
-		relative_position_id = BA_HUN_secret_rearmament
+		relative_position_id = HUN_secret_rearmament
 
 		cost = 10
 
@@ -5135,20 +5332,39 @@ focus_tree = {
 		completion_reward = {
 			navy_experience = 15
 			add_ideas = HUN_naval_warfare
-			custom_effect_tooltip = available_designer
-			show_ideas_tooltip = HUN_ganz_danubius
+
+			IF = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				custom_effect_tooltip = invites_mio_tt
+				show_mio_tooltip = HUN_ganz_danubius_organization
+				mio:HUN_ganz_danubius_organization = {
+					add_mio_funds = 2500
+				}
+#					unlock_mio_trait_tooltip  = {
+#						department = HUN_mio_department_design_ship_capital_screen_weapons
+#						trait = HUN_mio_trait_naval_warfare
+#					}
+#				}
+
+			}
+
+			else = {
+				custom_effect_tooltip = available_designer
+				show_ideas_tooltip = HUN_ganz_danubius
+			}
 		}
 	}
 
 	focus = {
-		id = BA_HUN_restauration
+		id = HUN_restauration
 		icon = GFX_goal_generic_navy_doctrines_tactics
-		prerequisite = { focus = BA_HUN_naval_warfare }
-	text = HUN_restauration
-		mutually_exclusive = { focus = BA_HUN_reform }
+		prerequisite = { focus = HUN_naval_warfare }
+		mutually_exclusive = { focus = HUN_reform }
 		x = -1
 		y = 2
-		relative_position_id = BA_HUN_naval_warfare
+		relative_position_id = HUN_naval_warfare
 
 		cost = 10
 
@@ -5181,13 +5397,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_capital_ships
+		id = HUN_capital_ships
 		icon = GFX_goal_generic_navy_battleship
-		prerequisite = { focus = BA_HUN_restauration }
-	text = HUN_capital_ships
+		prerequisite = { focus = HUN_restauration }
 		x = -2
 		y = 3
-		relative_position_id = BA_HUN_naval_warfare
+		relative_position_id = HUN_naval_warfare
 
 		cost = 10
 
@@ -5221,13 +5436,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_a_new_flagship
+		id = HUN_a_new_flagship
 		icon = GFX_goal_generic_navy_battleship
-		prerequisite = { focus = BA_HUN_capital_ships }
-	text = HUN_a_new_flagship
+		prerequisite = { focus = HUN_capital_ships }
 		x = 0
 		y = 1
-		relative_position_id = BA_HUN_capital_ships
+		relative_position_id = HUN_capital_ships
 
 		cost = 5
 
@@ -5261,6 +5475,7 @@ focus_tree = {
 				name = "Viribus Unitis Class"
 				type = ship_hull_heavy_2
 				parent_version = 0
+				allow_without_tech = yes #Makes no difference since focus requires appropriate tech (above), but it improves tooltip
 				modules = {
 					fixed_ship_battery_slot = ship_heavy_battery_1
 					fixed_ship_anti_air_slot = ship_anti_air_2
@@ -5298,14 +5513,13 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_reform
+		id = HUN_reform
 		icon = GFX_goal_generic_wolf_pack
-		prerequisite = { focus = BA_HUN_naval_warfare }
-	text = HUN_reform
-		mutually_exclusive = { focus = BA_HUN_restauration }
+		prerequisite = { focus = HUN_naval_warfare }
+		mutually_exclusive = { focus = HUN_restauration }
 		x = 1
 		y = 2
-		relative_position_id = BA_HUN_naval_warfare
+		relative_position_id = HUN_naval_warfare
 
 		cost = 10
 
@@ -5339,13 +5553,12 @@ focus_tree = {
 	}
 	
 	focus = {
-		id = BA_HUN_dockyards
+		id = HUN_dockyards
 		icon = GFX_goal_generic_construct_naval_dockyard
-		prerequisite = { focus = BA_HUN_naval_warfare }
-	text = HUN_dockyards
+		prerequisite = { focus = HUN_naval_warfare }
 		x = 0
 		y = 1
-		relative_position_id = BA_HUN_naval_warfare
+		relative_position_id = HUN_naval_warfare
 
 		cost = 10
 
@@ -5407,13 +5620,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_destroyer
+		id = HUN_destroyer
 		icon = GFX_goal_generic_navy_anti_submarine
-		prerequisite = { focus = BA_HUN_restauration focus = BA_HUN_reform }
-	text = HUN_destroyer
+		prerequisite = { focus = HUN_restauration Focus = HUN_reform }
 		x = 0
 		y = 3
-		relative_position_id = BA_HUN_naval_warfare
+		relative_position_id = HUN_naval_warfare
 
 		cost = 10
 
@@ -5446,13 +5658,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_cruisers
+		id = HUN_cruisers
 		icon = GFX_goal_generic_navy_cruiser
-		prerequisite = { focus = BA_HUN_destroyer }
-	text = HUN_cruisers
+		prerequisite = { focus = HUN_destroyer }
 		x = 0
 		y = 4
-		relative_position_id = BA_HUN_naval_warfare
+		relative_position_id = HUN_naval_warfare
 
 		cost = 10
 
@@ -5486,13 +5697,12 @@ focus_tree = {
 	}
 
 	focus = {
-		id = BA_HUN_submarines
+		id = HUN_submarines
 		icon = GFX_goal_generic_navy_submarine
-		prerequisite = { focus = BA_HUN_reform }
-	text = HUN_submarines
+		prerequisite = { focus = HUN_reform }
 		x = 2
 		y = 3
-		relative_position_id = BA_HUN_naval_warfare
+		relative_position_id = HUN_naval_warfare
 
 		cost = 10
 
@@ -5526,13 +5736,12 @@ focus_tree = {
 
 
 	focus = {
-		id = BA_HUN_carriers
+		id = HUN_carriers
 		icon = GFX_goal_generic_navy_carrier
-		prerequisite = { focus = BA_HUN_submarines }
-	text = HUN_carriers
+		prerequisite = { focus = HUN_submarines }
 		x = 2
 		y = 4
-		relative_position_id = BA_HUN_naval_warfare
+		relative_position_id = HUN_naval_warfare
 
 		cost = 10
 
@@ -5563,5 +5772,4 @@ focus_tree = {
 
 		}
 	}
-	
 }
