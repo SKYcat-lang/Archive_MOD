@@ -137,38 +137,6 @@ focus_tree = {
 	}
 
 	focus = {
-		id = HUN_the_balkan_pact
-		icon = GFX_goal_generic_national_unity
-		prerequisite = { focus = HUN_debugfocus }
-		x = 2
-		y = 1
-		relative_position_id = HUN_debugfocus
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 60
-		}
-
-		available = {
-			is_in_faction = no
-		}
-
-		bypass = {
-
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = yes
-
-		completion_reward = {
-			set_rule = { can_create_factions = yes } 
-			create_faction = HUN_BALKAN_FACTION
-		}
-	}
-
-	focus = {
 		id = HUN_responsible_government
 		icon = GFX_goal_support_democracy
 		prerequisite = { focus = HUN_debugfocus }
@@ -400,10 +368,6 @@ focus_tree = {
 				ideology = neutrality
 				popularity = 0.10
 			}
-			swap_ideas = {
-				add_idea = BA_HUN_hungarian_monarchy_5
-				remove_idea = BA_HUN_hungarian_monarchy_3
-			}
 		}
 	}
 	focus = { #
@@ -622,6 +586,42 @@ focus_tree = {
 		bypass = {
 		}
 		completion_reward = {
+			swap_ideas = {
+				add_idea = BA_HUN_hungarian_monarchy_6
+				remove_idea = BA_HUN_hungarian_monarchy_3
+			}
+		}
+	}
+	focus = { #
+		id = HUN_austria_integration
+		icon = GFX_goal_anschluss
+		prerequisite = { focus = HUN_danube_federation }
+		#mutually_exclusive = { focus = HUN_foc_ }
+		cost = 5
+		x = -2
+		y = 2
+		relative_position_id = HUN_danube_federation
+		available = {
+			NOT = { has_idea = BA_HUN_recent_political_unification }
+			controls_state = 4
+			controls_state = 152
+			controls_state = 153
+			controls_state = 848
+			controls_state = 984
+		}
+		bypass = {
+		}
+		completion_reward = {
+			add_timed_idea = {
+				idea = BA_HUN_recent_political_unification
+				days = 280
+			}
+			AUS = {
+				every_core_state = {
+					add_core_of = ROOT
+				}
+			}
+			set_cosmetic_tag = HUN_danube_elizabeth
 		}
 	}
 	focus = { #
@@ -687,6 +687,334 @@ focus_tree = {
 		y = 3
 		relative_position_id = HUN_worker_rights_advancement
 		available = {
+			has_country_leader = {
+				character = HUN_elisabeth_maria_petznek
+				ruling_only = yes
+			}
+		}
+		bypass = {
+		}
+		completion_reward = {
+			swap_ruler_traits = {
+				remove = BA_HUN_T4
+				add = BA_HUN_T5
+			}
+		}
+	}
+
+	focus = {
+		id = HUN_the_balkan_pact
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = HUN_centralization }
+		x = 0
+		y = 1
+		relative_position_id = HUN_centralization
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 60
+		}
+
+		available = {
+			is_in_faction = no
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		completion_reward = {
+			set_rule = { can_create_factions = yes } 
+			create_faction = HUN_BALKAN_FACTION
+		}
+	}
+	focus = {
+		id = HUN_an_unlikely_alliance
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = HUN_the_balkan_pact }
+		mutually_exclusive = { focus = HUN_foc_transylvania_claims }
+		x = -1
+		y = 1
+		relative_position_id = HUN_the_balkan_pact
+		
+		cost = 10
+
+		ai_will_do = {
+			factor = 60
+		}
+
+		available = {
+			ROM = {
+				is_in_faction = no
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+
+		completion_reward = {
+			ROM = { country_event = generic.5 }
+		}
+	}
+	focus = { #
+		relative_position_id = HUN_invite_the_habsburg_prince
+		id = HUN_foc_transylvania_claims
+		text = HUN_demand_transylvania
+		icon = GFX_focus_YUG_autonomous_transylvania
+		prerequisite = { focus = HUN_the_balkan_pact }
+		mutually_exclusive = { focus = HUN_an_unlikely_alliance }
+		x = 1
+		y = 1
+		relative_position_id = HUN_the_balkan_pact
+		
+		cost = 10
+
+		available = {
+
+			ROM = {
+				controls_state = 76
+				controls_state = 83
+				controls_state = 84
+			}
+			is_puppet = no
+			NOT = {
+				is_in_faction_with = ROM
+			}
+			NOT = {
+				has_war_with = ROM
+			}
+			strength_ratio = { tag = ROM ratio > 0.66 }
+			has_army_manpower = { size > 200000 }
+		
+		}
+
+		bypass = {
+			OR = {
+				664 = {
+					OWNER = {
+						has_war_with = ROOT
+					}
+				}
+				NOT = {
+					ROM = {
+						controls_state = 76
+						controls_state = 83
+						controls_state = 84
+					}
+				}
+			}
+		}
+		completion_reward = {
+			add_threat = 5
+			add_state_claim = 76
+			add_state_claim = 83
+			add_state_claim = 84
+			add_state_claim = 82
+			if = {
+				limit = {
+					ROM = {
+						controls_state = 76
+						controls_state = 83
+						controls_state = 84
+						controls_state = 82
+					}
+				}
+				ROM = {
+					country_event = {
+						id = BA_HUN_event.1
+						hours = 12
+					}
+				}
+			}
+		}
+	}
+	focus = { #
+		id = HUN_vojvodina_territorial_claims
+		text = HUN_demand_the_vojvodina
+		icon = GFX_focus_YUG_dissolve_serbia
+		prerequisite = { focus = HUN_an_unlikely_alliance focus = HUN_foc_transylvania_claims }
+		mutually_exclusive = { focus = HUN_yugoslavia_alliance }
+		cost = 10
+		x = 1
+		y = 2
+		relative_position_id = HUN_the_balkan_pact
+		available = {
+			strength_ratio = { tag = YUG ratio > 0.75 }
+			has_army_manpower = { size > 175000 }
+		}
+
+		bypass = {
+			OR = {
+				YUG = {
+					exists = no
+				}
+				owns_state = 45
+				45 = {
+					OWNER = {
+						is_in_faction_with = ROOT
+					}
+				}
+				45 = {
+					OWNER = {
+						has_war_with = ROOT
+					}
+				}
+			}
+		}
+		completion_reward = {
+			add_threat = 2
+			add_state_claim = 45
+			add_state_claim = 764
+			if = {
+				limit = {
+					OR = {
+						YUG = {
+							controls_state = 764
+							controls_state = 45
+						}
+					}
+				}
+				YUG = {
+					country_event = {
+						id = BA_HUN_event.2
+						hours = 12
+					}
+				}
+			}
+		}
+	}
+	focus = { #
+		id = HUN_yugoslavia_alliance
+		icon = GFX_focus_invite_yugoslavia
+		prerequisite = { focus = HUN_an_unlikely_alliance focus = HUN_foc_transylvania_claims }
+		mutually_exclusive = { focus = HUN_vojvodina_territorial_claims }
+		cost = 10
+		x = -1
+		y = 2
+		relative_position_id = HUN_the_balkan_pact
+		available = {
+			YUG = { 
+				hidden_trigger = { 
+					exists = yes
+					has_capitulated = no
+				}
+				OR = {
+					has_government = ROOT
+					has_government = neutrality 
+				}
+				has_civil_war = no	
+				NOT = { has_war_with = ROOT }	
+			}
+			is_faction_leader = yes
+			is_subject = no
+		}
+		bypass = {
+
+		}
+		completion_reward = {
+			YUG = { country_event = generic.5 }
+		}
+	}
+	focus = { #
+		id = HUN_yugoslavia_federation_proposal
+		icon = GFX_goal_generic_major_alliance
+		prerequisite = { focus = HUN_yugoslavia_alliance }
+		prerequisite = { focus = HUN_austria_integration }
+		mutually_exclusive = { focus = HUN_yugoslavia_unification }
+		cost = 5
+		x = 1
+		y = 3
+		relative_position_id = HUN_austria_integration
+		available = {
+			YUG = { 
+				hidden_trigger = { 
+					exists = yes
+					has_capitulated = no
+				}
+				is_in_faction_with = ROOT
+				has_civil_war = no	
+				NOT = { has_war_with = ROOT }	
+			}
+		}
+		bypass = {
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #
+		id = HUN_yugoslavia_unification
+		icon = GFX_goal_generic_alliance
+		prerequisite = { focus = HUN_austria_integration }
+		mutually_exclusive = { focus = HUN_yugoslavia_federation_proposal }
+		cost = 5
+		x = -1
+		y = 3
+		relative_position_id = HUN_austria_integration
+		available = {
+			NOT = { has_idea = BA_HUN_recent_political_unification }
+			controls_state = 764
+			controls_state = 45
+			controls_state = 104
+			controls_state = 804
+			controls_state = 102
+			controls_state = 853
+			controls_state = 103
+			controls_state = 109
+			controls_state = 970
+			controls_state = 104
+			controls_state = 45
+		}
+		bypass = {
+		}
+		completion_reward = {
+			add_timed_idea = {
+				idea = BA_HUN_recent_political_unification
+				days = 280
+			}
+			YUG = {
+				every_core_state = {
+					add_core_of = ROOT
+				}
+			}
+		}
+	}
+	focus = { #
+		id = HUN_federal_empire
+		icon = GFX_focus_rom_royal_dictatorship
+		prerequisite = { focus = HUN_yugoslavia_federation_proposal focus = HUN_yugoslavia_unification }
+		cost = 5
+		x = 0
+		y = 4
+		relative_position_id = HUN_austria_integration
+		available = {
+			NOT = { has_idea = BA_HUN_recent_political_unification }
+			controls_state = 4
+			controls_state = 152
+			controls_state = 153
+			controls_state = 848
+			controls_state = 984
+			controls_state = 764
+			controls_state = 45
+			controls_state = 104
+			controls_state = 804
+			controls_state = 102
+			controls_state = 853
+			controls_state = 103
+			controls_state = 109
+			controls_state = 970
+			controls_state = 104
+			controls_state = 45
 		}
 		bypass = {
 		}
@@ -1938,7 +2266,7 @@ focus_tree = {
 	focus = { #
 		relative_position_id = HUN_strengthen_fascists
 		id = HUN_demand_the_vojvodina
-		icon = GFX_focus_invite_yugoslavia
+		icon = GFX_focus_YUG_devolved_croatia
 		prerequisite = { focus = HUN_reaffirm_territorial_claims }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
@@ -2052,12 +2380,12 @@ focus_tree = {
 	focus = { #
 		relative_position_id = HUN_strengthen_fascists
 		id = HUN_proclaim_greater_hungary
-		icon = GFX_goal_generic_demand_territory
+		icon = GFX_focus_proclaim_the_restauration_of_Austria_Hungary
 		prerequisite = { focus = HUN_demand_transylvania focus = HUN_demand_the_vojvodina focus = HUN_claim_overlordship_over_slovakia }
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -2
-		y = 8
+		y = 9
 		available = {
 			OR = {
 				owns_state = 76
@@ -2088,7 +2416,7 @@ focus_tree = {
 		#mutually_exclusive = { focus = HUN_foc_ }
 		cost = 10
 		x = -2
-		y = 9
+		y = 10
 		available = {
 		}
 		bypass = {
