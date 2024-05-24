@@ -1269,6 +1269,38 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_parliamentarism_tt
+			hidden_effect = {
+				promote_character = {
+					character = ARI_free_city_of_danzig_parliament
+					ideology = moderatism
+				}
+				promote_character = {
+					character = ARI_free_city_of_danzig_parliament
+					ideology = conservatism
+				}
+				807 = { set_state_flag = penetration_complet }
+				86 = { set_state_flag = penetration_complet }
+				762 = { set_state_flag = penetration_complet }
+			}
+			add_country_leader_role = {
+				character = ARI_free_city_of_danzig_parliament
+				promote_leader = yes
+				country_leader = {
+					ideology = moderatism
+					expire = "1965.1.1.1"
+					traits = { ARI_danzig_parliament_Btrait ARI_danzig_parliament_Ctrait }
+				}
+			}
+			add_country_leader_role = {
+				character = ARI_free_city_of_danzig_parliament
+				promote_leader = yes
+				country_leader = {
+					ideology = conservatism
+					expire = "1965.1.1.1"
+					traits = { ARI_danzig_parliament_Atrait ARI_danzig_parliament_Ctrait }
+				}
+			}
 			if = {
 				limit = { democratic < 0.20 }
 				add_popularity = {
@@ -1317,15 +1349,26 @@ focus_tree = {
 		prerequisite = {
 			focus = ARI_parliamentarism
 		}
-		cost = 5
+		cost = 10
 		x = -1
 		y = 2
 		relative_position_id = ARI_parliamentarism
 
 		available = {
+			is_subject = yes
+			is_in_faction = no
+			POL = { 
+				hidden_trigger = { 
+					exists = yes
+					has_capitulated = no
+				}
+				has_civil_war = no	
+				NOT = { has_war_with = ROOT }	
+			}
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = ARI_poland_government_alliance_tt
 		}
 	}
 
@@ -1335,15 +1378,46 @@ focus_tree = {
 		prerequisite = {
 			focus = ARI_poland_government_alliance
 		}
-		cost = 10
+		cost = 5
 		x = -1
 		y = 3
 		relative_position_id = ARI_parliamentarism
 
 		available = {
+			any_country = {
+				NOT = { tag = ARI }
+				has_war_with = TRM
+				has_civil_war = no
+			}
 		}
 
 		completion_reward = {
+			if = { limit = { is_in_faction = no }
+				every_country = {
+					limit = {
+						NOT = { tag = ARI }
+						has_war_with = TRM
+						has_civil_war = no
+						is_faction_leader = yes
+					}
+					country_event = generic.2
+				}
+			}
+			else = {
+				every_country = {
+					limit = {
+						NOT = { tag = ARI }
+						has_war_with = TRM
+						has_civil_war = no
+						is_in_faction = no
+					}
+					country_event = generic.5
+				}
+			}
+			create_wargoal = {
+				target = TRM
+				type = annex_everything
+			}
 		}
 	}
 
@@ -1396,7 +1470,44 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			remove_ideas = ARI_pyeho_hakwon
+			effect_tooltip = {
+				remove_ideas = ARI_pyeho_hakwon
+			}
+			hidden_effect = {
+				if = { limit = { has_idea = ARI_pyeho_hakwon } 
+					remove_ideas = ARI_pyeho_hakwon
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 2
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 2
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
 		}
 	}
 
@@ -1416,6 +1527,10 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_timed_idea = {
+				idea = ARI_anti_trinity_production_front
+				days = 280
+			}
 		}
 	}
 
@@ -1426,7 +1541,7 @@ focus_tree = {
 			focus = ARI_overthrow_of_danzig
 			focus = ARI_parliamentarism
 		}
-		cost = 10
+		cost = 5
 		x = -2
 		y = 1
 		relative_position_id = ARI_parliamentarism
@@ -1435,6 +1550,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_ideas = ARI_labor_union_within_the_government
 		}
 	}
 
