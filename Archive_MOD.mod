@@ -18,7 +18,7 @@ dependencies={
 	"Korean Language"
 }
 user_dir="BlueArchive"
-version="0.6.6"
+version="0.6.7"
 picture="thumbnail.png"
 supported_version="1.14.*"
 path="C:/Users/USER-PC/Documents/Paradox Interactive/Hearts of Iron IV/mod/Archive_MOD"

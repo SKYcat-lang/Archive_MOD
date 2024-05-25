@@ -18,7 +18,7 @@ dependencies={
 	"Korean Language"
 }
 user_dir="BlueArchive"
-version="0.6.6"
+version="0.6.7"
 picture="thumbnail.png"
 supported_version="1.14.*"
 remote_file_id="2927583473"
