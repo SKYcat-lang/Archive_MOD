@@ -1298,15 +1298,10 @@
 		x = 0
 		y = 4
 		completion_reward = {
-			add_days_mission_timeout = {
-				mission = TRN_country_collapse
-				days = 80
-			}
-			TRN_country_collapse_down = yes
 			#pater_nazism
 			set_cosmetic_tag = TRINITY_REICH
-			add_ideas = TRM_steel_reich_debuff
 			custom_effect_tooltip = steel_reich_tt
+            custom_effect_tooltip = tooltip_white_line
 			add_threat = 5
 			create_faction = TRINITY_AXIS_FACTION
 			hidden_effect = {
@@ -1337,13 +1332,17 @@
 				news_event = { id = BA_news.3 days = 3 }
 				add_country_leader_trait = TRN_mika_trait_1
 				add_country_leader_trait = TRN_mika_trait_2
-				add_ideas = TRM_steel_reich_debuff
 				swap_ideas = {
 					remove_idea = TRM_great_depression
 					add_idea = TRN_Inefficient_bureaucracy
 				}
 				remove_ideas = TRM_troll_mika_2
 			}
+			add_days_mission_timeout = {
+				mission = TRN_country_collapse
+				days = 80
+			}
+			TRN_country_collapse_down = yes
 			custom_effect_tooltip = TRM_pater_union_tt
 			set_variable = { TRM_internal_factions_remove_var = 0 } #지울 세력 코드
 			TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
@@ -1371,6 +1370,11 @@
 			add_timed_idea = {
 				idea = TRN_industry_reform
 				days = 365
+			}
+            custom_effect_tooltip = tooltip_white_line
+			add_days_mission_timeout = {
+				mission = TRN_country_collapse
+				days = 80
 			}
 		}
 	}
@@ -1564,7 +1568,6 @@
 		x = 0
 		y = 5
 		completion_reward = {
-            clr_country_flag = TRM_start_bop_flag
 			country_event = { id = TRM_event.35 }
 			hidden_effect = {
 				every_state = {
@@ -1846,7 +1849,24 @@
         }
 		relative_position_id = TRN_doklisanupyi_him
 		completion_reward = {
-			add_ideas = TRN_research_buff
+            effect_tooltip = {
+                swap_ideas = {
+                    add_idea = TRM_kozeki_ui_yungu_e_tuja
+                    remove_idea = TRM_kozeki_ui
+                }
+            }
+            hidden_effect = {
+				remove_trait = {
+					character = uyi
+					slot = political_advisor
+					trait = TRN_economist_ui
+				}
+				add_trait = {
+					character = uyi
+					slot = political_advisor
+					trait = TRN_economist_ui_2
+				}
+            }
 		}
 	}
 	focus = {
@@ -1871,8 +1891,6 @@
 		y = 1
 		relative_position_id = TRN_yungu_e_tuja
 		completion_reward = {
-			#country_event = { id = TRN_after_war_event.13 days = 1 }
-			#add_ideas = TRN_research_buff
             effect_tooltip = {
                 swap_ideas = {
                     add_idea = TRM_kozeki_ui_2
@@ -1888,7 +1906,7 @@
 				add_trait = {
 					character = uyi
 					slot = political_advisor
-					trait = TRN_economist_ui_2
+					trait = TRN_economist_ui_3
 				}
             }
 		}
@@ -2380,12 +2398,10 @@
 		}
 		available = {
             is_subject = no
-            NOT = { is_in_faction_with = HEU }
         }
         bypass = {
-            HEU = {
-				exists = no
-            }
+            HEU = { exists = no }
+            TRM = { owns_state = 8 }
         }
 		ai_will_do = {
 			base = 500
@@ -2402,9 +2418,13 @@
 		x = 1
 		y = 2
 		completion_reward = {
-            create_wargoal = {
-    			type = annex_everything
-                target = 8.controller
+            if = {
+                limit = { is_in_faction_with = HEU }
+                HEU = { leave_faction = yes }
+            }
+            declare_war_on = {
+				target = 8.controller
+                type = annex_everything
             }
 		}
 	}
@@ -2421,7 +2441,7 @@
 		available = {
             is_subject = no
             NOT = {
-			    MIL = { is_in_faction_with = MIL }
+                is_in_faction_with = MIL
             }
         }
 		ai_will_do = {
