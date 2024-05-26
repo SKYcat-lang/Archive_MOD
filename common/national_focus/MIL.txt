@@ -2412,7 +2412,7 @@ focus_tree = {
 		}	
 	}
 		
-	focus = { # 선제 개입
+	focus = { # 중앙 전쟁위원회 수립
 		id = MIL_preemptive_intervention_1
 		icon = GFX_focus_BRA_end_the_state_of_emergency
 		cost = 5.00
@@ -2440,48 +2440,530 @@ focus_tree = {
 		icon = GFX_goal_generic_major_war
 		cost = 5.00
 		prerequisite = { focus = MIL_preemptive_intervention_1 }
-		x = 0
+		x = -2
 		y = 1
 		relative_position_id = MIL_preemptive_intervention_1
 		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
 		}	
 	}
 		
 	focus = { # 전시 경제 계획
 		id = MIL_preemptive_intervention_3
 		icon = GFX_goal_generic_trade
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_preemptive_intervention_2 }
 		x = 0
-		y = 2
-		relative_position_id = MIL_preemptive_intervention_1
+		y = 1
+		relative_position_id = MIL_preemptive_intervention_2
 		completion_reward = {
+			custom_effect_tooltip = SOV_war_economy_stability_tt
+			if = {
+				limit = {
+					has_war = no
+				}
+				add_stability = -0.1
+			}
+			else = {
+				custom_effect_tooltip = SOV_war_economy_stability_war_tt
+			}
+			if = {
+				limit = {
+					NOT = { has_idea = war_economy }
+					NOT = { has_idea = tot_economic_mobilisation }
+				}
+				add_ideas = war_economy
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
 		}	
 	}
 		
 	focus = { # 총력전
 		id = MIL_preemptive_intervention_4
 		icon = GFX_focus_generic_total_war
-		cost = 5.00
+		cost = 10.00
 		prerequisite = { focus = MIL_preemptive_intervention_3 }
-		mutually_exclusive = { focus = MIL_preemptive_intervention_5 }
-		x = -1
-		y = 3
-		relative_position_id = MIL_preemptive_intervention_1
+		available = {
+			has_defensive_war = yes
+			any_country = {
+				is_major = yes
+				has_war_with = ROOT
+			}
+		}
+		x = 0
+		y = 2
+		relative_position_id = MIL_preemptive_intervention_2
 		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_idea = tot_economic_mobilisation }
+				}
+				add_ideas = tot_economic_mobilisation
+			}
+			add_ideas = MIL_total_war_idea
 		}	
 	}
 		
 	focus = { # 선제 개입
 		id = MIL_preemptive_intervention_5
 		icon = GFX_goal_generic_occupy_states_ongoing_war
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_preemptive_intervention_1 }
-		mutually_exclusive = { focus = MIL_preemptive_intervention_4 }
+		available = {
+			has_completed_focus = MIL_postwar_processing
+		}
 		x = 1
-		y = 3
+		y = 1
 		relative_position_id = MIL_preemptive_intervention_1
 		completion_reward = {
+			add_war_support = 0.10
+			army_experience = 25
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.25
+				uses = 2
+				category = land_doctrine
+			}
+		}	
+	}
+		
+	focus = { # 파시즘의 위협 우선시
+		id = MIL_preemptive_intervention_6
+		icon = GFX_focus_focus_fra_fascist_threat
+		cost = 10.00
+		prerequisite = { focus = MIL_preemptive_intervention_5 }
+		mutually_exclusive = { focus = MIL_preemptive_intervention_7 }
+		available = {
+			NOT = { has_government = fascism }
+		}
+		x = -1
+		y = 1
+		relative_position_id = MIL_preemptive_intervention_5
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.10
+			}
+			if = {
+				limit = {
+					check_variable = {
+						global.BA_resistance_se_var = 3
+					}
+				}
+				26 = { set_demilitarized_zone = no }
+				20 = { set_demilitarized_zone = no }
+				22 = { set_demilitarized_zone = no }
+				32 = { set_demilitarized_zone = no }
+				21 = { set_demilitarized_zone = no }
+				980 = { set_demilitarized_zone = no }
+				851 = { set_demilitarized_zone = no }
+				set_variable = { global.BA_resistance_se_var = 2 }
+			}
+			every_country = {
+				limit = {
+					NOT = {
+						is_ally_with = MIL
+						Kivotos_school_tag = yes
+					}
+					capital_scope = {
+						is_on_continent = europe
+					}
+					OR = {
+						AND = {
+							has_government = fascism
+							is_major = yes
+						}
+						has_added_tension_amount > 10
+					}
+				}
+				add_opinion_modifier = {
+					target = PREV
+					modifier = large_decrease
+				}
+				reverse_add_opinion_modifier = {
+					target = PREV
+					modifier = large_decrease
+				}
+			}
+			every_controlled_state = {
+				limit = { state = 21 }
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+				add_building_construction = {
+					type = bunker
+					level = 5
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_victory_point > 1
+					}
+				}
+			}
+			every_controlled_state = {
+				limit = { state = 20 }
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+				add_building_construction = {
+					type = bunker
+					level = 5
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_victory_point > 1
+					}
+				}
+			}
+			every_controlled_state = {
+				limit = { state = 32 }
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+				add_building_construction = {
+					type = bunker
+					level = 5
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_victory_point > 1
+					}
+				}
+			}
+			every_controlled_state = {
+				limit = { state = 980 }
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+				add_building_construction = {
+					type = bunker
+					level = 5
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_victory_point > 1
+					}
+				}
+			}
+			every_controlled_state = {
+				limit = { state = 851 }
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+				add_building_construction = {
+					type = bunker
+					level = 5
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_victory_point > 1
+					}
+				}
+			}
+		}	
+	}
+		
+	focus = { # 급진 학원 견제
+		id = MIL_preemptive_intervention_7
+		icon = GFX_focus_generic_reorient_production
+		cost = 10.00
+		prerequisite = { focus = MIL_preemptive_intervention_5 }
+		mutually_exclusive = { focus = MIL_preemptive_intervention_6 }
+		x = 1
+		y = 1
+		relative_position_id = MIL_preemptive_intervention_5
+		completion_reward = {
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.05
+			}
+			if = {
+				limit = {
+					check_variable = {
+						global.BA_resistance_n_var = 3
+					}
+				}
+				785 = { set_demilitarized_zone = no }
+				15 = { set_demilitarized_zone = no }
+				30 = { set_demilitarized_zone = no }
+				24 = { set_demilitarized_zone = no }
+				16 = { set_demilitarized_zone = no }
+				973 = { set_demilitarized_zone = no }
+				972 = { set_demilitarized_zone = no }
+				set_variable = { global.BA_resistance_n_var = 2 }
+			}
+			if = {
+				limit = {
+					check_variable = {
+						global.BA_resistance_e_var = 3
+					}
+				}
+				17 = { set_demilitarized_zone = no }
+				18 = { set_demilitarized_zone = no }
+				27 = { set_demilitarized_zone = no }
+				set_variable = { global.BA_resistance_e_var = 2 }
+			}
+			every_country = {
+				limit = {
+					NOT = { is_ally_with = MIL }
+					Kivotos_school_tag = yes
+					OR = {
+						AND = {
+							has_government = fascism
+							is_major = yes
+						}
+						has_added_tension_amount > 10
+					}
+				}
+				add_opinion_modifier = {
+					target = PREV
+					modifier = large_decrease
+				}
+				reverse_add_opinion_modifier = {
+					target = PREV
+					modifier = large_decrease
+				}
+			}
+			every_controlled_state = {
+				limit = { state = 785 }
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+				add_building_construction = {
+					type = bunker
+					level = 5
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_victory_point > 1
+					}
+				}
+			}
+			every_controlled_state = {
+				limit = { state = 18 }
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+				add_building_construction = {
+					type = bunker
+					level = 5
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_victory_point > 1
+					}
+				}
+			}
+			every_controlled_state = {
+				limit = { state = 17 }
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+				add_building_construction = {
+					type = bunker
+					level = 5
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_victory_point > 1
+					}
+				}
+			}
+		}	
+	}
+		
+	focus = { # 예방 전쟁
+		id = MIL_preemptive_intervention_8
+		icon = GFX_focus_SWE_let_fly_all_guns
+		cost = 10.00
+		prerequisite = { focus = MIL_preemptive_intervention_6 focus = MIL_preemptive_intervention_7 }
+		available = {
+			if = { limit = { has_completed_focus = MIL_preemptive_intervention_6 }
+				any_country = {
+					NOT = {
+						is_ally_with = MIL
+						custom_trigger_tooltip = {
+							tooltip = NOT_Kivotos_school_tag_tt
+							Kivotos_school_tag = yes
+						}
+					}
+					capital_scope = {
+						is_on_continent = europe
+					}
+					OR = {
+						AND = {
+							has_government = fascism
+							is_major = yes
+						}
+						has_added_tension_amount > 10
+					}
+				}
+			}
+			else = {
+				any_country = {
+					NOT = { is_ally_with = MIL }
+					custom_trigger_tooltip = {
+						tooltip = Kivotos_school_tag_tt
+						Kivotos_school_tag = yes
+					}
+					OR = {
+						AND = {
+							has_government = fascism
+							is_major = yes
+						}
+						has_added_tension_amount > 10
+					}
+				}
+			}
+		}
+		x = 0
+		y = 2
+		relative_position_id = MIL_preemptive_intervention_5
+		completion_reward = {
+			if = { limit = { has_completed_focus = MIL_preemptive_intervention_6 }
+				every_country = {
+					limit = {
+						NOT = {
+							is_ally_with = MIL
+							Kivotos_school_tag = yes
+						}
+						capital_scope = {
+							is_on_continent = europe
+						}
+						OR = {
+							AND = {
+								has_government = fascism
+								is_major = yes
+							}
+							has_added_tension_amount > 10
+						}
+					}
+					ROOT = {
+						custom_effect_tooltip = war_aim_against_the_country_puppetization_tt
+						hidden_effect = {
+							create_wargoal = {
+								target = PREV
+								type = puppet_wargoal_focus
+							}
+						}
+					}
+				}
+			}
+			else = {
+				every_country = {
+					limit = {
+						NOT = { is_ally_with = MIL }
+						Kivotos_school_tag = yes
+						OR = {
+							AND = {
+								has_government = fascism
+								is_major = yes
+							}
+							has_added_tension_amount > 10
+						}
+					}
+					ROOT = {
+						custom_effect_tooltip = war_aim_against_the_country_puppetization_tt
+						hidden_effect = {
+							create_wargoal = {
+								target = PREV
+								type = puppet_wargoal_focus
+							}
+						}
+					}
+				}
+			}
 		}	
 	}
 		
@@ -3808,7 +4290,7 @@ focus_tree = {
 		available = {
 			has_tech = atomic_research
 		}
-		x = -4
+		x = -3
 		y = 1
 		relative_position_id = MIL_science_focused_investment
 		completion_reward = {
@@ -3899,8 +4381,8 @@ focus_tree = {
 		mutually_exclusive = { focus = MIL_neutron_bomb }
 		available = {
 		}
-		x = 2
-		y = 2
+		x = 1
+		y = 3
 		relative_position_id = MIL_the_power_of_atoms
 		completion_reward = {
 			set_country_flag = BA_hydrogen_bomb_flag
@@ -3916,8 +4398,8 @@ focus_tree = {
 		mutually_exclusive = { focus = MIL_hydrogen_bomb }
 		available = {
 		}
-		x = 4
-		y = 2
+		x = 3
+		y = 3
 		relative_position_id = MIL_the_power_of_atoms
 		completion_reward = {
 			set_country_flag = BA_neutron_bomb_flag
@@ -3931,7 +4413,7 @@ focus_tree = {
 		cost = 10.00
 		prerequisite = { focus = MIL_science_focused_investment }
 		mutually_exclusive = { focus = MIL_the_power_of_atoms }
-		x = 4
+		x = 3
 		y = 1
 		relative_position_id = MIL_science_focused_investment
 		completion_reward = {
@@ -5167,12 +5649,72 @@ focus_tree = {
 	focus = { # 학원의 새로운 길
 		id = MIL_new_path
 		icon = GFX_goal_generic_position_armies
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_club_liberalization }
 		x = 0
 		y = 1
 		relative_position_id = MIL_club_liberalization
 		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = yes
+					}
+					OR = {
+						is_in_home_area = yes
+						NOT = {
+							owner = {
+								any_owned_state = {
+									free_building_slots = {
+										building = industrial_complex
+										size > 0
+										include_locked = yes
+									}
+									is_in_home_area = yes
+								}
+							}
+						}
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
 		}	
 	}
 
@@ -5930,6 +6472,14 @@ focus_tree = {
 		y = 2
 		relative_position_id = MIL_Himari_leader
 		completion_reward = {
+			add_political_power = 120
+			add_stability = 0.10
+			if = {
+				limit = {
+					has_idea = MIL_military_revolution
+				}
+				remove_ideas = MIL_military_revolution
+			}
 		}	
 	}
 		
@@ -7617,7 +8167,7 @@ focus_tree = {
 		icon = GFX_goal_generic_fortify_city
 		cost = 5.00
 		prerequisite = { focus = MIL_Game_2 }
-		x = 2
+		x = 1
 		y = 1
 		relative_position_id = MIL_Game_2
 		completion_reward = {
@@ -7660,7 +8210,7 @@ focus_tree = {
 		icon = GFX_goal_generic_propaganda
 		cost = 5.00
 		prerequisite = { focus = MIL_landing_punishment }
-		x = 2
+		x = 1
 		y = 3
 		relative_position_id = MIL_Game_2
 		available = {
