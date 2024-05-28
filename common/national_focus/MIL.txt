@@ -4775,7 +4775,13 @@ focus_tree = {
 		icon = GFX_goal_generic_military_sphere
 		cost = 5.00
 		prerequisite = { focus = MIL_intensified_disagreements }
-		x = 0
+		available = {
+			has_idea = MIL_CnC_is_hero
+		}
+		bypass = {
+			NOT = { has_idea = MIL_CnC_is_hero }
+		}
+		x = 5
 		y = 1
 		relative_position_id = MIL_intensified_disagreements
 		completion_reward = {
@@ -4786,15 +4792,19 @@ focus_tree = {
 	focus = { # C&C 격하
 		id = MIL_CnC_downgraded
 		icon = GFX_MIL_CnC_downgraded
-		cost = 0.00
+		cost = 5.00
 		prerequisite = { focus = MIL_CnC_issues }
-		allow_branch = {
-			has_completed_focus = MIL_CnC_issues
-			NOT = {
-				has_country_flag = MIL_CnC_friend_flag
-			}
+		mutually_exclusive = { focus = MIL_CnC_admit }
+		available = {
+			NOT = { has_completed_focus = MIL_CnC_is_friend }
 		}
-		x = 0
+		bypass = {
+			NOT = { has_idea = MIL_CnC_is_hero }
+		}
+		cancel = {
+			has_completed_focus = MIL_CnC_admit
+		}
+		x = 2
 		y = 1
 		relative_position_id = MIL_CnC_issues
 		completion_reward = {
@@ -4806,11 +4816,17 @@ focus_tree = {
 	focus = { # C&C 인정
 		id = MIL_CnC_admit
 		icon = GFX_focus_renounce_the_treaty_of_trianon
-		cost = 0.00
+		cost = 5.00
 		prerequisite = { focus = MIL_CnC_issues }
-		allow_branch = {
-			has_completed_focus = MIL_CnC_issues
-			has_country_flag = MIL_CnC_friend_flag
+		mutually_exclusive = { focus = MIL_CnC_downgraded }
+		available = {
+			has_idea = MIL_CnC_is_hero
+		}
+		bypass = {
+			has_completed_focus = MIL_CnC_is_friend
+		}
+		cancel = {
+			has_completed_focus = MIL_CnC_downgraded
 		}
 		x = 0
 		y = 1
@@ -5384,7 +5400,7 @@ focus_tree = {
 				character = MIL_Himari
 				ruling_only = yes
 			}
-			has_country_flag = MIL_CnC_friend_flag
+			has_idea = MIL_CnC_is_hero
 		}
 		x = 1
 		y = 1
@@ -6869,7 +6885,7 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = MIL_stability_of_the_mil focus = MIL_power_surveillance }
 		available = {
-			has_country_flag = MIL_CnC_friend_flag
+			has_idea = MIL_CnC_is_hero
 			has_completed_focus = MIL_direct_bodyguards
 		}
 		offset = {
