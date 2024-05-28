@@ -4773,7 +4773,7 @@ focus_tree = {
 	focus = { # C&C 문제
 		id = MIL_CnC_issues
 		icon = GFX_goal_generic_military_sphere
-		cost = 3.00
+		cost = 5.00
 		prerequisite = { focus = MIL_intensified_disagreements }
 		x = 6
 		y = 1
@@ -4786,15 +4786,15 @@ focus_tree = {
 	focus = { # C&C 격하
 		id = MIL_CnC_downgraded
 		icon = GFX_MIL_CnC_downgraded
-		cost = 2.00
+		cost = 0.00
 		prerequisite = { focus = MIL_CnC_issues }
-		mutually_exclusive = { focus = MIL_CnC_admit }
-		available = {
+		allow_branch = {
+			has_completed_focus = MIL_CnC_issues
 			NOT = {
 				has_country_flag = MIL_CnC_friend_flag
 			}
 		}
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = MIL_CnC_issues
 		completion_reward = {
@@ -4806,21 +4806,16 @@ focus_tree = {
 	focus = { # C&C 인정
 		id = MIL_CnC_admit
 		icon = GFX_focus_renounce_the_treaty_of_trianon
-		cost = 2.00
+		cost = 0.00
 		prerequisite = { focus = MIL_CnC_issues }
-		mutually_exclusive = { focus = MIL_CnC_downgraded }
-		available = {
+		allow_branch = {
+			has_completed_focus = MIL_CnC_issues
 			has_country_flag = MIL_CnC_friend_flag
 		}
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = MIL_CnC_issues
 		completion_reward = {
-			add_power_balance_value = {
-				id = MIL_power_balance
-				value = 0.20
-				tooltip_side = MIL_Himari_side
-			}
 			custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = MIL_spfn_political_advisor
 		}	
@@ -6065,13 +6060,20 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = MIL_student_council_President_himari }
 		available = {
-			has_idea = MIL_eridu_broken
+			any_state = {
+				has_dynamic_modifier = { modifier = MIL_eridu_broken }
+			}
 		}
 		x = -1
 		y = 1
 		relative_position_id = MIL_student_council_President_himari
 		completion_reward = {
-			remove_ideas = MIL_eridu_broken
+			every_state = {
+				limit = {
+					has_dynamic_modifier = { modifier = MIL_eridu_broken }
+				}
+				remove_dynamic_modifier = { modifier = MIL_eridu_broken }
+			}
 			add_timed_idea = {
 				idea = MIL_eridu_closed_idea
 				days = 180
@@ -7003,7 +7005,9 @@ focus_tree = {
 		prerequisite = { focus = MIL_the_fortress_city_of_Eridu }
 		available = {
 			NOT = {
-				has_idea = MIL_eridu_broken
+				any_state = {
+					has_dynamic_modifier = { modifier = MIL_eridu_broken }
+				}
 			}
 		}
 		x = 0
