@@ -3638,10 +3638,10 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = RED_add_halo_cap_3_tt
 			hidden_effect = {
-				set_variable = { BA_halo_infantry_cap_edit_var = 2 }
+				set_variable = { BA_halo_infantry_cap_edit_var = 3 }
 				BA_halo_infantry_cap_edit_effect = yes
 			}
-			add_war_support = 0.05
+			add_manpower = 30000
 		}
 	}
 	focus = { #노동자 국제주의
@@ -3763,17 +3763,11 @@ focus_tree = {
 		prerequisite = {
 			focus = RED_minori_diplo_11
 		}
-		available = {
-			NOT = {
-				has_idea = BA_isolation
-			}
-		}
 		completion_reward = {
 			swap_ideas = {
 				remove_idea = RED_workers_internationalism_1
 				add_idea = RED_workers_internationalism_2
 			}
-			remove_ideas = RED_revolutionary_isolationism_2
 			add_political_power = 100
 			add_war_support = 0.1
 			unlock_decision_tooltip = form_european_union
@@ -3783,16 +3777,39 @@ focus_tree = {
 		id = RED_minori_diplo_16
 		icon = GFX_focus_eng_decolonization
 		cost = 5
-		x = -4
-		y = 7
+		x = -3
+		y = 8
 		relative_position_id = RED_new_council
 		prerequisite = {
 			focus = RED_minori_diplo_15
 		}
+		available = {
+			OR = {
+				ENG = {
+					owns_state = 126
+				}
+				FRA = {
+					owns_state = 16
+				}
+			}
+		}
 		completion_reward = {
-			create_wargoal = {
-				target = ENG
-				type = topple_government
+			if = {
+				limit = {
+					ENG = {
+						owns_state = 126
+					}
+				}
+				create_wargoal = {
+					target = ENG
+					type = topple_government
+				}
+			}
+			else = {
+				create_wargoal = {
+					target = FRA
+					type = topple_government
+				}
 			}
 		}
 	}
@@ -3805,6 +3822,14 @@ focus_tree = {
 		relative_position_id = RED_new_council
 		prerequisite = {
 			focus = RED_minori_diplo_15
+		}
+		available = {
+			OR = {
+				is_neighbor_of = ABY
+				is_neighbor_of = HYA
+				is_neighbor_of = SHA
+				has_country_flag = RED_minori_build_GER_flag
+			}
 		}
 		completion_reward = {
 			create_wargoal = {
@@ -3822,7 +3847,101 @@ focus_tree = {
 			unlock_decision_tooltip = RED_minori_build_BAY
 		}
 	}
+	focus = { #반파쇼
+		id = RED_minori_diplo_18
+		icon = GFX_focus_ITA_liberation_or_death
+		cost = 5
+		x = 3
+		y = 8
+		relative_position_id = RED_new_council
+		prerequisite = {
+			focus = RED_minori_diplo_15
+		}
+		available = {
+			OR = {
+				has_country_flag = RED_minori_build_BAY_flag
+				has_country_flag = RED_minori_build_MIL_flag
+			}
+		}
+		completion_reward = {
+			create_wargoal = {
+				target = ITA
+				type = annex_everything
+			}
+		}
+	}
+	focus = { #반독재
+		id = RED_minori_diplo_19
+		icon = GFX_goal_fall_gelb
+		cost = 5
+		x = -4
+		y = 7
+		relative_position_id = RED_new_council
+		prerequisite = {
+			focus = RED_minori_diplo_15
+		}
+		available = {
+			NOT = {
+				SHE = {
+					is_ally_with = RED
+				}
+			}
+		}
+		completion_reward = {
+			create_wargoal = {
+				target = SHE
+				type = annex_everything
+			}
+		}
+	}
 	focus = { #반자본주의
+		id = RED_minori_diplo_20
+		icon = GFX_focus_ARG_anti_american_propaganda
+		cost = 5
+		x = -1
+		y = 8
+		available = {
+			USA = {
+				NOT = {
+					has_war_with = GEI
+				}
+			}
+		}
+		relative_position_id = RED_new_council
+		prerequisite = {
+			focus = RED_minori_diplo_15
+		}
+		completion_reward = {
+			create_wargoal = {
+				target = USA
+				type = topple_government
+			}
+		}
+	}
+	focus = { #반관념론
+		id = RED_minori_diplo_21
+		icon = GFX_focus_GEI_beyond_consciousness
+		cost = 5
+		x = 1
+		y = 8
+		relative_position_id = RED_new_council
+		prerequisite = {
+			focus = RED_minori_diplo_15
+		}
+		available = {
+			GEI = {
+				has_completed_focus = GEI_uisigneomeolo
+				has_war = yes
+			}
+		}
+		completion_reward = {
+			create_wargoal = {
+				target = GEI
+				type = annex_everything
+			}
+		}
+	}
+	focus = { #반독점
 		id = RED_minori_diplo_12
 		icon = GFX_focus_spr_class_war
 		cost = 5
@@ -3847,9 +3966,9 @@ focus_tree = {
 			unlock_decision_tooltip = RED_minori_build_MIL
 		}
 	}
-	focus = { #반파쇼
+	focus = { #반나치
 		id = RED_minori_diplo_13
-		icon = GFX_focus_ITA_liberation_or_death
+		icon = GFX_focus_POL_ban_nazi_party
 		cost = 5
 		x = 2
 		y = 7
@@ -4336,10 +4455,10 @@ focus_tree = {
 		y = 1
 		completion_reward = {
 			913 = {
-				add_extra_state_shared_building_slots = 1
+				add_extra_state_shared_building_slots = 3
 				add_building_construction = {
 					type = industrial_complex
-					level = 1
+					level = 3
 				}
 			}
 			add_victory_points = {
