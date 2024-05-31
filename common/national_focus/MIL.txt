@@ -1852,8 +1852,8 @@ focus_tree = {
 		relative_position_id = MIL_NEP
 		completion_reward = {
 			custom_effect_tooltip = MIL_partial_market_opening_tt
-			add_to_variable = { MIL_NEP_idea_consumer_goods_factor = -0.05 }
-			add_to_variable = { MIL_NEP_idea_research_speed_factor = 0.05 }
+			add_to_variable = { MIL_NEP_idea_consumer_goods_factor = -0.15 }
+			add_to_variable = { MIL_NEP_idea_research_speed_factor = -0.05 }
 		}	
 	}
 
@@ -1884,6 +1884,40 @@ focus_tree = {
 			custom_effect_tooltip = MIL_control_of_key_industries_tt
 			add_to_variable = { MIL_NEP_idea_production_factory_max_efficiency_factor = 0.05 }
 			add_to_variable = { MIL_NEP_idea_production_lack_of_resource_penalty_factor = -0.10 }
+		}	
+	}
+		
+	focus = { #프랑스인 노동자
+		id = MIL_french_workers
+		icon = GFX_focus_CHL_silverworking
+		cost = 5.00
+		prerequisite = { focus = MIL_control_of_key_industries }
+		x = 0
+		y = 1
+		relative_position_id = MIL_control_of_key_industries
+		completion_reward = {
+			add_stability = -0.05
+			add_manpower = 12000
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 5
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 5
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
 		}	
 	}
 		
@@ -1938,6 +1972,105 @@ focus_tree = {
 				uses = 1
 				category = land_doctrine
 			}
+		}	
+	}
+		
+	focus = { #마지노선 요구
+		id = MIL_maginot_line_demand
+		icon = GFX_goal_generic_military_deal
+		cost = 5.00
+		prerequisite = { focus = MIL_projection_of_force }
+		x = 0
+		y = 1
+		bypass = {
+			controls_state = 28
+			controls_state = 976
+		}
+		relative_position_id = MIL_projection_of_force
+		completion_reward = {
+			every_country = {
+				limit = {
+					OR = {
+						controls_state = 28
+						controls_state = 976
+					}
+					NOT = { tag = ROOT }
+				}
+				country_event = { id = MIL_event.63 hours = 8 }
+			}
+		}	
+	}
+		
+	focus = { #프랑스 영유권 주장
+		id = MIL_french_territorial_claim
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 5.00
+		prerequisite = { focus = MIL_maginot_line_demand }
+		x = 0
+		y = 2
+		bypass = {
+			OR = {
+				AND = {
+					controls_state = 28
+					controls_state = 976
+					controls_state = 29
+					controls_state = 971
+					controls_state = 14
+					controls_state = 735
+					controls_state = 981
+				}
+				AND = {
+					28 = { is_core_of = ROOT }
+					976 = { is_core_of = ROOT }
+					29 = { is_core_of = ROOT }
+					971 = { is_core_of = ROOT }
+					14 = { is_core_of = ROOT }
+					735 = { is_core_of = ROOT }
+					981 = { is_core_of = ROOT }
+				}
+				AND = {
+					28 = { is_claimed_by = ROOT }
+					976 = { is_claimed_by = ROOT }
+					29 = { is_claimed_by = ROOT }
+					971 = { is_claimed_by = ROOT }
+					14 = { is_claimed_by = ROOT }
+					735 = { is_claimed_by = ROOT }
+					981 = { is_claimed_by = ROOT }
+				}
+			}
+		}
+		relative_position_id = MIL_projection_of_force
+		completion_reward = {
+			add_political_power = 80
+			add_stability = 0.05
+			add_war_support = 0.05
+			army_experience = 25
+
+			add_state_claim = 28
+			add_state_claim = 976
+			add_state_claim = 29
+			add_state_claim = 971
+			add_state_claim = 14
+			add_state_claim = 735
+			add_state_claim = 981
+		}	
+	}
+		
+	focus = { #유럽의 공장
+		id = MIL_factory_of_europe
+		icon = GFX_focus_usa_focus_on_europe
+		cost = 10.00
+		prerequisite = { focus = MIL_french_workers }
+		prerequisite = { focus = MIL_french_territorial_claim }
+		x = 1
+		y = 3
+		relative_position_id = MIL_control_of_key_industries
+		completion_reward = {
+			custom_effect_tooltip = MIL_factory_of_europe_tt
+			add_to_variable = { MIL_NEP_idea_consumer_goods_factor = -0.05 }
+			add_to_variable = { MIL_NEP_idea_production_factory_max_efficiency_factor = 0.05 }
+			add_to_variable = { MIL_NEP_idea_production_factory_efficiency_gain_factor = 0.05 }
+			add_to_variable = { MIL_NEP_idea_research_speed_factor = -0.05 }
 		}	
 	}
 		
@@ -3854,6 +3987,10 @@ focus_tree = {
 		y = 3
 		relative_position_id = MIL_threat_from_beyond_the_coast
 		completion_reward = {
+			add_timed_idea = {
+				idea = FRA_production_acceleration
+				days = 210
+			}
 		}	
 	}
 		

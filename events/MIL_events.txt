@@ -2665,6 +2665,116 @@ country_event = {
         custom_effect_tooltip = MIL_event.62_tt
     }
 }
+country_event = { #마지노선 요구
+    id = MIL_event.63
+    title = MIL_event.63.t
+    desc = MIL_event.63.d
+    picture = GFX_report_event_panay_incident
+
+    is_triggered_only = yes
+
+    option = {
+        name = MIL_event.63.a
+        trigger = {
+            OR = {
+                AND = {
+                    any_country = {
+                        NOT = { tag = ROOT }
+                        owns_state = 28
+                    }
+                    controls_state = 28
+                }
+                AND = {
+                    any_country = {
+                        NOT = { tag = ROOT }
+                        owns_state = 976
+                    }
+                    controls_state = 976
+                }
+            }
+        }
+        every_country = {
+            limit = {
+                NOT = { tag = ROOT }
+                OR = {
+                    AND = {
+                        owns_state = 28
+                        ROOT = { controls_state = 28 }
+                    }
+                    AND = {
+                        owns_state = 976
+                        ROOT = { controls_state = 976 }
+                    }
+                }
+            }
+            ROOT = {
+                white_peace = PREV
+            }
+            FROM = {
+                add_ai_strategy = {
+                    type = conquer
+                    id = PREV
+                    value = 100
+                }
+                create_wargoal = {
+                    target = PREV
+                    type = annex_everything
+                }
+            }
+        }
+    }
+    option = {
+        name = MIL_event.63.a
+        trigger = {
+            OR = {
+                AND = {
+                    owns_state = 28
+                    controls_state = 28
+                }
+                AND = {
+                    owns_state = 976
+                    controls_state = 976
+                }
+            }
+        }
+        every_controlled_state = {
+            limit = {
+                state = 28
+                state = 976
+            }
+            transfer_state_to = MIL
+        }
+    }
+    option = {
+        name = MIL_event.63.b
+        FROM = {
+            country_event = { id = MIL_event.64 hours = 8 }
+        }
+    }
+}
+country_event = { #마지노선 요구 거절
+    id = MIL_event.64
+    title = MIL_event.64.t
+    desc = MIL_event.64.d
+    picture = GFX_report_event_panay_incident
+
+    is_triggered_only = yes
+
+    option = {
+        name = MIL_event.64.a
+        create_wargoal = {
+            target = FROM
+            type = take_state
+            generator = { 28 976 }
+            expire = 90
+        }
+    }
+    option = {
+        name = MIL_event.64.b
+        add_political_power = -30
+    }
+}
+
 
 
 
