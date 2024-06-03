@@ -2609,25 +2609,15 @@ country_event = {
 				}
 			}
 		}
-		ABY = {
-			annex_country = { 
-				target = SLO 
-				transfer_troops = yes 
+		SLO = {
+			set_variable = {
+				collaboration_formed_by = ABY
 			}
 		}
-		70 = {add_core_of = ABY}
-		71 = {add_core_of = ABY}
-		73 = {add_core_of = ABY}
-		664 = {add_core_of = ABY}
-		if = {
-			limit = {
-				ABY = {
-					has_completed_focus = ABY_focus_rebuild_czech
-				}
-				
-			}
-			ABY = {
-				set_cosmetic_tag = ABY_czechoslovakia_republic
+		ABY = {
+			set_autonomy = {
+				target = SLO
+				autonomy_state = autonomy_collaboration_government
 			}
 		}
 	}
@@ -2641,7 +2631,7 @@ country_event = {
 			modifier = {
 				add = 100
 				ABY = {
-					has_government = communism
+					NOT = {has_government = democratic}
 				}
 			}
 		}
@@ -2695,6 +2685,12 @@ country_event = {
 	option = {
 		name = ABY_new_event.68.a
 		ai_chance = { factor = 100 }
+		ABY = {
+			annex_country = { 
+				target = SLO 
+				transfer_troops = yes 
+			}
+		}
 	}
 }
 
@@ -3593,16 +3589,6 @@ country_event = {
 		ai_chance = { factor = 100 }
 		complete_national_focus = ABY_focus_abydos_schoolcountry
 	}
-	option = {
-		name = ABY_new_event.108.c
-		ai_chance = { factor = 100 }
-		trigger = {
-			TRM = {
-				has_government = fascism
-			}
-		}
-		complete_national_focus = ABY_focus_with_german
-	}
 }
 
 country_event = {
@@ -3990,9 +3976,6 @@ country_event = {
 	option = {
 		name = ABY_new_event.123.a
 		ai_chance = { factor = 100 }
-		trigger = {
-			NOT = { has_completed_focus = ABY_focus_wpehvk_tkrjs }
-		}
 		complete_national_focus = ABY_focus_second_empire
 	}
 	option = {
@@ -4015,10 +3998,14 @@ country_event = {
 		ai_chance = { factor = 100 }
 		complete_national_focus = ABY_focus_shiroko
 	}
+
 	option = {
 		name = ABY_new_event.124.b
 		ai_chance = { factor = 100 }
-		complete_national_focus = ABY_focus_serika
+		country_event = {
+			id = ABY_new_event.137
+			days = 35
+		}
 	}
 }
 
@@ -4298,10 +4285,19 @@ country_event = {
 
 	is_triggered_only = yes
 	fire_only_once = yes
-
 	option = {
 		name = ABY_new_event.137.a
 		ai_chance = { factor = 100 }
+		complete_national_focus = ABY_focus_serika
+	}
+
+	option = {
+		name = ABY_new_event.137.b
+		ai_chance = { factor = 100 }
+		country_event = {
+			id = ABY_new_event.138
+			days = 35
+		}
 	}
 }
 
@@ -4316,6 +4312,16 @@ country_event = {
 	option = {
 		name = ABY_new_event.138.a
 		ai_chance = { factor = 100 }
+		complete_national_focus = ABY_focus_shiroko
+	}
+
+	option = {
+		name = ABY_new_event.138.b
+		ai_chance = { factor = 100 }
+		country_event = {
+			id = ABY_new_event.139
+			days = 35
+		}
 	}
 }
 
@@ -4326,10 +4332,19 @@ country_event = {
 
 	is_triggered_only = yes
 	fire_only_once = yes
-
 	option = {
 		name = ABY_new_event.139.a
 		ai_chance = { factor = 100 }
+		complete_national_focus = ABY_focus_serika
+	}
+
+	option = {
+		name = ABY_new_event.139.b
+		ai_chance = { factor = 100 }
+		country_event = {
+			id = ABY_new_event.140
+			days = 35
+		}
 	}
 }
 
@@ -4347,17 +4362,118 @@ country_event = {
 	}
 }
 
+
 country_event = {
 	id = ABY_new_event.141
 	title = ABY_new_event.141.t
 	desc = ABY_new_event.141.d
-
+	picture = GFX_report_event_generic_bombers
+	
 	is_triggered_only = yes
-	fire_only_once = yes
 
 	option = {
 		name = ABY_new_event.141.a
-		ai_chance = { factor = 100 }
+		trigger = {
+			num_of_controlled_states > 1
+		}
+		ai_chance = { 
+			factor = 100
+		}
+		set_country_flag = had_ABY_civil_war_flag
+		start_civil_war = {	
+			ideology = communism
+			size = 0.25
+			army_ratio = 0.25
+			navy_ratio = 0
+			air_ratio = 0
+			hidden_effect = {
+				retire_ideology_leader = democratic
+				retire_ideology_leader = communism
+				retire_ideology_leader = fascism
+				retire_ideology_leader = neutrality
+				add_ideas = BA_student_conscription_idea
+				country_event = { id = ABY_new_event.142 hours = 24 }
+			}
+		}
+		set_country_flag = BAABY_civil_war_flag
+		hidden_effect = {
+			if = {
+				limit = {
+					ABY = { is_faction_leader = yes }
+					any_other_country = {
+						NOT = { tag = ABY }
+						NOT = { original_tag = ROOT }
+						has_war_with = ROOT
+					}
+				}
+				random_country = {
+					limit = {
+						original_tag = ROOT
+						has_war_with = ROOT
+					}
+					ABY = { add_to_faction = PREV }
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ABY_new_event.141.b
+		ai_chance = { 
+			factor = 0
+		}
+		set_politics = {
+			ruling_party = communism
+			elections_allowed = no
+		}
+		add_popularity = {
+			ideology = communism 
+			popularity = 0.5
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					original_tag = TRM
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_1
+			}
+			if = {
+				limit = {
+					original_tag = MIL
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_2
+			}
+			if = {
+				limit = {
+					original_tag = GEM
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_3
+			}
+			if = {
+				limit = {
+					original_tag = GEH
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_4
+			}
+			if = {
+				limit = {
+					original_tag = RED
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_5
+			}
+			if = {
+				limit = {
+					original_tag = COU
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_6
+			}
+			if = {
+				limit = {
+					original_tag = KSP
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_7
+			}
+		}
 	}
 }
 
@@ -4365,13 +4481,81 @@ country_event = {
 	id = ABY_new_event.142
 	title = ABY_new_event.142.t
 	desc = ABY_new_event.142.d
-
+	picture = GFX_report_event_generic_bombers
+	
 	is_triggered_only = yes
-	fire_only_once = yes
 
 	option = {
 		name = ABY_new_event.142.a
-		ai_chance = { factor = 100 }
+		ai_chance = { 
+			factor = 100
+		}
+		ABY = { puppet = { target = PREV end_wars = no end_civil_wars = no } }
+		random_country = {
+			limit = {
+				NOT = { tag = ROOT }
+				has_country_flag = BAABY_civil_war_flag
+			}
+			YUG = {
+				add_to_war = {
+					targeted_alliance = ROOT
+					enemy = PREV
+					hostility_reason = asked_to_join
+				}
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					original_tag = TRM
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_1
+			}
+			if = {
+				limit = {
+					original_tag = MIL
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_2
+			}
+			if = {
+				limit = {
+					original_tag = GEM
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_3
+			}
+			if = {
+				limit = {
+					original_tag = GEH
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_4
+			}
+			if = {
+				limit = {
+					original_tag = RED
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_5
+			}
+			if = {
+				limit = {
+					original_tag = COU
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_6
+			}
+			if = {
+				limit = {
+					original_tag = KSP
+				}
+				set_cosmetic_tag = ABY_revolution_puppet_7
+			}
+		}
+	}
+
+	option = {
+		name = ABY_new_event.142.b
+		ai_chance = { 
+			factor = 0
+		}
+		add_political_power = -120
 	}
 }
 
