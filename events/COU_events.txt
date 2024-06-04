@@ -1,4 +1,5 @@
 add_namespace = COU_event
+add_namespace = COU_kivotos_alliance
 
 country_event = { #총학생회장 실종
 	id = COU_event.1
@@ -57,4 +58,46 @@ country_event = { #샬레랑 경쟁시키기
 		unlock_decision_tooltip = COU_strengthening_influence_stv
 	}
 	
+}
+country_event = { #원정군 파병
+	id = COU_kivotos_alliance.1
+	title = COU_kivotos_alliance.1.t
+	desc = COU_kivotos_alliance.1.desc
+	picture = GFX_report_event_SOV_national_academy_of_sciences
+	
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = {
+			tag = global.kivotos_alliance_leader
+		}
+	}
+
+	option = { 
+		name = COU_kivotos_alliance.1.a
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_government = fascism
+				factor = 0.5
+			}
+			modifier = {
+				has_government = democratic
+				factor = 1.5
+			}
+		}
+		add_ideas = COU_direct_support
+		add_ai_strategy = {
+			type = send_volunteers_desire
+			id = var:global.BA_decisions_defensive_war_target_COUNTRY
+			value = 300
+		}
+	}
+	option = { 
+		name = COU_kivotos_alliance.1.b
+		ai_chance = {
+			base = 10
+		}
+		add_war_support = -0.02
+	}
 }

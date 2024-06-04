@@ -614,4 +614,138 @@ BA_kivotos_school_country_category = {
 			set_cosmetic_tag = SHE_student_council
 		}
 	}
+	BA_decisions_goverment_target = {
+		priority = 5
+
+		icon = generic_political_rally
+
+		target_array = global.kivotos_alliance
+		
+		ai_will_do = {
+			base = 25
+		}
+
+		allowed = {
+		}
+
+		available = {
+			threat > 0.15
+		}
+
+		visible = {
+			ROOT = {
+				tag = global.kivotos_alliance_leader
+			}
+			FROM = {
+				NOT = { tag = ROOT }
+				has_added_tension_amount > 0
+			}
+		}
+
+		cost = 25
+
+		complete_effect = {
+			FROM = {
+				if = { limit = { NOT = { has_government = ROOT } }
+					add_opinion_modifier = { target = ROOT modifier = medium_decrease }
+				}
+				if = { limit = { ROOT = { has_government = democratic } }
+					add_timed_idea = { idea = democratic_influence_weak days = 365 }
+				}
+				else_if = { limit = { ROOT = { has_government = fascism } }
+					add_timed_idea = { idea = fascist_influence_weak days = 365 }
+				}
+				else_if = { limit = { ROOT = { has_government = neutrality } }
+					add_timed_idea = { idea = neutrality_influence days = 365 }
+				}
+				else_if = { limit = { ROOT = { has_government = communism } }
+					add_timed_idea = { idea = communist_influence_weak days = 365 }
+				}
+				country_event = { id = generic.1 }
+			}
+		}
+	}
+	BA_decisions_defensive_war_target = {
+		priority = 5
+
+		icon = generic_political_rally
+		
+		ai_will_do = {
+			base = 5
+			modifier = {
+				factor = 40
+				has_added_tension_amount > 25
+			}
+		}
+
+		allowed = {
+		}
+
+		available = {
+			threat > 0.25
+		}
+
+		visible = {
+		}
+
+		target_trigger = {
+			ROOT = {
+				tag = global.kivotos_alliance_leader
+			}
+			FROM = {
+				OR = {
+					is_in_faction = no
+					is_faction_leader = yes
+				}
+				NOT = {
+					is_in_array = {
+						array = global.kivotos_alliance
+						value = FROM
+					}
+				}
+				any_enemy_country = {
+					FROM = {
+						is_in_array = {
+							array = global.kivotos_alliance
+							value = PREV
+						}
+					}
+				}
+				has_added_tension_amount > 0
+			}
+		}
+
+		cost = 25
+
+		complete_effect = {
+			add_ideas = COU_direct_support
+			every_country = {
+				limit = {
+					has_war_with = FROM
+					is_in_array = {
+						array = global.kivotos_alliance
+						value = PREV
+					}
+				}
+				add_war_support = 0.02
+				set_variable = {
+					global.BA_decisions_defensive_war_target_COUNTRY = THIS
+				}
+			}
+			FROM = {
+				save_global_event_target_as = BA_decisions_defensive_war_target_FROM
+			}
+
+			for_each_scope_loop = {
+				array = global.kivotos_alliance
+				country_event = { id = COU_kivotos_alliance.1 hours = 12 random_hours = 8 }
+			}
+
+			add_ai_strategy = {
+				type = send_volunteers_desire
+				id = var:global.BA_decisions_defensive_war_target_COUNTRY
+				value = 300
+			}
+		}
+	}
 }
