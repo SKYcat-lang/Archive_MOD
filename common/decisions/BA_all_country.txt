@@ -657,6 +657,70 @@ BA_kivotos_school_country_category = {
 			political_power_cost = 0.25
 		}
 	}
+    BA_decisions_federal_railway_project = {
+		priority = 10
+
+		icon = GFX_decision_generic_construction
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				political_power_daily > 1.0
+				factor = 5.0
+			}
+			modifier = {
+				political_power_daily > 1.5
+				factor = 10.0
+			}
+			modifier = {
+				political_power_daily > 2.0
+				factor = 30.0
+			}
+		}
+
+		days_remove = 70
+
+		days_re_enable = 85
+
+		visible = {
+			tag = global.kivotos_alliance_leader
+			NOT = { has_global_flag = end_of_the_kivotos_alliance }
+			any_country = {
+				is_in_array = {
+					array = global.kivotos_alliance
+					value = FROM
+				}
+			}
+		}
+
+		modifier = {
+			consumer_goods_factor = 0.15
+			political_power_gain = 0.25
+		}
+
+		complete_effect = {
+			modify_timed_idea = {
+				idea = BA_railway_gauge_issue
+				days = -120
+			}
+		}
+
+		remove_effect = {
+			every_country = {
+				limit = {
+					is_in_array = {
+						array = global.kivotos_alliance
+						value = FROM
+					}
+					has_idea = BA_railway_gauge_issue
+				}
+				modify_timed_idea = {
+					idea = BA_railway_gauge_issue
+					days = -280
+				}
+			}
+		}
+	}
     BA_decisions_investment_in_student_council = {
 		priority = 10
 
@@ -721,6 +785,18 @@ BA_kivotos_school_country_category = {
 						idea = COU_investment_in_kivotos
 						days = 120
 					}
+				}
+				if = { limit = { has_idea = BA_railway_gauge_issue }
+					modify_timed_idea = {
+						idea = BA_railway_gauge_issue
+						days = -120
+					}
+				}
+			}
+			if = { limit = { has_idea = BA_railway_gauge_issue }
+				modify_timed_idea = {
+					idea = BA_railway_gauge_issue
+					days = -120
 				}
 			}
 		}
@@ -926,6 +1002,37 @@ BA_kivotos_school_country_category = {
 		complete_effect = {
 			FROM = {
 				country_event = { id = generic.5 hours = 8 }
+			}
+		}
+	}
+}
+economy_decisions = {
+    BA_decisions_railway_improvement = {
+		icon = GFX_decision_generic_construction
+		ai_will_do = {
+			factor = 4000
+		}
+
+    	available = {
+    	}
+		visible = {
+			has_idea = BA_railway_gauge_issue
+		}
+		
+		cost = 30
+
+		days_remove = 70
+
+		days_re_enable = 70
+
+		modifier = {
+			consumer_goods_factor = 0.05
+		}
+
+		remove_effect = {
+			modify_timed_idea = {
+				idea = BA_railway_gauge_issue
+				days = -365
 			}
 		}
 	}
