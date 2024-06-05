@@ -52,6 +52,11 @@
 **추천 적용 모드** : [블루 아카이브 OST 모드](https://steamcommunity.com/sharedfiles/filedetails/?id=3012479903), [FPS MAP](https://steamcommunity.com/sharedfiles/filedetails/?id=2404689961)   
 **사용 불가능한 모드** : 프로빈스와 주를 수정하는 모드, 기타 대형모드
 
+## 지원하는 언어 | Supported languages
+- 한국어 | Korean
+- 일본어 | Japanese | 진행 중
+- 중국어 | Chinese | 진행 중
+
 ## 언어 패치 | Language patch
 **영어 | English** : [English translation](https://steamcommunity.com/sharedfiles/filedetails/?id=3069377398)
 
