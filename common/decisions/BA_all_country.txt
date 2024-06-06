@@ -128,7 +128,7 @@ BA_kivotos_school_country_category = {
 			factor = 0
 		}
 		visible = {
-			is_debug = yes
+			always = no
 		}
 		complete_effect = {
 			set_cosmetic_tag = SHE_student_council
@@ -140,7 +140,7 @@ BA_kivotos_school_country_category = {
 			factor = 0
 		}
 		visible = {
-			is_debug = yes
+			always = no
 		}
 		complete_effect = {
 			every_country = {
@@ -614,8 +614,199 @@ BA_kivotos_school_country_category = {
 			set_cosmetic_tag = SHE_student_council
 		}
 	}
+    BA_decisions_kivotos_public_bond = {
+		priority = 10
+
+		icon = GFX_decision_eng_propaganda_campaigns
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				political_power_daily > 1.0
+				factor = 5.0
+			}
+			modifier = {
+				political_power_daily > 1.5
+				factor = 10.0
+			}
+			modifier = {
+				political_power_daily > 2.0
+				factor = 30.0
+			}
+		}
+
+		cost = 50
+
+		days_remove = 120
+
+		visible = {
+			tag = global.kivotos_alliance_leader
+			NOT = { has_global_flag = end_of_the_kivotos_alliance }
+		}
+
+		available = {
+			political_power_daily > 0
+		}
+
+		cancel_trigger = {
+			has_political_power < 1
+		}
+
+		modifier = {
+			consumer_goods_factor = -0.15
+			political_power_cost = 0.25
+		}
+	}
+    BA_decisions_federal_railway_project = {
+		priority = 10
+
+		icon = GFX_decision_generic_construction
+
+		ai_will_do = {
+			factor = 1
+			modifier = {
+				political_power_daily > 1.0
+				factor = 5.0
+			}
+			modifier = {
+				political_power_daily > 1.5
+				factor = 10.0
+			}
+			modifier = {
+				political_power_daily > 2.0
+				factor = 30.0
+			}
+		}
+
+		days_remove = 70
+
+		days_re_enable = 85
+
+		visible = {
+			tag = global.kivotos_alliance_leader
+			NOT = { has_global_flag = end_of_the_kivotos_alliance }
+			any_country = {
+				is_in_array = {
+					array = global.kivotos_alliance
+					value = FROM
+				}
+			}
+		}
+
+		modifier = {
+			consumer_goods_factor = 0.15
+			political_power_gain = 0.25
+		}
+
+		complete_effect = {
+			modify_timed_idea = {
+				idea = BA_railway_gauge_issue
+				days = -120
+			}
+		}
+
+		remove_effect = {
+			every_country = {
+				limit = {
+					is_in_array = {
+						array = global.kivotos_alliance
+						value = FROM
+					}
+					has_idea = BA_railway_gauge_issue
+				}
+				modify_timed_idea = {
+					idea = BA_railway_gauge_issue
+					days = -280
+				}
+			}
+		}
+	}
+    BA_decisions_investment_in_student_council = {
+		priority = 10
+
+		icon = GFX_decision_generic_construction
+
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				has_government = democratic
+				factor = 2.0
+			}
+			modifier = {
+				has_government = communism
+				factor = 0.5
+			}
+			modifier = {
+				has_government = fascism
+				factor = 0.3
+			}
+			modifier = {
+				num_of_civilian_factories_available_for_projects > 15
+				factor = 2.5
+			}
+			modifier = {
+				num_of_civilian_factories_available_for_projects < 10
+				factor = 0.5
+			}
+			modifier = {
+				num_of_civilian_factories_available_for_projects < 5
+				factor = 0.5
+			}
+		}
+
+		cost = 50
+
+		days_remove = 120
+
+		visible = {
+			NOT = { tag = global.kivotos_alliance_leader }
+			is_in_array = {
+				array = global.kivotos_alliance
+				value = THIS
+			}
+			NOT = { has_global_flag = end_of_the_kivotos_alliance }
+		}
+
+		available = {
+			num_of_civilian_factories_available_for_projects > 1
+			NOT = { has_war_with = global.kivotos_alliance }
+		}
+
+		complete_effect = {
+			var:global.kivotos_alliance_leader = {
+				if = { limit = { has_idea = COU_investment_in_kivotos }
+					modify_timed_idea = {
+						idea = COU_investment_in_kivotos
+						days = 120
+					}
+				}
+				else = {
+					add_timed_idea = {
+						idea = COU_investment_in_kivotos
+						days = 120
+					}
+				}
+				if = { limit = { has_idea = BA_railway_gauge_issue }
+					modify_timed_idea = {
+						idea = BA_railway_gauge_issue
+						days = -120
+					}
+				}
+			}
+			if = { limit = { has_idea = BA_railway_gauge_issue }
+				modify_timed_idea = {
+					idea = BA_railway_gauge_issue
+					days = -120
+				}
+			}
+		}
+
+		modifier = {
+			civilian_factory_use = 2
+			production_speed_buildings_factor = 0.10
+		}
+	}
 	BA_decisions_goverment_target = {
-		priority = 5
 
 		icon = generic_political_rally
 
@@ -640,6 +831,7 @@ BA_kivotos_school_country_category = {
 				NOT = { tag = ROOT }
 				has_added_tension_amount > 5
 			}
+			NOT = { has_global_flag = end_of_the_kivotos_alliance }
 		}
 
 		cost = 25
@@ -666,9 +858,8 @@ BA_kivotos_school_country_category = {
 		}
 	}
 	BA_decisions_defensive_war_target = {
-		priority = 5
 
-		icon = generic_political_rally
+		icon = GFX_decision_infiltrate_state
 		
 		ai_will_do = {
 			base = 5
@@ -693,6 +884,7 @@ BA_kivotos_school_country_category = {
 					}
 				}
 			}
+			NOT = { has_global_flag = end_of_the_kivotos_alliance }
 		}
 
 		target_trigger = {
@@ -758,6 +950,89 @@ BA_kivotos_school_country_category = {
 						value = 1000
 					}
 				}
+			}
+		}
+	}
+	BA_decisions_defensive_join_target = {
+
+		icon = GFX_decision_eng_trade_unions_support
+		
+		ai_will_do = {
+			base = 40
+			modifier = {
+				FROM = { has_government = ROOT }
+				factor = 1000
+			}
+		}
+
+		allowed = {
+		}
+
+		available = {
+			threat > 0.25
+		}
+
+		visible = {
+			ROOT = {
+				is_faction_leader = yes
+				has_country_flag = BA_decisions_defensive_join_target_flag
+			}
+			NOT = { has_global_flag = end_of_the_kivotos_alliance }
+		}
+
+		target_trigger = {
+			ROOT = {
+				tag = global.kivotos_alliance_leader
+			}
+			FROM = {
+				is_in_array = {
+					array = global.kivotos_alliance
+					value = PREV
+				}
+				has_rule = can_join_factions
+				is_puppet = no
+				exists = yes
+			}
+		}
+
+		fire_only_once = yes
+
+		cost = 25
+
+		complete_effect = {
+			FROM = {
+				country_event = { id = generic.5 hours = 8 }
+			}
+		}
+	}
+}
+economy_decisions = {
+    BA_decisions_railway_improvement = {
+		icon = GFX_decision_generic_construction
+		ai_will_do = {
+			factor = 4000
+		}
+
+    	available = {
+    	}
+		visible = {
+			has_idea = BA_railway_gauge_issue
+		}
+		
+		cost = 15
+
+		days_remove = 70
+
+		days_re_enable = 70
+
+		modifier = {
+			consumer_goods_factor = 0.05
+		}
+
+		remove_effect = {
+			modify_timed_idea = {
+				idea = BA_railway_gauge_issue
+				days = -365
 			}
 		}
 	}
