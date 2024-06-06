@@ -84,6 +84,7 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			add_political_power = 120
 			add_popularity = {
 				ideology = democratic
 				popularity = -0.10
@@ -303,7 +304,7 @@ focus_tree = {
 					
 		}
 		completion_reward = {
-			add_political_power = 120
+			add_political_power = 60
 			add_one_random_civilian_factory = yes
 			add_popularity = {
 				ideology = democratic
@@ -559,6 +560,296 @@ focus_tree = {
 				add_country_leader_trait = COU_new_dictator
 			}
 			COU_cut_tower_down_effect = yes
+		}
+	}
+
+	focus = { #비상 체제
+		id = COU_emergency_system
+		icon = GFX_COU_create_military
+		prerequisite = { focus = COU_normalization_of_administration }
+		mutually_exclusive = { focus = COU_stabilization_of_the_student_council focus = COU_establishment_of_autonomous_system }
+		x = -10
+		y = 1
+		relative_position_id = COU_normalization_of_administration
+		cost = 10
+		available = {
+			fascism > 0.40
+		}
+		bypass = {
+			has_government = fascism
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			set_politics = {
+				ruling_party = fascism
+			}
+		}
+	}
+
+	focus = { #총학생회의 안정
+		id = COU_stabilization_of_the_student_council
+		icon = GFX_focus_ARG_strengthening_the_concordancia
+		prerequisite = { focus = COU_normalization_of_administration }
+		mutually_exclusive = { focus = COU_emergency_system focus = COU_establishment_of_autonomous_system }
+		x = 0
+		y = 1
+		relative_position_id = COU_normalization_of_administration
+		cost = 5
+		available = {
+			communism < 0.20
+			fascism < 0.20
+		}
+		bypass = {
+			OR = {
+				has_government = democratic
+				has_government = neutrality
+			}
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			add_political_power = 30
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.10
+			}
+		}
+	}
+
+	focus = { #자치 제도 확립
+		id = COU_establishment_of_autonomous_system
+		icon = GFX_focus_SWE_urbanization
+		prerequisite = { focus = COU_normalization_of_administration }
+		mutually_exclusive = { focus = COU_emergency_system focus = COU_stabilization_of_the_student_council }
+		x = 10
+		y = 1
+		relative_position_id = COU_normalization_of_administration
+		cost = 10
+		available = {
+			communism > 0.40
+		}
+		bypass = {
+			has_government = communism
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			set_politics = {
+				ruling_party = communism
+			}
+		}
+	}
+
+	focus = { #권한대행 탄핵
+		id = COU_impeachment_of_chief_executive
+		icon = GFX_COU_choice_AOI
+		prerequisite = { focus = COU_stabilization_of_the_student_council }
+		mutually_exclusive = { focus = COU_student_council_amendment }
+		x = -1
+		y = 1
+		relative_position_id = COU_stabilization_of_the_student_council
+		cost = 5
+		available = {
+			neutrality > 0.40
+		}
+		bypass = {
+			has_government = neutrality
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			set_politics = {
+				ruling_party = neutrality
+			}
+		}
+	}
+
+	focus = { #학생회 개정안
+		id = COU_student_council_amendment
+		icon = GFX_COU_choice_RIN
+		prerequisite = { focus = COU_stabilization_of_the_student_council }
+		mutually_exclusive = { focus = COU_impeachment_of_chief_executive }
+		x = 1
+		y = 1
+		relative_position_id = COU_stabilization_of_the_student_council
+		cost = 5
+		available = {
+			democratic > 0.40
+		}
+		bypass = {
+			has_government = democratic
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			set_politics = {
+				ruling_party = democratic
+			}
+		}
+	}
+
+	focus = { #주권법
+		id = COU_autonomous_legislation
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		prerequisite = { focus = COU_establishment_of_autonomous_system }
+		x = 0
+		y = 1
+		relative_position_id = COU_establishment_of_autonomous_system
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #행정위원회에 노동조합 등용
+		id = COU_inclusion_of_union_in_administrative_committee
+		icon = GFX_focus_por_workers_of_iberia
+		prerequisite = { focus = COU_autonomous_legislation }
+		x = 0
+		y = 2
+		relative_position_id = COU_establishment_of_autonomous_system
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #학생회 물류 통제
+		id = COU_logistics_control_of_student_council
+		icon = GFX_goal_generic_neutrality_focus
+		prerequisite = { focus = COU_inclusion_of_union_in_administrative_committee }
+		mutually_exclusive = { focus = COU_resignation_of_acting_authority }
+		x = 0
+		y = 3
+		relative_position_id = COU_establishment_of_autonomous_system
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #권한대행 사퇴
+		id = COU_resignation_of_acting_authority
+		icon = GFX_focus_generic_soviet_politics
+		prerequisite = { focus = COU_inclusion_of_union_in_administrative_committee }
+		mutually_exclusive = { focus = COU_logistics_control_of_student_council }
+		x = 2
+		y = 3
+		relative_position_id = COU_establishment_of_autonomous_system
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #물류 운송망 복원
+		id = COU_restoration_of_logistics_network
+		icon = GFX_goal_generic_railroad
+		prerequisite = { focus = COU_establishment_of_autonomous_system focus = COU_student_council_amendment focus = COU_impeachment_of_chief_executive }
+		x = -4
+		y = 2
+		relative_position_id = COU_establishment_of_autonomous_system
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #하이랜더와 연계
+		id = COU_coordination_with_highlander
+		icon = GFX_focus_generic_railroad
+		prerequisite = { focus = COU_restoration_of_logistics_network }
+		x = -1
+		y = 1
+		relative_position_id = COU_restoration_of_logistics_network
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #유로-키보토스 고속도로
+		id = COU_euro_kivotos_highway
+		icon = GFX_goal_generic_road_construction
+		prerequisite = { focus = COU_restoration_of_logistics_network }
+		x = 1
+		y = 1
+		relative_position_id = COU_restoration_of_logistics_network
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
 		}
 	}
 }
