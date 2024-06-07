@@ -806,6 +806,71 @@ BA_kivotos_school_country_category = {
 			production_speed_buildings_factor = 0.10
 		}
 	}
+    BA_decisions_withdrawal_from_cooperation_organization = {
+
+		icon = GFX_decision_oppression
+
+		ai_will_do = {
+			factor = 40
+			modifier = {
+				var:global.kivotos_alliance_leader = {
+					NOT = {
+						has_government = communism
+					}
+				}
+				has_government = communism
+				factor = 1.2
+			}
+			modifier = {
+				var:global.kivotos_alliance_leader = {
+					NOT = {
+						has_government = fascism
+					}
+				}
+				has_government = fascism
+				factor = 2.5
+			}
+			modifier = {
+				has_government = var:global.kivotos_alliance_leader
+				factor = 0
+			}
+		}
+
+		cost = 100
+
+		visible = {
+			NOT = { tag = global.kivotos_alliance_leader }
+			is_in_array = {
+				array = global.kivotos_alliance
+				value = THIS
+			}
+			NOT = { has_global_flag = end_of_the_kivotos_alliance }
+		}
+
+		available = {
+			OR = {
+				threat > 0.25
+				has_war_with = var:global.kivotos_alliance_leader
+			}
+		}
+
+		complete_effect = {
+			if = {
+				limit =  {
+					is_in_array = {
+						array = global.kivotos_alliance
+						value = ROOT
+					}
+				}
+				custom_effect_tooltip = BA_kivotos_alliance_remove_to_ROOT
+				remove_from_array = {
+					array = global.kivotos_alliance
+					value = ROOT
+				}
+				news_event = { id = BA_news.87  hours = 12 }
+			}
+		}
+	}
 	BA_decisions_goverment_target = {
 
 		icon = generic_political_rally
