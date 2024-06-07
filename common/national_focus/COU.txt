@@ -965,7 +965,7 @@ focus_tree = {
 		x = 1
 		y = 1
 		relative_position_id = COU_popular_politics
-		cost = 5
+		cost = 10
 		available = {
 		}
 		bypass = {
@@ -976,6 +976,7 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			add_political_power = 120
 		}
 	}
 
@@ -1004,7 +1005,7 @@ focus_tree = {
 		id = COU_restoration_of_parliamentary_politics
 		icon = GFX_focus_ARG_defense_and_democracy
 		prerequisite = { focus = COU_passage_of_labor_law }
-		mutually_exclusive = { focus = COU_destruction_of_labor_union }
+		mutually_exclusive = { focus = COU_destruction_of_labor_union focus = COU_representative_labor_union_law }
 		x = 1
 		y = 3
 		relative_position_id = COU_popular_politics
@@ -1019,9 +1020,29 @@ focus_tree = {
 					
 		}
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = COU_autonomous_legislation_idea
-				add_idea = COU_restoration_of_parliamentary_politics_idea
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = COU_autonomous_legislation_idea
+					add_idea = COU_restoration_of_parliamentary_politics_idea
+				}
+			}
+			hidden_effect = {
+				if = { limit = { has_idea = COU_autonomous_legislation_idea }
+					remove_ideas = COU_autonomous_legislation_idea
+				}
+				if = { limit = { has_idea = COU_workers_republic_idea }
+					remove_ideas = COU_workers_republic_idea
+				}
+				if = { limit = { has_idea = COU_restoration_of_parliamentary_politics_idea }
+					remove_ideas = COU_restoration_of_parliamentary_politics_idea
+				}
+				if = { limit = { has_idea = COU_representative_labor_union_law_idea }
+					remove_ideas = COU_representative_labor_union_law_idea
+				}
+				if = { limit = { has_idea = COU_destruction_of_labor_union_idea }
+					remove_ideas = COU_destruction_of_labor_union_idea
+				}
+				add_ideas = COU_restoration_of_parliamentary_politics_idea
 			}
 			set_party_name = {
 				ideology = democratic
@@ -1114,13 +1135,37 @@ focus_tree = {
 		}
 		completion_reward = {
 			set_cosmetic_tag = COU_go_to_left_center
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = COU_autonomous_legislation_idea
+					add_idea = COU_workers_republic_idea
+				}
+			}
+			hidden_effect = {
+				if = { limit = { has_idea = COU_autonomous_legislation_idea }
+					remove_ideas = COU_autonomous_legislation_idea
+				}
+				if = { limit = { has_idea = COU_workers_republic_idea }
+					remove_ideas = COU_workers_republic_idea
+				}
+				if = { limit = { has_idea = COU_restoration_of_parliamentary_politics_idea }
+					remove_ideas = COU_restoration_of_parliamentary_politics_idea
+				}
+				if = { limit = { has_idea = COU_representative_labor_union_law_idea }
+					remove_ideas = COU_representative_labor_union_law_idea
+				}
+				if = { limit = { has_idea = COU_destruction_of_labor_union_idea }
+					remove_ideas = COU_destruction_of_labor_union_idea
+				}
+				add_ideas = COU_workers_republic_idea
+			}
 		}
 	}
 
 	focus = { #모스크바 추종
 		id = COU_moscow_allegiance
 		icon = GFX_focus_SOV_third_rome
-		prerequisite = { focus = COU_workers_republic }
+		prerequisite = { focus = COU_leftward_shift focus = COU_honorary_student_council_president }
 		mutually_exclusive = { focus = COU_council_communism }
 		x = -2
 		y = 1
@@ -1149,12 +1194,79 @@ focus_tree = {
 		}
 	}
 
-	focus = { #평의회 공산주의
+	focus = { #노조대표법
+		id = COU_representative_labor_union_law
+		icon = GFX_focus_usa_union_representation_act
+		prerequisite = { focus = COU_passage_of_labor_law focus = COU_moscow_allegiance }
+		mutually_exclusive = { focus = COU_destruction_of_labor_union focus = COU_restoration_of_parliamentary_politics }
+		x = 3
+		y = 2
+		relative_position_id = COU_passage_of_labor_law
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			set_country_leader_ideology = syndicalism
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = COU_workers_republic_idea
+					add_idea = COU_representative_labor_union_law_idea
+				}
+			}
+			hidden_effect = {
+				if = { limit = { has_idea = COU_autonomous_legislation_idea }
+					remove_ideas = COU_autonomous_legislation_idea
+				}
+				if = { limit = { has_idea = COU_workers_republic_idea }
+					remove_ideas = COU_workers_republic_idea
+				}
+				if = { limit = { has_idea = COU_restoration_of_parliamentary_politics_idea }
+					remove_ideas = COU_restoration_of_parliamentary_politics_idea
+				}
+				if = { limit = { has_idea = COU_representative_labor_union_law_idea }
+					remove_ideas = COU_representative_labor_union_law_idea
+				}
+				if = { limit = { has_idea = COU_destruction_of_labor_union_idea }
+					remove_ideas = COU_destruction_of_labor_union_idea
+				}
+				add_ideas = COU_representative_labor_union_law_idea
+			}
+			set_party_name = {
+				ideology = democratic
+				long_name = COU_momoka_4_democratic_party_long
+				name = COU_momoka_3_democratic_party
+			}
+			set_party_name = {
+				ideology = communism
+				long_name = COU_momoka_4_communism_party_long
+				name = COU_momoka_4_communism_party
+			}
+			set_party_name = {
+				ideology = fascism
+				long_name = COU_momoka_4_fascism_party_long
+				name = COU_momoka_4_fascism_party
+			}
+			set_party_name = {
+				ideology = neutrality
+				long_name = COU_momoka_4_neutrality_party_long
+				name = COU_momoka_4_neutrality_party
+			}
+		}
+	}
+
+	focus = { #평의회주의 수용
 		id = COU_council_communism
 		icon = GFX_focus_SWE_socialist_reforms
 		prerequisite = { focus = COU_workers_republic }
 		mutually_exclusive = { focus = COU_moscow_allegiance }
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = COU_workers_republic
 		cost = 5
@@ -1177,7 +1289,7 @@ focus_tree = {
 		id = COU_destruction_of_labor_union
 		icon = GFX_focus_spr_class_war
 		prerequisite = { focus = COU_council_communism }
-		mutually_exclusive = { focus = COU_restoration_of_parliamentary_politics }
+		mutually_exclusive = { focus = COU_representative_labor_union_law focus = COU_restoration_of_parliamentary_politics }
 		x = 0
 		y = 1
 		relative_position_id = COU_council_communism
@@ -1193,6 +1305,30 @@ focus_tree = {
 		}
 		completion_reward = {
 			set_cosmetic_tag = COU_go_to_left_left
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = COU_workers_republic_idea
+					add_idea = COU_destruction_of_labor_union_idea
+				}
+			}
+			hidden_effect = {
+				if = { limit = { has_idea = COU_autonomous_legislation_idea }
+					remove_ideas = COU_autonomous_legislation_idea
+				}
+				if = { limit = { has_idea = COU_workers_republic_idea }
+					remove_ideas = COU_workers_republic_idea
+				}
+				if = { limit = { has_idea = COU_restoration_of_parliamentary_politics_idea }
+					remove_ideas = COU_restoration_of_parliamentary_politics_idea
+				}
+				if = { limit = { has_idea = COU_representative_labor_union_law_idea }
+					remove_ideas = COU_representative_labor_union_law_idea
+				}
+				if = { limit = { has_idea = COU_destruction_of_labor_union_idea }
+					remove_ideas = COU_destruction_of_labor_union_idea
+				}
+				add_ideas = COU_destruction_of_labor_union_idea
+			}
 			if = { limit = { has_country_leader = { character = COU_council_democracy } }
 				promote_character = COU_council_democracy
 			}
@@ -1231,6 +1367,50 @@ focus_tree = {
 				ideology = neutrality
 				long_name = COU_momoka_3_neutrality_party_long
 				name = COU_momoka_3_neutrality_party
+			}
+			every_country = { 
+				limit = { 
+					has_government = communism 
+					NOT = {
+						tag = ROOT
+						has_country_leader_ideology = left_council_communism
+						has_country_leader_ideology = syndicalism
+						has_country_leader_ideology = anarchist_communism
+						has_country_leader_ideology = The_Colour_communism
+						has_country_leader_ideology = police_communism
+						has_country_leader_ideology = srt_communism
+					}
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = COU_destruction_of_labor_union_communism
+				}
+			}
+			every_country = { 
+				limit = { 
+					NOT = {
+						tag = ROOT
+					}
+					has_government = communism 
+					has_country_leader_ideology = syndicalism
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = COU_destruction_of_labor_union_syndicalism
+				}
+			}
+			every_country = { 
+				limit = { 
+					NOT = {
+						tag = ROOT
+						has_government = communism
+					}
+					is_major = yes
+				}
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = COU_destruction_of_labor_union_none
+				}
 			}
 		}
 	}
