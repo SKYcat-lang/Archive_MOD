@@ -1048,6 +1048,7 @@ focus_tree = {
 
 	focus = { #무상 의료 개시
 		id = COU_initiation_of_free_medical_care
+		text = CHI_free_hospitals
 		icon = GFX_focus_generic_field_hostpital
 		prerequisite = { focus = COU_popular_politics }
 		x = -1
@@ -1064,6 +1065,13 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			add_tech_bonus = {
+				name = CHI_free_hospitals
+				bonus = 1.5
+				uses = 2
+				category = hospital_tech
+			}
+			add_ideas = COU_free_medical_care
 		}
 	}
 
@@ -1178,12 +1186,74 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_stability = -0.10
+			if = { limit = { has_country_leader = { character = COU_council_democracy } }
+				promote_character = COU_council_democracy
+			}
+			else = {
+				add_country_leader_role = {
+					character = COU_central_labor_union
+					country_leader = {
+						ideology = marxism
+						traits = {
+							COU_central_workers_council_traits
+						}
+					}
+					promote_leader = yes
+				}
+			}
 			add_popularity = {
 				ideology = communism
 				popularity = 0.10
 			}
 			COU_cut_tower_down_effect = yes
 			news_event = { id = BA_news.84 hours = 8 }
+		}
+	}
+
+	focus = { #키보토스 연합 확대
+		id = COU_expansion_of_kivotos_alliance
+		icon = GFX_goal_anschluss
+		prerequisite = { focus = COU_honorary_student_council_president }
+		mutually_exclusive = { focus = COU_moscow_allegiance }
+		x = 1
+		y = 2
+		relative_position_id = COU_honorary_student_council_president
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			set_country_flag = BA_decisions_defensive_join_target_flag
+			custom_effect_tooltip = SHE_yeonhabhyeonsilhwa_tt
+		}
+	}
+
+	focus = { #학생회 안정화
+		id = COU_stabilization_of_student_council
+		icon = GFX_focus_spa_the_spanish_miracle
+		prerequisite = { focus = COU_honorary_student_council_president }
+		x = 0
+		y = 1
+		relative_position_id = COU_honorary_student_council_president
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			add_stability = 0.10
+			COU_cut_tower_down_effect = yes
 		}
 	}
 
@@ -1235,6 +1305,7 @@ focus_tree = {
 				}
 				add_ideas = COU_workers_republic_idea
 			}
+			COU_cut_tower_down_effect = yes
 		}
 	}
 
@@ -1242,7 +1313,7 @@ focus_tree = {
 		id = COU_moscow_allegiance
 		icon = GFX_focus_SOV_third_rome
 		prerequisite = { focus = COU_leftward_shift focus = COU_honorary_student_council_president }
-		mutually_exclusive = { focus = COU_council_communism }
+		mutually_exclusive = { focus = COU_council_communism focus = COU_expansion_of_kivotos_alliance }
 		x = -2
 		y = 1
 		relative_position_id = COU_workers_republic
