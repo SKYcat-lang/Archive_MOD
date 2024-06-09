@@ -463,6 +463,9 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = ABY_new_tt_18
 			set_country_flag = ABY_flag_german_resistance_1
+			74 = {
+				set_demilitarized_zone = yes
+			}
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -634,7 +637,7 @@ focus_tree = {
 					militia = { x = 0 y = 1 }
 					militia = { x = 0 y = 2 }
 					militia = { x = 1 y = 0 }
-					militia = { x = 1 y = 1 }
+					militia = { x = 1 y = 1 } 
 					militia = { x = 1 y = 2 }
 				}
 			}
@@ -726,6 +729,7 @@ focus_tree = {
 						}
 					}
 				}
+				74 = { transfer_state_to = HYA }
 			}
 			#중점 완료시 얻는 보상
 		}
@@ -1217,6 +1221,12 @@ focus_tree = {
 				remove_idea = ABY_idea_no_command_3
 				add_idea = ABY_idea_no_command_4
 			}
+			hidden_effect = {
+				country_event = {
+					id = ABY_new_event.110
+					days = 14
+				}
+			}
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -1323,11 +1333,11 @@ focus_tree = {
 			has_full_control_of_state = 848
 			has_full_control_of_state = 984
 			has_full_control_of_state = 4
-			152 = { compliance > 25 }
-			153 = { compliance > 25 }
-			848 = { compliance > 25 }
-			984 = { compliance > 25 }
-			4 = { compliance > 25 }
+			152 = { compliance > 35 }
+			153 = { compliance > 35 }
+			848 = { compliance > 35 }
+			984 = { compliance > 35 }
+			4 = { compliance > 35 }
 			#중점 선행조건
 		}
 
@@ -1441,8 +1451,8 @@ focus_tree = {
 		available = {
 			has_full_control_of_state = 70
 			has_full_control_of_state = 71
-			70 = { compliance > 25 }
-			71 = { compliance > 25 }
+			70 = { compliance > 35 }
+			71 = { compliance > 35 }
 			#중점 선행조건
 		}
 
@@ -1816,11 +1826,23 @@ focus_tree = {
 			#중점 통과 조건
 		}
 		available = {
-			has_country_flag = ABY_flag_helicopter#중점 선행조건
+			has_idea = ABY_idea_abydos_research
+			#중점 선행조건
 		}
 
 		completion_reward = {
 			set_technology = { kivotos_helicopter_tech = 1 }
+			create_equipment_variant = {
+				name = "Water Cloud Gunship"
+				type = helicopter_airframe_0
+				parent_version = 0
+				modules = {
+					engine_type_slot = helicopter_engine_2
+					special_type_slot_1 = tank_radio_1
+					special_type_slot_2 = tank_auto_cannon 
+					special_type_slot_3 = tank_auto_cannon 
+				}
+			}
 		}
 	}
 	focus = {
@@ -2760,6 +2782,34 @@ focus_tree = {
 				remove_idea = ABY_idea_army_1
 				add_idea = ABY_idea_army_2_1
 			}
+		}
+	}
+	focus = {
+		id = ABY_focus_drone    #중점명
+		icon = GFX_ABY_focus_2      #아이콘
+ 		cost = 10.00          #중점 일수(주)
+		search_filters = {
+			#중점의 타입
+		}
+		prerequisite = {
+			focus = ABY_focus_attack_doctrine   #이전 중점
+		}
+		mutually_exclusive = {
+			    #반대되는 중점
+		}
+		x = 0      #좌표
+		y = 4
+		relative_position_id = ABY_focus_attack_doctrine
+		bypass = {
+			#중점 통과 조건
+		}
+		available = {
+			has_idea = ABY_idea_abydos_research
+			#중점 선행조건
+		}
+
+		completion_reward = {
+			set_technology = { kivotos_dron_tech = 1 }
 		}
 	}
 	focus = {
@@ -4015,6 +4065,10 @@ focus_tree = {
 				add_idea = ABY_idea_saint_neptis2
 			}
 			set_technology = { railway_gun = 1 }
+			create_railway_gun = {
+				equipment = railway_gun_equipment_1
+				name = "Syemmata class 381/40"
+			}
 		}
 	}
 	focus = {
@@ -5404,12 +5458,6 @@ focus_tree = {
 				ruling_party = democratic
 			}
 			add_stability = 0.15
-			hidden_effect = {
-				country_event = {
-					id = ABY_new_event.110
-					days = 14
-				}
-			}
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -5453,12 +5501,13 @@ focus_tree = {
 			#중점의 타입
 		}
 		prerequisite = {
-			focus = ABY_focus_abydos_schoolcountry   #이전 중점
+			focus = ABY_focus_ennead_keep
+			focus = ABY_focus_ennead_destroy   #이전 중점
 		}
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 0      #좌표
+		x = 1      #좌표
 		y = 2
 		relative_position_id = ABY_focus_abydos_schoolcountry
 		bypass = {
@@ -5784,7 +5833,7 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = -7      #좌표
+		x = 5      #좌표
 		y = 1
 		relative_position_id = ABY_focus_new_way
 		bypass = {
@@ -5799,6 +5848,38 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_research_slot = 1
+			#중점 완료시 얻는 보상
+		}
+	}
+	focus = {
+		id = ABY_focus_retire_hoshino    #중점명
+		icon = GFX_ABY_focus_2      #아이콘
+ 		cost = 10.00          #중점 일수(주)
+		search_filters = {
+			#중점의 타입
+		}
+		prerequisite = {
+			focus = ABY_focus_kivotos_revolution
+			focus = ABY_focus_new_way  #이전 중점
+		}
+		mutually_exclusive = {
+			    #반대되는 중점
+		}
+		x = -7      #좌표
+		y = 1
+		relative_position_id = ABY_focus_new_way
+		bypass = {
+			#중점 통과 조건
+		}
+		available = {
+			#중점 선행조건
+		}
+
+		select_effect = {
+			#중점 시작시 얻는 보상
+		}
+		completion_reward = {
+			add_country_leader_trait = ABY_trait_school_leader_2
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -5848,7 +5929,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_soviet_revolution   #중점명
-		#icon = GFX_ABY_focus_2      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 10.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -5878,6 +5959,12 @@ focus_tree = {
 		completion_reward = {
 			add_stability = 0.05
 			add_war_support = 0.1
+			SOV = {
+				add_opinion_modifier = {
+					target = ABY
+					modifier = HUN_SOV_good
+				}
+			}
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -6413,8 +6500,7 @@ focus_tree = {
 			#중점의 타입
 		}
 		prerequisite = {
-			focus = ABY_focus_kivotos_revolution
-			focus = ABY_focus_rmrdnbk  #이전 중점
+			focus = ABY_focus_kivotos_revolution  #이전 중점
 		}
 		mutually_exclusive = {
 			    #반대되는 중점
@@ -6640,29 +6726,34 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			every_country = {
-				limit = {
-					AND = {
-						OR = {
-							original_tag = TRM
-							original_tag = MIL
-							original_tag = ARI
-							original_tag = RED
-							original_tag = GEH
-							original_tag = GEM
-							original_tag = SRT
-							original_tag = SHA
-							original_tag = SHE
-							original_tag = HYA
-							original_tag = KSP
-							original_tag = HEU
+			custom_effect_tooltip = ABY_xhdgkqwndml_dusqkdrnrrk_tt
+			hidden_effect = {
+				every_country = {
+					limit = {
+						AND = {
+							OR = {
+								original_tag = TRM
+								original_tag = MIL
+								original_tag = ARI
+								original_tag = RED
+								original_tag = GEH
+								original_tag = GEM
+								original_tag = SRT
+								original_tag = SHA
+								original_tag = SHE
+								original_tag = HYA
+								original_tag = KSP
+								original_tag = HEU
+							}
+							is_puppet_of = ABY
 						}
-						is_puppet_of = ABY
 					}
-				}
-				annex_country = {
-					target = PREV
-					transfer_troops = yes
+					ABY = {
+						annex_country = {
+							target = PREV
+							transfer_troops = yes
+						}
+					}
 				}
 			}
 			set_cosmetic_tag = ABY_UNION
@@ -6832,7 +6923,7 @@ focus_tree = {
 				long_name = ABY_fascism_student_party
 				name = ABY_fascism_student_party
 			}
-			promote_character = ABYDO_Hoshino_2
+			promote_character = ABYDO_Hoshino
 			if = {
 				limit = {
 					has_idea = ABY_idea_eocordnldnjsghl
@@ -7641,7 +7732,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_kivotos_revolution   #중점명
-		#icon = GFX_ABY_focus_2      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 10.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -7662,6 +7753,11 @@ focus_tree = {
 			#중점 통과 조건
 		}
 		available = {
+			RED = {
+				NOT = {
+					has_completed_focus = RED_dipose_cherino
+				}
+			}
 			#중점 선행조건
 		}
 
@@ -7671,12 +7767,18 @@ focus_tree = {
 		completion_reward = {
 			add_stability = 0.05
 			add_war_support = 0.1
+			RED = {
+				add_opinion_modifier = {
+					target = ABY
+					modifier = HUN_SOV_good
+				}
+			}
 			#중점 완료시 얻는 보상
 		}
 	}
 	focus = {
 		id = ABY_focus_accept_redwinter   #중점명
-		#icon = GFX_ABY_focus_2      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -7701,6 +7803,11 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
+			RED = {
+				country_event = {
+					id = ABY_new_event.129
+				}
+			}
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -7962,7 +8069,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_revolution_unite   #중점명
-		#icon = GFX_ABY_focus_2      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -7987,43 +8094,43 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			every_country = {
-				limit = {
-					AND = {
-						OR = {
-							original_tag = TRM
-							original_tag = MIL
-							original_tag = ARI
-							original_tag = RED
-							original_tag = GEH
-							original_tag = GEM
-							original_tag = SRT
-							original_tag = SHA
-							original_tag = SHE
-							original_tag = HYA
-							original_tag = KSP
-							original_tag = HEU
+			custom_effect_tooltip = ABY_revolution_unite_tt
+			hidden_effect = {
+				every_country = {
+					limit = {
+						AND = {
+							OR = {
+								original_tag = TRM
+								original_tag = MIL
+								original_tag = ARI
+								original_tag = RED
+								original_tag = GEH
+								original_tag = GEM
+								original_tag = SRT
+								original_tag = SHA
+								original_tag = SHE
+								original_tag = HYA
+								original_tag = KSP
+								original_tag = HEU
+							}
+							is_puppet_of = ABY
 						}
-						is_puppet_of = ABY
+					}
+					ABY = {
+						set_autonomy = {
+							target = PREV
+							autonomy_state = autonomy_integrated_puppet
+						}
 					}
 				}
-				annex_country = {
-					target = PREV
-					transfer_troops = yes
-				}
-				ABY = {
-					set_autonomy = {
-						target = PREV
-						autonomy_state = autonomy_integrated_puppet
-					}
-				}
+
 			}
 			#중점 완료시 얻는 보상
 		}
 	}
 	focus = {
 		id = ABY_focus_xhdgkqwndml_dusqkdrnrrk   #중점명
-		#icon = GFX_ABY_focus_2      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -8048,29 +8155,34 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			every_country = {
-				limit = {
-					AND = {
-						OR = {
-							original_tag = TRM
-							original_tag = MIL
-							original_tag = ARI
-							original_tag = RED
-							original_tag = GEH
-							original_tag = GEM
-							original_tag = SRT
-							original_tag = SHA
-							original_tag = SHE
-							original_tag = HYA
-							original_tag = KSP
-							original_tag = HEU
+			custom_effect_tooltip = ABY_xhdgkqwndml_dusqkdrnrrk_tt
+			hidden_effect = {
+				every_country = {
+					limit = {
+						AND = {
+							OR = {
+								original_tag = TRM
+								original_tag = MIL
+								original_tag = ARI
+								original_tag = RED
+								original_tag = GEH
+								original_tag = GEM
+								original_tag = SRT
+								original_tag = SHA
+								original_tag = SHE
+								original_tag = HYA
+								original_tag = KSP
+								original_tag = HEU
+							}
+							is_puppet_of = ABY
 						}
-						is_puppet_of = ABY
 					}
-				}
-				annex_country = {
-					target = PREV
-					transfer_troops = yes
+					ABY = {
+						annex_country = {
+							target = PREV
+							transfer_troops = yes
+						}
+					}
 				}
 			}
 			#중점 완료시 얻는 보상
@@ -8078,7 +8190,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_united_economy   #중점명
-		#icon = GFX_ABY_focus_2      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 10.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -8104,6 +8216,14 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
+			every_country = {
+				limit = {
+					is_in_faction_with = ABY
+				}
+				add_ideas = {
+					ABY_idea_kivotos_economy
+				}
+			}
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -8161,6 +8281,15 @@ focus_tree = {
 				153 = { add_core_of = ABY }
 				152 = { add_core_of = ABY }
 				848 = { add_core_of = ABY }
+			}
+			add_country_leader_role = {
+				character = ABYDO_ayane
+				promote_leader = yes
+				country_leader = {
+					ideology = Cohabitism
+					expire = "1965.1.1.1"
+					traits = { ABY_trait_school_leader }
+				}
 			}
 			#중점 완료시 얻는 보상
 		}
@@ -8227,8 +8356,8 @@ focus_tree = {
 		completion_reward = {
 			set_party_name = {
 				ideology = fascism
-    			long_name = ABY_neutrality_party_2
-    			name = ABY_neutrality_party_2
+    			long_name = ABY_fascism_student_party
+    			name = ABY_fascism_student_party
 			}
 			add_stability = 0.1
 			add_war_support = 0.1
@@ -8237,14 +8366,8 @@ focus_tree = {
 				ruling_party = fascism
 			}
 			set_cosmetic_tag = ABY_empire_2
-			add_country_leader_role = {
-				character = ABYDO_Hoshino
-				promote_leader = yes
-				country_leader = {
-					ideology = falangism
-					expire = "1965.1.1.1"
-					traits = { ABY_trait_empire_star }
-				}
+			country_event = {
+				id = ABY_new_event.143
 			}
 			#중점 완료시 얻는 보상
 		}
@@ -8775,13 +8898,12 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = ABY_focus_shiroko
-			focus = ABY_focus_serika
-			focus = ABY_focus_great_emperor   #이전 중점
+			focus = ABY_focus_serika   #이전 중점
 		}
 		mutually_exclusive = {
 			   #반대되는 중점
 		}
-		x = -4      #좌표
+		x = 3      #좌표
 		y = 1
 		relative_position_id = ABY_focus_shiroko
 		bypass = {
@@ -8850,7 +8972,26 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_country_leader_trait = ABY_trait_great_emperor
+			if = {
+				limit = {
+    			    has_country_leader = {
+    			        character = ABYDO_Hoshino
+    			        ruling_only = yes
+    			    }
+				}
+				add_country_leader_trait = ABY_trait_great_emperor
+			}
+			if = {
+				limit = {
+    			    has_country_leader = {
+    			        character = ABYDO_Yume
+    			        ruling_only = yes
+    			    }
+				}
+				remove_country_leader_trait = ABY_trait_yume_1
+				add_country_leader_trait = ABY_trait_yume_2
+			}
+			
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -8894,16 +9035,14 @@ focus_tree = {
 			#중점의 타입
 		}
 		prerequisite = {
-			focus = ABY_focus_shiroko
-			focus = ABY_focus_serika
-			focus = ABY_focus_great_emperor   #이전 중점
+			focus = ABY_focus_rnrrkdusaod   #이전 중점
 		}
 		mutually_exclusive = {
 			   #반대되는 중점
 		}
-		x = 5      #좌표
+		x = 0      #좌표
 		y = 1
-		relative_position_id = ABY_focus_great_emperor
+		relative_position_id = ABY_focus_rnrrkdusaod
 		bypass = {
 			#중점 통과 조건
 		}
@@ -8947,7 +9086,7 @@ focus_tree = {
 		mutually_exclusive = {
 			   #반대되는 중점
 		}
-		x = -1      #좌표
+		x = 0      #좌표
 		y = 2
 		relative_position_id = ABY_focus_will_of_horus
 		bypass = {
@@ -8977,7 +9116,7 @@ focus_tree = {
 		mutually_exclusive = {
 			   #반대되는 중점
 		}
-		x = -2      #좌표
+		x = -1      #좌표
 		y = 1
 		relative_position_id = ABY_focus_will_of_horus
 		bypass = {
@@ -9028,6 +9167,9 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = ABY_focus_great_emperor   #이전 중점
+		}
+		prerequisite = {
+			focus = ABY_focus_will_of_horus   #이전 중점
 		}
 		x = -2      #좌표
 		y = 2
@@ -9903,8 +10045,12 @@ focus_tree = {
 				name = ABY_olomoutz
 			}
 			swap_ideas = {
-				remove_idea = ABY_idea_no_command_4
+				remove_idea = ABY_idea_no_command_6
 				add_idea = ABY_idea_no_command_4_1
+			}
+			ABY = {
+				set_rule = { can_create_factions = yes }
+				create_faction = ABY_united_frontline
 			}
 			#중점 완료시 얻는 보상
 		}
@@ -9966,10 +10112,6 @@ focus_tree = {
 		}
 		completion_reward = {
 			#중점 완료시 얻는 보상
-			ABY = {
-				set_rule = { can_create_factions = yes }
-				create_faction = ABY_united_frontline
-			}
 			every_country = {
 				limit = {
 					is_in_faction_with = ABY
@@ -10055,7 +10197,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_lichtenstein_negotiate   #중점명
-		icon = GFX_ABY_focus_1      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -10147,7 +10289,8 @@ focus_tree = {
 			#중점의 타입
 		}
 		prerequisite = {
-			focus = ABY_focus_donau_front  #이전 중점
+			focus = ABY_focus_donau_front
+			focus = ABY_focus_abydos_federal_republic  #이전 중점
 		}
 		mutually_exclusive = {
 			#반대되는 중점
@@ -10199,7 +10342,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_united_front   #중점명
-		#icon = GFX_      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -10227,12 +10370,18 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
+			POL = {
+				country_event = {
+					id = ABY_new_event.53
+					hours = 8
+				}
+			}
 			#중점 완료시 얻는 보상
 		}
 	}
 	focus = {
 		id = ABY_focus_ask_poland_unify   #중점명
-		#icon = GFX_      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 10.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -10245,6 +10394,9 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = ABY_focus_east_how  #이전 중점
+		}
+		prerequisite = {
+			focus = ABY_focus_donau_front  #이전 중점
 		}
 		x = -1      #좌표
 		y = 1
@@ -10260,6 +10412,12 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
+			POL = {
+				country_event = {
+					id = ABY_new_event.91
+					hours = 8
+				}
+			}
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -10421,7 +10579,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_invite_democratic   #중점명
-		#icon = GFX_ABY_focus_2      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -10462,7 +10620,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_invite_balkan   #중점명
-		#icon = GFX_ABY_focus_2      #아이콘
+		icon = GFX_ABY_focus_2      #아이콘
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
