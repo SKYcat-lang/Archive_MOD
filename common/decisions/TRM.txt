@@ -2532,7 +2532,7 @@ TRM_Iron_Sword_Operations_Categorie = {
 	}
 	TRM_Iron_Sword_decision_search_up = {
 
-		icon = GFX_decision_generic_prepare_civil_war
+		icon = GFX_decision_generic_operation
 
 		visible = {
 			has_country_flag = TRM_Iron_Sword_Operations_flag
@@ -2602,7 +2602,7 @@ TRM_Iron_Sword_Operations_Categorie = {
 	}
 	TRM_Iron_Sword_decision_idea_down = {
 
-		icon = GFX_decision_onmap_recruit_operative
+		icon = GFX_decision_generic_police_action
 
 		visible = {
 			has_country_flag = TRM_Iron_Sword_Operations_flag
@@ -2632,7 +2632,7 @@ TRM_Iron_Sword_Operations_Categorie = {
         cost = 15
 
 		days_remove = 15
-        days_re_enable = 60 
+        days_re_enable = 120
 		
 		fire_only_once = no
 		
@@ -2642,7 +2642,7 @@ TRM_Iron_Sword_Operations_Categorie = {
 	}
 	TRM_Iron_Sword_decision_time_increases = {
 
-		icon = GFX_decision_eng_trade_unions_support
+		icon = GFX_decision_generic_arrest
 
 		visible = {
 			has_country_flag = TRM_Iron_Sword_Operations_flag
@@ -2671,7 +2671,7 @@ TRM_Iron_Sword_Operations_Categorie = {
         }
 
 		days_remove = 5
-        days_re_enable = 75
+        days_re_enable = 90
         cost = 5
 		
 		fire_only_once = no
@@ -2681,6 +2681,40 @@ TRM_Iron_Sword_Operations_Categorie = {
 				mission = TRN_country_collapse
 				days = 25
 			}
+		}
+	}
+	TRM_Iron_Sword_decision_co_op = {
+
+		icon = GFX_decision_generic_prepare_civil_war
+
+		visible = {
+			has_country_flag = TRM_Iron_Sword_Operations_flag
+            NOT = { has_country_flag = TRM_tail_chasing_flag }
+		}
+		available = {
+		}
+
+		days_remove = 7
+		
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 0
+		}
+        cost = 75
+		
+		remove_effect = {
+            KSP = { 
+                country_event = { id = TRM_ironsword_event.10 } 
+            }
+            custom_effect_tooltip = if_they_accept_tt
+            effect_tooltip = {
+			    custom_effect_tooltip = GEI_Secure_Royal_Blood_decision_search_run_up_tt
+        		add_to_variable = { GEI_Secure_Royal_Blood_Search_var = 10 } #-> 수색
+			    add_to_variable = { GEI_Secure_Royal_Blood_Search_back_var = -10 } #-> 수색 반대
+            }
+            custom_effect_tooltip = if_they_refuse_tt
+            custom_effect_tooltip = NO_EFFECT
 		}
 	}
     TRM_Iron_Sword_Operation_END = {
@@ -2701,9 +2735,46 @@ TRM_Iron_Sword_Operations_Categorie = {
 		}
 		
 		complete_effect = {
-			country_event = { id = TRM_ironsword_event.2 hours = 6 }
+			country_event = { id = TRM_ironsword_event.4 }
 		}
     }
+}
+TRM_story_archive = {
+	TRM_show_story_archive_gui = {
+		icon = generic_operation
+		allowed = {
+			OR = {
+				original_tag = TRM
+			}
+		}
+
+		visible = {
+			ROOT = {
+				check_variable = {
+					story_archive = 0
+				}
+			}
+            has_completed_focus = TMR_serious_situation
+		}
+
+		available = {
+		}
+ 
+		complete_effect = {
+			ROOT = {
+				set_variable = {
+					story_archive = 1			
+				}
+			}
+			BA_storyarchive_openui_effects = yes
+		}
+
+		cost = 0
+
+		ai_will_do = {
+			factor = 0
+		}
+	}
 }
 political_actions = {
 	TRM_surrender = {
@@ -3001,6 +3072,21 @@ debug_decisions = {
 		}
 		complete_effect = {
             complete_national_focus = TRM_balkan_diplomacy
+		}
+    }
+    TRM_auto_focus_last = {
+		priority = 80
+		allowed = {
+			always = yes
+		}
+
+		visible = {
+			is_ai = no
+			is_debug = yes
+            tag = TRM
+		}
+		complete_effect = {
+            complete_national_focus = TMR_serious_situation
 		}
     }
 }
