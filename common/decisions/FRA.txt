@@ -920,140 +920,6 @@ FRA_urbanization = {
 }
 
 FRA_war_dec = { #국민을 위한 전쟁
-	FRA_divison_warning = { #분단 전조
-		icon = GFX_decision_generic_tank
-		allowed = {
-			original_tag = FRA
-		}
-		activation = {
-			always = no
-		}
-		is_good = no
-		available = {
-			always = no
-		}
-		
-		fire_only_once = yes
-		days_mission_timeout = 60
-		timeout_effect = {
-			hidden_effect = {
-				FRA = {
-					country_event = FRA_prov_event.77
-				}
-				MIL = {
-					country_event = FRA_prov_event.77
-					
-				}
-			}
-		}
-	}
-	FRA_division = {
-		#프랑스 분단
-		icon = GFX_decision_generic_tank
-		allowed = {
-			original_tag = FRA
-		}
-		activation = {
-			always = no
-		}
-		available = {
-			OR = {
-				FRA = {
-					NOT = {
-						has_war_with = MIL
-					}
-				}
-				MIL = {
-					has_capitulated = yes
-				}
-			}
-		}
-		is_good = no
-		days_mission_timeout = 360
-		complete_effect = {
-			add_political_power = 30
-		}
-		timeout_effect = {
-			if = {
-				limit = {
-					any_core_state = {
-						is_on_continent = europe
-						NOT = {
-							state = 1
-						}
-						FRA = {	
-							has_full_control_of_state = prev
-						}
-					}
-				}
-				white_peace = MIL
-			every_country = {
-				limit = {
-					is_ally_with = MIL
-					is_faction_leader = yes
-				}
-				FRA = {
-					white_peace = PREV
-				}
-			}
-			FRM = {
-				white_peace = MIL
-			}
-			FRA = {
-				transfer_state = 26
-				transfer_state = 20
-				transfer_state = 32
-				transfer_state = 980
-				transfer_state = 21
-				transfer_state = 851
-				transfer_state = 22
-				transfer_state = 25
-				transfer_state = 31
-				transfer_state = 19
-				transfer_state = 806
-			}
-			else = {
-				custom_effect_tooltip = FRA_division_decision_tt
-			}
-			if = {
-				limit = {
-					MIL = {
-						is_in_faction = yes
-						is_faction_leader = no
-					}
-				}
-				leave_faction = yes
-			}
-			if = {
-				limit = {
-					FRA = {
-						is_in_faction = yes
-						is_faction_leader = no
-					}
-				}
-				leave_faction = yes
-			}
-			hidden_effect = {
-				MIL = {
-					transfer_state = 23
-					transfer_state = 27
-					transfer_state = 24
-				}
-				news_event = {
-					id = BA_news.20
-					days = 5
-				}
-				FRA = {
-					set_capital = {
-						state = 21
-					}
-				}
-				set_country_flag = FRA_division_flag
-			}
-			}
-		}
-		fire_only_once = yes
-	}
 	FRA_across_mid = {
 		icon = GFX_decision_generic_ignite_civil_war
 		cost = 100
@@ -1323,15 +1189,6 @@ FRA_war_dec = { #국민을 위한 전쟁
 			}
 			news_event = FRA_prov_event.41
 			add_political_power = 30
-			if = {
-				limit = {
-					has_idea = FRA_front_stuck
-				}
-				add_days_mission_timeout = {
-					mission = FRA_division
-					days = 60
-				}
-			}
 		}
 		fire_only_once = yes
 		ai_will_do = {
@@ -1991,6 +1848,7 @@ FRA_political_wigi = {
 		fire_only_once = yes
 	}
 	FRA_rebuild_kill_mil_res = { #저항 진압
+		icon = GFX_decision_oppression
 		allowed = {
 			original_tag = FRA
 		}
@@ -2003,7 +1861,7 @@ FRA_political_wigi = {
 			has_completed_focus = FRA_focus_win_3
 		}
 		cost = 30
-		days_remove = 100
+		days_remove = 30
 		days_re_enable = 5
 		remove_effect = {
 			if = {
@@ -3253,60 +3111,6 @@ FRA_exile_gov = {
 		}
 	}
 }
-FRA_division_decision_category = {
-	FRA_division_peace = { #평화주의 선전
-		icon = GFX_decision_hol_exchange_intelligence_data
-		cost = 30
-		days_remove = 20
-		days_re_enable = 20
-		remove_effect = {
-			add_power_balance_value = {
-				id = FRA_div_power_balance
-				value = -0.01
-			}
-			add_war_support = -0.03
-		}
-	}
-	FRA_division_good_peace = { #평화의 실용성 설득
-		icon = GFX_decision_hol_radio_oranje
-		cost = 50
-		days_remove = 20
-		days_re_enable = 50
-		remove_effect = {
-			add_power_balance_value = {
-				id = FRA_div_power_balance
-				value = -0.02
-			}
-			add_war_support = -0.05
-		}
-	}
-	FRA_division_war = { #항전의 의지 각인
-		icon = GFX_decision_generic_civil_support
-		cost = 30
-		days_remove = 20
-		days_re_enable = 20
-		remove_effect = {
-			add_power_balance_value = {
-				id = FRA_div_power_balance
-				value = 0.01
-			}
-			add_stability = -0.03
-		}
-	}
-	FRA_division_good_war = { #프랑스 완전수복론 설파
-		icon = GFX_decision_generic_nationalism
-		cost = 50
-		days_remove = 20
-		days_re_enable = 50
-		remove_effect = {
-			add_power_balance_value = {
-				id = FRA_div_power_balance
-				value = 0.02
-			}
-			add_stability = -0.05
-		}
-	}
-}
 FRA_indochina_issue = {
 	FRA_near_japan_intervention_indochina = { #임박한 일본의 개입
 		days_mission_timeout = 150
@@ -4020,7 +3824,7 @@ FRA_ALG_war= {
 		is_good = no 
 		fire_only_once = no                            
 		selectable_mission = no  
-		days_mission_timeout = 60
+		days_mission_timeout = 45
 		timeout_effect = {
 			custom_effect_tooltip = FRA_ALG_going_bad_tt
 			add_to_variable = {
