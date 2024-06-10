@@ -2269,6 +2269,32 @@ TRM_balkan_diplomacy_categories = {
             }
 		}
     }
+    TRM_support_the_croatia_militia = {
+        priority = 50
+        icon = GFX_decision_generic_political_rally
+        allowed = {
+            tag = TRM
+        }
+        available = {
+            controls_state = 102
+            YUG = {
+                has_war = no
+                NOT = {
+                    has_war_with = TRM
+                }
+            }
+        }
+        visible = {
+            has_country_flag = TRM_support_the_croatia_militia_flag
+        }
+        ai_will_do = {
+            factor = 1
+        }
+        fire_only_once = yes
+        complete_effect = {
+            country_event = { id = TRM_diplomacy_event.11 hours = 2 random_hours = 4 }
+        }
+    }
     TRM_alliance_with_Romania = {
         priority = 50
         icon = GFX_decision_hol_exchange_intelligence_data
@@ -2324,6 +2350,9 @@ TRM_balkan_diplomacy_categories = {
                     neutrality > 0.30
                 }
             }
+            NOT = {
+                has_country_flag = TRM_pressure_government_flag
+            }
         }
         visible = {}
         cost = 25
@@ -2358,6 +2387,9 @@ TRM_balkan_diplomacy_categories = {
 				has_government = fascism
                 exists = yes
                 NOT = { has_war_with = ROOT }
+            }
+            NOT = {
+                has_country_flag = TRM_pressure_government_flag
             }
         }
         visible = {}
@@ -2444,6 +2476,86 @@ TRM_balkan_diplomacy_categories = {
             }
         }
     }
+    
+	TRM_pressure_country_government_balkan = {
+		priority = 50
+
+		icon = generic_political_discourse
+
+		ai_will_do = {
+			base = 0.8
+			modifier = {
+				factor = 2
+				has_political_power > 160
+			}
+			modifier = { #If ideological rallies happened, then it's better
+				factor = 4
+				FROM = { has_country_flag = ITA_ideological_rallies_promoted_flag }
+			}
+			modifier = { #Do it only once, don't spam
+				factor = 0
+				FROM = { has_country_flag = ITA_government_pressured_flag }
+			}
+		}
+
+		targets = { YUG BUL ROM }
+		#targets = { BUL GRE YUG ALB ROM TUR SLV BOS HRZ MAC SER CRO KOS MNT TRA } #These are all tags included in scripted trigger "BUL_is_balkan_nation = yes"
+
+		target_trigger = {
+			SOV_basic_pressure_government_triggers = yes
+		}
+
+		target_root_trigger = {
+			has_completed_focus = TRM_balkan_diplomacy
+			is_subject = no
+		}
+
+		allowed = {
+			original_tag = TRM
+		}
+
+		available = {
+			is_faction_leader = yes
+			FROM = {
+				has_opinion = {
+					target = ROOT
+					value > 49
+				}
+				SOV_is_valid_subject = yes # Italy might not give a sh*t about their petty overlord ;)
+				NOT = { has_war_with = ROOT }
+			}
+			NOT = { has_country_flag = ITA_pressure_government_active_flag }
+		}
+
+		visible = {
+		}
+
+		days_remove = ITA_pressure_government_days
+
+		days_re_enable = ITA_pressure_government_cd
+
+		cost = ITA_pressure_country_government_cost
+
+		modifier = {
+			political_power_gain = -0.25
+		}
+
+		complete_effect = {
+			set_country_flag = ITA_pressure_government_active_flag
+            set_country_flag = TRM_pressure_government_flag
+		}
+
+		remove_effect = {
+			FROM = {
+				country_event = { id = NSB_soviet_foreign_politics_events.1 hours = 4 random_hours = 2 }
+				set_country_flag = ITA_government_pressured_flag #For AI weights - don't spam
+			}
+			clr_country_flag = ITA_pressure_government_active_flag
+			custom_effect_tooltip = SOV_pressure_government_effects_tt
+			custom_effect_tooltip = ITA_pressure_government_cd_tt
+            
+		}
+	}
 }
 TRM_Iron_Sword_Operations_Categorie = {
 	TRM_iron_sword_decision_find = {
