@@ -1313,9 +1313,14 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SOV_no_time_for_peace
-				bonus = 0.75
+				bonus = 0.5
 				uses = 2
 				category = nuclear
+			}
+			add_tech_bonus = {
+				name = SOV_no_time_for_peace
+				bonus = 0.5
+				uses = 2
 				category = rocketry
 			}
 
@@ -2091,7 +2096,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = SOV_found_the_jet_institute
-				bonus = 1.0
+				bonus = 0.5
 				uses = 2
 				category = jet_technology
 			}
@@ -3297,7 +3302,7 @@ focus_tree = {
 				}
 				add_tech_bonus = {
 					name = SOV_offensive_maritime_strategy
-					bonus = 3.0
+					bonus = 2.0
 					uses = 1
 					category = bc_tech	
 				}
@@ -3390,7 +3395,7 @@ focus_tree = {
 				}
 				add_tech_bonus = {
 					name = SOV_an_oceangoing_navy
-					bonus = 3.0
+					bonus = 2.0
 					uses = 1
 					category = shbb_tech	
 				}
@@ -3483,13 +3488,34 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_RESEARCH}
 
 		completion_reward = {
-			add_ideas = SOV_mine_warfare_ns
+			if = {
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				add_ideas = SOV_mine_warfare_ns
 
-			add_tech_bonus = {
-				name = SOV_mine_warfare
-				bonus = 1.0
-				uses = 2
-				category = naval_mines
+				add_tech_bonus = {
+					name = SOV_mine_warfare
+					bonus = 1.0
+					uses = 2
+					category = naval_mines
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					name = SOV_mine_warfare
+					bonus = 0.5
+					uses = 1
+					category = ss_tech
+					category = dd_tech
+				}
+
+				add_doctrine_cost_reduction = {
+					name = SOV_mine_warfare
+					cost_reduction = 0.75
+					uses = 1
+					category = naval_doctrine
+				}
 			}
 		}
 	}
@@ -6144,7 +6170,6 @@ focus_tree = {
 			custom_effect_tooltip = SOV_rehabilitated_military_ns_tt
 
 			add_ideas = SOV_rehabilitated_military_ns
-			remove_ideas = Aftermath_of_the_Second_Soviet_Polish_War
 		}
 	}
 
@@ -8229,6 +8254,7 @@ focus_tree = {
 		mutually_exclusive = { focus = SOV_the_right_opposition focus = SOV_the_centre }
 		x = 2
 		y = 1
+		#/BA_MOD_FIX
 		offset = {
 			x = -9
 			y = 0
@@ -8236,6 +8262,7 @@ focus_tree = {
 				always = yes
 			}
 		}
+		#BA_MOD_FIX/
 		offset = {
 			x = -7
 			y = 0
@@ -8261,7 +8288,9 @@ focus_tree = {
 			}
 		}
 		allow_branch = {
+			#/BA_MOD_FIX
 			always = no
+			#BA_MOD_FIX/
 			if = {
 				limit = {
 					has_game_rule = {
@@ -9983,7 +10012,25 @@ focus_tree = {
 				custom_effect_tooltip = SOV_coup_detat_success_tt
 				hidden_effect = {
 					set_global_flag = SOV_soviet_civil_war_over
-					SOV_remove_paranoia_effect = yes 
+					SOV_remove_paranoia_effect = yes
+					if = {
+						limit = {
+							has_idea = SOV_anti_soviet_military_thinking_banned_army
+						}
+						remove_ideas = SOV_anti_soviet_military_thinking_banned_army
+					}
+					if = {
+						limit = {
+							has_idea = SOV_anti_soviet_military_thinking_banned_navy
+						}
+						remove_ideas = SOV_anti_soviet_military_thinking_banned_navy
+					}
+					if = {
+						limit = {
+							has_idea = SOV_anti_soviet_military_thinking_banned_airforce
+						}
+						remove_ideas = SOV_anti_soviet_military_thinking_banned_airforce
+					}
 					country_event = {
 						id = NSB_soviet_communist_civil_war.002
 						hours = 1
@@ -10714,7 +10761,7 @@ focus_tree = {
 	focus = {
 		id = SOV_military_support
 		icon = GFX_goal_generic_army_doctrines
-		prerequisite = { focus = SOV_the_right_opposition } 
+		prerequisite = { focus = SOV_the_left_opposition focus = SOV_the_right_opposition } 
 		x = 9
 		y = 1
 		relative_position_id = SOV_the_left_opposition
@@ -10825,7 +10872,7 @@ focus_tree = {
 	focus = {
 		id = SOV_divert_attention_towards_military
 		icon = GFX_focus_SOV_military_purge
-		prerequisite = { focus = SOV_the_right_opposition } 
+		prerequisite = { focus = SOV_the_left_opposition focus = SOV_the_right_opposition } 
 		mutually_exclusive = { focus = SOV_military_support }
 		x = 11
 		y = 1
@@ -10848,7 +10895,7 @@ focus_tree = {
 	focus = {
 		id = SOV_gain_support_from_party_members
 		icon = GFX_focus_generic_soviet_politics
-		prerequisite = { focus = SOV_the_right_opposition } 
+		prerequisite = { focus = SOV_the_left_opposition focus = SOV_the_right_opposition } 
 		x = 7
 		y = 1
 		relative_position_id = SOV_the_left_opposition
@@ -10889,7 +10936,7 @@ focus_tree = {
 	focus = {
 		id = SOV_sway_the_railway_workers
 		icon = GFX_goal_generic_construction2
-		prerequisite = { focus = SOV_the_right_opposition } 
+		prerequisite = { focus = SOV_the_left_opposition focus = SOV_the_right_opposition } 
 		x = 3
 		y = 1
 		relative_position_id = SOV_the_left_opposition
@@ -10911,7 +10958,7 @@ focus_tree = {
 	focus = {
 		id = SOV_infiltrate_the_nkvd
 		icon = GFX_goal_generic_intelligence_exchange
-		prerequisite = { focus = SOV_the_right_opposition } 
+		prerequisite = { focus = SOV_the_left_opposition focus = SOV_the_right_opposition } 
 		x = 5
 		y = 1
 		relative_position_id = SOV_the_left_opposition
@@ -11222,7 +11269,7 @@ focus_tree = {
 	focus = {
 		id = SOV_strengthen_the_trade_unions
 		icon = GFX_focus_generic_treaty
-		prerequisite = { focus = SOV_incorporate_local_organizations }
+		prerequisite = { focus = SOV_all_power_to_the_soviets focus = SOV_incorporate_local_organizations }
 		x = 6
 		y = 1
 		offset = {
@@ -11323,6 +11370,7 @@ focus_tree = {
 		prerequisite = { focus = SOV_the_path_of_marxism_leninism }
 		x = 24
 		y = 1
+		#/BA_MOD_FIX
 		offset = {
 			x = -9
 			y = 0
@@ -11346,6 +11394,14 @@ focus_tree = {
 				}
 			}
 		}
+		offset = {
+			x = -10
+			y = 0
+			trigger = { #Basic offset to compensate for missing Bukharinist branch
+				NOT = { has_dlc = "No Step Back" }
+			}
+		}
+		#BA_MOD_FIX/
 		offset = {
 			x = -7
 			y = 0
@@ -13425,18 +13481,28 @@ ai_will_do = {
 
 		completion_reward = {
 			add_state_claim = 146 # Karjala
-			146 = {
-				controller = {
-					set_country_flag = SOV_ultimatum_sent_flag #Add it for AI strats reasons
-					add_timed_idea = {
-						idea = communist_pressure
-						days = 365
+
+			if= {
+				limit = {
+					146 = {
+						controller = {
+							NOT = { has_war_with = ROOT }
+						}
 					}
-					country_event = { id = finland.1 hours = 16 random_hours = 8 }
 				}
+				146 = {
+					controller = {
+						set_country_flag = SOV_ultimatum_sent_flag #Add it for AI strats reasons
+						add_timed_idea = {
+							idea = communist_pressure
+							days = 365
+						}
+						country_event = { id = finland.1 hours = 16 random_hours = 8 }
+					}
+				}
+				custom_effect_tooltip = if_they_accept_tt
+				event_option_tooltip = soviet.12.a
 			}
-			custom_effect_tooltip = if_they_accept_tt
-			event_option_tooltip = soviet.12.a
 		}
 	}
 
@@ -13884,6 +13950,10 @@ ai_will_do = {
 		available = {
 			NOT = { has_country_flag = SOV_paranoia_system_active_flag }
 			is_subject = no
+			any_country = {
+				owns_state = 78
+				controls_state = 78
+			}
 		}
 
 		bypass = {
@@ -17622,7 +17692,6 @@ ai_will_do = {
 						controls_state = 104
 						controls_state = 109
 						controls_state = 103
-						controls_state = 970
 						controls_state = 804
 						controls_state = 802
 						controls_state = 106
@@ -17675,7 +17744,6 @@ ai_will_do = {
 							state = 104
 							state = 109
 							state = 103
-							state = 970
 							state = 804
 							state = 802
 							state = 106
@@ -17948,29 +18016,27 @@ ai_will_do = {
 				}
 				create_faction = NPTO
 			}
-			effect_tooltip = {
-				every_other_country = {
-					limit = {
-						any_owned_state = {
-							is_capital = yes
-							is_on_continent = south_america
-						}
-						NOT = {
-							has_government = fascism
-						}
+			
+			every_other_country = {
+				limit = {
+					capital_scope = {
+						is_on_continent = south_america
 					}
-					add_timed_idea = {
-						idea = SOV_russian_political_influence
-						days = 730
+					NOT = {
+						has_government = fascism
 					}
 				}
+				add_timed_idea = {
+					idea = SOV_russian_political_influence
+					days = 730
+				}
 			}
+			
 			custom_effect_tooltip = SOV_intervention_in_the_americas_tt
 			hidden_effect = {
 				every_other_country = {
 					limit = {
-						any_owned_state = {
-							is_capital = yes
+						capital_scope = {
 							is_on_continent = south_america
 						}
 						NOT = {
@@ -17984,10 +18050,10 @@ ai_will_do = {
 					set_country_flag = SOV_political_influence_americas_flag
 				}
 			}
+			
 			every_other_country = {
 				limit = {
-					any_owned_state = {
-						is_capital = yes
+					capital_scope = {
 						is_on_continent = south_america
 					}
 					has_government = fascism
