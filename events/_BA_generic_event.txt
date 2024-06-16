@@ -745,6 +745,20 @@ country_event = { #투자
 			}
 		}
     }
+	option = { #3개월 동안 보여주지마
+		name = Highlander.1.g
+		trigger = {
+			date > 1936.6.1
+		}
+		custom_effect_tooltip = BA_highlander_invest_no_tt
+		ai_chance = {
+			base = 0
+		}
+		set_country_flag = {
+			days = 100
+			flag = BA_highlander_no_invest_event
+		}
+    }
 }
 country_event = { #철도 버프 이벤트를 위한 무한 반복
 	id = Highlander.2
@@ -817,6 +831,33 @@ country_event = { #철도 버프 이벤트를 위한 무한 반복
 					}
 				}
 				country_event =  Highlander.7
+			}
+			1 = { #주식 매각
+				modifier = {
+					factor = 0
+					check_variable = {
+						BA_highlander_invest < 5
+					}
+				}
+				country_event = Highlander.10
+			}
+			1 = { #지분 매각
+				modifier = {
+					factor = 0
+					check_variable = {
+						BA_highlander_invest < 10
+					}
+				}
+				country_event =  Highlander.11
+			}
+			1 = { #철도 불황
+				modifier = {
+					factor = 0
+					check_variable = {
+						BA_highlander_invest < 20
+					}
+				}
+				country_event =  Highlander.12
 			}
 		}
     }
@@ -1126,6 +1167,46 @@ country_event = { #철도 개선
 		modify_timed_idea = {
 			idea = BA_railway_gauge_issue
 			days = -240
+		}
+	}
+}
+country_event = { #지분 매각
+	id = Highlander.10
+	title = Highlander.10.t
+	desc = Highlander.10.d
+	is_triggered_only = yes
+	option = {
+		name = Highlander.10.a
+		custom_effect_tooltip = BA_highlander_invest_small_negative_tt
+		add_to_variable = {
+			BA_highlander_invest = -1
+		}
+	}
+}
+country_event = { #재정 안정
+	id = Highlander.11
+	title = Highlander.11.t
+	desc = Highlander.11.d
+	is_triggered_only = yes
+	option = {
+		name = Highlander.10.a
+		custom_effect_tooltip = BA_highlander_invest_small_negative_tt
+		add_to_variable = {
+			BA_highlander_invest = -1
+		}
+		add_political_power = 15
+	}
+}
+country_event = { #철도 불황
+	id = Highlander.12
+	title = Highlander.12.t
+	desc = Highlander.12.d
+	is_triggered_only = yes
+	option = {
+		name = Highlander.12.a
+		custom_effect_tooltip = BA_highlander_invest_big_negative_tt
+		add_to_variable = {
+			BA_highlander_invest = -2
 		}
 	}
 }
