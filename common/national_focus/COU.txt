@@ -1692,6 +1692,8 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			BA_end_of_the_kivotos_alliance = yes
+			custom_effect_tooltip = BA_ideology_stalinism_tt
 			set_country_leader_ideology = stalinism
 			if = { limit = { has_completed_focus = COU_workers_republic }
 				set_cosmetic_tag = COU_go_to_left_right
@@ -1753,13 +1755,16 @@ focus_tree = {
 				}
 				add_ideas = COU_representative_labor_union_law_idea
 			}
+			if = { limit = { NOT = { has_completed_focus = COU_moscow_allegiance } }
+				set_country_leader_ideology = syndicalism
+				custom_effect_tooltip = BA_ideology_syndicalism_tt
+			}
 			set_party_name = {
 				ideology = democratic
 				long_name = COU_momoka_4_democratic_party_long
 				name = COU_momoka_3_democratic_party
 			}
 			if = { limit = { NOT = { has_completed_focus = COU_moscow_allegiance } }
-				set_country_leader_ideology = syndicalism
 				set_party_name = {
 					ideology = communism
 					long_name = COU_momoka_4_communism_party_long
@@ -1961,6 +1966,154 @@ focus_tree = {
 		}
 	}
 
+	focus = { #SRT 폐교
+		id = COU_closure_of_SRT
+		icon = GFX_goal_generic_more_territorial_claims
+		prerequisite = { focus = COU_restoration_of_parliamentary_politics focus = COU_representative_labor_union_law focus = COU_destruction_of_labor_union }
+		x = 2
+		y = 2
+		relative_position_id = COU_restoration_of_parliamentary_politics
+		cost = 5
+		available = {
+		}
+		bypass = {
+			NOT = {
+				has_country_flag = GAEBALJUNG
+			}
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #붉은 발키리 경찰
+		id = COU_red_valkyrie_police
+		icon = GFX_focus_spr_torchbearers_of_tomorrow
+		prerequisite = { focus = COU_closure_of_SRT }
+		x = 2
+		y = 3
+		relative_position_id = COU_restoration_of_parliamentary_politics
+		cost = 5
+		available = {
+		}
+		bypass = {
+			NOT = {
+				has_country_flag = GAEBALJUNG
+			}
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #노동조합 문제
+		id = COU_worker_unions_issue
+		icon = GFX_focus_por_workers_of_iberia
+		prerequisite = { focus = COU_representative_labor_union_law }
+		x = 1
+		y = 1
+		relative_position_id = COU_representative_labor_union_law
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #스탈린주의 교리
+		id = COU_stalinism_doctrine
+		icon = GFX_focus_fra_loyalty_stalin
+		prerequisite = { focus = COU_worker_unions_issue }
+		mutually_exclusive = { focus = COU_new_left }
+		x = 0
+		y = 1
+		relative_position_id = COU_worker_unions_issue
+		cost = 5
+		available = {
+			NOT = {
+				has_country_leader_ideology = syndicalism
+			}
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #신좌파
+		id = COU_new_left
+		icon = GFX_focus_focus_fra_liberte_egalite_solidarite
+		prerequisite = { focus = COU_worker_unions_issue }
+		mutually_exclusive = { focus = COU_stalinism_doctrine }
+		x = 2
+		y = 1
+		relative_position_id = COU_worker_unions_issue
+		cost = 5
+		available = {
+			is_subject = no
+			OR = {
+				NOT = {
+					is_in_faction_with = SOU
+				}
+				SOU = { 
+					OR = {
+						NOT = {
+							has_government = communism
+						}
+						has_completed_focus = SOV_the_right_opposition
+					}
+				}
+			}
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			SOV = {
+				add_opinion_modifier = { target = ROOT modifier = SPR_hinder_nkvd_interference }
+				add_ai_strategy = {
+					type = alliance
+					id = ROOT
+					value = -200
+				}
+				add_ai_strategy = {
+					type = befriend
+					id = ROOT
+					value = -200
+				}
+				add_ai_strategy = {
+					type = support
+					id = ROOT
+					value = -200
+				}
+			}
+		}
+	}
+
 	focus = { #평의회 조직 강화
 		id = COU_strengthening_of_council_organization
 		icon = GFX_focus_generic_communist_industry
@@ -1979,6 +2132,8 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			add_one_random_civilian_factory = yes
+			add_one_random_civilian_factory = yes
 		}
 	}
 
@@ -2001,6 +2156,7 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_political_power = 80
+			custom_effect_tooltip = SHE_kibotoseuhyeogmyeong_tt
 		}
 	}
 
@@ -2022,6 +2178,7 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			BA_end_of_the_kivotos_alliance = yes
 			set_rule = {
 				can_create_factions = yes
 			}
@@ -2046,6 +2203,272 @@ focus_tree = {
 					modifier = COU_kommunistische_arbeiter_internationale_opinion_modifier
 				}
 			}
+			custom_effect_tooltip = SHE_segyehyeogmyeong_tt
+		}
+	}
+
+	focus = { #반스탈린주의 연합
+		id = COU_anti_stalinism_alliance
+		icon = GFX_focus_attack_soviet
+		prerequisite = { focus = COU_kommunistische_arbeiter_internationale focus = COU_new_left }
+		x = 0
+		y = 1
+		relative_position_id = COU_kommunistische_arbeiter_internationale
+		cost = 10
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			add_political_power = 75
+			add_popularity = {
+				ideology = communism
+				popularity = 0.1
+			}
+			IF = {
+				limit = {
+					NOT = { has_completed_focus = COU_kommunistische_arbeiter_internationale }
+				}
+				set_rule = { can_join_factions = yes }
+				if = {
+					limit = {
+						is_faction_leader = yes
+					}
+					set_faction_name = labour_and_socialist_international
+				}
+				else_if = {
+					limit = {
+						is_in_faction = no
+					}
+					create_faction = labour_and_socialist_international
+					every_subject_country = {
+						ROOT = { add_to_faction = PREV }
+					}
+				}
+			}
+
+			
+			every_other_country = {
+				limit = {
+					is_in_faction_with = ROOT
+					NOT = { has_country_leader_ideology = stalinism }
+				}
+				set_country_leader_ideology = marxism
+				custom_effect_tooltip = SOV_international_revolutionary_marxist_centre_marxism_tt
+			}
+			
+			custom_effect_tooltip = SOV_international_revolutionary_marxist_centre_allies_tt
+			every_other_country = {
+				limit = {
+					has_government = communism
+					NOT = { has_country_leader_ideology = stalinism }
+					is_in_faction = no
+					NOT = { has_war_with = ROOT }
+					is_subject = no
+				}
+				add_opinion_modifier = { modifier = COU_labour_and_socialist_international_good target = ROOT }
+				country_event = { id = generic.5 hours = 8 random_hours = 8 }
+			}
+			
+			
+			custom_effect_tooltip = SOV_international_revolutionary_marxist_centre_stalinists_tt
+			every_other_country = {
+				limit = {
+					has_country_leader_ideology = stalinism
+				}
+				add_opinion_modifier = { modifier = COU_labour_and_socialist_international_bad target = ROOT }
+			}
+		}
+	}
+
+	focus = { #혁명 전쟁
+		id = COU_revolutionary_war
+		icon = GFX_goal_generic_major_war
+		prerequisite = { focus = COU_stalinism_doctrine focus = COU_new_left }
+		x = 1
+		y = 2
+		relative_position_id = COU_stalinism_doctrine
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			custom_effect_tooltip = SHE_kibotoseuyeonbang_tt
+			set_country_flag = LOCAL_form_kivotos_union_flag
+		}
+	}
+
+	focus = { #독일 공산당 재건
+		id = COU_german_communist_party_reconstruction
+		icon = GFX_focus_attack_GEH
+		prerequisite = { focus = COU_revolutionary_war }
+		x = 1
+		y = 1
+		relative_position_id = COU_revolutionary_war
+		cost = 5
+		available = {
+		}
+		bypass = {
+			has_war_with = GEM
+			has_war_with = GEH
+			has_war_with = HEU
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = GEM
+			}
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = GEH
+			}
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = HEU
+			}
+		}
+	}
+
+	focus = { #프랑스 공산당 인정
+		id = COU_french_communist_party_recognition
+		icon = GFX_focus_attack_MIL
+		prerequisite = { focus = COU_revolutionary_war }
+		x = -1
+		y = 2
+		relative_position_id = COU_revolutionary_war
+		cost = 10
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					MIL = {
+						has_government = communism
+						is_in_faction = no
+						has_completed_focus = MIL_french_communist_party_recognition
+					}
+					is_in_faction = yes
+				}
+				MIL = { country_event = { id = generic.5 hours = 6 random_hours = 6 } }
+			}
+			else = {
+				create_wargoal = {
+				    type = puppet_wargoal_focus
+				    target = MIL
+				}
+			}
+		}
+	}
+
+	focus = { #트리니티 분국
+		id = COU_trinity_branch
+		icon = GFX_focus_attack_TRN
+		prerequisite = { focus = COU_german_communist_party_reconstruction }
+		x = 1
+		y = 2
+		relative_position_id = COU_revolutionary_war
+		cost = 5
+		available = {
+		}
+		bypass = {
+			has_war_with = TRM
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = puppet_wargoal_focus
+				target = TRM
+			}
+		}
+	}
+
+	focus = { #키보토스 공산주의 혁명
+		id = COU_revolution_end
+		icon = GFX_focus_SOV_proclaim_soviet_hegemony
+		prerequisite = { focus = COU_trinity_branch focus = COU_french_communist_party_recognition }
+		x = 0
+		y = 3
+		relative_position_id = COU_revolutionary_war
+		cost = 10
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #민족주의 파쇄
+		id = COU_nationalism_fragmentation
+		icon = GFX_focus_generic_anti_fascist_diplomacy
+		prerequisite = { focus = COU_kommunistische_arbeiter_internationale }
+		x = 3
+		y = 2
+		relative_position_id = COU_kommunistische_arbeiter_internationale
+		cost = 10
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #사회주의 세계공화국
+		id = COU_socialist_world_republic
+		icon = GFX_focus_ETH_callout_to_the_world
+		prerequisite = { focus = COU_nationalism_fragmentation }
+		x = 0
+		y = 3
+		relative_position_id = COU_nationalism_fragmentation
+		cost = 10
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
 		}
 	}
 	

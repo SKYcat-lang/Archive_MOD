@@ -74,6 +74,7 @@ shared_focus = { #에덴 조약기구 수립
 			}
 			any_allied_country = {
 				Eden_is_eden_country_trinity_classification = yes
+				is_subject = no
 			}	
 		}
 		if = {
@@ -82,6 +83,7 @@ shared_focus = { #에덴 조약기구 수립
 			}
 			any_allied_country = {
 				Eden_is_eden_country_gehenna_classification = yes
+				is_subject = no
 			}	
 		}
 		is_subject = no 
@@ -99,49 +101,47 @@ shared_focus = { #에덴 조약기구 수립
 
 	completion_reward = {
 		set_variable = { global.Eden_alliance_leader = ROOT }
-	}
-}
-joint_focus = { #에덴 조약기구군
-	id = Eden_command
+		if = {
+			limit = {	
+				Eden_alliance_created_already = no
+			}
+			set_global_flag = Eden_alliance_formed
+			set_country_flag = Eden_league_leader 
+			set_faction_name = TRM_Treaty_of_Eden_faction
 	
-	icon = GFX_goal_generic_army_doctrines
+			set_variable = { Eden_modifier_alliance_leader_research_speed_factor = 0 }
+			set_variable = { Eden_modifier_alliance_leader_training_time_factor = 0 }
+			set_variable = { Eden_modifier_alliance_leader_war_support_factor = 0 }
+			set_variable = { Eden_modifier_alliance_leader_production_factory_start_efficiency_factor = 0 }
+			set_variable = { Eden_modifier_alliance_leader_production_factory_efficiency_gain_factor = 0 }
+			set_variable = { Eden_modifier_alliance_leader_production_factory_max_efficiency_factor = 0 }
+
+			add_dynamic_modifier = { modifier = Eden_modifier_alliance_leader }
 	
-	prerequisite = { focus = Eden_formation_of_alliance_treaty_organization }
-	
-	x = -6
-	y = 1
-	relative_position_id = Eden_formation_of_alliance_treaty_organization
-	cost = 5
+			every_other_country = {
+				limit = {
+					Eden_is_eden_country = yes
+					
+					is_in_faction_with = ROOT 
+					is_subject = no
+				}
+				if = {
+					limit = {
+						NOT = { has_completed_focus = Eden_formation_of_alliance_treaty_organization }
+					}
+					complete_national_focus = Eden_formation_of_alliance_treaty_organization
 
-	text_icon = NORDIC_focus_style
-
-	available = {
-		Eden_basic_available_trigger = yes
-		has_stability > 0.5
-		has_war_support > 0.25
-	}
-
-	#search_filters = { FOCUS_FILTER_ARMY_XP FOCUS_FILTER_NAVY_XP FOCUS_FILTER_AIR_XP }
-
-	joint_trigger = {
-		Eden_basic_joint_trigger = yes 
-	}
-
-
-	completion_reward = {
-		air_experience = 25
-		navy_experience = 25
-		army_experience = 25
-		add_command_power = 25		
-		add_ideas = { Eden_command_ns }
-	}
-
-	completion_reward_joint_originator = {
-
-	}
-
-	completion_reward_joint_member = {
-
+					set_variable = { Eden_modifier_alliance_leader_research_speed_factor = 0 }
+					set_variable = { Eden_modifier_alliance_leader_training_time_factor = 0 }
+					set_variable = { Eden_modifier_alliance_leader_war_support_factor = 0 }
+					set_variable = { Eden_modifier_alliance_leader_production_factory_start_efficiency_factor = 0 }
+					set_variable = { Eden_modifier_alliance_leader_production_factory_efficiency_gain_factor = 0 }
+					set_variable = { Eden_modifier_alliance_leader_production_factory_max_efficiency_factor = 0 }
+			
+					add_dynamic_modifier = { modifier = Eden_modifier_alliance_member }
+				}
+			}
+		}
 	}
 }
 joint_focus = { #연합의 행보
@@ -309,6 +309,73 @@ joint_focus = { #경제적 협력
 
 }
 
+joint_focus = { #산업 부문 통합
+	id = Eden_integration_of_industrial_sectors
+	icon = GFX_goal_generic_construct_civ_factory
+	
+	prerequisite = { focus = Eden_economic_cooperation }
+
+	mutually_exclusive = {  }
+	
+	x = 0
+	y = 1
+	relative_position_id = Eden_economic_cooperation
+	cost = 5
+
+	text_icon = NORDIC_focus_style
+
+	available = {
+		Eden_basic_available_trigger = yes
+	}
+
+	#search_filters = { FOCUS_FILTER_ARMY_XP FOCUS_FILTER_NAVY_XP FOCUS_FILTER_AIR_XP }
+
+	joint_trigger = {
+		Eden_basic_joint_trigger = yes 
+	}
+
+	complete_tooltip = {
+		every_state = {
+			limit = { has_state_flag = Eden_integration_of_industrial_sectors_flag }
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+		}
+	}
+
+	completion_reward = {
+	}
+
+	completion_reward_joint_originator = {
+		capital_scope = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+			set_state_flag = Eden_integration_of_industrial_sectors_flag
+		}
+
+	}
+
+	completion_reward_joint_member = {
+		capital_scope = {
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+			set_state_flag = Eden_integration_of_industrial_sectors_flag
+		}
+	}
+
+}
+
 joint_focus = { #동방 위협 억제
 	id = Eden_deterrence_of_eastern_threat
 	icon = GFX_focus_eng_expose_the_belly_of_the_bear
@@ -404,4 +471,171 @@ joint_focus = { #구 유럽 국가 주시
 
 	}
 
+}
+joint_focus = { #에덴 연구 협력
+	id = Eden_basic_research
+
+	icon = GFX_focus_research
+
+	dynamic = yes 
+	
+	prerequisite = { focus = Eden_formation_of_alliance_treaty_organization }
+
+	x = 4
+	y = 1
+	relative_position_id = Eden_formation_of_alliance_treaty_organization
+	cost = 10
+
+	text_icon = NORDIC_focus_style
+
+	available = {
+		Eden_basic_available_trigger = yes
+		num_researched_technologies > 25
+
+	}
+
+	search_filters = { FOCUS_FILTER_RESEARCH }
+
+	joint_trigger = {
+		Eden_basic_joint_trigger = yes 
+	}
+
+	completion_reward_joint_originator = { 
+		add_to_tech_sharing_group = Eden_research_tech_sharing
+	}
+
+	completion_reward_joint_member = {
+		add_to_tech_sharing_group = Eden_research_tech_sharing
+	}
+}
+
+joint_focus = { #에덴 조약기구군
+	id = Eden_command
+	
+	icon = GFX_goal_generic_army_doctrines
+	
+	prerequisite = { focus = Eden_formation_of_alliance_treaty_organization }
+	
+	x = -4
+	y = 1
+	relative_position_id = Eden_formation_of_alliance_treaty_organization
+	cost = 5
+
+	text_icon = NORDIC_focus_style
+
+	available = {
+		Eden_basic_available_trigger = yes
+		has_stability > 0.5
+		has_war_support > 0.25
+	}
+
+	#search_filters = { FOCUS_FILTER_ARMY_XP FOCUS_FILTER_NAVY_XP FOCUS_FILTER_AIR_XP }
+
+	joint_trigger = {
+		Eden_basic_joint_trigger = yes 
+	}
+
+
+	completion_reward = {
+		air_experience = 25
+		navy_experience = 25
+		army_experience = 25
+		add_command_power = 25		
+		add_ideas = { Eden_command_ns }
+	}
+
+	completion_reward_joint_originator = {
+
+	}
+
+	completion_reward_joint_member = {
+
+	}
+}
+
+joint_focus = { #에덴 사관학교
+	id = Eden_military_academy
+	
+	icon = GFX_focus_generic_military_academy
+	
+	prerequisite = { focus = Eden_command }
+	
+	x = 0
+	y = 1
+	relative_position_id = Eden_command
+	cost = 5
+
+	text_icon = NORDIC_focus_style
+
+	available = {
+		Eden_basic_available_trigger = yes
+	}
+
+	#search_filters = { FOCUS_FILTER_ARMY_XP FOCUS_FILTER_NAVY_XP FOCUS_FILTER_AIR_XP }
+
+	joint_trigger = {
+		Eden_basic_joint_trigger = yes 
+	}
+
+
+	completion_reward = {
+		effect_tooltip = {
+			swap_ideas = {
+				remove_idea = Eden_command_ns
+				add_idea = Eden_command_ns_exp
+			}
+		}
+		hidden_effect = {
+			if = { limit = { has_idea = Eden_command_ns }
+				remove_ideas = Eden_command_ns
+			}
+			add_ideas = Eden_command_ns_exp
+		}
+	}
+
+	completion_reward_joint_originator = {
+
+	}
+
+	completion_reward_joint_member = {
+
+	}
+}
+joint_focus = {
+	id = Eden_nordic_construction_developments
+	
+	icon = GFX_focus_research2
+	
+	prerequisite = { focus = Eden_basic_research }
+
+	x = 0
+	y = 1
+	relative_position_id = Eden_basic_research
+	cost = 5
+
+	text_icon = NORDIC_focus_style
+
+	available = {
+		Eden_basic_available_trigger = yes
+		num_researched_technologies > 50
+	}
+
+	search_filters = { FOCUS_FILTER_RESEARCH }
+
+	joint_trigger = {
+		Eden_basic_joint_trigger = yes 
+	}
+
+	completion_reward = {
+		modify_tech_sharing_bonus = {
+			id = Eden_research_tech_sharing
+			bonus = 0.1
+		}
+	}
+
+	completion_reward_joint_originator = {
+	}
+
+	completion_reward_joint_member = {
+	}
 }

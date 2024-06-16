@@ -122,6 +122,10 @@ DIPLOMACY_RELEASE_NATION_ENABLE_TRIGGER = {
 					NOT = { original_tag = YUG }
 				}
 			}
+			OR = {
+				NOT = { has_dlc = "Trial of Allegiance" }
+				NOT = { original_tag = CHL }
+			}
 			NOT = { original_tag = SOV }
 		}
 		always = yes
@@ -226,6 +230,61 @@ DIPLOMACY_RELEASE_NATION_ENABLE_TRIGGER = {
 			NOT = { FROM = { tag = ORO } }
 			NOT = { FROM = { tag = QEM } }
 			NOT = { FROM = { tag = ERI } }
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				has_game_rule = {
+					rule = allow_release_nations
+					option = FREE
+				}
+				has_game_rule = {
+					rule = allow_release_nations
+					option = PEACE_ONLY
+				}
+			}
+			has_dlc = "Trial of Allegiance"
+			original_tag = CHL
+			NOT = { 
+				OR = {
+					has_completed_focus = CHL_crusade_against_imperialism 
+					has_completed_focus = CHL_endorse_the_constitution
+				}
+			}
+		}
+		custom_trigger_tooltip = {
+			tooltip = RULE_ALLOW_RELEASE_NATIONS_NOT_CHILE_TOOLTIP
+			NOT = { FROM = { tag = RAP } }
+		}
+	}
+	if = {
+		limit = {
+			OR = {
+				has_game_rule = {
+					rule = allow_release_nations
+					option = FREE
+				}
+				has_game_rule = {
+					rule = allow_release_nations
+					option = PEACE_ONLY
+				}
+			}
+			has_dlc = "Trial of Allegiance"
+			original_tag = CAN
+			NOT = { 
+				OR = {
+					has_completed_focus = CAN_forced_quebec_conscription 
+					has_completed_focus = CAN_compromise_with_quebec
+				}
+			}
+		}
+		custom_trigger_tooltip = {
+			tooltip = RULE_ALLOW_RELEASE_NATIONS_NOT_QUEBEC_TOOLTIP
+			OR = {
+				has_completed_focus = CAN_forced_quebec_conscription
+				has_completed_focus = CAN_compromise_with_quebec
+			}
 		}
 	}
 	if = {
@@ -448,6 +507,9 @@ DIPLOMACY_RELEASE_NATION_ENABLE_TRIGGER = {
 			has_dlc = "La Resistance"
 			original_tag = SPR
 			has_completed_focus = SPR_masters_of_our_own_fate
+			NOT = {
+				has_completed_focus = SPR_the_anti_fascist_workers_revolution
+			}
 		}
 		custom_trigger_tooltip = {
 			tooltip = RULE_ALLOW_RELEASE_NATIONS_ANARCHIST_SPAIN_TOOLTIP
@@ -591,7 +653,7 @@ DIPLOMACY_RELEASE_NATION_ENABLE_TRIGGER = {
 		}
 	}
 	#/BA_MOD_FIX
-	if = {
+	if = { #게헨나의 국방군 해방 금지
 		limit = {
 			has_game_rule = {
 				rule = allow_release_nations
@@ -1107,6 +1169,19 @@ DIPLOMACY_STAGE_COUP_ENABLE_TRIGGER = {
 	}
 }
 DIPLOMACY_LEAVE_FACTION_ENABLE_TRIGGER = {
+	#/BA_MOD_FIX
+	if = { 
+		limit = {
+			original_tag = KSP
+			has_idea = KSP_duties_of_the_police_academy
+			is_in_faction_with = global.kivotos_alliance_leader
+		}
+		custom_trigger_tooltip = {
+			tooltip = BA_DIPLOMACY_NOT_JOIN_FACTION
+			always = no
+		}
+	}
+	#BA_MOD_FIX/
 	if = {
 		limit = {
 			has_game_rule = {
@@ -1121,6 +1196,19 @@ DIPLOMACY_LEAVE_FACTION_ENABLE_TRIGGER = {
 	}
 }
  DIPLOMACY_ASSUME_FACTION_LEADERSHIP_ENABLE_TRIGGER = {
+	#/BA_MOD_FIX
+	if = { 
+		limit = {
+			original_tag = KSP
+			has_idea = KSP_duties_of_the_police_academy
+			is_in_faction_with = global.kivotos_alliance_leader
+		}
+		custom_trigger_tooltip = {
+			tooltip = BA_DIPLOMACY_NOT_JOIN_FACTION
+			always = no
+		}
+	}
+	#BA_MOD_FIX/
 	if = {
 		limit = {
 			has_game_rule = {
@@ -1135,6 +1223,21 @@ DIPLOMACY_LEAVE_FACTION_ENABLE_TRIGGER = {
 	}
 }
 DIPLOMACY_KICK_FROM_FACTION_ENABLE_TRIGGER = {
+	#/BA_MOD_FIX
+	if = { 
+		limit = {
+			FROM = {
+				original_tag = KSP
+				has_idea = KSP_duties_of_the_police_academy
+				is_in_faction_with = global.kivotos_alliance_leader
+			}
+		}
+		custom_trigger_tooltip = {
+			tooltip = BA_DIPLOMACY_FROM_NOT_JOIN_FACTION
+			always = no
+		}
+	}
+	#BA_MOD_FIX/
 	if = {
 		limit = {
 			has_game_rule = {
@@ -1638,7 +1741,7 @@ game_weight_can_add_communist = {
 
 DIPLOMACY_JOIN_ALLY_ENABLE_TRIGGER = {
 	#/BA_MOD_FIX
-	if = {
+	if = { #세력 회원국 전쟁 호출 금지
 		limit = { check_variable = { modifier@cannot_call_allies_or_join_wars > 0 } }
 		custom_trigger_tooltip = {
 			tooltip = cannot_call_allies_or_join_wars_warning
@@ -1653,11 +1756,16 @@ DIPLOMACY_JOIN_ALLY_ENABLE_TRIGGER = {
 		}
 	}
 	#BA_MOD_FIX/
-	if = { # TODO_TA make more generic trigger
+	if = { 
 		limit = {
 			NOT = { has_global_flag = ethiopia_recognized_flag }
-			FROM = {
-				tag = ETH 
+			OR = {
+				ROOT = {
+					tag = ETH
+				}
+				FROM = {
+					tag = ETH
+				}
 			}
 			
 		}
@@ -1697,7 +1805,7 @@ DIPLOMACY_JOIN_ALLY_ENABLE_TRIGGER = {
 }
 DIPLOMACY_CALL_ALLY_ENABLE_TRIGGER = {
 	#/BA_MOD_FIX
-	if = {
+	if = { #세력 회원국 전쟁 호출 금지
 		limit = { check_variable = { modifier@cannot_call_allies_or_join_wars > 0 } }
 		custom_trigger_tooltip = {
 			tooltip = cannot_call_allies_or_join_wars_warning
@@ -1715,8 +1823,13 @@ DIPLOMACY_CALL_ALLY_ENABLE_TRIGGER = {
 	if = { 
 		limit = {
 			NOT = { has_global_flag = ethiopia_recognized_flag }
-			ROOT = {
-				tag = ETH
+			OR = {
+				ROOT = {
+					tag = ETH
+				}
+				FROM = {
+					tag = ETH
+				}
 			}
 			
 		}
@@ -1755,6 +1868,19 @@ DIPLOMACY_CALL_ALLY_ENABLE_TRIGGER = {
 	}
 }
 DIPLOMACY_JOIN_FACTION_ENABLE_TRIGGER = {
+	#/BA_MOD_FIX
+	if = { 
+		limit = {
+			original_tag = KSP
+			has_idea = KSP_duties_of_the_police_academy
+			is_in_faction_with = global.kivotos_alliance_leader
+		}
+		custom_trigger_tooltip = {
+			tooltip = BA_DIPLOMACY_NOT_JOIN_FACTION
+			always = no
+		}
+	}
+	#BA_MOD_FIX/
 	if = { 
 		limit = {
 			has_dlc = "Arms Against Tyranny"
@@ -1770,6 +1896,19 @@ DIPLOMACY_JOIN_FACTION_ENABLE_TRIGGER = {
 	}
 }
 DIPLOMACY_OFFER_JOIN_FACTION_ENABLE_TRIGGER = {
+	#/BA_MOD_FIX
+	if = { 
+		limit = {
+			original_tag = KSP
+			has_idea = KSP_duties_of_the_police_academy
+			is_in_faction_with = global.kivotos_alliance_leader
+		}
+		custom_trigger_tooltip = {
+			tooltip = BA_DIPLOMACY_FROM_NOT_JOIN_FACTION
+			always = no
+		}
+	}
+	#BA_MOD_FIX/
 	if = { 
 		limit = {
 			has_dlc = "Arms Against Tyranny"
@@ -1785,3 +1924,40 @@ DIPLOMACY_OFFER_JOIN_FACTION_ENABLE_TRIGGER = {
 		}
 	}
 }
+#/BA_MOD_FIX
+DIPLOMACY_CREATE_FACTION_ENABLE_TRIGGER = {
+	if = { 
+		limit = {
+			original_tag = KSP
+			has_idea = KSP_duties_of_the_police_academy
+			is_in_faction_with = global.kivotos_alliance_leader
+		}
+		custom_trigger_tooltip = {
+			tooltip = BA_DIPLOMACY_FROM_NOT_JOIN_FACTION
+			always = no
+		}
+	}
+	if = { 
+		limit = {
+			NOT = {
+				FROM = { has_rule = can_join_factions }
+			}
+		}
+		custom_trigger_tooltip = {
+			tooltip = BA_DIPLOMACY_FROM_NOT_CREATE_FACTION
+			always = no
+		}
+	}
+	if = { 
+		limit = {
+			NOT = {
+				has_rule = can_join_factions
+			}
+		}
+		custom_trigger_tooltip = {
+			tooltip = BA_DIPLOMACY_NOT_CREATE_FACTION
+			always = no
+		}
+	}
+}
+#BA_MOD_FIX/
