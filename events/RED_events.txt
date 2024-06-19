@@ -936,14 +936,14 @@ country_event = { #초대
 	option = { #우리는 연대를 통해 강해질 것이다.
 		name = RED_minori_event.26.a
 		RED = {
-			add_to_faction = THIS
+			add_to_faction = prev
+		}
+		ai_chance = {
+			factor = 3
 		}
 	}
 	option = { #ㄴㄴ 
 		name = RED_minori_event.26.b
-		ai_chance = {
-			base = 0
-		}
 	}
 }
 country_event = { #노조 파업
@@ -2185,11 +2185,41 @@ country_event = { #안 씀
 	id = RED_event.15
 	title = RED_event.15.t
 	desc = RED_event.15.d
-	picture = GFX_report_event_hitler_handshake
-
-	is_triggered_only = yes
+	picture = GFX_report_event_soviet_soldiers
+	fire_only_once = yes
+	trigger = {
+		tag = RED
+		has_war_with = TRM
+	}
 	option = {
-		name = RED_event.15.o 
+		name = RED_event.15.a
+		add_war_support = 0.1
+		if = {
+			limit = {
+				check_variable = {
+					var = RED_revolutionary_war_prepare_degree
+					value = 4
+					compare = greater_than_or_equals
+				}
+			}
+			add_ideas = RED_anti_fascism_2
+			custom_effect_tooltip = RED_event.15_tt2
+		}
+		if = {
+			limit = {
+				check_variable = {
+					var = RED_revolutionary_war_prepare_degree
+					value = 2
+					compare = less_than
+				}
+			}
+			add_ideas = RED_anti_fascism
+			custom_effect_tooltip = RED_event.15_tt
+		}
+		else = {
+			add_ideas = RED_anti_fascism_1
+			custom_effect_tooltip = RED_event.15_tt1
+		}
 	}
 }
 country_event = { #노동자 공화국
@@ -2259,15 +2289,19 @@ country_event = { #노조 국민정신 합치기
 		add_political_power = 50
 	}
 }
-country_event = { #안 씀
+country_event = { #노르웨이의 사회주의자들
 	id = RED_event.18
 	title = RED_event.18.t
 	desc = RED_event.18.d
-	picture = GFX_report_event_tur_kurdish_guerillas
-
+	fire_only_once = yes
 	is_triggered_only = yes
 	option = {
-		name = RED_event.18.o
+		name = RED_event.18.a
+		set_country_flag = red_cored_nor
+		custom_effect_tooltip = available_political_advisor
+		show_ideas_tooltip = NOR_jeanette_olsen
+		custom_effect_tooltip = available_political_advisor
+		show_ideas_tooltip = NOR_olav_scheflo
 	}
 }
 country_event = { #마리나를 거부한 용역부
