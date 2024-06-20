@@ -1429,6 +1429,22 @@ TRM_NEW_ORDER_SOV_LOSE = {
 		transfer_state_to = UKR
 		add_core_of = UKR
 	}
+    if = {
+        limit = {
+            NOT = {
+                TRM = {
+                    is_in_faction_with = ROM
+                }
+            }
+        }
+        UKR = { transfer_state = 834 }
+    }
+    if = {
+        limit = {
+            TRM = { is_in_faction_with = ROM  }
+        }
+        ROM = { transfer_state = 834 }
+    }
 	every_state = {
 		limit = {
 			OR = {
@@ -1439,20 +1455,12 @@ TRM_NEW_ORDER_SOV_LOSE = {
 			}
 			NOT = {
 				state = 188
-				state = 94
-				state = 194
 			}
 		}
 		transfer_state_to = BLR
 		add_core_of = BLR
 	}
-	BLR = {
-		set_cosmetic_tag = TRN_BLR
-		transfer_state = 210
-		add_state_core = 210
-		transfer_state = 209
-		add_state_core = 209
-	}
+	BLR = { set_cosmetic_tag = TRN_BLR }
 	every_state = {
 		limit = {
 			OR = {
@@ -1500,11 +1508,15 @@ TRM_NEW_ORDER_SOV_LOSE = {
 		transfer_state = 244
 		transfer_state = 208
 		transfer_state = 263
+		transfer_state = 210
+		transfer_state = 209
 		add_state_core = 264
 		add_state_core = 195
 		add_state_core = 244
 		add_state_core = 208
 		add_state_core = 263
+		add_state_core = 210
+		add_state_core = 209
 	}
 	TRV = {
 		set_cosmetic_tag = TRN_TRV
@@ -1693,14 +1705,25 @@ TRM_NEW_ORDER_SIBERIA = {
             }
             promote_leader = yes
         }
+        if = {
+            limit = {
+                is_in_faction_with = MON
+            }
+            MON = {
+                remove_from_faction = PREV
+            }
+        }
 		create_faction = LOSE_SOVIET_FACTION
-		puppet = KAZ
-		puppet = TAY
-		add_to_faction = KAZ
-		add_to_faction = TAY
 	}
 	KAZ = {
 		set_cosmetic_tag = SOV_KAZ
+        add_ideas = BA_soviet_puppet_idea
+        SOV = { 
+			set_autonomy = {
+				target = PREV
+				autonomy_state = autonomy_supervised_state
+			}
+        }
 	}
 	FER = {
 		transfer_state = 561
@@ -1710,55 +1733,37 @@ TRM_NEW_ORDER_SIBERIA = {
 		transfer_state = 562
 		transfer_state = 874
 		transfer_state = 637
-    }
-    VLA = {
-		transfer_state = 408
-    }
-    YAK = {
 		transfer_state = 574
 		transfer_state = 644
 		transfer_state = 877
 		transfer_state = 822
 		transfer_state = 876
-        add_state_core = 822
-    }
-    BYA = {
+		transfer_state = 563
+		transfer_state = 408
 		transfer_state = 564
 		transfer_state = 565
-		transfer_state = 563
-        add_state_core = 563
-        add_state_core = 565
-    }
-	CKK = {
-		transfer_state = 875
-		create_country_leader = {
-			name = "CKK_leader_name"
-			picture = "GFX/leaders/leader_unknown.tga"
-			expire = "1965.1.1"
-			ideology = conservatism
-			traits = {
-                
-			}
-		}
-	}
-	USA = { puppet = CKK }
-	every_state = {
-		limit = {
-			is_core_of = TAY
-		}
-		remove_core_of = TAY
-	}
-	TAY = {
-		create_country_leader = {
-			name = "Geogy_Malenkov_NAME"
-			picture = "GFX/leaders/SOV/SOV_Geogy_Malenkov_Portarit.tga"
+        create_country_leader = {
+			name = "NO NAME"
+			desc = "" 
+			picture = "gfx/leaders/ZZZ/Portrait_ZZZ_Anarchy.dds"
 			expire = "1965.1.1"
 			ideology = marxism
-			traits = {
-				dictator
-				national_integralist
+			traits = { }
+        }
+        set_cosmetic_tag = SOV_nominally_land
+        add_ideas = BA_soviet_puppet_idea
+        SOV = { 
+			set_autonomy = {
+				target = PREV
+				autonomy_state = autonomy_supervised_state
 			}
-		}
+        }
+    }
+    create_dynamic_country = {
+		original_tag = SOV
+		copy_tag = SOV
+		add_political_power = 120
+        save_global_event_target_as = SOV_Senter_soviet_republic
 		set_cosmetic_tag = TAY_Center_Russia
 		set_political_party = {
 			ideology = communism
@@ -1770,6 +1775,11 @@ TRM_NEW_ORDER_SIBERIA = {
 			election_frequency = 48
 			elections_allowed = no
 		}
+        set_party_name = {
+			ideology = communism
+			long_name = SOV_communism_party_russian
+			name = SOV_communism_party_russian
+        }
 		transfer_state = 824
 		transfer_state = 577
 		transfer_state = 578
@@ -1784,10 +1794,52 @@ TRM_NEW_ORDER_SIBERIA = {
 		transfer_state = 516
 		transfer_state = 576
 		transfer_state = 575
-        every_state = {
-            limit = { is_controlled_by = TAY }
-            add_core_of = TAY
+        transfer_state = 329
+        set_capital = { state = 570 }
+        every_core_state = {
+            limit = {
+                NOT = {
+                    is_controlled_by = PREV
+                }
+            }
+            remove_core_of = PREV
         }
+        add_ideas = BA_soviet_puppet_idea
+        SOV = { 
+			set_autonomy = {
+				target = PREV
+				autonomy_state = autonomy_supervised_state
+			}
+        }
+    }
+    event_target:SOV_Senter_soviet_republic = {
+        SOV = {
+            SOV_nikita_khrushchyov = {
+                set_nationality = event_target:SOV_Senter_soviet_republic
+            }
+        }
+        add_country_leader_role = {
+            character = SOV_nikita_khrushchyov
+            country_leader = {
+				expire = "1974.6.18"
+                ideology = marxism
+			    traits = {
+                    political_commissar
+			    }
+            }
+            promote_leader = yes
+        }
+    }
+	CKK = {
+		transfer_state = 875
+		create_country_leader = {
+			name = "CKK_leader_name"
+			picture = "gfx/leaders/DEN/portrait_DEN_freedom_council.tga"
+			expire = "1965.1.1"
+			ideology = conservatism
+			traits = { }
+		}
+        USA = { puppet = PREV }
 	}
 	FIN = {
 		transfer_state = 213
