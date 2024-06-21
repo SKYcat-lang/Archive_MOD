@@ -2896,6 +2896,7 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
+		tag = GEH
 		ABY = {
 			has_completed_focus = ABY_focus_negotiate_government
 		}
@@ -3014,6 +3015,7 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
+		tag = GEM
 		ABY = {
 			has_completed_focus = ABY_focus_negotiate_government
 		}
@@ -3060,6 +3062,7 @@ country_event = {
 	desc = ABY_new_event.88.d
 
 	trigger = {
+		tag = TRM
 		ABY = {
 			has_completed_focus = ABY_focus_negotiate_government
 		}
@@ -3176,9 +3179,16 @@ country_event = {
 			target = POL
 			transfer_troops = yes
 		}
+		annex_country = {
+			target = SIL
+			transfer_troops = yes
+		}
 		every_state = {
 			limit = {
-				is_core_of = POL
+				OR = {
+					is_core_of = POL
+					is_core_of = SIL
+				}
 			}
 			add_core_of = ABY
 		}
@@ -3891,7 +3901,6 @@ country_event = {
 	
 	
 	is_triggered_only = yes
-	fire_only_once = yes
 	
 	option = { #
 		name = ABY_new_event.121.a
@@ -4003,6 +4012,36 @@ country_event = {
 				transfer_state = 231
 				transfer_state = 230
 				transfer_state = 229
+				transfer_state = 584
+				transfer_state = 832
+				transfer_state = 831
+				transfer_state = 823
+				transfer_state = 587
+				transfer_state = 402
+				transfer_state = 406
+				transfer_state = 407
+				transfer_state = 582
+				transfer_state = 251
+				transfer_state = 652
+				transfer_state = 249
+				transfer_state = 256
+				transfer_state = 651
+				transfer_state = 833
+				transfer_state = 400
+				transfer_state = 398
+				transfer_state = 573
+				transfer_state = 399
+				transfer_state = 581
+				transfer_state = 262
+				transfer_state = 397
+				transfer_state = 825
+				transfer_state = 351
+				transfer_state = 879
+				transfer_state = 880
+				transfer_state = 213
+				transfer_state = 214
+				transfer_state = 215
+				transfer_state = 216
 			}
 	option = { #
 		name = ABY_new_event.121.b
@@ -4216,7 +4255,7 @@ country_event = {
 
 	option = {
 		name = ABY_new_event.129.a
-		ai_chance = { factor = 75 }
+		ai_chance = { factor = 100 }
 		add_to_faction = ABY
 		ABY = {
 			country_event = ABY_new_event.130
@@ -4224,7 +4263,7 @@ country_event = {
 	}
 	option = {
 		name = ABY_new_event.129.b
-		ai_chance = { factor = 25 }
+		ai_chance = { factor = 0 }
 		ABY = {
 			country_event = ABY_new_event.131
 		}
@@ -5027,12 +5066,35 @@ country_event = {
 	title = ABY_new_event.156.t
 	desc = ABY_new_event.156.d
 
-	is_triggered_only = yes
+	trigger = {
+		tag = ABY
+		ABY = {
+			has_completed_focus = ABY_focus_heil_to_night_queen
+			has_completed_focus = ABY_focus_see_reality_3
+			is_puppet = no
+		}
+	}
 	fire_only_once = yes
 
 	option = {
 		name = ABY_new_event.156.a
 		ai_chance = { factor = 100 }
+		set_cosmetic_tag = ABY_TRM_country
+	}
+	option = {
+		trigger = {
+			has_country_leader = {
+       		    character = ABYDOS_KHF
+       		    ruling_only = yes
+       		}
+		}
+		name = ABY_new_event.156.b
+		ai_chance = { factor = 100 }
+		complete_national_focus = ABY_focus_czech_osterreich
+		set_country_flag = ABY_flag_czech_osterreich
+		ABY = {
+			leave_faction = yes
+		}
 	}
 }
 
@@ -5041,12 +5103,36 @@ country_event = {
 	title = ABY_new_event.157.t
 	desc = ABY_new_event.157.d
 
-	is_triggered_only = yes
+	trigger = {
+		tag = ABY
+		ABY = {
+			has_completed_focus = ABY_focus_german_recover
+			has_war = no
+			has_full_control_of_state = 64
+		}
+	}
 	fire_only_once = yes
 
 	option = {
 		name = ABY_new_event.157.a
 		ai_chance = { factor = 100 }
+		set_cosmetic_tag = ARI_german
+		set_capital = {
+			state = 64
+		}
+		add_country_leader_trait = dictator
+		remove_country_leader_trait = ABY_trait_brutal_2
+		add_country_leader_trait = ABY_trait_new_fuhrer
+		every_state = {
+			limit = {
+				OR = {
+					is_core_of = TRM
+					is_core_of = GEH
+					is_core_of = GEM
+				}
+			}
+			add_core_of = ABY
+		}
 	}
 }
 
@@ -5061,6 +5147,16 @@ country_event = {
 	option = {
 		name = ABY_new_event.158.a
 		ai_chance = { factor = 100 }
+		add_political_power = -100
+		add_stability = -0.05
+	}
+	option = {
+		name = ABY_new_event.158.b
+		ai_chance = { factor = 100 }
+		add_stability = 0.1
+		9 = { remove_core_of = ABY }
+		72 = { remove_core_of = ABY }
+		75 = { remove_core_of = ABY }
 	}
 }
 
