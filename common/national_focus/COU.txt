@@ -2260,7 +2260,8 @@ focus_tree = {
 	focus = { #혁명 전쟁
 		id = COU_revolutionary_war
 		icon = GFX_goal_generic_major_war
-		prerequisite = { focus = COU_stalinism_doctrine focus = COU_new_left }
+		prerequisite = { focus = COU_stalinism_doctrine focus = COU_new_left focus = COU_kommunistische_arbeiter_internationale }
+		mutually_exclusive = { focus = COU_nationalism_fragmentation }
 		x = 1
 		y = 2
 		relative_position_id = COU_stalinism_doctrine
@@ -2287,7 +2288,7 @@ focus_tree = {
 		x = 1
 		y = 1
 		relative_position_id = COU_revolutionary_war
-		cost = 5
+		cost = 10
 		available = {
 		}
 		bypass = {
@@ -2361,7 +2362,7 @@ focus_tree = {
 		x = 1
 		y = 2
 		relative_position_id = COU_revolutionary_war
-		cost = 5
+		cost = 10
 		available = {
 		}
 		bypass = {
@@ -2398,13 +2399,34 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			every_country = {
+				limit = {
+					Kivotos_school_tag = yes
+					NOT = {
+						tag = GEH
+						tag = GEM
+						tag = TRM
+						tag = MIL
+					}
+				}
+				custom_effect_tooltip = war_aim_against_the_country_puppetization_tt
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
+			}
 		}
 	}
 
 	focus = { #민족주의 파쇄
 		id = COU_nationalism_fragmentation
-		icon = GFX_focus_generic_anti_fascist_diplomacy
+		icon = GFX_focus_ICE_embrace_the_workers_revolution
 		prerequisite = { focus = COU_kommunistische_arbeiter_internationale }
+		mutually_exclusive = { focus = COU_revolutionary_war }
 		x = 3
 		y = 2
 		relative_position_id = COU_kommunistische_arbeiter_internationale
@@ -2419,6 +2441,9 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			add_dynamic_modifier = { modifier = COU_class_struggle }
+			set_country_flag = COU_permanent_revolution_flag
+			unlock_decision_category_tooltip = COU_nation_moving_forward
 		}
 	}
 
@@ -2427,9 +2452,263 @@ focus_tree = {
 		icon = GFX_focus_ETH_callout_to_the_world
 		prerequisite = { focus = COU_nationalism_fragmentation }
 		x = 0
-		y = 3
+		y = 1
 		relative_position_id = COU_nationalism_fragmentation
 		cost = 10
+		available = {
+			OR = {
+				controls_province = 11506
+				any_allied_country = {
+					controls_province = 11506
+				}
+			}
+			OR = {
+				controls_province = 6488
+				any_allied_country = {
+					controls_province = 6488
+				}
+			}
+			OR = {
+				controls_province = 6521
+				any_allied_country = {
+					controls_province = 6521
+				}
+			}
+			OR = {
+				controls_province = 6050
+				any_allied_country = {
+					controls_province = 6050
+				}
+			}
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			set_cosmetic_tag = COU_go_to_left_left_world
+		}
+	}
+
+	focus = { #새 시대의 체제
+		id = COU_welcome_the_next_era
+		icon = GFX_goal_generic_improve_relations
+		prerequisite = { focus = COU_socialist_world_republic }
+		x = 0
+		y = 1
+		relative_position_id = COU_socialist_world_republic
+		cost = 10
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			every_country = {
+				limit = {
+					NOT = {
+						tag = ROOT
+						is_ally_with = ROOT
+						has_government = communism
+					}
+					is_major = yes
+				}
+				add_timed_idea = {
+					idea = COU_outcast_of_the_era
+					days = 1080
+				}
+			}
+			unlock_decision_tooltip = COU_abolition_of_the_state
+		}
+	}
+
+	focus = { #사회 혁명 지속
+		id = COU_permanent_revolution
+		icon = GFX_goal_generic_war_with_comintern
+		prerequisite = { focus = COU_nationalism_fragmentation }
+		x = -2
+		y = 2
+		relative_position_id = COU_nationalism_fragmentation
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			unlock_decision_tooltip = COU_production_revolution
+			unlock_decision_tooltip = COU_system_revolution
+			unlock_decision_tooltip = COU_social_revolution
+		}
+	}
+
+	focus = { #총체적 자본주의 파괴
+		id = COU_total_destruction_of_capitalism
+		icon = GFX_focus_generic_strike_at_democracy3
+		prerequisite = { focus = COU_permanent_revolution }
+		x = -1
+		y = 1
+		relative_position_id = COU_permanent_revolution
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #임금 노동으로부터의 해방
+		id = COU_liberation_from_wage_labor
+		icon = GFX_focus_SWE_attack_landsorganisationen
+		prerequisite = { focus = COU_total_destruction_of_capitalism }
+		x = -1
+		y = 2
+		relative_position_id = COU_permanent_revolution
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #국경의 완전한 철폐
+		id = COU_complete_abolition_of_borders
+		icon = GFX_focus_SOV_the_road_of_life
+		prerequisite = { focus = COU_permanent_revolution }
+		x = 1
+		y = 1
+		relative_position_id = COU_permanent_revolution
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #세계 혁명
+		id = COU_world_revolution
+		icon = GFX_goal_generic_war_with_comintern
+		prerequisite = { focus = COU_nationalism_fragmentation }
+		x = 2
+		y = 2
+		relative_position_id = COU_nationalism_fragmentation
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #국제 공산주의 후원
+		id = COU_support_for_international_communism
+		icon = GFX_focus_SWE_refuge_for_revolutionaries
+		prerequisite = { focus = COU_world_revolution }
+		x = -1
+		y = 1
+		relative_position_id = COU_world_revolution
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #공격위원회
+		id = COU_attack_committee
+		icon = GFX_focus_hol_war_on_pacifism
+		prerequisite = { focus = COU_world_revolution }
+		x = 1
+		y = 1
+		relative_position_id = COU_world_revolution
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #모든 제국의 종말
+		id = COU_end_of_all_empires
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		prerequisite = { focus = COU_attack_committee }
+		x = 1
+		y = 2
+		relative_position_id = COU_world_revolution
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #노동 계급의 전쟁
+		id = COU_war_of_the_working_class
+		icon = GFX_focus_CHL_union_of_hispanic_republics
+		prerequisite = { focus = COU_complete_abolition_of_borders }
+		prerequisite = { focus = COU_support_for_international_communism }
+		x = -2
+		y = 2
+		relative_position_id = COU_world_revolution
+		cost = 5
 		available = {
 		}
 		bypass = {
