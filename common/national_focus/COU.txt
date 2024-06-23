@@ -2175,6 +2175,17 @@ focus_tree = {
 				}
 			}
 			custom_effect_tooltip = SHE_segyehyeogmyeong_tt
+			if = {
+				limit = {
+					any_country = { has_idea = KSP_duties_of_the_police_academy }
+				}
+				every_country = {
+					limit = { has_idea = KSP_duties_of_the_police_academy }
+					ROOT = {
+						add_to_faction = PREV
+					}
+				}
+			}
 		}
 	}
 
@@ -2386,7 +2397,7 @@ focus_tree = {
 		icon = GFX_focus_SOV_proclaim_soviet_hegemony
 		prerequisite = { focus = COU_trinity_branch focus = COU_french_communist_party_recognition }
 		x = 0
-		y = 3
+		y = 4
 		relative_position_id = COU_revolutionary_war
 		cost = 10
 		available = {
@@ -2399,6 +2410,7 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			add_country_leader_trait = COU_kivotos_nationalism
 			every_country = {
 				limit = {
 					Kivotos_school_tag = yes
@@ -2454,7 +2466,7 @@ focus_tree = {
 		x = 0
 		y = 1
 		relative_position_id = COU_nationalism_fragmentation
-		cost = 10
+		cost = 5
 		available = {
 			OR = {
 				controls_province = 11506
@@ -2490,6 +2502,30 @@ focus_tree = {
 		}
 		completion_reward = {
 			set_cosmetic_tag = COU_go_to_left_left_world
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = COU_destruction_of_labor_union_idea
+					add_idea = COU_socialist_world_republic_idea
+				}
+			}
+			hidden_effect = {
+				if = { limit = { has_idea = COU_autonomous_legislation_idea }
+					remove_ideas = COU_autonomous_legislation_idea
+				}
+				if = { limit = { has_idea = COU_workers_republic_idea }
+					remove_ideas = COU_workers_republic_idea
+				}
+				if = { limit = { has_idea = COU_restoration_of_parliamentary_politics_idea }
+					remove_ideas = COU_restoration_of_parliamentary_politics_idea
+				}
+				if = { limit = { has_idea = COU_representative_labor_union_law_idea }
+					remove_ideas = COU_representative_labor_union_law_idea
+				}
+				if = { limit = { has_idea = COU_destruction_of_labor_union_idea }
+					remove_ideas = COU_destruction_of_labor_union_idea
+				}
+				add_ideas = COU_socialist_world_republic_idea
+			}
 		}
 	}
 
@@ -2571,6 +2607,10 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			custom_effect_tooltip = COU_total_destruction_of_capitalism_tt
+			add_to_variable = { COU_class_struggle_industrial_capacity_factory = -0.05 }
+			add_to_variable = { COU_class_struggle_industrial_capacity_dockyard = -0.05 }
+			add_to_variable = { COU_class_struggle_production_factory_start_efficiency_factor = 0.10 }
 		}
 	}
 
@@ -2592,6 +2632,12 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			custom_effect_tooltip = COU_liberation_from_wage_labor_tt
+			add_to_variable = { COU_class_struggle_production_factory_start_efficiency_factor = 0.05 }
+			add_to_variable = { COU_class_struggle_production_factory_efficiency_gain_factor = 0.05 }
+			add_to_variable = { COU_class_struggle_factory_max_efficiency_factor = 0.05 }
+			add_to_variable = { COU_class_struggle_industrial_capacity_factory = -0.10 }
+			add_to_variable = { COU_class_struggle_industrial_capacity_dockyard = -0.10 }
 		}
 	}
 
@@ -2719,6 +2765,52 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+		}
+	}
+
+	focus = { #소비에트 제국 해체
+		id = COU_dismantling_of_the_soviet_empire
+		icon = GFX_focus_SOV_socialism_in_one_country
+		prerequisite = { focus = COU_revolution_end focus = COU_war_of_the_working_class }
+		prerequisite = { focus = COU_revolution_end focus = COU_liberation_from_wage_labor }
+		prerequisite = { focus = COU_revolution_end focus = COU_end_of_all_empires }
+		x = 0
+		y = 6
+		relative_position_id = COU_anti_stalinism_alliance
+		cost = 10
+		available = {
+		}
+		bypass = {
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			every_country = {
+				limit = {
+					NOT = { tag = ROOT }
+					OR = {
+						original_tag = SOV
+						AND = {
+							is_major = yes
+							has_government = communism
+							NOT = { has_country_leader_ideology = left_council_communism }
+						}
+					}
+				}
+				custom_effect_tooltip = war_aim_against_the_country_puppetization_tt
+				hidden_effect = {
+					ROOT = {
+						create_wargoal = {
+							target = PREV
+							type = puppet_wargoal_focus
+						}
+					}
+				}
+			}
+			add_ideas = SHE_socialism_on_the_move
 		}
 	}
 	
