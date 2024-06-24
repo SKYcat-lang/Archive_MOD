@@ -693,7 +693,7 @@ focus_tree = {
 		icon = GFX_focus_SWE_urbanization
 		prerequisite = { focus = COU_normalization_of_administration }
 		mutually_exclusive = { focus = COU_emergency_system focus = COU_stabilization_of_the_student_council }
-		x = 10
+		x = 13
 		y = 1
 		relative_position_id = COU_normalization_of_administration
 		cost = 10
@@ -724,7 +724,7 @@ focus_tree = {
 		icon = GFX_COU_choice_AOI
 		prerequisite = { focus = COU_stabilization_of_the_student_council }
 		mutually_exclusive = { focus = COU_student_council_amendment }
-		x = -6
+		x = -1
 		y = 1
 		relative_position_id = COU_stabilization_of_the_student_council
 		cost = 5
@@ -755,7 +755,7 @@ focus_tree = {
 		icon = GFX_COU_choice_RIN
 		prerequisite = { focus = COU_stabilization_of_the_student_council }
 		mutually_exclusive = { focus = COU_impeachment_of_chief_executive }
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = COU_stabilization_of_the_student_council
 		cost = 5
@@ -781,11 +781,12 @@ focus_tree = {
 			COU_cut_tower_down_effect = yes
 		}
 	}
+
 	focus = {
 		id = COU_analog_adminstration
 		icon = GFX_focus_generic_self_management
 		cost = 5
-		x = 0
+		x = -1
 		y = 1
 		prerequisite = {
 			focus = COU_student_council_amendment
@@ -1011,33 +1012,680 @@ focus_tree = {
 			add_ideas = COU_general_student_council
 		 }
 	}
-	focus = {
-		id = COU_guswldlsdlsrnjswhfPdks
-		icon = GFX_COU_financeoffice
+	# focus = { # 현지인 인권조례안
+	# 	id = COU_guswldlsdlsrnjswhfPdks
+	# 	icon = GFX_COU_financeoffice
+	# 	cost = 5
+	# 	x = -1
+	# 	y = 1
+	# 	relative_position_id = COU_GeneralStudentCouncil
+	# 	prerequisite = {
+	# 		focus = COU_GeneralStudentCouncil
+	# 	}
+	# 	completion_reward = {
+	# 		add_ideas = COU_No_chabyul
+	# 	 }
+	# }
+	# focus = { # 현지인 인정거부
+	# 	id = COU_guswldlsdlswjdrjqn
+	# 	icon = GFX_COU_financeoffice
+	# 	cost = 5
+	# 	x = 1
+	# 	y = 1
+	# 	relative_position_id = COU_GeneralStudentCouncil
+	# 	prerequisite = {
+	# 		focus = COU_GeneralStudentCouncil
+	# 	}
+	# 	completion_reward = {
+	# 		add_ideas = COU_yes_chabyul
+	# 	 }
+	# }
+
+	focus = { # 내부 학원 문제
+		id = COU_role_facing
+		icon = GFX_focus_hol_daf
 		cost = 5
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = COU_GeneralStudentCouncil
 		prerequisite = {
 			focus = COU_GeneralStudentCouncil
 		}
 		completion_reward = {
-			add_ideas = COU_No_chabyul
+			remove_ideas = COU_admin_confusion
 		 }
 	}
-	focus = {
-		id = COU_guswldlsdlswjdrjqn
-		icon = GFX_COU_financeoffice
+
+	focus = { # 평화를 위한 협력
+		id = COU_cooperation_for_peace
+		icon = GFX_goal_generic_improve_relations
 		cost = 5
 		x = 1
 		y = 1
+		relative_position_id = COU_role_facing
+		prerequisite = {
+			focus = COU_role_facing
+		}
+		completion_reward = {
+			# 학원들과 관게를 개선하는 모디파이어 추가
+			
+		}
+	}
+
+	focus = { # 평화의 상징
+		id = COU_symbol_of_peace
+		icon = GFX_focus_SWE_refuge_from_war
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = COU_role_facing
+		prerequisite = {
+			focus = COU_role_facing
+		}
+		completion_reward = {
+			# 독보 관련 어드벤테지 중점
+			set_rule = {
+				can_lower_tension = yes
+				can_guarantee_other_ideologies = yes
+			}
+		}
+	}
+
+	focus = { # 무제한 개입
+		id = COU_unlimited_intervention
+		icon = GFX_goal_generic_territory_or_war
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = COU_symbol_of_peace
+		prerequisite = {
+			focus = COU_symbol_of_peace
+			focus = COU_cooperation_for_peace
+		}
+		completion_reward = {
+			# 대충 민주주의 혹은 비동맹 긴장도 낮추기
+			set_rule = {
+				can_create_collaboration_government = yes
+				can_declare_war_on_same_ideology = yes
+				can_force_government = yes
+				can_send_volunteers = yes
+				can_puppet = yes
+				can_only_justify_war_on_threat_country = no
+			}
+		}
+	}
+
+	focus = { # 공격적
+		id = COU_aggressive
+		icon = GFX_COU_focus_offensive
+		cost = 5
+		x = 2
+		y = 1
+		relative_position_id = COU_unlimited_intervention
+		prerequisite = {
+			focus = COU_unlimited_intervention
+		}
+		mutually_exclusive = {
+			focus = COU_defensive
+		}
+		completion_reward = {
+			add_ideas = COU_offensive_position_idea
+		}
+	}
+
+	focus = { # 방어적
+		id = COU_defensive
+		icon = GFX_COU_focus_defensive
+		cost = 5
+		x = -2
+		y = 1
+		relative_position_id = COU_unlimited_intervention
+		mutually_exclusive = {
+			focus = COU_aggressive
+		}
+		prerequisite = {
+			focus = COU_unlimited_intervention
+		}
+		completion_reward = {
+			add_ideas = COU_defensive_position_idea
+		}
+	}
+
+	focus = { # 세계의 경찰
+		id = COU_police_of_the_world
+		icon = GFX_focus_generic_military_mission
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = COU_defensive
+		prerequisite = {
+			focus = COU_defensive
+		}
+		completion_reward = {
+			# New world Order
+			add_ideas = COU_police_of_the_world_idea
+		}
+	}
+
+	focus = { # 통합을 위한 준비
+		id = COU_prepare_for_integration
+		icon = GFX_goal_generic_national_unity
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = COU_police_of_the_world
+		prerequisite = {
+			focus = COU_police_of_the_world
+		}
+		completion_reward = {
+			add_stability = 0.10
+		}
+	}
+
+	focus = { # 발키리
+		id = COU_valkyrie_integration
+		icon = GFX_KSP_focus_gyeongbiguk_helping
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = COU_prepare_for_integration
+		prerequisite = {
+			focus = COU_prepare_for_integration
+		}
+		bypass = {
+			NOT = {
+				country_exists = KSP
+			}
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = KSP
+				}
+			}
+			set_autonomy = {
+				target = KSP
+				autonomy_state = autonomy_puppet
+			}
+		}
+	}
+
+	focus = { # SRT
+		id = COU_srt_integration
+		icon = GFX_SRT_focus_karbarlog
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = COU_prepare_for_integration
+		prerequisite = {
+			focus = COU_prepare_for_integration
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = SRT
+				}
+			}
+			set_autonomy = {
+				target = SRT
+				autonomy_state = autonomy_puppet
+			}
+		}
+	}
+
+	focus = { # 대외 영향력 확대
+		id = COU_expansion_of_foreign_influence
+		icon = GFX_COU_financeoffice
+		cost = 5
+		x = -4
+		y = 1
+		relative_position_id = COU_police_of_the_world
+		prerequisite = {
+			focus = COU_police_of_the_world
+		}
+		completion_reward = {
+			add_ideas = COU_yes_chabyul
+		}
+	}
+
+	focus = { # 키보토스주의
+		id = COU_kivotosism
+		icon = GFX_COU_financeoffice
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = COU_expansion_of_foreign_influence
+		prerequisite = {
+			focus = COU_expansion_of_foreign_influence
+		}
+		completion_reward = {
+			add_ideas = COU_yes_chabyul
+		}
+	}
+
+	focus = { # 군소 학원 보호
+		id = COU_protecting_small_academies
+		icon = GFX_COU_financeoffice
+		cost = 5
+		x = 0
+		y = 3
+		relative_position_id = COU_kivotosism
+		prerequisite = {
+			focus = COU_kivotosism
+		}
+		completion_reward = {
+			add_ideas = COU_yes_chabyul
+		}
+	}
+
+	focus = { # 3대 학원 견제
+		id = COU_suppresion_of_the_three_academies
+		icon = GFX_COU_financeoffice
+		cost = 5
+		x = -2
+		y = 2
+		relative_position_id = COU_kivotosism
+		prerequisite = {
+			focus = COU_kivotosism
+		}
+		completion_reward = {
+			add_ideas = COU_yes_chabyul
+		}
+	}
+
+	focus = { # 이계의 적을 직시
+		id = COU_facing_the_enemy_of_another_world
+		icon = GFX_goal_generic_major_war
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = COU_aggressive
+		prerequisite = {
+			focus = COU_aggressive
+		}
+		completion_reward = {
+			# 수정예정
+			add_political_power = 50			
+		}
+	}
+
+	focus = { # 함대 신설
+		id = COU_establishment_of_fleet
+		icon = GFX_COU_focus_establishment_of_fleet
+		cost = 5
+		x = 2
+		y = 1
+		relative_position_id = COU_defensive
+		prerequisite = {
+			focus = COU_defensive
+			focus = COU_aggressive
+		}
+		completion_reward = {
+			navy_experience = 50
+		}
+	}
+	
+	focus = { # 조선소 투자
+		id = COU_investment_in_chosun
+		icon = GFX_COU_focus_investment_in_chosun
+		cost = 5
+		x = -2
+		y = 1
+		relative_position_id = COU_establishment_of_fleet
+		prerequisite = {
+			focus = COU_establishment_of_fleet
+		}
+		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1				
+				add_building_construction = {
+					type = dockyard
+					level = 1
+				}
+				add_extra_state_shared_building_slots = 1				
+				add_building_construction = {
+					type = dockyard
+					level = 1
+				}
+				add_extra_state_shared_building_slots = 1				
+				add_building_construction = {
+					type = dockyard
+					level = 1
+				}
+			}
+		}
+	}
+
+	focus = { # 상륙정
+		id = COU_landing_force
+		icon = GFX_COU_focus_landing_force
+		cost = 5
+		x = 2
+		y = 1
+		relative_position_id = COU_investment_in_chosun
+		prerequisite = {
+			focus = COU_investment_in_chosun
+			focus = COU_whale_of_the_deep_sea
+			focus = COU_ocean_master
+		}
+		completion_reward = {
+			set_technology = {
+				landing_craft = 1
+			}
+		}
+	}
+
+	focus = { # 심해의 범고래
+		id = COU_whale_of_the_deep_sea
+		icon = GFX_COU_financeoffice
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = COU_establishment_of_fleet
+		prerequisite = {
+			focus = COU_establishment_of_fleet
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				name = COU_whale_of_the_deep_sea
+				bonus = 1.00
+				category = mio_cat_tech_all_submarine_and_modules
+				uses = 2
+			}
+		}
+	}
+
+	focus = { # 대양의 지배자
+		id = COU_ocean_master
+		icon = GFX_COU_financeoffice
+		cost = 5
+		x = 2
+		y = 1
+		relative_position_id = COU_establishment_of_fleet
+		prerequisite = {
+			focus = COU_establishment_of_fleet
+		}
+		completion_reward = {
+			add_tech_bonus = {
+				name = COU_ocean_master
+				bonus = 1.00
+				category = mio_cat_tech_all_cruiser_and_modules
+				uses = 2
+			}
+		}
+	}
+
+	focus = { # 카이저 압박
+		id = COU_kaiser_pressure
+		icon = GFX_focus_generic_strike_at_democracy3
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = COU_facing_the_enemy_of_another_world
+		prerequisite = {
+			focus = COU_facing_the_enemy_of_another_world
+		}
+		completion_reward = {
+			create_wargoal = {
+				target = KAI
+				type = annex_everything
+			}
+		}
+	}
+
+	focus = { # 독수리 사냥
+		id = COU_eagle_hunting
+		icon = GFX_focus_generic_attack_usa
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = COU_kaiser_pressure
+		prerequisite = {
+			focus = COU_kaiser_pressure
+		}
+		completion_reward = {
+			create_wargoal = {
+				target = USA
+				type = annex_everything
+			}
+		}
+	}
+
+	focus = { # 재무 건전화
+		id = COU_financial_health
+		icon = GFX_goal_generic_construct_infrastructure
+		cost = 5
+		x = 5
+		y = 1
 		relative_position_id = COU_GeneralStudentCouncil
 		prerequisite = {
 			focus = COU_GeneralStudentCouncil
 		}
 		completion_reward = {
-			add_ideas = COU_yes_chabyul
-		 }
+			add_ideas = export_focus			
+		}
+	}
+
+	focus = { # 학생을 위한 정치
+		id = COU_politics_for_students
+		icon = GFX_goal_generic_neutrality_focus
+		cost = 5
+		x = -8
+		y = 1
+		relative_position_id = COU_GeneralStudentCouncil
+		prerequisite = {
+			focus = COU_GeneralStudentCouncil
+		}
+		completion_reward = {
+			add_political_power = 150
+		}
+	}
+
+	focus = { # 대규모 공채
+		id = COU_large_scale_recruitment
+		icon = GFX_focus_generic_full_employment
+		cost = 5
+		x = 2
+		y = 1
+		relative_position_id = COU_financial_health
+		prerequisite = {
+			focus = COU_financial_health
+		}
+		completion_reward = {
+			# TODO 학생 징병 국민정신 추가
+			every_army_leader = {
+				limit = {
+					NOT = {
+						has_trait = politically_connected
+					}
+				}
+				add_trait = { trait = politically_connected }
+			}
+		}
+	}
+
+	focus = { # 키보토스의 병기창
+		id = COU_kivotos_armory
+		icon = GFX_COU_create_military
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = COU_financial_health
+		prerequisite = {
+			focus = COU_financial_health
+		}
+		completion_reward = {
+			mio:COU_superior_infantry = {
+				complete_mio_trait = COU_mio_superior_infantry
+			}
+		}
+	}
+
+	focus = { # 연구부
+		id = COU_research_department
+		icon = GFX_focus_research
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = COU_kivotos_armory
+		prerequisite = {
+			focus = COU_kivotos_armory
+		}
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	focus = { # 회장 권한 강화
+		id = COU_enhancement_of_president_authority
+		icon = GFX_COU_financeoffice
+		cost = 5
+		x = -2
+		y = 1
+		relative_position_id = COU_politics_for_students
+		mutually_exclusive = {
+			focus = COU_small_student_council
+		}
+		prerequisite = {
+			focus = COU_politics_for_students
+		}
+		completion_reward = {
+			add_country_leader_trait = dictator
+		}
+	}
+
+
+	focus = { # 경제관리부
+		id = COU_finance_department
+		icon = GFX_focus_generic_self_management
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = COU_enhancement_of_president_authority
+		prerequisite = {
+			focus = COU_enhancement_of_president_authority
+		}
+		completion_reward = {
+			add_ideas = COU_finance_department_idea
+		}
+	}
+
+	focus = { # 우리의 수사국
+		id = COU_our_investigation_agency
+		icon = GFX_focus_eng_god_save_the_king
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = COU_finance_department
+		prerequisite = {
+			focus = COU_finance_department
+		}
+		completion_reward = {
+			create_intelligence_agency = {
+				name = COU_our_agency_name
+				icon = GFX_intelligence_agency_logo_cou				
+			}
+		}
+	}
+
+
+	focus = { # 작은 학생회
+		id = COU_small_student_council
+		icon = GFX_focus_SOV_merge_plants
+		cost = 5
+		x = 1
+		y = 1
+		mutually_exclusive = {
+			focus = COU_enhancement_of_president_authority
+		}
+		relative_position_id = COU_politics_for_students
+		prerequisite = {
+			focus = COU_politics_for_students
+		}
+		completion_reward = {
+			add_ideas = COU_small_government_idea
+		}
+	}
+
+	focus = { # 규제 완화
+		id = COU_regulation_relaxation
+		icon = GFX_goal_generic_construct_mil_factory
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = COU_small_student_council
+		prerequisite = {
+			focus = COU_small_student_council
+		}
+		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+				}
+			}
+		}
+	}
+
+	focus = { # 현지 기업
+		id = COU_local_business
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 5
+		x = 2
+		y = 1
+		relative_position_id = COU_enhancement_of_president_authority
+		prerequisite = {
+			focus = COU_small_student_council
+			focus = COU_enhancement_of_president_authority
+		}
+		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
+	}
+
+	focus = { # 연구 단지
+		id = COU_research_institute
+		icon = GFX_focus_research2
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = COU_local_business
+		prerequisite = {
+			focus = COU_regulation_relaxation
+		}
+		prerequisite = {
+			focus = COU_local_business
+		}
+		completion_reward = {
+			add_research_slot = 1
+		}
 	}
 
 #                                                                                                                                          
