@@ -2595,9 +2595,9 @@ TRM_Iron_Sword_Operations_Categorie = {
 						}
 				}
 				var:GEI_Secure_Royal_Blood_Search_back_var = { # 배후를 못찾았다.. ㅜㅜ
-					custom_effect_tooltip = GEI_Secure_Royal_Blood_decision_search_run_up_tt
-					add_to_variable = { GEI_Secure_Royal_Blood_Search_var = 10 } #-> 수색
-					add_to_variable = { GEI_Secure_Royal_Blood_Search_back_var = -10 } #-> 수색 반대
+					custom_effect_tooltip = GEI_Secure_Royal_Blood_decision_search_up_tt
+					add_to_variable = { GEI_Secure_Royal_Blood_Search_var = 5 } #-> 수색
+					add_to_variable = { GEI_Secure_Royal_Blood_Search_back_var = -5 } #-> 수색 반대
 				}
 			}
 		}
@@ -2656,15 +2656,23 @@ TRM_Iron_Sword_Operations_Categorie = {
 		days_remove = 15
 		
 		custom_cost_trigger = {
-			command_power > 9
-			has_political_power > 4
+			has_political_power > 14
+			num_of_civilian_factories > 0
 		}
-		custom_cost_text = SHE_managing_occupied_territory_cost
+		custom_cost_text = TRM_Iron_Sword_decision_search_up_cost
 		
 		fire_only_once = no
 
 		ai_will_do = {
 			base = 10
+			modifier = {
+				date > 1940.1.1
+				factor = 0
+			}
+			modifier = {
+				num_of_civilian_factories < 40
+				factor = 0
+			}
 		}
 		
 		remove_effect = {
@@ -2672,9 +2680,9 @@ TRM_Iron_Sword_Operations_Categorie = {
 				add_command_power = -10
 				add_political_power = -5
 			}
-			custom_effect_tooltip = GEI_Secure_Royal_Blood_decision_search_up_tt
-			add_to_variable = { GEI_Secure_Royal_Blood_Search_var = 5 } #-> 수색
-			add_to_variable = { GEI_Secure_Royal_Blood_Search_back_var = -5 } #-> 수색 반대
+			custom_effect_tooltip = GEI_Secure_Royal_Blood_decision_search_run_up_tt
+			add_to_variable = { GEI_Secure_Royal_Blood_Search_var = 10 } #-> 수색
+			add_to_variable = { GEI_Secure_Royal_Blood_Search_back_var = -10 } #-> 수색 반대
 		}
 	}
 	TRM_Iron_Sword_decision_battle_up = {
@@ -2741,14 +2749,18 @@ TRM_Iron_Sword_Operations_Categorie = {
 				has_idea = TRM_collapse_1
 			}
         }
-        cost = 15
+        cost = 50
 
-		days_remove = 15
+		days_remove = 70
         days_re_enable = 120
+
+		modifier = {
+			consumer_goods_factor = 0.15
+		}
 		
 		fire_only_once = no
 		
-		remove_effect = {
+		complete_effect = {
             TRN_country_collapse_down = yes
 		}
 	}
