@@ -931,7 +931,19 @@ focus_tree = {
 		}
 		completion_reward = {
 			COU_cut_tower_down_effect = yes
-		 }
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
 	}
 	focus = {
 		id = COU_SRTdmldnsaud
@@ -1002,8 +1014,9 @@ focus_tree = {
 	}
 	focus = {
 		id = COU_GeneralStudentCouncil
-		icon = GFX_COU_financeoffice
+		icon = GFX_focus_spa_the_spanish_miracle
 		cost = 5
+		search_filters = { FOCUS_FILTER_POLITICAL }
 		x = 0
 		y = 3
 		relative_position_id = COU_analog_adminstration
@@ -1050,6 +1063,7 @@ focus_tree = {
 	focus = { # 내부 학원 문제
 		id = COU_role_facing
 		icon = GFX_focus_hol_daf
+		search_filters = { FOCUS_FILTER_POLITICAL }
 		cost = 5
 		x = 0
 		y = 1
@@ -1065,6 +1079,7 @@ focus_tree = {
 	focus = { # 평화를 위한 협력
 		id = COU_cooperation_for_peace
 		icon = GFX_goal_generic_improve_relations
+		search_filters = { FOCUS_FILTER_POLITICAL  }
 		cost = 5
 		x = 1
 		y = 1
@@ -1074,7 +1089,15 @@ focus_tree = {
 		}
 		completion_reward = {
 			# 학원들과 관게를 개선하는 모디파이어 추가
-			
+			every_country = {
+				limit = {
+					Kivotos_school_tag = yes
+				}
+				add_opinion_modifier = {
+					target = COU
+					modifier = COU_our_collaborator
+				}					
+			}
 		}
 	}
 
@@ -1084,6 +1107,7 @@ focus_tree = {
 		cost = 5
 		x = -1
 		y = 1
+		search_filters = { FOCUS_FILTER_POLITICAL  }
 		relative_position_id = COU_role_facing
 		prerequisite = {
 			focus = COU_role_facing
@@ -1104,6 +1128,7 @@ focus_tree = {
 		x = 1
 		y = 1
 		relative_position_id = COU_symbol_of_peace
+		search_filters = { FOCUS_FILTER_POLITICAL  }
 		prerequisite = {
 			focus = COU_symbol_of_peace
 			focus = COU_cooperation_for_peace
@@ -1128,6 +1153,7 @@ focus_tree = {
 		x = 2
 		y = 1
 		relative_position_id = COU_unlimited_intervention
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_WAR_SUPPORT }
 		prerequisite = {
 			focus = COU_unlimited_intervention
 		}
@@ -1146,6 +1172,7 @@ focus_tree = {
 		x = -2
 		y = 1
 		relative_position_id = COU_unlimited_intervention
+		search_filters = { FOCUS_FILTER_POLITICAL  }
 		mutually_exclusive = {
 			focus = COU_aggressive
 		}
@@ -1154,6 +1181,9 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_ideas = COU_defensive_position_idea
+			set_rule = {
+				can_only_justify_war_on_threat_country = yes
+			}
 		}
 	}
 
@@ -1164,6 +1194,7 @@ focus_tree = {
 		x = -1
 		y = 1
 		relative_position_id = COU_defensive
+		search_filters = { FOCUS_FILTER_POLITICAL  }
 		prerequisite = {
 			focus = COU_defensive
 		}
@@ -1173,67 +1204,41 @@ focus_tree = {
 		}
 	}
 
-	focus = { # 통합을 위한 준비
-		id = COU_prepare_for_integration
+	focus = { # 결속 강화
+		id = COU_strengthening_of_academy_alliance
 		icon = GFX_goal_generic_national_unity
 		cost = 5
 		x = -1
 		y = 1
 		relative_position_id = COU_police_of_the_world
+		search_filters = { FOCUS_FILTER_POLITICAL  }
 		prerequisite = {
 			focus = COU_police_of_the_world
 		}
 		completion_reward = {
-			add_stability = 0.10
+			#add_stability = 0.10
+			every_other_country = {
+				limit = {
+					Kivotos_school_tag = yes
+				}
+				country_event = {
+					id = COU_kivotos_alliance.5
+					hours = 8
+				}
+			}	
 		}
 	}
 
-	focus = { # 발키리
-		id = COU_valkyrie_integration
-		icon = GFX_KSP_focus_gyeongbiguk_helping
+	focus = { # 키보토스 우선주의
+		id = COU_kivotosism
+		icon = GFX_focus_generic_support_the_left_right
 		cost = 5
-		x = -1
+		x = -5
 		y = 1
-		relative_position_id = COU_prepare_for_integration
-		prerequisite = {
-			focus = COU_prepare_for_integration
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		mutually_exclusive = {
+			focus = COU_expansion_of_investment
 		}
-		bypass = {
-			NOT = {
-				has_country_flag = GAEBALJUNG
-			}
-		}
-		bypass = {
-		}
-		completion_reward = {
-		}
-	}
-
-	focus = { # SRT
-		id = COU_srt_integration
-		icon = GFX_SRT_focus_karbarlog
-		cost = 5
-		x = 1
-		y = 1
-		relative_position_id = COU_prepare_for_integration
-		prerequisite = {
-			focus = COU_prepare_for_integration
-		}
-		bypass = {
-			NOT = {
-				has_country_flag = GAEBALJUNG
-			}
-		}
-		completion_reward = {
-		}
-	}
-
-	focus = { # 대외 영향력 확대
-		id = COU_expansion_of_foreign_influence
-		icon = GFX_COU_financeoffice
-		cost = 5
-		x = -4
-		y = 1
 		relative_position_id = COU_police_of_the_world
 		prerequisite = {
 			focus = COU_police_of_the_world
@@ -1241,66 +1246,360 @@ focus_tree = {
 		completion_reward = {
 			add_ideas = COU_yes_chabyul
 		}
+	}	
+
+
+	focus = { # 외국 투자 유치
+		id = COU_expansion_of_investment
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 5
+		x = -3
+		y = 1
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		mutually_exclusive = {
+			focus = COU_kivotosism
+		}
+		relative_position_id = COU_police_of_the_world
+		prerequisite = {
+			focus = COU_police_of_the_world
+		}
+		completion_reward = {
+			add_ideas = COU_world_trade_idea
+		}
 	}
 
-	focus = { # 키보토스주의
-		id = COU_kivotosism
-		icon = GFX_COU_financeoffice
+	focus = { # 키보토스 주식회사
+		id = COU_kivotos_company
+		icon = GFX_goal_generic_consumer_goods
+		cost = 5
+		x = -1
+		y = 1
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		relative_position_id = COU_expansion_of_investment
+		prerequisite = {
+			focus = COU_expansion_of_investment
+			focus = COU_kivotosism
+		}
+		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1				
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+				add_extra_state_shared_building_slots = 1				
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1				
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
+	}
+
+	focus = { # 죽음의 상인
+		id = COU_death_merchant
+		icon = GFX_goal_generic_secret_weapon
 		cost = 5
 		x = 0
 		y = 1
-		relative_position_id = COU_expansion_of_foreign_influence
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		relative_position_id = COU_kivotos_company
 		prerequisite = {
-			focus = COU_expansion_of_foreign_influence
+			focus = COU_kivotos_company
 		}
 		completion_reward = {
-			add_ideas = COU_yes_chabyul
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1				
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+				}
+				add_extra_state_shared_building_slots = 1				
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+				}
+			}
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 1				
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+				}
+			}
+		}
+	}	
+
+	focus = { # 해상 무역로 확대
+		id = COU_expansion_of_maritime_trade_routes
+		icon = GFX_COU_focus_investment_in_chosun
+		cost = 5
+		x = 0
+		y = 1
+		search_filters = { FOCUS_FILTER_INDUSTRY  }
+		relative_position_id = COU_death_merchant
+		prerequisite = {
+			focus = COU_death_merchant
+		}
+		completion_reward = {
+			random_owned_state = {
+				limit = {
+					is_coastal = yes
+				}
+				add_extra_state_shared_building_slots = 1				
+				add_building_construction = {
+					type = dockyard
+					level = 1
+				}
+				add_extra_state_shared_building_slots = 1				
+				add_building_construction = {
+					type = dockyard
+					level = 1
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_coastal = yes
+				}
+				add_extra_state_shared_building_slots = 1				
+				add_building_construction = {
+					type = dockyard
+					level = 1
+				}
+			}
+
+		}
+	}	
+
+	focus = { # 해외 과학자 영입
+		id = COU_hiring_foreign_scientists
+		icon = GFX_focus_research2
+		cost = 5
+		x = 1
+		y = 1
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		relative_position_id = COU_expansion_of_investment
+		prerequisite = {
+			focus = COU_expansion_of_investment
+		}
+		completion_reward = {
+			add_research_slot = 1
 		}
 	}
+
+	# focus = { # 죽음의 상인
+	# 	id = COU_death_merchant
+	# 	icon = GFX_COU_financeoffice
+	# 	cost = 5
+	# 	x = -1
+	# 	y = 3
+	# 	relative_position_id = COU_expansion_of_investment
+	# 	prerequisite = {
+	# 		focus = COU_kivotosism
+	# 		focus = COU_expansion_of_investment
+	# 	}
+	# 	completion_reward = {
+	# 		add_ideas = COU_yes_chabyul
+	# 	}
+	# }	
+
+	# focus = { # 기축 통화
+	# 	id = COU_base_currency
+	# 	icon = GFX_focus_mex_privatisation
+	# 	cost = 5
+	# 	x = -1
+	# 	y = 1
+	# 	relative_position_id = COU_kivotosism
+	# 	prerequisite = {
+	# 		focus = COU_kivotosism
+	# 	}
+	# 	completion_reward = {
+	# 		add_ideas = COU_yes_chabyul
+	# 	}
+	# }	
+
+
+	# focus = { # 다시 위대하게
+	# 	id = COU_make_kivotos_great_again
+	# 	icon = GFX_focus_generic_the_giant_wakes
+	# 	cost = 5
+	# 	x = 0
+	# 	y = 2
+	# 	relative_position_id = COU_kivotosism
+	# 	prerequisite = {
+	# 		focus = COU_kivotosism
+	# 	}
+	# 	completion_reward = {
+	# 		add_ideas = COU_yes_chabyul
+	# 	}
+	# }		
 
 	focus = { # 군소 학원 보호
 		id = COU_protecting_small_academies
-		icon = GFX_COU_financeoffice
+		icon = GFX_focus_generic_little_entente
 		cost = 5
-		x = 0
-		y = 3
-		relative_position_id = COU_kivotosism
+		x = 1
+		y = 1
+		relative_position_id = COU_strengthening_of_academy_alliance
 		prerequisite = {
-			focus = COU_kivotosism
+			focus = COU_strengthening_of_academy_alliance
 		}
+		search_filters = {  }
 		completion_reward = {
-			add_ideas = COU_yes_chabyul
+			ABY = {
+				give_guarantee = COU
+			}
+			HEU = {
+				give_guarantee = COU
+			}
+			GEH = {
+				give_guarantee = COU
+			}
+			HYA = {
+				give_guarantee = COU
+			}
+			SHA = {
+				give_guarantee = COU
+			}
 		}
 	}
 
-	focus = { # 3대 학원 견제
-		id = COU_suppresion_of_the_three_academies
-		icon = GFX_COU_financeoffice
+	focus = { # 중앙 집권
+		id = COU_centralization_of_power
+		icon = GFX_goal_demand_sudetenland
 		cost = 5
-		x = -2
-		y = 2
-		relative_position_id = COU_kivotosism
-		prerequisite = {
-			focus = COU_kivotosism
+		x = 1
+		y = 1
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		mutually_exclusive = {
+			focus = COU_facing_the_enemy_of_another_world
 		}
-		completion_reward = {
-			add_ideas = COU_yes_chabyul
+		relative_position_id = COU_aggressive
+		prerequisite = {
+			focus = COU_aggressive
+		}
+		completion_reward = {			
+			add_stability = 0.10		
 		}
 	}
+
+	focus = { # 게헨나 강제 편입
+		id = COU_gehenna_annex
+		icon = GFX_focus_attack_GEH
+		prerequisite = { 
+			focus = COU_centralization_of_power
+			focus = COU_facing_the_enemy_of_another_world
+	 	}
+		x = 1
+		y = 1
+		relative_position_id = COU_centralization_of_power
+		cost = 10
+		available = {
+			is_subject = no
+		}
+		bypass = {
+			has_war_with = GEM
+			has_war_with = GEH
+			has_war_with = HEU
+		}
+		search_filters = {			
+			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_ANNEXATION
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = GEM
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = GEH
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = HEU
+			}
+		}
+	}
+
+	focus = { #밀레니엄 강제 편입
+		id = COU_millennium_annex
+		icon = GFX_focus_attack_MIL
+		prerequisite = { 
+			focus = COU_centralization_of_power
+			focus = COU_facing_the_enemy_of_another_world
+	 	}
+		x = 0
+		y = 2
+		
+		relative_position_id = COU_centralization_of_power
+		cost = 10
+		available = {
+			is_subject = no
+		}
+		bypass = {
+		}
+		search_filters = {			
+			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_ANNEXATION
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = MIL
+			}
+		}
+	}
+
+	focus = { #트리니티 강제 편입
+		id = COU_trinity_annex
+		icon = GFX_focus_attack_TRN
+		prerequisite = { focus = COU_gehenna_annex }
+		x = 0
+		y = 2
+		relative_position_id = COU_gehenna_annex
+		cost = 10
+		available = {
+			is_subject = no
+		}
+		bypass = {
+			has_war_with = TRM
+		}
+		search_filters = {			
+			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_ANNEXATION
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = TRM
+			}
+		}
+	}	
 
 	focus = { # 이계의 적을 직시
 		id = COU_facing_the_enemy_of_another_world
 		icon = GFX_goal_generic_major_war
 		cost = 5
-		x = 1
+		x = 3
 		y = 1
+		mutually_exclusive = {
+			focus = COU_centralization_of_power
+		}
 		relative_position_id = COU_aggressive
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT }
 		prerequisite = {
 			focus = COU_aggressive
 		}
 		completion_reward = {
-			# 수정예정
-			add_political_power = 50			
+			add_war_support = 0.10
 		}
 	}
 
@@ -1311,6 +1610,9 @@ focus_tree = {
 		x = 2
 		y = 1
 		relative_position_id = COU_defensive
+		search_filters = { 
+			FOCUS_FILTER_NAVY_XP
+		 }
 		prerequisite = {
 			focus = COU_defensive
 			focus = COU_aggressive
@@ -1330,6 +1632,7 @@ focus_tree = {
 		prerequisite = {
 			focus = COU_establishment_of_fleet
 		}
+		search_filters = { FOCUS_FILTER_INDUSTRY  }
 		completion_reward = {
 			random_owned_state = {
 				add_extra_state_shared_building_slots = 1				
@@ -1358,6 +1661,7 @@ focus_tree = {
 		x = 2
 		y = 1
 		relative_position_id = COU_investment_in_chosun
+		search_filters = {  FOCUS_FILTER_RESEARCH }
 		prerequisite = {
 			focus = COU_investment_in_chosun
 			focus = COU_whale_of_the_deep_sea
@@ -1376,6 +1680,7 @@ focus_tree = {
 		cost = 5
 		x = 0
 		y = 1
+		search_filters = {  FOCUS_FILTER_RESEARCH }
 		relative_position_id = COU_establishment_of_fleet
 		prerequisite = {
 			focus = COU_establishment_of_fleet
@@ -1396,6 +1701,7 @@ focus_tree = {
 		cost = 5
 		x = 2
 		y = 1
+		search_filters = {  FOCUS_FILTER_RESEARCH }
 		relative_position_id = COU_establishment_of_fleet
 		prerequisite = {
 			focus = COU_establishment_of_fleet
@@ -1413,9 +1719,10 @@ focus_tree = {
 	focus = { # 카이저 압박
 		id = COU_kaiser_pressure
 		icon = GFX_focus_generic_strike_at_democracy3
-		cost = 5
+		cost = 10
 		x = 1
 		y = 1
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
 		relative_position_id = COU_facing_the_enemy_of_another_world
 		prerequisite = {
 			focus = COU_facing_the_enemy_of_another_world
@@ -1431,9 +1738,10 @@ focus_tree = {
 	focus = { # 독수리 사냥
 		id = COU_eagle_hunting
 		icon = GFX_focus_generic_attack_usa
-		cost = 5
-		x = 1
+		cost = 10
+		x = -1
 		y = 1
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_ANNEXATION }
 		relative_position_id = COU_kaiser_pressure
 		prerequisite = {
 			focus = COU_kaiser_pressure
@@ -1452,6 +1760,7 @@ focus_tree = {
 		cost = 5
 		x = 3
 		y = 1
+		search_filters = { FOCUS_FILTER_INDUSTRY }
 		relative_position_id = COU_student_council_amendment
 		prerequisite = {
 			focus = COU_student_council_amendment
@@ -1467,6 +1776,7 @@ focus_tree = {
 		cost = 5
 		x = -3
 		y = 1
+		search_filters = { FOCUS_FILTER_POLITICAL }
 		relative_position_id = COU_impeachment_of_chief_executive
 		prerequisite = {
 			focus = COU_impeachment_of_chief_executive
@@ -1482,6 +1792,7 @@ focus_tree = {
 		cost = 5
 		x = 2
 		y = 1
+		search_filters = { FOCUS_FILTER_MANPOWER }
 		relative_position_id = COU_financial_health
 		prerequisite = {
 			focus = COU_financial_health
@@ -1505,6 +1816,7 @@ focus_tree = {
 		cost = 5
 		x = 0
 		y = 1
+		search_filters = { FOCUS_FILTER_INDUSTRY }
 		relative_position_id = COU_financial_health
 		prerequisite = {
 			focus = COU_financial_health
@@ -1522,6 +1834,7 @@ focus_tree = {
 		cost = 5
 		x = 0
 		y = 1
+		search_filters = { FOCUS_FILTER_RESEARCH }
 		relative_position_id = COU_kivotos_armory
 		prerequisite = {
 			focus = COU_kivotos_armory
@@ -1537,6 +1850,7 @@ focus_tree = {
 		cost = 5
 		x = -3
 		y = 1
+		search_filters = { FOCUS_FILTER_POLITICAL }
 		relative_position_id = COU_politics_for_students
 		mutually_exclusive = {
 			focus = COU_small_student_council
@@ -1556,6 +1870,7 @@ focus_tree = {
 		cost = 5
 		x = -1
 		y = 1
+		search_filters = { FOCUS_FILTER_INDUSTRY  }
 		relative_position_id = COU_enhancement_of_president_authority
 		prerequisite = {
 			focus = COU_enhancement_of_president_authority
@@ -1575,6 +1890,7 @@ focus_tree = {
 		prerequisite = {
 			focus = COU_finance_department
 		}
+		search_filters = { FOCUS_FILTER_INTERNAL_AFFAIRS }
 		completion_reward = {
 			create_intelligence_agency = {
 				name = COU_our_agency_name
@@ -1590,6 +1906,7 @@ focus_tree = {
 		cost = 5
 		x = 0
 		y = 1
+		search_filters = { FOCUS_FILTER_INDUSTRY }
 		mutually_exclusive = {
 			focus = COU_enhancement_of_president_authority
 		}
@@ -1608,6 +1925,7 @@ focus_tree = {
 		cost = 5
 		x = 0
 		y = 1
+		search_filters = { FOCUS_FILTER_RESEARCH }
 		relative_position_id = COU_small_student_council
 		prerequisite = {
 			focus = COU_small_student_council
@@ -1639,6 +1957,9 @@ focus_tree = {
 		cost = 5
 		x = 1
 		y = 1
+		search_filters = {
+			FOCUS_FILTER_INDUSTRY
+		}
 		relative_position_id = COU_enhancement_of_president_authority
 		prerequisite = {
 			focus = COU_small_student_council
@@ -1671,6 +1992,9 @@ focus_tree = {
 		cost = 5
 		x = 1
 		y = 1
+		search_filters = {
+			FOCUS_FILTER_RESEARCH
+		}
 		relative_position_id = COU_local_business
 		prerequisite = {
 			focus = COU_regulation_relaxation
