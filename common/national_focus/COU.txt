@@ -2385,6 +2385,9 @@ focus_tree = {
 				if = { limit = { has_idea = COU_destruction_of_labor_union_idea }
 					remove_ideas = COU_destruction_of_labor_union_idea
 				}
+				if = { limit = { has_idea = COU_implementation_of_four_day_work_week_idea }
+					remove_ideas = COU_implementation_of_four_day_work_week_idea
+				}
 				add_ideas = COU_restoration_of_parliamentary_politics_idea
 			}
 			set_party_name = {
@@ -2590,6 +2593,9 @@ focus_tree = {
 				if = { limit = { has_idea = COU_destruction_of_labor_union_idea }
 					remove_ideas = COU_destruction_of_labor_union_idea
 				}
+				if = { limit = { has_idea = COU_implementation_of_four_day_work_week_idea }
+					remove_ideas = COU_implementation_of_four_day_work_week_idea
+				}
 				add_ideas = COU_workers_republic_idea
 			}
 			COU_cut_tower_down_effect = yes
@@ -2679,6 +2685,9 @@ focus_tree = {
 				}
 				if = { limit = { has_idea = COU_destruction_of_labor_union_idea }
 					remove_ideas = COU_destruction_of_labor_union_idea
+				}
+				if = { limit = { has_idea = COU_implementation_of_four_day_work_week_idea }
+					remove_ideas = COU_implementation_of_four_day_work_week_idea
 				}
 				add_ideas = COU_representative_labor_union_law_idea
 			}
@@ -2779,6 +2788,9 @@ focus_tree = {
 				if = { limit = { has_idea = COU_destruction_of_labor_union_idea }
 					remove_ideas = COU_destruction_of_labor_union_idea
 				}
+				if = { limit = { has_idea = COU_implementation_of_four_day_work_week_idea }
+					remove_ideas = COU_implementation_of_four_day_work_week_idea
+				}
 				add_ideas = COU_destruction_of_labor_union_idea
 			}
 			if = { limit = { has_country_leader = { character = COU_council_democracy } }
@@ -2865,6 +2877,10 @@ focus_tree = {
 				}
 			}
 			COU_cut_tower_down_effect = yes
+			add_timed_idea = {
+				idea = COU_social_adaptation
+				days = 360
+			}
 		}
 	}
 
@@ -2872,8 +2888,9 @@ focus_tree = {
 		id = COU_republic_of_the_people
 		icon = GFX_goal_generic_national_unity
 		prerequisite = { focus = COU_restoration_of_parliamentary_politics focus = COU_representative_labor_union_law }
+		mutually_exclusive = { focus = COU_new_left focus = COU_stalinism_doctrine }
 		x = 1
-		y = 1
+		y = 2
 		relative_position_id = COU_restoration_of_parliamentary_politics
 		cost = 5
 		available = {
@@ -2887,10 +2904,58 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_stability = 0.10
-			if = { limit = { NOT = { has_cosmetic_tag = COU_go_to_left_right has_cosmetic_tag = COU_go_to_left_center has_cosmetic_tag = COU_go_to_left_left } }
+			if = { limit = { NOT = { has_cosmetic_tag = COU_go_to_left_right has_cosmetic_tag = COU_go_to_left_center has_cosmetic_tag = COU_go_to_left_left has_cosmetic_tag = COU_go_to_left_left_world has_cosmetic_tag = COU_go_to_left_left_world_2 } }
 				set_cosmetic_tag = COU_go_to_left_democracy
 			}
 			add_ideas = COU_republic_of_the_people_idea
+		}
+	}
+
+	focus = { #SRT 폐교
+		id = COU_closure_of_SRT
+		icon = GFX_goal_generic_more_territorial_claims
+		prerequisite = { focus = COU_restoration_of_parliamentary_politics focus = COU_representative_labor_union_law focus = COU_destruction_of_labor_union }
+		x = 11
+		y = 1
+		relative_position_id = COU_restoration_of_parliamentary_politics
+		cost = 5
+		available = {
+		}
+		bypass = {
+			NOT = {
+				has_country_flag = GAEBALJUNG
+			}
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = { #붉은 발키리 경찰
+		id = COU_red_valkyrie_police
+		icon = GFX_focus_spr_torchbearers_of_tomorrow
+		prerequisite = { focus = COU_closure_of_SRT }
+		x = 0
+		y = 1
+		relative_position_id = COU_closure_of_SRT
+		cost = 5
+		available = {
+		}
+		bypass = {
+			NOT = {
+				has_country_flag = GAEBALJUNG
+			}
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
 		}
 	}
 
@@ -2903,6 +2968,22 @@ focus_tree = {
 		relative_position_id = COU_kivotos_of_the_new_era
 		cost = 5
 		available = {
+			any_country = {
+				custom_trigger_tooltip = {
+					tooltip = BA_join_to_kivotos_alliance_tt
+					is_in_array = {
+						array = global.kivotos_alliance
+						value = THIS
+					}
+				}
+				any_country = {
+					is_in_array = {
+						array = global.kivotos_alliance
+						value = THIS
+					}
+					has_defensive_war_with = PREV
+				}
+			}
 		}
 		bypass = {
 		}
@@ -3002,6 +3083,7 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			add_ideas = COU_all_kivotos_labor_union_idea
 		}
 	}
 
@@ -3078,6 +3160,37 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = COU_restoration_of_parliamentary_politics_idea
+					add_idea = COU_implementation_of_four_day_work_week_idea
+				}
+			}
+			hidden_effect = {
+				if = { limit = { has_idea = COU_autonomous_legislation_idea }
+					remove_ideas = COU_autonomous_legislation_idea
+				}
+				if = { limit = { has_idea = COU_workers_republic_idea }
+					remove_ideas = COU_workers_republic_idea
+				}
+				if = { limit = { has_idea = COU_restoration_of_parliamentary_politics_idea }
+					remove_ideas = COU_restoration_of_parliamentary_politics_idea
+				}
+				if = { limit = { has_idea = COU_representative_labor_union_law_idea }
+					remove_ideas = COU_representative_labor_union_law_idea
+				}
+				if = { limit = { has_idea = COU_destruction_of_labor_union_idea }
+					remove_ideas = COU_destruction_of_labor_union_idea
+				}
+				if = { limit = { has_idea = COU_implementation_of_four_day_work_week_idea }
+					remove_ideas = COU_implementation_of_four_day_work_week_idea
+				}
+				add_ideas = COU_implementation_of_four_day_work_week_idea
+			}
+			add_timed_idea = {
+				idea = COU_social_adaptation
+				days = 120
+			}
 		}
 	}
 
@@ -3086,8 +3199,8 @@ focus_tree = {
 		icon = GFX_goal_generic_dangerous_deal
 		prerequisite = { focus = COU_republic_of_the_people }
 		mutually_exclusive = { focus = COU_progressive_politics_of_kivotos }
-		x = -1
-		y = 2
+		x = 0
+		y = 1
 		relative_position_id = COU_republic_of_the_people
 		cost = 5
 		available = {
@@ -3100,6 +3213,25 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			every_country = {
+				limit = {
+					OR = {
+						num_of_factories > 60	
+						num_of_controlled_states > 30
+						has_army_manpower = {
+							size > 1000000
+						}
+						tag = FRA
+						tag = USA
+						tag = ENG
+					}
+				}
+				add_opinion_modifier = {
+					target = MIL
+					modifier = MIL_diplomatic
+				}
+			}
+			add_one_random_civilian_factory = yes
 		}
 	}
 
@@ -3107,7 +3239,7 @@ focus_tree = {
 		id = COU_eurocommunism
 		icon = GFX_focus_generic_join_comintern
 		prerequisite = { focus = COU_internationalism }
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = COU_internationalism
 		cost = 5
@@ -3121,6 +3253,7 @@ focus_tree = {
 					
 		}
 		completion_reward = {
+			add_ideas = COU_eurocommunism_idea
 		}
 	}
 
@@ -3128,7 +3261,7 @@ focus_tree = {
 		id = COU_expansion_of_sovereignty_law_implementation
 		icon = GFX_focus_generic_the_giant_wakes
 		prerequisite = { focus = COU_internationalism }
-		x = 2
+		x = 1
 		y = 1
 		relative_position_id = COU_internationalism
 		cost = 5
@@ -3151,7 +3284,7 @@ focus_tree = {
 		prerequisite = { focus = COU_eurocommunism }
 		prerequisite = { focus = COU_implementation_of_four_day_work_week }
 		prerequisite = { focus = COU_expansion_of_sovereignty_law_implementation }
-		x = 1
+		x = 0
 		y = 3
 		relative_position_id = COU_internationalism
 		cost = 5
@@ -3195,61 +3328,13 @@ focus_tree = {
 		id = COU_european_hegemony
 		icon = GFX_goal_generic_small_arms
 		prerequisite = { focus = COU_kivotos_defense_organization focus = COU_social_state }
-		x = -1
+		x = -2
 		y = 5
 		relative_position_id = COU_internationalism
 		cost = 5
 		available = {
 		}
 		bypass = {
-		}
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		completion_reward = {
-		}
-	}
-
-	focus = { #SRT 폐교
-		id = COU_closure_of_SRT
-		icon = GFX_goal_generic_more_territorial_claims
-		prerequisite = { focus = COU_restoration_of_parliamentary_politics focus = COU_representative_labor_union_law focus = COU_destruction_of_labor_union }
-		x = 2
-		y = 2
-		relative_position_id = COU_restoration_of_parliamentary_politics
-		cost = 5
-		available = {
-		}
-		bypass = {
-			NOT = {
-				has_country_flag = GAEBALJUNG
-			}
-		}
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		completion_reward = {
-		}
-	}
-
-	focus = { #붉은 발키리 경찰
-		id = COU_red_valkyrie_police
-		icon = GFX_focus_spr_torchbearers_of_tomorrow
-		prerequisite = { focus = COU_closure_of_SRT }
-		x = 2
-		y = 3
-		relative_position_id = COU_restoration_of_parliamentary_politics
-		cost = 5
-		available = {
-		}
-		bypass = {
-			NOT = {
-				has_country_flag = GAEBALJUNG
-			}
 		}
 		search_filters = {
 			
@@ -3280,6 +3365,10 @@ focus_tree = {
 		completion_reward = {
 			country_event = { id = COU_event.5 hours = 8 }
 			COU_cut_tower_down_effect = yes
+			add_timed_idea = {
+				idea = COU_social_adaptation
+				days = 240
+			}
 		}
 	}
 
@@ -3287,7 +3376,7 @@ focus_tree = {
 		id = COU_stalinism_doctrine
 		icon = GFX_focus_fra_loyalty_stalin
 		prerequisite = { focus = COU_worker_unions_issue }
-		mutually_exclusive = { focus = COU_new_left }
+		mutually_exclusive = { focus = COU_new_left focus = COU_republic_of_the_people }
 		x = 0
 		y = 1
 		relative_position_id = COU_worker_unions_issue
@@ -3328,7 +3417,7 @@ focus_tree = {
 		id = COU_new_left
 		icon = GFX_focus_focus_fra_liberte_egalite_solidarite
 		prerequisite = { focus = COU_worker_unions_issue }
-		mutually_exclusive = { focus = COU_stalinism_doctrine }
+		mutually_exclusive = { focus = COU_republic_of_the_people focus = COU_stalinism_doctrine }
 		x = 2
 		y = 1
 		relative_position_id = COU_worker_unions_issue
@@ -3834,6 +3923,9 @@ focus_tree = {
 				if = { limit = { has_idea = COU_destruction_of_labor_union_idea }
 					remove_ideas = COU_destruction_of_labor_union_idea
 				}
+				if = { limit = { has_idea = COU_implementation_of_four_day_work_week_idea }
+					remove_ideas = COU_implementation_of_four_day_work_week_idea
+				}
 				add_ideas = COU_socialist_world_republic_idea
 			}
 		}
@@ -4107,6 +4199,10 @@ focus_tree = {
 		available = {
 			is_subject = no
 			has_government = communism
+			NOT = {
+				has_completed_focus = COU_stalinism_doctrine
+				is_in_faction_with = SOV
+			}
 		}
 		bypass = {
 		}
