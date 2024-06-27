@@ -1170,7 +1170,7 @@ DIPLOMACY_STAGE_COUP_ENABLE_TRIGGER = {
 }
 DIPLOMACY_LEAVE_FACTION_ENABLE_TRIGGER = {
 	#/BA_MOD_FIX
-	if = { 
+	if = { #발키리 세력 변경 금지
 		limit = {
 			original_tag = KSP
 			has_idea = KSP_duties_of_the_police_academy
@@ -1197,7 +1197,7 @@ DIPLOMACY_LEAVE_FACTION_ENABLE_TRIGGER = {
 }
  DIPLOMACY_ASSUME_FACTION_LEADERSHIP_ENABLE_TRIGGER = {
 	#/BA_MOD_FIX
-	if = { 
+	if = { #발키리 세력 변경 금지
 		limit = {
 			original_tag = KSP
 			has_idea = KSP_duties_of_the_police_academy
@@ -1224,7 +1224,7 @@ DIPLOMACY_LEAVE_FACTION_ENABLE_TRIGGER = {
 }
 DIPLOMACY_KICK_FROM_FACTION_ENABLE_TRIGGER = {
 	#/BA_MOD_FIX
-	if = { 
+	if = { #발키리 세력 변경 금지
 		limit = {
 			FROM = {
 				original_tag = KSP
@@ -1756,6 +1756,26 @@ DIPLOMACY_JOIN_ALLY_ENABLE_TRIGGER = {
 		}
 	}
 	#BA_MOD_FIX/
+	#/BA_MOD_FIX
+	if = { #평화 조약 비준
+		limit = {
+			has_idea = COU_cooperative_treaty_ratification
+			any_country = {
+				is_in_array = {
+					array = global.kivotos_alliance
+					value = THIS
+				}
+				FROM = {
+					has_war_with = PREV
+				}
+			}
+		}
+		custom_trigger_tooltip = {
+			tooltip = COU_cooperative_treaty_ratification_TT_JOIN
+			always = no
+		}
+	}
+	#/BA_MOD_FIX
 	if = { 
 		limit = {
 			NOT = { has_global_flag = ethiopia_recognized_flag }
@@ -1820,6 +1840,26 @@ DIPLOMACY_CALL_ALLY_ENABLE_TRIGGER = {
 		}
 	}
 	#BA_MOD_FIX/
+	#/BA_MOD_FIX
+	if = {
+		limit = {
+			FROM = { has_idea = COU_cooperative_treaty_ratification }
+			any_country = {
+				is_in_array = {
+					array = global.kivotos_alliance
+					value = THIS
+				}
+				ROOT = {
+					has_war_with = PREV
+				}
+			}
+		}
+		custom_trigger_tooltip = {
+			tooltip = COU_cooperative_treaty_ratification_TT_JOIN_FROM
+			always = no
+		}
+	}
+	#BA_MOD_FIX/
 	if = { 
 		limit = {
 			NOT = { has_global_flag = ethiopia_recognized_flag }
@@ -1869,7 +1909,7 @@ DIPLOMACY_CALL_ALLY_ENABLE_TRIGGER = {
 }
 DIPLOMACY_JOIN_FACTION_ENABLE_TRIGGER = {
 	#/BA_MOD_FIX
-	if = { 
+	if = { #발키리 세력 변경 금지
 		limit = {
 			original_tag = KSP
 			has_idea = KSP_duties_of_the_police_academy
@@ -1897,7 +1937,7 @@ DIPLOMACY_JOIN_FACTION_ENABLE_TRIGGER = {
 }
 DIPLOMACY_OFFER_JOIN_FACTION_ENABLE_TRIGGER = {
 	#/BA_MOD_FIX
-	if = { 
+	if = { #발키리 세력 변경 금지
 		limit = {
 			original_tag = KSP
 			has_idea = KSP_duties_of_the_police_academy
@@ -1926,7 +1966,7 @@ DIPLOMACY_OFFER_JOIN_FACTION_ENABLE_TRIGGER = {
 }
 #/BA_MOD_FIX
 DIPLOMACY_CREATE_FACTION_ENABLE_TRIGGER = {
-	if = { 
+	if = { #발키리 세력 변경 금지
 		limit = {
 			original_tag = KSP
 			has_idea = KSP_duties_of_the_police_academy
@@ -1937,7 +1977,7 @@ DIPLOMACY_CREATE_FACTION_ENABLE_TRIGGER = {
 			always = no
 		}
 	}
-	if = { 
+	if = { #세력 가입 금지 우회 방지
 		limit = {
 			NOT = {
 				FROM = { has_rule = can_join_factions }
@@ -1948,7 +1988,7 @@ DIPLOMACY_CREATE_FACTION_ENABLE_TRIGGER = {
 			always = no
 		}
 	}
-	if = { 
+	if = { #세력 가입 금지 우회 방지
 		limit = {
 			NOT = {
 				has_rule = can_join_factions
@@ -1957,6 +1997,25 @@ DIPLOMACY_CREATE_FACTION_ENABLE_TRIGGER = {
 		custom_trigger_tooltip = {
 			tooltip = BA_DIPLOMACY_NOT_CREATE_FACTION
 			always = no
+		}
+	}
+}
+#BA_MOD_FIX/
+
+#/BA_MOD_FIX
+DIPLOMACY_WAR_ENABLE_TRIGGER = {
+	if = { #조약 간 전쟁 금지
+		limit = {
+			has_idea = COU_cooperative_treaty_ratification
+		}
+		custom_trigger_tooltip = {
+			tooltip = COU_cooperative_treaty_ratification_TT
+			NOT = {
+				is_in_array = {
+					array = global.kivotos_alliance
+					value = FROM
+				}
+			}
 		}
 	}
 }
