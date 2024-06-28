@@ -2010,6 +2010,7 @@ focus_tree = {
 			has_country_flag = GEH_federal_unification_flag
 		}
 		search_filters = {
+			FOCUS_FILTER_ETHNIC_CONFLICT
 			FOCUS_FILTER_WAR_SUPPORT
 			FOCUS_FILTER_STABILITY
 		}
@@ -2018,8 +2019,29 @@ focus_tree = {
 		relative_position_id = GEM_suppression_of_german
 		completion_reward = {
 			add_political_power = 60
-			add_stability = 0.15
-			add_war_support = 0.05
+			effect_tooltip = {
+				if = { limit = { has_idea = GEH_german_nationalism_issue_1 }
+					swap_ideas = {
+						remove_idea = GEH_german_nationalism_issue_1
+						add_idea = GEH_separation_law_1
+					}
+				}
+				else = {
+					swap_ideas = {
+						remove_idea = GEH_german_nationalism_issue_2
+						add_idea = GEH_separation_law_1
+					}
+				}
+			}
+			hidden_effect = {
+				if = { limit = { has_idea = GEH_german_nationalism_issue_2 }
+					remove_ideas = GEH_german_nationalism_issue_2
+				}
+				if = { limit = { has_idea = GEH_german_nationalism_issue_1 }
+					remove_ideas = GEH_german_nationalism_issue_1
+				}
+				add_ideas = GEH_separation_law_1
+			}
 		}
 	}
 	focus = {
@@ -2036,10 +2058,6 @@ focus_tree = {
 		prerequisite = {
 			focus = GEM_dissolution_of_state_government
 		}
-		mutually_exclusive = {
-			focus = GEM_a_republic_of_two_peoples
-			focus = GEM_deutsches_reich
-		}
 		available = {
 			NOT = {
 				has_idea = GEH_state_government_remove_idea
@@ -2049,7 +2067,7 @@ focus_tree = {
 			FOCUS_FILTER_MANMAJUN_BUPAE
 		}
 		x = 0
-		y = 6
+		y = 5
 		relative_position_id = GEM_suppression_of_german
 		completion_reward = {
 			if = {
@@ -2431,7 +2449,7 @@ focus_tree = {
 		available = {
 		}
 		x = -3
-		y = 7
+		y = 6
 		relative_position_id = GEM_group_leadership_system
 		completion_reward = {
 		}
@@ -3162,7 +3180,6 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = GEM_a_republic_of_two_peoples
-			focus = GEM_gehenna_identity
 		}
 		search_filters = {
 			FOCUS_FILTER_ETHNIC_CONFLICT
@@ -3286,7 +3303,6 @@ focus_tree = {
 		}
 		mutually_exclusive = {
 			focus = GEM_deutsches_reich
-			focus = GEM_gehenna_identity
 		}
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
@@ -3311,10 +3327,7 @@ focus_tree = {
 		id = GEM_eden_treaty_promotion
 		icon = GFX_goal_TRN_eden_pacts_letsgo
 		cost = 5.00
-		prerequisite = { focus = GEM_a_republic_of_two_peoples focus = GEM_gehenna_identity focus = GEM_direction_determination }
-		mutually_exclusive = {
-			focus = GEM_acceptance_of_german_nationalism
-		}
+		prerequisite = { focus = GEM_direction_determination focus = GEM_gehenna_identity }
 		available = {
 		}
 		offset = {
@@ -3338,9 +3351,9 @@ focus_tree = {
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
-		x = -6
-		y = 7
-		relative_position_id = GEM_gehenna_academy
+		x = 0
+		y = 1
+		relative_position_id = GEM_gehenna_identity
 		completion_reward = {
 			add_opinion_modifier = {
 				target = TRM
@@ -3386,7 +3399,7 @@ focus_tree = {
 		id = GEM_anti_trinity_front
 		icon = GFX_goal_TRN_Blocking_attacks_from_the_outside
 		cost = 5.00
-		prerequisite = { focus = GEM_eden_treaty_promotion }
+		prerequisite = { focus = GEM_eden_treaty_promotion focus = GEM_gehenna_militarism }
 		mutually_exclusive = {
 			focus = GEM_student_councils_mediation_request
 		}
@@ -3475,9 +3488,6 @@ focus_tree = {
 		icon = GFX_goal_generic_dangerous_deal
 		cost = 5.00
 		prerequisite = { focus = GEM_deutsches_reich focus = GEM_a_republic_of_two_peoples }
-		mutually_exclusive = {
-			focus = GEM_eden_treaty_promotion
-		}
 		available = {
 		}
 		search_filters = {
@@ -3485,7 +3495,7 @@ focus_tree = {
 			FOCUS_FILTER_MANPOWER
 			FOCUS_FILTER_POLITICAL
 		}
-		x = -2
+		x = 0
 		y = 1
 		relative_position_id = GEM_a_republic_of_two_peoples
 		completion_reward = {
@@ -3538,7 +3548,7 @@ focus_tree = {
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
 		}
-		x = -3
+		x = -8
 		y = 1
 		relative_position_id = GEM_anti_trinity_front
 		completion_reward = {
@@ -3602,6 +3612,15 @@ focus_tree = {
 				has_completed_focus = GEM_war_with_trinity
 			}
 		}
+		bypass = {
+			OR = {
+				controls_state = 64
+				has_war_with = TRM
+				has_completed_focus = GEM_angel_hunting
+				has_completed_focus = GEM_preventive_war
+				has_completed_focus = GEM_war_with_trinity
+			}
+		}
 		search_filters = {
 			FOCUS_FILTER_WAR_SUPPORT
 		}
@@ -3630,6 +3649,15 @@ focus_tree = {
 		prerequisite = { focus = GEM_war_preparation }
 		available = {
 			NOT = {
+				has_completed_focus = GEM_angel_hunting
+				has_completed_focus = GEM_preventive_war
+				has_completed_focus = GEM_war_with_trinity
+			}
+		}
+		bypass = {
+			OR = {
+				controls_state = 64
+				has_war_with = TRM
 				has_completed_focus = GEM_angel_hunting
 				has_completed_focus = GEM_preventive_war
 				has_completed_focus = GEM_war_with_trinity
@@ -3792,23 +3820,18 @@ focus_tree = {
 			focus = GEM_refusal_of_central_intervention
 		}
 		available = {
-			any_country = {
-				controls_state = 7
+			KVT = {
+				exists = yes
+				has_capitulated = no
+				is_subject = no
 				is_faction_leader = yes
-				OR = {
-					original_tag = COU
-					original_tag = SHE
-					original_tag = KSP
-					original_tag = SRT
-				}
 			}
 		}
 		x = 2
 		y = 1
 		relative_position_id = GEM_academy_diplomacy
 		completion_reward = {
-			every_country = {
-				limit = { controls_state = 7 }
+			KVT = {
 				country_event = generic.2
 			}
 		}
@@ -4168,7 +4191,7 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = GEM_acceptance_of_german_nationalism }
 		available_if_capitulated = no
-		x = 0
+		x = -2
 		y = 1
 		relative_position_id = GEM_acceptance_of_german_nationalism
 		completion_reward = {
@@ -4190,7 +4213,7 @@ focus_tree = {
 		id = GEM_worlds_top_academy
 		icon = GFX_goal_generic_demand_territory
 		cost = 5.00
-		prerequisite = { focus = GEM_gehenna_identity focus = GEM_direction_determination }
+		prerequisite = { focus = GEM_fear_psychology_stimulation focus = GEM_academy_defense_training }
 		mutually_exclusive = {
 			focus = GEM_national_administration
 		}
@@ -4200,9 +4223,9 @@ focus_tree = {
 			FOCUS_FILTER_WAR_SUPPORT
 			FOCUS_FILTER_POLITICAL
 		}
-		x = -4
+		x = 1
 		y = 1
-		relative_position_id = GEM_direction_determination
+		relative_position_id = GEM_fear_psychology_stimulation
 		completion_reward = {
 			add_political_power = 60
 			add_war_support = 0.10
@@ -4261,22 +4284,18 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = GEM_worlds_top_academy }
 		available = {
-			has_completed_focus = GEM_german_segregation_act
+			has_idea = GEH_separation_law_1
 		}
 		search_filters = { FOCUS_FILTER_ETHNIC_CONFLICT FOCUS_FILTER_MANPOWER }
 		x = 3
 		y = 1
 		relative_position_id = GEM_worlds_top_academy
 		completion_reward = {
-			if = {
-				limit = { has_idea = GEH_german_nationalism_issue_2 }
-				remove_ideas = GEH_german_nationalism_issue_2
+			swap_ideas = {
+				remove_idea = GEH_separation_law_1
+				add_idea = GEH_separation_law_2
 			}
-			if = {
-				limit = { has_idea = GEH_german_nationalism_issue_1 }
-				remove_ideas = GEH_german_nationalism_issue_1
-			}
-			add_ideas = GEH_separation_law_1
+			custom_effect_tooltip = GEM_strengthening_of_the_secession_bill_tt
 		}
 	}
 	focus = {
@@ -4291,10 +4310,9 @@ focus_tree = {
 		y = 2
 		relative_position_id = GEM_worlds_top_academy
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = GEH_separation_law_1
-				add_idea = GEH_separation_law_2
-			}
+			custom_effect_tooltip = GEM_second_class_citizenship_tt
+			add_to_variable = { GEM_pandemonium_modifier_conscription = 0.01 }
+			add_manpower = 12000
 		}
 	}
 	focus = {
@@ -4311,7 +4329,7 @@ focus_tree = {
 			custom_effect_tooltip = GEM_active_conscription_system_tt
 			add_to_variable = { GEM_pandemonium_modifier_mobilization_laws_cost_factor = -0.15 }
 			add_to_variable = { GEM_pandemonium_modifier_mobilization_speed = 0.05 }
-			add_to_variable = { GEM_pandemonium_modifier_conscription = 0.01 }
+			add_stability = -0.10
 		}
 	}
 	focus = {
@@ -4332,7 +4350,7 @@ focus_tree = {
 		id = GEM_national_administration
 		icon = GFX_focus_hol_abandon_the_gold_standard
 		cost = 5.00
-		prerequisite = { focus = GEM_direction_determination }
+		prerequisite = { focus = GEM_preventive_war focus = GEM_past_settlement }
 		mutually_exclusive = {
 			focus = GEM_worlds_top_academy
 		}
@@ -4342,9 +4360,9 @@ focus_tree = {
 			FOCUS_FILTER_STABILITY
 			FOCUS_FILTER_POLITICAL
 		}
-		x = 4
+		x = 1
 		y = 1
-		relative_position_id = GEM_direction_determination
+		relative_position_id = GEM_preventive_war
 		completion_reward = {
 			add_stability = 0.10
 			if = {
