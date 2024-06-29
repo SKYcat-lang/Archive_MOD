@@ -730,7 +730,6 @@ Calculated_communism = { # 우리의 혁명이 계산결과론 제일이네요
     }
     happened = {
         has_government = communism
-        NOT = { country_exists = GEH }
         all_state = {
             OR = {
                 is_controlled_by = MIL
@@ -851,10 +850,7 @@ Problem_solver_68 = { # 뭐든지 들어주는 흥신소 68입니다.
     }
     happened = {
         country_exists = KAI
-        all_country = {
-            exists = no
-            NOT = { original_tag = KAI }
-        }
+        NOT = { any_country = { NOT = { tag = KAI } exists = yes } }
     }
 }
 
@@ -1514,25 +1510,25 @@ SHA_controlled_north_korea = { # 왜 기시감이 들지?
     }
 }
 
-No_goal_war = { # 목적 잃은 전쟁
-    possible = {
-        has_any_custom_difficulty_setting = no
-        game_rules_allow_achievements = yes
-        difficulty > 1
-        custom_trigger_tooltip = {
-            tooltip = TRIGGER_IS_IRONMAN
-            is_ironman = yes
-        }
-        has_country_leader = {
-            character = TRN_empty
-            ruling_only = yes
-        }
-        original_tag = TRM
-    }
-    happened = {
-        has_country_flag = TRM_annex_kivotos_school
-    }
-}
+# No_goal_war = { # 목적 잃은 전쟁
+#     possible = {
+#         has_any_custom_difficulty_setting = no
+#         game_rules_allow_achievements = yes
+#         difficulty > 1
+#         custom_trigger_tooltip = {
+#             tooltip = TRIGGER_IS_IRONMAN
+#             is_ironman = yes
+#         }
+#         has_country_leader = {
+#             character = TRN_empty
+#             ruling_only = yes
+#         }
+#         original_tag = TRM
+#     }
+#     happened = {
+#         has_country_flag = TRM_annex_kivotos_school
+#     }
+# }
 
 All_of_desert_is_mine = { # 다시 열리는 아비도스 모래축제
     possible = {
@@ -1639,11 +1635,69 @@ Ticket_please = { # 기차표부터 받겠습니다~
         Kivotos_school_tag = yes
     }
     happened = {
-        has_railway_connection = {
-            start_province = 391
-            target_province = 957
+        custom_trigger_tooltip = {
+            tooltip = Ticket_please_tt
+            if = {
+                limit = { original_tag = TRM }
+                BA_highlander_TRM_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = COU }
+                BA_highlander_COU_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = SRT }
+                BA_highlander_SRT_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = MIL }
+                BA_highlander_MIL_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = KAI }
+                BA_highlander_KAI_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = KSP }
+                BA_highlander_KSP_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = SHE }
+                BA_highlander_SHE_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = HEU }
+                BA_highlander_HEU_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = GEM }
+                BA_highlander_GEM_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = GEH }
+                BA_highlander_GEH_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = SHA }
+                BA_highlander_SHA_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = ABY }
+                BA_highlander_ABY_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = HYA }
+                BA_highlander_HYA_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = ARI }
+                BA_highlander_ARI_is_best_invester = yes
+            }
+            else_if = {
+                limit = { original_tag = RED }
+                BA_highlander_RED_is_best_invester = yes
+            }
         }
-        has_idea = BA_train_school
     }
 }
 
@@ -2011,7 +2065,7 @@ Destroy_the_double_bridge = { # 디스트로이 더블 브릿지
     }
 }
 
-Youth_Protection_Zone = { # 청소년 보호구역 (TODO)
+Youth_Protection_Zone = { # 청소년 보호구역
     possible = {
         has_any_custom_difficulty_setting = no
         game_rules_allow_achievements = yes
@@ -2023,16 +2077,27 @@ Youth_Protection_Zone = { # 청소년 보호구역 (TODO)
         Kivotos_school_tag = yes
     }
     happened = {
-        count_triggers = {
-            amount > 4
-            Kivotos_school_tag = yes
-        }
-        any_country = {
-            capital_scope = {
-                is_on_continent = europe
+        # 유럽 지역에 5개 이상의 학원이 존재하는지 확인        
+        custom_trigger_tooltip = {
+            tooltip = five_school_exists_tt
+            count_triggers = {
+                amount > 4
+                Kivotos_school_tag = yes
+                capital_scope = {
+                    is_on_continent = europe
+                }
             }
-            Kivotos_school_tag = no
-            exists = no
+        }
+        
+        # 모든 지구 국가가 존재하지 않는지 확인
+        custom_trigger_tooltip = {
+            tooltip = all_earth_down_tt
+            all_country = {
+                OR = {
+                    Kivotos_school_tag = yes
+                    exists = no
+                }
+            }
         }
     }
 }
@@ -2046,11 +2111,10 @@ Resurrection_of_Trotsky = { # 트로츠키의 부활
             tooltip = TRIGGER_IS_IRONMAN
             is_ironman = yes
         }
-        original_tag = RED
     }
     happened = {
         has_country_leader = {
-            character = RED_lev_trotsky
+            character = SOV_lev_trotsky
             ruling_only = yes
         }
         NOT = { country_exists = SOV }
@@ -2210,7 +2274,7 @@ Aragon_Academy_Defense_Committee = { # 스페인 학원 방위 위원회
     }
 }
 
-Abydos_Resort_Countermeasures_Committee = { # 아비도스 리조트 대책위원회
+Abydos_Resort_Countermeasures_Committee = { # 아비도스 리조트 대책위원회 
     possible = {
         has_any_custom_difficulty_setting = no
         game_rules_allow_achievements = yes
@@ -2222,16 +2286,9 @@ Abydos_Resort_Countermeasures_Committee = { # 아비도스 리조트 대책위�
         original_tag = ABY
     }
     happened = {
-        custom_trigger_tooltip = {
-            tooltip = ABY_owned_10_resort_tt
-            count_triggers = {
-                amount > 9
-                any_state = {
-                    is_owned_by = ABY
-                    is_island_state = yes
-                }
-            }
-        }
+        NOT = { country_exists = CUB }
+        NOT = { country_exists = HAI }
+        NOT = { country_exists = DOM }
     }
 }
 
