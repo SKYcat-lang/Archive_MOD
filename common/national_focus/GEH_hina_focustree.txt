@@ -1940,7 +1940,6 @@ focus_tree = {
             country_event=hina.4
             add_political_power = 100
         }
-        #relative_position_id = GEH_Pandemonium_Society_Building_Control
 		x = 10
 		y = 0
 		completion_reward = {
@@ -2009,6 +2008,22 @@ focus_tree = {
             country_event = { id = hina.6 }
 		}
 	}
+	# 2차 선도부 총회
+	focus = {
+		id = GEH_second_congress_focus
+		icon = GFX_goal_Perfect_team_first_congress
+		cost = 5
+		available = { }
+        ai_will_do = {
+            base = 80
+        }
+        relative_position_id = GEH_zero_congress_focus
+		x = 4
+		y = 1
+		completion_reward = {
+
+		}
+	}
 
     ###
 	focus = {
@@ -2016,17 +2031,15 @@ focus_tree = {
 		icon = GFX_goal_Prefect_Team_muster
 		cost = 1
 		available = {
-            has_country_flag = GEH_discipline_enforcement_flag
+            #has_country_flag = GEH_discipline_enforcement_flag
 		}
         ai_will_do = {
             base = 200
         }
-        
-		allow_branch = {
-			is_debug = yes
-		}
-		x = 40
-		y = 2
+        prerequisite = { focus =GEH_second_congress_focus }
+        relative_position_id = GEH_second_congress_focus
+		x = 5
+		y = 1
 		completion_reward = {
             add_political_power = 25
 			#custom_effect_tooltip = GEH_Disciplinary_Committee_idea_tt
@@ -2169,7 +2182,7 @@ focus_tree = {
 		id = GEH_Second_attack_plan
 		icon = GFX_goal_GEH_wave
         text = GEH_focus_8
-		cost = 2
+		cost = 3
 		available = {
 		}
         prerequisite = { focus = GEH_attack_plan_ONE_FOUR_TWO }
@@ -2187,7 +2200,7 @@ focus_tree = {
 		completion_reward = {
             add_timed_idea = {
                 idea = GEH_Last_offensive
-                days = 180
+                days = 70
             }
 		}
 	}
@@ -2232,12 +2245,16 @@ focus_tree = {
 			add_manpower = 12000
 			add_equipment_to_stockpile = {
                 type = infantry_equipment
-                amount = 5000
+                amount = 750
             }
 			add_equipment_to_stockpile = {
 				type = kivotos_infantry_equipment_1
-				amount = 1500
+				amount = 500
             }
+			add_offsite_building = {
+				type = arms_factory
+				level = 1
+			}
 		}
 	}
 	focus = {
@@ -2257,25 +2274,9 @@ focus_tree = {
 		x = -0
 		y = 1
 		completion_reward = {
-			GEM = {
-				add_equipment_to_stockpile = {
-					type = infantry_equipment
-					amount = -1500
-				}
-				add_equipment_to_stockpile = {
-					type = kivotos_infantry_equipment_1
-					amount = -1500
-				}
-			}
-			GEH = {
-				add_equipment_to_stockpile = {
-					type = infantry_equipment
-					amount = 750
-				}
-				add_equipment_to_stockpile = {
-					type = kivotos_infantry_equipment_1
-					amount = 1000
-				}
+			add_offsite_building = {
+				type = arms_factory
+				level = 2
 			}
 		}
 	}
@@ -2300,9 +2301,9 @@ focus_tree = {
 		x = 0
 		y = 3
 		completion_reward = {
-            ROOT = {
-                transfer_state = 55
-            }
+            ROOT = { transfer_state = 55 }
+            custom_effect_tooltip = tooltip_white_line
+            GEH_popular_support_up_effect = yes
 		}
 	}
 	focus = {
@@ -2324,141 +2325,28 @@ focus_tree = {
 		y = 1
 		completion_reward = {
             country_event = { id = NextPhase.2 }
+            custom_effect_tooltip = tooltip_white_line
+            GEH_popular_support_up_effect = yes
 		}
 	}
-
-	# 2차 선도부 총회
-	focus = {
-		id = GEH_second_congress_focus
-		icon = GFX_goal_Perfect_team_first_congress
-		cost = 15
-		available = {
-            GEM = {
-			    has_country_flag = GEH_start_nego
-            }
-		}
-        ai_will_do = {
-            base = 80
-        }
-        relative_position_id = GEH_zero_congress_focus
-		x = 3
-		y = 1
-		completion_reward = {
-
-		}
-	}
-	focus = {
-        id = GEH_strengthening_prefect
-        icon = GFX_goal_GEH_sundoboo
-        x = -1
-        y = 1
-        cost = 10
-        prerequisite = {
-			focus = GEH_second_congress_focus
-		}
-		relative_position_id = GEH_second_congress_focus
-        completion_reward = {
-            add_political_power = 50
-            add_stability = 0.05
-        }
-        ai_will_do = {
-            factor = 1
-        }
-    }
-
-    focus = {
-        id = GEH_political_cohesion
-        icon = GFX_goal_generic_major_war
-        relative_position_id = "GEH_strengthening_prefect"
-        x = -1
-        y = 1
-        cost = 10
-        prerequisite = {
-            focus = "GEH_strengthening_prefect"
-        }
-        completion_reward = {
-            add_political_power = 50
-            army_experience = 10
-        }
-        ai_will_do = {
-            factor = 1
-        }
-    }
-
-    focus = {
-        id = GEH_establishing_prefect_special_forces
-        icon = GFX_goal_generic_major_war
-        relative_position_id = GEH_political_cohesion
-        x = 0
-        y = 1
-        cost = 10
-        prerequisite = {
-            focus = GEH_political_cohesion
-        }
-        completion_reward = {
-            army_experience = 20
-        }
-        ai_will_do = {
-            factor = 1
-        }
-    }
-
-    focus = {
-        id = GEH_tactical_innovation
-        icon = GFX_goal_generic_demand_territory
-        relative_position_id = GEH_establishing_prefect_special_forces
-        x = 0
-        y = 1
-        cost = 10
-        prerequisite = {
-            focus = GEH_establishing_prefect_special_forces
-        }
-        completion_reward = {
-            army_experience = 10
-			# TODO 국민정신으로 빼기
-            # add_attack = 0.05
-            # add_defense = 0.05
-        }
-        ai_will_do = {
-            factor = 1
-        }
-    }
 
 	focus = {
         id = GEH_strengthening_democracy
-        icon = GFX_goal_GEH_perfect_team_hina
+        icon = GFX_goal_generic_political_pressure
         relative_position_id = GEH_second_congress_focus
-        x = 1
+        x = -2
         y = 1
         cost = 10
         prerequisite = {
             focus = GEH_second_congress_focus
         }
-        completion_reward = {
-            add_political_power = 75
-            add_popularity = {
-                ideology = democratic
-                popularity = 0.10
+        available = {
+            GEM = {
+                has_country_flag = GEH_start_nego
             }
         }
-        ai_will_do = {
-            factor = 1
-        }
-    }
-
-	focus = {
-        id = GEH_enhancing_internal_security
-        icon = GFX_goal_molotov_ribbentrop_pact
-        relative_position_id = GEH_strengthening_democracy
-        x = 1
-        y = 1
-        cost = 10
-        prerequisite = {
-            focus = GEH_strengthening_democracy
-        }
         completion_reward = {
-            add_stability = 0.05
-            army_experience = 5
+            add_political_power = 75
         }
         ai_will_do = {
             factor = 1
@@ -2468,12 +2356,12 @@ focus_tree = {
 	focus = {
         id = GEH_diplomatic_cooperation
         icon = GFX_goal_generic_major_war
-        relative_position_id = GEH_enhancing_internal_security
+        relative_position_id = GEH_strengthening_democracy
         x = 0
         y = 1
         cost = 10
         prerequisite = {
-            focus = GEH_enhancing_internal_security
+            focus = GEH_strengthening_democracy
         }
         completion_reward = {
             add_political_power = 50
@@ -2485,13 +2373,13 @@ focus_tree = {
 
 	focus = {
         id = GEH_establish_intelligence_agency
-        icon = GFX_goal_GEH_oncheongaebalbu
-        relative_position_id = GEH_diplomatic_cooperation
-        x = -1
+        icon = GFX_goal_generic_major_war
+        relative_position_id = GEH_strengthening_democracy
+        x = -2
         y = 1
         cost = 10
         prerequisite = {
-            focus = GEH_diplomatic_cooperation
+            focus = GEH_strengthening_democracy
         }
         completion_reward = {
             add_political_power = 50
@@ -2504,35 +2392,32 @@ focus_tree = {
     focus = {
         id = GEH_political_confrontation
         icon = GFX_goal_generic_major_war
-        relative_position_id = GEH_establish_intelligence_agency
+        relative_position_id = GEH_strengthening_democracy
         x = 1
-        y = 1
+        y = 2
         cost = 10
         prerequisite = {
-            focus = GEH_establish_intelligence_agency
-			focus = GEH_national_sovereignty
+            focus = GEH_strengthening_democracy
         }
         completion_reward = {
             add_political_power = 50
-            #improve_relations_with = "allies"
         }
         ai_will_do = {
             factor = 1
         }
     }
-
     focus = {
-        id = GEH_path_to_victory
+        id = GEH_internal_struggle
         icon = GFX_goal_generic_major_war
-        relative_position_id = GEH_tactical_innovation
-        x = 2
+        relative_position_id = GEH_strengthening_democracy
+        x = -1
         y = 2
         cost = 10
-        prerequisite = { focus = GEH_tactical_innovation }
-        prerequisite = { focus = GEH_political_confrontation }
+        prerequisite = {
+            focus = GEH_strengthening_democracy
+        }
         completion_reward = {
             add_political_power = 50
-            add_stability = 0.10
         }
         ai_will_do = {
             factor = 1
@@ -2542,12 +2427,12 @@ focus_tree = {
     focus = {
         id = GEH_national_sovereignty
         icon = GFX_goal_generic_major_war
-        relative_position_id = GEH_diplomatic_cooperation
-        x = 1
+        relative_position_id = GEH_strengthening_democracy
+        x = 2
         y = 1
         cost = 10
         prerequisite = {
-            focus = GEH_diplomatic_cooperation
+            focus = GEH_strengthening_democracy
         }
         completion_reward = {
             add_political_power = 50
@@ -3787,7 +3672,7 @@ focus_tree = {
 		id = GEH_Trinity_war
 		icon = GFX_focus_attack_TRN
 		cost = 1
-		x = 13
+		x = 59
 		y = 2
         relative_position_id = GEH_zero_congress_focus
 		ai_will_do = { 
