@@ -324,6 +324,11 @@ focus_tree = {
 				popularity = 0.10
 			}
 			remove_ideas = KSP_new_systems
+
+			set_power_balance = {
+				id = KSP_valkyrie_power_balance
+				set_default = yes
+			}
 		}
 	}
 
@@ -2737,74 +2742,6 @@ focus_tree = {
 		}
 	}
 
-	focus = {
-		id = KSP_kanna_dictatorship_resistance
-		icon = GFX_idea_KSP_gyeongbiguk_lev_4
-		cost = 5
-
-		available = {
-		}
-
-		prerequisite = {
-			focus = KSP_kanna_dictator
-		}
-		mutually_exclusive = {
-			focus = KSP_kanna_dictatorship_agreement
-		}
-
-		x = -1
-		y = 1
-		relative_position_id = KSP_kanna_dictator
-
-		ai_will_do = {
-			base = 20
-		}
-
-		completion_reward = {
-			hidden_effect = {
-				set_country_flag = KSP_kanna_banned
-			}
-			set_rule = {
-				can_create_collaboration_government = yes
-				can_declare_war_on_same_ideology = yes
-				can_force_government = yes
-				can_send_volunteers = yes
-				can_puppet = yes
-				can_lower_tension = yes
-				can_only_justify_war_on_threat_country = no
-				can_guarantee_other_ideologies = yes
-			}
-		}
-	}
-
-
-	focus = {
-		id = KSP_kanna_dictatorship_agreement
-		icon = GFX_KSP_focus_kanna
-		cost = 5
-
-		available = {
-		}
-
-		prerequisite = {
-			focus = KSP_kanna_dictator
-		}
-		mutually_exclusive = {
-			focus = KSP_kanna_dictatorship_resistance
-		}
-
-		x = 1
-		y = 1
-		relative_position_id = KSP_kanna_dictator
-
-		ai_will_do = {
-			base = 20
-		}
-
-		completion_reward = {
-		}
-	}
-
 	#
 	#
 	#	내부결속 (사면령 관련 중점)
@@ -2821,14 +2758,13 @@ focus_tree = {
 		}
 
 		prerequisite = {
-			focus = KSP_kanna_dictatorship_resistance
-			focus = KSP_kanna_dictatorship_agreement
+			focus = KSP_kanna_dictator
 		}
 
-		x = 1
+		x = 0
 		y = 1
 
-		relative_position_id = KSP_kanna_dictatorship_resistance
+		relative_position_id = KSP_kanna_dictator
 
 
 		ai_will_do = {
@@ -3136,14 +3072,13 @@ focus_tree = {
 		}
 
 		prerequisite = {
-			focus = KSP_kanna_dictatorship_resistance
-			focus = KSP_kanna_dictatorship_agreement
+			focus = KSP_kanna_dictator
 		}
 
-		x = -5
+		x = -6
 		y = 1
 
-		relative_position_id = KSP_kanna_dictatorship_resistance
+		relative_position_id = KSP_kanna_dictator
 
 
 		ai_will_do = {
@@ -4315,6 +4250,9 @@ focus_tree = {
 				remove_idea = KSP_belgian_security_bureau_modifier
 				add_idea = KSP_police_nation_modifier
 			}
+			hidden_effect = {
+				mark_focus_tree_layout_dirty = yes
+			}
 		}
 	}
 
@@ -4324,12 +4262,9 @@ focus_tree = {
 		cost = 5
 
 		available = {
-			OR = {
-				has_completed_focus = KSP_police_nation
-				AND = {
-					has_completed_focus = KSP_valkyrie_federation
-					is_puppet = no
-				}
+			is_puppet = no
+			NOT = {
+				has_idea = KSP_duties_of_the_police_academy
 			}
 		}
 
@@ -4705,6 +4640,36 @@ focus_tree = {
 					type = annex_everything
 				}
 			}
+		}
+	}
+
+	focus = {
+		id = KSP_justice
+		icon = GFX_KSP_focus_kanna
+		cost = 5
+	
+		prerequisite = {
+			focus = KSP_police_nation
+		}
+	
+		allow_branch = {
+			has_completed_focus = KSP_police_nation
+			has_country_leader = {
+				ruling_only = yes
+				character = KSP_Ogata_Kanna
+			}
+		}
+	
+		ai_will_do = {
+			base = 10
+		}
+	
+		x = 0
+		y = 1
+		relative_position_id = KSP_police_nation
+	
+		completion_reward = {
+			remove_ideas = KSP_duties_of_the_police_academy
 		}
 	}
 }
