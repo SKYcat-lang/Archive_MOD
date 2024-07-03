@@ -1558,7 +1558,7 @@ focus_tree = {
 			FOCUS_FILTER_POLITICAL
 			FOCUS_FILTER_MANMAJUN_BUPAE
 		}
-		x = 53
+		x = 58
 		y = 0
 		completion_reward = {
 			hidden_effect = {
@@ -1920,7 +1920,7 @@ focus_tree = {
 				has_idea = GEH_Emergency
 			}
 		}
-		x = 11
+		x = 16
 		y = 1
 		search_filters = {
 			FOCUS_FILTER_STABILITY
@@ -2466,7 +2466,7 @@ focus_tree = {
 		search_filters = {
 			FOCUS_FILTER_STABILITY
 		}
-		x = 8
+		x = 9
 		y = 1
 		offset = {
 			x = -12
@@ -2548,13 +2548,16 @@ focus_tree = {
 			focus = GEM_working_with_the_perfect_team
 		}
 		available = {
-			has_stability > 0.70
+			has_stability > 0.60
+		}
+		bypass = {
+			NOT = { has_idea = GEM_geh_leadership }
 		}
 		search_filters = {
 			FOCUS_FILTER_STABILITY
 			FOCUS_FILTER_MANMAJUN_BUPAE
 		}
-		x = -4
+		x = -3
 		y = 1
 		relative_position_id = GEM_gehenna_academy
 		completion_reward = {
@@ -2562,6 +2565,192 @@ focus_tree = {
 			add_political_power = 60
 			add_stability = 0.10
 			remove_ideas = GEM_geh_leadership
+		}
+	}
+	focus = {
+		id = GEM_security_militia
+		icon = GFX_goal_generic_military_sphere
+		cost = 5
+		prerequisite = {
+			focus = GEM_self_reliance_pursuit
+		}
+		mutually_exclusive = {
+			focus = GEM_reorganization_of_the_private_army
+		}
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+			FOCUS_FILTER_ARMY_XP
+		}
+		x = 0
+		y = 1
+		relative_position_id = GEM_self_reliance_pursuit
+		completion_reward = {
+			add_ideas = GEH_pandemonium_militia
+			hidden_effect = {
+				set_technology = {
+					camicie_nere_security_militias = 1
+					popup = no
+				}
+			}
+			custom_effect_tooltip = GEM_militia_div_cap_4_tt
+			hidden_effect = {
+				add_to_variable = { GEM_pandemonium_legion_cap = 4 }
+				set_division_template_cap = {  division_template = "Pandemonium Legion" division_cap = GEM_pandemonium_legion_cap }
+			}
+		}
+	}
+	focus = {
+		id = GEM_coerced_loyalty
+		icon = GFX_focus_generic_fascist_troops
+		cost = 5
+		prerequisite = {
+			focus = GEM_security_militia
+		}
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+			FOCUS_FILTER_ARMY_XP
+		}
+		x = -1
+		y = 2
+		relative_position_id = GEM_security_militia
+		complete_tooltip = {
+			swap_ideas = {
+				remove_idea = GEH_pandemonium_militia
+				add_idea = GEH_pandemonium_militia_1
+			}
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = GEH_pandemonium_militia
+				}
+				swap_ideas = {
+					remove_idea = GEH_pandemonium_militia
+					add_idea = GEH_pandemonium_militia_1
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = GEH_pandemonium_militia_2
+				}
+				swap_ideas = {
+					remove_idea = GEH_pandemonium_militia_2
+					add_idea = GEH_pandemonium_militia_1_2
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEM_honor_and_glory
+		icon = GFX_focus_ETH_freedom_at_gunpoint
+		cost = 5
+		prerequisite = {
+			focus = GEM_security_militia
+		}
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+			FOCUS_FILTER_ARMY_XP
+		}
+		x = 1
+		y = 2
+		relative_position_id = GEM_security_militia
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = GEH_pandemonium_militia
+				}
+				swap_ideas = {
+					remove_idea = GEH_pandemonium_militia
+					add_idea = GEH_pandemonium_militia_2
+				}
+			}
+			else_if = {
+				limit = {
+					has_idea = GEH_pandemonium_militia_1
+				}
+				swap_ideas = {
+					remove_idea = GEH_pandemonium_militia_1
+					add_idea = GEH_pandemonium_militia_1_2
+				}
+			}
+			custom_effect_tooltip = GEM_militia_div_cap_12_tt
+			hidden_effect = {
+				add_to_variable = { GEM_pandemonium_legion_cap = 12 }
+				set_division_template_cap = {  division_template = "Pandemonium Legion" division_cap = GEM_pandemonium_legion_cap }
+			}
+			random_controlled_state = { #Create a few more Blackshirt Divs
+				limit = {
+					is_core_of = ROOT
+					is_fully_controlled_by = ROOT
+				}
+				custom_effect_tooltip = GEM_militia_spawn_divs_3_tt
+				hidden_effect = {
+					create_unit = {
+						division = "name = \"Pandemonium Legion 'Umbra Vorax'\" division_template = \"Pandemonium Legion\" start_experience_factor = 0.1" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Pandemonium Legion 'Fulgur Rubrum'\" division_template = \"Pandemonium Legion\" start_experience_factor = 0.1" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Pandemonium Legion 'Ossarium'\" division_template = \"Pandemonium Legion\" start_experience_factor = 0.1" 
+						owner = ROOT
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEM_great_duty
+		icon = GFX_focus_NOR_the_lone_wolf_norway
+		cost = 5
+		prerequisite = {
+			focus = GEM_coerced_loyalty
+			focus = GEM_honor_and_glory
+		}
+		search_filters = {
+			FOCUS_FILTER_MANPOWER
+			FOCUS_FILTER_ARMY_XP
+		}
+		x = 0
+		y = 4
+		relative_position_id = GEM_security_militia
+		completion_reward = {
+			custom_effect_tooltip = GEM_militia_div_cap_12_tt
+			hidden_effect = {
+				add_to_variable = { GEM_pandemonium_legion_cap = 12 }
+				set_division_template_cap = {  division_template = "Pandemonium Legion" division_cap = GEM_pandemonium_legion_cap }
+			}
+			random_controlled_state = { #Create a few more Blackshirt Divs
+				limit = {
+					is_core_of = ROOT
+					is_fully_controlled_by = ROOT
+				}
+				custom_effect_tooltip = GEM_militia_spawn_divs_5_tt
+				hidden_effect = {
+					create_unit = {
+						division = "name = \"Pandemonium Legion 'Nox Aeterna'\" division_template = \"Pandemonium Legion\" start_experience_factor = 0.1" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Pandemonium Legion 'Malleus Fati'\" division_template = \"Pandemonium Legion\" start_experience_factor = 0.1" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Pandemonium Legion 'Ignis Fatui'\" division_template = \"Pandemonium Legion\" start_experience_factor = 0.1" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Pandemonium Legion 'Sanguis Aeternus'\" division_template = \"Pandemonium Legion\" start_experience_factor = 0.1" 
+						owner = ROOT
+					}
+					create_unit = {
+						division = "name = \"Pandemonium Legion 'Tenebrae Vorans'\" division_template = \"Pandemonium Legion\" start_experience_factor = 0.1" 
+						owner = ROOT
+					}
+				}
+			}
 		}
 	}
 	focus = {
@@ -2575,11 +2764,14 @@ focus_tree = {
 		available = {
 			has_idea = GEH_individualism
 		}
+		mutually_exclusive = {
+			focus = GEM_security_militia
+		}
 		search_filters = {
 			FOCUS_FILTER_MANPOWER
 			FOCUS_FILTER_ARMY_XP
 		}
-		x = -2
+		x = 3
 		y = 2
 		relative_position_id = GEM_gehenna_academy
 		completion_reward = {
@@ -2601,6 +2793,10 @@ focus_tree = {
 			set_variable = { GEM_army_pandemonium_conscription_factor = 0.10 }
 			set_variable = { GEM_army_pandemonium_mobilization_speed = 0 }
 			set_variable = { GEM_army_pandemonium_land_reinforce_rate = 0 }
+			delete_unit_template_and_units = {
+				division_template = "Pandemonium Legion"
+			}
+			set_country_flag = GEM_reorganization_of_the_private_army_flag
 		}
 	}
 	focus = {
@@ -3399,7 +3595,7 @@ focus_tree = {
 		id = GEM_anti_trinity_front
 		icon = GFX_goal_TRN_Blocking_attacks_from_the_outside
 		cost = 5.00
-		prerequisite = { focus = GEM_eden_treaty_promotion focus = GEM_gehenna_militarism }
+		prerequisite = { focus = GEM_eden_treaty_promotion focus = GEM_great_duty }
 		mutually_exclusive = {
 			focus = GEM_student_councils_mediation_request
 		}
@@ -3552,7 +3748,7 @@ focus_tree = {
 		search_filters = {
 			FOCUS_FILTER_INDUSTRY
 		}
-		x = -8
+		x = -10
 		y = 1
 		relative_position_id = GEM_anti_trinity_front
 		completion_reward = {
@@ -4220,6 +4416,7 @@ focus_tree = {
 		search_filters = {
 			FOCUS_FILTER_WAR_SUPPORT
 			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_MANMAJUN_BUPAE
 		}
 		x = 1
 		y = 1
@@ -4227,6 +4424,7 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 60
 			add_war_support = 0.10
+			GEH_Manmajun_Bupae_down_effect = yes
 			if = {
 				limit = {
 					NOT = {
@@ -4357,12 +4555,14 @@ focus_tree = {
 		search_filters = {
 			FOCUS_FILTER_STABILITY
 			FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_MANMAJUN_BUPAE
 		}
 		x = 1
 		y = 1
 		relative_position_id = GEM_preventive_war
 		completion_reward = {
 			add_stability = 0.10
+			GEH_Manmajun_Bupae_down_effect = yes
 			if = {
 				limit = {
 					NOT = {
