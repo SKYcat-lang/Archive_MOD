@@ -2112,6 +2112,9 @@ focus_tree = {
 			owns_state = 58
 			owns_state = 909
 		}
+		mutually_exclusive = {
+			focus = GEN_gottland_government_establishment
+		}
 		x = 32
 		y = 0
 		cost = 2
@@ -2148,10 +2151,10 @@ focus_tree = {
 					id = ENG
 					value = 100
 				}
-				POL = {
+				ENG = {
 					add_ai_strategy = {
 						type = alliance
-						id = ENG
+						id = GEN
 						value = 100
 					}
 				}
@@ -2160,10 +2163,10 @@ focus_tree = {
 					id = FRA
 					value = 100
 				}
-				POL = {
+				FRA = {
 					add_ai_strategy = {
 						type = alliance
-						id = FRA
+						id = GEN
 						value = 100
 					}
 				}
@@ -2172,10 +2175,10 @@ focus_tree = {
 					id = ITA
 					value = 50
 				}
-				POL = {
+				ITA = {
 					add_ai_strategy = {
 						type = alliance
-						id = ITA
+						id = GEN
 						value = 50
 					}
 				}
@@ -2555,6 +2558,317 @@ focus_tree = {
 				uses = 2
 				category = armor
 				ahead_reduction = 2.0
+			}
+		}
+	}
+
+	focus = {
+		id = GEN_gottland_government_establishment
+		icon = GFX_focus_BRA_german_submarine_development
+		available = {
+			date > 1940.1.1
+			all_controlled_state = {
+				OR = {
+					state = 124
+					state = 910
+				}
+			}
+		}
+		mutually_exclusive = {
+			focus = GEN_GER_government
+		}
+		x = 42
+		y = 0
+		cost = 5
+		ai_will_do = {
+			factor = 400
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			set_cosmetic_tag = GEN_gottland
+			set_country_flag = BA_german_claimant_1 #독일 정통성 중간
+			every_state = {
+				limit = {
+					is_core_of = GEM
+					is_core_of = GER
+				}
+				add_claim_by = GEN
+			}
+			add_ai_strategy = {
+				type = alliance
+				id = ENG
+				value = 30
+			}
+			ENG = {
+				add_ai_strategy = {
+					type = alliance
+					id = GEN
+					value = 30
+				}
+			}
+			add_ai_strategy = {
+				type = alliance
+				id = FRA
+				value = 30
+			}
+			FRA = {
+				add_ai_strategy = {
+					type = alliance
+					id = GEN
+					value = 30
+				}
+			}
+			add_stability = -0.1
+		}
+	}
+	focus = {
+		id = GEN_government_officials_invitation
+		icon = GFX_goal_generic_dangerous_deal
+		prerequisite = {
+			focus = GEN_gottland_government_establishment
+		}
+		available = {
+			has_global_flag = NSD_the_SS_went_to_america
+		}
+		x = 0
+		y = 1
+		relative_position_id = GEN_gottland_government_establishment
+		cost = 5
+		ai_will_do = {
+			factor = 400
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			add_offsite_building = {
+				type = arms_factory
+				level = 2
+			}
+			NSD = {
+				every_character = {
+					limit = {
+						OR = {
+							is_character = GEN_konstantin_von_neurath
+							is_character = GEN_paul_hausser
+							is_character = GEN_sepp_dietrich
+							is_character = GEN_felix_steiner
+							is_character = GEN_walter_kruger
+						}
+					}
+					set_nationality = ROOT
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEN_absorption_of_remnant_armed_forces
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = {
+			focus = GEN_gottland_government_establishment
+		}
+		x = -2
+		y = 1
+		relative_position_id = GEN_gottland_government_establishment
+		cost = 5
+		ai_will_do = {
+			factor = 400
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			army_experience = 25
+			add_manpower = 50000
+			add_equipment_to_stockpile = {
+				type = infantry_equipment_0
+				amount = 2000
+				producer = GEA
+			}
+			add_ideas = general_staff
+			if = { limit = { GEA = { NOT = { has_country_flag = GEA_absorbed_into_a_specific_country }} }
+				GEA = {
+					custom_effect_tooltip = GEN_german_volunteer_air_force_GEA_tt
+					hidden_effect = {
+						random_character = {
+							limit = {
+								is_army_leader = yes
+							}
+							set_nationality = ROOT
+						}
+						random_character = {
+							limit = {
+								is_army_leader = yes
+							}
+							set_nationality = ROOT
+						}
+						random_character = {
+							limit = {
+								is_army_leader = yes
+							}
+							set_nationality = ROOT
+						}
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEN_german_volunteer_air_force
+		icon = GFX_goal_generic_air_fighter
+		prerequisite = {
+			focus = GEN_absorption_of_remnant_armed_forces
+		}
+		x = 0
+		y = 1
+		relative_position_id = GEN_absorption_of_remnant_armed_forces
+		cost = 5
+		ai_will_do = {
+			factor = 400
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			custom_effect_tooltip = GEN_german_volunteer_air_force_tt
+			air_experience = 25
+			add_doctrine_cost_reduction = {
+				name = air_sup_bonus
+				cost_reduction = 0.50
+				uses = 1
+				category = battlefield_support_tree
+			}
+			if = { limit = { GEF = { NOT = { has_country_flag = GEF_absorbed_into_a_specific_country }} }
+				GEF = {
+					custom_effect_tooltip = GEN_german_volunteer_air_force_GEF_tt
+					hidden_effect = {
+						random_character = {
+							limit = {
+								NOT = {
+									has_trait = communist_revolutionary
+									has_trait = democratic_reformer
+									has_trait = fascist_demagogue
+									has_trait = head_of_intelligence
+								}
+							}
+							set_nationality = ROOT
+						}
+						random_character = {
+							limit = {
+								NOT = {
+									has_trait = communist_revolutionary
+									has_trait = democratic_reformer
+									has_trait = fascist_demagogue
+									has_trait = head_of_intelligence
+								}
+							}
+							set_nationality = ROOT
+						}
+						random_character = {
+							limit = {
+								NOT = {
+									has_trait = communist_revolutionary
+									has_trait = democratic_reformer
+									has_trait = fascist_demagogue
+									has_trait = head_of_intelligence
+								}
+							}
+							set_nationality = ROOT
+						}
+					}
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEN_industrialization_1
+		icon = GFX_focus_generic_industry_1
+		prerequisite = {
+			focus = GEN_gottland_government_establishment
+		}
+		available = {
+			controls_state = 124
+		}
+		x = 2
+		y = 1
+		relative_position_id = GEN_gottland_government_establishment
+		cost = 5
+		ai_will_do = {
+			factor = 400
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			124 = {
+				set_state_category = town
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEN_industrialization_2
+		icon = GFX_focus_generic_industry_2
+		prerequisite = {
+			focus = GEN_industrialization_1
+		}
+		available = {
+			controls_state = 124
+		}
+		x = 0
+		y = 1
+		relative_position_id = GEN_industrialization_1
+		cost = 5
+		ai_will_do = {
+			factor = 400
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			124 = {
+				set_state_category = large_town
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+	focus = {
+		id = GEN_industrialization_3
+		icon = GFX_focus_generic_industry_3
+		prerequisite = {
+			focus = GEN_industrialization_2
+		}
+		available = {
+			controls_state = 124
+		}
+		x = 0
+		y = 2
+		relative_position_id = GEN_industrialization_1
+		cost = 5
+		ai_will_do = {
+			factor = 400
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			124 = {
+				set_state_category = city
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
 			}
 		}
 	}
