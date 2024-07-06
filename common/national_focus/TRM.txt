@@ -3347,7 +3347,7 @@
 	    cost = 8
 		completion_reward = {
 		    add_tech_bonus = {
-    			name = RUS_Terrestrial_Dreadnoughts
+    			name = TRM_Terrestrial_Dreadnoughts
 			    bonus = 0.75
 			    uses = 2
     			category = armor
@@ -3357,7 +3357,7 @@
 	}
 	focus = {
 		id = TRM_Asymmetric_Tactics
-		icon = GFX_focus_FIN_foreign_anti_air
+		icon = GFX_focus_generic_combined_arms
 		available = { }
 		ai_will_do = {
 			base = 0
@@ -3425,14 +3425,20 @@
 		relative_position_id = TRM_Decentralised_Structure
 		cost = 8
 		completion_reward = {
-            custom_effect_tooltip = TRM_Trinity_Field_Artillery_tt
-            add_to_variable = { TRM_army_artillery_attack_factor = 0.05 }
-            add_to_variable = { TRM_army_artillery_defence_factor = 0.05 }
+            add_ideas = TRM_defense_industry_artillery_bonus
+            custom_effect_tooltip = tooltip_white_line
+	    	add_tech_bonus = {
+    			name = TRM_Trinity_Field_Artillery
+				bonus = 0.75
+				uses = 2
+				ahead_reduction = 2
+    			category = artillery
+		    }
 		}
 	}
 	focus = {
-		id = TRM_Land_Air_Integration
-		icon = GFX_focus_generic_armored_air_support
+		id = TRM_Officer_Initiative
+		icon = GFX_focus_prc_infiltration
 		available = { }
 		ai_will_do = {
 			base = 300
@@ -3452,20 +3458,24 @@
 		relative_position_id = TRM_Decentralised_Structure
 		cost = 8
 		completion_reward = {
-            custom_effect_tooltip = TRM_Land_Air_Integration_tt
-            add_to_variable = { TRM_army_army_infantry_attack_factor = 0.05 }
+            custom_effect_tooltip = TRM_Officer_Initiative_tt
+            add_to_variable = { TRM_army_max_dig_in = 5 }
+            add_to_variable = { TRM_army_dig_in_speed_factor = 0.1 }
+            add_to_variable = { TRM_army_cas_damage_reduction = 0.1 }
             custom_effect_tooltip = tooltip_white_line
-	    	add_tech_bonus = {
-    			name = TRM_Land_Air_Integration
-			    bonus = 1
-			    uses = 1
-    			category = cas_bomber
-		    }
+	        every_army_leader = {
+	    		limit = { skill < 3 }
+    		    random_select_amount = 4
+		    	add_skill_level = 1
+	    		add_attack = 1
+        		add_defense = 1
+			    add_logistics = 1
+    		}
 		}
 	}
 	focus = {
-		id = TRM_They_will_know_fear
-		icon = GFX_focus_generic_army_tanks2
+		id = TRM_Small_Unit_Tactics
+		icon = GFX_focus_generic_manpower
 		available = { }
 		ai_will_do = {
 			base = 300
@@ -3479,23 +3489,22 @@
 			}
         }
 		prerequisite = { focus = TRM_Trinity_Field_Artillery }
-		prerequisite = { focus = TRM_Land_Air_Integration }
+		prerequisite = { focus = TRM_Officer_Initiative }
+        prerequisite = { focus = TRM_Local_Workshops }
 
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = TRM_Trinity_Field_Artillery
 		cost = 10
 		completion_reward = {
-            custom_effect_tooltip = TRM_They_will_know_fear_tt
-
-            add_to_variable = { TRM_army_attack_factor = 0.10 }
-            set_variable = { TRM_army_army_infantry_attack_factor = 0 }
-            set_variable = { TRM_army_artillery_attack_factor = 0 }
-            
-            add_to_variable = { TRM_army_defence_factor = 0.10 }
-            set_variable = { TRM_army_artillery_defence_factor = 0 }
-
-            add_to_variable = { TRM_army_breakthrough_factor = 0.05 }
+	    	every_army_leader = {
+			    limit = {
+    				skill > 1
+				    NOT = { has_trait = infantry_officer }
+			    }
+			    random_select_amount = 6
+			    add_trait = { trait = infantry_officer }
+		    }
 		}
 	}
 	focus = {
@@ -3640,6 +3649,244 @@
             add_to_variable = { TRM_army_terrain_penalty_reduction = 0.05 }
             custom_effect_tooltip = tooltip_white_line
             army_experience = 25
+		}
+	}
+	focus = {
+		id = TRM_superb_training
+		icon = GFX_focus_chi_army_reform
+		prerequisite = { 
+            focus = TRM_Protectors_of_the_Motherland
+            focus = TRM_Small_Unit_Tactics
+        }
+        mutually_exclusive = {
+            focus  = TRM_Combined_Arms
+        }
+		relative_position_id = TRM_Protectors_of_the_Motherland
+		x = 1
+		y = 1
+		cost = 8
+		ai_will_do = {
+			base = 300
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+        }
+		completion_reward = {
+            add_ideas = TRM_superb_training_idea_1
+            custom_effect_tooltip = tooltip_white_line
+			add_tech_bonus = {
+				name = TRM_superb_training
+				bonus = 1
+				uses = 1
+				category = cat_special_forces_generic
+			}
+			add_potential_special_forces_tree = yes
+		}
+	}
+	focus = {
+		id = TRM_Expand_The_High_Command
+		icon = GFX_focus_generic_military_mission
+		prerequisite = { 
+            focus = TRM_superb_training
+        }
+		relative_position_id = TRM_superb_training
+		x = -2
+		y = 1
+		cost = 8
+		ai_will_do = {
+			base = 300
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+        }
+		completion_reward = {
+		if = {
+			limit = { has_idea = TRM_superb_training_idea_3 }
+			swap_ideas = {
+				remove_idea = TRM_superb_training_idea_3
+				add_idea = TRM_superb_training_idea_4
+			}
+		}
+		else = {
+			swap_ideas = {
+				remove_idea = TRM_superb_training_idea_1
+				add_idea = TRM_superb_training_idea_2
+			}
+		}
+		add_doctrine_cost_reduction = {
+			name = TRM_Expand_The_High_Command
+			cost_reduction = 0.5
+			uses = 1
+			category = land_doctrine
+		}
+		}
+	}
+	focus = {
+		id = TRM_Officer_Training_Academies
+		icon = GFX_focus_generic_military_academy
+		prerequisite = { 
+            focus = TRM_superb_training
+        }
+		relative_position_id = TRM_superb_training
+		x = 0
+		y = 1
+		cost = 8
+		ai_will_do = {
+			base = 300
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+        }
+		completion_reward = {
+		if = {
+			limit = { has_idea = TRM_superb_training_idea_2 }
+			swap_ideas = {
+				remove_idea = TRM_superb_training_idea_2
+				add_idea = TRM_superb_training_idea_4
+			}
+		}
+		else = {
+			swap_ideas = {
+				remove_idea = TRM_superb_training_idea_1
+				add_idea = TRM_superb_training_idea_3
+			}
+		}
+		add_doctrine_cost_reduction = {
+			name = TRM_Officer_Training_Academies
+			cost_reduction = 0.5
+			uses = 1
+			category = land_doctrine
+		}
+		}
+	}
+	focus = {
+		id = TRM_Combined_Arms
+		icon = GFX_focus_FIN_foreign_anti_air
+		prerequisite = { 
+            focus = TRM_Protectors_of_the_Motherland
+            focus = TRM_Small_Unit_Tactics
+        }
+        mutually_exclusive = {
+            focus  = TRM_superb_training
+        }
+		relative_position_id = TRM_Small_Unit_Tactics
+		x = -1
+		y = 1
+		cost = 8
+		ai_will_do = {
+			base = 300
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+        }
+		completion_reward = {
+		    add_ideas = TRM_combined_arms_idea_1
+		}
+	}
+	focus = {
+		id = TRM_Mass_Breakthroughs
+		icon = GFX_goal_fra_arms3
+		prerequisite = { 
+            focus = TRM_Combined_Arms
+        }
+		relative_position_id = TRM_Combined_Arms
+		x = 0
+		y = 1
+		cost = 8
+		ai_will_do = {
+			base = 300
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+        }
+		completion_reward = {
+		    if = {
+    			limit = { has_idea = TRM_combined_arms_idea_3 }
+			    swap_ideas = {
+    				remove_idea = TRM_combined_arms_idea_3
+				    add_idea = TRM_combined_arms_idea_4
+			    }
+		    }
+		    else = {
+    			swap_ideas = {
+				    remove_idea = TRM_combined_arms_idea_1
+				    add_idea = TRM_combined_arms_idea_2
+			    }
+		    }
+		    add_tech_bonus = {
+    			name = TRM_Mass_Breakthroughs
+			    bonus = 1
+    			uses = 1
+			    category = armor
+		    }
+		}
+	}
+	focus = {
+		id = TRM_Land_Air_Integration
+		icon = GFX_focus_generic_armored_air_support
+		prerequisite = { 
+            focus = TRM_Combined_Arms
+        }
+		relative_position_id = TRM_Combined_Arms
+		x = 2
+		y = 1
+		cost = 8
+		ai_will_do = {
+			base = 300
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+        }
+		completion_reward = {
+		    if = {
+			    limit = { has_idea = TRM_combined_arms_idea_2 }
+			    swap_ideas = {
+				    remove_idea = TRM_combined_arms_idea_2
+				    add_idea = TRM_combined_arms_idea_4
+    			}
+		    }
+		    else = {
+			    swap_ideas = {
+    				remove_idea = TRM_combined_arms_idea_1
+    				add_idea = TRM_combined_arms_idea_3
+			    }
+    		}
+		    add_tech_bonus = {
+    			name = TRM_Land_Air_Integration
+		    	bonus = 1
+			    uses = 1
+			    category = cas_bomber
+		    }
 		}
 	}
 	focus = {
