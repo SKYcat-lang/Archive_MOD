@@ -596,6 +596,10 @@ on_actions = {
 						has_completed_focus = FRA_focus_war_1
 					}
 				}
+				every_country = {
+					limit = { has_war_with = FRA }
+					white_peace = FRA
+				}
 				every_state = {
 					limit = {
 						is_on_continent = africa
@@ -609,46 +613,65 @@ on_actions = {
 							has_war_with = ITA
 						}
 					}
-					1 = {
-						transfer_state_to = ITA
+					if = { limit = { 1 = { is_owned_by = FRA } }
+						1 = {
+							transfer_state_to = ITA
+						}
 					}
-					458 = {
-						transfer_state_to = ITA
+					if = { limit = { 458 = { is_owned_by = FRA } }
+						458 = {
+							transfer_state_to = ITA
+						}
 					}
-					665 = {
-						transfer_state_to = ITA
+					if = { limit = { 665 = { is_owned_by = FRA } }
+						665 = {
+							transfer_state_to = ITA
+						}
 					}
 				}
 				else = {
-					1 = {
-						transfer_state_to = COR
-					}
-					ITA = {
-						set_autonomy = {
-							target = COR
-							autonomy_state = autonomy_reichsprotectorate
+					if = { limit = { 1 = { is_owned_by = FRA } }
+						1 = {
+							transfer_state_to = COR
+						}
+						if = {
+							limit = {
+								ITA = {
+									exists = yes
+									has_capitulated = no
+									is_subject = no
+								}
+							}
+							ITA = {
+								set_autonomy = {
+									target = COR
+									autonomy_state = autonomy_reichsprotectorate
+								}
+							}
+						}
+						COR = {
+							set_cosmetic_tag = COR_lose_fra
 						}
 					}
-					COR = {
-						set_cosmetic_tag = COR_lose_fra
-					}
 				}
-				IVO = {
-					transfer_state = 779
-					set_politics = {
-						ruling_party = neutrality
+				if = { limit = { 779 = { is_owned_by = FRA } }
+					IVO = {
+						transfer_state = 779
+						set_politics = {
+							ruling_party = neutrality
+						}
+						retire_country_leader = yes
+						set_cosmetic_tag = IVO_fra
+						change_tag_from = FRA
 					}
-					retire_country_leader = yes
-					set_cosmetic_tag = IVO_fra
-					change_tag_from = FRA
+					IVO = {
+						annex_country = {
+							target = FRA
+							transfer_troops = no
+						}
+					}
 				}
 				###########
-				IVO = {
-					annex_country = {
-						target = FRA
-						transfer_troops = no
-					}
-				}
 				if = {
 					limit = {
 						CAR = {
