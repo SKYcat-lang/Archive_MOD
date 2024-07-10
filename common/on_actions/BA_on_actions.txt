@@ -290,26 +290,6 @@ on_actions = {
 		effect = {
 			if = {
 				limit = {
-					MIL = {
-						any_core_state = {
-							is_owned_by = MIL
-							is_controlled_by = FRA
-							is_on_continent = europe
-							is_coastal = no
-						}
-						any_core_state = {
-							is_owned_by = MIL
-							is_fully_controlled_by = FRA
-							is_on_continent = europe
-						}
-					}
-				}
-				FRA = {
-					country_event = FRA_prov_event.32
-				}
-			}
-			if = {
-				limit = {
 					FRA = {
 						controls_state = 20
 					}
@@ -319,6 +299,43 @@ on_actions = {
 				}
 				MIL = {
 					country_event = FRA_prov_event.153
+				}
+			}
+			if = {
+				limit = {
+					FRA = {
+						controls_state = 22
+					}
+				}
+				FRA={
+				country_event = {
+					id = FRA_prov_event.148
+					days = 3
+				}}
+				MIL = {
+					country_event = {
+						id = FRA_prov_event.148
+						days = 3
+					}
+				}
+			}
+			if = {
+				limit = {
+					FRA = {
+						controls_state = 23
+					}
+				}
+				FRA = {
+					country_event = {
+						id = FRA_prov_event.146
+						days = 3
+					}
+				}
+				MIL = {
+					country_event = {
+						id = FRA_prov_event.146
+						days = 3
+					}
 				}
 			}
 			if = {
@@ -556,236 +573,6 @@ on_actions = {
 			}
 		}
 	}
-	on_capitulation = {
-		effect = {
-			if = {
-				limit = {
-					OR = {
-						has_idea = BA_GER_defense
-						has_idea = BA_GER_defense_week
-					}
-					has_war_with = TRM
-					is_in_faction = no
-				}
-				every_core_state = {
-					remove_core_of = ROOT
-				}
-			}
-			if = {
-				limit = {
-					tag = FRA
-					has_war_with = MIL
-					FRA = {
-						has_completed_focus = FRA_focus_war_1
-					}
-				}
-				every_state = {
-					limit = {
-						is_on_continent = africa
-						is_owned_by = FRA
-					}
-					transfer_state_to = MIL
-				}
-				if = {
-					limit = {
-						FRA = {
-							has_war_with = ITA
-						}
-					}
-					1 = {
-						transfer_state_to = ITA
-					}
-					458 = {
-						transfer_state_to = ITA
-					}
-					665 = {
-						transfer_state_to = ITA
-					}
-				}
-				else = {
-					1 = {
-						transfer_state_to = COR
-					}
-					ITA = {
-						set_autonomy = {
-							target = COR
-							autonomy_state = autonomy_reichsprotectorate
-						}
-					}
-					COR = {
-						set_cosmetic_tag = COR_lose_fra
-					}
-				}
-				IVO = {
-					transfer_state = 779
-					set_politics = {
-						ruling_party = neutrality
-					}
-					retire_country_leader = yes
-					set_cosmetic_tag = IVO_fra
-					change_tag_from = FRA
-				}
-				###########
-				IVO = {
-					annex_country = {
-						target = FRA
-						transfer_troops = no
-					}
-				}
-				if = {
-					limit = {
-						CAR = {
-							exists = yes
-						}
-					}
-					every_state = {
-						limit = {
-							is_core_of = CAR
-							is_owned_by = MIL
-						}
-						transfer_state_to = CAR
-					}
-				}
-			}
-			if = {
-				limit = {
-					tag = SOV
-					has_war_with = FRA
-					FRA = {
-						has_completed_focus = FRA_focus_big_14
-					}
-				}
-				FRA = {
-					white_peace = SOV
-					every_country = {
-						limit = {
-							is_ally_with = SOV
-						}
-						white_peace = FRA
-					}
-					FRA = {
-						country_event = {
-							id = FRA_recover.2
-						}
-					}
-				}
-			}
-			if = {
-				limit = {
-					tag = RAJ
-					has_war_with = HND
-				}
-				HND = {
-					every_country = {
-						limit = {
-							has_war_with = HND
-						}
-						white_peace = HND
-					}
-					white_peace = ENG
-					annex_country = {
-						target = RAJ
-						transfer_troops = yes
-					}
-					country_event = ENG_british_warning_event.14
-				}
-			}
-			if = {
-				limit = {
-					TAG = ENG
-					OR = {
-						has_idea = ENG_operation_exile
-						has_idea = ENG_operation_exile_week
-					}
-					has_war_with = KAI
-				}
-				ENG_lose_effect = yes
-				ENG_lose_effect_other_country = yes
-			}
-			if = {
-				limit = {
-					TAG = ENG
-					NOT = {
-						OR = {
-							has_idea = ENG_operation_exile
-							has_idea = ENG_operation_exile_week
-						}
-					}
-					has_war_with = KAI
-				}
-				ENG = {
-					every_country = {
-						limit = {
-							has_war_with = KAI
-						}
-						white_peace = KAI
-					}
-				}
-				CAN = {
-					annex_country = {
-						target = ENG
-						transfer_troops = no
-					}
-					country_event = {
-						id = ENG_british_warning_event.7
-						days = 15
-					}
-					add_ideas = ENG_exiled_royal_family
-				}
-				ENG_lose_effect_other_country = yes
-			}
-			if = {
-				limit = {
-					TAG = KAI
-					has_war_with = ENG
-				}
-				ENG = {
-					annex_country = {
-						target = KAI
-						transfer_troops = no
-					}
-					delete_unit_template_and_units = {
-						division_template = "Home Guard"
-						disband = yes						#will refund equipment and manpower
-					}
-				}
-				set_global_flag = ENG_win_global_flag
-			}
-			if = {
-				limit = {
-					TAG = ARI
-					has_war_with = TRM
-					TRM = {
-						has_civil_war = no
-					}
-				}
-				TRM = {
-					annex_country = {
-						target = ARI
-						transfer_troops = no
-					}
-					country_event = {
-						id = TRM_event.58
-					}
-				}
-			}
-			if = {
-				limit = {
-					TAG = GEN
-					has_war_with = GEH
-					GEH = {
-						has_completed_focus = GEH_kick_wehrmacht
-					}
-				}
-				GEH = {
-					country_event = {
-						id = GEH_event.38
-						hours = 1
-					}
-				}
-			}
-		}
-	}
 	on_nuke_drop = {
 		effect = {
 			news_event = {
@@ -856,48 +643,6 @@ on_actions = {
 							id = GEN_event.4
 							days = 25
 						}
-					}
-				}
-			}
-			if = {
-				limit = {
-					FROM = {
-						original_tag = GEH
-						has_completed_focus = GEH_hina_is_goat
-					}
-					ROOT = {
-						original_tag = TRM
-						has_government = fascism
-						NOT = {
-							has_completed_focus = TRM_war_with_gehenna
-						}
-					}
-				}
-				TRM = {
-					add_timed_idea = {
-						idea = TRN_NOT_READY_WAR
-						days = 365
-					}
-				}
-			}
-			if = {
-				limit = {
-					FROM = {
-						original_tag = TRM
-						has_government = fascism
-					}
-					ROOT = {
-						original_tag = GEH
-						has_completed_focus = GEH_hina_is_goat
-						NOT = {
-							has_completed_focus = GEH_HELLYEAH
-						}
-					}
-				}
-				GEH = {
-					add_timed_idea = {
-						idea = TRN_NOT_READY_WAR
-						days = 365
 					}
 				}
 			}

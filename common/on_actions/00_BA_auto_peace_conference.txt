@@ -1,0 +1,240 @@
+on_actions = {
+	on_capitulation = {
+		effect = {
+			if = {
+				limit = {
+					OR = {
+						has_idea = BA_GER_defense
+						has_idea = BA_GER_defense_week
+					}
+					has_war_with = TRM
+					is_in_faction = no
+				}
+				every_core_state = {
+					remove_core_of = ROOT
+				}
+			}
+			if = {
+				limit = {
+					tag = FRA
+					has_war_with = MIL
+					FRA = {
+						has_completed_focus = FRA_focus_war_1
+					}
+				}
+				every_country = {
+					limit = { has_war_with = FRA }
+					white_peace = FRA
+				}
+				every_state = {
+					limit = {
+						is_on_continent = africa
+						is_owned_by = FRA
+					}
+					transfer_state_to = MIL
+				}
+				if = {
+					limit = {
+						FRA = {
+							has_war_with = ITA
+						}
+					}
+					if = { limit = { 1 = { is_owned_by = FRA } }
+						1 = {
+							transfer_state_to = ITA
+						}
+					}
+					if = { limit = { 458 = { is_owned_by = FRA } }
+						458 = {
+							transfer_state_to = ITA
+						}
+					}
+					if = { limit = { 665 = { is_owned_by = FRA } }
+						665 = {
+							transfer_state_to = ITA
+						}
+					}
+				}
+				else = {
+					if = { limit = { 1 = { is_owned_by = FRA } }
+						1 = {
+							transfer_state_to = COR
+						}
+						if = {
+							limit = {
+								ITA = {
+									exists = yes
+									has_capitulated = no
+									is_subject = no
+								}
+							}
+							ITA = {
+								set_autonomy = {
+									target = COR
+									autonomy_state = autonomy_reichsprotectorate
+								}
+							}
+						}
+						COR = {
+							set_cosmetic_tag = COR_lose_fra
+						}
+					}
+				}
+				if = { limit = { 779 = { is_owned_by = FRA } }
+					IVO = {
+						transfer_state = 779
+						set_politics = {
+							ruling_party = neutrality
+						}
+						retire_country_leader = yes
+						set_cosmetic_tag = IVO_fra
+						change_tag_from = FRA
+					}
+					IVO = {
+						annex_country = {
+							target = FRA
+							transfer_troops = no
+						}
+					}
+				}
+				###########
+				if = {
+					limit = {
+						CAR = {
+							exists = yes
+						}
+					}
+					every_state = {
+						limit = {
+							is_core_of = CAR
+							is_owned_by = MIL
+						}
+						transfer_state_to = CAR
+					}
+				}
+			}
+			if = {
+				limit = {
+					tag = SOV
+					has_war_with = FRA
+					FRA = {
+						has_completed_focus = FRA_focus_big_14
+					}
+				}
+				FRA = {
+					white_peace = SOV
+					every_country = {
+						limit = {
+							is_ally_with = SOV
+						}
+						white_peace = FRA
+					}
+					FRA = {
+						country_event = {
+							id = FRA_recover.2
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					tag = RAJ
+					has_war_with = HND
+				}
+				HND = {
+					every_country = {
+						limit = {
+							has_war_with = HND
+						}
+						white_peace = HND
+					}
+					white_peace = ENG
+					annex_country = {
+						target = RAJ
+						transfer_troops = yes
+					}
+					country_event = ENG_british_warning_event.14
+				}
+			}
+			if = {
+				limit = {
+					TAG = ENG
+					OR = {
+						has_idea = ENG_operation_exile
+						has_idea = ENG_operation_exile_week
+					}
+					has_war_with = KAI
+				}
+				ENG_lose_effect = yes
+				ENG_lose_effect_other_country = yes
+			}
+			if = {
+				limit = {
+					TAG = ENG
+					NOT = {
+						OR = {
+							has_idea = ENG_operation_exile
+							has_idea = ENG_operation_exile_week
+						}
+					}
+					has_war_with = KAI
+				}
+				ENG = {
+					every_country = {
+						limit = {
+							has_war_with = KAI
+						}
+						white_peace = KAI
+					}
+				}
+				CAN = {
+					annex_country = {
+						target = ENG
+						transfer_troops = no
+					}
+					country_event = {
+						id = ENG_british_warning_event.7
+						days = 15
+					}
+					add_ideas = ENG_exiled_royal_family
+				}
+				ENG_lose_effect_other_country = yes
+			}
+			if = {
+				limit = {
+					TAG = KAI
+					has_war_with = ENG
+				}
+				ENG = {
+					annex_country = {
+						target = KAI
+						transfer_troops = no
+					}
+					delete_unit_template_and_units = {
+						division_template = "Home Guard"
+						disband = yes						#will refund equipment and manpower
+					}
+				}
+				set_global_flag = ENG_win_global_flag
+			}
+			if = {
+				limit = {
+					TAG = ARI
+					has_war_with = TRM
+					TRM = {
+						has_civil_war = no
+					}
+				}
+				TRM = {
+					annex_country = {
+						target = ARI
+						transfer_troops = no
+					}
+					country_event = {
+						id = TRM_event.58
+					}
+				}
+			}
+		}
+	}
+}
