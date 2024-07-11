@@ -2608,7 +2608,7 @@ focus_tree = {
 			focus = ARI_free_arians
 			focus = ARI_trustee_administration_continuation
 		}
-		cost = 10
+		cost = 5
 		x = 0
 		y = 6
 		relative_position_id = ARI_we_are_arians
@@ -2641,6 +2641,7 @@ focus_tree = {
 			}
 			set_cosmetic_tag = ARI_general_school
 			country_event = { id = ARI_event.17 hours = 8 }
+			add_ideas = ARI_student_resistance
 		}
 	}
 
@@ -2675,10 +2676,9 @@ focus_tree = {
 		completion_reward = {
 			set_country_flag = BA_german_claimant_3 #독일 정통성 높음 (하이드리히 전용)
 			add_political_power = 60
-			GER = {
-				every_core_state = {
-					add_core_of = ARI
-				}
+			every_state = {
+				limit = { BA_is_GER_core = yes }
+				add_core_of = ARI
 			}
 			set_cosmetic_tag = ARI_german
 			set_capital = {
@@ -3232,13 +3232,13 @@ focus_tree = {
 
 		completion_reward = {
 			set_cosmetic_tag = ARI_greater_german_reich
-			GER = {
-				every_core_state = {
-					limit = {
-						NOT = { is_core_of = ARI }
-					}
-					add_core_of = ARI
+
+			every_state = {
+				limit = {
+					BA_is_GER_core = yes
+					NOT = { is_core_of = ROOT }
 				}
+				add_core_of = ARI
 			}
 
 			AUS = {
@@ -3264,14 +3264,60 @@ focus_tree = {
 		}
 	}
 
-	focus = { #공개 심판
+	focus = { #공개 재판
 		id = ARI_public_executions
-		icon = GFX_focus_spr_crush_the_revolution
+		icon = GFX_goal_generic_secret_weapon
 		prerequisite = {
 			focus = ARI_arian_general_school
 		}
 		cost = 10
 		x = 0
+		y = 2
+		relative_position_id = ARI_arian_general_school
+
+		available = {
+			is_subject = no
+		}
+
+		completion_reward = {
+			add_political_power = 120
+			country_event = ARI_event.26
+		}
+	}
+
+	focus = { #군정 수립
+		id = ARI_military_government_establishment
+		icon = GFX_goal_generic_defence
+		prerequisite = {
+			focus = ARI_arian_general_school
+		}
+		cost = 10
+		x = -1
+		y = 1
+		relative_position_id = ARI_arian_general_school
+
+		available = {
+			is_subject = no
+		}
+
+		completion_reward = {
+			add_political_power = 30
+			swap_ideas = {
+				remove_idea = ARI_student_resistance
+				add_idea = ARI_military_government_establishment_idea
+			}
+		}
+	}
+
+	focus = { #전후 복구
+		id = ARI_postwar_reconstruction
+		icon = GFX_focus_generic_support_the_left_right
+		prerequisite = {
+			focus = ARI_military_government_establishment
+			focus = ARI_international_city
+		}
+		cost = 10
+		x = -2
 		y = 2
 		relative_position_id = ARI_arian_general_school
 
