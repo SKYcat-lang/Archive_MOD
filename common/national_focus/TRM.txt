@@ -2229,6 +2229,7 @@
 		cost = 5.00
 		prerequisite = {
 			focus = TRM_anschluss
+			focus = TRM_alliance_with_Sanhaijing
 		}
 		available = { 
             is_subject = no
@@ -2498,6 +2499,7 @@
 		}
 		available = {
             has_country_flag = GAEBALJUNG
+
 			is_subject = no
             NOT = { has_government = communism }
             NOT = { is_in_faction_with = RED }
@@ -2529,28 +2531,14 @@
         text = GER_anti_comitern_pact
         icon = GFX_goal_anti_comintern_pact
 		cost = 5.00
-		prerequisite = {
-            focus = TRM_domination
-		}
+		prerequisite = { focus = TRM_domination }
 		available = {
-            has_country_flag = GAEBALJUNG
-            
 			is_subject = no
 			NOT = { has_government = communism }
-			NOT = { is_in_faction_with = RED }
 			NOT = { is_in_faction_with = SOU }
+			NOT = { is_in_faction_with = RED }
         }
-		ai_will_do = {
-			base = 500
-			modifier = {
-				factor = 2
-				has_war = yes
-			}
-			modifier = {
-				factor = 0.5
-				has_war = no
-			}
-		}
+		ai_will_do = { factor = 1 }
 		relative_position_id = TRM_domination
 		x = 4
 		y = 1
@@ -2563,12 +2551,10 @@
 					NOT = { tag = ROOT }
 					NOT = { has_war_with = ROOT }
 					NOT = { is_in_faction_with = SOU }
-                    NOT = { tag = GER }
+                    NOT = { tag = TRM }
 					is_subject = no
 					OR = {
-						capital_scope = {
-								is_on_continent = europe
-						}
+						capital_scope = { is_on_continent = europe }
 						num_of_factories > 30
 					}
 					OR = {
@@ -2592,8 +2578,8 @@
 		}
 		available = {
 			is_subject = no
-			has_army_manpower = { size > 849999 } 
-			RED = {
+			has_army_manpower = { size > 749999 }
+			SOU = {
 				has_government = communism
 			}
 		}
@@ -2605,16 +2591,14 @@
 		y = 2
 		completion_reward = {
 			hidden_effect = {
-				RED = { remove_opinion_modifier = { target = ROOT modifier = pact_against_us } }
-				SOU = { remove_opinion_modifier = { target = ROOT modifier = pact_against_us } }
+				SOV = { remove_opinion_modifier = { target = ROOT modifier = pact_against_us } }
 				add_ideas = anti_soviet_pact
 			}
-			custom_effect_tooltip = TRM_anti_soviet_pact_tt_3
-			custom_effect_tooltip = TRM_anti_soviet_pact_tt
-			custom_effect_tooltip = TRM_anti_soviet_pact_tt_2
-			RED = { add_opinion_modifier = { target = ROOT modifier = worse_pact_against_us } }
 			SOU = { add_opinion_modifier = { target = ROOT modifier = worse_pact_against_us } }
-            every_other_country = {
+			custom_effect_tooltip = GER_anti_soviet_pact_tt_3
+			custom_effect_tooltip = GER_anti_soviet_pact_tt
+			custom_effect_tooltip = GER_anti_soviet_pact_tt_2
+			every_other_country = {
 				limit = {
 					has_opinion_modifier = anti_comintern_pact_opinion
 					OR = {
@@ -2840,9 +2824,6 @@
 		    country_event = {
 		    	id = TRM_event.26
 		    }
-			hidden_effect = {
-				TRM_endsieg_effect = yes
-			}
 		}
 	}
 	focus = {
