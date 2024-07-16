@@ -706,7 +706,8 @@ country_event = {  # 트리니티 - 게헨나 전쟁 (에덴 결전)
 	is_triggered_only = yes
 	
 	option = { #
-		name = TRM_event.34.a 
+		name = TRM_event.34.a
+        add_threat = 5
 		every_country = {
 			limit = {
 				OR = {
@@ -3164,6 +3165,93 @@ country_event = { # 달마티아 영유권 주장
 
 	option = { # 전쟁 목표 걸리기
 		name = TRM_diplomacy_event.11.b
+	}
+}
+country_event = { # 덴마크 내놔 RED
+	id = TRM_diplomacy_event.12
+	title = TRM_diplomacy_event.12.t
+	desc = TRM_diplomacy_event.12.d
+	picture = GFX_report_event_DEN_celebration
+
+	is_triggered_only = yes
+
+	option = { # 이 선택은 덴마크를 트리니티에게 양도합니다. RED AI는 99% 확률로 이 선택지를 회피합니다.
+		name = germany.86.a
+        ai_chance = { base = 1 }
+        hidden_effect = {
+            FROM ={
+                set_country_flag = TRM_We_need_Denmark_milk_flag
+                country_event = { id = TRM_diplomacy_event.13 hours = 07 }
+            }
+        }
+        effect_tooltip = {
+            FROM = {
+                transfer_state = 912
+                transfer_state = 99
+                transfer_state = 911
+                transfer_state = 37
+                every_state = {
+                    limit = { 
+                        is_core_of = DEN 
+                        NOT = {
+                            state = 337
+                            state = 100
+                        }
+                    }
+                    add_claim_by = FROM
+                }
+            }
+        }
+	}
+	option = { # 이 선택은 덴마크를 트리니티에게 양도하지 않습니다. RED AI는 99% 확률로 이 선택지를 회피하지 않습니다.
+		name = JUNO_brazil_events.140.b
+        ai_chance = { base = 99 }
+        country_event = { id = TRM_diplomacy_event.14 hours = 07 }
+	}
+}
+country_event = { # 덴마크를 양도한 RED
+	id = TRM_diplomacy_event.13
+	title = TRM_diplomacy_event.13.t
+	desc = TRM_diplomacy_event.13.d
+	picture = GFX_report_event_DEN_celebration
+
+	is_triggered_only = yes
+
+	option = { # 
+		name = bftb_turkey.39.a
+        ai_chance = { base = 1 }
+        ROOT = {
+            transfer_state = 912
+            transfer_state = 99
+            transfer_state = 911
+            transfer_state = 37
+            every_state = {
+                limit = { 
+                    is_core_of = DEN 
+                    NOT = {
+                        state = 337
+                        state = 100
+                    }
+                }
+                add_claim_by = ROOT
+            }
+            set_country_flag = TRM_We_need_Denmark_milk_flag
+        }
+	}
+}
+country_event = { # 덴마크를 양도하기 거부한 RED
+	id = TRM_diplomacy_event.14
+	title = TRM_diplomacy_event.14.t
+	desc = TRM_diplomacy_event.14.d
+	picture = GFX_report_event_DEN_celebration
+
+	is_triggered_only = yes
+
+	option = { # 
+		name = germany.88.a
+        ai_chance = { base = 1 }
+        add_threat = 5
+        complete_national_focus = TRM_redwinter_war_goal
 	}
 }
 ##############################
