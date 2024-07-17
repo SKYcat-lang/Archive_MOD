@@ -1,0 +1,76 @@
+EGY_Binah_problem = {
+	EGY_Binah_action_escalate = {
+		priority = 10
+		activation = {
+			has_idea = EGY_Binah
+		}
+		available = {
+			NOT = {
+				has_idea = EGY_Binah
+			}
+		}
+		days_mission_timeout = 1
+		is_good = no
+		timeout_effect = {
+			random_owned_controlled_state = {
+				limit = { 
+					is_core_of = EGY 
+					NOT = {
+						has_state_flag = EGY_Binah_is_here
+					}
+					any_neighbor_state = {
+						has_state_flag = EGY_Binah_is_here
+					}
+				}
+				set_demilitarized_zone = yes
+				set_state_flag = EGY_Binah_is_here
+			}
+			activate_mission = EGY_Binah_action_escalate
+		}
+	}
+	EGY_Binah_action_destroy_infra = {
+		priority = 10
+		activation = {
+			has_idea = EGY_Binah
+			any_controlled_state = {
+				has_state_flag = EGY_Binah_is_here
+			}
+		}
+		available = {
+			NOT = {
+				has_idea = EGY_Binah
+			}
+		}
+		days_mission_timeout = 70
+		is_good = no
+		timeout_effect = {
+			random_owned_controlled_state = {
+				limit = { 
+					is_core_of = EGY 
+					has_state_flag = EGY_Binah_is_here
+					infrastructure > 0
+				}
+				add_manpower = -2500
+				damage_building = {
+					type = infrastructure
+					damage = 1
+				}
+				if = {
+					limit = { industrial_complex > 0 }
+					damage_building = {
+						type = industrial_complex
+						damage = 1
+					}
+				}
+				if = {
+					limit = { arms_factory > 0 }
+					damage_building = {
+						type = arms_factory
+						damage = 1
+					}
+				}
+			}
+			activate_mission = EGY_Binah_action_destroy_infra
+		}
+	}
+}
