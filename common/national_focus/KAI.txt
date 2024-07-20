@@ -811,12 +811,9 @@ focus_tree = {
 			focus = KAI_FOCUS_8
 		}
 		available = { 
-			OR = {
-				fascism > 0.30
-				has_country_leader = {
-					character = KAI_president
-					ruling_only = yes
-				}
+			KAI_political_fascism_is_free = yes
+			NOT = {
+				has_idea = kai_political_fascism_idea_1
 			}
 		}
 		x = 40
@@ -846,8 +843,9 @@ focus_tree = {
 		prerequisite = {
 			focus = KAI_corp_fascism
 		}
-		bypass = {
-			has_government = fascism
+		available = {
+			KAI_political_fascism_is_free = yes
+			KAI_political_democracy_is_free = yes
 		}
 		cost = 10
 		x = -2
@@ -855,10 +853,15 @@ focus_tree = {
 		relative_position_id = KAI_corp_fascism
 		completion_reward = {
 			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+			add_popularity = {
 				ideology = fascism
-				popularity = 0.10
+				popularity = 0.05
 			}
 			add_war_support = 0.10
+			KAI_political_ruler_buff_effect = yes
 		}
 	}
 	focus = { #반대파 해고
@@ -870,6 +873,10 @@ focus_tree = {
         bypass = {
             has_idea = KAI_unjust_contract
         }
+		available = { 
+			KAI_political_fascism_is_free = yes
+			has_idea = kai_political_fascism_idea_0
+		}
 		x = 1
 		y = 1
 		relative_position_id = KAI_corp_fascism
@@ -890,6 +897,13 @@ focus_tree = {
 		cost = 10
 		x = -1
 		y = 1
+		available = {
+			KAI_political_fascism_is_free = yes
+			OR = {
+				has_idea = kai_political_fascism_idea_0
+				has_idea = kai_political_fascism_idea_3
+			}
+		}
         bypass = {
             has_dynamic_modifier = {
                 modifier = KAI_Wechsel
@@ -899,7 +913,7 @@ focus_tree = {
 		completion_reward = {
 			add_popularity = {
 				ideology = fascism
-				popularity = 0.30
+				popularity = 0.05
 			}
 			add_dynamic_modifier = { modifier = KAI_Wechsel }
 		}
@@ -1180,9 +1194,12 @@ focus_tree = {
 		prerequisite = { focus = KAI_bank_unity }
 		prerequisite = { focus = KAI_fire_opposition }
 		cost = 10
-        bypass = {
-            NOT = { has_idea = BA_isolation }
-        }
+		available = {
+			KAI_political_fascism_is_free = yes
+			has_idea = kai_political_fascism_idea_0
+			KAI_political_democracy_is_suppressed = yes
+			KAI_political_communism_is_suppressed = yes
+		}
 		x = 3
 		y = 1
 		relative_position_id = KAI_bank_unity
@@ -1194,6 +1211,13 @@ focus_tree = {
                 add_idea = export_focus
                 remove_idea = BA_isolation
             }
+			swap_ideas = {
+				remove_idea = KAI_corporate_state
+				add_idea = KAI_API_idea
+			}
+			set_politics = {
+				ruling_party = fascism
+			}
 		}
 	}
 	focus = { # 
