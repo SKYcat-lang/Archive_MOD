@@ -152,6 +152,7 @@ focus_tree = {
 			focus = KAI_FOCUS_8
 		}
 		available = { 
+			KAI_political_democracy_is_free = yes
 			OR = {
 				neutrality < 0.50
 				NOT = {
@@ -170,29 +171,9 @@ focus_tree = {
 		}
 		completion_reward = {
 			add_stability = 0.15
-		}
-	}
-	focus = { #제 1차 주주총회
-		id = KAI_first_shareholders_meeting
-		icon = GFX_focus_NOR_restore_public_trust_in_the_storting
-		cost = 5
-		prerequisite = {
-			focus = KAI_corp_convention
-		}
-		bypass = {
-			has_government = democratic
-		}
-		x = 0
-		y = 1
-		relative_position_id = KAI_corp_convention
-		ai_will_do = {
-			factor = 2
-		}
-		completion_reward = {
-			add_political_power = 30
 			add_popularity = {
-				ideology = democratic
-				popularity = 0.05
+				ideology = fascism
+				popularity = -0.05
 			}
 		}
 	}
@@ -200,12 +181,12 @@ focus_tree = {
 		id = KAI_kaiser_health_insurance
 		icon = GFX_focus_generic_field_hostpital
 		prerequisite = {
-			focus = KAI_first_shareholders_meeting
+			focus = KAI_corp_convention
 		}
 		cost = 5
-		x = -4
+		x = -1
 		y = 1
-		relative_position_id = KAI_first_shareholders_meeting
+		relative_position_id = KAI_corp_convention
 		completion_reward = { 
 			add_stability = 0.20
 		}
@@ -217,7 +198,7 @@ focus_tree = {
 			focus = KAI_kaiser_health_insurance
 		}
 		cost = 5
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = KAI_kaiser_health_insurance
 		completion_reward = { 
@@ -228,14 +209,15 @@ focus_tree = {
 		id = KAI_no_migration_controls
 		icon = GFX_goal_generic_major_alliance
 		prerequisite = {
-			focus = KAI_first_shareholders_meeting
+			focus = KAI_corp_convention
 		}
 		cost = 5
-		x = -2
+		x = 1 
 		y = 1
-		relative_position_id = KAI_first_shareholders_meeting
+		relative_position_id = KAI_corp_convention
 		completion_reward = {
 			add_ideas = KAI_welcome_immigrate
+			KAI_up_political_democracy_idea = yes
 		}
 	}
 	focus = { #다문화주의
@@ -245,20 +227,195 @@ focus_tree = {
 			focus = KAI_no_migration_controls
 		}
 		cost = 5
-		x = -1
+		x = 0
 		y = 1
 		relative_position_id = KAI_no_migration_controls
 		completion_reward = {
+			swap_ideas = {
+				remove_idea = KAI_welcome_immigrate
+				add_idea = KAI_multiculturalism_idea
+			}
+			KAI_up_political_fascism_idea = yes
+			KAI_up_political_communism_idea = yes
+			KAI_up_political_democracy_idea = yes
+		}
+	}
+	focus = { #지역 자본가와 교섭
+		id = KAI_persuade_local_rich
+		icon = GFX_focus_generic_industrialists
+		cost = 5
+		prerequisite = {
+			focus = KAI_FOCUS_8
+		}
+		available = {
+			KAI_political_democracy_is_free = yes
+			NOT = { has_idea = kai_political_democracy_idea_1 }
+		}
+		x = 3
+		y = 0
+		relative_position_id = KAI_corp_convention
+		completion_reward = {
+			add_political_power = 75
+			#캐릭터 해금
+		}
+	}
+	focus = { #세계시장
+		id = KAI_world_market
+		icon = GFX_goal_generic_positive_trade_relations
+		cost = 5
+		prerequisite = {
+			focus = KAI_FOCUS_8
+		}
+		available = {
+			KAI_political_democracy_is_free = yes
+		}
+		x = 5
+		y = 0
+		relative_position_id = KAI_corp_convention
+		completion_reward = {
 			if = {
 				limit = { 
-					has_idea = KAI_welcome_immigrate
+					NOT = { has_idea = free_trade }
 				}
-				swap_ideas = {
-					remove_idea = KAI_welcome_immigrate
-					add_idea = KAI_multiculturalism_idea
+				add_ideas = free_trade
+			}
+			every_country = {
+				limit = {
+					Kivotos_school_tag = no
+					has_government = democratic
+				}
+				add_opinion_modifier = {
+					target = KAI
+					modifier = TUR_reliable_trade_partner
 				}
 			}
-			add_ideas = KAI_welcome_immigrate
+			KAI_down_political_democracy_idea = yes
+		}
+	}
+	focus = { #플랜테이션 농업
+		id = KAI_plantaion_agriculture
+		icon = GFX_focus_generic_agricultural_subsidies
+		prerequisite = {
+			focus = KAI_world_market
+		}
+		cost = 5
+		x = 0
+		y = 1
+		relative_position_id = KAI_world_market
+		available = {
+			any_country = {
+				capital_scope = {
+					OR = {
+						is_on_continent = africa
+						is_on_continent = asia
+					}
+				}
+				is_subject_of = ROOT
+			}
+		}
+		completion_reward = { 
+			KAI_down_political_democracy_idea = yes
+		}
+	}
+	focus = { #제 1차 주주총회
+		id = KAI_first_shareholders_meeting
+		icon = GFX_focus_NOR_restore_public_trust_in_the_storting
+		cost = 5
+		prerequisite = {
+			focus = KAI_persuade_local_rich
+		}
+		prerequisite = {
+			focus = KAI_corp_convention
+		}
+		bypass = {
+			has_government = democratic
+		}
+		available = {
+			KAI_political_democracy_is_free = yes
+			NOT = {
+				has_idea = kai_political_democracy_idea_1
+			}
+		}
+		x = 0
+		y = 1
+		relative_position_id = KAI_persuade_local_rich
+		ai_will_do = {
+			factor = 2
+		}
+		completion_reward = {
+			add_political_power = 30
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.05
+			}
+		}
+	}
+	focus = { #투자 유도
+		id = KAI_induce_investment
+		icon = GFX_focus_generic_concessions
+		prerequisite = {
+			focus = KAI_first_shareholders_meeting
+		}
+		available = {
+			KAI_political_democracy_is_free = yes
+			OR = {
+				has_idea = kai_political_democracy_idea_0
+				has_idea = kai_political_democracy_idea_3
+			}
+		}
+		cost = 5
+		x = 2
+		y = 1
+		relative_position_id = KAI_first_shareholders_meeting
+		completion_reward = { 
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { has_state_flag = KAI_invested }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = KAI_invested
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { has_state_flag = KAI_invested }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = KAI_invested
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { has_state_flag = KAI_invested }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = KAI_invested
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { has_state_flag = KAI_invested }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = KAI_invested
+			}
 		}
 	}
 	focus = { #해안방어선 구축
@@ -338,6 +495,13 @@ focus_tree = {
 		prerequisite = {
 			focus = KAI_first_shareholders_meeting
 		}
+		available = {
+			KAI_political_democracy_is_free = yes
+			OR = {
+				has_idea = kai_political_democracy_idea_0
+				has_idea = kai_political_democracy_idea_3
+			}
+		}
 		x = 1
 		y = 2
 		relative_position_id = KAI_first_shareholders_meeting
@@ -351,136 +515,6 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { #지역 자본가와 교섭
-		id = KAI_persuade_local_rich
-		icon = GFX_focus_generic_industrialists
-		prerequisite = {
-			focus = KAI_first_shareholders_meeting
-		}
-		cost = 5
-		x = 2
-		y = 1
-		relative_position_id = KAI_first_shareholders_meeting
-		completion_reward = {
-			add_political_power = 75
-			#캐릭터 해금
-		}
-	}
-	focus = { #투자 유도
-		id = KAI_induce_investment
-		icon = GFX_focus_generic_concessions
-		prerequisite = {
-			focus = KAI_persuade_local_rich
-		}
-		cost = 5
-		x = 1
-		y = 1
-		relative_position_id = KAI_persuade_local_rich
-		completion_reward = { 
-			random_owned_controlled_state = {
-				limit = {
-					NOT = { has_state_flag = KAI_invested }
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-				set_state_flag = KAI_invested
-			}
-			random_owned_controlled_state = {
-				limit = {
-					NOT = { has_state_flag = KAI_invested }
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-				set_state_flag = KAI_invested
-			}
-			random_owned_controlled_state = {
-				limit = {
-					NOT = { has_state_flag = KAI_invested }
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-				set_state_flag = KAI_invested
-			}
-			random_owned_controlled_state = {
-				limit = {
-					NOT = { has_state_flag = KAI_invested }
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-				set_state_flag = KAI_invested
-			}
-		}
-	}
-	focus = { #세계시장
-		id = KAI_world_market
-		icon = GFX_goal_generic_positive_trade_relations
-		cost = 5
-		prerequisite = {
-			focus = KAI_first_shareholders_meeting
-		}
-		x = 4
-		y = 1
-		relative_position_id = KAI_first_shareholders_meeting
-		completion_reward = {
-			if = {
-				limit = { 
-					NOT = { has_idea = free_trade }
-				}
-				add_ideas = free_trade
-			}
-			every_country = {
-				limit = {
-					Kivotos_school_tag = no
-					has_government = democratic
-				}
-				add_opinion_modifier = {
-					target = KAI
-					modifier = TUR_reliable_trade_partner
-				}
-			}
-		}
-	}
-	focus = { #플랜테이션 농업
-		id = KAI_plantaion_agriculture
-		icon = GFX_focus_generic_agricultural_subsidies
-		prerequisite = {
-			focus = KAI_world_market
-		}
-		cost = 5
-		x = 1
-		y = 1
-		relative_position_id = KAI_world_market
-		available = {
-			any_country = {
-				capital_scope = {
-					OR = {
-						is_on_continent = africa
-						is_on_continent = asia
-					}
-				}
-				is_subject_of = ROOT
-			}
-		}
-		completion_reward = { 
-			#디시전 추가
-		}
-	}
 	focus = { #기업 국가
 		id = KAI_corporatocracy
 		icon = GFX_goal_generic_intelligence_exchange
@@ -490,6 +524,11 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = KAI_bussiness_hq
+		}
+		available = {
+			KAI_political_democracy_is_free = yes
+			has_idea = kai_political_democracy_idea_0
+			KAI_political_fascism_is_suppressed = yes
 		}
 		x = 0
 		y = 3
@@ -570,7 +609,10 @@ focus_tree = {
 		prerequisite = {
 			focus = KAI_corp_convention
 		}
-		x = -8
+		available = {
+			KAI_political_communism_is_free = yes
+		}
+		x = -4
 		y = 1
 		relative_position_id = KAI_corp_convention
 		completion_reward = {
@@ -579,6 +621,25 @@ focus_tree = {
 				popularity = 0.05
 			}
 			add_ideas = KAI_stockholder_pressure_idea
+			KAI_political_ruler_effect = yes
+		}
+	}
+	focus = { #공밀레 폐지
+		id = KAI_no_more_torture
+		icon = GFX_focus_research
+		prerequisite = {
+			focus = KAI_corp_democratic
+		}
+		available = {
+			KAI_political_communism_is_free = yes
+		}
+		cost = 10
+		x = 0
+		y = 1
+		relative_position_id = KAI_corp_democratic
+		completion_reward = {
+			add_research_slot = 1
+			KAI_down_political_communism_idea = yes
 		}
 	}
 	focus = { #주주총회 압박
@@ -587,7 +648,12 @@ focus_tree = {
 		prerequisite = {
 			focus = KAI_corp_democratic
 		}
-		x = -1
+
+		available = {
+			KAI_political_communism_is_free = yes
+		}
+
+		x = -2
 		y = 1
 		relative_position_id = KAI_corp_democratic
 
@@ -603,15 +669,22 @@ focus_tree = {
 				popularity = 0.10
 			}
 			add_stability = -0.10
+			KAI_up_political_fascism_idea = yes
+			KAI_up_political_democracy_idea = yes
 		}
 	}
 	focus = { # 주권 재분배
 		id = KAI_redistribution_of_sovereignty
 		icon = GFX_goal_generic_forceful_treaty
-		prerequisite = { focus = KAI_corp_democratic }
-		x = 1
+		prerequisite = { focus = KAI_stockholder_pressure }
+		x = 0
 		y = 1
-		relative_position_id = KAI_corp_democratic
+		relative_position_id = KAI_stockholder_pressure
+
+		available = {
+			KAI_political_communism_is_free = yes
+			has_idea = kai_political_communism_idea_0
+		}
 
 		cost = 10
 
@@ -638,28 +711,18 @@ focus_tree = {
 			add_stability = -0.10
 		}
 	}
-	focus = { #회장 해고
+	focus = { #사내 민주주의
 		id = KAI_fire_president
 		icon = GFX_focus_SWE_socialist_reforms
 		prerequisite = {
-			focus = KAI_stockholder_pressure
-		}
-		prerequisite = {
-			focus = KAI_redistribution_of_sovereignty
+			focus = KAI_corp_democratic
 		}
 		available = {
-			OR = {
-				communism > 0.40
-				has_country_leader = {
-					character = KAI_shareholders_meeting
-					ruling_only = yes
-				}
-			}
 		}
 		cost = 10
-		x = 1
+		x = -4
 		y = 1
-		relative_position_id = KAI_stockholder_pressure
+		relative_position_id = KAI_corp_democratic
 		completion_reward = {
 			add_stability = 0.10
 			remove_ideas = KAI_stockholder_pressure_idea
@@ -672,17 +735,14 @@ focus_tree = {
 			focus = KAI_fire_president
 		}
 		available = {
-			OR = {
-				communism > 0.40
-				has_country_leader = {
-					character = KAI_shareholders_meeting
-					ruling_only = yes
-				}
-			}
+			KAI_political_communism_is_free = yes
+			has_idea = kai_political_communism_idea_0
+			KAI_political_democracy_is_suppressed = yes
+			KAI_political_fascism_is_suppressed = yes
 		}
 		cost = 10
-		x = -1
-		y = 2
+		x = 0
+		y = 1
 		relative_position_id = KAI_fire_president
 		completion_reward = {
 			remove_ideas = KAI_corporate_state
@@ -697,30 +757,24 @@ focus_tree = {
 			country_event = { id = KAI_event.2 }
 		}
 	}
-	focus = { #공밀레 폐지
-		id = KAI_no_more_torture
-		icon = GFX_focus_research
-		prerequisite = {
-			focus = KAI_fire_president
-		}
-		cost = 10
-		x = 0
-		y = 1
-		relative_position_id = KAI_fire_president
-		completion_reward = {
-			add_research_slot = 1
-		}
-	}
-	focus = { #시장 개방
+
+	focus = { #경제 재구조화
 		id = KAI_open_market
 		icon = GFX_goal_generic_trade
 		prerequisite = {
-			focus = KAI_fire_president
+			focus = KAI_redistribution_of_sovereignty
+			focus = KAI_president_fate
+		}
+		available = {
+			KAI_political_communism_is_free = yes
+			has_idea = kai_political_communism_idea_0
+			KAI_political_democracy_is_suppressed = yes
+			fascism < 0.10
 		}
 		cost = 10
-		x = 2
-		y = 1
-		relative_position_id = KAI_fire_president
+		x = -2
+		y = 3
+		relative_position_id = KAI_corp_democratic
 		completion_reward = {
 			if = {
 				limit = {
@@ -1240,9 +1294,6 @@ focus_tree = {
 			add_manpower = 50000
 			add_dynamic_modifier = {
 				modifier = KAI_PMC_dynamic_modifier
-			}
-			add_dynamic_modifier = {
-				modifier = KAI_PMC_mercenary_dynamic_modifier_2
 			}
 			#set_variable = {
 			#	GLOBAL.KAI_PMC_mercenary_industrial_factory_donations = 0
@@ -2281,7 +2332,10 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_kaiser_corp
 		completion_reward = {
-
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.05
+			}
 		}
 	}
 
