@@ -1673,7 +1673,7 @@
         }
 		ai_will_do = { factor = 1 }
 		relative_position_id = TRM_oetzi
-		x = 1
+		x = 6
 		y = 1
 		completion_reward = {
 			SOU = { add_opinion_modifier = { target = ROOT modifier = pact_against_us } }
@@ -1700,6 +1700,147 @@
 				}
 				country_event = TRM_event.98
 			}
+		}
+	}
+    
+    focus = {
+		id = TRM_We_need_Denmark_milk
+		icon = GFX_goal_TRM_We_Need_Denmark_Milk
+		cost = 5.00
+		prerequisite = {
+			focus = TRM_oetzi
+		}
+		available = {
+			is_subject = no
+					TRM = {
+						any_neighbor_country = {
+							OR = {
+                                tag = DEN
+                                tag = RE1
+                                tag = RED
+                            }
+						}
+					}
+            NOT = { has_government = communism }
+            NOT = { is_in_faction_with = RED }
+		}
+		will_lead_to_war_with = RED
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		relative_position_id = TRM_oetzi
+		x = 8
+		y = 1
+		completion_reward = {
+            RED = {
+                country_event = { id = TRM_diplomacy_event.12 }
+            }
+		}
+	}
+	focus = {
+		id = TRM_redwinter_war_goal
+		icon = GFX_goal_redwinter_kill
+		cost = 5.00
+		prerequisite = {
+			focus = TRM_We_need_Denmark_milk
+            focus = TRM_fucking_communism
+		}
+		available = {
+			is_subject = no
+            NOT = { has_government = communism }
+			has_country_flag = {
+				flag = TRM_We_need_Denmark_milk_flag
+				days > 365
+			}
+			custom_trigger_tooltip = {
+				tooltip = TRM_We_need_Denmark_milk_flag_tt
+				has_country_flag = {
+					flag = TRM_We_need_Denmark_milk_flag
+					days > 365
+				}
+			}
+		}
+		bypass = {
+            OR = {
+			    NOT = { country_exists = RED }
+                has_war_with = RED
+            }
+		}
+		will_lead_to_war_with = RED
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		relative_position_id = TRM_We_need_Denmark_milk
+		x = 0
+		y = 2
+		completion_reward = {
+				TRM = {
+					create_wargoal = {
+						type = annex_everything
+						target = RED
+						expire = 0
+					}
+				}
+		}
+	}
+	focus = {
+		id = TRM_Finland_puppet_focus
+		icon = GFX_goal_generic_forceful_treaty
+		cost = 5.00
+		prerequisite = {
+			focus = TRM_redwinter_war_goal
+		}
+		available = { }
+		ai_will_do = {
+			base = 500
+			modifier = {
+				factor = 2
+				has_war = yes
+			}
+			modifier = {
+				factor = 0.5
+				has_war = no
+			}
+		}
+		relative_position_id = TRM_redwinter_war_goal
+		x = 0
+		y = 1
+		completion_reward = {
+            FIN = {
+                country_event = TRM_event.30
+            }
+            custom_effect_tooltip = if_they_accept_tt
+            effect_tooltip = {
+                FIN = {
+                    set_cosmetic_tag = TRN_FIN
+                }
+                puppet = FIN
+            }
+            custom_effect_tooltip = if_they_refuse_tt
+            effect_tooltip = {
+                TRM = {
+                    create_wargoal = {
+                        target = FIN
+                        type = puppet_wargoal_focus
+                    }
+                }
+            }
 		}
 	}
 	focus = {
@@ -1771,8 +1912,8 @@
 			}
 		}
 		relative_position_id = TRM_oetzi
-		x = 0
-		y = 2
+		x = 4
+		y = 1
         completion_reward = {
             unlock_decision_category_tooltip = TRM_balkan_diplomacy_categories
 
@@ -2012,30 +2153,6 @@
 		}
 
 
-	}
-	focus = {
-		id = TMR_anti_gehenna #반 게헨나 선전
-		icon = GFX_goal_anti_gehenna
-		cost = 10.00
-		prerequisite = {
-			focus = TRM_oetzi
-		}
-		ai_will_do = {
-			base = 100
-		}
-		relative_position_id = TRM_oetzi
-		x = -1
-		y = 1
-		completion_reward = {
-			add_war_support = 0.05
-			country_event = { id = TRM_event.39 days = 3}
-			random_country = {
-				limit = {
-					tag = global.kivotos_alliance_leader
-				}
-				country_event = { id = COU_event.3 hours = 8 }
-			}
-		}
 	}
 	focus = {
 		id = TRN_radio_propaganda # 라디오 프로파간다
@@ -2400,9 +2517,11 @@
 		x = 3
 		y = 1
 		completion_reward = {
-			set_rule = {
-				can_declare_war_without_wargoal_when_in_war = yes
-			}
+		    unlock_decision_category_tooltip = TRM_kivotos_core_states_categories
+            TRM = {
+			    set_rule = { can_declare_war_without_wargoal_when_in_war = yes }
+                	set_country_flag = TRM_Reichskommissariat_flag
+            }
 		}
 	}
 	focus = {
@@ -2410,7 +2529,7 @@
 		icon = GFX_goal_chi_mission_to_the_SHA
 		cost = 5.00
 		prerequisite = {
-			focus = TRM_domination
+			focus = TRM_oetzi
 		}
         mutually_exclusive = {
             focus = TRM_anschluss
@@ -2442,7 +2561,7 @@
 				has_war = no
 			}
 		}
-		relative_position_id = TRM_domination
+		relative_position_id = TRM_oetzi
 		x = 2
 		y = 1
 		completion_reward = {
@@ -2456,7 +2575,7 @@
 		icon = GFX_goal_road_to_austria
 		cost = 5.00
 		prerequisite = {
-			focus = TRM_domination
+			focus = TRM_oetzi
 		}
         mutually_exclusive = {
             focus = TRM_alliance_with_Sanhaijing
@@ -2465,6 +2584,11 @@
             is_subject = no
             is_faction_leader = yes
 			has_army_manpower = { size > 749999 }
+			TRM = {
+				any_neighbor_country = {
+					tag = SHA
+				}
+			}
         }
         bypass = {
             SHA = {
@@ -2482,8 +2606,8 @@
 				has_war = no
 			}
 		}
-		relative_position_id = TRM_domination
-		x = -2
+		relative_position_id = TRM_oetzi
+		x = -1
 		y = 1
 		completion_reward = {
             SHA = {
@@ -2820,145 +2944,6 @@
             }
 		}
 	}
-    focus = {
-		id = TRM_We_need_Denmark_milk
-		icon = GFX_goal_TRM_We_Need_Denmark_Milk
-		cost = 5.00
-		prerequisite = {
-			focus = TRM_domination
-		}
-		available = {
-			is_subject = no
-					TRM = {
-						any_neighbor_country = {
-							OR = {
-                                tag = DEN
-                                tag = RE1
-                                tag = RED
-                            }
-						}
-					}
-            NOT = { has_government = communism }
-            NOT = { is_in_faction_with = RED }
-		}
-		will_lead_to_war_with = RED
-		ai_will_do = {
-			base = 500
-			modifier = {
-				factor = 2
-				has_war = yes
-			}
-			modifier = {
-				factor = 0.5
-				has_war = no
-			}
-		}
-		relative_position_id = TRM_domination
-		x = 5
-		y = 1
-		completion_reward = {
-            RED = {
-                country_event = { id = TRM_diplomacy_event.12 }
-            }
-		}
-	}
-	focus = {
-		id = TRM_redwinter_war_goal
-		icon = GFX_goal_redwinter_kill
-		cost = 5.00
-		prerequisite = {
-			focus = TRM_We_need_Denmark_milk
-		}
-		available = {
-			is_subject = no
-            NOT = { has_government = communism }
-			has_country_flag = {
-				flag = TRM_We_need_Denmark_milk_flag
-				days > 365
-			}
-			custom_trigger_tooltip = {
-				tooltip = TRM_We_need_Denmark_milk_flag_tt
-				has_country_flag = {
-					flag = TRM_We_need_Denmark_milk_flag
-					days > 365
-				}
-			}
-		}
-		bypass = {
-            OR = {
-			    NOT = { country_exists = RED }
-                has_war_with = RED
-            }
-		}
-		will_lead_to_war_with = RED
-		ai_will_do = {
-			base = 500
-			modifier = {
-				factor = 2
-				has_war = yes
-			}
-			modifier = {
-				factor = 0.5
-				has_war = no
-			}
-		}
-		relative_position_id = TRM_We_need_Denmark_milk
-		x = 0
-		y = 2
-		completion_reward = {
-				TRM = {
-					create_wargoal = {
-						type = annex_everything
-						target = RED
-						expire = 0
-					}
-				}
-		}
-	}
-	focus = {
-		id = TRM_Finland_puppet_focus
-		icon = GFX_goal_generic_forceful_treaty
-		cost = 5.00
-		prerequisite = {
-			focus = TRM_redwinter_war_goal
-		}
-		available = { }
-		ai_will_do = {
-			base = 500
-			modifier = {
-				factor = 2
-				has_war = yes
-			}
-			modifier = {
-				factor = 0.5
-				has_war = no
-			}
-		}
-		relative_position_id = TRM_redwinter_war_goal
-		x = 0
-		y = 1
-		completion_reward = {
-            FIN = {
-                country_event = TRM_event.30
-            }
-            custom_effect_tooltip = if_they_accept_tt
-            effect_tooltip = {
-                FIN = {
-                    set_cosmetic_tag = TRN_FIN
-                }
-                puppet = FIN
-            }
-            custom_effect_tooltip = if_they_refuse_tt
-            effect_tooltip = {
-                TRM = {
-                    create_wargoal = {
-                        target = FIN
-                        type = puppet_wargoal_focus
-                    }
-                }
-            }
-		}
-	}
 	focus = {
 		id = TRN_GO_TO_EAST
 		icon = GFX_goal_TRN_GO_TO_EAST
@@ -2968,8 +2953,7 @@
             NOT = { has_government = communism }
         }
         prerequisite = { 
-            focus =TRM_war_with_Millennium 
-            focus = TRM_Finland_puppet_focus
+            focus =TRM_war_with_Millennium
             focus =TRM_preemptive_invasion_of_HYA
         }
 		will_lead_to_war_with = SOV
@@ -2987,7 +2971,7 @@
 		}
 		x = 1
 		y = 5
-		relative_position_id = TRM_domination
+		relative_position_id = TRM_oetzi
 		completion_reward = {
 			create_wargoal = {
 				target = SOV
@@ -3063,6 +3047,12 @@
 		completion_reward = {
 			army_experience = 50
 			air_experience = 30
+            random_country = {
+				limit = {
+					tag = global.kivotos_alliance_leader
+				}
+				country_event = { id = COU_event.3 hours = 8 }
+			}
 		}
 	}
 	focus = {
@@ -5633,7 +5623,7 @@
 		x = -1
 		y = 2
 		offset = {
-			x = 2
+			x = 10
 			y = 0
 			trigger = {
 				has_completed_focus = TRM_newfocus_7
@@ -5683,7 +5673,7 @@
 		x = -1
 		y = 3
 		offset = {
-			x = 2
+			x = 10
 			y = 0
 			trigger = {
 				has_completed_focus = TRM_newfocus_7
