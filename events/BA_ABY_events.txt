@@ -566,25 +566,16 @@ country_event = {
 	id = ABY_event.34
 	title = ABY_event.34.t
 	desc = ABY_event.34.desc
-	picture = GFX_report_event_canada_treaty
+	picture = GFX_report_event_tur_ataturk_impassioned_speech
 
 	is_triggered_only = yes
 
 	option = {
 		name = ABY_event.34.a
-		ai_chance = { factor = 95 }
-		country_event = {
-			id = ABY_event.35
-			days = 1
-		}
-		custom_effect_tooltip = ABY_first_focus_tt_25
-	}
-	option = {
-		name = ABY_event.34.b
-		ai_chance = { factor = 5 }
-		country_event = {
-			id = ABY_event.36
-			days = 1
+		add_stability = -0.025
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.15
 		}
 	}
 }
@@ -592,34 +583,30 @@ country_event = {
 	id = ABY_event.35
 	title = ABY_event.35.t
 	desc = ABY_event.35.desc
-	picture = GFX_report_event_bul_troops_macedonia
+	picture = GFX_report_event_tur_ataturk_impassioned_speech
 
 	is_triggered_only = yes
 
 	option = {
 		name = ABY_event.35.a
-		send_equipment = {
-			equipment = infantry_equipment
-			amount = 3000
-			target = TRM
-			}
-		TRM = {
-			add_manpower = 1000
+		add_stability = -0.025
+		add_popularity = {
+			ideology = democratic
+			popularity = 0.05
 		}
-		add_manpower = -1000
 	}
 }
 country_event = {
 	id = ABY_event.36
 	title = ABY_event.36.t
 	desc = ABY_event.36.desc
-	picture = GFX_report_event_generic_sign_treaty2
+	picture = GFX_report_event_tur_ataturk_inonu_parliament
 
 	is_triggered_only = yes
 
 	option = {
 		name = ABY_event.36.a
-
+		add_stability = -0.025
 	}
 }
 country_event = {
@@ -1996,20 +1983,16 @@ country_event = {
 	fire_only_once = yes
 
 	trigger = {
-		HYA = {
+		tag = ABY
+		ABY = {
 			has_war_with = SHA
-			has_war_with = ABY
 		}
 	}
 
 	option = {
 		name = ABY_new_event.29.a
 		ai_chance = { factor = 100 }
-		SHA = {
-			country_event = {
-				id = ABY_new_event.43
-			}
-		}
+		complete_national_focus = ABY_focus_descision
 	}
 }
 
@@ -2263,8 +2246,19 @@ country_event = {
 	id = ABY_new_event.43
 	title = ABY_new_event.43.t
 	desc = ABY_new_event.43.d
-
-	is_triggered_only = yes
+	trigger = {
+		tag = SHA
+		HYA = {
+			exists = no
+		}
+		OR = {
+			9 = {is_controlled_by = ABY}
+			69 = {is_controlled_by = ABY}
+			72 = {is_controlled_by = ABY}
+			74 = {is_controlled_by = ABY}
+			75 = {is_controlled_by = ABY}
+		}
+	}
 	fire_only_once = yes
 
 	option = {
@@ -3778,12 +3772,8 @@ country_event = {
 	option = {
 		name = ABY_new_event.108.a
 		ai_chance = { factor = 100 }
-		complete_national_focus = ABY_focus_with_czech
-	}
-	option = {
-		name = ABY_new_event.108.b
-		ai_chance = { factor = 100 }
-		complete_national_focus = ABY_focus_abydos_schoolcountry
+		complete_national_focus = ABY_focus_civil_war
+		set_country_flag = ABY_flag_civil_war
 	}
 }
 
@@ -3798,7 +3788,51 @@ country_event = {
 	option = {
 		name = ABY_new_event.109.a
 		ai_chance = { factor = 100 }
-		complete_national_focus = ABY_focus_neptis_cooperation_country
+		if = {
+			limit = {
+				AND = {
+					has_government = communism
+					fascism < 0.3
+				}
+			}
+			set_country_flag = ABY_flag_civil_war
+		}
+		if = {
+			limit = {
+				AND = {
+					has_government = neutrality
+					democratic > 0.4
+				}
+			}
+			complete_national_focus = ABY_focus_with_czech
+			set_country_flag = ABY_flag_with_czech
+		}
+		if = {
+			limit = {
+				AND = {
+					has_government = neutrality
+					neutrality > 0.4
+					fascism < 0.4
+					democratic < 0.4
+					has_country_flag = ABY_flag_neptis
+				}
+			}
+			complete_national_focus = ABY_focus_neptis_cooperation_country
+			set_country_flag = ABY_flag_neptis_cooperation_country
+		}
+		if = {
+			limit = {
+				AND = {
+					has_government = neutrality
+					neutrality > 0.4
+					fascism < 0.4
+					democratic < 0.4
+					NOT = {has_country_flag = ABY_flag_neptis}
+				}
+			}
+			complete_national_focus = ABY_focus_abydos_schoolcountry
+			set_country_flag = ABY_flag_abydos_schoolcountry
+		}
 	}
 }
 
@@ -3956,7 +3990,6 @@ country_event = {
 		tag = ABY
 		ABY = {
 			has_country_flag = ABY_flag_duswjd_victory
-			has_completed_focus = ABY_focus_rmrdnbk
 			NOT = {
 				has_country_flag = ABY_flag_no_fascism
 			}
@@ -4462,7 +4495,7 @@ country_event = {
 		name = ABY_new_event.133.a
 		ai_chance = { factor = 100 }
 		TRM = {
-			puppet = ABY
+			puppet = { target = ABY end_wars = no end_civil_wars = no }
 			set_autonomy = {
 				target = ABY
 				autonomy_state = autonomy_Reichsprotectorate
