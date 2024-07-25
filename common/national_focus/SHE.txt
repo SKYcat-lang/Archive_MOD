@@ -15,7 +15,7 @@ focus_tree = {
 	focus = {
 		id = SHE_control_of_the_council
 		icon = GFX_goal_generic_propaganda
-		x = 38
+		x = 33
 		y = 0
 		cost = 5
 		available = {
@@ -247,11 +247,25 @@ focus_tree = {
 			add_political_power = 30
 			add_stability = 0.20
 			
-			custom_effect_tooltip = kivotos_alliance_leader_change_tt
-			set_variable = { global.kivotos_alliance_leader = ROOT }
-			
-			add_to_array = { #키보토스 국가
-				array = global.kivotos_alliance
+			if = {
+				limit = { NOT = { tag = global.kivotos_alliance_leader } }
+				custom_effect_tooltip = kivotos_alliance_leader_change_tt
+				set_variable = { global.kivotos_alliance_leader = ROOT }
+			}
+
+			if = {
+				limit = {
+					NOT = {
+						is_in_array = {
+							array = global.kivotos_alliance
+							value = THIS
+						}
+					}
+				}
+				add_to_array = { #키보토스 국가
+					array = global.kivotos_alliance
+					value = THIS
+				}
 			}
 		}
 	}
@@ -261,7 +275,7 @@ focus_tree = {
 	focus = {
 		id = SHE_kibotos_stabilization
 		icon = GFX_focus_spa_the_spanish_miracle
-		x = 5
+		x = 3
 		y = 1
 		cost = 5
 		relative_position_id = SHE_return_to_student_council_work
@@ -281,8 +295,9 @@ focus_tree = {
 	focus = {
 		id = SHE_shredding_of_the_council
 		icon = GFX_goal_generic_forceful_treaty
-		x = 44
+		x = 6
 		y = 0
+		relative_position_id = SHE_control_of_the_council
 		cost = 0
 		available = {
 			always = no
@@ -386,12 +401,25 @@ focus_tree = {
 		completion_reward = {
 			remove_ideas = SHE_shredding_of_the_council_debuff
 
-			custom_effect_tooltip = kivotos_alliance_leader_change_tt
-			
-			set_variable = { global.kivotos_alliance_leader = ROOT }
+			if = {
+				limit = { NOT = { tag = global.kivotos_alliance_leader } }
+				custom_effect_tooltip = kivotos_alliance_leader_change_tt
+				set_variable = { global.kivotos_alliance_leader = ROOT }
+			}
 
-			add_to_array = { #키보토스 국가
-				array = global.kivotos_alliance
+			if = {
+				limit = {
+					NOT = {
+						is_in_array = {
+							array = global.kivotos_alliance
+							value = THIS
+						}
+					}
+				}
+				add_to_array = { #키보토스 국가
+					array = global.kivotos_alliance
+					value = THIS
+				}
 			}
 		}
 	}
@@ -1171,9 +1199,6 @@ focus_tree = {
 					
 		}
 		available = {
-			NOT = {
-				has_completed_focus = SHE_kibotoseuminjujuyi
-			}
 		}
 		prerequisite = { focus = SHE_hyeonjiyiinyeom  }
 		completion_reward = {
@@ -2486,382 +2511,6 @@ focus_tree = {
 		}
 	}
 
-	#키보토스 민주주의
-
-	focus = {
-		id = SHE_kibotoseuminjujuyi
-		icon = GFX_goal_support_democracy
-		x = -4
-		y = 1
-		cost = 5
-		available = {
-			has_country_flag = kivotos_appeasement
-			NOT = {
-				has_completed_focus = SHE_kibotoseusahoejuyiyeonhab
-			}
-		}
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		relative_position_id = SHE_kibotos_stabilization
-		prerequisite = { focus = SHE_kibotos_stabilization }
-		prerequisite = { focus = SHE_return_to_student_council_work }
-		completion_reward = {
-			set_cosmetic_tag = SHE_student_council
-			add_popularity = {
-   				ideology = democratic
-    			popularity = 0.5
-			}
-			set_politics = {
-				ruling_party = democratic
-    			elections_allowed = yes
-    			election_frequency = 48
-    			long_name = SHE_new_democratic_party_long
-    			name = SHE_new_democratic_party
-			}
-			custom_effect_tooltip = SHE_political_advisor_democratic_unlock_tt
-			hidden_effect = {
-				add_trait = {
-     				character = SHE_Arona
-     				slot = political_advisor
-     				trait = democratic_reformer
-				}
-			}
-		}
-	}
-
-	#키보토스 민주주의
-
-	focus = {
-		id = SHE_transfer_of_power
-		icon = GFX_focus_generic_the_giant_wakes
-		x = -4
-		y = 1
-		cost = 5
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		relative_position_id = SHE_kibotoseuminjujuyi
-		prerequisite = { focus = SHE_kibotoseuminjujuyi }
-		completion_reward = {
-			add_political_power = 50
-			add_popularity = {
-   				ideology = democratic
-    			popularity = 0.10
-			}
-			add_timed_idea = {
-				idea = SHE_democratic_power
-				days = 365
-			}
-		}
-	}
-
-	#방위실의 음모
-
-	focus = {
-		id = SHE_enforce_defenseoffice
-		icon = GFX_COU_choice_KAYA
-		x = 1
-		y = 1
-		cost = 5
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		relative_position_id = SHE_transfer_of_power
-		prerequisite = { focus = SHE_transfer_of_power }
-		mutually_exclusive = { focus = SHE_first_election }
-		mutually_exclusive = { focus = SHE_yurokibotoseuyeonhab }
-		completion_reward = {
-			set_party_name = {
-				ideology = fascism
-				long_name = SHE_fascism_kaya_party_long
-				name = SHE_fascism_kaya_party
-			}
-			add_popularity = {
-   				ideology = fascism
-    			popularity = 0.1
-			}
-			remove_country_leader_role = {
-				character = SHE_Arona
-				ideology = fascism_aicontrol
-			}
-			if = {
-				limit = {
-					has_idea = SHE_democratic_power
-				}
-				swap_ideas = {
-					remove_idea = SHE_democratic_power
-					add_idea = SHE_cut_democratic_power
-				}
-			}
-		}
-	}
-
-	# 아날로그 방식
-
-	focus = {
-		id = SHE_analog_method
-		icon = GFX_goal_generic_military_sphere
-		x = -1
-		y = 1
-		cost = 5
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		relative_position_id = SHE_enforce_defenseoffice
-		prerequisite = { focus = SHE_enforce_defenseoffice }
-		completion_reward = {
-			add_popularity = {
-   				ideology = fascism
-    			popularity = 0.1
-			}
-		}
-	}
-
-	# 아로나 사보타주
-
-	focus = {
-		id = SHE_deception
-		icon = GFX_focus_generic_cryptologic_bomb
-		x = 1
-		y = 1
-		cost = 5
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		relative_position_id = SHE_enforce_defenseoffice
-		prerequisite = { focus = SHE_enforce_defenseoffice }
-		completion_reward = {
-			add_popularity = {
-   				ideology = fascism
-    			popularity = 0.1
-			}
-			custom_effect_tooltip = SHE_deception_tt
-		}
-	}
-
-	# SRT의 도움
-
-	focus = {
-		id = SHE_help_from_SRT
-		icon = GFX_focus_generic_little_entente
-		x = 0
-		y = 2
-		cost = 5
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		relative_position_id = SHE_enforce_defenseoffice
-		prerequisite = { focus = SHE_analog_method }
-		prerequisite = { focus = SHE_deception }
-		completion_reward = {
-			reverse_add_opinion_modifier = {
-				target = SRT
-				modifier = SHE_help_from_SRT_modifier
-			}
-			add_popularity = {
-   				ideology = fascism
-    			popularity = 0.2
-			}
-		}
-	}
-
-	# 쿠데타
-
-	focus = {
-		id = SHE_the_coupdetat
-		icon = GFX_COU_create_military
-		x = 0
-		y = 1
-		cost = 10
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		available = {
-			fascism > 0.4
-		}
-		relative_position_id = SHE_help_from_SRT
-		prerequisite = { focus = SHE_help_from_SRT }
-		completion_reward = {
-			every_country = {
-				limit = {
-					is_ally_with = ROOT
-					NOT = {
-						tag = ROOT
-					}
-				}
-				country_event = { id = SHE_event.16 }
-			}
-			add_popularity = {
-				ideology = fascism
-				popularity = 1.0
-			}
-			set_politics = {
-				ruling_party = fascism
-				elections_allowed = no
-				election_frequency = 48
-			}
-			unlock_national_focus = SHE_hanayikibotoseu
-			set_portraits = {
-				character = COU_KAYA
-				civilian = { 
-					large = "gfx/leaders/COU/COU_KAYA_portrait_3_leader.dds" 
-				}
-			}
-
-		}
-	}
-
-	# 아로나 재구성
-
-	focus = {
-		id = SHE_arona_reprogram
-		icon = GFX_goal_generic_air_production
-		x = 0
-		y = 1
-		cost = 5
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		relative_position_id = SHE_the_coupdetat
-		prerequisite = { focus = SHE_the_coupdetat }
-		completion_reward = {
-			set_portraits = {
-				character = COU_KAYA
-				civilian = { 
-					large = "gfx/leaders/COU/COU_KAYA_portrait_2_leader.dds" 
-				}
-			}
-		}
-	}
-
-	#첫 선거
-
-	focus = {
-		id = SHE_first_election
-		icon = GFX_focus_SHE_democracy
-		x = -4
-		y = 1
-		cost = 5
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		relative_position_id = SHE_transfer_of_power
-		prerequisite = { focus = SHE_transfer_of_power }
-		mutually_exclusive = { focus = SHE_enforce_defenseoffice }
-		completion_reward = {
-			add_political_power = 200
-			add_popularity = {
-   				ideology = democratic
-    			popularity = 0.10
-			}
-		}
-	}
-
-	#총학생회장, 린
-
-	focus = {
-		id = SHE_rin_route
-		icon = GFX_COU_choice_RIN
-		x = -1
-		y = 1
-		cost = 5
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		relative_position_id = SHE_first_election
-		prerequisite = { focus = SHE_first_election }
-		mutually_exclusive = { focus = SHE_aoi_route }
-		completion_reward = {
-			every_character = {
-				limit = {
-					has_ideology_group = democratic
-				}
-				remove_country_leader_role = {
-					character = PREV
-					ideology = socialism
-				}
-			}
-			if = {
-				limit = {
-					has_character = COU_RIN
-				}
-				add_country_leader_role = {
-					promote_leader = yes
-					character = COU_RIN
-					country_leader = {
-						ideology = socialism
-						expire = "1965.1.1.1"
-						traits = { SHE_new_dictator }
-					}
-				}
-			}
-		}
-	}
-
-	#총학생회장, 아오이
-
-	focus = {
-		id = SHE_aoi_route
-		icon = GFX_COU_choice_AOI
-		x = 1
-		y = 1
-		cost = 5
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		relative_position_id = SHE_first_election
-		prerequisite = { focus = SHE_first_election }
-		mutually_exclusive = { focus = SHE_rin_route }
-		completion_reward = {
-			every_character = {
-				limit = {
-					has_ideology_group = democratic
-				}
-				remove_country_leader_role = {
-					character = PREV
-					ideology = socialism
-				}
-			}
-			if = {
-				limit = {
-					has_character = COU_AOI
-				}
-				add_country_leader_role = {
-					promote_leader = yes
-					character = COU_AOI
-					country_leader = {
-						ideology = socialism
-						expire = "1965.1.1.1"
-						traits = { SHE_new_dictator }
-					}
-				}
-			}
-		}
-	}
-
 	#학원간 통신 복구
 
 	focus = {
@@ -2900,34 +2549,6 @@ focus_tree = {
 				add_stability = 0.05
 				add_war_support = 0.05
 			}
-		}
-	}
-
-	#연합 현실화
-
-	focus = {
-		id = SHE_yeonhabhyeonsilhwa
-		icon = GFX_goal_anschluss
-		x = 0
-		y = 1
-		cost = 10
-		relative_position_id = SHE_kibotos_stabilization
-		search_filters = {
-			
-						FOCUS_FILTER_POLITICAL
-					
-		}
-		prerequisite = { focus = SHE_kibotos_stabilization }
-		available = {
-			is_faction_leader = yes
-			is_puppet = no
-			NOT = {
-				has_completed_focus = SHE_wanbyeoghanbunbae
-			}
-		}
-		completion_reward = {
-			set_country_flag = BA_decisions_defensive_join_target_flag
-			custom_effect_tooltip = SHE_yeonhabhyeonsilhwa_tt
 		}
 	}
 
@@ -3401,6 +3022,732 @@ focus_tree = {
 		}
 	}
 
+	#적대성 평가 알고리즘
+
+	focus = {
+		id = SHE_jeogdaeseong_pyeongga_algolijeum
+		icon = GFX_SHE_jeogdaeseong_pyeongga_algolijeum
+		x = 3
+		y = 1
+		cost = 5
+		relative_position_id = SHE_kibotos_stabilization
+		prerequisite = { focus = SHE_kibotos_stabilization }
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			add_war_support = 0.10
+		}
+	}
+
+	#적대성 평가 알고리즘 - 트리니티
+
+	focus = {
+		id = SHE_trinity_department
+		icon = GFX_focus_attack_TRN
+		x = -1
+		y = 2
+		cost = 5
+		relative_position_id = SHE_jeogdaeseong_pyeongga_algolijeum
+		prerequisite = { focus = SHE_jeogdaeseong_pyeongga_algolijeum }
+		available = {
+			TRM = {
+				exists = yes
+				has_capitulated = no
+				is_subject = no
+			}
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			add_ideas = SHE_trinity_department_hidden_idea
+		}
+	}
+
+	#적대성 평가 알고리즘 - 밀레니엄
+
+	focus = {
+		id = SHE_millennium_department
+		icon = GFX_focus_attack_MIL
+		x = 1
+		y = 2
+		cost = 5
+		relative_position_id = SHE_jeogdaeseong_pyeongga_algolijeum
+		prerequisite = { focus = SHE_jeogdaeseong_pyeongga_algolijeum }
+		available = {
+			MIL = {
+				exists = yes
+				has_capitulated = no
+				is_subject = no
+			}
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			add_ideas = SHE_millennium_department_hidden_idea
+		}
+	}
+
+	#적대성 평가 알고리즘 - 게헨나
+
+	focus = {
+		id = SHE_gehenna_department
+		icon = GFX_focus_attack_GEH
+		x = 3
+		y = 2
+		cost = 5
+		relative_position_id = SHE_jeogdaeseong_pyeongga_algolijeum
+		prerequisite = { focus = SHE_jeogdaeseong_pyeongga_algolijeum }
+		available = {
+			OR = {
+				GEM = {
+					exists = yes
+					has_capitulated = no
+					is_subject = no
+				}
+				GEH = {
+					exists = yes
+					has_capitulated = no
+					is_subject = no
+				}
+			}
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			add_ideas = SHE_gehenna1_department_hidden_idea
+			add_ideas = SHE_gehenna2_department_hidden_idea
+		}
+	}
+
+	#적대성 평가 알고리즘 - 산해경
+
+	focus = {
+		id = SHE_SHA_department
+		icon = GFX_focus_attack_SHA
+		x = -3
+		y = 1
+		cost = 5
+		relative_position_id = SHE_jeogdaeseong_pyeongga_algolijeum
+		prerequisite = { focus = SHE_jeogdaeseong_pyeongga_algolijeum }
+		available = {
+			SHA = {
+				exists = yes
+				has_capitulated = no
+				is_subject = no
+			}
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			add_ideas = SHE_SHA_department_hidden_idea
+		}
+	}
+
+	#적대성 평가 알고리즘 - 백귀야행
+
+	focus = {
+		id = SHE_HYA_department
+		icon = GFX_focus_attack_HYA
+		x = -3
+		y = 2
+		cost = 5
+		relative_position_id = SHE_jeogdaeseong_pyeongga_algolijeum
+		prerequisite = { focus = SHE_SHA_department }
+		available = {
+			HYA = {
+				exists = yes
+				has_capitulated = no
+				is_subject = no
+			}
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			add_ideas = SHE_HYA_department_hidden_idea
+		}
+	}
+
+	#적대성 평가 알고리즘 - 붉은겨울
+
+	focus = {
+		id = SHE_RED_department
+		icon = GFX_focus_attack_RED
+		x = 1
+		y = 3
+		cost = 5
+		relative_position_id = SHE_jeogdaeseong_pyeongga_algolijeum
+		prerequisite = { focus = SHE_trinity_department focus = SHE_millennium_department focus = SHE_gehenna_department }
+		available = {
+			RED = {
+				exists = yes
+				has_capitulated = no
+				is_subject = no
+			}
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			add_ideas = SHE_RED_department_hidden_idea
+		}
+	}
+
+	#자가 코드 개선
+
+	focus = {
+		id = SHE_jaga_kodeu_gaeseon
+		icon = GFX_SHE_jaga_kodeu_gaeseon
+		x = -3
+		y = 1
+		cost = 5
+		relative_position_id = SHE_kibotos_stabilization
+		prerequisite = { focus = SHE_kibotos_stabilization }
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			add_stability = 0.10
+			add_political_power = 60
+		}
+	}
+
+	#자가 코드 개선 - 자율 OS
+
+	focus = {
+		id = SHE_jayul_OS_gaeseon
+		icon = GFX_goal_support_democracy
+		x = -1
+		y = 1
+		cost = 5
+		relative_position_id = SHE_jaga_kodeu_gaeseon
+		prerequisite = { focus = SHE_jaga_kodeu_gaeseon }
+		mutually_exclusive = { focus = SHE_tongje_jungchu_gaeseon }
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			custom_effect_tooltip = SHE_jayul_OS_gaeseon_tt
+			add_to_variable = { SHE_Ai_manipulation_democratic_add_var = 10 }
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.10
+			}
+		}
+	}
+
+	#자가 코드 개선 - 통제 중추
+
+	focus = {
+		id = SHE_tongje_jungchu_gaeseon
+		icon = GFX_goal_support_fascism
+		x = 1
+		y = 1
+		cost = 5
+		relative_position_id = SHE_jaga_kodeu_gaeseon
+		prerequisite = { focus = SHE_jaga_kodeu_gaeseon }
+		mutually_exclusive = { focus = SHE_jayul_OS_gaeseon }
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			custom_effect_tooltip = SHE_tongje_jungchu_gaeseon_tt
+			add_to_variable = { SHE_Ai_manipulation_fascism_add_var = 10 }
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.10
+			}
+		}
+	}
+
+	#자가 코드 개선 - 분배 체제
+
+	focus = {
+		id = SHE_bunbae_cheje_gaeseon
+		icon = GFX_goal_support_communism
+		x = 0
+		y = 3
+		cost = 5
+		relative_position_id = SHE_jaga_kodeu_gaeseon
+		prerequisite = { focus = SHE_jayul_OS_gaeseon focus = SHE_tongje_jungchu_gaeseon }
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		complete_tooltip = {
+			every_state = {
+				limit = { has_state_flag = SHE_bunbae_cheje_gaeseon_1IC }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {	
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+		completion_reward = {
+			custom_effect_tooltip = SHE_bunbae_cheje_gaeseon_tt
+			add_to_variable = { SHE_Ai_manipulation_communism_add_var = 5 }
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+			random_owned_controlled_state = {
+    			limit = {
+					NOT = { has_state_flag = SHE_bunbae_cheje_gaeseon_1IC }
+    			}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {	
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = SHE_bunbae_cheje_gaeseon_1IC
+			}
+			random_owned_controlled_state = {
+    			limit = {
+					NOT = { has_state_flag = SHE_bunbae_cheje_gaeseon_1IC }
+    			}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {	
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = SHE_bunbae_cheje_gaeseon_1IC
+			}
+		}
+	}
+}
+focus_tree = {
+	id = SHE_no_use
+	country = { }
+
+	#키보토스 민주주의
+
+	focus = {
+		id = SHE_kibotoseuminjujuyi
+		icon = GFX_goal_support_democracy
+		x = 25
+		y = 1
+		cost = 5
+		available = {
+			has_country_flag = kivotos_appeasement
+			NOT = {
+				has_completed_focus = SHE_kibotoseusahoejuyiyeonhab
+			}
+		}
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		completion_reward = {
+			set_cosmetic_tag = SHE_student_council
+			add_popularity = {
+   				ideology = democratic
+    			popularity = 0.5
+			}
+			set_politics = {
+				ruling_party = democratic
+    			elections_allowed = yes
+    			election_frequency = 48
+    			long_name = SHE_new_democratic_party_long
+    			name = SHE_new_democratic_party
+			}
+			custom_effect_tooltip = SHE_political_advisor_democratic_unlock_tt
+			hidden_effect = {
+				add_trait = {
+     				character = SHE_Arona
+     				slot = political_advisor
+     				trait = democratic_reformer
+				}
+			}
+		}
+	}
+
+	#키보토스 민주주의
+
+	focus = {
+		id = SHE_transfer_of_power
+		icon = GFX_focus_generic_the_giant_wakes
+		x = -4
+		y = 1
+		cost = 5
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		relative_position_id = SHE_kibotoseuminjujuyi
+		prerequisite = { focus = SHE_kibotoseuminjujuyi }
+		completion_reward = {
+			add_political_power = 50
+			add_popularity = {
+   				ideology = democratic
+    			popularity = 0.10
+			}
+			add_timed_idea = {
+				idea = SHE_democratic_power
+				days = 365
+			}
+		}
+	}
+
+	#방위실의 음모
+
+	focus = {
+		id = SHE_enforce_defenseoffice
+		icon = GFX_COU_choice_KAYA
+		x = 1
+		y = 1
+		cost = 5
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		relative_position_id = SHE_transfer_of_power
+		prerequisite = { focus = SHE_transfer_of_power }
+		mutually_exclusive = { focus = SHE_first_election }
+		mutually_exclusive = { focus = SHE_yurokibotoseuyeonhab }
+		completion_reward = {
+			set_party_name = {
+				ideology = fascism
+				long_name = SHE_fascism_kaya_party_long
+				name = SHE_fascism_kaya_party
+			}
+			add_popularity = {
+   				ideology = fascism
+    			popularity = 0.1
+			}
+			remove_country_leader_role = {
+				character = SHE_Arona
+				ideology = fascism_aicontrol
+			}
+			if = {
+				limit = {
+					has_idea = SHE_democratic_power
+				}
+				swap_ideas = {
+					remove_idea = SHE_democratic_power
+					add_idea = SHE_cut_democratic_power
+				}
+			}
+		}
+	}
+
+	# 아날로그 방식
+
+	focus = {
+		id = SHE_analog_method
+		icon = GFX_goal_generic_military_sphere
+		x = -1
+		y = 1
+		cost = 5
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		relative_position_id = SHE_enforce_defenseoffice
+		prerequisite = { focus = SHE_enforce_defenseoffice }
+		completion_reward = {
+			add_popularity = {
+   				ideology = fascism
+    			popularity = 0.1
+			}
+		}
+	}
+
+	# 아로나 사보타주
+
+	focus = {
+		id = SHE_deception
+		icon = GFX_focus_generic_cryptologic_bomb
+		x = 1
+		y = 1
+		cost = 5
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		relative_position_id = SHE_enforce_defenseoffice
+		prerequisite = { focus = SHE_enforce_defenseoffice }
+		completion_reward = {
+			add_popularity = {
+   				ideology = fascism
+    			popularity = 0.1
+			}
+			custom_effect_tooltip = SHE_deception_tt
+		}
+	}
+
+	# SRT의 도움
+
+	focus = {
+		id = SHE_help_from_SRT
+		icon = GFX_focus_generic_little_entente
+		x = 0
+		y = 2
+		cost = 5
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		relative_position_id = SHE_enforce_defenseoffice
+		prerequisite = { focus = SHE_analog_method }
+		prerequisite = { focus = SHE_deception }
+		completion_reward = {
+			reverse_add_opinion_modifier = {
+				target = SRT
+				modifier = SHE_help_from_SRT_modifier
+			}
+			add_popularity = {
+   				ideology = fascism
+    			popularity = 0.2
+			}
+		}
+	}
+
+	# 쿠데타
+
+	focus = {
+		id = SHE_the_coupdetat
+		icon = GFX_COU_create_military
+		x = 0
+		y = 1
+		cost = 10
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		available = {
+			fascism > 0.4
+		}
+		relative_position_id = SHE_help_from_SRT
+		prerequisite = { focus = SHE_help_from_SRT }
+		completion_reward = {
+			every_country = {
+				limit = {
+					is_ally_with = ROOT
+					NOT = {
+						tag = ROOT
+					}
+				}
+				country_event = { id = SHE_event.16 }
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = 1.0
+			}
+			set_politics = {
+				ruling_party = fascism
+				elections_allowed = no
+				election_frequency = 48
+			}
+			unlock_national_focus = SHE_hanayikibotoseu
+			set_portraits = {
+				character = COU_KAYA
+				civilian = { 
+					large = "gfx/leaders/COU/COU_KAYA_portrait_3_leader.dds" 
+				}
+			}
+
+		}
+	}
+
+	# 아로나 재구성
+
+	focus = {
+		id = SHE_arona_reprogram
+		icon = GFX_goal_generic_air_production
+		x = 0
+		y = 1
+		cost = 5
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		relative_position_id = SHE_the_coupdetat
+		prerequisite = { focus = SHE_the_coupdetat }
+		completion_reward = {
+			set_portraits = {
+				character = COU_KAYA
+				civilian = { 
+					large = "gfx/leaders/COU/COU_KAYA_portrait_2_leader.dds" 
+				}
+			}
+		}
+	}
+
+	#첫 선거
+
+	focus = {
+		id = SHE_first_election
+		icon = GFX_focus_SHE_democracy
+		x = -4
+		y = 1
+		cost = 5
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		relative_position_id = SHE_transfer_of_power
+		prerequisite = { focus = SHE_transfer_of_power }
+		mutually_exclusive = { focus = SHE_enforce_defenseoffice }
+		completion_reward = {
+			add_political_power = 200
+			add_popularity = {
+   				ideology = democratic
+    			popularity = 0.10
+			}
+		}
+	}
+
+	#총학생회장, 린
+
+	focus = {
+		id = SHE_rin_route
+		icon = GFX_COU_choice_RIN
+		x = -1
+		y = 1
+		cost = 5
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		relative_position_id = SHE_first_election
+		prerequisite = { focus = SHE_first_election }
+		mutually_exclusive = { focus = SHE_aoi_route }
+		completion_reward = {
+			every_character = {
+				limit = {
+					has_ideology_group = democratic
+				}
+				remove_country_leader_role = {
+					character = PREV
+					ideology = socialism
+				}
+			}
+			if = {
+				limit = {
+					has_character = COU_RIN
+				}
+				add_country_leader_role = {
+					promote_leader = yes
+					character = COU_RIN
+					country_leader = {
+						ideology = socialism
+						expire = "1965.1.1.1"
+						traits = { SHE_new_dictator }
+					}
+				}
+			}
+		}
+	}
+
+	#총학생회장, 아오이
+
+	focus = {
+		id = SHE_aoi_route
+		icon = GFX_COU_choice_AOI
+		x = 1
+		y = 1
+		cost = 5
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		relative_position_id = SHE_first_election
+		prerequisite = { focus = SHE_first_election }
+		mutually_exclusive = { focus = SHE_rin_route }
+		completion_reward = {
+			every_character = {
+				limit = {
+					has_ideology_group = democratic
+				}
+				remove_country_leader_role = {
+					character = PREV
+					ideology = socialism
+				}
+			}
+			if = {
+				limit = {
+					has_character = COU_AOI
+				}
+				add_country_leader_role = {
+					promote_leader = yes
+					character = COU_AOI
+					country_leader = {
+						ideology = socialism
+						expire = "1965.1.1.1"
+						traits = { SHE_new_dictator }
+					}
+				}
+			}
+		}
+	}
+
+	#연합 현실화
+
+	focus = {
+		id = SHE_yeonhabhyeonsilhwa
+		icon = GFX_goal_anschluss
+		x = 30
+		y = 1
+		cost = 10
+		search_filters = {
+			
+						FOCUS_FILTER_POLITICAL
+					
+		}
+		available = {
+			is_faction_leader = yes
+			is_puppet = no
+			NOT = {
+				has_completed_focus = SHE_wanbyeoghanbunbae
+			}
+		}
+		completion_reward = {
+			set_country_flag = BA_decisions_defensive_join_target_flag
+			custom_effect_tooltip = SHE_yeonhabhyeonsilhwa_tt
+		}
+	}
+
 	#유로-키보토스 경제 연합
 
 	focus = {
@@ -3433,7 +3780,7 @@ focus_tree = {
 	focus = {
 		id = SHE_yurokibotoseuyeonhab
 		icon = GFX_focus_generic_league_of_nations
-		x = -1
+		x = 0
 		y = 2
 		cost = 10
 		relative_position_id = SHE_yeonhabhyeonsilhwa
@@ -3748,5 +4095,4 @@ focus_tree = {
 		completion_reward = {
 		}
 	}
-
 }
