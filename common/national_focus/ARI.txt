@@ -1280,34 +1280,54 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = ARI_parliamentarism_tt
 			hidden_effect = {
-				promote_character = {
-					character = ARI_free_city_of_danzig_parliament
-					ideology = moderatism
-				}
-				promote_character = {
-					character = ARI_free_city_of_danzig_parliament
-					ideology = conservatism
-				}
 				807 = { set_state_flag = penetration_complet }
 				86 = { set_state_flag = penetration_complet }
 				762 = { set_state_flag = penetration_complet }
 			}
-			add_country_leader_role = {
-				character = ARI_free_city_of_danzig_parliament
-				promote_leader = yes
-				country_leader = {
+			if = {
+				limit = {
+					ARI_free_city_of_danzig_parliament = {
+						can_be_country_leader = yes
+						has_ideology_group = neutrality
+					}
+				}
+				promote_character = {
+					character = ARI_free_city_of_danzig_parliament
 					ideology = moderatism
-					expire = "1965.1.1.1"
-					traits = { ARI_danzig_parliament_Btrait ARI_danzig_parliament_Ctrait }
 				}
 			}
-			add_country_leader_role = {
-				character = ARI_free_city_of_danzig_parliament
-				promote_leader = yes
-				country_leader = {
+			else = {
+				add_country_leader_role = {
+					character = ARI_free_city_of_danzig_parliament
+					promote_leader = yes
+					country_leader = {
+						ideology = moderatism
+						expire = "1965.1.1.1"
+						traits = { ARI_danzig_parliament_Btrait ARI_danzig_parliament_Ctrait }
+					}
+				}
+			}
+			if = {
+				limit = {
+					has_country_leader = {
+						can_be_country_leader = yes
+						has_ideology_group = democratic
+					}
+				}
+				promote_character = {
+					character = ARI_free_city_of_danzig_parliament
 					ideology = conservatism
-					expire = "1965.1.1.1"
-					traits = { ARI_danzig_parliament_Atrait ARI_danzig_parliament_Ctrait }
+				}
+			}
+			else = {
+				add_country_leader_role = {
+					character = ARI_free_city_of_danzig_parliament
+					promote_leader = yes
+					country_leader = {
+						ideology = conservatism
+						expire = "1965.1.1.1"
+						traits = { ARI_danzig_parliament_Atrait ARI_danzig_parliament_Ctrait }
+					}
 				}
 			}
 			if = {
@@ -1371,12 +1391,16 @@ focus_tree = {
 					exists = yes
 					has_capitulated = no
 				}
+				is_subject = no
 				has_civil_war = no	
 				NOT = { has_war_with = ROOT }	
 			}
 		}
 
 		completion_reward = {
+			POL = {
+				country_event = { id = ARI_event.27 hours = 12 }
+			}
 			custom_effect_tooltip = if_they_accept
 			custom_effect_tooltip = ARI_poland_government_alliance_tt
 		}
