@@ -1122,13 +1122,6 @@ focus_tree = {
 		y = 2
 		relative_position_id = ARI_solidarity_with_trade_unions
 
-		available = {
-            custom_trigger_tooltip = {
-                tooltip = THIS_IS_WIP_TT
-			    has_country_flag = GAEBALJUNG
-            }
-		}
-
 		completion_reward = {
 			set_global_flag = NSD_the_SS_went_to_america
 			custom_effect_tooltip = ARI_we_are_arians_tt
@@ -1309,7 +1302,7 @@ focus_tree = {
 			}
 			if = {
 				limit = {
-					has_country_leader = {
+					ARI_free_city_of_danzig_parliament = {
 						can_be_country_leader = yes
 						has_ideology_group = democratic
 					}
@@ -2619,9 +2612,46 @@ focus_tree = {
 		relative_position_id = ARI_parliamentarism
 
 		available = {
+			TRM = {
+				OR = {
+					exists = no
+					has_capitulated = yes
+					is_subject_of = ROOT
+					NOT = { has_war_with = ARI }
+				}
+			}
 		}
 
 		completion_reward = {
+			set_cosmetic_tag = ARI_arian_danzig_federation
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ARI_wareconomy
+					add_idea = war_economy
+				}
+			}
+			hidden_effect = {
+				if = {  
+					limit = { has_idea = ARI_undisturbed_wareconomy }
+					swap_ideas = {
+						remove_idea = ARI_undisturbed_wareconomy
+						add_idea = war_economy
+					}
+				}
+				else_if = {  
+					limit = { has_idea = ARI_wareconomy }
+					swap_ideas = {
+						remove_idea = ARI_undisturbed_wareconomy
+						add_idea = war_economy
+					}
+				}
+				else = {
+					add_ideas = war_economy
+				}
+			}
+			set_rule = {
+				can_join_factions = yes
+			}
 		}
 	}
 
@@ -3290,7 +3320,7 @@ focus_tree = {
 
 	focus = { #공개 재판
 		id = ARI_public_executions
-		icon = GFX_goal_generic_secret_weapon
+		icon = GFX_focus_generic_court
 		prerequisite = {
 			focus = ARI_arian_general_school
 		}
@@ -3306,6 +3336,193 @@ focus_tree = {
 		completion_reward = {
 			add_political_power = 120
 			country_event = ARI_event.26
+		}
+	}
+
+	focus = { #트리니티 상징물 파괴
+		id = ARI_trinity_symbol_destruction
+		icon = GFX_focus_FIN_parmis_devils
+		prerequisite = {
+			focus = ARI_public_executions
+		}
+		prerequisite = {
+			focus = ARI_postwar_reconstruction
+		}
+		cost = 5
+		x = -1
+		y = 1
+		relative_position_id = ARI_public_executions
+
+		available = {
+			is_subject = no
+		}
+
+		completion_reward = {
+			add_political_power = 60
+		    set_province_name = { id = 6521 name = Berlin }
+			set_province_name = { id = 6558 name = Poznan }
+			set_province_name = { id = 6332 name = Konigsberg }
+		    set_province_name = { id = 9347 name = Hamburg }
+		}
+	}
+
+	focus = { #식민화 개발
+		id = ARI_colonial_development
+		icon = GFX_focus_DEN_heavy_regulations
+		prerequisite = {
+			focus = ARI_public_executions
+		}
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = ARI_public_executions
+
+		available = {
+			is_subject = no
+		}
+
+		complete_tooltip = {
+			every_state = {
+				limit = { has_state_flag = ARI_colonial_development_2IC }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				add_manpower = -12000
+			}
+		}
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { state = 85 }
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+					NOT = { has_state_flag = ARI_colonial_development_2IC }
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				add_manpower = -12000
+				set_state_flag = ARI_colonial_development_2IC
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { state = 85 }
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+					NOT = { has_state_flag = ARI_colonial_development_2IC }
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				add_manpower = -12000
+				set_state_flag = ARI_colonial_development_2IC
+			}
+			random_owned_controlled_state = {
+				limit = {
+					NOT = { state = 85 }
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+					NOT = { has_state_flag = ARI_colonial_development_2IC }
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+				add_manpower = -12000
+				set_state_flag = ARI_colonial_development_2IC
+			}
+		}
+	}
+
+	focus = { #새 역사의 시작
+		id = ARI_new_beginning_of_history
+		icon = GFX_focus_ICE_state_corporatism
+		prerequisite = {
+			focus = ARI_trinity_symbol_destruction
+		}
+		prerequisite = {
+			focus = ARI_colonial_development
+		}
+		cost = 5
+		x = 0
+		y = 2
+		relative_position_id = ARI_public_executions
+
+		available = {
+			is_subject = no
+		}
+
+		completion_reward = {
+			add_stability = 0.10
+			add_war_support = 0.10
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.20
+			}
+			swap_ideas = {
+				remove_idea = ARI_military_government_establishment_idea
+				add_idea = ARI_new_beginning_of_history_idea
+			}
 		}
 	}
 
