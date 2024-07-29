@@ -107,7 +107,7 @@ country_event = { #교전
 			}
 		}
 		if = { limit = { NOT = { has_country_flag = ARI_empty_conference_room_flag } }
-			if = { limit = { has_country_leader = { character = saori ruling_only = yes } }
+			if = { limit = { has_country_leader = { character = saori ruling_only = no } }
 				add_country_leader_role = {
 					character = ARI_empty_conference_room
 					promote_leader = yes
@@ -118,7 +118,7 @@ country_event = { #교전
 					}
 				}
 			}
-			if = { limit = { has_country_leader = { character = atsuko ruling_only = yes } }
+			if = { limit = { has_country_leader = { character = atsuko ruling_only = no } }
 				add_country_leader_role = {
 					character = ARI_empty_conference_room
 					promote_leader = yes
@@ -130,6 +130,18 @@ country_event = { #교전
 				}
 			}
 			set_country_flag = ARI_empty_conference_room_flag
+		}
+		every_army_leader = {
+			limit = {
+				OR = {
+					is_character = saori
+					is_character = atsuko
+					is_character = hiyori
+					is_character = misaki
+				}
+				NOT = { has_trait = ARI_vacancy }
+			}
+			add_unit_leader_trait = ARI_vacancy
 		}
 	}
 	option = {
@@ -230,6 +242,12 @@ country_event = { #아츠코 투항
 			character = ARI_empty_conference_room
 			ideology = despotism
 		}
+		every_army_leader = {
+			limit = {
+				has_trait = ARI_vacancy
+			}
+			remove_unit_leader_trait = ARI_vacancy
+		}
 		hidden_effect = {
 			country_event = { id = ARI_event.24 days = 25 }
 		}
@@ -297,6 +315,12 @@ country_event = { #아리우스 스쿼드의 패주
 		remove_country_leader_role = {
 			character = ARI_empty_conference_room
 			ideology = despotism
+		}
+		every_army_leader = {
+			limit = {
+				has_trait = ARI_vacancy
+			}
+			remove_unit_leader_trait = ARI_vacancy
 		}
 		hidden_effect = {
 			country_event = { id = ARI_event.24 days = 25 }
