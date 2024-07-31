@@ -514,6 +514,9 @@ focus_tree = {
 				}
 			}
 			custom_effect_tooltip = KPD_introduction_of_ranks_within_the_military_2_tt
+			hidden_effect = {
+				country_event = KPD_unit_leader_event.1
+			}
 		}
 	}
 	focus = {
@@ -857,9 +860,9 @@ focus_tree = {
 	}
 	focus = { #연합최고사령부 해산
 		id = KPD_dissolution_of_joint_supreme_command
-		icon = GFX_focus_generic_treaty
+		icon = GFX_goal_anschluss
 		cost = 5
-		x = 24
+		x = 26
 		y = 0
 		available = {
 			NOT = { has_war_with = TRM }
@@ -875,6 +878,93 @@ focus_tree = {
 					days = 10
 				}
 			}
+			set_cosmetic_tag = TRM_collapse_win
+		}
+	}
+	focus = { #내무인민위원부 간섭 방해
+		id = KPD_internal_peoples_affairs_committee_interference_hindrance
+		icon = GFX_focus_generic_support_the_left_right
+		cost = 5
+		prerequisite = {
+			focus = KPD_dissolution_of_joint_supreme_command
+		}
+		x = 2
+		y = 1
+		relative_position_id = KPD_dissolution_of_joint_supreme_command
+		available = {
+			if = {
+				limit = { has_character = KPD_richard_sorge }
+				KPD_richard_sorge = {
+					is_hired_as_advisor = yes
+				}
+			}
+			else = {
+				always = no
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			retire_character = KPD_richard_sorge
+			SOV = {
+				add_opinion_modifier = {
+					target = KPD
+					modifier = large_decrease
+				}
+			}
+		}
+	}
+	focus = { #산업 국유화
+		id = KPD_nationalization_of_industries
+		icon = GFX_goal_generic_construct_civ_factory
+		cost = 10
+		prerequisite = {
+			focus = KPD_dissolution_of_joint_supreme_command
+		}
+		mutually_exclusive = {
+			focus = KPD_establishment_of_factory_councils
+		}
+		x = -3
+		y = 1
+		relative_position_id = KPD_dissolution_of_joint_supreme_command
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			remove_ideas = KPD_economic_vacuum
+		}
+	}
+	focus = { #공장위원회 설치
+		id = KPD_establishment_of_factory_councils
+		icon = GFX_focus_FIN_socialist_welfare
+		cost = 5
+		prerequisite = {
+			focus = KPD_dissolution_of_joint_supreme_command
+		}
+		mutually_exclusive = {
+			focus = KPD_nationalization_of_industries
+		}
+		x = -1
+		y = 1
+		relative_position_id = KPD_dissolution_of_joint_supreme_command
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = KPD_economic_vacuum
+				add_idea = KPD_factory_councils
+			}
+			hidden_effect = {
+				country_event = { id = KPD_event.14 days = 35 }
+				country_event = { id = KPD_event.15 days = 70 }
+				country_event = { id = KPD_event.16 days = 105 }
+			}
 		}
 	}
 	focus = { #모스크바 추종
@@ -888,8 +978,8 @@ focus_tree = {
 			focus = KPD_removal_of_thalmann
 			focus = KPD_victory_of_the_social_democratic_party
 		}
-		x = -2
-		y = 1
+		x = -5
+		y = 2
 		relative_position_id = KPD_dissolution_of_joint_supreme_command
 		available = {
 		}
@@ -912,6 +1002,72 @@ focus_tree = {
 					level = 1
 					instant_build = yes
 				}
+			}
+		}
+	}
+	focus = { #텔만 제거
+		id = KPD_removal_of_thalmann
+		icon = GFX_goal_generic_war_with_comintern
+		cost = 5
+		prerequisite = {
+			focus = KPD_dissolution_of_joint_supreme_command
+		}
+		mutually_exclusive = {
+			focus = KPD_moscow_allegiance
+			focus = KPD_victory_of_the_social_democratic_party
+		}
+		x = 0
+		y = 2
+		relative_position_id = KPD_dissolution_of_joint_supreme_command
+		available = {
+			if = {
+				limit = { has_character = KPD_richard_sorge }
+				NOT = {
+					KPD_richard_sorge = {
+						is_hired_as_advisor = yes
+					}
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			promote_character = KPD_wilhelm_munzenberg
+		}
+	}
+	focus = { #사회민주당의 승리
+		id = KPD_victory_of_the_social_democratic_party
+		icon = GFX_focus_BRA_reach_out_to_military_dem
+		cost = 5
+		prerequisite = {
+			focus = KPD_dissolution_of_joint_supreme_command
+		}
+		mutually_exclusive = {
+			focus = KPD_moscow_allegiance
+			focus = KPD_removal_of_thalmann
+		}
+		x = 5
+		y = 2
+		relative_position_id = KPD_dissolution_of_joint_supreme_command
+		available = {
+			if = {
+				limit = { has_character = KPD_richard_sorge }
+				NOT = {
+					KPD_richard_sorge = {
+						is_hired_as_advisor = yes
+					}
+				}
+			}
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			set_politics = {
+				ruling_party = democratic
+				election_frequency = 36
+				elections_allowed = yes
 			}
 		}
 	}
@@ -1018,6 +1174,8 @@ focus_tree = {
 			focus = KPD_removal_of_thalmann
 		}
 		mutually_exclusive = {
+			focus = KPD_right_wing_support
+			focus = KPD_radical_left_wing_support
 			focus = KPD_internationalism
 		}
 		available = {
@@ -1025,6 +1183,14 @@ focus_tree = {
 			is_in_faction = no
 			not = { has_war_with = SOU }
 			SOV_comintern_joinable = yes 
+			if = {
+				limit = { has_character = KPD_richard_sorge }
+				NOT = {
+					KPD_richard_sorge = {
+						is_hired_as_advisor = yes
+					}
+				}
+			}
 		}
 		x = 1
 		y = 1
@@ -1137,43 +1303,172 @@ focus_tree = {
 			IF = { limit = { has_character = KPD_august_thalheimer } KPD_august_thalheimer = { retire = yes } }
 		}
 	}
-	focus = { #텔만 제거
-		id = KPD_removal_of_thalmann
-		icon = GFX_goal_generic_war_with_comintern
-		cost = 5
+	focus = { #우파 지원
+		id = KPD_right_wing_support
+		icon = GFX_focus_prc_agrarian_socialism
+		cost = 10
 		prerequisite = {
-			focus = KPD_dissolution_of_joint_supreme_command
+			focus = KPD_removal_of_thalmann
 		}
 		mutually_exclusive = {
-			focus = KPD_moscow_allegiance
-			focus = KPD_victory_of_the_social_democratic_party
+			focus = KPD_radical_left_wing_support
+			focus = KPD_equal_relationship
 		}
-		x = 0
-		y = 1
-		relative_position_id = KPD_dissolution_of_joint_supreme_command
+		x = 1
+		y = 2
+		relative_position_id = KPD_removal_of_thalmann
 		available = {
 		}
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
 		completion_reward = {
-			promote_character = KPD_wilhelm_munzenberg
 		}
 	}
-	focus = { #사회민주당의 승리
-		id = KPD_victory_of_the_social_democratic_party
-		icon = GFX_focus_BRA_reach_out_to_military_dem
-		cost = 5
+	focus = { #급진좌파 지원
+		id = KPD_radical_left_wing_support
+		icon = GFX_goal_support_fourth_int
+		cost = 10
 		prerequisite = {
-			focus = KPD_dissolution_of_joint_supreme_command
-		}
-		mutually_exclusive = {
-			focus = KPD_moscow_allegiance
 			focus = KPD_removal_of_thalmann
 		}
-		x = 2
+		mutually_exclusive = {
+			focus = KPD_right_wing_support
+			focus = KPD_equal_relationship
+		}
+		x = -2
+		y = 2
+		relative_position_id = KPD_removal_of_thalmann
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			IF = { limit = { has_character = KPD_max_seydewitz } KPD_max_seydewitz = { retire = yes } }
+			IF = { limit = { has_character = KPD_heinrich_brandler } KPD_heinrich_brandler = { retire = yes } }
+			IF = { limit = { has_character = KPD_august_thalheimer } KPD_august_thalheimer = { retire = yes } }
+		}
+	}
+	focus = { #트로츠키 동지와 함께
+		id = KPD_with_comrade_trotsky
+		icon = GFX_focus_fra_loyalty_trotzky
+		cost = 10
+		prerequisite = {
+			focus = KPD_radical_left_wing_support
+		}
+		x = 0
 		y = 1
-		relative_position_id = KPD_dissolution_of_joint_supreme_command
+		relative_position_id = KPD_radical_left_wing_support
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #유로코뮤니즘
+		id = KPD_eurocommunism
+		icon = GFX_focus_usa_focus_on_europe
+		cost = 10
+		prerequisite = {
+			focus = KPD_right_wing_support
+		}
+		x = 0
+		y = 1
+		relative_position_id = KPD_right_wing_support
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #국제 관계 개선
+		id = KPD_improved_international_relations
+		icon = GFX_focus_ARG_join_the_allies
+		cost = 10
+		prerequisite = {
+			focus = KPD_victory_of_the_social_democratic_party
+		}
+		x = 0
+		y = 1
+		relative_position_id = KPD_victory_of_the_social_democratic_party
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #바이마르 헌법
+		id = KPD_weimar_constitution
+		icon = GFX_focus_generic_treaty
+		cost = 10
+		prerequisite = {
+			focus = KPD_victory_of_the_social_democratic_party
+		}
+		x = 1
+		y = 2
+		relative_position_id = KPD_victory_of_the_social_democratic_party
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #기업 재건
+		id = KPD_corporate_reconstruction
+		icon = GFX_focus_generic_low_cost_housing
+		cost = 10
+		prerequisite = {
+			focus = KPD_improved_international_relations
+		}
+		x = -1
+		y = 2
+		relative_position_id = KPD_victory_of_the_social_democratic_party
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #흩어진 돈 찾기
+		id = KPD_finding_scattered_money
+		icon = GFX_goal_generic_consumer_goods
+		cost = 10
+		prerequisite = {
+			focus = KPD_corporate_reconstruction
+		}
+		x = 0
+		y = 1
+		relative_position_id = KPD_corporate_reconstruction
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #해외 자본 유치
+		id = KPD_attracting_foreign_capital
+		icon = GFX_goal_generic_consumer_goods
+		cost = 10
+		prerequisite = {
+			focus = KPD_eurocommunism
+			focus = KPD_finding_scattered_money
+		}
+		x = 0
+		y = 2
+		relative_position_id = KPD_corporate_reconstruction
 		available = {
 		}
 		search_filters = {
