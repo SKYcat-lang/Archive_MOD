@@ -52,6 +52,15 @@ country_event = { #제2회 공회의
 					target = PREV
 					transfer_troops = yes
 				}
+				hidden_effect = {
+					if = {
+						limit = {
+							has_completed_focus = ARI_poland_government_alliance
+							POL = { has_country_flag = ARI_event_30_flag }
+						}
+						country_event = { id = ARI_event.32 hours = 12 }
+					}
+				}
 			}
 		}
 		news_event = BA_news.46
@@ -847,6 +856,7 @@ country_event = { #폴란드와 조약 발동 트리거 폴란드
 		add_state_claim = 66
 		add_state_claim = 67
 		add_state_claim = 762
+		set_country_flag = ARI_event_30_flag
 	}
 }
 country_event = { #폴란드와 조약 발동 트리거 아리우스
@@ -860,6 +870,198 @@ country_event = { #폴란드와 조약 발동 트리거 아리우스
 
 	option = {
 		name = ARI_event.31.a
+	}
+}
+country_event = { #폴란드의 영토 요구
+	id = ARI_event.32
+	title = ARI_event.32.t
+	desc = ARI_event.32.d
+	picture = GFX_report_event_generic_handshake
+
+	is_triggered_only = yes
+
+	option = { #ok
+		name = ARI_event.32.a
+		trigger = {
+			OR = {
+				controls_state = 807
+				controls_state = 86
+				controls_state = 762
+			}
+		}
+		if = {
+			limit = {
+				807 = { is_controlled_by_ROOT_or_subject = yes }
+			}
+			POL = { transfer_state = 807 }
+		}
+		if = {
+			limit = {
+				86 = { is_controlled_by_ROOT_or_subject = yes }
+			}
+			POL = { transfer_state = 86 }
+		}
+		if = {
+			limit = {
+				762 = { is_controlled_by_ROOT_or_subject = yes }
+			}
+			POL = { transfer_state = 762 }
+		}
+		set_country_flag = ARI_event_32_a_flag
+		POL = { country_event = ARI_event.33 }
+	}
+	option = { #umm...else?
+		name = ARI_event.32.b
+		trigger = {
+			OR = {
+				controls_state = 86
+				controls_state = 762
+				controls_state = 66
+				controls_state = 67
+			}
+		}
+		POL = { country_event = ARI_event.34 }
+	}
+	option = { #no.
+		name = ARI_event.32.c
+		POL = { country_event = ARI_event.37 }
+	}
+}
+country_event = { #폴란드의 영토 요구 - 수락
+	id = ARI_event.33
+	title = ARI_event.33.t
+	desc = ARI_event.33.d
+	picture = GFX_report_event_generic_handshake
+
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.33.a
+		add_war_support = 0.05
+	}
+}
+country_event = { #폴란드의 영토 요구 - 대체안
+	id = ARI_event.34
+	title = ARI_event.34.t
+	desc = ARI_event.34.d
+	picture = GFX_report_event_generic_handshake
+
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.34.a
+		ai_chance = {
+			base = 40
+		}
+		if = {
+			limit = {
+				ARI = {
+					86 = { is_controlled_by_ROOT_or_subject = yes }
+				}
+			}
+			POL = { transfer_state = 86 }
+		}
+		if = {
+			limit = {
+				ARI = {
+					762 = { is_controlled_by_ROOT_or_subject = yes }
+				}
+			}
+			POL = { transfer_state = 762 }
+		}
+		if = {
+			limit = {
+				ARI = {
+					66 = { is_controlled_by_ROOT_or_subject = yes }
+				}
+			}
+			POL = { transfer_state = 66 }
+		}
+		if = {
+			limit = {
+				ARI = {
+					67 = { is_controlled_by_ROOT_or_subject = yes }
+				}
+			}
+			POL = { transfer_state = 67 }
+		}
+		ARI = { country_event = ARI_event.35 }
+	}
+	option = {
+		name = ARI_event.34.b
+		ai_chance = {
+			base = 15
+		}
+		create_wargoal = {
+			target = ARI
+			type = annex_everything
+		}
+		ARI = { country_event = ARI_event.36 }
+	}
+}
+country_event = { #폴란드의 영토 요구 - 대체안 수락
+	id = ARI_event.35
+	title = ARI_event.35.t
+	desc = ARI_event.35.d
+	picture = GFX_report_event_generic_handshake
+
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.35.a
+	}
+}
+country_event = { #폴란드의 영토 요구 - 대체안 거절
+	id = ARI_event.36
+	title = ARI_event.36.t
+	desc = ARI_event.36.d
+	picture = GFX_report_event_generic_handshake
+
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.36.a
+	}
+}
+country_event = { #폴란드의 영토 요구 - 거절
+	id = ARI_event.37
+	title = ARI_event.37.t
+	desc = ARI_event.37.d
+	picture = GFX_report_event_generic_handshake
+
+	is_triggered_only = yes
+
+	option = {
+		name = ARI_event.37.a
+		ai_chance = {
+			base = 40
+		}
+		if = {
+			limit = {
+				is_in_faction_with = ARI
+				is_faction_leader = yes
+			}
+			remove_from_faction = ARI
+		}
+		else_if = {
+			limit = {
+				is_in_faction_with = ARI
+			}
+			leave_faction = yes
+		}
+		create_wargoal = {
+			target = ARI
+			type = annex_everything
+		}
+		add_war_support = 0.05
+	}
+
+	option = {
+		name = ARI_event.37.b
+		ai_chance = {
+			base = 25
+		}
+		add_war_support = -0.05
 	}
 }
 country_event = { #경찰여단
