@@ -66,7 +66,7 @@ focus_tree = {
 			focus = YUG_Establishment_of_the_Republic
 		}
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 200
@@ -3060,6 +3060,16 @@ focus_tree = {
 				remove_idea = YUG_Idea_Break_authoritarianism
 				add_idea = YUG_Idea_Worker_SelfManagement
 			}
+			hidden_effect = {
+				country_event = {
+					id = YUG_event.13
+					days = 120
+				}
+				country_event = {
+					id = YUG_event.14
+					days = 240
+				}
+			}
 		}
 	}
 	
@@ -3176,7 +3186,7 @@ focus_tree = {
 
 	focus = {
 		id = YUG_Partisan_War_Tactics
-		icon = GFX_focus_secret_rearmament
+		icon = GFX_focus_prc_infiltration
 		cost = 5
 		prerequisite = {
 			focus = YUG_federal_defense_council1
@@ -3920,6 +3930,8 @@ focus_tree = {
 			}
 		}
 	}
+
+	
 
 
 	focus = {
@@ -6273,7 +6285,7 @@ focus = {
 		x = 63
 		y = 0
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 80
@@ -6310,7 +6322,7 @@ focus = {
 		y = 1
 		relative_position_id = YUG_industrialization_program
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 70
@@ -6350,7 +6362,7 @@ focus = {
 		y = 1
 		relative_position_id = YUG_expand_the_mining_industry
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 60
@@ -6401,7 +6413,7 @@ focus = {
 				105 = {
 					add_resource = {
 						type = tungsten
-						amount = 8
+						amount = 16
 					}
 				}
 			}
@@ -6410,7 +6422,7 @@ focus = {
 					prioritize = { 105 802 }
 					add_resource = {
 						type = tungsten
-						amount = 8
+						amount = 16
 					}
 				}
 			}
@@ -6434,7 +6446,7 @@ focus = {
 				109 = {
 					add_resource = {
 						type = chromium
-						amount = 8
+						amount = 16
 					}
 				}
 			}
@@ -6443,7 +6455,7 @@ focus = {
 					prioritize = { 109 103 }
 					add_resource = {
 						type = chromium
-						amount = 8
+						amount = 16
 					}
 				}
 			}
@@ -6458,7 +6470,7 @@ focus = {
 		y = 1
 		relative_position_id = YUG_rare_minerals_exploitation
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 60
@@ -6509,7 +6521,7 @@ focus = {
 				45 = {
 					add_resource = {
 						type = oil
-						amount = 8
+						amount = 16
 					}
 				}
 			}
@@ -6520,12 +6532,11 @@ focus = {
 		id = YUG_develop_civilian_industry
 		icon = GFX_goal_generic_construct_civ_factory
 		prerequisite = { focus = YUG_expand_the_mining_industry }
-		mutually_exclusive = { focus = YUG_develop_military_industry }
 		x = -1
 		y = 1
 		relative_position_id = YUG_expand_the_mining_industry
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 60
@@ -6605,7 +6616,7 @@ focus = {
 		y = 3
 		relative_position_id = YUG_industrialization_program
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 100
@@ -6636,12 +6647,11 @@ focus = {
 		id = YUG_integrated_rail_network
 		icon = GFX_goal_generic_construct_infrastructure
 		prerequisite = { focus = YUG_expand_the_university_of_zagreb }
-		mutually_exclusive = { focus = YUG_improve_serbian_rail_network }
-		x = 0
+		x = 1
 		y = 2
 		relative_position_id = YUG_develop_civilian_industry
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 60
@@ -6718,12 +6728,12 @@ focus = {
 	focus = {
 		id = YUG_improve_light_industry
 		icon = GFX_goal_generic_construct_civ_factory
-		prerequisite = { focus = YUG_integrated_rail_network focus = YUG_improve_serbian_rail_network }
-		x = 1
-		y = 3
-		relative_position_id = YUG_develop_civilian_industry
+		prerequisite = { focus = YUG_integrated_rail_network }
+		x = 0
+		y = 1
+		relative_position_id = YUG_integrated_rail_network
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 80
@@ -6783,14 +6793,81 @@ focus = {
 	}
 
 	focus = {
+		id = YUG_Improve_Heavy_Industry
+		icon = GFX_goal_generic_construct_mil_factory
+		prerequisite = { focus = YUG_improve_light_industry }
+		x = 0
+		y = 3
+		relative_position_id = YUG_integrated_rail_network
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 80
+			modifier = {
+					factor = 1.2
+					OR = {
+						has_completed_focus = YUG_join_comintern
+						has_completed_focus = YUG_yugoslavian_path_to_communism
+					}
+				}
+		}
+
+		available = {
+			any_controlled_state = {
+				is_core_of = ROOT
+				is_fully_controlled_by = ROOT
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 105 }
+				limit = {
+					ROOT = { has_full_control_of_state = PREV }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_owned_controlled_state = {
+				prioritize = { 107 }
+				limit = {
+					ROOT = { has_full_control_of_state = PREV }
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+	}
+
+	focus = {
 		id = YUG_develop_slovenian_industry
 		icon = GFX_goal_generic_construct_mil_factory
 		prerequisite = { focus = YUG_integrated_rail_network }
-		x = 0
-		y = 4
-		relative_position_id = YUG_develop_civilian_industry
+		x = -1
+		y = 2
+		relative_position_id = YUG_integrated_rail_network
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 60
@@ -6912,11 +6989,14 @@ focus = {
 		id = YUG_local_self_management
 		icon = GFX_focus_generic_self_management
 		prerequisite = { focus = YUG_develop_slovenian_industry }
-		x = 0
-		y = 1
-		relative_position_id = YUG_develop_slovenian_industry
+		mutually_exclusive = {
+			focus = YUG_central_management
+		}
+		x = -1
+		y = 4
+		relative_position_id = YUG_integrated_rail_network
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 60
@@ -6951,25 +7031,15 @@ focus = {
 	focus = {
 		id = YUG_expand_the_university_of_ljubljana
 		icon = GFX_focus_research
-		prerequisite = { focus = YUG_develop_slovenian_industry }
+		prerequisite = { focus = YUG_integrated_rail_network }
 		x = -2
 		y = 1
-		relative_position_id = YUG_develop_slovenian_industry
+		relative_position_id = YUG_integrated_rail_network
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 100
-		}
-
-		available = {
-			NOT = {
-				has_idea = YUG_idea_slovene_nationalism
-			}
-		}
-
-		bypass = {
-
 		}
 
 		cancel_if_invalid = yes
@@ -6979,7 +7049,7 @@ focus = {
 
 
 		completion_reward = {
-			add_research_slot = 1
+			add_ideas = YUG_Research_Grants
 		}
 	}
 
@@ -6987,12 +7057,11 @@ focus = {
 		id = YUG_develop_military_industry
 		icon = GFX_goal_generic_construct_mil_factory
 		prerequisite = { focus = YUG_expand_the_mining_industry }
-		mutually_exclusive = { focus = YUG_develop_civilian_industry }
 		x = 1
 		y = 1
 		relative_position_id = YUG_expand_the_mining_industry
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 40
@@ -7035,189 +7104,16 @@ focus = {
 		}
 	}
 
-	focus = {
-		id = YUG_improve_serbian_rail_network
-		icon = GFX_goal_generic_construct_infrastructure
-		prerequisite = { focus = YUG_expand_the_university_of_zagreb }
-		mutually_exclusive = { focus = YUG_integrated_rail_network }
-		x = 0
-		y = 2
-		relative_position_id = YUG_develop_military_industry
-
-		cost = 10
-
-		ai_will_do = {
-			factor = 40
-			modifier = {
-				factor = 2
-				is_in_faction_with = GER
-			}
-		}
-
-		available = {
-			OR = {
-				has_full_control_of_state = 45
-				has_full_control_of_state = 105
-				has_full_control_of_state = 107
-				has_full_control_of_state = 108
-				has_full_control_of_state = 764
-			}
-		}
-
-		bypass = {
-
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = yes
-		search_filters = { FOCUS_FILTER_INDUSTRY }
-
-
-		completion_reward = {
-			if = {
-				limit = {
-					45 = {
-						controller = {
-							OR = {
-								tag = ROOT
-								is_subject_of = ROOT
-								is_in_faction_with = ROOT
-							}
-						}
-					}
-				}
-				45 = {
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = infrastructure
-						level = 1
-						instant_build = yes
-					}
-				}
-			}
-
-			if = {
-				limit = {
-					105 = {
-						controller = {
-							OR = {
-								tag = ROOT
-								is_subject_of = ROOT
-								is_in_faction_with = ROOT
-							}
-						}
-					}
-				}
-				105 = {
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = infrastructure
-						level = 1
-						instant_build = yes
-					}
-				}
-			}
-
-			if = {
-				limit = {
-					107 = {
-						controller = {
-							OR = {
-								tag = ROOT
-								is_subject_of = ROOT
-								is_in_faction_with = ROOT
-							}
-						}
-					}
-				}
-				107 = {
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = infrastructure
-						level = 1
-						instant_build = yes
-					}
-				}
-			}
-
-			if = {
-				limit = {
-					108 = {
-						controller = {
-							OR = {
-								tag = ROOT
-								is_subject_of = ROOT
-								is_in_faction_with = ROOT
-							}
-						}
-					}
-				}
-				108 = {
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = infrastructure
-						level = 1
-						instant_build = yes
-					}
-				}
-			}
-
-			if = {
-				limit = {
-					764 = {
-						controller = {
-							OR = {
-								tag = ROOT
-								is_subject_of = ROOT
-								is_in_faction_with = ROOT
-							}
-						}
-					}
-				}
-				764 = {
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = infrastructure
-						level = 1
-						instant_build = yes
-					}
-				}
-			}
-
-			if = {
-				limit = {
-					803 = {
-						controller = {
-							OR = {
-								tag = ROOT
-								is_subject_of = ROOT
-								is_in_faction_with = ROOT
-							}
-						}
-					}
-				}
-				803 = {
-					add_extra_state_shared_building_slots = 1
-					add_building_construction = {
-						type = infrastructure
-						level = 1
-						instant_build = yes
-					}
-				}
-			}
-		}
-	}
-
+	
 	focus = {
 		id = YUG_serbian_steel
 		icon = GFX_goal_generic_construct_civilian
-		prerequisite = { focus = YUG_improve_serbian_rail_network }
-		x = 1
-		y = 3
-		relative_position_id = YUG_develop_military_industry
+		prerequisite = { focus = YUG_integrated_rail_network }
+		x = 2
+		y = 1
+		relative_position_id = YUG_integrated_rail_network
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 60
@@ -7248,14 +7144,137 @@ focus = {
 	}
 
 	focus = {
+		id = YUG_Morava_Ironworks
+		icon = GFX_focus_generic_steel
+		cost = 5
+		prerequisite = {
+			focus = YUG_serbian_steel
+		}
+
+		ai_will_do = {
+			factor = 60
+		}
+
+		available = {
+			has_full_control_of_state = 108
+		}
+
+		x = 2
+		y = 3
+		relative_position_id = YUG_integrated_rail_network
+		completion_reward = {
+			108 = {
+				add_resource = {
+					type = steel
+					amount = 16
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = YUG_Rural_Electrification
+		icon = GFX_focus_ARG_develop_the_electricity_sector
+		cost = 5
+		prerequisite = {
+			focus = YUG_Morava_Ironworks
+		}
+		x = 2
+		y = 5
+		relative_position_id = YUG_integrated_rail_network
+		completion_reward = {
+			add_ideas = YUG_Idea_Rural_Electrification
+			hidden_effect = {
+				803 = {
+					set_state_category = town
+				}
+				802 = {
+					set_state_category = town
+				}
+				105 = {
+					set_state_category = town
+				}
+				106 = {
+					set_state_category = town
+				}
+				764 = {
+					set_state_category = town
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = YUG_Serbian_Urbanization
+		icon = GFX_focus_spa_save_the_alcazar
+		cost = 5
+		prerequisite = {
+			focus = YUG_Rural_Electrification
+		}
+		prerequisite = {
+			focus = YUG_expand_the_sarajevo_arsenals
+		}
+		relative_position_id = YUG_integrated_rail_network
+		x = 0
+		y = 6
+		completion_reward = {
+			
+		}
+	}
+
+	focus = {
+		id = YUG_Northen_Urbanization
+		icon = GFX_focus_spa_the_spanish_miracle
+		cost = 5
+		prerequisite = {
+			focus = YUG_Serbian_Urbanization
+		}
+		relative_position_id = YUG_integrated_rail_network
+		x = -2
+		y = 7
+		completion_reward = { }
+	}
+
+	focus = {
+		id = YUG_Bosnia_Urbanization
+		icon = GFX_goal_generic_construct_civilian
+		cost = 5
+		prerequisite = {
+			focus = YUG_Serbian_Urbanization
+		}
+		relative_position_id = YUG_integrated_rail_network
+		x = 0
+		y = 7
+		completion_reward = { }
+	}
+
+	focus = {
+		id = YUG_Sourthen_Urbanization
+		icon = GFX_goal_generic_construction2
+		cost = 5
+		prerequisite = {
+			focus = YUG_Serbian_Urbanization
+		}
+		relative_position_id = YUG_integrated_rail_network
+		x = 2
+		y = 7
+		completion_reward = { }
+	}
+
+	focus = {
 		id = YUG_expand_the_university_of_belgrad
 		icon = GFX_focus_research
-		prerequisite = { focus = YUG_improve_serbian_rail_network }
-		x = 0
-		y = 4
-		relative_position_id = YUG_develop_military_industry
+		prerequisite = { focus = YUG_integrated_rail_network }
+		x = 1
+		y = 2
+		relative_position_id = YUG_integrated_rail_network
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 100
@@ -7284,9 +7303,12 @@ focus = {
 		id = YUG_central_management
 		icon = GFX_goal_generic_demand_territory
 		prerequisite = { focus = YUG_expand_the_university_of_belgrad }
-		x = 0
-		y = 5
-		relative_position_id = YUG_develop_military_industry
+		mutually_exclusive = {
+			focus = YUG_local_self_management
+		}
+		x = 1
+		y = 4
+		relative_position_id = YUG_integrated_rail_network
 
 		cost = 10
 
@@ -7317,9 +7339,12 @@ focus = {
 		id = YUG_expand_the_sarajevo_arsenals
 		icon = GFX_goal_generic_build_tank
 		prerequisite = { focus = YUG_local_self_management focus = YUG_central_management }
-		x = 1
-		y = 1
-		relative_position_id = YUG_local_self_management
+		prerequisite = {
+			focus = YUG_Improve_Heavy_Industry
+		}
+		x = 0
+		y = 5
+		relative_position_id = YUG_integrated_rail_network
 
 		cost = 10
 
