@@ -656,6 +656,41 @@ focus_tree = {
 			FOCUS_FILTER_ARMY_XP
 		}
 		completion_reward = {
+			KPD_willi_stoph = {
+				promote_leader = yes
+			}
+			random_army_leader = {
+				limit = {
+					is_field_marshal = no
+					NOT = {
+						is_character = KPD_elected_officer
+						is_character = KPD_elected_officer_1
+						is_character = KPD_elected_officer_2
+						is_character = KPD_elected_officer_3
+						is_character = KPD_elected_officer_4
+						is_character = KPD_elected_officer_5
+					}
+				}
+				gain_xp = 25
+				add_unit_leader_trait = career_officer
+	    		add_attack = 1
+			}
+			random_army_leader = {
+				limit = {
+					is_field_marshal = no
+					NOT = {
+						is_character = KPD_elected_officer
+						is_character = KPD_elected_officer_1
+						is_character = KPD_elected_officer_2
+						is_character = KPD_elected_officer_3
+						is_character = KPD_elected_officer_4
+						is_character = KPD_elected_officer_5
+					}
+				}
+				gain_xp = 25
+				add_unit_leader_trait = career_officer
+	    		add_attack = 1
+			}
 		}
 	}
 	focus = {
@@ -862,7 +897,7 @@ focus_tree = {
 		id = KPD_dissolution_of_joint_supreme_command
 		icon = GFX_goal_anschluss
 		cost = 5
-		x = 26
+		x = 27
 		y = 0
 		available = {
 			NOT = { has_war_with = TRM }
@@ -884,7 +919,7 @@ focus_tree = {
 	focus = { #내무인민위원부 간섭 방해
 		id = KPD_internal_peoples_affairs_committee_interference_hindrance
 		icon = GFX_focus_generic_support_the_left_right
-		cost = 5
+		cost = 10
 		prerequisite = {
 			focus = KPD_dissolution_of_joint_supreme_command
 		}
@@ -1153,7 +1188,7 @@ focus_tree = {
 				has_civil_war = no
 			}
 		}
-		x = -2
+		x = -3
 		y = 1
 		available = {
 			not = { has_war_with = SOU }
@@ -1256,6 +1291,82 @@ focus_tree = {
 		}
 		relative_position_id = KPD_coalition_radicalization
 		completion_reward = {
+			every_country = {
+				limit = {
+					is_in_faction_with = SOU
+				}
+				add_ideas = KPD_berlin_pact_ratified
+			}
+		}
+	}
+	focus = {
+		#혁명을 수호할 무력
+		id = KPD_armed_forces_to_defend_the_revolution
+		icon = GFX_focus_generic_combined_arms
+		cost = 5
+		prerequisite = {
+			focus = KPD_molotov_thalmann_pact
+		}
+		x = 0
+		y = 2
+		available = {
+		}
+		bypass = {
+		}
+		relative_position_id = KPD_molotov_thalmann_pact
+		complete_tooltip = {
+			every_state = {
+				limit = { has_state_flag = KPD_armed_forces_to_defend_the_revolution_1IC }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+					NOT = { has_state_flag = KPD_development_of_heavy_industry_1IC }
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+				set_state_flag = KPD_development_of_heavy_industry_1IC
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+					NOT = { has_state_flag = KPD_development_of_heavy_industry_1IC }
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+				set_state_flag = KPD_development_of_heavy_industry_1IC
+			}
+			army_experience = 25
+			add_doctrine_cost_reduction = {
+				name = land_doc_bonus
+				cost_reduction = 0.5
+				uses = 1
+				category = land_doctrine
+			}
 		}
 	}
 	focus = {
@@ -1264,13 +1375,13 @@ focus_tree = {
 		icon = GFX_goal_generic_territory_or_war
 		cost = 5
 		prerequisite = {
-			focus = KPD_molotov_thalmann_pact
+			focus = KPD_armed_forces_to_defend_the_revolution
 		}
 		prerequisite = {
 			focus = KPD_berlin_treaty_organization
 		}
-		x = 0
-		y = 3
+		x = 1
+		y = 2
 		available = {
 			has_government = communism
 			OR = {
@@ -1294,7 +1405,7 @@ focus_tree = {
 				}
 			}
 		}
-		relative_position_id = KPD_molotov_thalmann_pact
+		relative_position_id = KPD_armed_forces_to_defend_the_revolution
 		completion_reward = {
 			if = {
 				limit = {
@@ -1306,144 +1417,6 @@ focus_tree = {
 				create_wargoal = {
 					target = POL
 					type = annex_everything
-				}
-			}
-		}
-	}
-	focus = {
-		#붉은 동유럽
-		id = KPD_red_eastern_europe
-		icon = GFX_focus_SWE_the_threat_of_the_iron_curtain
-		cost = 5
-		prerequisite = {
-			focus = KPD_invasion_of_poland
-		}
-		x = 0
-		y = 2
-		available = {
-			is_subject = no
-			has_government = communism
-			has_army_manpower = { size > 749999 }
-		}
-		relative_position_id = KPD_invasion_of_poland
-		completion_reward = {
-			if = {
-				limit = {
-					POL = {
-						exists = yes
-						has_capitulated = no
-						NOT = {
-							has_government = communism
-							is_in_faction_with = ROOT
-							is_subject_of = ROOT
-						}
-					}
-				}
-				create_wargoal = {
-					target = POL
-					type = topple_government
-				}
-			}
-			if = {
-				limit = {
-					SLO = {
-						exists = yes
-						has_capitulated = no
-						NOT = {
-							has_government = communism
-							is_in_faction_with = ROOT
-							is_subject_of = ROOT
-						}
-					}
-				}
-				create_wargoal = {
-					target = SLO
-					type = topple_government
-				}
-			}
-			if = {
-				limit = {
-					HUN = {
-						exists = yes
-						has_capitulated = no
-						NOT = {
-							has_government = communism
-							is_in_faction_with = ROOT
-							is_subject_of = ROOT
-						}
-					}
-				}
-				create_wargoal = {
-					target = HUN
-					type = topple_government
-				}
-			}
-			if = {
-				limit = {
-					ROM = {
-						exists = yes
-						has_capitulated = no
-						NOT = {
-							has_government = communism
-							is_in_faction_with = ROOT
-							is_subject_of = ROOT
-						}
-					}
-				}
-				create_wargoal = {
-					target = ROM
-					type = topple_government
-				}
-			}
-			if = {
-				limit = {
-					HYA = {
-						exists = yes
-						has_capitulated = no
-						NOT = {
-							has_government = communism
-							is_in_faction_with = ROOT
-							is_subject_of = ROOT
-						}
-					}
-				}
-				create_wargoal = {
-					target = HYA
-					type = liberate_wargoal
-				}
-			}
-			if = {
-				limit = {
-					ABY = {
-						exists = yes
-						has_capitulated = no
-						NOT = {
-							has_government = communism
-							is_in_faction_with = ROOT
-							is_subject_of = ROOT
-						}
-					}
-				}
-				create_wargoal = {
-					target = ABY
-					type = liberate_wargoal
-				}
-			}
-			if = {
-				limit = {
-					SHA = {
-						exists = yes
-						has_capitulated = no
-						NOT = {
-							has_government = communism
-							is_in_faction_with = ROOT
-							is_subject_of = ROOT
-						}
-					}
-				}
-				create_wargoal = {
-					target = SHA
-					type = liberate_wargoal
 				}
 			}
 		}
@@ -1517,6 +1490,39 @@ focus_tree = {
 			IF = { limit = { has_character = KPD_max_seydewitz } KPD_max_seydewitz = { retire = yes } }
 			IF = { limit = { has_character = KPD_heinrich_brandler } KPD_heinrich_brandler = { retire = yes } }
 			IF = { limit = { has_character = KPD_august_thalheimer } KPD_august_thalheimer = { retire = yes } }
+		}
+	}
+	focus = {
+		#공산주의 사회 건설
+		id = KPD_construction_of_a_communist_society
+		icon = GFX_goal_generic_war_with_comintern
+		cost = 5
+		prerequisite = {
+			focus = KPD_right_wing_purge
+			focus = KPD_invasion_of_poland
+		}
+		x = -1
+		y = 2
+		available = {
+		}
+		bypass = {
+		}
+		relative_position_id = KPD_right_wing_purge
+		completion_reward = {
+			if = {
+				limit = {
+					any_character = {
+						is_country_leader = yes
+						NOT = {
+							has_trait = staunch_stalinist
+						}
+					}
+				}
+				add_country_leader_trait = staunch_stalinist
+			}
+			else = {
+				add_stability = 0.15
+			}
 		}
 	}
 	focus = { #우파 지원
@@ -1593,11 +1599,92 @@ focus_tree = {
 		y = 1
 		relative_position_id = KPD_radical_left_wing_support
 		available = {
+			is_subject = no
+			is_in_faction = no
+			if = {
+				limit = { 
+					RED = { has_completed_focus = RED_accept_trotskism }
+				}
+				not = { has_war_with = RED }
+				RED = { 
+					hidden_trigger = { 
+						exists = yes
+						has_capitulated = no
+					}
+					has_government = communism 
+					is_faction_leader = yes 
+					has_civil_war = no	
+					NOT = { has_war_with = ROOT }
+					has_completed_focus = RED_accept_trotskism	
+				}
+			}
+			else_if = {
+				limit = { 
+					MEX = {
+						has_country_leader = {
+							character = MEX_leon_trotsky
+							ruling_only = yes
+						}
+					}
+				}
+				not = { has_war_with = MEX }
+				MEX = { 
+					hidden_trigger = { 
+						exists = yes
+						has_capitulated = no
+					}
+					has_government = communism 
+					is_faction_leader = yes 
+					has_civil_war = no	
+					NOT = { has_war_with = ROOT }
+					has_country_leader = {
+						character = MEX_leon_trotsky
+						ruling_only = yes
+					}
+				}
+			}
+			else = {
+				NOT = {
+					has_global_flag = flag_trotsky_dead
+					has_global_flag = flag_trotsky_has_returned_to_ussr_from_mexico
+					hidden_trigger = {
+						has_global_flag = trotsky_exile_mexico
+						has_global_flag = trotsky_in_norwegian_government
+						has_global_flag = trotsky_jailed_in_norway
+						has_global_flag = flag_trotsky_returning_to_ussr_from_mexico
+						has_global_flag = flag_trotsky_returning_to_ussr_from_norway
+					}
+				}
+			}
 		}
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
 		completion_reward = {
+			if = {
+				limit = { 
+					RED = { has_completed_focus = RED_accept_trotskism }
+				}
+				RED = { country_event = generic.2 }
+			}
+			else_if = {
+				limit = { 
+					MEX = {
+						has_country_leader = {
+							character = MEX_leon_trotsky
+							ruling_only = yes
+						}
+					}
+				}
+				MEX = { country_event = generic.2 }
+			}
+			else = {
+				set_country_flag = KPD_leon_trotsky_flag
+				custom_effect_tooltip = available_political_advisor
+				show_ideas_tooltip = KPD_lev_trotsky_pol
+				custom_effect_tooltip = available_chief_of_army
+				show_ideas_tooltip = KPD_lev_trotsky_mil
+			}
 		}
 	}
 	focus = {
@@ -2032,6 +2119,223 @@ focus_tree = {
 			FOCUS_FILTER_POLITICAL
 		}
 		completion_reward = {
+		}
+	}
+	focus = { #세계혁명 지원
+		id = KPD_support_for_world_revolution
+		icon = GFX_goal_generic_propaganda
+		cost = 10
+		prerequisite = {
+			focus = KPD_with_comrade_trotsky
+		}
+		x = 0
+		y = 3
+		relative_position_id = KPD_with_comrade_trotsky
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #트로츠키의 폐퇴성
+		id = KPD_trotsky_s_ostracism
+		icon = GFX_goal_anti_comintern_pact
+		cost = 10
+		prerequisite = {
+			focus = KPD_support_for_world_revolution
+		}
+		mutually_exclusive = {
+			focus = KPD_building_the_new_soviet_union
+		}
+		x = 3
+		y = 1
+		relative_position_id = KPD_support_for_world_revolution
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			if = {
+				limit = {
+					is_in_faction_with = RED
+				}
+				leave_faction = yes
+			}
+		}
+	}
+	focus = { #신소련 건설
+		id = KPD_building_the_new_soviet_union
+		icon = GFX_focus_generic_join_comintern
+		cost = 10
+		prerequisite = {
+			focus = KPD_support_for_world_revolution
+		}
+		mutually_exclusive = {
+			focus = KPD_trotsky_s_ostracism
+		}
+		x = 0
+		y = 1
+		relative_position_id = KPD_support_for_world_revolution
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+			add_stability = -0.05
+			add_country_leader_role = {
+				character = KPD_lev_trotsky
+				promote_leader = yes
+				country_leader = {
+					ideology = trotskyism
+					traits = {
+						communist_theorist
+					}
+					expire="1965.1.1.1"
+				}
+			}
+		}
+	}
+	focus = {
+		#붉은 동유럽
+		id = KPD_red_eastern_europe
+		icon = GFX_focus_SWE_the_threat_of_the_iron_curtain
+		cost = 5
+		prerequisite = {
+			focus = KPD_construction_of_a_communist_society
+			focus = KPD_building_the_new_soviet_union
+		}
+		x = 3
+		y = 1
+		available = {
+			is_subject = no
+			has_government = communism
+			has_army_manpower = { size > 749999 }
+		}
+		relative_position_id = KPD_construction_of_a_communist_society
+		completion_reward = {
+			if = {
+				limit = {
+					POL = {
+						exists = yes
+						has_capitulated = no
+						NOT = {
+							has_government = communism
+							is_in_faction_with = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				create_wargoal = {
+					target = POL
+					type = topple_government
+				}
+			}
+			if = {
+				limit = {
+					SLO = {
+						exists = yes
+						has_capitulated = no
+						NOT = {
+							has_government = communism
+							is_in_faction_with = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				create_wargoal = {
+					target = SLO
+					type = topple_government
+				}
+			}
+			if = {
+				limit = {
+					HUN = {
+						exists = yes
+						has_capitulated = no
+						NOT = {
+							has_government = communism
+							is_in_faction_with = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				create_wargoal = {
+					target = HUN
+					type = topple_government
+				}
+			}
+			if = {
+				limit = {
+					ROM = {
+						exists = yes
+						has_capitulated = no
+						NOT = {
+							has_government = communism
+							is_in_faction_with = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				create_wargoal = {
+					target = ROM
+					type = topple_government
+				}
+			}
+			if = {
+				limit = {
+					HYA = {
+						exists = yes
+						has_capitulated = no
+						NOT = {
+							has_government = communism
+							is_in_faction_with = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				create_wargoal = {
+					target = HYA
+					type = liberate_wargoal
+				}
+			}
+			if = {
+				limit = {
+					ABY = {
+						exists = yes
+						has_capitulated = no
+						NOT = {
+							has_government = communism
+							is_in_faction_with = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				create_wargoal = {
+					target = ABY
+					type = liberate_wargoal
+				}
+			}
+			if = {
+				limit = {
+					SHA = {
+						exists = yes
+						has_capitulated = no
+						NOT = {
+							has_government = communism
+							is_in_faction_with = ROOT
+							is_subject_of = ROOT
+						}
+					}
+				}
+				create_wargoal = {
+					target = SHA
+					type = liberate_wargoal
+				}
+			}
 		}
 	}
 }
