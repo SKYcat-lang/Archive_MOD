@@ -897,7 +897,7 @@ focus_tree = {
 		id = KPD_dissolution_of_joint_supreme_command
 		icon = GFX_goal_anschluss
 		cost = 5
-		x = 27
+		x = 28
 		y = 0
 		available = {
 			NOT = { has_war_with = TRM }
@@ -1013,7 +1013,7 @@ focus_tree = {
 			focus = KPD_removal_of_thalmann
 			focus = KPD_victory_of_the_social_democratic_party
 		}
-		x = -6
+		x = -7
 		y = 2
 		relative_position_id = KPD_dissolution_of_joint_supreme_command
 		available = {
@@ -1082,7 +1082,7 @@ focus_tree = {
 			focus = KPD_moscow_allegiance
 			focus = KPD_removal_of_thalmann
 		}
-		x = 6
+		x = 7
 		y = 2
 		relative_position_id = KPD_dissolution_of_joint_supreme_command
 		available = {
@@ -1536,7 +1536,7 @@ focus_tree = {
 			focus = KPD_radical_left_wing_support
 			focus = KPD_equal_relationship
 		}
-		x = 2
+		x = 3
 		y = 2
 		relative_position_id = KPD_removal_of_thalmann
 		available = {
@@ -1696,7 +1696,7 @@ focus_tree = {
 			focus = KPD_with_comrade_trotsky
 			focus = KPD_technological_cooperation_with_the_soviet_union
 		}
-		x = 1
+		x = 2
 		y = 1
 		available = {
 		}
@@ -2048,6 +2048,122 @@ focus_tree = {
 			}
 		}
 	}
+	focus = { #제2인터내셔널
+		id = KPD_second_international
+		icon = GFX_focus_generic_anti_fascist_diplomacy
+		cost = 10
+		prerequisite = {
+			focus = KPD_eurocommunism
+			focus = KPD_finding_scattered_money
+		}
+		x = 1
+		y = 1
+		relative_position_id = KPD_eurocommunism
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #파시스트의 위협 우선시
+		id = KPD_anti_fascism
+		icon = GFX_focus_focus_fra_fascist_threat
+		cost = 10
+		prerequisite = {
+			focus = KPD_second_international
+		}
+		mutually_exclusive = {
+			focus = KPD_anti_stalinism
+		}
+		x = -1
+		y = 1
+		relative_position_id = KPD_second_international
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #동방의 팽창 견제
+		id = KPD_anti_stalinism
+		icon = GFX_focus_attack_soviet
+		cost = 10
+		prerequisite = {
+			focus = KPD_second_international
+		}
+		mutually_exclusive = {
+			focus = KPD_anti_fascism
+		}
+		x = 1
+		y = 1
+		relative_position_id = KPD_second_international
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #반파시즘 민병대
+		id = KPD_anti_fascist_militia
+		icon = GFX_focus_spr_the_anti_fascist_workers_revolution
+		cost = 10
+		prerequisite = {
+			focus = KPD_anti_fascism
+		}
+		x = 0
+		y = 1
+		relative_position_id = KPD_anti_fascism
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #당내 스탈린주의자 축출
+		id = KPD_expelling_stalinists_within_the_party
+		icon = GFX_focus_SOV_the_last_purge
+		cost = 10
+		prerequisite = {
+			focus = KPD_anti_stalinism
+		}
+		x = 0
+		y = 1
+		relative_position_id = KPD_anti_stalinism
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #방어적 민주주의
+		id = KPD_defensive_democracy
+		icon = GFX_focus_generic_strike_at_democracy1
+		cost = 10
+		prerequisite = {
+			focus = KPD_anti_fascist_militia
+			focus = KPD_expelling_stalinists_within_the_party
+		}
+		x = -1
+		y = 2
+		relative_position_id = KPD_anti_stalinism
+		available = {
+		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
+		completion_reward = {
+		}
+	}
 	focus = { #자유 독일 노동조합
 		id = KPD_free_german_trade_union
 		icon = GFX_focus_por_workers_of_iberia
@@ -2144,7 +2260,7 @@ focus_tree = {
 		icon = GFX_goal_anti_comintern_pact
 		cost = 10
 		prerequisite = {
-			focus = KPD_support_for_world_revolution
+			focus = KPD_bottom_up_economy
 		}
 		mutually_exclusive = {
 			focus = KPD_building_the_new_soviet_union
@@ -2153,16 +2269,33 @@ focus_tree = {
 		y = 1
 		relative_position_id = KPD_support_for_world_revolution
 		available = {
+			has_completed_focus = KPD_radical_left_wing_support
 		}
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
 		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
 			if = {
 				limit = {
 					is_in_faction_with = RED
 				}
 				leave_faction = yes
+			}
+			if = {
+				limit = {
+					is_in_faction_with = MEX
+				}
+				leave_faction = yes
+			}
+			if = {
+				limit = {
+					has_country_flag = KPD_leon_trotsky_flag
+				}
+				retire_character = KPD_lev_trotsky
 			}
 		}
 	}
@@ -2180,21 +2313,158 @@ focus_tree = {
 		y = 1
 		relative_position_id = KPD_support_for_world_revolution
 		available = {
+			if = {
+				limit = { 
+					RED = { has_completed_focus = RED_accept_trotskism }
+				}
+				is_in_faction_with = RED
+			}
+			else_if = {
+				limit = { 
+					MEX = {
+						has_country_leader = {
+							character = MEX_leon_trotsky
+							ruling_only = yes
+						}
+					}
+				}
+				is_in_faction_with = MEX
+			}
 		}
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
 		completion_reward = {
 			add_stability = -0.05
-			add_country_leader_role = {
-				character = KPD_lev_trotsky
-				promote_leader = yes
-				country_leader = {
-					ideology = trotskyism
-					traits = {
-						communist_theorist
+			if = {
+				limit = { 
+					OR = {
+						RED = { has_completed_focus = RED_accept_trotskism }
+						MEX = {
+							has_country_leader = {
+								character = MEX_leon_trotsky
+								ruling_only = yes
+							}
+						}
 					}
-					expire="1965.1.1.1"
+				}
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 1
+							include_locked = yes
+						}
+						NOT = { has_state_flag = KPD_development_of_heavy_industry_1IC }
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 1
+							include_locked = yes
+						}
+						NOT = { has_state_flag = KPD_development_of_heavy_industry_1IC }
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 1
+							include_locked = yes
+						}
+						NOT = { has_state_flag = KPD_development_of_heavy_industry_1IC }
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+			}
+			else = {
+				add_country_leader_role = {
+					character = KPD_lev_trotsky
+					promote_leader = yes
+					country_leader = {
+						ideology = trotskyism
+						traits = {
+							communist_theorist
+						}
+						expire="1965.1.1.1"
+					}
+				}
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 1
+							include_locked = yes
+						}
+						NOT = { has_state_flag = KPD_development_of_heavy_industry_1IC }
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
+				}
+				random_owned_controlled_state = {
+					limit = {
+						free_building_slots = {
+							building = arms_factory
+							size > 1
+							include_locked = yes
+						}
+						NOT = { has_state_flag = KPD_development_of_heavy_industry_1IC }
+					}
+					add_extra_state_shared_building_slots = 1
+					add_building_construction = {
+						type = industrial_complex
+						level = 1
+						instant_build = yes
+					}
+					add_building_construction = {
+						type = arms_factory
+						level = 1
+						instant_build = yes
+					}
 				}
 			}
 		}
