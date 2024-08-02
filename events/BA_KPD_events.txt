@@ -662,32 +662,125 @@ country_event = { #공장위원회 숙련
 		}
 	}
 }
-country_event = { #제거됨
+country_event = { #폴란드 분할
 	id = KPD_event.17
 	title = KPD_event.17.t
 	desc = KPD_event.17.d
 	picture = GFX_report_event_iww_demonstration
-	fire_only_once = yes
+	
 	is_triggered_only = yes
 	option = {
 		name = KPD_event.17.a
+		POL = {
+			every_core_state = {
+				limit = {
+					any_country = {
+						has_country_flag = KPD_molotov_thalmann_pact_flag
+						NOT = { tag = ROOT }
+						PREV = {
+							is_claimed_by = PREV
+						}
+					}
+				}
+				random_country = {
+					limit = {
+						has_country_flag = KPD_molotov_thalmann_pact_flag
+						NOT = { tag = ROOT }
+					}
+					PREV = {
+						transfer_state_to = PREV
+					}
+				}
+			}
+		}
 	}
 	option = {
 		name = KPD_event.17.b
+		trigger = {
+			any_country = {
+				has_country_flag = KPD_molotov_thalmann_pact_flag
+				NOT = { tag = ROOT }
+				ROOT = { NOT = { is_subject_of = PREV } }
+			}
+		}
+		set_global_flag = KPD_molotov_thalmann_pact_fuck
+		set_country_flag = KPD_molotov_thalmann_pact_fuck_country
 	}
 }
-country_event = { #제거됨
+country_event = { #조약 파기됨
 	id = KPD_event.18
 	title = KPD_event.18.t
 	desc = KPD_event.18.d
 	picture = GFX_report_event_bul_muraviev_protest
-	fire_only_once = yes
+
 	is_triggered_only = yes
 	option = {
 		name = KPD_event.18.a
+		trigger = {
+			NOT = { has_country_flag = KPD_molotov_thalmann_pact_fuck_country }
+		}
+		random_country = {
+			limit = {
+				has_country_flag = KPD_molotov_thalmann_pact_flag
+				NOT = { tag = ROOT }
+			}
+			ROOT = {
+				create_wargoal = {
+					target = PREV
+					type = annex_everything
+				}
+				remove_from_faction = PREV
+				add_ai_strategy = {
+					type = declare_war
+					id = PREV
+					value = 500
+				}
+				add_ai_strategy = {
+					type = befriend
+					id = PREV
+					value = -500
+				}
+				add_ai_strategy = {
+					type = antagonize
+					id = PREV
+					value = 200
+				}
+			}
+		}
+		add_war_support = 0.10
 	}
 	option = {
 		name = KPD_event.18.b
+		trigger = {
+			NOT = { has_country_flag = KPD_molotov_thalmann_pact_fuck_country }
+		}
+		random_country = {
+			limit = {
+				has_country_flag = KPD_molotov_thalmann_pact_flag
+				NOT = { tag = ROOT }
+			}
+			ROOT = {
+				add_ai_strategy = {
+					type = befriend
+					id = PREV
+					value = -25
+				}
+				add_ai_strategy = {
+					type = antagonize
+					id = PREV
+					value = 25
+				}
+			}
+		}
+		add_war_support = -0.10
+	}
+	option = {
+		name = KPD_event.18.b
+		trigger = {
+			has_country_flag = KPD_molotov_thalmann_pact_fuck_country
+		}
+		add_stability = -0.05
+		add_war_support = 0.05
 	}
 }
 country_event = { #제거됨
@@ -750,7 +843,6 @@ country_event = { #폴란드 분할
 			factor = 10
 		}
 		set_country_flag = KPD_molotov_thalmann_pact_flag
-		add_state_claim = 10
 		add_state_claim = 88
 		add_state_claim = 89
 		add_state_claim = 90
@@ -788,12 +880,19 @@ country_event = { #수락함
 	option = {
 		name = KPD_event.22.a
 		set_country_flag = KPD_molotov_thalmann_pact_flag
+		add_state_claim = 10
 		add_state_claim = 98
 		add_state_claim = 87
-		add_state_claim = 936
+		add_state_claim = 979
 		SOV = {
 			give_guarantee = KPD
 			give_market_access = KPD
+			hidden_effect = {
+				add_ideas = KPD_molotov_thalmann_pact_idea
+			}
+		}
+		hidden_effect = {
+			add_ideas = KPD_molotov_thalmann_pact_idea
 		}
 	}
 }
