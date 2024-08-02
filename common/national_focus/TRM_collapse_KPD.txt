@@ -1141,10 +1141,13 @@ focus_tree = {
 			focus = KPD_moscow_allegiance
 		}
 		available = {
-			is_subject = no
+			OR = {
+				is_subject = no
+				is_subject_of = SOU
+			}
 			has_government = communism
-			has_army_manpower = { size > 449999 } #ca 90 div
-			SOV = {
+			has_army_manpower = { size > 349999 } #ca 90 div
+			SOU = {
 				NOT = { has_war_with = KPD }
 				country_exists = SOV
 				has_civil_war = no
@@ -1157,7 +1160,7 @@ focus_tree = {
 		}
 		relative_position_id = KPD_moscow_allegiance
 		completion_reward = {
-			SOV = {
+			SOU = {
 				country_event = { id = KPD_event.21 days = 1 }
 				custom_effect_tooltip = GER_molotov_thalmann_pact_tt
 				custom_effect_tooltip = needs_approval
@@ -1245,7 +1248,10 @@ focus_tree = {
 		x = -1
 		y = 2
 		available = {
-			is_subject = no
+			OR = {
+				is_subject = no
+				is_subject_of = SOU
+			}
 			is_in_faction_with = SOU
 		}
 		relative_position_id = KPD_coalition_radicalization
@@ -1266,9 +1272,17 @@ focus_tree = {
 		x = 0
 		y = 3
 		available = {
-			is_subject = no
 			has_government = communism
-			has_army_manpower = { size > 449999 }
+			OR = {
+				has_army_manpower = { size > 449999 }
+				is_subject_of = SOU
+			}
+			hidden_trigger = {
+				OR = {
+					is_subject = no
+					is_subject_of = SOU
+				}
+			}
 		}
 		bypass = {
 			POL = {
@@ -1282,6 +1296,18 @@ focus_tree = {
 		}
 		relative_position_id = KPD_molotov_thalmann_pact
 		completion_reward = {
+			if = {
+				limit = {
+					is_subject_of = SOU
+				}
+				SOU = { country_event = { id = KPD_event.27 hours = 12 } }
+			}
+			else = {
+				create_wargoal = {
+					target = POL
+					type = annex_everything
+				}
+			}
 		}
 	}
 	focus = {
