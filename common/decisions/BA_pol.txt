@@ -969,7 +969,7 @@ POL_road_to_intermarium_union = {
 	}
 	POL_Economy_Integration  = { # 경제 통합 과정
 		visible = {
-			has_completed_focus = POL_inter_42
+			has_completed_focus = POL_inter_43
 			NOT = {
 				has_idea = POL_Ongoing_economic_integration_3_idea
 			}
@@ -983,8 +983,8 @@ POL_road_to_intermarium_union = {
 			}
         }
 		fire_only_once = no
-		cost = 35
-		days_remove = 180
+		cost = POL_Economy_Cotegration_Cost
+		days_remove = 1
 		icon = GFX_decision_SWI_swiss_democratic_tradition_campaign
         complete_effect = {
 			if = {
@@ -1022,20 +1022,48 @@ POL_road_to_intermarium_union = {
             political_power_factor = -0.15
             civilian_factory_use = 5
 		}
+		remove_effect = {
+			set_variable = { POL_propaganda_cost = POL_Economy_Cotegration_Cost }
+			multiply_variable = { POL_propaganda_cost = POL_propaganda_Increase }
+			set_variable = { POL_Economy_Cotegration_Cost = POL_propaganda_cost }
+			clear_variable = POL_propaganda_cost
+
+		}
 	}
-	POL_Economy_Integration  = { # 경제 통합 과정
+	POL_Slav_Union  = { # 슬라브 민족주의
 		visible = {
 			has_completed_focus = POL_inter_44
+			NOT = {
+				has_completed_focus = POL_romanov
+			}
 		}
         available = {
-            num_of_civilian_factories > 15
+			OR = {
+				controls_state = 219
+				controls_state = 195
+			}
+			OR = {
+				controls_state = 137
+				controls_state = 202
+			}
+			OR = {
+				controls_state = 217
+				controls_state = 408
+			}
+			SOV = {
+				OR = {
+					surrender_progress > 0.5
+					exists = no
+					is_subject = yes
+				}
+			}
         }
 		fire_only_once = no
 		cost = 35
 		days_remove = 180
-		icon = GFX_decision_SWI_swiss_democratic_tradition_campaign
+		icon = GFX_decision_generic_nationalism
 		modifier = {
-            political_power_factor = -0.15
+            political_power_factor = -0.3
             civilian_factory_use = 5
 		}
 		remove_effect = {
@@ -1043,8 +1071,6 @@ POL_road_to_intermarium_union = {
 				limit = {
 					OR = {
 						is_core_of = POL
-						is_core_of = SIL
-						is_core_of = KSH
 						is_core_of = UKR
 						is_core_of = BLR
 						AND = {
