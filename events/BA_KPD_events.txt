@@ -1,4 +1,5 @@
 add_namespace = KPD_event
+add_namespace = KPD_unit_leader_event
 add_namespace = TCA_shared
 #ask for Soviet volunteers - event for SOV
 country_event = {
@@ -611,70 +612,175 @@ country_event = { #연합 분열
 	}
 }
 
-country_event = { #제거됨
+country_event = { #공장위원회 숙련
 	id = KPD_event.14
 	title = KPD_event.14.t
 	desc = KPD_event.14.d
-	picture = GFX_report_event_ITA_italian_civil_war
-	fire_only_once = yes
+	picture = GFX_report_event_generic_factory
+
 	is_triggered_only = yes
+
 	option = {
 		name = KPD_event.14.a
+		swap_ideas = {
+			remove_idea = KPD_factory_councils
+			add_idea = KPD_factory_councils_2
+		}
 	}
 }
 
-country_event = { #제거됨
+country_event = { #공장위원회 숙련
 	id = KPD_event.15
 	title = KPD_event.15.t
 	desc = KPD_event.15.d
-	picture = GFX_report_event_ITA_democratic_parlament
-	fire_only_once = yes
+	picture = GFX_report_event_generic_factory
+	
 	is_triggered_only = yes
+
 	option = {
 		name = KPD_event.15.a
+		swap_ideas = {
+			remove_idea = KPD_factory_councils_2
+			add_idea = KPD_factory_councils_3
+		}
 	}
 }
 
-country_event = { #제거됨
+country_event = { #공장위원회 숙련
 	id = KPD_event.16
 	title = KPD_event.16.t
 	desc = KPD_event.16.d
-	picture = GFX_report_event_tur_opposition_party
-	fire_only_once = yes
+	picture = GFX_report_event_generic_factory
+
 	is_triggered_only = yes
+
 	option = {
 		name = KPD_event.16.a
-	}
-	option = {
-		name = KPD_event.16.b
+		swap_ideas = {
+			remove_idea = KPD_factory_councils_3
+			add_idea = KPD_factory_councils_4
+		}
 	}
 }
-country_event = { #제거됨
+country_event = { #폴란드 분할
 	id = KPD_event.17
 	title = KPD_event.17.t
 	desc = KPD_event.17.d
 	picture = GFX_report_event_iww_demonstration
-	fire_only_once = yes
+	
 	is_triggered_only = yes
 	option = {
 		name = KPD_event.17.a
+		POL = {
+			every_core_state = {
+				limit = {
+					any_country = {
+						has_country_flag = KPD_molotov_thalmann_pact_flag
+						NOT = { tag = ROOT }
+						PREV = {
+							is_claimed_by = PREV
+						}
+					}
+				}
+				random_country = {
+					limit = {
+						has_country_flag = KPD_molotov_thalmann_pact_flag
+						NOT = { tag = ROOT }
+					}
+					PREV = {
+						transfer_state_to = PREV
+					}
+				}
+			}
+		}
 	}
 	option = {
 		name = KPD_event.17.b
+		trigger = {
+			any_country = {
+				has_country_flag = KPD_molotov_thalmann_pact_flag
+				NOT = { tag = ROOT }
+				ROOT = { NOT = { is_subject_of = PREV } }
+			}
+		}
+		set_global_flag = KPD_molotov_thalmann_pact_fuck
+		set_country_flag = KPD_molotov_thalmann_pact_fuck_country
 	}
 }
-country_event = { #제거됨
+country_event = { #조약 파기됨
 	id = KPD_event.18
 	title = KPD_event.18.t
 	desc = KPD_event.18.d
 	picture = GFX_report_event_bul_muraviev_protest
-	fire_only_once = yes
+
 	is_triggered_only = yes
 	option = {
 		name = KPD_event.18.a
+		trigger = {
+			NOT = { has_country_flag = KPD_molotov_thalmann_pact_fuck_country }
+		}
+		random_country = {
+			limit = {
+				has_country_flag = KPD_molotov_thalmann_pact_flag
+				NOT = { tag = ROOT }
+			}
+			ROOT = {
+				create_wargoal = {
+					target = PREV
+					type = annex_everything
+				}
+				remove_from_faction = PREV
+				add_ai_strategy = {
+					type = declare_war
+					id = PREV
+					value = 500
+				}
+				add_ai_strategy = {
+					type = befriend
+					id = PREV
+					value = -500
+				}
+				add_ai_strategy = {
+					type = antagonize
+					id = PREV
+					value = 200
+				}
+			}
+		}
+		add_war_support = 0.10
 	}
 	option = {
 		name = KPD_event.18.b
+		trigger = {
+			NOT = { has_country_flag = KPD_molotov_thalmann_pact_fuck_country }
+		}
+		random_country = {
+			limit = {
+				has_country_flag = KPD_molotov_thalmann_pact_flag
+				NOT = { tag = ROOT }
+			}
+			ROOT = {
+				add_ai_strategy = {
+					type = befriend
+					id = PREV
+					value = -25
+				}
+				add_ai_strategy = {
+					type = antagonize
+					id = PREV
+					value = 25
+				}
+			}
+		}
+		add_war_support = -0.10
+	}
+	option = {
+		name = KPD_event.18.b
+		trigger = {
+			has_country_flag = KPD_molotov_thalmann_pact_fuck_country
+		}
+		add_stability = -0.05
+		add_war_support = 0.05
 	}
 }
 country_event = { #제거됨
@@ -737,7 +843,6 @@ country_event = { #폴란드 분할
 			factor = 10
 		}
 		set_country_flag = KPD_molotov_thalmann_pact_flag
-		add_state_claim = 10
 		add_state_claim = 88
 		add_state_claim = 89
 		add_state_claim = 90
@@ -775,12 +880,19 @@ country_event = { #수락함
 	option = {
 		name = KPD_event.22.a
 		set_country_flag = KPD_molotov_thalmann_pact_flag
+		add_state_claim = 10
 		add_state_claim = 98
 		add_state_claim = 87
-		add_state_claim = 936
+		add_state_claim = 979
 		SOV = {
 			give_guarantee = KPD
 			give_market_access = KPD
+			hidden_effect = {
+				add_ideas = KPD_molotov_thalmann_pact_idea
+			}
+		}
+		hidden_effect = {
+			add_ideas = KPD_molotov_thalmann_pact_idea
 		}
 	}
 }
@@ -872,6 +984,359 @@ country_event = { #ㄴㄴ
 		add_popularity = {
 			ideology = communism
 			popularity = -0.05
+		}
+	}
+}
+country_event = { #폴란드 침공?
+	id = KPD_event.27
+	title = KPD_event.27.t
+	desc = KPD_event.27.d
+	picture = GFX_report_event_stalin_01
+	
+	is_triggered_only = yes
+
+	option = {
+		name = KPD_event.27.a
+		trigger = {
+			is_subject = no
+			NOT = { is_in_faction_with = POL }
+		}
+		create_wargoal = {
+			target = POL
+			type = annex_everything
+		}
+		add_ai_strategy = {
+			type = declare_war
+			id = POL
+			value = 500
+		}
+		add_ai_strategy = {
+			type = befriend
+			id = POL
+			value = -500
+		}
+		add_ai_strategy = {
+			type = consider_weak
+			id = POL
+			value = 500
+		}
+		add_ai_strategy = {
+			type = front_armor_score
+			id = POL
+			value = 150
+		}
+		FROM = { country_event = KPD_event.28 }
+	}
+	option = {
+		name = KPD_event.27.b
+		FROM = { country_event = KPD_event.29 }
+	}
+}
+country_event = { #폴란드 침공? - ㄱㄱ
+	id = KPD_event.28
+	title = KPD_event.28.t
+	desc = KPD_event.28.d
+	picture = GFX_report_event_stalin_01
+	
+	is_triggered_only = yes
+
+	option = {
+		name = KPD_event.28.a
+	}
+}
+country_event = { #폴란드 침공? - ㄴㄴ
+	id = KPD_event.29
+	title = KPD_event.29.t
+	desc = KPD_event.29.d
+	picture = GFX_report_event_stalin_01
+	
+	is_triggered_only = yes
+
+	option = {
+		name = KPD_event.29.a
+	}
+}
+
+#장군 발령
+country_event = { #ㄴㄴ
+	id = KPD_unit_leader_event.1
+	title = KPD_unit_leader_event.1.t
+	desc = KPD_unit_leader_event.1.d
+	picture = GFX_report_event_stalin_01
+	
+	is_triggered_only = yes
+	hidden = yes
+
+	trigger = {
+		original_tag = KPD
+		NOT = { has_global_flag = KPD_unit_leader_event_1_flag }
+	}
+
+	immediate = {
+		random_list = {
+			10 = {
+				modifier = {
+					NOT = {
+						any_character = {
+							has_trait = BA_elected_officer
+						}
+					}
+					factor = 0
+				}
+				random_army_leader = {
+					limit = {
+						has_trait = BA_elected_officer
+					}
+					set_variable = { KPD_event_target_loc = THIS }
+					unit_leader_event = { id = KPD_unit_leader_event.3 days = 25 random_days = 5 }
+				}
+			}
+			10 = {
+				modifier = {
+					NOT = {
+						any_character = {
+							has_trait = BA_vanguard_officer
+						}
+					}
+					factor = 0
+				}
+				random_army_leader = {
+				 	limit = {
+					 	has_trait = BA_vanguard_officer
+				 	}
+					set_variable = { KPD_event_target_loc = THIS }
+				   	unit_leader_event = { id = KPD_unit_leader_event.4 days = 25 random_days = 5 }
+				}
+			}
+			10 = {
+				modifier = {
+					NOT = { has_character = KPD_elected_officer }
+					NOT = { has_character = KPD_elected_officer_1 }
+					if = { limit = { has_country_flag = KPD_elected_officer_2_flag }
+						NOT = { has_character = KPD_elected_officer_2 }
+					}
+					if = { limit = { has_country_flag = KPD_elected_officer_3_flag }
+						NOT = { has_character = KPD_elected_officer_3 }
+					}
+					if = { limit = { has_country_flag = KPD_elected_officer_4_flag }
+						NOT = { has_character = KPD_elected_officer_4 }
+					}
+					if = { limit = { has_country_flag = KPD_elected_officer_5_flag }
+						NOT = { has_character = KPD_elected_officer_5 }
+					}
+					factor = 0
+				}
+				random_army_leader = {
+					limit = {
+						has_trait = BA_soldiers_council
+					}
+					set_variable = { KPD_event_target_loc = THIS }
+					unit_leader_event = { id = KPD_unit_leader_event.5 days = 25 random_days = 5 }
+				}
+			}
+			10 = {
+				modifier = {
+					NOT = {
+						any_character = {
+							has_trait = BA_soldiers_council_officer
+						}
+					}
+					factor = 0
+				}
+				random_army_leader = {
+					limit = {
+						has_trait = BA_soldiers_council_officer
+					}
+					set_variable = { KPD_event_target_loc = THIS }
+					unit_leader_event = { id = KPD_unit_leader_event.6 days = 25 random_days = 5 }
+				}
+			}
+			0 = {
+				modifier = {
+					NOT = {
+						any_character = {
+							has_trait = BA_elected_officer
+						}
+						any_character = {
+							has_trait = BA_soldiers_council_officer
+						}
+						any_character = {
+							has_trait = BA_vanguard_officer
+						}
+					}
+					NOT = { has_character = KPD_elected_officer }
+					NOT = { has_character = KPD_elected_officer_1 }
+					if = { limit = { has_country_flag = KPD_elected_officer_2_flag }
+						NOT = { has_character = KPD_elected_officer_2 }
+					}
+					if = { limit = { has_country_flag = KPD_elected_officer_3_flag }
+						NOT = { has_character = KPD_elected_officer_3 }
+					}
+					if = { limit = { has_country_flag = KPD_elected_officer_4_flag }
+						NOT = { has_character = KPD_elected_officer_4 }
+					}
+					if = { limit = { has_country_flag = KPD_elected_officer_5_flag }
+						NOT = { has_character = KPD_elected_officer_5 }
+					}
+					add = 10
+				}
+				country_event = { id = KPD_unit_leader_event.7 }
+			}
+		}
+	}
+
+	option = {
+		name = KPD_unit_leader_event.1.a
+	}
+}
+unit_leader_event = { #아 젠장 내가 민간인 지휘관 떼는걸 이미 만들었었지 그래 / no use
+	id = KPD_unit_leader_event.2
+	title = KPD_unit_leader_event.2.t
+	desc = KPD_unit_leader_event.2.desc
+	picture = GFX_report_event_soviet_purge_officers_02
+	
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = { id = KPD_unit_leader_event.1 days = 5 }
+		}
+	}
+
+	option = {
+		name = KPD_unit_leader_event.2.a
+		remove_trait = {
+			trait = BA_militia_commander
+		}
+	}
+}
+unit_leader_event = {
+	id = KPD_unit_leader_event.3
+	title = KPD_unit_leader_event.3.t
+	desc = KPD_unit_leader_event.3.desc
+	picture = GFX_report_event_soviet_purge_officers_02
+	
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = { id = KPD_unit_leader_event.1 days = 5 }
+		}
+	}
+
+	option = {
+		name = KPD_unit_leader_event.3.a
+		remove_trait = {
+			trait = BA_elected_officer
+		}
+	}
+}
+unit_leader_event = {
+	id = KPD_unit_leader_event.4
+	title = KPD_unit_leader_event.4.t
+	desc = KPD_unit_leader_event.4.desc
+	picture = GFX_report_event_soviet_purge_officers_02
+	
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = { id = KPD_unit_leader_event.1 days = 5 }
+		}
+	}
+
+	option = {
+		name = KPD_unit_leader_event.4.a
+		remove_trait = {
+			trait = BA_vanguard_officer
+		}
+	}
+}
+unit_leader_event = {
+	id = KPD_unit_leader_event.5
+	title = KPD_unit_leader_event.5.t
+	desc = KPD_unit_leader_event.5.desc
+	picture = GFX_report_event_soviet_purge_officers_02
+	
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = { id = KPD_unit_leader_event.1 days = 5 }
+		}
+	}
+
+	option = {
+		name = KPD_unit_leader_event.5.a
+		KPD = {
+			retire_character = PREV
+		}
+	}
+}
+unit_leader_event = {
+	id = KPD_unit_leader_event.6
+	title = KPD_unit_leader_event.6.t
+	desc = KPD_unit_leader_event.6.desc
+	picture = GFX_report_event_soviet_purge_officers_02
+	
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			country_event = { id = KPD_unit_leader_event.1 days = 5 }
+		}
+	}
+
+	option = {
+		name = KPD_unit_leader_event.6.a
+		remove_trait = {
+			trait = BA_soldiers_council_officer
+		}
+	}
+}
+country_event = {
+	id = KPD_unit_leader_event.7
+	title = KPD_unit_leader_event.7.t
+	desc = KPD_unit_leader_event.7.desc
+	picture = GFX_report_event_soviet_purge_officers_02
+	
+	is_triggered_only = yes
+
+	option = {
+		name = KPD_unit_leader_event.7.a
+		add_war_support = 0.10
+		army_experience = 25
+		hidden_effect = {
+			every_character = {
+				limit = {
+					has_trait = BA_elected_officer
+				}
+				remove_trait = {
+					trait = BA_elected_officer
+				}
+			}
+			every_character = {
+				limit = {
+					has_trait = BA_soldiers_council_officer
+				}
+				remove_trait = {
+					trait = BA_soldiers_council_officer
+				}
+			}
+			every_character = {
+				limit = {
+					has_trait = BA_vanguard_officer
+				}
+				remove_trait = {
+					trait = BA_vanguard_officer
+				}
+			}
+			every_character = {
+				limit = {
+					has_trait = BA_soldiers_council
+				}
+				ROOT = { retire_character = PREV }
+			}
 		}
 	}
 }

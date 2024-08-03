@@ -34,6 +34,10 @@ on_actions = {
 					Kivotos_tag = yes
 					NOT = {
 						tag = GEI
+						tag = RE1
+						tag = RE2
+						tag = RE3
+						tag = RE4
 					}
 				}
 				add_ideas = BA_highlander_academy_generic
@@ -50,7 +54,7 @@ on_actions = {
 				}
 				if = {
 					limit = {
-						tag = RED
+						OR = {tag = RED tag = ARI}
 					}
 					set_country_flag = BA_nationalized_highlander
 					remove_ideas = BA_highlander_academy_generic
@@ -58,7 +62,10 @@ on_actions = {
 				if = {
 					limit = {
 						NOT = {
-							tag = RED
+							OR = {
+								tag = RED
+								tag = ARI
+							}
 						}
 					}
 					activate_mission = BA_invest_highlander
@@ -105,6 +112,19 @@ on_actions = {
 				country_event = {
 					id = FRA_prov_event.120
 					days = 18
+				}
+				add_dynamic_modifier = {
+					modifier = FRA_rising_support_for_repeated_fascism
+				}
+				activate_mission = FRA_rising_support_for_repeated_fascism_mission
+			}
+			SOV = {
+				set_portraits = {
+					character = SOV_nikita_khrushchyov
+					army = {
+						small = "GFX_idea_nikita_khrushchev"
+						large = "GFX_portrait_SOV_nikita_khrushche"
+					}
 				}
 			}
 			FRM = {
@@ -192,6 +212,27 @@ on_actions = {
 					add_opinion_modifier = {
 						target = PREV
 						modifier = can_japanese
+					}
+				}
+			}
+			#키보토스 / 지구 국가들 사이 안 좋게 만들기
+			every_country = {
+				limit = {
+					Kivotos_tag = yes
+				}
+				every_country = {
+					limit = {
+						Kivotos_tag = no
+					}
+					add_opinion_modifier = {
+						target = prev
+						modifier = BA_another_demension
+					}
+					prev = {
+						add_opinion_modifier = {
+							target = prev
+							modifier = BA_another_demension
+						}
 					}
 				}
 			}

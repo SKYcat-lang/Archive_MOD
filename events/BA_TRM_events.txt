@@ -515,6 +515,9 @@ country_event = {
 	
 	option = { #
 		name = TRM_event.25.a
+        hidden_effect = {
+			country_event = { id = TRM_event.39 days = 03 }
+        }
 	}
 }
 
@@ -1051,6 +1054,21 @@ country_event = {  # 안슐루스 성공
 	
 	option = { #
 		name = TRM_event.50.a
+			if = {
+				limit = {
+					NOT = { ROOT = { has_war_together_with = SHA } }
+				}
+                SHA = {	
+					every_enemy_country = {
+						ROOT = {
+							declare_war_on = {	
+								target = PREV
+								type = annex_everything
+							}
+						}
+					}
+				}
+			}
         TRM = {
 		    annex_country = { target = SHA transfer_troops = yes }
         }
@@ -1436,6 +1454,11 @@ country_event = {  # 세이아 괴롭힌 놈 누군데!! # 신들의 황혼
 	option = { #
 		name = TRM_event.66.a
 		custom_effect_tooltip = TRN_Nomore_Heydrich_tt
+        clr_country_flag = TRN_who_is_criminal_start
+		clr_country_flag = TRN_who_is_criminal_flag
+		clr_country_flag = TRN_who_is_criminal_flag_2
+		clr_country_flag = TRN_who_is_criminal_flag_3
+		clr_country_flag = TRN_who_is_criminal_flag_4
 		if = {
 			limit = { has_completed_focus = TRM_newfocus_7 }
 			hidden_effect = {
@@ -1604,7 +1627,7 @@ country_event = {  # 미카를 무시하면 안되는 이유;
 				transfer_state = 231
 				transfer_state = 230
 				transfer_state = 229
-				country_event = TRM_event.69
+				#country_event = TRM_event.69
 			}
 	option = { #
 		name = TRM_event.68.b
@@ -2650,6 +2673,8 @@ country_event = { # 모스크바 총독부는 누굴로?
 
 	option = {
 		name = TRM_event.104.a
+        set_global_flag = TRM_nasia_is_moscow_governor
+        effect_tooltip = {
         event_target:Trinity_Puppet_RUS = {
             TRM = {
                 TRN_skrltk = {
@@ -2671,9 +2696,12 @@ country_event = { # 모스크바 총독부는 누굴로?
                 promote_leader = yes
             }
         }
+        }
     }
     option = {
         name = TRM_event.104.b
+        set_global_flag = TRM_Cashe_is_moscow_governor
+        effect_tooltip = {
         event_target:Trinity_Puppet_RUS = {
             TRM = {
                 TRM_Moscow_governor_general = {
@@ -2692,7 +2720,30 @@ country_event = { # 모스크바 총독부는 누굴로?
                 promote_leader = yes
             }
         }
+        }
     }
+}
+country_event = { # 게임 터졌다 니미
+	id = TRM_event.105
+	title = TRM_event.105.t
+	desc = TRM_event.105.desc
+	picture = GFX_report_event_gre_political_march
+	
+	is_triggered_only = no
+    fire_only_once = yes
+    trigger = {
+        tag = TRM
+        has_cosmetic_tag = TRINITY_REICH
+        NOT = { owns_state = 64 }
+    }
+
+	option = {
+		name = TRM_event.103.a
+        TRM = {
+            load_focus_tree = { tree = generic_focus }
+            drop_cosmetic_tag = yes
+        }
+	}
 }
 country_event = { # Give me State 102
 	id = TRM_diplomacy_event.1
@@ -3235,6 +3286,43 @@ country_event = { # 덴마크를 양도하기 거부한 RED
         complete_national_focus = TRM_redwinter_war_goal
 	}
 }
+country_event = { # 트리니티와 동맹을 맺은 독일계 국가는 이 이벤트가 발생합니다.
+	id = TRM_diplomacy_event.15
+	title = TRM_diplomacy_event.15.t
+	desc = TRM_diplomacy_event.15.d
+	picture = GFX_report_event_vienna_award_hungary
+
+	is_triggered_only = no
+    fire_only_once = yes
+    trigger = {
+        OR = {
+            tag = SHA
+            tag = ABY
+        }
+        is_in_faction_with = TRM
+        TRM = {
+            has_government = fascism
+            has_country_leader = {
+				character = TRN_alzk
+				ruling_only = yes 
+            }
+        }
+        ABY = {
+            NOT = {
+                is_puppet_of = TRM
+            }
+        }
+    }
+
+	option = { # 전쟁 목표 걸리기
+		name = TRM_diplomacy_event.15.a
+        
+	}
+	option = { # 전쟁 목표 걸리기
+		name = TRM_diplomacy_event.15.b
+        
+	}
+}
 ##############################
 #####IRON SWORD OPERATION#####
 ##############################
@@ -3396,6 +3484,9 @@ country_event = { #  제거 방법
 
 	option = {
 		name = TRN_opposition.100.a
+        ai_chance = {
+            base = 20
+        }
 		custom_effect_tooltip = KOM_opposition_kill_tt
 		set_country_flag = KOM_Kill_Opposition
 		clr_country_flag = KOM_Arrest_Opposition
@@ -3404,6 +3495,9 @@ country_event = { #  제거 방법
 	}
 	option = {
 		name = TRN_opposition.100.b
+        ai_chance = {
+            base = 40
+        }
 		custom_effect_tooltip = KOM_opposition_arrest_tt
 		clr_country_flag = KOM_Kill_Opposition
 		set_country_flag = KOM_Arrest_Opposition
@@ -3887,6 +3981,24 @@ country_event = {
 	option = { #
 		name = TRN_after_war_event.16.a
 
+	}
+}
+country_event = { # 트리니티의 개쩌는 사업 아이템!
+	id = TRN_after_war_event.20
+	title = TRN_after_war_event.20.t
+	desc = TRN_after_war_event.20.desc
+	picture = GFX_report_event_journalists_speech
+	
+	is_triggered_only = no
+    fire_only_once = yes
+    trigger = {
+        tag = TRM
+        has_completed_focus = TRM_naechi
+        has_completed_focus = TRM_oetzi
+    }
+
+	option = {
+		name = TRN_after_war_event.01.a
 	}
 }
 country_event = {  # 디버그 이벤트

@@ -103,6 +103,134 @@ ideas = {
 				autonomy_gain = -2
             }
 		}
+		SOVEX_soviet_federation_declaration_of_national_humanism = { # 소련 서부공세 준비
+			picture = trotskyite_plot_purged
+			allowed = { always = no }
+            modifier = {
+				stability_factor = -0.05
+				communism_drift = 0.01
+				custom_modifier_tooltip = SOVEX_soviet_federation_declaration_of_national_humanism_tt
+            }
+			cancel = {
+				SOU = {
+					OR = {
+						has_war_with = TRM
+						has_war_with = GEM
+						has_war_with = GEH
+						has_war_with = MIL
+					} 
+				}
+			}
+			on_remove = {
+				if = {
+					limit = {
+						SOU = {
+							OR = {
+								has_war_with = TRM
+								has_war_with = GEM
+								has_war_with = GEH
+								has_war_with = MIL
+							} 
+						}
+					}
+					add_timed_idea = {
+						idea = SOVEX_soviet_federation_declaration_of_national_humanism_2
+						days = 240
+					}
+				}
+			}
+		}
+		SOVEX_soviet_federation_declaration_of_national_humanism_2 = { # 소련 서부공세 준비
+			picture = trotskyite_plot_purged
+			allowed = { always = no }
+            modifier = {
+				cannot_call_allies_or_join_wars = 1
+            }
+		}
+		SOVEX_soviet_proposal = { # 소련 서부공세 준비
+			picture = trotskyite_plot_purged
+			allowed = { always = no }
+            modifier = {
+				political_power_gain = 0.10
+				custom_modifier_tooltip = SOVEX_soviet_proposal_tt
+            }
+			on_remove = {
+				if = {
+					limit = {
+						SOU = {
+							OR = {
+								has_war_with = TRM
+								has_war_with = GEM
+								has_war_with = GEH
+								has_war_with = MIL
+							} 
+						}
+					}
+					if = {
+						limit = { 
+							TRM = {
+								exists = yes
+								has_capitulated = no
+							}
+						}
+						create_wargoal = {
+							target = TRM
+							type = annex_everything
+							expire = 90
+						}
+					}
+					if = {
+						limit = { 
+							MIL = {
+								exists = yes
+								has_capitulated = no
+							}
+						}
+						create_wargoal = {
+							target = MIL
+							type = annex_everything
+							expire = 90
+						}
+					}
+					if = {
+						limit = { 
+							GEH = {
+								exists = yes
+								has_capitulated = no
+							}
+						}
+						create_wargoal = {
+							target = GEH
+							type = annex_everything
+							expire = 90
+						}
+					}
+					if = {
+						limit = { 
+							GEM = {
+								exists = yes
+								has_capitulated = no
+							}
+						}
+						create_wargoal = {
+							target = GEM
+							type = annex_everything
+							expire = 90
+						}
+					}
+				}
+			}
+			cancel = {
+				SOU = {
+					OR = {
+						has_war_with = TRM
+						has_war_with = GEM
+						has_war_with = GEH
+						has_war_with = MIL
+					} 
+				}
+			}
+		}
 		BA_highlander_academy_generic = { #하이랜더 철도학원
 			picture = BA_highlander
 			allowed = {
@@ -693,15 +821,78 @@ ideas = {
 				conscription = 0.03
 				war_support_weekly = 0.005
 				weekly_manpower = 200
-				surrender_limit = -0.25
+				surrender_limit = -0.3
 			}
 			available = {
 				is_puppet = no
-				POL = {
-					any_core_state = {
-						NOT = {is_owned_by = POL}
-					}
-				}
+			}
+		}
+		POL_Democracy_principles_implementation_idea = { # 민주주의 원칙 이행
+            name = POL_Democracy_principles_implementation
+			picture = POL_april_constitution
+			modifier = {
+                political_power_factor = 0.25
+			}
+			available = {
+				is_puppet = no
+			}
+		}
+		POL_Ongoing_economic_integration_0_idea = { # 경제 통합이 진행 중
+			picture = GFX_decision_NOR_prepare_state_dem_0
+			modifier = {
+				production_speed_buildings_factor = -0.1
+				industrial_capacity_factory = -0.05
+				consumer_goods_factor = 0.2
+			}
+			available = {
+				is_puppet = no
+			}
+            on_add = {
+                hidden_effect = {
+                    
+                }
+            }
+		}
+		POL_Ongoing_economic_integration_1_idea = { # 경제 통합이 진행 중
+			picture = SOV_second_five_year_plan
+			modifier = {
+				production_speed_buildings_factor = -0.05
+				industrial_capacity_factory = -0.05
+				consumer_goods_factor = 0.1
+			}
+			available = {
+				is_puppet = no
+			}
+            on_add = {
+                hidden_effect = {
+                    
+                }
+            }
+		}
+		POL_Ongoing_economic_integration_2_idea = { # 경제 통합이 진행 중
+			picture = SOV_third_five_year_plan
+			modifier = {
+				production_speed_buildings_factor = -0.05
+				consumer_goods_factor = 0.05
+			}
+			available = {
+				is_puppet = no
+			}
+            on_add = {
+                hidden_effect = {
+                    
+                }
+            }
+		}
+		POL_Ongoing_economic_integration_3_idea = { # 경제 통합이 완료 됨
+			picture = SOV_third_five_year_plan_civilian
+			modifier = {
+				production_speed_buildings_factor = 0.05
+				industrial_capacity_factory = 0.05
+				production_factory_start_efficiency_factor = 0.15
+			}
+			available = {
+				is_puppet = no
 			}
 		}
 			Aftermath_of_the_Second_Soviet_Polish_War = { #2차 소비에트 폴란드 전쟁의 여파

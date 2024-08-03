@@ -932,3 +932,147 @@ POL_reinforce_intermarium = {
 		}
 	}
 }
+POL_road_to_intermarium_union = {
+	POL_Minority_tolerance = { #소수민족 포옹
+		visible = {
+			has_completed_focus = POL_inter_41
+		}
+		fire_only_once = yes
+		cost = 100
+		days_remove = -1
+		icon = GFX_decision_generic_welfare
+        complete_effect = {
+            add_stability = -0.1
+        }
+		modifier = {
+			stability_weekly_factor = 0.001
+            weekly_manpower = 1000
+		}
+	}
+	POL_Democracy_principles_implementation  = { # 민주주의 원칙 이행
+		visible = {
+			has_completed_focus = POL_inter_42
+		}
+		fire_only_once = yes
+		cost = 100
+		days_remove = 120
+		icon = GFX_decision_eng_trade_unions_support
+        complete_effect = {
+            add_political_power = -120
+        }
+		modifier = {
+            political_power_factor = -0.15
+		}
+        remove_effect = {
+            add_ideas = POL_Democracy_principles_implementation_idea
+        }
+	}
+	POL_Economy_Integration  = { # 경제 통합 과정
+		visible = {
+			has_completed_focus = POL_inter_42
+			NOT = {
+				has_idea = POL_Ongoing_economic_integration_3_idea
+			}
+		}
+        available = {
+            num_of_civilian_factories > 5
+            hidden_trigger = { 
+				NOT = {
+					has_idea = POL_Ongoing_economic_integration_3_idea
+				}	
+			}
+        }
+		fire_only_once = no
+		cost = 35
+		days_remove = 180
+		icon = GFX_decision_SWI_swiss_democratic_tradition_campaign
+        complete_effect = {
+			if = {
+				limit = {
+					has_idea = POL_Ongoing_economic_integration_0_idea
+				}
+				swap_ideas = {
+					add_idea = POL_Ongoing_economic_integration_1_idea
+					remove_idea = POL_Ongoing_economic_integration_0_idea
+				}
+				else_if = {
+					limit = {
+						has_idea = POL_Ongoing_economic_integration_1_idea
+					}
+					swap_ideas = {
+						add_idea = POL_Ongoing_economic_integration_2_idea
+						remove_idea = POL_Ongoing_economic_integration_1_idea
+					}
+				}
+				else_if = {
+					limit = {
+						has_idea = POL_Ongoing_economic_integration_2_idea
+					}
+					swap_ideas = {
+						add_idea = POL_Ongoing_economic_integration_3_idea
+						remove_idea = POL_Ongoing_economic_integration_2_idea
+					}
+				}
+				else = {
+            		add_ideas = POL_Ongoing_economic_integration_0_idea
+				}
+			}
+        }
+		modifier = {
+            political_power_factor = -0.15
+            civilian_factory_use = 5
+		}
+	}
+	POL_Economy_Integration  = { # 경제 통합 과정
+		visible = {
+			has_completed_focus = POL_inter_44
+		}
+        available = {
+            num_of_civilian_factories > 15
+        }
+		fire_only_once = no
+		cost = 35
+		days_remove = 180
+		icon = GFX_decision_SWI_swiss_democratic_tradition_campaign
+		modifier = {
+            political_power_factor = -0.15
+            civilian_factory_use = 5
+		}
+		remove_effect = {
+			every_state = {
+				limit = {
+					OR = {
+						is_core_of = POL
+						is_core_of = SIL
+						is_core_of = KSH
+						is_core_of = UKR
+						is_core_of = BLR
+						AND = {
+							is_core_of = SOV
+							NOT = {
+								OR = {
+									is_core_of = AZR
+									is_core_of = GEO
+									is_core_of = ARM
+									is_core_of = TMS
+									is_core_of = UZB
+									is_core_of = KAZ
+									is_core_of = TAJ
+									is_core_of = KYR
+								}
+							}
+						}
+						is_core_of = YUG
+						is_core_of = BUL
+						is_core_of = CZE
+						is_core_of = SLO
+						state = 5
+						state = 763
+					}
+				}
+				add_core_of = ROOT
+			}
+		}
+	}
+
+}
