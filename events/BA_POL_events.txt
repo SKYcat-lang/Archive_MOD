@@ -1448,7 +1448,7 @@ country_event = {
 		add_ideas = POL_no_flood
 	}
 }
-country_event = { # 인테르마리움 형성 이벤트
+country_event = { # 인터마리움 형성 이벤트
 	id = BA_pol_event.35
 	title = BA_pol_event.35.t
 	desc = BA_pol_event.35.d
@@ -1459,5 +1459,101 @@ country_event = { # 인테르마리움 형성 이벤트
 	
 	option = { 
 		name = BA_pol_event.35.a
+		add_stability = 0.1
+		add_war_support = 0.1
+		add_political_power = 150
+		set_cosmetic_tag = FORM_INT
+		every_army_leader = {
+	    	limit = { skill < 3 }
+    	    random_select_amount = 5
+	    	add_skill_level = 1
+			add_attack = 1
+    		add_defense = 1
+		    add_logistics = 1
+    	}
+		every_country = {
+			limit = {
+				is_in_faction_with = POL
+				OR = {
+					tag = UKR
+					tag = BLR
+					tag = LAT
+					tag = LIT
+					tag = EST
+					tag = ROM
+					tag = HUN
+					tag = YUG
+					tag = SLO
+				}
+			}
+			country_event = { id = BA_pol_event.36 hours = 04 }
+		}
+	}
+}
+country_event = { # 인터마리움에 가입 할거임?
+	id = BA_pol_event.36
+	title = BA_pol_event.36.t
+	desc = BA_pol_event.36.d
+	
+	is_triggered_only = yes
+	fire_only_once = no
+
+	option = {  # ㅇㅇ
+		name = BA_pol_event.36.a
+		ai_chance = {
+			base = 99
+		}
+		FROM = {
+			country_event = { id = BA_pol_event.38 hours = 04 }
+		}
+	}
+	option = {  # ㄴㄴ
+		name = BA_pol_event.36.b
+		ai_chance = {
+			base = 1
+		}
+		add_stability = -0.15
+		FROM = {
+			country_event = { id = BA_pol_event.37 hours = 04 }
+		}
+	}
+}
+country_event = { # 인터마리움에 가입 할거임? -> 거부 반응
+	id = BA_pol_event.37
+	title = BA_pol_event.37.t
+	desc = BA_pol_event.37.d
+	
+	is_triggered_only = yes
+	fire_only_once = no
+
+	option = { 
+		name = BA_pol_event.37.a
+	}
+}
+country_event = { # 인터마리움에 가입 할거임? -> 찬성 반응
+	id = BA_pol_event.38
+	title = BA_pol_event.38.t
+	desc = BA_pol_event.38.d
+	
+	is_triggered_only = yes
+	fire_only_once = no
+
+	option = { 
+		name = BA_pol_event.38.a
+		every_state = {
+			limit = { is_core_of = FROM  }
+			add_core_of = ROOT
+		}
+		FROM = {
+			every_unit_leader = {
+				set_nationality = ROOT
+			}
+		}
+		ROOT = {
+			annex_country = {
+				target = FROM
+				transfer_troops = yes
+			}
+		}
 	}
 }

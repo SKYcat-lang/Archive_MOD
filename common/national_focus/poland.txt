@@ -16484,6 +16484,13 @@ focus_tree = {
 		}
 		completion_reward = {
 			unlock_decision_category_tooltip = POL_road_to_intermarium_union
+			if = {
+				limit = {
+					is_faction_leader = yes
+				}
+				set_faction_name = intermarium_faction
+				else = { create_faction = intermarium_faction }
+			}
 		}
 	}
 	focus = {
@@ -16504,6 +16511,7 @@ focus_tree = {
 		}
 		completion_reward = {
             unlock_decision_tooltip = POL_Minority_tolerance
+
 		}
 	}
 	focus = {
@@ -16524,12 +16532,25 @@ focus_tree = {
 		}
 		completion_reward = {
             unlock_decision_tooltip = POL_Democracy_principles_implementation
+			if = {
+				limit = {
+					ROM = {
+						is_in_faction_with = POL
+					}
+				}
+				ROM = { 
+					add_opinion_modifier = {
+						target = POL
+						modifier = SOV_strengthened_relations_with_us
+					}
+				}
+			}
 		}
 	}
 	focus = {
 		# 경제 통합
 		id = POL_inter_43
-		icon = GFX_focus_POL_the_four_year_plan
+		icon = GFX_focus_SOV_merge_plants
 		relative_position_id = POL_the_between_the_seas_concept
 		x = 24
 		y = 8
@@ -16547,9 +16568,9 @@ focus_tree = {
 		}
 	}
 	focus = {
-		# 문화 통합
+		# 민족주의 타파
 		id = POL_inter_44
-		icon = GFX_focus_POL_belarus_army
+		icon = GFX_focus_ITA_banda_carita
 		relative_position_id = POL_the_between_the_seas_concept
 		x = 23
 		y = 9
@@ -16557,17 +16578,35 @@ focus_tree = {
 		prerequisite = { focus = POL_inter_41 }
 		prerequisite = { focus = POL_inter_42 }
 		prerequisite = { focus = POL_inter_43 }
-        mutually_exclusive = { focus = POL_inter_45 }
 		available = {
-			hidden_trigger = {
-				NOT = { has_country_flag = romanov_enabled }
-			}
+			owns_state = 10
 		}
 		ai_will_do = {
 			factor = 10
 		}
 		completion_reward = {
-            unlock_decision_tooltip = POL_Slav_Union
+			add_political_power = 120
+            add_war_support = -0.1
+			every_state = {
+				limit = {
+					NOT = { is_owned_by = POL }
+					is_core_of = POL
+				}
+				remove_core_of = POL
+			}
+			if = {
+				limit = {
+					LIT = {
+					is_in_faction_with = POL
+					}
+				}
+				LIT = { 
+					add_opinion_modifier = {
+						target = POL
+						modifier = SOV_strengthened_relations_with_us
+					}
+				}
+			}
 		}
 	}
 	focus = {
@@ -16581,7 +16620,6 @@ focus_tree = {
 		prerequisite = { focus = POL_inter_41 }
 		prerequisite = { focus = POL_inter_42 }
 		prerequisite = { focus = POL_inter_43 }
-        mutually_exclusive = { focus = POL_inter_44 }
 		available = {
 		}
 		ai_will_do = {
@@ -16589,6 +16627,18 @@ focus_tree = {
 		}
 		completion_reward = {
             add_ideas = POL_multi_culture
+			UKR = { 
+				add_opinion_modifier = {
+					target = POL
+					modifier = SOV_strengthened_relations_with_us
+				}
+			}
+			BLR = { 
+				add_opinion_modifier = {
+					target = POL
+					modifier = SOV_strengthened_relations_with_us
+				}
+			}
 		}
 	}
 	focus = {
@@ -16600,8 +16650,8 @@ focus_tree = {
 		y = 10
 		cost = 5
 		prerequisite = {
-            focus = POL_inter_45 
-            focus = POL_inter_44
+            focus = POL_inter_45
+			focus = POL_inter_44
         }
 		available = {
 		}
