@@ -287,6 +287,54 @@ BA_puppet_on_action_effect = { #이것은 종주국이 ROOT 일때 괴뢰국 범
 	}
 }
 
+BA_halo_tech_tool_effect = { # 이것은 범위에 기술 연구가 허가되지 않았으나, 헤일로 기술이 연구되어 있는지를 체크하고 해당 문제를 바로잡습니다.
+	if = {
+		limit = {
+			NOT = { has_country_flag = kivotos_research_on }
+			OR = {
+				has_tech = kivotos_infantry_weapons
+				has_tech = kivotos_halo_special_forces
+				has_template = "Halo Infantry Division"
+				has_template = "Halo Special Forces"
+			}
+		}
+		if = {
+			limit = {
+				has_tech = kivotos_infantry_weapons
+			}
+			set_technology = {
+				kivotos_infantry_weapons = 0
+			}
+		}
+		if = {
+			limit = {
+				has_tech = kivotos_halo_special_forces
+			}
+			set_technology = {
+				kivotos_halo_special_forces = 0
+			}
+		}
+		if = {
+			limit = {
+				has_template = "Halo Infantry Division"
+			}
+			delete_unit_template_and_units = {
+				division_template = "Halo Infantry Division"
+				disband = yes
+			}
+		}
+		if = {
+			limit = {
+				has_template = "Halo Special Forces"
+			}
+			delete_unit_template_and_units = {
+				division_template = "Halo Special Forces"
+				disband = yes
+			}
+		}
+	}
+}
+
 BA_ban_democratic_effect = {
 	set_party_name = { 
 		ideology = democratic

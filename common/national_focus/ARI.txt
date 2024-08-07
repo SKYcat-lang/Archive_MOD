@@ -3750,12 +3750,27 @@ focus_tree = {
 					puppet = PREV
 				}
 				hidden_effect = {
+					set_country_flag = kivotos_research_on #헤일로 보병 허가
+					if = { #헤일로 보병 연구 보조
+						limit = {
+							NOT = { has_tech = kivotos_infantry_weapons }
+						}
+						set_technology = {
+							kivotos_infantry_weapons = 1
+						}
+					}
+					set_variable = { BA_halo_infantry_cap_edit_var = 2 } #헤일로 보병 변수 확인을 위한 추가
+					BA_halo_infantry_cap_edit_effect = yes
+
+					BA_halo_infantry_ban_effect = yes #헤일로 보병 금지
+
 					add_ideas = BA_student_conscription_idea
 					kill_ideology_leader = democratic
 					kill_ideology_leader = communism
 					kill_ideology_leader = fascism
 					kill_ideology_leader = neutrality
 					set_cosmetic_tag = ARI_arius_administrative_academy
+					BA_puppet_on_action_effect = yes
 				}
 			}
 			every_country = {
@@ -3772,6 +3787,60 @@ focus_tree = {
 					}
 				}
 				country_event = { id = ARI_event.38 hours = 12 }
+			}
+		}
+	}
+
+	focus = { #악연 청산
+		id = ARI_reconciliation_of_grievances
+		icon = GFX_goal_generic_military_deal
+		prerequisite = {
+			focus = ARI_trinity_coalition_government
+		}
+		cost = 5
+		x = 0
+		y = 3
+		relative_position_id = ARI_international_city
+
+		available = {
+			is_subject = no
+		}
+
+		completion_reward = {
+		}
+	}
+
+	focus = { #아리우스-프로이센 연방
+		id = ARI_arius_prussian_federation
+		icon = GFX_ARI_arius_prussian_federation
+		prerequisite = {
+			focus = ARI_reconciliation_of_grievances
+		}
+		cost = 5
+		x = 0
+		y = 4
+		relative_position_id = ARI_international_city
+
+		available = {
+			is_subject = no
+			any_country = {
+				original_tag = TRM
+				is_subject_of = ROOT
+			}
+		}
+
+		completion_reward = {
+			every_country = {
+				limit = {
+					original_tag = TRM
+					is_subject_of = ROOT
+				}
+				ROOT = {
+					annex_country = {
+						target = PREV
+						transfer_troops = yes
+					}
+				}
 			}
 		}
 	}
