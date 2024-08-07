@@ -7,6 +7,10 @@ focus_tree = {
 			tag = SYR
 		}
 	}
+	continuous_focus_position = {
+		x = 9100
+		y = 1000
+	}
 	default = no
 	focus = { #독립!
 		id = SYR_focus_0
@@ -18,7 +22,7 @@ focus_tree = {
 			always = no
 		}
 		completion_reward = {
-			add_political_power = 30
+			add_ideas = SYR_ruined_politic
 		}
 	}
 	focus = { #시리아 임시위원회
@@ -312,6 +316,13 @@ focus_tree = {
 			focus = SYR_focus_3
 		}
 		completion_reward = {
+			set_politics = {
+				ruling_party = communism
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.1
+			}
 		}
 	}
 	focus = { #공화정 도입
@@ -357,6 +368,351 @@ focus_tree = {
 			focus = SYR_focus_8
 		}
 		completion_reward = { }
+	}
+	focus = { #이슬람 율법학자 억제
+		id = SYR_focus_com_1
+		icon = GFX_focus_TUR_loosen_the_laws_on_secularism
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = -1
+		y = 1
+		prerequisite = {
+			focus = SYR_focus_10
+		}
+		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = -0.1
+			}
+			add_war_support = -0.05
+			add_political_power = 30
+		}
+	}
+	focus = { #부르주아 탄압
+		id = SYR_focus_com_2
+		icon = GFX_focus_spr_class_war
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = 1
+		y = 1
+		prerequisite = {
+			focus = SYR_focus_10
+		}
+		completion_reward = {
+			add_timed_idea = {
+				idea = SYR_kill_capitalists
+				days = 360
+			}
+		}
+	}
+	focus = { #전위당의 지도
+		id = SYR_focus_com_3
+		icon = GFX_focus_generic_soviet_politics
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = 0
+		y = 2
+		prerequisite = {
+			focus = SYR_focus_com_1
+		}
+		prerequisite = {
+			focus = SYR_focus_com_2
+		}
+		completion_reward = {
+			add_ideas = SYR_bolshevik_party
+		}
+	}
+	focus = { #유연한 종교 정책
+		id = SYR_focus_com_4
+		icon = GFX_focus_SOV_patriarch_of_all_russia
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = -4
+		y = 3
+		prerequisite = {
+			focus = SYR_focus_com_3
+		}
+		completion_reward = {
+			add_stability = 0.05
+			553 = {
+				add_compliance = 20
+			}
+		}
+	}
+	focus = { #붉은 근대화
+		id = SYR_focus_com_5
+		icon = GFX_goal_generic_soviet_construction
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = -2
+		y = 3
+		prerequisite = {
+			focus = SYR_focus_com_3
+		}
+		completion_reward = {
+			unlock_decision_category_tooltip = SYR_red_industrialization
+		}
+	}
+	focus = { #관료 조직화
+		id = SYR_focus_com_6
+		icon = GFX_focus_generic_treaty
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = -3
+		y = 4
+		prerequisite = {
+			focus = SYR_focus_com_5
+		}
+		available = {
+			NOT = {
+				has_idea = SYR_ruined_politic
+				hidden_trigger = {
+					has_idea = SYR_ruined_politic_1
+					has_idea = SYR_ruined_politic_2
+					has_idea = SYR_ruined_politic_3
+				}
+			}
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = SYR_bolshevik_party
+				add_idea = SYR_bolshevik_party_1
+			}
+		}
+	}
+	focus = { #토지 개혁
+		id = SYR_focus_com_7
+		icon = GFX_focus_CHL_domestic_production_of_the_willys_mb
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = -1
+		y = 4
+		available = {
+			has_country_flag = SYR_train_corp_flag
+			has_country_flag = SYR_elec_corp_flag
+		}
+		prerequisite = {
+			focus = SYR_focus_com_5
+		}
+		completion_reward = {
+			every_owned_state = {
+				limit = {
+					is_core_of = SYR
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+			country_event = {
+				id = SYR_event.7
+				days = 3
+			}
+		}
+	}
+	focus = { #지식계층 양성
+		id = SYR_focus_com_8
+		icon = GFX_focus_ARG_universidad_de_buenos_aires
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = -2
+		y = 5
+		available = {
+			has_country_flag = SYR_add_school_flag
+			has_country_flag = SYR_outside_school_flag
+		}
+		prerequisite = {
+			focus = SYR_focus_com_6
+		}
+		prerequisite = {
+			focus = SYR_focus_com_7
+		}
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	focus = { #인민해방전선
+		id = SYR_focus_com_9
+		icon = GFX_focus_SOV_builder_of_the_red_army
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = 0
+		y = 3
+		prerequisite = {
+			focus = SYR_focus_com_3
+		}
+		completion_reward = {
+			division_template = {
+				name = "People's Liberation Front"
+				regiments = {
+					militia = {
+						x = 0
+						y = 0
+					}
+					militia = {
+						x = 0
+						y = 1
+					}
+					militia = {
+						x = 0
+						y = 2
+					}
+					militia = {
+						x = 1
+						y = 0
+					}
+					militia = {
+						x = 1
+						y = 1
+					}
+					militia = {
+						x = 1
+						y = 2
+					}
+				}
+			}
+			554 = {
+				create_unit = {
+					division = "name = \"People's Liberation Front\" division_template = \"People's Liberation Front\" start_experience_factor = 0 start_equipment_factor = 1"
+					owner = SYR
+				}
+				create_unit = {
+					division = "name = \"People's Liberation Front\" division_template = \"People's Liberation Front\" start_experience_factor = 0 start_equipment_factor = 1"
+					owner = SYR
+				}
+				create_unit = {
+					division = "name = \"People's Liberation Front\" division_template = \"People's Liberation Front\" start_experience_factor = 0 start_equipment_factor = 1"
+					owner = SYR
+				}
+				create_unit = {
+					division = "name = \"People's Liberation Front\" division_template = \"People's Liberation Front\" start_experience_factor = 0 start_equipment_factor = 1"
+					owner = SYR
+				}
+				create_unit = {
+					division = "name = \"People's Liberation Front\" division_template = \"People's Liberation Front\" start_experience_factor = 0 start_equipment_factor = 1"
+					owner = SYR
+				}
+				create_unit = {
+					division = "name = \"People's Liberation Front\" division_template = \"People's Liberation Front\" start_experience_factor = 0 start_equipment_factor = 1"
+					owner = SYR
+				}
+			}
+			add_ideas = SYR_liberation_front
+		}
+	}
+	focus = { #시리아-소련 군사협력
+		id = SYR_focus_com_10
+		icon = GFX_focus_SOV_mobilization_plan
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = 0
+		y = 5
+		prerequisite = {
+			focus = SYR_focus_com_9
+		}
+		completion_reward = {
+			army_experience = 30
+			SOU = {
+				country_event = generic.2
+			}
+		}
+	}
+	focus = { #작업장 평의회
+		id = SYR_focus_com_11
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = 2
+		y = 3
+		prerequisite = {
+			focus = SYR_focus_com_3
+		}
+		completion_reward = {
+			add_ideas = SYR_socialism_economy
+		}
+	}
+	focus = { #노동자 자주경영
+		id = SYR_focus_com_12
+		icon = GFX_focus_generic_full_employment
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = 1
+		y = 4
+		mutually_exclusive = {
+			focus = SYR_focus_com_13
+		}
+		prerequisite = {
+			focus = SYR_focus_com_11
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = SYR_socialism_economy
+				add_idea = SYR_socialism_economy_1
+			}
+		}
+	}
+	focus = { #민주집중제
+		id = SYR_focus_com_13
+		icon = GFX_focus_DEN_heavy_regulations
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = 3
+		y = 4
+		mutually_exclusive = {
+			focus = SYR_focus_com_12
+		}
+		prerequisite = {
+			focus = SYR_focus_com_11
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = SYR_socialism_economy
+				add_idea = SYR_socialism_economy_2
+			}
+		}
+	}
+	focus = { #공공사업
+		id = SYR_focus_com_14
+		icon = GFX_focus_generic_communist_industry
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = 2
+		y = 5
+		prerequisite = {
+			focus = SYR_focus_com_12
+		}
+		prerequisite = {
+			focus = SYR_focus_com_13
+		}
+		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+				}
+			}
+		}
+	}
+	focus = { #혁명 옹위
+		id = SYR_focus_com_15
+		icon = GFX_focus_SWE_refuge_for_revolutionaries
+		cost = 5
+		relative_position_id = SYR_focus_10
+		x = 0
+		y = 6
+		prerequisite = {
+			focus = SYR_focus_com_8
+		}
+		prerequisite = {
+			focus = SYR_focus_com_10
+		}
+		prerequisite = {
+			focus = SYR_focus_com_14
+		}
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = SYR_bolshevik_party_1
+				add_idea = SYR_bolshevik_party_2
+			}
+		}
 	}
 	focus = { #근동의 건설자들
 		id = SYR_focus_ind_0
