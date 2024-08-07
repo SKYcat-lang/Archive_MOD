@@ -88,7 +88,7 @@ TRN_country_collapse_decisions = {
 		is_good = no
 		modifier = {
 		}
-		days_mission_timeout = 35
+		days_mission_timeout = TRM_calm_storm_days
 		timeout_effect = {
 			#진압 실패 - 반복적인 연쇄 붕괴 이벤트 체인 시작
 			country_event = TRN_collapse_event.3
@@ -98,6 +98,10 @@ TRN_country_collapse_decisions = {
 		complete_effect = {
 			add_ideas = TRM_collapse_3
 
+			# 붕괴 이벤트가 진압 되었다면 TRM_calm_storm_days 변수값을 7을 깎습니다. 35를 초과하거나 7 미만으로 떨어지지 않습니다.
+			add_to_variable = { TRM_calm_storm_days = -7 }
+			clamp_variable = { var = TRM_calm_storm_days min = 7 max = 35 }
+			
 			#붕괴 이벤트가 진압되었으니 다시 국민정신을 제공하고 존재하는 모든 플래그를 제거합니다. (초기화)
 			clr_global_flag = TRN_collapse_event_proceeding_flag
 
