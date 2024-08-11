@@ -757,7 +757,9 @@ focus_tree = {
 			focus = SYR_focus_com_18
 		}
 		completion_reward = {
-			add_ideas = SYR_sov_trade
+			SOU = {
+				add_ideas = SYR_sov_trade
+			}
 		}
 	}
 	focus = { #시리아-소련 공동 연구
@@ -931,7 +933,7 @@ focus_tree = {
 				limit = {
 					is_core_of = SYR
 				}
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 3
 				add_building_construction = {
 					type = industrial_complex
 					level = 3
@@ -941,7 +943,7 @@ focus_tree = {
 				limit = {
 					is_core_of = SYR
 				}
-				add_extra_state_shared_building_slots = 2
+				add_extra_state_shared_building_slots = 3
 				add_building_construction = {
 					type = arms_factory
 					level = 3
@@ -1237,7 +1239,7 @@ focus_tree = {
 	focus = { #근동의 건설자들
 		id = SYR_focus_ind_0
 		icon = GFX_goal_workers_for_business
-		cost = 5
+		cost = 2
 		x = 18
 		y = 0
 		available = {
@@ -1391,17 +1393,25 @@ focus_tree = {
 			677 = {
 				BA_increase_state_category_by_one_level = yes
 				add_manpower = 200000
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
 			}
 			554 = {
 				BA_increase_state_category_by_one_level = yes
 				add_manpower = 200000
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
 			}
 		}
 	}
 	focus = { #기간 산업 정비
 		id = SYR_focus_ind_7
 		icon = GFX_goal_generic_construction2
-		cost = 5
+		cost = 2
 		x = 23
 		y = 0
 		prerequisite = {
@@ -1453,11 +1463,19 @@ focus_tree = {
 		y = 2
 		prerequisite = {
 			focus = SYR_focus_ind_8
-		}
-		prerequisite = {
 			focus = SYR_focus_ind_9
 		}
 		completion_reward = {
+			random_owned_state = {
+				limit = {
+					is_core_of = SYR
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
 			swap_ideas = {
 				remove_idea = SYR_key_industry
 				add_idea = SYR_key_industry_1
@@ -1502,10 +1520,10 @@ focus_tree = {
 		}
 		completion_reward = {
 			random_owned_state = {
-				add_extra_state_shared_building_slots = 1
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = arms_factory
-					level = 1
+					level = 2
 				}
 			} 
 		}
@@ -1590,7 +1608,7 @@ focus_tree = {
 	focus = { #파이크와 총
 		id = SYR_focus_ind_45
 		icon = GFX_focus_ETH_freedom_at_gunpoint
-		cost = 5
+		cost = 2
 		relative_position_id = SYR_focus_ind_7
 		x = 5
 		y = 0
@@ -2085,6 +2103,10 @@ focus_tree = {
 			291 = {
 				BA_increase_state_category_by_one_level = yes
 				add_manpower = 200000
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
 			}
 		}
 	}
@@ -2395,6 +2417,378 @@ focus_tree = {
 				remove_idea = SYR_independent_economy
 				add_idea = SYR_independent_economy_1
 			}
+		}
+	}
+	focus = { #기독교 포용
+		id = SYR_focus_leb_1
+		icon = GFX_focus_generic_pope
+		cost = 2
+		x = 33
+		y = 0
+		mutually_exclusive = {
+			focus = SYR_focus_leb_2
+		}
+		available = {
+			OR = {
+				has_completed_focus = SYR_focus_com_4
+			}
+		}
+		completion_reward = {
+			add_stability = 0.05
+			add_war_support = 0.05
+		}
+	}
+	focus = { #레바논 통제
+		id = SYR_focus_leb_2
+		icon = GFX_focus_generic_court
+		cost = 2
+		relative_position_id = SYR_focus_leb_1
+		mutually_exclusive = {
+			focus = SYR_focus_leb_1
+		}
+		x = 2
+		y = 0
+		completion_reward = {
+			553 = {
+				add_resistance = -10
+				add_compliance = 10
+			}
+		}
+	}
+	focus = { #레바논 자치주 편입
+		id = SYR_focus_leb_3
+		icon = GFX_goal_generic_improve_relations
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		prerequisite = {
+			focus = SYR_focus_leb_1
+		}
+		bypass = {
+			553 = {
+				is_core_of = SYR
+			}
+		}
+		x = -1
+		y = 1
+		completion_reward = {
+			553 = {
+				add_core_of = SYR
+			}
+			set_cosmetic_tag = SYR_lebanon
+		}
+	}
+	focus = { #건조 기술
+		id = SYR_focus_leb_4
+		icon = GFX_focus_generic_refit_civilian_ships
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		prerequisite = {
+			focus = SYR_focus_leb_2
+			focus = SYR_focus_leb_1
+		}
+		x = 1
+		y = 1
+		completion_reward = {
+			add_tech_bonus = {
+				category = ship_modules_tech
+				bonus = 0.85
+				uses = 3
+			}
+			navy_experience = 80
+		}
+	}
+	focus = { #베이루트 이주 장려
+		id = SYR_focus_leb_5
+		icon = GFX_goal_generic_fortify_city
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		prerequisite = {
+			focus = SYR_focus_leb_2
+		}
+		x = 3
+		y = 1
+		completion_reward = {
+			553 = {
+				BA_increase_state_category_by_one_level = yes
+				add_manpower = 200000
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			add_victory_points = {
+				province = 797
+				value = 5
+			}
+		}
+	}
+	focus = { #레바논 조선업 확장
+		id = SYR_focus_leb_6
+		icon = GFX_goal_generic_construct_naval_dockyard
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		available = {
+			has_completed_focus = SYR_focus_ind_23
+		}
+		prerequisite = {
+			focus = SYR_focus_leb_3
+		}
+		prerequisite = {
+			focus = SYR_focus_leb_4
+		}
+		x = 0
+		y = 2
+		completion_reward = {
+			553 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+				}
+			}
+		}
+	}
+	focus = { #베이루트 산업 확장
+		id = SYR_focus_leb_7
+		icon = GFX_focus_generic_modernize_industry
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		prerequisite = {
+			focus = SYR_focus_leb_5
+		}
+		x = 2
+		y = 2
+		completion_reward = {
+			553 = {
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+				}
+			}
+		}
+	}
+	focus = { #레바논인 동화
+		id = SYR_focus_leb_8
+		icon = GFX_goal_generic_national_unity
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		prerequisite = {
+			focus = SYR_focus_leb_5
+		}
+		x = 4
+		y = 2
+		completion_reward = {
+			add_timed_idea = {
+				idea = SYR_assimilate_leb
+				years = 3
+			}
+			553 = {
+				add_core_of = SYR
+			}
+		}
+	}
+	focus = { #해군 확장
+		id = SYR_focus_leb_9
+		icon = GFX_focus_generic_navy_battleship2
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		prerequisite = {
+			focus = SYR_focus_leb_6
+			focus = SYR_focus_leb_7
+		}
+		x = -1
+		y = 3
+		completion_reward = {
+			553 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = dockyard
+					level = 1
+				}
+			}
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.75
+				category = naval_doctrine
+				uses = 2
+			}
+		}
+	}
+	focus = { #국가 통제의 조선업
+		id = SYR_focus_leb_10
+		icon = GFX_focus_POL_develop_polish_shipbuilding
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		prerequisite = {
+			focus = SYR_focus_leb_6
+			focus = SYR_focus_leb_7
+		}
+		x = 1
+		y = 3
+		completion_reward = {
+			random_owned_state = {
+				limit = {
+					is_core_of = SYR
+					is_coastal = yes
+				}
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = dockyard
+					level = 3
+				}
+			}
+		}
+	}
+	focus = { #바닷속의 늑대
+		id = SYR_focus_leb_11
+		icon = GFX_goal_generic_navy_submarine
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		prerequisite = {
+			focus = SYR_focus_leb_6
+			focus = SYR_focus_leb_7
+		}
+		x = 3
+		y = 3
+		completion_reward = {
+			add_tech_bonus = {
+				bonus = 0.5
+				uses = 2
+				category = ss_tech
+			}
+		}
+	}
+	focus = { #순양 해군
+		id = SYR_focus_leb_12
+		icon = GFX_goal_generic_navy_battleship
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		prerequisite = {
+			focus = SYR_focus_leb_9
+		}
+		x = -2
+		y = 4
+		completion_reward = {
+			add_tech_bonus = {
+				name = POL_a_cruiser_navy
+				bonus = 0.75
+				uses = 2
+				category = cl_tech
+			}
+		}
+	}
+	focus = { #레반트 해안 계획
+		id = SYR_focus_leb_13
+		icon = GFX_goal_generic_navy_cruiser
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		mutually_exclusive = {
+			focus = SYR_focus_leb_14
+		}
+		prerequisite = {
+			focus = SYR_focus_leb_9
+		}
+		x = 0
+		y = 4
+		completion_reward = {
+			random_owned_state = {
+				limit = {
+					is_core_of = SYR
+					is_coastal = yes
+				}
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = dockyard
+					level = 3
+				}
+			}
+		}
+	}
+	focus = { #개선된 함선
+		id = SYR_focus_leb_14
+		icon = GFX_goal_generic_navy_carrier
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		mutually_exclusive = {
+			focus = SYR_focus_leb_13
+		}
+		prerequisite = {
+			focus = SYR_focus_leb_9
+		}
+		x = 2
+		y = 4
+		completion_reward = {
+			if = { 
+				limit = {
+					NOT = { has_dlc = "Man the Guns" }
+				}
+				add_tech_bonus = {
+					name = POL_strike_force
+					bonus = 0.75
+					uses = 2
+					category = cl_tech
+				}
+				add_tech_bonus = {
+					name = POL_strike_force
+					bonus = 1.0
+					uses = 1
+					category = ca_tech
+				}
+			}
+			else = {
+				add_tech_bonus = {
+					name = POL_strike_force
+					bonus = 1.0
+					uses = 2
+					category = cl_tech
+				}
+			}
+			add_tech_bonus = {
+				name = POL_coastal_defense
+				bonus = 1.0
+				uses = 1
+				category = ss_tech
+			}
+			add_tech_bonus = {
+				name = POL_coastal_defense
+				bonus = 1.0
+				uses = 1
+				category = dd_tech
+			}
+		}
+	}
+	focus = { #통상 파괴 전술
+		id = SYR_focus_leb_15
+		icon = GFX_goal_generic_navy_anti_submarine
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		prerequisite = {
+			focus = SYR_focus_leb_11
+		}
+		x = 4
+		y = 4
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				name = POL_commerce_attack
+				cost_reduction = 0.5
+				uses = 1
+				category = submarine_doctrine
+			}
+		}
+	}
+	focus = { #지중해 패권
+		id = SYR_focus_leb_16
+		icon = GFX_goal_generic_navy_doctrines_tactics
+		cost = 5
+		relative_position_id = SYR_focus_leb_1
+		prerequisite = {
+			focus = SYR_focus_leb_14
+			focus = SYR_focus_leb_13
+		}
+		x = 1
+		y = 5
+		completion_reward = {
+			navy_experience = 120
 		}
 	}
 }
