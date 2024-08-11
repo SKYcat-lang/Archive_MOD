@@ -251,3 +251,242 @@ country_event ={ #토지 개혁
 		add_ideas = SYR_land_reform_1
 	}
 }
+country_event ={ #민족평의회 선거
+	id = SYR_event.8
+	title = SYR_event.8.t
+	desc = SYR_event.8.d
+	picture = GFX_report_event_fascist_gathering
+	is_triggered_only = yes
+	option = { #시리아-레바논 공산당!
+		name = SYR_event.8.a
+		complete_national_focus = SYR_focus_10
+	}
+}
+country_event ={ #공산당 집권
+	id = SYR_event.9
+	title = SYR_event.9.t
+	desc = SYR_event.9.d
+	picture = GFX_report_event_BOL_bolivian_socialist_revolution
+	is_triggered_only = yes
+	option = { #소셜리즘 만세
+		name = SYR_event.9.a
+		set_politics = {
+			ruling_party = communism
+		}
+		add_popularity = {
+			ideology = communism
+			popularity = 0.1
+		}
+	}
+}
+country_event ={ #이란 분할 계획
+	id = SYR_event.10
+	title = SYR_event.10.t
+	desc = SYR_event.10.d
+	is_triggered_only = yes
+	option = { #ㅇㅋ
+		name = SYR_event.10.a
+		add_state_claim = 416
+		add_state_claim = 419
+		add_state_claim = 420
+		SYR = {
+			country_event = {
+				id = SYR_event.11
+				days = 3
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+		set_country_flag = SYR_eat_per
+	}
+	option = { #ㄴ
+		name = SYR_event.10.b
+		SYR = {
+			country_event = {
+				id = SYR_event.12
+				days = 3
+			}
+		}
+	}
+}
+country_event ={ #계획 수락
+	id = SYR_event.11
+	title = SYR_event.11.t
+	desc = SYR_event.11.d
+	is_triggered_only = yes
+	option = { #굿
+		name = SYR_event.11.a
+		if = {
+			limit = { #이란 분할
+				has_completed_focus = SYR_focus_com_35
+			}
+			set_country_flag = SYR_eat_per
+			create_wargoal = {
+				target = PER
+				type = take_core_state
+			}
+		}
+		else = { #터키 분할
+			set_country_flag = SYR_eat_tur
+			create_wargoal = {
+				target = TUR
+				type = take_core_state
+			}
+		}
+	}
+}
+country_event ={ #계획 거절
+	id = SYR_event.12
+	title = SYR_event.12.t
+	desc = SYR_event.12.d
+	is_triggered_only = yes
+	option = { #엄
+		name = SYR_event.12.a
+		add_political_power = -5
+	}
+}
+country_event ={ #터키 분할 계획
+	id = SYR_event.13
+	title = SYR_event.13.t
+	desc = SYR_event.13.d
+	is_triggered_only = yes
+	option = { #ㅇㅋ
+		name = SYR_event.10.a
+		add_state_claim = 354
+		add_state_claim = 797
+		add_state_claim = 341
+		SYR = {
+			country_event = {
+				id = SYR_event.11
+				days = 3
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+		set_country_flag = SYR_eat_tur
+	}
+	option = { #ㄴ
+		name = SYR_event.10.b
+		SYR = {
+			country_event = {
+				id = SYR_event.12
+				days = 3
+			}
+		}
+	}
+}
+country_event ={ #이란 분할
+	id = SYR_event.14
+	title = SYR_event.14.t
+	desc = SYR_event.14.d
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = SYR_eat_per
+		PER = {
+			exists = no
+		}
+		any_country = {
+			is_ally_with = SOV
+			owns_state = 266
+		}
+	}
+	immediate = {
+		hidden_effect = {
+			clr_country_flag = SYR_eat_per
+		}
+	}
+	option = { #ㅇㅋ
+		name = SYR_event.14.a
+		every_state = {
+			limit = {
+				is_core_of = PER
+			}
+			transfer_state_to = SYR
+		}
+		every_state = {
+			limit = {
+				is_core_of = PER
+				is_claimed_by = SOV
+			}
+			transfer_state_to = SOV
+		}
+	}
+}
+country_event ={ #터키 분할
+	id = SYR_event.15
+	title = SYR_event.15.t
+	desc = SYR_event.15.d
+	is_triggered_only = yes
+	trigger = {
+		has_country_flag = SYR_eat_tur
+		TUR = {
+			exists = no
+		}
+		any_country = {
+			is_ally_with = SOV
+			owns_state = 49
+		}
+	}
+	immediate = {
+		hidden_effect = {
+			clr_country_flag = SYR_eat_tur
+		}
+	}
+	option = { #ㅇㅋ
+		name = SYR_event.14.a
+		every_state = {
+			limit = {
+				is_core_of = KUR
+				NOT = {
+					is_core_of = IRQ
+					is_core_of = PER
+				}
+			}
+			transfer_state_to = SYR
+		}
+		every_state = {
+			limit = {
+				is_core_of = TUR
+				is_claimed_by = SOV
+			}
+			transfer_state_to = SOV
+		}
+		every_state = {
+			limit = {
+				is_core_of = TUR
+				is_claimed_by = SOV
+			}
+			transfer_state_to = SOV
+		}
+		TUR = {
+			set_variable = { collaboration_formed_by = ROOT }
+		}
+		SOV = {
+			set_autonomy = {
+				target = TUR
+				autonomy_state = autonomy_collaboration_government
+			}
+		}
+	}
+}
+
+country_event ={ #정당 간 합의
+	id = SYR_event.16
+	title = SYR_event.16.t
+	desc = SYR_event.16.d
+	is_triggered_only = yes
+	picture = GFX_report_event_hitler_handshake
+	option = { #굿
+		name = SYR_event.16.a
+		swap_ideas = {
+			remove_idea = SYR_ruined_politic_0
+			add_idea = SYR_ruined_politic
+		}
+		add_equipment_to_stockpile = {
+			type = infantry_equipment
+			amount = 1000
+		}
+	}
+}
