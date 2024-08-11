@@ -2013,8 +2013,12 @@ country_event = { #안건 2
 		ai_chance = {
 			factor = 10
 		}
-		every_country = {
+		random_country = {
 			limit = {
+				OR = {
+					original_tag = GEM
+					original_tag = GEH
+				}
 				has_country_flag = TRM_Treaty_of_Eden_gehenna
 			}
 			TRM = {
@@ -2027,8 +2031,12 @@ country_event = { #안건 2
 	}
 	option = { 
 		name = TRM_event.80.b
-		every_country = {
+		random_country = {
 			limit = {
+				OR = {
+					original_tag = GEM
+					original_tag = GEH
+				}
 				has_country_flag = TRM_Treaty_of_Eden_gehenna
 			}
 			TRM = {
@@ -2077,8 +2085,12 @@ country_event = { #안건 4
 		ai_chance = {
 			factor = 10
 		}
-		every_country = {
+		random_country = {
 			limit = {
+				OR = {
+					original_tag = GEM
+					original_tag = GEH
+				}
 				has_country_flag = TRM_Treaty_of_Eden_gehenna
 			}
 			TRM = {
@@ -2091,8 +2103,12 @@ country_event = { #안건 4
 	}
 	option = { 
 		name = TRM_event.80.b
-		every_country = {
+		random_country = {
 			limit = {
+				OR = {
+					original_tag = GEM
+					original_tag = GEH
+				}
 				has_country_flag = TRM_Treaty_of_Eden_gehenna
 			}
 			TRM = {
@@ -2285,7 +2301,8 @@ country_event = { #에덴 조약의 실패
 	
 	option = { 
 		name = TRM_event.92.a
-		set_country_flag = TRM_Treaty_of_Eden_false
+		set_global_flag = TRM_Treaty_of_Eden_false
+		complete_national_focus = TRN_war_with_Gehenna
 	}
 }
 country_event = { #결성된 에덴 조약기구
@@ -5039,7 +5056,7 @@ country_event = { # 대타협 - 1일차
 	
 	option = { #
 		name = TRM_event.358.a
-		country_event = { id = TRM_event.359 hours = 8 }
+		country_event = { id = TRM_event.359 hours = 12 }
 	}
 }
 country_event = { 
@@ -5052,7 +5069,7 @@ country_event = {
 	
 	option = { #
 		name = TRM_event.359.a
-		country_event = { id = TRM_event.360 hours = 8 }
+		country_event = { id = TRM_event.360 hours = 12 }
 	}
 }
 country_event = { 
@@ -5065,7 +5082,7 @@ country_event = {
 	
 	option = { #
 		name = TRM_event.360.a
-		country_event = { id = TRM_event.361 hours = 8 }
+		country_event = { id = TRM_event.361 hours = 12 }
 	}
 }
 country_event = { 
@@ -5246,6 +5263,70 @@ country_event = {
 }
 
 country_event = { 
+	id = TRM_event.372
+	title = TRM_event.372.t
+	desc = TRM_event.372.desc
+	picture = GFX_event_trm_event_9
+	fire_only_once = yes 
+	is_triggered_only = yes
+	
+	option = { #
+		name = TRM_event.372.a
+		trigger = {
+			TRN_internal_factions_slot_available_trugger = yes
+			NOT = {
+				check_variable = { TRM_internal_factions_slot_one_var = 1 }
+				check_variable = { TRM_internal_factions_slot_two_var = 1 }
+				check_variable = { TRM_internal_factions_slot_three_var = 1 }
+			}
+		}
+		add_stability = 0.05
+
+		set_country_flag = TRN_return_of_yuriy_seya_flag
+		mark_focus_tree_layout_dirty = yes
+		complete_national_focus = TRN_return_of_yuriy_seya
+
+		custom_effect_tooltip = TRM_sanctus_create_tt
+		set_variable = { TRM_internal_factions_add_var = 1 } #넣을 세력 코드
+		TRM_internal_factions_slot_add = yes #추가하는 스크립티드이펙트
+
+		set_variable = { TRM_sanctus_loyalty = 30 }
+		set_variable = { TRM_sanctus_popularity = 30 }
+		TRM_internal_factions_loyalty_change = yes
+		TRM_internal_factions_popularity_change = yes
+	}
+	
+	option = { #
+		name = TRM_event.372.a
+		trigger = {
+			OR = {
+				TRN_internal_factions_slot_available_trugger = no
+				check_variable = { TRM_internal_factions_slot_one_var = 1 }
+				check_variable = { TRM_internal_factions_slot_two_var = 1 }
+				check_variable = { TRM_internal_factions_slot_three_var = 1 }
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					check_variable = { TRM_internal_factions_slot_one_var = 1 }
+					check_variable = { TRM_internal_factions_slot_two_var = 1 }
+					check_variable = { TRM_internal_factions_slot_three_var = 1 }
+				}
+			}
+			custom_effect_tooltip = TRM_sanctus_loyalty_5_tt
+			add_to_variable = { TRM_sanctus_loyalty = 5 }
+			TRM_internal_factions_loyalty_change = yes
+
+			custom_effect_tooltip = TRM_sanctus_popularity_15_tt
+			add_to_variable = { TRM_sanctus_popularity = 15 }
+			TRM_internal_factions_popularity_change = yes
+		}
+		add_stability = -0.02
+	}
+}
+
+country_event = { 
 	id = TRM_event.401
 	title = TRM_event.401.t
 	desc = TRM_event.401.desc
@@ -5385,101 +5466,127 @@ country_event = {
 		}
 	}
 
+	immediate = {
+		hidden_effect = {
+			random_list = {
+				100 = {
+					modifier = { 
+						NOT = { OR = {
+								check_variable = { TRM_internal_factions_slot_one_var = 0 }
+								check_variable = { TRM_internal_factions_slot_two_var = 0 }
+								check_variable = { TRM_internal_factions_slot_three_var = 0 }
+						} }
+						factor = 0
+					}
+					set_variable = { TRN_opp_auto_var = 0 }
+					activate_mission = TRN_opp_auto
+				}
+				100 = {
+					modifier = { 
+						NOT = { OR = {
+								check_variable = { TRM_internal_factions_slot_one_var = 1 }
+								check_variable = { TRM_internal_factions_slot_two_var = 1 }
+								check_variable = { TRM_internal_factions_slot_three_var = 1 }
+						} }
+						factor = 0
+					}
+					set_variable = { TRN_opp_auto_var = 1 }
+					activate_mission = TRN_opp_auto
+				}
+				100 = {
+					modifier = { 
+						NOT = { OR = {
+								check_variable = { TRM_internal_factions_slot_one_var = 2 }
+								check_variable = { TRM_internal_factions_slot_two_var = 2 }
+								check_variable = { TRM_internal_factions_slot_three_var = 2 }
+						} }
+						factor = 0
+					}
+					set_variable = { TRN_opp_auto_var = 2 }
+					activate_mission = TRN_opp_auto
+				}
+				100 = {
+					modifier = { 
+						NOT = { OR = {
+								check_variable = { TRM_internal_factions_slot_one_var = 3 }
+								check_variable = { TRM_internal_factions_slot_two_var = 3 }
+								check_variable = { TRM_internal_factions_slot_three_var = 3 }
+						} }
+						factor = 0
+					}
+					set_variable = { TRN_opp_auto_var = 3 }
+					activate_mission = TRN_opp_auto
+				}
+				100 = {
+					modifier = { 
+						NOT = { OR = {
+								check_variable = { TRM_internal_factions_slot_one_var = 4 }
+								check_variable = { TRM_internal_factions_slot_two_var = 4 }
+								check_variable = { TRM_internal_factions_slot_three_var = 4 }
+						} }
+						factor = 0
+					}
+					set_variable = { TRN_opp_auto_var = 4 }
+					activate_mission = TRN_opp_auto
+				}
+				100 = {
+					modifier = { 
+						NOT = { OR = {
+								check_variable = { TRM_internal_factions_slot_one_var = 5 }
+								check_variable = { TRM_internal_factions_slot_two_var = 5 }
+								check_variable = { TRM_internal_factions_slot_three_var = 5 }
+						} }
+						factor = 0
+					}
+					set_variable = { TRN_opp_auto_var = 5 }
+					activate_mission = TRN_opp_auto
+				}
+				100 = {
+					modifier = { 
+						NOT = { OR = {
+								check_variable = { TRM_internal_factions_slot_one_var = 6 }
+								check_variable = { TRM_internal_factions_slot_two_var = 6 }
+								check_variable = { TRM_internal_factions_slot_three_var = 6 }
+						} }
+						factor = 0
+					}
+					set_variable = { TRN_opp_auto_var = 6 }
+					activate_mission = TRN_opp_auto
+				}
+				100 = {
+					modifier = { 
+						NOT = { OR = {
+								check_variable = { TRM_internal_factions_slot_one_var = 7 }
+								check_variable = { TRM_internal_factions_slot_two_var = 7 }
+								check_variable = { TRM_internal_factions_slot_three_var = 7 }
+						} }
+						factor = 0
+					}
+					set_variable = { TRN_opp_auto_var = 7 }
+					activate_mission = TRN_opp_auto
+				}
+				100 = {
+					modifier = { 
+						NOT = { OR = {
+								check_variable = { TRM_internal_factions_slot_one_var = 8 }
+								check_variable = { TRM_internal_factions_slot_two_var = 8 }
+								check_variable = { TRM_internal_factions_slot_three_var = 8 }
+						} }
+						factor = 0
+					}
+					set_variable = { TRN_opp_auto_var = 8 }
+					activate_mission = TRN_opp_auto
+				}
+				0.001 = {
+					#이건 효과가 아닙니다
+				}
+			}
+		}
+	}
+
 	hidden = yes
 	
 	option = { 
 		name = TRN_faction_event.1.a
-		trigger = {
-			OR = {
-				check_variable = { TRM_internal_factions_slot_one_var = 0 }
-				check_variable = { TRM_internal_factions_slot_two_var = 0 }
-				check_variable = { TRM_internal_factions_slot_three_var = 0 }
-			}
-		}
-		set_variable = { TRN_opp_auto_var = 0 }
-		
-		hidden_effect = {
-			activate_mission = TRN_opp_auto
-		}
-	}
-	
-	option = { 
-		name = TRN_faction_event.1.a
-		trigger = {
-			OR = {
-				check_variable = { TRM_internal_factions_slot_one_var = 1 }
-				check_variable = { TRM_internal_factions_slot_two_var = 1 }
-				check_variable = { TRM_internal_factions_slot_three_var = 1 }
-			}
-		}
-		set_variable = { TRN_opp_auto_var = 1 }
-		
-		hidden_effect = {
-			activate_mission = TRN_opp_auto
-		}
-	}
-	
-	option = { 
-		name = TRN_faction_event.1.a
-		trigger = {
-			OR = {
-				check_variable = { TRM_internal_factions_slot_one_var = 2 }
-				check_variable = { TRM_internal_factions_slot_two_var = 2 }
-				check_variable = { TRM_internal_factions_slot_three_var = 2 }
-			}
-		}
-		set_variable = { TRN_opp_auto_var = 2 }
-		
-		hidden_effect = {
-			activate_mission = TRN_opp_auto
-		}
-	}
-	
-	option = { 
-		name = TRN_faction_event.1.a
-		trigger = {
-			OR = {
-				check_variable = { TRM_internal_factions_slot_one_var = 3 }
-				check_variable = { TRM_internal_factions_slot_two_var = 3 }
-				check_variable = { TRM_internal_factions_slot_three_var = 3 }
-			}
-		}
-		set_variable = { TRN_opp_auto_var = 3 }
-		
-		hidden_effect = {
-			activate_mission = TRN_opp_auto
-		}
-	}
-	
-	option = { 
-		name = TRN_faction_event.1.a
-		trigger = {
-			OR = {
-				check_variable = { TRM_internal_factions_slot_one_var = 4 }
-				check_variable = { TRM_internal_factions_slot_two_var = 4 }
-				check_variable = { TRM_internal_factions_slot_three_var = 4 }
-			}
-		}
-		set_variable = { TRN_opp_auto_var = 4 }
-		
-		hidden_effect = {
-			activate_mission = TRN_opp_auto
-		}
-	}
-	
-	option = { 
-		name = TRN_faction_event.1.a
-		trigger = {
-			OR = {
-				check_variable = { TRM_internal_factions_slot_one_var = 5 }
-				check_variable = { TRM_internal_factions_slot_two_var = 5 }
-				check_variable = { TRM_internal_factions_slot_three_var = 5 }
-			}
-		}
-		set_variable = { TRN_opp_auto_var = 5 }
-		
-		hidden_effect = {
-			activate_mission = TRN_opp_auto
-		}
 	}
 }

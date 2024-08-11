@@ -4864,8 +4864,8 @@
 	focus = {
 		id = TRN_anti_mika_cudeta
 		icon = GFX_focus_spr_masters_of_our_own_fate
-		x = -2
-		y = 2
+		x = -3
+		y = 1
 		cost = 5
 		available = { has_country_flag = nagisa_imprisoned_flag }
 		relative_position_id = TRN_nagisa_gyehek
@@ -5137,13 +5137,16 @@
 		y = 4
 		cost = 1.5
 		available = {
-			NOT = {
-				has_country_flag = nagisa_imprisoned_flag
+			OR = {
+				NOT = {
+					has_country_flag = nagisa_imprisoned_flag
+				}
+				has_completed_focus = TRN_nagisa_lottery
 			}
 		}
+		
 		relative_position_id = TRN_nagisa_gyehek
-		prerequisite = { focus = TRN_steel_of_woman }
-		prerequisite = { focus = TRN_united_academy }
+		prerequisite = { focus = TRN_steel_of_woman focus = TRN_nagisa_lottery focus = TRN_united_academy }
 		completion_reward = {
 			add_days_mission_timeout = {
 				mission = TRN_country_collapse
@@ -5161,24 +5164,21 @@
 	focus = {
 		id = TRN_Have_hand_to_gehhenna
 		icon = GFX_goal_GEH_Pax_Gehennia
-		x = -3
+		x = -4
 		y = 5
 		cost = 5
 		available = {
-			NOT = {
-				has_country_flag = nagisa_imprisoned_flag
-			}
 			OR = {
-				GEH = {
-					exists = yes
-				}
 				GEM = {
 					exists = yes
+					has_capitulated = no
+					is_subject = no
 				}
-			}
-			OR = {
-				has_global_flag = GEH_win_global_flag
-				has_global_flag = GEM_win_global_flag
+				GEH = {
+					exists = yes
+					has_capitulated = no
+					is_subject = no
+				}
 			}
 		}
 		bypass = {
@@ -5198,8 +5198,8 @@
 	focus = {
 		id = TRN_reunited_eden_pact
 		icon = GFX_goal_TRN_end_of_long_bad_time
-		x = -3
-		y = 6
+		x = -4
+		y = 7
 		cost = 5
 		bypass = {
 			OR = {
@@ -5212,77 +5212,40 @@
 		completion_reward = {
 			if = {
 				limit = {
-					GEH = {
-						exists = yes
-					}
-				}
-				GEH = {
-					country_event = { id = TRM_event.76 hours = 8 }
-				}
-			}
-			if = {
-				limit = {
 					GEM = {
 						exists = yes
+						has_capitulated = no
+						is_subject = no
 					}
 				}
 				GEM = {
 					country_event = { id = TRM_event.76 hours = 8 }
 				}
 			}
-		}
-	}
-
-	focus = {
-		id = TRN_insik_getmore
-		icon = GFX_goal_TRN_hwahawe_with_gehhena
-		x = -4
-		y = 7
-		cost = 5
-		bypass = {
-			OR = {
-				has_war_with = GEH
-				has_war_with = GEM
+			else_if = {
+				limit = {
+					GEH = {
+						exists = yes
+						has_capitulated = no
+						is_subject = no
+					}
+				}
+				GEH = {
+					country_event = { id = TRM_event.76 hours = 8 }
+				}
 			}
-		}
-		available = { has_country_flag = TRM_Treaty_of_Eden_true }
-		relative_position_id = TRN_nagisa_gyehek
-		prerequisite = { focus = TRN_reunited_eden_pact }
-		completion_reward = {
-			custom_effect_tooltip = TRN_tooltip_ig
-			add_to_variable = { TRN_trinity_uber_alles_production_factory_start_efficiency_factor = 0.1 }
-			country_event = { id = TRM_event.367 hours = 8 }
-		}
-	}
-
-	focus = {
-		id = TRN_mannam_with_gehenna
-		icon = GFX_goal_TRN_have_with_dongaris
-		x = -2
-		y = 7
-		cost = 5
-		bypass = {
-			OR = {
-				has_war_with = GEH
-				has_war_with = GEM
-			}
-		}
-		available = { has_country_flag = TRM_Treaty_of_Eden_true }
-		relative_position_id = TRN_nagisa_gyehek
-		prerequisite = { focus = TRN_reunited_eden_pact }
-		completion_reward = {
-			custom_effect_tooltip = TRN_tooltip_uapfeg_add_five
-			add_to_variable = { TRN_trinity_uber_alles_production_factory_efficiency_gain_factor = 0.05 }
-			country_event = { id = TRM_event.368 hours = 8 }
 		}
 	}
 
 	focus = {
 		id = TRN_eden_pact_first_step
 		icon = GFX_goal_TRN_eden_pacts_letsgo
-		x = 0
-		y = 8
+		x = -10
+		y = 13
 		cost = 5
+		allow_branch = {
+			is_debug = yes
+		}
 		bypass = {
 			OR = {
 				has_war_with = GEH
@@ -5292,8 +5255,6 @@
 		relative_position_id = TRN_nagisa_gyehek
 		prerequisite = { focus = TRN_war_with_knight_templar }
 		prerequisite = { focus = TRN_sisterhood_army focus = TRN_relief_knights_army }
-		prerequisite = { focus = TRN_insik_getmore }
-		prerequisite = { focus = TRN_mannam_with_gehenna }
 		completion_reward = {
 			if = {
 				limit = { has_global_flag = Treaty_of_Eden_1 }
@@ -5945,66 +5906,6 @@
 		}
 	}
 
-	focus = {
-		id = TRN_joint_economic_development
-		icon = GFX_goal_generic_construction2
-		cost = 5
-		prerequisite = { focus = TRN_joint_research_development }
-		relative_position_id = TRN_eden_pact_first_step
-		x = 0
-		y = 3
-		completion_reward = {
-			every_country = {
-				limit = {
-					OR = {
-						tag = TRM
-						tag = GEH
-						tag = GEM
-					}
-					is_in_faction_with = TRM
-				}
-				custom_effect_tooltip = TRN_joint_economic_development_tt
-				hidden_effect = {
-					capital_scope = {
-						add_extra_state_shared_building_slots = 3
-						add_building_construction = {
-							type = industrial_complex
-							level = 3
-							instant_build = yes
-						}
-					}
-				}
-			}
-		}
-
-	}
-
-	focus = {
-		id = TRN_joint_research_development
-		icon = GFX_focus_research
-		cost = 10
-		prerequisite = { focus = TRN_Ausgleich }
-		relative_position_id = TRN_eden_pact_first_step
-		x = 0
-		y = 2
-		completion_reward = {
-			if = {
-				limit = {
-					is_in_faction_with = GEM
-				}
-				GEM = { add_research_slot = 1 }
-			}
-			if = {
-				limit = {
-					is_in_faction_with = GEH
-				}
-				GEH = { add_research_slot = 1 }
-			}
-			add_research_slot = 1
-		}
-
-	}
-
 	#전쟁
 	focus = {
 		id = TRN_bbul_evils_nomore
@@ -6054,12 +5955,6 @@
 		x = 3
 		y = 2
 		cost = 5
-		bypass = {
-			OR = {
-				has_war_with = GEH
-				has_war_with = GEM
-			}
-		}
 		relative_position_id = TRN_uber_alles
 		prerequisite = { focus = TRN_bbul_evils_nomore }
 		completion_reward = {
@@ -6084,10 +5979,6 @@
 		y = 3
 		cost = 6.5
 		bypass = {
-			OR = {
-				has_war_with = GEH
-				has_war_with = GEM
-			}
 		}
 		relative_position_id = TRN_uber_alles
 		prerequisite = { focus = TRN_bbul_evils_nomore }
@@ -6239,9 +6130,6 @@
 		prerequisite = {
 			focus = TRN_uber_alles
 		}
-		mutually_exclusive = {
-			focus = TRN_Request_assistance_from_relief_knights
-		}
 		relative_position_id = TRN_nagisa_gyehek
 		x = -1
 		y = 5
@@ -6251,8 +6139,8 @@
 			add_to_variable = { TRM_filius_loyalty = -10 }
 			TRM_internal_factions_loyalty_change = yes
 
-			custom_effect_tooltip = TRM_filius_popularity_20_tt
-			add_to_variable = { TRM_filius_popularity = 20 }
+			custom_effect_tooltip = TRM_filius_popularity__5_tt
+			add_to_variable = { TRM_filius_popularity = 5 }
 			TRM_internal_factions_popularity_change = yes
 			unlock_decision_tooltip = TRN_sh_add
 
@@ -6268,9 +6156,6 @@
 		prerequisite = {
 			focus = TRN_uber_alles
 		}
-		mutually_exclusive = {
-			focus = TRN_Request_assistance_from_Sisterhood
-		}
 		relative_position_id = TRN_nagisa_gyehek
 		x = 1
 		y = 5
@@ -6280,8 +6165,8 @@
 			add_to_variable = { TRM_filius_loyalty = -10 }
 			TRM_internal_factions_loyalty_change = yes
 
-			custom_effect_tooltip = TRM_filius_popularity_20_tt
-			add_to_variable = { TRM_filius_popularity = 20 }
+			custom_effect_tooltip = TRM_filius_popularity__5_tt
+			add_to_variable = { TRM_filius_popularity = 5 }
 			TRM_internal_factions_popularity_change = yes
 			unlock_decision_tooltip = TRN_rk_add
 
@@ -6365,5 +6250,869 @@
 				}
 			}
 		}
+	}
+
+	focus = {
+		id = TRN_the_situation_of_the_trinity
+		icon = GFX_goal_generic_demand_territory
+		x = 0
+		y = 8
+		cost = 5
+		available = {
+		}
+		bypass = {
+			OR = {
+				has_war_with = GEH
+				has_war_with = GEM
+			}
+		}
+		relative_position_id = TRN_nagisa_gyehek
+		prerequisite = { focus = TRN_war_with_knight_templar }
+		prerequisite = { focus = TRN_sisterhood_army focus = TRN_relief_knights_army }
+		prerequisite = { focus = TRN_reunited_eden_pact }
+		completion_reward = {
+			add_stability = 0.10
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.05
+			}
+			hidden_effect = {
+				country_event = { id = TRM_event.372 days = 170 }
+			}
+		}
+	}
+
+	focus = {
+		id = TRN_Reunion_of_the_Treaty_of_Eden
+		icon = GFX_goal_TRN_eden_pacts_letsgo
+		x = 4
+		y = 1
+		cost = 5
+		available = {
+		}
+		bypass = {
+			OR = {
+				has_war_with = GEH
+				has_war_with = GEM
+			}
+		}
+		relative_position_id = TRN_the_situation_of_the_trinity
+		prerequisite = { focus = TRN_the_situation_of_the_trinity }
+		completion_reward = {
+			hidden_effect = {
+				add_opinion_modifier = {
+					target = GEM
+					modifier = eden_treaty_promotion_good
+				}
+				add_opinion_modifier = {
+					target = GEH
+					modifier = eden_treaty_promotion_good
+				}
+			}
+			if = {
+				limit = { country_exists = GEM }
+				reverse_add_opinion_modifier = {
+					target = GEM
+					modifier = eden_treaty_promotion_good
+				}
+			}
+			if = {
+				limit = { country_exists = GEH }
+				reverse_add_opinion_modifier = {
+					target = GEH
+					modifier = eden_treaty_promotion_good
+				}
+			}
+			if = {
+				limit = { country_exists = COU }
+				reverse_add_opinion_modifier = {
+					target = COU
+					modifier = eden_treaty_promotion_good
+				}
+			}
+			if = {
+				limit = { country_exists = SHE }
+				reverse_add_opinion_modifier = {
+					target = SHE
+					modifier = eden_treaty_promotion_good
+				}
+			}
+			if = {
+				limit = { country_exists = KSP }
+				reverse_add_opinion_modifier = {
+					target = KSP
+					modifier = eden_treaty_promotion_good
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = TRN_return_of_yuriy_seya
+		icon = GFX_TRN_return_of_yuriy_seya
+		x = -2
+		y = 1
+		allow_branch = {
+			has_country_flag = TRN_return_of_yuriy_seya_flag
+		}
+		offset = {
+			trigger = {
+				has_country_flag = TRN_return_of_yuriy_seya_flag
+			}
+			x = -1
+			y = 0
+		}
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		relative_position_id = TRN_the_situation_of_the_trinity
+		prerequisite = { focus = TRN_the_situation_of_the_trinity }
+		completion_reward = {
+			add_political_power = 50
+		}
+	}
+
+	focus = {
+		id = TRN_trinitarian_factionalism
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		x = -2
+		y = 0
+		cost = 5
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_trinitarian_factionalism_tooltip
+				NOT = {
+					check_variable = { TRM_internal_factions_slot_one_var = -1 }
+					check_variable = { TRM_internal_factions_slot_two_var = -1 }
+					check_variable = { TRM_internal_factions_slot_three_var = -1 }
+				}
+			}
+		}
+		bypass = {
+		}
+		relative_position_id = TRN_return_of_yuriy_seya
+		prerequisite = { focus = TRN_the_situation_of_the_trinity }
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = TRN_support_for_the_johannine_faction
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		x = -2
+		y = 1
+		offset = {
+			trigger = {
+				has_country_flag = TRN_return_of_yuriy_seya_flag
+			}
+			x = 1
+			y = 0
+		}
+		cost = 5
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_support_for_the_johannine_faction_tooltip
+				OR = {
+					check_variable = { TRM_internal_factions_slot_one_var = 4 }
+					check_variable = { TRM_internal_factions_slot_two_var = 4 }
+					check_variable = { TRM_internal_factions_slot_three_var = 4 }
+				}
+			}
+		}
+		bypass = {
+		}
+		relative_position_id = TRN_trinitarian_factionalism
+		prerequisite = { focus = TRN_trinitarian_factionalism }
+		completion_reward = {
+			add_command_power = 20
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.10
+			}
+			custom_effect_tooltip = TRM_rk_loyalty_5_tt
+			add_to_variable = { TRM_rk_loyalty = 5 }
+			TRM_internal_factions_loyalty_change = yes
+
+			custom_effect_tooltip = TRM_rk_popularity_5_tt
+			add_to_variable = { TRM_rk_popularity = 5 }
+			TRM_internal_factions_popularity_change = yes
+		}
+	}
+
+	focus = {
+		id = TRN_restoration_of_the_sanctus_faction
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		x = 0
+		y = 1
+		offset = {
+			trigger = {
+				has_country_flag = TRN_return_of_yuriy_seya_flag
+			}
+			x = 1
+			y = 0
+		}
+		cost = 5
+		available = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = TRN_restoration_of_the_sanctus_faction_tooltip
+					OR = {
+						check_variable = { TRM_internal_factions_slot_one_var = 1 }
+						check_variable = { TRM_internal_factions_slot_two_var = 1 }
+						check_variable = { TRM_internal_factions_slot_three_var = 1 }
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = TRN_restoration_of_the_sanctus_faction_tooltip2
+					OR = {
+						check_variable = { TRM_internal_factions_slot_one_var = -1 }
+						check_variable = { TRM_internal_factions_slot_two_var = -1 }
+						check_variable = { TRM_internal_factions_slot_three_var = -1 }
+					}
+				}
+			}
+		}
+		bypass = {
+		}
+		relative_position_id = TRN_trinitarian_factionalism
+		prerequisite = { focus = TRN_trinitarian_factionalism focus = TRN_return_of_yuriy_seya }
+		completion_reward = {
+			if = {
+				limit = {
+					OR = {
+						check_variable = { TRM_internal_factions_slot_one_var = 1 }
+						check_variable = { TRM_internal_factions_slot_two_var = 1 }
+						check_variable = { TRM_internal_factions_slot_three_var = 1 }
+					}
+				}
+				custom_effect_tooltip = TRM_sanctus_loyalty_5_tt
+				add_to_variable = { TRM_sanctus_loyalty = 5 }
+				TRM_internal_factions_loyalty_change = yes
+	
+				custom_effect_tooltip = TRM_sanctus_popularity_5_tt
+				add_to_variable = { TRM_sanctus_popularity = 5 }
+				TRM_internal_factions_popularity_change = yes
+			}
+			else = {
+				custom_effect_tooltip = TRM_sanctus_create_tt
+				set_variable = { TRM_internal_factions_add_var = 1 } #넣을 세력 코드
+				TRM_internal_factions_slot_add = yes #추가하는 스크립티드이펙트
+		
+				set_variable = { TRM_sanctus_loyalty = 20 }
+				set_variable = { TRM_sanctus_popularity = 20 }
+				TRM_internal_factions_loyalty_change = yes
+				TRM_internal_factions_popularity_change = yes
+			}
+		}
+	}
+
+	focus = {
+		id = TRN_support_for_the_sisterhood
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		x = -4
+		y = 1
+		offset = {
+			trigger = {
+				has_country_flag = TRN_return_of_yuriy_seya_flag
+			}
+			x = 1
+			y = 0
+		}
+		cost = 5
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_support_for_the_sisterhood_tooltip
+				OR = {
+					check_variable = { TRM_internal_factions_slot_one_var = 5 }
+					check_variable = { TRM_internal_factions_slot_two_var = 5 }
+					check_variable = { TRM_internal_factions_slot_three_var = 5 }
+				}
+			}
+		}
+		bypass = {
+		}
+		relative_position_id = TRN_trinitarian_factionalism
+		prerequisite = { focus = TRN_trinitarian_factionalism }
+		completion_reward = {
+			add_command_power = 20
+			add_war_support = 0.10
+			custom_effect_tooltip = TRM_sh_loyalty_5_tt
+			add_to_variable = { TRM_sh_loyalty = 5 }
+			TRM_internal_factions_loyalty_change = yes
+
+			custom_effect_tooltip = TRM_sh_popularity_5_tt
+			add_to_variable = { TRM_sh_popularity = 5 }
+			TRM_internal_factions_popularity_change = yes
+		}
+	}
+
+	focus = {
+		id = TRN_strengthening_the_filians_faction
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		x = -6
+		y = 1
+		offset = {
+			trigger = {
+				has_country_flag = TRN_return_of_yuriy_seya_flag
+			}
+			x = 1
+			y = 0
+		}
+		cost = 5
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_strengthening_the_filians_faction_tooltip
+				OR = {
+					check_variable = { TRM_internal_factions_slot_one_var = 2 }
+					check_variable = { TRM_internal_factions_slot_two_var = 2 }
+					check_variable = { TRM_internal_factions_slot_three_var = 2 }
+				}
+			}
+		}
+		bypass = {
+		}
+		relative_position_id = TRN_trinitarian_factionalism
+		prerequisite = { focus = TRN_trinitarian_factionalism }
+		completion_reward = {
+			add_political_power = 60
+			add_stability = 0.05
+			custom_effect_tooltip = TRM_filius_loyalty_5_tt
+			add_to_variable = { TRM_filius_loyalty = 5 }
+			TRM_internal_factions_loyalty_change = yes
+
+			custom_effect_tooltip = TRM_filius_popularity_5_tt
+			add_to_variable = { TRM_filius_popularity = 5 }
+			TRM_internal_factions_popularity_change = yes
+		}
+	}
+
+	focus = {
+		id = TRN_return_to_host_position
+		icon = GFX_goal_generic_propaganda
+		x = 1
+		y = 1
+		cost = 5
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_return_to_host_position_tooltip
+				OR = {
+					check_variable = { TRM_internal_factions_slot_one_var = 1 }
+					check_variable = { TRM_internal_factions_slot_two_var = 1 }
+					check_variable = { TRM_internal_factions_slot_three_var = 1 }
+				}
+				check_variable = { TRM_sanctus_popularity > 59 }
+			}
+			custom_trigger_tooltip = {
+				tooltip = TRN_return_to_host_position_tooltip2
+				OR = {
+					check_variable = { TRM_one_popularity < TRM_sanctus_popularity }
+					check_variable = { TRM_internal_factions_slot_one_var = 1 }
+				}
+				OR = {
+					check_variable = { TRM_two_popularity < TRM_sanctus_popularity }
+					check_variable = { TRM_internal_factions_slot_two_var = 1 }
+				}
+				OR = {
+					check_variable = { TRM_three_popularity < TRM_sanctus_popularity }
+					check_variable = { TRM_internal_factions_slot_three_var = 1 }
+				}
+			}
+		}
+		bypass = {
+		}
+		relative_position_id = TRN_return_of_yuriy_seya
+		prerequisite = { focus = TRN_return_of_yuriy_seya }
+		completion_reward = {
+			promote_character = TRN_tpdldk
+			set_politics = {
+				ruling_party = communism
+			}
+		}
+	}
+
+	focus = {
+		id = TRN_suppressing_anti_trinity_forces
+		icon = GFX_goal_generic_more_territorial_claims
+		x = 0
+		y = 1
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		relative_position_id = TRN_return_to_host_position
+		prerequisite = { focus = TRN_return_to_host_position }
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = TRN_vision_for_the_future
+		icon = GFX_focus_ARG_strengthening_the_concordancia
+		x = 0
+		y = 2
+		cost = 5
+		available = {
+		}
+		bypass = {
+		}
+		relative_position_id = TRN_return_to_host_position
+		prerequisite = { focus = TRN_suppressing_anti_trinity_forces }
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = TRN_Gehenna_Trinity_Conference
+		icon = GFX_focus_NOR_approach_kretsen
+		cost = 10
+		prerequisite = {
+			focus = TRN_Reunion_of_the_Treaty_of_Eden
+		}
+		available = {
+			OR = {
+				GEM = {
+					exists = yes
+					has_capitulated = no
+					is_subject = no
+				}
+				GEH = {
+					exists = yes
+					has_capitulated = no
+					is_subject = no
+				}
+			}
+			has_country_flag = TRM_Treaty_of_Eden_lose
+		}
+		mutually_exclusive = {
+			focus = TRN_war_with_Gehenna
+			focus = TRN_establishment_of_the_eden_treaty_organization
+		}
+		relative_position_id = TRN_Reunion_of_the_Treaty_of_Eden
+		x = -2
+		y = 1
+		select_effect ={
+			country_event = { id = TRM_event.79 hours = 12 }
+			if = {
+				limit = {
+					GEM = {
+						exists = yes
+						has_capitulated = no
+						is_subject = no
+					}
+				}
+				GEM = {
+					country_event = { id = TRM_event.79 hours = 12 }
+					country_event = { id = TRM_event.80 hours = 80 }
+				}
+			}
+			else_if = {
+				limit = {
+					GEH = {
+						exists = yes
+						has_capitulated = no
+						is_subject = no
+					}
+				}
+				GEH = {
+					country_event = { id = TRM_event.79 hours = 12 }
+					country_event = { id = TRM_event.80 hours = 80 }
+				}
+			}
+		}
+		completion_reward = {
+            custom_effect_tooltip = tooltip_immediate_effect_upon_focus_start
+			custom_effect_tooltip = TRN_tooltip_ausgleich
+			effect_tooltip = {
+				if = {
+					limit = {
+						focus_progress = {
+							focus = TRN_Gehenna_Trinity_Conference
+							progress = 0.01
+						}
+					}
+					if = {
+						limit = {
+							check_variable = { Treaty_of_Eden_var < 0 }
+						}
+						country_event = { id = TRM_event.92 hours = 8 }
+					}
+					else = {
+						country_event = { id = TRM_event.93 hours = 8 }
+					}
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						check_variable = { Treaty_of_Eden_var < 0 }
+					}
+					country_event = { id = TRM_event.92 hours = 8 }
+				}
+				else = {
+					country_event = { id = TRM_event.93 hours = 8 }
+				}
+			}
+		}
+
+	}
+
+	focus = {
+		id = TRN_establishment_of_the_eden_treaty_organization
+		icon = GFX_focus_chi_mission_to_the_GEH
+		cost = 10
+		prerequisite = {
+			focus = TRN_Reunion_of_the_Treaty_of_Eden
+		}
+		available = {
+			OR = {
+				GEM = {
+					exists = yes
+					has_capitulated = no
+					is_subject = no
+					has_country_flag = TRM_Treaty_of_Eden_gehenna
+				}
+				GEH = {
+					exists = yes
+					has_capitulated = no
+					is_subject = no
+					has_country_flag = TRM_Treaty_of_Eden_gehenna
+				}
+			}
+			NOT = {
+				has_country_flag = TRM_Treaty_of_Eden_lose
+			}
+		}
+		mutually_exclusive = {
+			focus = TRN_Gehenna_Trinity_Conference
+		}
+		relative_position_id = TRN_Reunion_of_the_Treaty_of_Eden
+		x = -4
+		y = 1
+		completion_reward = {
+		}
+
+	}
+
+	focus = {
+		id = TRN_war_with_Gehenna
+		icon = GFX_focus_attack_GEH
+		cost = 10
+		prerequisite = {
+			focus = TRN_Reunion_of_the_Treaty_of_Eden
+		}
+		mutually_exclusive = {
+			focus = TRN_Gehenna_Trinity_Conference
+		}
+		available = {
+			has_country_flag = TRM_Treaty_of_Eden_lose
+		}
+		bypass = {
+			OR = {
+				has_war_with = GEH
+				has_war_with = GEM
+			}
+		}
+		relative_position_id = TRN_Reunion_of_the_Treaty_of_Eden
+		x = 3
+		y = 1
+		completion_reward = {
+			add_war_support = 0.05
+		}
+
+	}
+
+	focus = {
+		id = TRN_Treaty_of_Eden
+		icon = GFX_goal_TRN_eden_pacts_letsgo
+		x = -1
+		y = 1
+		cost = 10
+		select_effect = {
+			country_event = { id = TRM_event.358 hours = 3 }
+		}
+		available = {
+			NOT = { has_global_flag = TRM_Treaty_of_Eden_false }
+			OR = {
+				GEM = {
+					exists = yes
+					has_capitulated = no
+					is_subject = no
+					has_country_flag = TRM_Treaty_of_Eden_gehenna
+				}
+				GEH = {
+					exists = yes
+					has_capitulated = no
+					is_subject = no
+					has_country_flag = TRM_Treaty_of_Eden_gehenna
+				}
+			}
+		}
+		relative_position_id = TRN_Gehenna_Trinity_Conference
+		prerequisite = { 
+			focus = TRN_Gehenna_Trinity_Conference
+			focus = TRN_establishment_of_the_eden_treaty_organization
+		}
+		completion_reward = {
+            custom_effect_tooltip = tooltip_immediate_effect_upon_focus_start
+			custom_effect_tooltip = TRN_tooltip_TRN_Treaty_of_Eden
+			if = {
+				limit = { has_global_flag = Treaty_of_Eden_1 }
+				random_country = {
+					limit = {
+						OR = {
+							original_tag = GEM
+							original_tag = GEH
+						}
+						has_country_flag = TRM_Treaty_of_Eden_gehenna
+					}
+					if = {
+						limit = {
+							NOT = { has_rule = can_create_factions }
+						}
+						set_rule = { can_create_factions = yes }
+					}
+					create_faction = TRM_Treaty_of_Eden_faction
+					add_to_faction = TRM
+					add_ai_strategy = {
+						type = alliance
+						id = TRM
+						value = 200
+					}
+					add_to_tech_sharing_group = Eden_research
+					TRM = {
+						add_ai_strategy = {
+							type = alliance
+							id = PREV
+							value = 200
+						}
+						add_to_tech_sharing_group = Eden_research
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						NOT = { has_rule = can_create_factions }
+					}
+					set_rule = { can_create_factions = yes }
+				}
+				create_faction = TRM_Treaty_of_Eden_faction
+				every_country = {
+					limit = {
+						has_country_flag = TRM_Treaty_of_Eden_gehenna
+					}
+					TRM = {
+						add_to_faction = PREV
+						PREV = {
+							add_ai_strategy = {
+								type = alliance
+								id = "TRM"
+								value = 200
+							}
+							add_to_tech_sharing_group = Eden_research
+						}
+						add_ai_strategy = {
+							type = alliance
+							id = PREV
+							value = 200
+						}
+						add_to_tech_sharing_group = Eden_research
+					}
+				}
+			}
+			if = {
+				limit = { has_global_flag = Treaty_of_Eden_2 }
+				add_ideas = TRN_economic_unification
+				random_country = {
+					limit = {
+						OR = {
+							original_tag = GEM
+							original_tag = GEH
+						}
+						has_country_flag = TRM_Treaty_of_Eden_gehenna
+					}
+					add_ideas = GEH_economic_unification
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = Treaty_of_Eden_3
+				}
+				add_ideas = TRN_military_spending
+				random_country = {
+					limit = {
+						OR = {
+							original_tag = GEM
+							original_tag = GEH
+						}
+						has_country_flag = TRM_Treaty_of_Eden_gehenna
+					}
+					add_ideas = GEH_military_spending
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = Treaty_of_Eden_4
+				}
+				random_country = {
+					limit = {
+						OR = {
+							original_tag = GEM
+							original_tag = GEH
+						}
+						has_country_flag = TRM_Treaty_of_Eden_gehenna
+					}
+					add_ideas = GEH_TRN_support
+				}
+			}
+			if = {
+				limit = {
+					has_global_flag = Treaty_of_Eden_5
+				}
+				if = {
+					limit = {
+						any_country = {
+							original_tag = GEM
+							has_country_flag = TRM_Treaty_of_Eden_gehenna
+						}
+					}
+					add_ideas = TRN_GEM_support
+				}
+				else_if = {
+					limit = {
+						any_country = {
+							original_tag = GEH
+							has_country_flag = TRM_Treaty_of_Eden_gehenna
+						}
+					}
+					add_ideas = TRN_GEH_support
+				}
+			}
+			random_country = {
+				limit = {
+					OR = {
+						original_tag = GEM
+						original_tag = GEH
+						original_tag = TRM
+					}
+					is_faction_leader = yes 
+					if = {
+						limit = { 
+							Eden_is_eden_country_gehenna_classification = yes
+						}
+						any_allied_country = {
+							Eden_is_eden_country_trinity_classification = yes
+							is_subject = no
+						}	
+					}
+					if = {
+						limit = { 
+							Eden_is_eden_country_trinity_classification = yes
+						}
+						any_allied_country = {
+							Eden_is_eden_country_gehenna_classification = yes
+							is_subject = no
+						}	
+					}
+					is_subject = no 
+					Eden_alliance_created_already = no 
+				}
+				complete_national_focus = Eden_formation_of_alliance_treaty_organization
+			}
+		}
+	}
+
+	focus = {
+		id = TRN_insik_getmore
+		icon = GFX_goal_TRN_hwahawe_with_gehhena
+		x = 3
+		y = 1
+		cost = 5
+		relative_position_id = TRN_Treaty_of_Eden
+		prerequisite = { focus = TRN_Treaty_of_Eden }
+		completion_reward = {
+			custom_effect_tooltip = TRN_tooltip_ig
+			add_to_variable = { TRN_trinity_uber_alles_production_factory_start_efficiency_factor = 0.1 }
+			country_event = { id = TRM_event.367 hours = 8 }
+		}
+	}
+
+	focus = {
+		id = TRN_mannam_with_gehenna
+		icon = GFX_goal_TRN_have_with_dongaris
+		x = 1
+		y = 1
+		cost = 5
+		relative_position_id = TRN_Treaty_of_Eden
+		prerequisite = { focus = TRN_Treaty_of_Eden }
+		completion_reward = {
+			custom_effect_tooltip = TRN_tooltip_uapfeg_add_five
+			add_to_variable = { TRN_trinity_uber_alles_production_factory_efficiency_gain_factor = 0.05 }
+			country_event = { id = TRM_event.368 hours = 8 }
+		}
+	}
+
+	focus = {
+		id = TRN_joint_research_development
+		icon = GFX_focus_research
+		cost = 10
+		prerequisite = { focus = TRN_insik_getmore }
+		prerequisite = { focus = TRN_mannam_with_gehenna }
+		relative_position_id = TRN_insik_getmore
+		x = -1
+		y = 1
+		completion_reward = {
+			if = {
+				limit = {
+					is_in_faction_with = GEM
+				}
+				GEM = { add_research_slot = 1 }
+			}
+			if = {
+				limit = {
+					is_in_faction_with = GEH
+				}
+				GEH = { add_research_slot = 1 }
+			}
+			add_research_slot = 1
+		}
+
+	}
+
+	focus = {
+		id = TRN_joint_economic_development
+		icon = GFX_goal_generic_construction2
+		cost = 5
+		prerequisite = { focus = TRN_joint_research_development }
+		relative_position_id = TRN_joint_research_development
+		x = 0
+		y = 1
+		completion_reward = {
+			every_country = {
+				limit = {
+					OR = {
+						original_tag = TRM
+						original_tag = GEH
+						original_tag = GEM
+					}
+					is_in_faction_with = ROOT
+				}
+				custom_effect_tooltip = TRN_joint_economic_development_tt
+				hidden_effect = {
+					capital_scope = {
+						add_extra_state_shared_building_slots = 3
+						add_building_construction = {
+							type = industrial_complex
+							level = 3
+							instant_build = yes
+						}
+					}
+				}
+			}
+		}
+
 	}
 }
