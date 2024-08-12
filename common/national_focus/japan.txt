@@ -12,7 +12,7 @@
 
 	default = no
 
-	continuous_focus_position = { x = 20 y = 1200 }
+	continuous_focus_position = { x = 20 y = 1350 }
 
 	focus = {
 		id = JAP_the_unthinkable_option
@@ -300,6 +300,7 @@
 			custom_effect_tooltip = cast_the_die_TT
 			
 			hidden_effect = {
+				scoped_play_song = "BA_ganbare"
 				division_template = { name = "Japanese People's Regiment" division_names_group = JAP_INF_01 is_locked = yes regiments = { infantry = { x = 0 y = 0 } infantry = { x = 1 y = 0 } infantry = { x = 2 y = 0 } } }
 				532 = {
 					create_unit = { 
@@ -3898,6 +3899,7 @@
 			MAN = {
 				add_ideas = MAN_militarism #TODO_WTT_CD consider moving to MAN idea file
 			}
+			country_event = { id = BA_japan.13 hours = 02 }
 			MAN = {
 				JAP = {
 					every_unit_leader = {
@@ -3906,6 +3908,10 @@
 					}
 				}
 			}
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.05
+			}	
 		}
 	}
 
@@ -4599,7 +4605,12 @@
 			else_if = {
 				limit = {
 					country_exists = KOR
-					NOT = { has_government = democratic }
+					NOT = { 
+						OR = {
+							has_government = democratic 
+							has_government = fascism
+						}
+					}
 					is_subject = no
 				}
 				KOR = { add_timed_idea = { idea = democratic_influence days = 360 } }
@@ -4628,16 +4639,29 @@
 					generator = { 525 527 }
 				}
 			}
+			else_if = {
+				limit ={
+					country_exists = KOR
+					OR = {
+						has_government = communism
+						has_government = fascism
+					}
+				}
+				create_wargoal = {
+					target = KOR 
+					type = topple_government
+				}
+			}
 		}
 	}
 
 	focus = {
 		id = JAP_the_taiwan_question
 		icon = GFX_goal_generic_improve_relations
-		prerequisite = { focus = JAP_the_korean_question }
-		x = 0
+		prerequisite = { focus = JAP_remove_of_Ministry_of_Development }
+		x = 3
 		y = 1
-		relative_position_id = JAP_the_korean_question
+		relative_position_id = JAP_remove_of_Ministry_of_Development
 
 		cost = 10
 
@@ -4659,15 +4683,15 @@
 		continue_if_invalid = no
 		available_if_capitulated = no
 
-		search_filters = { FOCUS_FILTER_ANNEXATION }
+		search_filters = { FOCUS_FILTER_POLITICAL }
 		completion_reward = {
-
+			country_event = { id = BA_japan.8 hours = 02 }
 		}
 	}
 
 	focus = {
 		id = JAP_liberate_south_seas_mandate
-		icon = GFX_goal_generic_territory_or_war
+		icon = GFX_goal_generic_national_unity
 		prerequisite = { focus = JAP_remove_of_Ministry_of_Development }
 		x = -1
 		y = 1
@@ -4736,7 +4760,7 @@
 		continue_if_invalid = no
 		available_if_capitulated = no
 
-		search_filters = {  }
+		search_filters = { FOCUS_FILTER_INDUSTRY }
 		completion_reward = {
 			add_victory_points = { province = 2489 value = 10 }
 			684 = {
