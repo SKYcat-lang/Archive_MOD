@@ -6381,26 +6381,22 @@
 		y = 0
 		cost = 5
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = TRN_trinitarian_factionalism_tooltip
-				NOT = {
-					check_variable = { TRM_internal_factions_slot_one_var = -1 }
-					check_variable = { TRM_internal_factions_slot_two_var = -1 }
-					check_variable = { TRM_internal_factions_slot_three_var = -1 }
-				}
-			}
 		}
 		bypass = {
 		}
 		relative_position_id = TRN_return_of_yuriy_seya
 		prerequisite = { focus = TRN_the_situation_of_the_trinity }
 		completion_reward = {
+			add_stability = 0.10
+			army_experience = 25
+			add_manpower = 48000
+			set_country_flag = TRN_trinitarian_factionalism_flag
 		}
 	}
 
 	focus = {
 		id = TRN_support_for_the_johannine_faction
-		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		icon = GFX_goal_generic_propaganda
 		x = -2
 		y = 1
 		offset = {
@@ -6443,7 +6439,7 @@
 
 	focus = {
 		id = TRN_restoration_of_the_sanctus_faction
-		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		icon = GFX_goal_tripartite_pact
 		x = 0
 		y = 1
 		offset = {
@@ -6452,6 +6448,17 @@
 			}
 			x = 1
 			y = 0
+		}
+		available = {
+			if = {
+				limit = {
+					NOT = { has_country_flag = TRN_return_of_yuriy_seya_flag }
+				}
+				has_country_flag = {
+					flag = TRN_trinitarian_factionalism_flag
+					days > 160
+				}
+			}
 		}
 		cost = 5
 		available = {
@@ -6510,7 +6517,7 @@
 
 	focus = {
 		id = TRN_support_for_the_sisterhood
-		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		icon = GFX_goal_generic_propaganda
 		x = -4
 		y = 1
 		offset = {
@@ -6550,7 +6557,7 @@
 
 	focus = {
 		id = TRN_strengthening_the_filians_faction
-		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		icon = GFX_focus_generic_support_the_left_right
 		x = -6
 		y = 1
 		offset = {
@@ -6584,6 +6591,140 @@
 
 			custom_effect_tooltip = TRM_filius_popularity_5_tt
 			add_to_variable = { TRM_filius_popularity = 5 }
+			TRM_internal_factions_popularity_change = yes
+		}
+	}
+
+	focus = {
+		id = TRN_the_sword_guarding_the_trinity
+		icon = GFX_goal_generic_small_arms
+		x = 1
+		y = 1
+		cost = 5
+		available = {
+			OR = {
+				custom_trigger_tooltip = {
+					tooltip = TRN_support_for_the_sisterhood_tooltip
+					OR = {
+						check_variable = { TRM_internal_factions_slot_one_var = 5 }
+						check_variable = { TRM_internal_factions_slot_two_var = 5 }
+						check_variable = { TRM_internal_factions_slot_three_var = 5 }
+					}
+				}
+				custom_trigger_tooltip = {
+					tooltip = TRN_support_for_the_johannine_faction_tooltip
+					OR = {
+						check_variable = { TRM_internal_factions_slot_one_var = 4 }
+						check_variable = { TRM_internal_factions_slot_two_var = 4 }
+						check_variable = { TRM_internal_factions_slot_three_var = 4 }
+					}
+				}
+			}
+		}
+		bypass = {
+		}
+		relative_position_id = TRN_support_for_the_sisterhood
+		prerequisite = { focus = TRN_support_for_the_sisterhood }
+		prerequisite = { focus = TRN_support_for_the_johannine_faction }
+		completion_reward = {
+			swap_ideas = {
+                add_idea = TRN_Knight_Templar_2_idea
+                remove_idea = TRN_Knight_Templar_idea
+            }
+		}
+	}
+
+	focus = {
+		id = TRN_the_balance
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		x = 0
+		y = 1
+		cost = 5
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_restoration_of_the_sanctus_faction_tooltip
+				OR = {
+					check_variable = { TRM_internal_factions_slot_one_var = 1 }
+					check_variable = { TRM_internal_factions_slot_two_var = 1 }
+					check_variable = { TRM_internal_factions_slot_three_var = 1 }
+				}
+			}
+		}
+		bypass = {
+		}
+		relative_position_id = TRN_restoration_of_the_sanctus_faction
+		prerequisite = { focus = TRN_restoration_of_the_sanctus_faction }
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = TRN_restructuring_of_the_paters
+		icon = GFX_focus_deal_with_mika
+		x = 0
+		y = 1
+		cost = 5
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_restoration_of_the_sanctus_faction_tooltip2
+				OR = {
+					check_variable = { TRM_internal_factions_slot_one_var = -1 }
+					check_variable = { TRM_internal_factions_slot_two_var = -1 }
+					check_variable = { TRM_internal_factions_slot_three_var = -1 }
+				}
+			}
+		}
+		bypass = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_restructuring_of_the_paters_tooltip
+				OR = {
+					check_variable = { TRM_internal_factions_slot_one_var = 0 }
+					check_variable = { TRM_internal_factions_slot_two_var = 0 }
+					check_variable = { TRM_internal_factions_slot_three_var = 0 }
+				}
+			}
+		}
+		mutually_exclusive = {
+			focus = TRN_defensive_nationalism
+		}
+		bypass = {
+		}
+		relative_position_id = TRN_the_balance
+		prerequisite = { focus = TRN_the_balance }
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = TRN_defensive_nationalism
+		icon = GFX_focus_generic_strike_at_democracy1
+		x = 0
+		y = 2
+		cost = 5
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = TRN_strengthening_the_filians_faction_tooltip
+				OR = {
+					check_variable = { TRM_internal_factions_slot_one_var = 2 }
+					check_variable = { TRM_internal_factions_slot_two_var = 2 }
+					check_variable = { TRM_internal_factions_slot_three_var = 2 }
+				}
+			}
+		}
+		mutually_exclusive = {
+			focus = TRN_restructuring_of_the_paters
+		}
+		bypass = {
+		}
+		relative_position_id = TRN_strengthening_the_filians_faction
+		prerequisite = { focus = TRN_strengthening_the_filians_faction }
+		completion_reward = {
+			custom_effect_tooltip = TRM_filius_loyalty_15_tt
+			add_to_variable = { TRM_filius_loyalty = 15 }
+			TRM_internal_factions_loyalty_change = yes
+
+			custom_effect_tooltip = TRM_filius_popularity_15_tt
+			add_to_variable = { TRM_filius_popularity = 15 }
 			TRM_internal_factions_popularity_change = yes
 		}
 	}
@@ -7080,6 +7221,79 @@
 			add_research_slot = 1
 		}
 
+	}
+
+	focus = {
+		id = TRN_international_coordinator
+		icon = GFX_focus_hol_abandon_the_gold_standard
+		x = -2
+		y = 1
+		offset = {
+			trigger = {
+				has_country_flag = TRN_return_of_yuriy_seya_flag
+			}
+			x = 1
+			y = 0
+		}
+		cost = 5
+		relative_position_id = TRN_Treaty_of_Eden
+		prerequisite = { focus = TRN_Treaty_of_Eden }
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = TRN_anti_communism
+		icon = GFX_goal_anti_comintern_pact
+		x = -1
+		y = 1
+		cost = 5
+		relative_position_id = TRN_international_coordinator
+		prerequisite = { focus = TRN_international_coordinator }
+		mutually_exclusive = {
+			focus = TRN_pragmatic_diplomacy
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = TRN_pragmatic_diplomacy
+		icon = GFX_goal_generic_forceful_treaty
+		x = 1
+		y = 1
+		cost = 5
+		relative_position_id = TRN_international_coordinator
+		prerequisite = { focus = TRN_international_coordinator }
+		mutually_exclusive = {
+			focus = TRN_anti_communism
+		}
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = TRN_strengthening_cooperation_at_kibotus
+		icon = GFX_goal_generic_national_unity
+		x = -1
+		y = 2
+		cost = 5
+		relative_position_id = TRN_international_coordinator
+		prerequisite = { focus = TRN_anti_communism }
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = TRN_red_trade
+		icon = GFX_goal_generic_trade
+		x = 1
+		y = 2
+		cost = 5
+		relative_position_id = TRN_international_coordinator
+		prerequisite = { focus = TRN_pragmatic_diplomacy }
+		completion_reward = {
+		}
 	}
 
 	focus = {
