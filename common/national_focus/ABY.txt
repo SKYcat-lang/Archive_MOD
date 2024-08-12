@@ -304,6 +304,10 @@ focus_tree = {
 						special_type_slot_1 = lmg_defense_turret
 					}
 				}
+				set_division_template_lock = {
+					division_template = "Armored-Division"
+					is_locked = yes
+				}
  			}
 			clr_country_flag = ABY_corporate_headquarters_czech_flag
 			custom_effect_tooltip = ABY_geeup_tt
@@ -1904,12 +1908,6 @@ focus_tree = {
 		}
 		available = {
 			has_government = fascism
-			check_variable = {
-                var = ABY_num_of_students_var
-                value = 50000
-                compare = greater_than_or_equals
-                tooltip = ABY_num_of_students_50000_tooltip
-            }
 			ABY = {
 				is_puppet = no
 			}
@@ -2178,6 +2176,17 @@ focus_tree = {
 			71 = { add_core_of = ABY }
 			73 = {add_core_of = ABY}
 			664 = {add_core_of = ABY}
+			if = {
+				limit = {
+					ABY = {
+						has_completed_focus = ABY_focus_rebuild_czech
+					}
+
+				}
+				ABY = {
+					set_cosmetic_tag = ABY_czechoslovakia_republic
+				}
+			}
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -2407,13 +2416,7 @@ focus_tree = {
 		bypass = {
 			#중점 통과 조건
 		}
-		available = {
-			check_variable = {
-                var = ABY_num_of_students_var
-                value = 100
-                compare = greater_than_or_equals
-                tooltip = ABY_administrative_improvement_num_of_students_var_tt
-            }#중점 선행조건
+		available = {#중점 선행조건
 		}
 
 		completion_reward = {
@@ -5890,8 +5893,8 @@ focus_tree = {
 		completion_reward = {
             add_to_variable = {
                 var = ABY_num_of_students_var
-                value = 1000
-                tooltip = ABY_add_num_of_students_1000_tooltip
+                value = 5000
+                tooltip = ABY_add_num_of_students_5000_tooltip
             }
 			64 = {
 				add_compliance = 15
@@ -5983,8 +5986,8 @@ focus_tree = {
 		completion_reward = {
             add_to_variable = {
                 var = ABY_num_of_students_var
-                value = 1000
-                tooltip = ABY_add_num_of_students_1000_tooltip
+                value = 5000
+                tooltip = ABY_add_num_of_students_5000_tooltip
             }
 			86 = {
 				add_compliance = 15
@@ -7852,6 +7855,7 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
+			custom_effect_tooltip = ABY_kivotos_core_tt
 			create_wargoal = {
 				type = topple_government
 				target = RED
@@ -8246,6 +8250,7 @@ focus_tree = {
 			#중점 통과 조건
 		}
 		available = {
+			has_completed_focus = BA_new_world_technology_army2
 			#중점 선행조건
 		}
 
@@ -8260,9 +8265,12 @@ focus_tree = {
 			delete_unit_template_and_units = { division_template = "Czechoslovakia Border Guards" }
 			delete_unit_template_and_units = { division_template = "German milita" }
 			delete_unit_template_and_units = { division_template = "German resistances" }
-			custom_effect_tooltip = ABY_militia_div_cap_300_tt
+			delete_unit_template_and_units = { division_template = "Infantry Brigade" }
+			delete_unit_template_and_units = { division_template = "Infantry Division" }
+			custom_effect_tooltip = ABY_militia_div_cap_36_tt
+			custom_effect_tooltip = ABY_militia_recruit_tt
 			hidden_effect = {
-				add_to_variable = { ABY_halo_milita_cap = 300 }
+				add_to_variable = { ABY_halo_milita_cap = 36 }
 				set_division_template_cap = {  division_template = "ABYDOS National Brigade" division_cap = ABY_halo_milita_cap }
 			}
 			random_owned_controlled_state = {
@@ -8479,15 +8487,22 @@ focus_tree = {
 			country_event = {
 				id = ABY_new_event.119
 			}
-			every_country = {
+			if = {
 				limit = {
-					NOT = {
-						tag = ABY
-					}
+					has_completed_focus = ABY_focus_enead
 				}
-				create_wargoal = {
-					type = topple_government
-					target = PREV
+				every_country = {
+					limit = {
+						NOT = {
+							tag = ABY
+						}
+					}
+					ABY = {
+						create_wargoal = {
+							type = topple_government
+							target = PREV
+						}
+					}
 				}
 			}
 			#중점 완료시 얻는 보상
@@ -12270,7 +12285,7 @@ focus_tree = {
 			if = {
 				limit = {
 					ABY = {
-						has_completed_focus = ABY_focus_unite_czech
+						has_completed_focus = ABY_focus_rebuild_czech
 					}
 
 				}
