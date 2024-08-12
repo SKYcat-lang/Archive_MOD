@@ -3900,18 +3900,20 @@
 				add_ideas = MAN_militarism #TODO_WTT_CD consider moving to MAN idea file
 			}
 			country_event = { id = BA_japan.13 hours = 02 }
-			MAN = {
-				JAP = {
-					every_unit_leader = {
-						limit = { has_trait = JAP_samurai_lineage }
-						set_nationality = MAN
+			effect_tooltip = {
+				MAN = {
+					JAP = {
+						every_unit_leader = {
+							limit = { has_trait = JAP_samurai_lineage }
+							set_nationality = MAN
+						}
 					}
 				}
+				add_popularity = {
+					ideology = fascism
+					popularity = -0.05
+				}	
 			}
-			add_popularity = {
-				ideology = fascism
-				popularity = -0.05
-			}	
 		}
 	}
 
@@ -4154,6 +4156,8 @@
 
 		available = {
 			has_civil_war = no
+			has_government = democratic
+			owns_state = 531
 		}
 
 		bypass = {
@@ -4195,7 +4199,10 @@
 			factor = 1
 		}
 
-		available = { }
+		available = { 
+			has_government = democratic
+			has_civil_war = no
+		}
 
 		bypass = {
 
@@ -4229,7 +4236,9 @@
 			factor = 1
 		}
 
-		available = { }
+		available = { 
+			has_government = democratic
+		}
 
 		bypass = {
 
@@ -4249,6 +4258,65 @@
 	}
 
 	focus = {
+		id = JAP_concessions_retun
+		icon = GFX_focus_usa_focus_on_asia
+		prerequisite = { focus = JAP_remove_of_peace_preservation_act }
+		x = 2
+		y = 1
+		relative_position_id = JAP_remove_of_peace_preservation_act
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = { 
+			has_government = democratic
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_popularity = {
+				popularity = 0.05
+				ideology = democratic
+			}
+			custom_effect_tooltip = JAP_concessions_retun_tt
+			event_target:WTT_current_china_leader = {
+				country_event = { id = BA_japan.17 hours = 02 }
+			}
+			hidden_effect = {
+			if = {
+				limit = { JAP = {controls_state = 728 } }
+				event_target:WTT_current_china_leader = {
+					transfer_state = 728 
+				}
+			}
+			if = {
+				limit = { JAP = {controls_state = 326 } }
+				event_target:WTT_current_china_leader = {
+					transfer_state = 326 
+				}
+			}
+			if = {
+				limit = { JAP = {controls_state = 743 } }
+				event_target:WTT_current_china_leader = {
+					transfer_state = 743
+				}
+			}
+			}
+		}
+	}
+
+	focus = {
 		id = JAP_remove_of_Ministry_of_Development
 		icon = GFX_focus_LAT_suspend_constitution_of_latvia
 		prerequisite = { focus = JAP_remove_of_peace_preservation_act }
@@ -4263,6 +4331,7 @@
 		}
 
 		available = {
+			has_government = democratic
 		}
 
 		bypass = {
@@ -4286,7 +4355,7 @@
 
 	focus = {
 		id = JAP_Local_autonomy_expansion
-		icon = GFX_focus_DEN_limited_regulations
+		icon = GFX_focus_DEN_no_regulations
 		prerequisite = { focus = JAP_remove_of_peace_preservation_act }
 		prerequisite = { focus = JAP_Civil_War_Damage_Recovery }
 		x = -3
@@ -4299,7 +4368,9 @@
 			factor = 1
 		}
 
-		available = { }
+		available = {
+			has_government = democratic
+		}
 
 		bypass = {
 
@@ -4324,7 +4395,7 @@
 
 	focus = {
 		id = JAP_west_pacific_treaty_organization
-		icon = GFX_goal_generic_alliance
+		icon = GFX_goal_JAP_sphere
 		prerequisite = { focus = JAP_the_showa_constitution }
 		mutually_exclusive = { focus = JAP_rekindle_the_old_alliance }
 		x = -2
@@ -4478,7 +4549,7 @@
 		}
 
 		available = {
-
+			has_government = democratic
 		}
 
 		bypass = {
@@ -4512,6 +4583,7 @@
 		}
 
 		available = {
+			has_government = democratic
 			MAN = { NOT = { has_government = democratic } }
 		}
 
@@ -4571,7 +4643,7 @@
 		id = JAP_the_korean_question
 		icon = GFX_goal_generic_improve_relations
 		prerequisite = { focus = JAP_remove_of_Ministry_of_Development }
-		x = 1
+		x = 0
 		y = 1
 		relative_position_id = JAP_remove_of_Ministry_of_Development
 
@@ -4582,6 +4654,7 @@
 		}
 
 		available = {
+			has_government = democratic
 			NOT = { has_war_with = KOR }
 		}
 
@@ -4656,10 +4729,86 @@
 	}
 
 	focus = {
+		id = JAP_devlop_korean
+		icon = GFX_focus_SWE_hygienic_housing
+		prerequisite = { focus = JAP_the_korean_question }
+		x = 0
+		y = 1
+		relative_position_id = JAP_the_korean_question
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			NOT = { has_war_with = KOR }
+			country_exists = KOR
+			KOR = {
+				OR = {
+					is_in_faction_with = JAP
+					is_puppet_of = JAP
+				}
+			}
+			has_government = democratic
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+			if = {
+				limit = {
+					country_exists = KOR
+					KOR = {
+						OR = {
+							is_in_faction_with = JAP
+							is_puppet_of = JAP
+						}
+					}
+				}
+				KOR = {
+					country_event = { id = BA_japan.14 hours = 02  }
+				}
+				effect_tooltip = {
+ 					custom_effect_tooltip = if_they_accept_tt
+					KOR = {
+					add_victory_points = { province = 7125 value = 10 }
+						527 = {
+							add_extra_state_shared_building_slots = 2
+							add_building_construction = {
+								type = industrial_complex 
+								level = 2
+								instant_build = yes
+							}
+						}
+						525 = {
+							add_extra_state_shared_building_slots = 2
+							add_building_construction = {
+								type = industrial_complex 
+								level = 2
+								instant_build = yes
+							}
+						}
+						add_ideas = JAP_KOR_industrial_support
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
 		id = JAP_the_taiwan_question
 		icon = GFX_goal_generic_improve_relations
 		prerequisite = { focus = JAP_remove_of_Ministry_of_Development }
-		x = 3
+		x = 2
 		y = 1
 		relative_position_id = JAP_remove_of_Ministry_of_Development
 
@@ -4670,6 +4819,7 @@
 		}
 
 		available = {
+			has_government = democratic
 			ROOT = {
 				owns_state = 524
 			}
@@ -4690,10 +4840,48 @@
 	}
 
 	focus = {
+		id = JAP_develop_taiwan
+		icon = GFX_focus_generic_reorient_production
+		prerequisite = { focus = JAP_the_taiwan_question }
+		x = 0
+		y = 1
+		relative_position_id = JAP_the_taiwan_question
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			has_government = democratic
+			524 = { is_owned_or_subject_trigger = yes }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_victory_points = { province = 7186 value = 10 }
+			524 = {
+				add_extra_state_shared_building_slots = 5
+				add_building_construction = { type = industrial_complex level = 3 instant_build = yes }
+				add_building_construction = { type = arms_factory level = 2 instant_build = yes }
+			}
+		}
+	}
+
+	focus = {
 		id = JAP_liberate_south_seas_mandate
 		icon = GFX_goal_generic_national_unity
 		prerequisite = { focus = JAP_remove_of_Ministry_of_Development }
-		x = -1
+		x = -2
 		y = 1
 		relative_position_id = JAP_remove_of_Ministry_of_Development
 
@@ -4704,6 +4892,7 @@
 		}
 
 		available = {
+			has_government = democratic
 			any_state = {
 				OR = {
 					state = 647
@@ -4795,6 +4984,7 @@
 		}
 
 		available = {
+			has_government = democratic
 			NOT = { has_government = communism }
 		}
 
@@ -4881,6 +5071,7 @@
 		}
 
 		available = {
+			is_puppet = no
 			NOT = { has_government = communism }
 			event_target:WTT_communist_china = { 
 				NOT = { 
@@ -4925,6 +5116,7 @@
 		}
 
 		available = {
+			is_puppet = no
 			NOT = { has_government = communism }
 			SOV = { 
 				NOT = { 
