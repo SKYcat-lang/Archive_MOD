@@ -1821,9 +1821,13 @@ focus_tree = {
 		bypass = {
 		}
 		completion_reward = {
-			add_timed_idea = {
-				idea = liberty_ethos_focus
-				days = 1080
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.15
+			}
+			set_politics = {
+				ruling_party = democratic
+				elections_allowed = yes
 			}
 		}
 	}
@@ -1879,14 +1883,13 @@ focus_tree = {
 		x = 1
 		y = 2
 		available = {
+			NOT = {
+				has_completed_focus = HUN_foc_1-2-4
+			}
 		}
 		bypass = {
 		}
 		completion_reward = {
-			add_popularity = {
-				ideology = democratic
-				popularity = 0.05
-			}
 			random_owned_controlled_state = {
 				add_extra_state_shared_building_slots = 1
 			}
@@ -1895,6 +1898,10 @@ focus_tree = {
 			}
 			random_owned_controlled_state = {
 				add_extra_state_shared_building_slots = 1
+			}
+			add_timed_idea = {
+				idea = BA_HUN_landreform
+				days = 180
 			}
 		}
 	}
@@ -1908,6 +1915,9 @@ focus_tree = {
 		x = -2
 		y = 2
 		available = {
+			NOT = {
+				has_completed_focus = HUN_foc_1-2-3
+			}
 		}
 		bypass = {
 		}
@@ -1915,7 +1925,7 @@ focus_tree = {
 			add_stability = 0.05
 			add_popularity = {
 				ideology = communism
-				popularity = -0.10
+				popularity = -0.15
 			}
 		}
 	}
@@ -1925,27 +1935,13 @@ focus_tree = {
 		icon = GFX_focus_generic_workers_and_farmers_rise
 		prerequisite = { focus = HUN_foc_1-2-3 }
 		#mutually_exclusive = { focus =  }
-		cost = 10
+		cost = 5
 		x = 2
 		y = 3
 		available = {
-		}
-		bypass = {
-		}
-		completion_reward = {
-
-		}
-	}
-	focus = { #
-		relative_position_id = HUN_elect_a_democratic_king
-		id = HUN_foc_1-2-6
-		icon = GFX_goal_generic_small_arms
-		prerequisite = { focus =  HUN_foc_1-2-3 }
-		#mutually_exclusive = { focus =  }
-		cost = 10
-		x = 1
-		y = 4
-		available = {
+			NOT = {
+				has_idea = BA_HUN_landreform
+			}
 		}
 		bypass = {
 		}
@@ -1954,6 +1950,103 @@ focus_tree = {
 				ideology = communism
 				popularity = 0.05
 			}
+			add_ideas = BA_HUN_collective_farm
+		}
+	}
+	focus = { #
+		relative_position_id = HUN_elect_a_democratic_king
+		id = HUN_foc_1-2-6
+		icon = GFX_goal_generic_small_arms
+		prerequisite = { focus =  HUN_foc_1-2-3 }
+		mutually_exclusive = { focus = HUN_foc_1-2-8 }
+		cost = 10
+		x = 1
+		y = 4
+		available = {
+			is_subject = no
+		}
+		bypass = {
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				NOT = {
+					has_idea = HUN_treaty_of_triannon_aat
+					has_idea = HUN_treaty_of_triannon_2
+					has_idea = HUN_treaty_of_triannon_3
+				}
+			}
+			else = {
+				NOT = {
+					has_idea = HUN_treaty_of_triannon
+					has_idea = HUN_treaty_of_triannon_2
+					has_idea = HUN_treaty_of_triannon_3
+				}
+			}
+		}
+		completion_reward = {
+			add_war_support = 0.05
+			ROM = { country_event = { id = DOD_hungary.40 } }
+		}
+	}
+	focus = { #
+		relative_position_id = HUN_elect_a_democratic_king
+		id = HUN_foc_1-2-7
+		icon = GFX_focus_generic_court
+		prerequisite = { focus =  HUN_foc_1-2-1 }
+		#mutually_exclusive = { focus =  }
+		cost = 10
+		x = -1
+		y = 3
+		available = {
+		}
+		bypass = {
+		}
+		completion_reward = {
+			add_political_power = 120
+		}
+	}
+	focus = { #
+		relative_position_id = HUN_elect_a_democratic_king
+		id = HUN_foc_1-2-8
+		icon = GFX_focus_invite_romania
+		prerequisite = { focus = HUN_foc_1-2-7 }
+		mutually_exclusive = { focus = HUN_foc_1-2-6 }
+		cost = 10
+		x = -1
+		y = 4
+		available = {
+			is_subject = no
+		}
+		bypass = {
+			if = {
+				limit = {
+					has_dlc = "Arms Against Tyranny"
+				}
+				OR = {
+					NOT = { has_idea = HUN_treaty_of_triannon_aat }
+					ROM = {
+						OR = {
+							exists = no
+							is_puppet = yes
+						}
+					}
+				}
+			}
+			else = {
+				OR = {
+					NOT = { has_idea = HUN_treaty_of_triannon }
+					ROM = {
+						OR = {
+							exists = no
+							is_puppet = yes
+						}
+					}
+				}
+			}
+		}
+		completion_reward = {
+			ROM = { country_event = { id = DOD_hungary.30 } }
 		}
 	}
 	focus = { #
