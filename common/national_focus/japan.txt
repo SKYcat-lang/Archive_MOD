@@ -4181,6 +4181,7 @@
 				}
 				promote_leader = yes
 			}
+			drop_cosmetic_tag = yes
 			country_event = { id = BA_news.99 days = 01 }
 		}
 	}
@@ -4253,65 +4254,6 @@
 			add_popularity = {
 				ideology = democratic
 				popularity = 0.2
-			}
-		}
-	}
-
-	focus = {
-		id = JAP_concessions_retun
-		icon = GFX_focus_usa_focus_on_asia
-		prerequisite = { focus = JAP_remove_of_peace_preservation_act }
-		x = 2
-		y = 1
-		relative_position_id = JAP_remove_of_peace_preservation_act
-
-		cost = 5
-
-		ai_will_do = {
-			factor = 1
-		}
-
-		available = { 
-			has_government = democratic
-		}
-
-		bypass = {
-
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		search_filters = { FOCUS_FILTER_STABILITY }
-		completion_reward = {
-			add_popularity = {
-				popularity = 0.05
-				ideology = democratic
-			}
-			custom_effect_tooltip = JAP_concessions_retun_tt
-			event_target:WTT_current_china_leader = {
-				country_event = { id = BA_japan.17 hours = 02 }
-			}
-			hidden_effect = {
-			if = {
-				limit = { JAP = {controls_state = 728 } }
-				event_target:WTT_current_china_leader = {
-					transfer_state = 728 
-				}
-			}
-			if = {
-				limit = { JAP = {controls_state = 326 } }
-				event_target:WTT_current_china_leader = {
-					transfer_state = 326 
-				}
-			}
-			if = {
-				limit = { JAP = {controls_state = 743 } }
-				event_target:WTT_current_china_leader = {
-					transfer_state = 743
-				}
-			}
 			}
 		}
 	}
@@ -4655,6 +4597,7 @@
 
 		available = {
 			has_government = democratic
+			is_puppet = no
 			NOT = { has_war_with = KOR }
 		}
 
@@ -4671,22 +4614,32 @@
 			if = {
 				limit = {
 					country_exists = KOR
-					has_government = democratic
+					KOR = { has_government = democratic }
 				}
 				KOR = { country_event = generic.5 }
 			}
 			else_if = {
 				limit = {
 					country_exists = KOR
-					NOT = { 
-						OR = {
-							has_government = democratic 
-							has_government = fascism
-						}
-					}
+					KOR = { has_government = neutrality }
 					is_subject = no
 				}
 				KOR = { add_timed_idea = { idea = democratic_influence days = 360 } }
+			}
+			else_if = {
+				limit ={
+					country_exists = KOR
+					KOR = {
+						OR = {
+							has_government = communism
+							has_government = fascism
+						}
+					}
+				}
+				create_wargoal = {
+					target = KOR 
+					type = topple_government
+				}
 			}
 			else_if = {
 				limit = {
@@ -4710,19 +4663,6 @@
 					target = MAN
 					expire = 0
 					generator = { 525 527 }
-				}
-			}
-			else_if = {
-				limit ={
-					country_exists = KOR
-					OR = {
-						has_government = communism
-						has_government = fascism
-					}
-				}
-				create_wargoal = {
-					target = KOR 
-					type = topple_government
 				}
 			}
 		}
@@ -4820,6 +4760,7 @@
 
 		available = {
 			has_government = democratic
+			is_puppet = no
 			ROOT = {
 				owns_state = 524
 			}
