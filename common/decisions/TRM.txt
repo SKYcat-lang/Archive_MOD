@@ -152,10 +152,10 @@ TRN_country_collapse_decisions = {
 	}
 }
 TRN_internal_factions_categories = {
+	#디버그
 	TRN_internal_factions_onedel_debug = {
 		visible = {
 			is_debug = yes
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		complete_effect = {
 			TRM_internal_factions_slot_one_del = yes
@@ -164,7 +164,6 @@ TRN_internal_factions_categories = {
 	TRN_internal_factions_twodel_debug = {
 		visible = {
 			is_debug = yes
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		complete_effect = {
 			TRM_internal_factions_slot_two_del = yes
@@ -173,7 +172,6 @@ TRN_internal_factions_categories = {
 	TRN_internal_factions_threedel_debug = {
 		visible = {
 			is_debug = yes
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		complete_effect = {
 			TRM_internal_factions_slot_three_del = yes
@@ -182,7 +180,6 @@ TRN_internal_factions_categories = {
 	TRN_internal_factions_par_del_debug = {
 		visible = {
 			is_debug = yes
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		complete_effect = {
 			set_variable = { TRM_internal_factions_remove_var = 0 } #지울 세력 코드
@@ -192,13 +189,14 @@ TRN_internal_factions_categories = {
 	TRN_internal_factions_par_add_debug = {
 		visible = {
 			is_debug = yes
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		complete_effect = {
 			set_variable = { TRM_internal_factions_add_var = 0 } #넣을 세력 코드
 			TRM_internal_factions_slot_add = yes #추가하는 스크립티드이펙트
 		}
 	}
+
+	#미션들
 	TRN_opp_auto = {
 		icon = GFX_decision_generic_political_rally
 
@@ -207,11 +205,7 @@ TRN_internal_factions_categories = {
 		activation = {
 			tag = TRM
 			NOT = {
-                OR = {
-				has_completed_focus = TRM_newfocus_DIE
-				has_completed_focus = TRN_neutrality_of_powers
-                has_completed_focus = TRM_newfocus_28
-                }
+				has_completed_focus = TRM_newfocus_28
 			}
 	 	}
 
@@ -286,7 +280,6 @@ TRN_internal_factions_categories = {
 	 	}
 		
 		visible = {
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 
 		is_good = no
@@ -325,7 +318,6 @@ TRN_internal_factions_categories = {
 		days_mission_timeout = 110
 		
 		visible = {
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 
 		activation = {
@@ -372,7 +364,6 @@ TRN_internal_factions_categories = {
 		days_mission_timeout = 110
 		
 		visible = {
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 
 		activation = {
@@ -416,11 +407,12 @@ TRN_internal_factions_categories = {
 			}
 		}
 	}
+
+	#파벌 후원
 	TRN_pater_add = {
 		icon = GFX_decision_eng_propaganda_campaigns
 		visible = {
 			has_completed_focus = TRM_newfocus_7
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		ai_will_do = {
 			base = 0
@@ -456,7 +448,6 @@ TRN_internal_factions_categories = {
 		icon = GFX_decision_eng_propaganda_campaigns
 		visible = {
 			has_completed_focus = TRN_nagisa_gyehek
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		ai_will_do = {
 			base = 0
@@ -489,6 +480,107 @@ TRN_internal_factions_categories = {
 			TRM_internal_factions_popularity_change = yes
 		}
 	}
+	TRN_sanctus_add = {
+		icon = GFX_decision_eng_propaganda_campaigns
+		visible = {
+			has_completed_focus = TRN_restoration_of_the_sanctus_faction
+		}
+		ai_will_do = {
+			base = 0
+		}
+		
+		cost = 35
+		days_remove = 35
+		days_re_enable = 35
+
+		visible = {
+			check_variable = { TRM_filius_popularity > 0 }
+			OR = {
+				check_variable = { TRM_internal_factions_slot_one_var = 1 }
+				check_variable = { TRM_internal_factions_slot_two_var = 1 }
+				check_variable = { TRM_internal_factions_slot_three_var = 1 }
+			}
+		}
+		
+		remove_effect = { 
+		    log = "[GetDateText]: [Root.GetName]: Decision Sanctus Add"
+			custom_effect_tooltip = TRM_sanctus_loyalty_5_tt
+			add_to_variable = { TRM_sanctus_loyalty = 5 }
+			TRM_internal_factions_loyalty_change = yes
+			
+			custom_effect_tooltip = TRM_sanctus_popularity_10_tt
+			add_to_variable = { TRM_sanctus_popularity = 10 }
+			TRM_internal_factions_popularity_change = yes
+		}
+	}
+	TRN_sh_add = {
+		icon = GFX_decision_eng_propaganda_campaigns
+		visible = {
+			has_completed_focus = TRN_Request_assistance_from_Sisterhood
+		}
+		ai_will_do = {
+			base = 0
+		}
+		
+		cost = 35
+		days_remove = 35
+		days_re_enable = 35
+
+		visible = {
+			check_variable = { TRM_filius_popularity > 0 }
+			OR = {
+				check_variable = { TRM_internal_factions_slot_one_var = 5 }
+				check_variable = { TRM_internal_factions_slot_two_var = 5 }
+				check_variable = { TRM_internal_factions_slot_three_var = 5 }
+			}
+		}
+		
+		remove_effect = { 
+		    log = "[GetDateText]: [Root.GetName]: Decision sh Add"
+			custom_effect_tooltip = TRM_sh_loyalty_5_tt
+			add_to_variable = { TRM_sh_loyalty = 5 }
+			TRM_internal_factions_loyalty_change = yes
+
+			custom_effect_tooltip = TRM_sh_popularity_10_tt
+			add_to_variable = { TRM_sh_popularity = 10 }
+			TRM_internal_factions_popularity_change = yes
+		}
+	}
+	TRN_rk_add = {
+		icon = GFX_decision_eng_propaganda_campaigns
+		visible = {
+			has_completed_focus = TRN_Request_assistance_from_relief_knights
+		}
+		ai_will_do = {
+			base = 0
+		}
+		
+		cost = 35
+		days_remove = 35
+		days_re_enable = 35
+
+		visible = {
+			check_variable = { TRM_filius_popularity > 0 }
+			OR = {
+				check_variable = { TRM_internal_factions_slot_one_var = 4 }
+				check_variable = { TRM_internal_factions_slot_two_var = 4 }
+				check_variable = { TRM_internal_factions_slot_three_var = 4 }
+			}
+		}
+		
+		remove_effect = { 
+		    log = "[GetDateText]: [Root.GetName]: Decision rk Add"
+			custom_effect_tooltip = TRM_rk_loyalty_5_tt
+			add_to_variable = { TRM_rk_loyalty = 5 }
+			TRM_internal_factions_loyalty_change = yes
+			
+			custom_effect_tooltip = TRM_rk_popularity_10_tt
+			add_to_variable = { TRM_rk_popularity = 10 }
+			TRM_internal_factions_popularity_change = yes
+		}
+	}
+
+	#파벌 억압
 	TRN_pater_opp = {
 		icon = GFX_decision_generic_arrest
 		allowed = {
@@ -518,7 +610,6 @@ TRN_internal_factions_categories = {
 				check_variable = { TRM_internal_factions_slot_two_var = 0 }
 				check_variable = { TRM_internal_factions_slot_three_var = 0 }
 			}
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		
 		remove_effect = { 
@@ -559,7 +650,6 @@ TRN_internal_factions_categories = {
 				check_variable = { TRM_internal_factions_slot_two_var = 2 }
 				check_variable = { TRM_internal_factions_slot_three_var = 2 }
 			}
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		
 		remove_effect = { 
@@ -596,7 +686,6 @@ TRN_internal_factions_categories = {
 				check_variable = { TRM_internal_factions_slot_two_var = 1 }
 				check_variable = { TRM_internal_factions_slot_three_var = 1 }
 			}
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		
 		remove_effect = { 
@@ -608,7 +697,7 @@ TRN_internal_factions_categories = {
 			TRM_internal_factions_popularity_change = yes
 		}
 	}
-	TRN_gerarmy_opp = {
+	TRN_sh_opp = {
 		icon = GFX_decision_generic_arrest
 		allowed = {
 		}
@@ -627,24 +716,63 @@ TRN_internal_factions_categories = {
 		days_re_enable = 10
 
 		visible = {
-			check_variable = { TRM_gerarmy_popularity > 0 }
+			check_variable = { TRM_sh_popularity > 0 }
 			OR = {
-				check_variable = { TRM_internal_factions_slot_one_var = 3 }
-				check_variable = { TRM_internal_factions_slot_two_var = 3 }
-				check_variable = { TRM_internal_factions_slot_three_var = 3 }
+				check_variable = { TRM_internal_factions_slot_one_var = 5 }
+				check_variable = { TRM_internal_factions_slot_two_var = 5 }
+				check_variable = { TRM_internal_factions_slot_three_var = 5 }
 			}
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		
 		remove_effect = { 
-			custom_effect_tooltip = TRM_gerarmy_loyalty__10_tt
-			add_to_variable = { TRM_gerarmy_loyalty = -10 }
+			custom_effect_tooltip = TRM_sh_loyalty__10_tt
+			add_to_variable = { TRM_sh_loyalty = -10 }
 			TRM_internal_factions_loyalty_change = yes
-			custom_effect_tooltip = TRM_gerarmy_popularity__15_tt
-			add_to_variable = { TRM_gerarmy_popularity = -15 }
+
+			custom_effect_tooltip = TRM_sh_popularity__15_tt
+			add_to_variable = { TRM_sh_popularity = -15 }
 			TRM_internal_factions_popularity_change = yes
 		}
 	}
+	TRN_rk_opp = {
+		icon = GFX_decision_generic_arrest
+		allowed = {
+		}
+    	available = {
+			OR = {
+				has_completed_focus = TRN_nagisa_gyehek
+				has_completed_focus = TRM_newfocus_7
+			}
+    	} 
+		ai_will_do = {
+			base = 100
+		}
+		
+		cost = 75
+		days_remove = 20
+		days_re_enable = 10
+
+		visible = {
+			check_variable = { TRM_rk_popularity > 0 }
+			OR = {
+				check_variable = { TRM_internal_factions_slot_one_var = 4 }
+				check_variable = { TRM_internal_factions_slot_two_var = 4 }
+				check_variable = { TRM_internal_factions_slot_three_var = 4 }
+			}
+		}
+		
+		remove_effect = { 
+			custom_effect_tooltip = TRM_rk_loyalty__10_tt
+			add_to_variable = { TRM_rk_loyalty = -10 }
+			TRM_internal_factions_loyalty_change = yes
+
+			custom_effect_tooltip = TRM_rk_popularity__15_tt
+			add_to_variable = { TRM_rk_popularity = -15 }
+			TRM_internal_factions_popularity_change = yes
+		}
+	}
+
+	#파벌 제거
 	TRN_pater_dd = {
 		icon = GFX_decision_oppression
 		allowed = {
@@ -666,7 +794,6 @@ TRN_internal_factions_categories = {
 				check_variable = { TRM_internal_factions_slot_two_var = 0 }
 				check_variable = { TRM_internal_factions_slot_three_var = 0 }
 			}
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		
 		fire_only_once = yes
@@ -697,7 +824,6 @@ TRN_internal_factions_categories = {
 				check_variable = { TRM_internal_factions_slot_two_var = 2 }
 				check_variable = { TRM_internal_factions_slot_three_var = 2 }
 			}
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		
 		fire_only_once = yes
@@ -714,7 +840,7 @@ TRN_internal_factions_categories = {
     	available = {
 			custom_trigger_tooltip = {
 				tooltip = TRM_popularity_del_tt
-				check_variable = { TRM_filius_popularity < 1 }
+				check_variable = { TRM_sanctus_popularity < 1 }
 			}
     	} 
 		ai_will_do = {
@@ -728,7 +854,6 @@ TRN_internal_factions_categories = {
 				check_variable = { TRM_internal_factions_slot_two_var = 1 }
 				check_variable = { TRM_internal_factions_slot_three_var = 1 }
 			}
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		
 		fire_only_once = yes
@@ -738,14 +863,14 @@ TRN_internal_factions_categories = {
 			TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
 		}
 	}
-	TRN_gerarmy_dd = {
+	TRN_sh_dd = {
 		icon = GFX_decision_oppression
 		allowed = {
 		}
     	available = {
 			custom_trigger_tooltip = {
 				tooltip = TRM_popularity_del_tt
-				check_variable = { TRM_filius_popularity < 1 }
+				check_variable = { TRM_sh_popularity < 1 }
 			}
     	} 
 		ai_will_do = {
@@ -755,21 +880,52 @@ TRN_internal_factions_categories = {
 		cost = 200
 		visible = {
 			OR = {
-				check_variable = { TRM_internal_factions_slot_one_var = 3 }
-				check_variable = { TRM_internal_factions_slot_two_var = 3 }
-				check_variable = { TRM_internal_factions_slot_three_var = 3 }
+				check_variable = { TRM_internal_factions_slot_one_var = 5 }
+				check_variable = { TRM_internal_factions_slot_two_var = 5 }
+				check_variable = { TRM_internal_factions_slot_three_var = 5 }
 			}
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		
 		fire_only_once = yes
 		complete_effect = { 
-			custom_effect_tooltip = TRM_gerarmy_del_tt
-			set_variable = { TRM_internal_factions_remove_var = 3 } #지울 세력 코드
+			custom_effect_tooltip = TRM_sh_del_tt
+			set_variable = { TRM_internal_factions_remove_var = 5 } #지울 세력 코드
 			TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
 		}
 	}
-	TRN_sh_add = {
+	TRN_rk_dd = {
+		icon = GFX_decision_oppression
+		allowed = {
+		}
+    	available = {
+			custom_trigger_tooltip = {
+				tooltip = TRM_popularity_del_tt
+				check_variable = { TRM_rk_popularity < 1 }
+			}
+    	} 
+		ai_will_do = {
+			base = 100
+		}
+		
+		cost = 200
+		visible = {
+			OR = {
+				check_variable = { TRM_internal_factions_slot_one_var = 4 }
+				check_variable = { TRM_internal_factions_slot_two_var = 4 }
+				check_variable = { TRM_internal_factions_slot_three_var = 4 }
+			}
+		}
+		
+		fire_only_once = yes
+		complete_effect = { 
+			custom_effect_tooltip = TRM_rk_del_tt
+			set_variable = { TRM_internal_factions_remove_var = 4 } #지울 세력 코드
+			TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
+		}
+	}
+
+	#파벌 등용
+	TRN_sh_plus = {
 		icon = GFX_decision_generic_break_treaty
 		allowed = {
 		}
@@ -783,7 +939,6 @@ TRN_internal_factions_categories = {
 		cost = 100
 		visible = {
 			has_completed_focus = TRN_Request_assistance_from_Sisterhood
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		
 		fire_only_once = yes
@@ -799,7 +954,7 @@ TRN_internal_factions_categories = {
 			TRM_internal_factions_popularity_change = yes
         }
 	}
-	TRN_rk_add = {
+	TRN_rk_plus = {
 		icon = GFX_decision_generic_break_treaty
 		allowed = {
 		}
@@ -813,7 +968,6 @@ TRN_internal_factions_categories = {
 		cost = 100
 		visible = {
 			has_completed_focus = TRN_Request_assistance_from_relief_knights
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
 		}
 		
 		fire_only_once = yes
@@ -827,37 +981,6 @@ TRN_internal_factions_categories = {
 			set_variable = { TRM_rk_popularity = 30 }
 			TRM_internal_factions_loyalty_change = yes
 			TRM_internal_factions_popularity_change = yes
-        }
-	}
-	TRN_gerarmy_add = {
-		icon = GFX_decision_generic_break_treaty
-		allowed = {
-		}
-    	available = {
-			TRN_internal_factions_slot_available_trugger = yes
-    	} 
-		ai_will_do = {
-			base = 100
-		}
-		
-		cost = 100
-		visible = {
-			has_completed_focus = TMR_support_with_germany
-			NOT = { has_completed_focus = TRN_neutrality_of_powers }
-		}
-		
-		fire_only_once = yes
-
-		complete_effect = {
-			custom_effect_tooltip = TRM_gerarmy_create_tt
-			set_variable = { TRM_internal_factions_add_var = 3 } #넣을 세력 코드
-			TRM_internal_factions_slot_add = yes #추가하는 스크립티드이펙트
-
-			set_variable = { TRM_gerarmy_loyalty = 30 }
-			set_variable = { TRM_gerarmy_popularity = 30 }
-			TRM_internal_factions_loyalty_change = yes
-			TRM_internal_factions_popularity_change = yes
-			country_event = { id = TRM_event.99 days = 3 } # 시스터후드를 화나게 하는 미소노 미카
         }
 	}
 	
