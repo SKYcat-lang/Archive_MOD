@@ -4800,6 +4800,11 @@
 				}
 			}
 			custom_effect_tooltip = TRM_newfocus_4_tt
+			set_party_name = {
+				ideology = fascism
+				long_name = TRM_pater_fascism_party
+				name = TRM_pater_fascism_party
+			}
 		}
 	}
 
@@ -4893,6 +4898,8 @@
 			custom_effect_tooltip = TRM_pater_del_tt
 			set_variable = { TRM_internal_factions_remove_var = 0 } #지울 세력 코드
 			TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
+
+			country_event = { id = TRM_event.373 days = 25 }
 		}
 	}
 
@@ -6581,10 +6588,34 @@
 				set_variable = { TRM_sanctus_popularity = 20 } #영향력 설정
 				TRM_internal_factions_slot_add = yes #추가하는 스크립티드이펙트
 				
-				set_party_name = {
-					ideology = communism
-					long_name = TRM_seia_communism_party_long
-					name = TRM_seia_communism_party
+				if = {
+					limit = { has_global_flag = TRM_event_372_flag }
+					set_party_name = {
+						ideology = communism
+						long_name = TRM_seia_communism_party_long
+						name = TRM_seia_communism_party
+					}
+					if = {
+						limit = {
+							has_country_leader = {
+								character = TRN_tpdldk
+								ruling_only = no
+							}
+						}
+						promote_character = TRN_tpdldk
+					}
+					else = {
+						add_country_leader_role = {
+							character = TRN_tpdldk
+							promote_leader = yes
+							country_leader = {
+								ideology = marxism
+								traits = {
+									TRN_seia_trait_2
+								}
+							}
+						}
+					}
 				}
 			}
 			unlock_decision_tooltip = TRN_sanctus_add
@@ -6876,28 +6907,9 @@
 		relative_position_id = TRN_return_of_yuriy_seya
 		prerequisite = { focus = TRN_return_of_yuriy_seya }
 		completion_reward = {
-			if = {
-				limit = {
-					has_country_leader = {
-						character = TRN_tpdldk
-						ruling_only = no
-					}
-				}
-				promote_character = TRN_tpdldk
-			}
-			else = {
-				add_country_leader_role = {
-					character = TRN_tpdldk
-					promote_leader = yes
-					country_leader = {
-						ideology = marxism
-						traits = {
-							TRN_seia_trait_2
-						}
-					}
-				}
-				TRN_tpdldk = {
-				}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.25
 			}
 			set_politics = {
 				ruling_party = communism
