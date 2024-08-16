@@ -31,26 +31,31 @@ RED_instability_system_up_effect = {
 		}
 	}
 	else_if = { limit = { has_idea = RED_military_government_idea_3 }
-		random_list = {
-			1 = {
-				swap_ideas = {
-					remove_idea = RED_military_government_idea_3
-					add_idea = RED_military_government_idea_4
-				}
+		if = { #맨 처음에 한해서 군정청이 한단계 빠르게 붕괴함
+			limit = {
+				has_global_flag = RED_instability_system_independence_flag
 			}
-			99 = {
-				modifier = {
-					factor = 0
-					has_global_flag = RED_instability_system_independence_flag
-				}
-				remove_ideas = RED_military_government_idea_3
-				country_event = RED_instability_system.4
+			remove_ideas = RED_military_government_idea_3
+			country_event = RED_instability_system.4
+		}
+		else = {
+			swap_ideas = {
+				remove_idea = RED_military_government_idea_3
+				add_idea = RED_military_government_idea_4
 			}
 		}
 	}
 	else_if = { limit = { has_idea = RED_military_government_idea_4 }
-		remove_ideas = RED_military_government_idea_4
-		country_event = RED_instability_system.4
+		if = { #이미 이벤트 로직이 진행중일 경우, 한 단계 유예됨
+			limit = {
+				has_global_flag = RED_instability_system_operation_flag
+			}
+			add_stability = -0.10
+		}
+		else = {
+			remove_ideas = RED_military_government_idea_4
+			country_event = RED_instability_system.4
+		}
 	}
 }
 RED_instability_system_down_effect = {

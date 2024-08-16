@@ -1432,6 +1432,7 @@ country_event = { # 군정청: 00의 봄
 	is_triggered_only = yes
 	immediate = {
 		set_global_flag = RED_instability_system_independence_flag
+		set_global_flag = RED_instability_system_operation_flag
 		RED_instability_system_remove_effect = yes
 		if = {
 			limit = {
@@ -1449,7 +1450,7 @@ country_event = { # 군정청: 00의 봄
 		}
 	}
 	
-	option = {
+	option = { #독립!
 		name = RED_instability_system.4.a
 		if = { limit = { is_subject = yes }
 			overlord = {
@@ -1539,8 +1540,11 @@ country_event = { # 군정청: 00의 봄
 			}
 		}
 	}
-	option = {
+	option = { #진압! (괴뢰국 전용)
 		name = RED_instability_system.4.b
+		trigger = {
+			is_subject = yes
+		}
 		if = { limit = { tag = RE4 }
 			random_owned_state = {
 				transfer_state_to = FIN
@@ -1667,7 +1671,7 @@ country_event = { # 군정청: 00의 봄
 		}
 	}
 }
-country_event = { # 군정청: 00의 봄 - 히든 이벤트
+country_event = { # 군정청: 00의 봄 - 히든 이벤트 // 이 이벤트가 발생하면서 이벤트 타겟은 더 이상 사용하지 않게 됨 :: 새로운 군정청 폭파 이벤트 발생 가능
 	id = RED_instability_system.5
 	title = RED_instability_system.5.t
 	desc = RED_instability_system.5.d
@@ -1684,11 +1688,28 @@ country_event = { # 군정청: 00의 봄 - 히든 이벤트
 				}
 				clr_global_flag = RED_instability_system_rebellion_overlordyes_flag
 
-				event_target:RED_instability_system_independence_overlord_target = {
-					country_event = { id = RED_instability_system.6 days = 4 }
-					set_country_flag = RED_instability_system_hard_process
+				if = {
+					limit = { has_global_flag = RED_instability_system_rebellion_4_a_flag }
+					clr_global_flag = RED_instability_system_rebellion_4_a_flag
+
+					event_target:RED_instability_system_independence_overlord_target = {
+						country_event = { id = RED_instability_system.6 days = 4 }
+						set_country_flag = RED_instability_system_hard_process
+					}
+				}
+				else_if = {
+					limit = { has_global_flag = RED_instability_system_rebellion_4_b_flag }
+					clr_global_flag = RED_instability_system_rebellion_4_b_flag
+
+					event_target:RED_instability_system_independence_overlord_target = {
+						country_event = { id = RED_instability_system.7 days = 4 }
+						set_country_flag = RED_instability_system_hard_process
+					}
 				}
 			}
+		}
+		if = { limit = { has_global_flag = RED_instability_system_operation_flag }
+			clr_global_flag = RED_instability_system_operation_flag
 		}
 	}
 	option = {
@@ -1778,21 +1799,31 @@ country_event = { # 붉은겨울: 00의 봄 - 내전에 빠진 군정청
 	
 	option = {
 		name = RED_instability_system.7.a
-		if = { limit = { FROM = { tag = DEN } }
-			activate_mission = RED_military_government_attack_DEN
+		if = { limit = { tag = RED }
+			if = { limit = { FROM = { tag = DEN } }
+				activate_mission = RED_military_government_attack_DEN
+			}
+			if = { limit = { FROM = { tag = NOR } }
+				activate_mission = RED_military_government_attack_NOR
+			}
+			if = { limit = { FROM = { tag = SWE } }
+				activate_mission = RED_military_government_attack_SWE
+			}
+			if = { limit = { FROM = { tag = FIN } }
+				activate_mission = RED_military_government_attack_FIN
+			}
 		}
-		if = { limit = { FROM = { tag = NOR } }
-			activate_mission = RED_military_government_attack_NOR
-		}
-		if = { limit = { FROM = { tag = SWE } }
-			activate_mission = RED_military_government_attack_SWE
-		}
-		if = { limit = { FROM = { tag = FIN } }
-			activate_mission = RED_military_government_attack_FIN
+		else = {
+			create_wargoal = {
+				target = FROM
+				type = annex_everything
+			}
 		}
 	}
 	option = {
 		name = RED_instability_system.7.b
+		add_stability = -0.10
+		add_war_support = -0.05
 	}
 }
 country_event = { # 고틀란드냐 전쟁이냐
