@@ -297,12 +297,9 @@ country_event = {
 			base = 10
 		}
 
-		#resource@chromium
-		#set_country_flag = FIN_faction_leader_aid_for_mineral_wealth_flag
 		add_to_variable = { FIN_mineral_wealth_development_resource_amount = 1 }
 		add_to_variable = { FIN_mineral_wealth_development_aluminium_amount = 2 }
-		log = "My faction leader is [faction_leader.GetName]"
-		set_variable = { FIN_faction_leader_recieving_resource_rights = THIS.faction_leader }
+		#log = "My faction leader is [faction_leader.GetName]"
 	}
 
 	#We need no help
@@ -312,6 +309,8 @@ country_event = {
 		ai_chance = {
 			base = 0
 		}
+
+		clear_variable = FIN_faction_leader_recieving_resource_rights
 	}
 }
 
@@ -334,7 +333,6 @@ country_event = {
 			base = 10
 		}
 
-		#resource@chromium
 		929 = {
 			add_resource = {
 				type = steel
@@ -349,10 +347,10 @@ country_event = {
 			set_variable = { ROOT.FIN_state_given_for_resource_rights = THIS }
 		}
 		faction_leader = { #Done in this stupid way because the effect can't take vars, faction_leader scope and so on as receiver.
-			log = "I am faction leader [faction_leader.GetName]"
+			#log = "I am faction leader [faction_leader.GetName]"
 			ROOT = {
-				log = "THIS is [THIS.GetName] which is ROOT [ROOT.GetName]"
-				log = "PREV is [PREV.GetName]"
+				#log = "THIS is [THIS.GetName] which is ROOT [ROOT.GetName]"
+				#log = "PREV is [PREV.GetName]"
 				give_resource_rights = {
 					receiver = PREV
 					state = 929
@@ -486,7 +484,6 @@ country_event = {
 	option = {
 		name = AAT_finland_misc_events.05.a
 
-		#resource@chromium
 		set_country_flag = FIN_faction_leader_aid_for_mineral_wealth_flag
 
 		effect_tooltip = {
@@ -1528,6 +1525,8 @@ country_event = {
 		hidden_effect = {
 			FROM = { country_event = { id = AAT_finland_diplomacy.15 hours = 1 } }
 		}
+
+		custom_effect_tooltip = GAME_OVER_TT
 	}
 
 	#No we are not ready
@@ -1538,14 +1537,14 @@ country_event = {
 			base = 0
 		}
 
-		effect_tooltip = {
-			every_core_state = {
-				limit = {
-					is_controlled_by = ROOT
-				}
-				add_claim_by = FROM
-			}
-		}
+		#effect_tooltip = { #Don't show this, AI will always respect the decision and not get claims
+		#	every_core_state = {
+		#		limit = {
+		#			is_controlled_by = ROOT
+		#		}
+		#		add_claim_by = FROM
+		#	}
+		#}
 
 		hidden_effect = {
 			FROM = { country_event = { id = AAT_finland_diplomacy.16 hours = 1 } }
@@ -1751,12 +1750,17 @@ country_event = {
 
 		ai_chance = { #AI will always accept
 			base = 0
+			#/BA_MOD_FIX 핀란드의 붉은겨울, 게마트리아, 전쟁해군 합병 거절
 			modifier = {
 				add = 1
 				AND = {
 					NOT = { is_in_faction_with = FROM }
 					OR = {
 						original_tag = RED
+						original_tag = RE1
+						original_tag = RE2
+						original_tag = RE3
+						original_tag = RE4
 						original_tag = GEI
 						original_tag = GEN
 					}
@@ -1817,7 +1821,7 @@ country_event = {
 					}
 				}
 				display_individual_scopes = yes
-				add_claim_by = ROOT
+				add_claim_by = FROM
 			}
 		}
 
@@ -1861,6 +1865,7 @@ country_event = {
 			for_each_scope_loop = {
 				array = FROM.FIN_states_requested_by_finland_array			
 				ROOT = { transfer_state = PREV }
+				add_compliance = 30
 			}
 		}
 	}
@@ -2769,6 +2774,34 @@ country_event = {
 					ROOT = { white_peace = PREV }
 				}
 			}
+			else_if = {
+				limit = {
+					FROM = {
+						is_subject = yes
+					}
+				}
+				FROM = {
+					overlord = {
+						ROOT = { white_peace = PREV }
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							any_allied_country = {
+								has_war_with = ROOT
+							}
+						}
+					}
+					every_other_country = {
+						limit = {
+							is_in_faction_with = FROM
+							has_war_with = ROOT
+						}
+						ROOT = { white_peace = PREV }
+					}
+				}
+			}
 			FROM = {
 				every_owned_state = {
 					limit = {
@@ -2831,6 +2864,29 @@ country_event = {
 				white_peace = FROM
 			}
 		}
+		else_if = {
+			limit = {
+				is_subject = yes
+			}
+			overlord = {
+				white_peace = FROM
+			}
+			if = {
+				limit = {
+					any_allied_country = {
+						has_war_with = FROM
+					}
+				}
+				every_other_country = {
+					limit = {
+						is_in_faction_with = ROOT
+						has_war_with = FROM
+					}
+					white_peace = FROM
+				}
+			}
+		}
+
 		every_owned_state = {
 			limit = {
 				is_claimed_by = FROM
@@ -2909,6 +2965,34 @@ country_event = {
 						is_in_faction_with = FROM
 					}
 					ROOT = { white_peace = PREV }
+				}
+			}
+			else_if = {
+				limit = {
+					FROM = {
+						is_subject = yes
+					}
+				}
+				FROM = {
+					overlord = {
+						ROOT = { white_peace = PREV }
+					}
+				}
+				if = {
+					limit = {
+						FROM = {
+							any_allied_country = {
+								has_war_with = ROOT
+							}
+						}
+					}
+					every_other_country = {
+						limit = {
+							is_in_faction_with = FROM
+							has_war_with = ROOT
+						}
+						ROOT = { white_peace = PREV }
+					}
 				}
 			}
 
@@ -2994,6 +3078,28 @@ country_event = {
 					is_in_faction_with = ROOT
 				}
 				white_peace = FROM
+			}
+		}
+		else_if = {
+			limit = {
+				is_subject = yes
+			}
+			overlord = {
+				white_peace = FROM
+			}
+			if = {
+				limit = {
+					any_allied_country = {
+						has_war_with = FROM
+					}
+				}
+				every_other_country = {
+					limit = {
+						is_in_faction_with = ROOT
+						has_war_with = FROM
+					}
+					white_peace = FROM
+				}
 			}
 		}
 
@@ -3455,10 +3561,14 @@ country_event = {
 	immediate = {
 		hidden_effect = {
 			FIN_pact_for_continuation_war_start = yes #In case some treaty was missing
-			add_to_war = {
-				targeted_alliance = GER
-				enemy = SOV
-				hostility_reason = asked_to_join
+			#add_to_war = { #This makes Finland join war against the whole bloc of Comintern + Allies + Ethiopia
+			#	targeted_alliance = GER
+			#	enemy = SOV
+			#	hostility_reason = asked_to_join
+			#}
+			declare_war_on = {
+				target = SOV
+				type = topple_government
 			}
 		}
 	}
@@ -4461,8 +4571,58 @@ country_event = {
 			}
 			#Add Porajärvi VP
 			add_victory_points = {
-				province = 6094 #Porajärvi
+				province = 2998 #Porajärvi
 				value = 1
+			}
+		}
+
+		#KARJALA
+		if = {
+			limit = {
+				146 = {
+					has_dynamic_modifier = { modifier = FIN_anti_soviet_sentiment }
+					controller = {
+						original_tag = SOV
+						NOT = { is_in_faction_with = ROOT }
+					}
+				}
+			}
+			KAR = { transfer_state = 146 }
+			hidden_effect = {
+				146 = {
+					remove_dynamic_modifier = { modifier = FIN_anti_soviet_sentiment }
+					teleport_armies = {
+						limit = {
+							original_tag = SOV 
+						}
+						to_state = 195 #LENINGRAD
+					}
+				}
+			}
+		}
+
+		#SALLA
+		if = {
+			limit = {
+				147 = {
+					has_dynamic_modifier = { modifier = FIN_anti_soviet_sentiment }
+					controller = {
+						original_tag = SOV
+						NOT = { is_in_faction_with = ROOT }
+					}
+				}
+			}
+			KAR = { transfer_state = 147 }
+			hidden_effect = {
+				147 = {
+					remove_dynamic_modifier = { modifier = FIN_anti_soviet_sentiment }
+					teleport_armies = {
+						limit = {
+							original_tag = SOV 
+						}
+						to_state = 213 #MURMANSK
+					}
+				}
 			}
 		}
 
@@ -4471,8 +4631,13 @@ country_event = {
 
 		hidden_effect = {
 			KAR = {
-				set_capital = {
-					state = 215
+				if = {
+					limit = {
+						owns_state = 215
+					}
+					set_capital = {
+						state = 215
+					}
 				}
 				
 				division_template = {
@@ -4568,27 +4733,77 @@ country_event = {
 				}
 			}
 		}
+		set_country_flag = FIN_full_support_for_karelia_flag #Used for the effect tooltip in the Soviet event
 		KAR = {
-			declare_war_on = {
-				target = SOV
-				type = independence_wargoal
+			if = {
+				limit = {
+					any_other_country = {
+						original_tag = SOV
+						has_civil_war = yes
+					}
+				}
+				# This is AI Stalin in the CW, no need for event, just declare on them
+				random_other_country = {
+					limit = {
+						original_tag = SOV
+						has_civil_war = yes
+						has_country_leader_ideology = stalinism
+					}
+					PREV = {
+						declare_war_on = {
+							target = PREV
+							type = independence_wargoal
+						}
+					}
+					ROOT = {
+						if = {
+							limit = {
+								NOT = { has_war_with = PREV }
+							}
+							add_to_war = {
+								targeted_alliance = KAR
+								enemy = PREV
+								hostility_reason = asked_to_join
+							}
+						}
+					}
+				}
+				SOV = {
+					#Send event to the other side of the civil war - Actual original SOV (Trotskyist or Bukharinist)
+					set_variable = { SOV_nationalist_country = KAR }
+					set_country_flag = KAR_uprising_flag
+					country_event = NSB_soviet_nationalist.001
+				}
 			}
-		}
-		if = {
-			limit = {
-				NOT = { has_war_with = SOV }
-			}
-			set_country_flag = FIN_joining_war_against_sov_flag #For Soviet tooltip
-			add_to_war = {
-				targeted_alliance = KAR
-				enemy = SOV
-				hostility_reason = asked_to_join
+			else = {
+				declare_war_on = {
+					target = SOV
+					type = independence_wargoal
+				}
+
+				if = {
+					limit = {
+						ROOT = { NOT = { has_war_with = SOV } }
+					}
+					ROOT = {
+						set_country_flag = FIN_joining_war_against_sov_flag #For Soviet tooltip
+						add_to_war = {
+							targeted_alliance = KAR
+							enemy = SOV
+							hostility_reason = asked_to_join
+						}
+					}
+				}
 			}
 		}
 
 		hidden_effect = {
-			set_country_flag = FIN_full_support_for_karelia_flag #Used for the effect tooltip in the Soviet event
-			SOV = { country_event = { id = AAT_finland_kinship_war.03 hours = 1 } }
+			if = { #Send Karelian Uprising event if Finland has triggered the Karelian Uprising
+				limit = {
+					SOV = { NOT = { has_country_flag = KAR_uprising_flag } }
+				}
+				SOV = { country_event = { id = AAT_finland_kinship_war.03 hours = 1 } }
+			}
 		}
 	}
 
@@ -4629,6 +4844,7 @@ country_event = {
 				value = 1
 			}
 		}
+
 		#OLONETS
 		if = {
 			limit = {
@@ -4654,15 +4870,70 @@ country_event = {
 			}
 			#Add Porajärvi VP
 			add_victory_points = {
-				province = 6094 #Porajärvi
+				province = 2998 #Porajärvi
 				value = 1
+			}
+		}
+
+		#KARJALA
+		if = {
+			limit = {
+				146 = {
+					has_dynamic_modifier = { modifier = FIN_anti_soviet_sentiment }
+					controller = {
+						original_tag = SOV
+						NOT = { is_in_faction_with = ROOT }
+					}
+				}
+			}
+			KAR = { transfer_state = 146 }
+			hidden_effect = {
+				146 = {
+					remove_dynamic_modifier = { modifier = FIN_anti_soviet_sentiment }
+					teleport_armies = {
+						limit = {
+							original_tag = SOV 
+						}
+						to_state = 195 #LENINGRAD
+					}
+				}
+			}
+		}
+
+		#SALLA
+		if = {
+			limit = {
+				147 = {
+					has_dynamic_modifier = { modifier = FIN_anti_soviet_sentiment }
+					controller = {
+						original_tag = SOV
+						NOT = { is_in_faction_with = ROOT }
+					}
+				}
+			}
+			KAR = { transfer_state = 147 }
+			hidden_effect = {
+				147 = {
+					remove_dynamic_modifier = { modifier = FIN_anti_soviet_sentiment }
+					teleport_armies = {
+						limit = {
+							original_tag = SOV 
+						}
+						to_state = 213 #MURMANSK
+					}
+				}
 			}
 		}
 
 		hidden_effect = {	
 			KAR = {
-				set_capital = {
-					state = 215
+				if = {
+					limit = {
+						owns_state = 215
+					}
+					set_capital = {
+						state = 215
+					}
 				}
 
 				division_template = {
@@ -4759,20 +5030,56 @@ country_event = {
 			}
 		}
 
-		KAR = {
-			declare_war_on = {
-				target = SOV
-				type = independence_wargoal
-			}
-
-			give_military_access = ROOT
-		}
-		give_military_access = KAR
-
 		#TODO_Manu: Relation modifier so that FIN can send more volunteers to Karelia
 
+		KAR = {
+			if = {
+				limit = {
+					any_other_country = {
+						original_tag = SOV
+						has_civil_war = yes
+					}
+				}
+				# This is AI Stalin in the CW, no need for event, just declare on them
+				random_other_country = {
+					limit = {
+						original_tag = SOV
+						has_civil_war = yes
+						has_country_leader_ideology = stalinism
+					}
+					PREV = {
+						declare_war_on = {
+							target = PREV
+							type = independence_wargoal
+						}
+					}
+				}
+				SOV = {
+					#Send event to the other side of the civil war - Actual original SOV (Trotskyist or Bukharinist)
+					set_variable = { SOV_nationalist_country = KAR }
+					set_country_flag = KAR_uprising_flag
+					country_event = NSB_soviet_nationalist.001
+				}
+			}
+			else = {
+				declare_war_on = {
+					target = SOV
+					type = independence_wargoal
+				}
+			}
+
+			# Military access FIN-KAR
+			give_military_access = ROOT
+			ROOT = { give_military_access = PREV }
+		}
+
 		hidden_effect = {
-			SOV = { country_event = { id = AAT_finland_kinship_war.03 hours = 1 } }
+			if = { #Send Karelian Uprising event if Finland has triggered the Karelian Uprising
+				limit = {
+					SOV = { NOT = { has_country_flag = KAR_uprising_flag } }
+				}
+				SOV = { country_event = { id = AAT_finland_kinship_war.03 hours = 1 } }
+			}
 		}
 	}
 }
@@ -4786,12 +5093,15 @@ country_event = {
 	
 	is_triggered_only = yes
 
-	fire_only_once = yes
+	#fire_only_once = yes #Can be sent to both Soviet sides in the Soviet CW
 	
 	option = {
 		name = AAT_finland_kinship_war.03.a
 
-		
+		ai_chance = {
+			base = 2
+		}
+
 		effect_tooltip = {
 			if = {
 				limit = {
@@ -4805,6 +5115,18 @@ country_event = {
 				}
 				KAR = { transfer_state = 216 }
 			}
+			if = {
+				limit = {
+					KAR = { owns_state = 146}
+				}
+				KAR = { transfer_state = 146 }
+			}
+			if = {
+				limit = {
+					KAR = { owns_state = 147}
+				}
+				KAR = { transfer_state = 147 }
+			}
 
 			if = { #FULL FINNISH SUPPORT
 				limit = {
@@ -4817,7 +5139,7 @@ country_event = {
 				}
 				KAR = {
 					declare_war_on = {
-						target = SOV
+						target = ROOT
 						type = independence_wargoal
 					}
 				}
@@ -4838,11 +5160,160 @@ country_event = {
 				effect_tooltip = {
 					KAR = {
 						declare_war_on = {
-							target = SOV
+							target = ROOT
 							type = independence_wargoal
 						}
 
 						give_military_access = ROOT
+					}
+					give_military_access = KAR
+				}
+			}
+
+			if = {
+				limit = {
+					has_civil_war = yes
+					NOT = {
+						has_country_leader_ideology = stalinism
+					}
+				}
+				if = { #FULL FINNISH SUPPORT
+					limit = {
+						FROM = {
+							has_country_flag = FIN_full_support_for_karelia_flag
+						}
+					}
+					KAR = {
+						declare_war_on = {
+							target = SOU
+							type = independence_wargoal
+						}
+					}
+					if = {
+						limit = {
+							FROM = { has_country_flag = FIN_joining_war_against_sov_flag }
+						}
+						FROM = {
+							add_to_war = {
+								targeted_alliance = KAR
+								enemy = SOU
+								hostility_reason = asked_to_join
+							}
+						}
+					}
+				}
+				else = { #UNOFFICIAL FINNISH SUPPORT
+					effect_tooltip = {
+						KAR = {
+							declare_war_on = {
+								target = SOU
+								type = independence_wargoal
+							}
+
+							give_military_access = SOU
+						}
+						give_military_access = KAR
+					}
+				}
+			}
+		}
+
+		#Clean flags
+		hidden_effect = {
+			FROM = {
+				if = {
+					limit = {
+						has_country_flag = FIN_joining_war_against_sov_flag
+					}
+					clr_country_flag = FIN_joining_war_against_sov_flag
+				}
+				if = {
+					limit = {
+						has_country_flag = FIN_full_support_for_karelia_flag
+					}
+					clr_country_flag = FIN_full_support_for_karelia_flag
+				}
+			}
+		}
+	}
+
+	option = {
+		name = AAT_finland_diplomacy.26.b #Intentional
+
+		trigger = {
+			has_civil_war = yes
+			NOT = {
+				has_country_leader_ideology = stalinism
+			}
+		}
+
+		ai_chance = {
+			base = 1
+		}
+
+		effect_tooltip = {
+			if = {
+				limit = {
+					KAR = { owns_state = 215}
+				}
+				KAR = { transfer_state = 215 }
+			}
+			if = {
+				limit = {
+					KAR = { owns_state = 216}
+				}
+				KAR = { transfer_state = 216 }
+			}
+			if = {
+				limit = {
+					KAR = { owns_state = 146}
+				}
+				KAR = { transfer_state = 146 }
+			}
+			if = {
+				limit = {
+					KAR = { owns_state = 147}
+				}
+				KAR = { transfer_state = 147 }
+			}
+
+			if = { #FULL FINNISH SUPPORT
+				limit = {
+					FROM = {
+						has_country_flag = FIN_full_support_for_karelia_flag
+					}
+				}
+				FROM = {
+					puppet = KAR
+				}
+				KAR = {
+					declare_war_on = {
+						target = SOU
+						type = independence_wargoal
+					}
+				}
+				if = {
+					limit = {
+						FROM = { has_country_flag = FIN_joining_war_against_sov_flag }
+					}
+					FROM = {
+						add_to_war = {
+							targeted_alliance = KAR
+							enemy = SOU
+							hostility_reason = asked_to_join
+						}
+					}
+				}
+			}
+			else = { #UNOFFICIAL FINNISH SUPPORT
+				effect_tooltip = {
+					KAR = {
+						declare_war_on = {
+							target = SOU
+							type = independence_wargoal
+						}
+
+						give_military_access = SOU
 					}
 					give_military_access = KAR
 				}
