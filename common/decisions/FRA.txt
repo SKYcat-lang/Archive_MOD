@@ -1191,8 +1191,17 @@ FRA_war_dec = { #국민을 위한 전쟁
 				state = 16
 				remember_old_capital = no
 			}
-			remove_dynamic_modifier = {
-				modifier = FRA_rising_support_for_repeated_fascism
+			if = {
+				limit = { has_dynamic_modifier = { modifier = FRA_rising_support_for_repeated_fascism } }
+				remove_dynamic_modifier = {
+					modifier = FRA_rising_support_for_repeated_fascism
+				}
+			}
+			if = {
+				limit = { has_dynamic_modifier = { modifier = FRA_rising_support_for_repeated_communism } }
+				remove_dynamic_modifier = {
+					modifier = FRA_rising_support_for_repeated_communism
+				}
 			}
 			if = {
 				limit = {
@@ -3796,23 +3805,11 @@ political_actions = {
 					NOT = { has_government = fascism }
 				}
 				custom_effect_tooltip = FRA_rising_support_for_repeated_fascism_mission_tt
-				add_to_variable = { FRA_rising_support_for_repeated_fascism_fascism_drift = 0.01 }
 			}
 			else = {
-				if = {
-					limit = {
-						NOT = {
-							check_variable = {
-								FRA_rising_support_for_repeated_fascism_fascism_drift = 0
-							}
-						}
-					}
-					add_to_variable = { FRA_rising_support_for_repeated_fascism_communism_drift = FRA_rising_support_for_repeated_fascism_fascism_drift }
-					set_variable = { FRA_rising_support_for_repeated_fascism_fascism_drift = 0 }
-				}
 				custom_effect_tooltip = FRA_rising_support_for_repeated_communism_mission_tt
-				add_to_variable = { FRA_rising_support_for_repeated_fascism_communism_drift = 0.01 }
 			}
+			add_to_variable = { FRA_rising_support_for_repeated_drift = 0.01 }
 		}
 
 		ai_will_do = {
