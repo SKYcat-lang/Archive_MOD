@@ -1,5 +1,6 @@
 add_namespace = FRA_prov_event
 add_namespace = FRA_recover
+add_namespace = FRA_free_france_event
 country_event = {
 	id = FRA_prov_event.2000
 	title = FRA_prov_event.2000.t
@@ -152,11 +153,12 @@ country_event = {
 	title = FRA_prov_event.3.t
 	desc = FRA_prov_event.3.d
 	fire_only_once = yes
+
 	trigger = {
 		tag = FRA
 		OR = {
+			#기본 붕괴 트리거
 			AND = {
-				has_stability < 0.2
 				OR = {
 					has_dynamic_modifier = {
 						modifier = FRA_rising_support_for_repeated_fascism
@@ -165,16 +167,27 @@ country_event = {
 						modifier = FRA_rising_support_for_repeated_communism
 					}
 				}
+				OR = {
+					has_stability < 0.2
+					if = {
+						limit = { has_dynamic_modifier = { modifier = FRA_rising_support_for_repeated_fascism } }
+						fascism > 0.45
+					}
+					if = {
+						limit = { has_dynamic_modifier = { modifier = FRA_rising_support_for_repeated_communism } }
+						communism > 0.45
+					}
+				}
 				controls_state = 459
 				is_ai = no
 			}
+			#마지막 약속
 			check_variable = {
 				FRA_promise_var < 0
 			}
-			fascism > 0.45
 		}
 	}
-	is_triggered_only = yes
+
 	immediate = {
 		hidden_effect = {
 			news_event = {
@@ -193,82 +206,756 @@ country_event = {
 	option = {
 		name = FRA_prov_event.3.a
 		custom_effect_tooltip = FRA_prov_event.3.a_tt
-		delete_units = {
-			division_template = "Division d'Infanterie"
-			disband = yes
-		}
 		hidden_effect = {
-			every_state = {
-				limit = {
-					is_owned_by = FRA
-				}
-				add_claim_by = IVO
-			}
 			FRA = {
 				release = MOR
 				release = ALG
-				release = MRT
 				release = WES
-				release = MLI
 				release = CAR
-				release = NGR
-				release = CHA
-				release = SEN
-				release = IVO
-				release = VOL
-				release = GNA
 				release = TUN
-			}
-			MRT = {
-				transfer_state = 782
+				
+			#	release = CHA
+			#	release = NGR
+			#	release = MLI
+			#	release = MRT
+			#	release = SEN
+			#	release = VOL
+			#	release = GNA
 			}
 			if = {
 				limit = {
-					CAR = {
+					VIN = {
 						exists = yes
+						has_capitulated = no
+						OR = {
+							has_idea = FRA_government_general
+							has_idea = FRA_government_general_1
+							has_idea = FRA_government_general_2
+						}
+					}
+					JAP = {
+						exists = yes
+						has_capitulated = no
+						is_subject = no
 					}
 				}
-				CAR = {
-					transfer_state = 779
+				JAP = {
+					annex_country = {
+						target = VIN
+						transfer_troops = no
+					}
 				}
 			}
-			else = {
-				ENG = {
-					transfer_state = 779
+			else_if = {
+				limit = {
+					VIN = {
+						exists = yes
+						has_capitulated = no
+						OR = {
+							has_idea = FRA_government_general
+							has_idea = FRA_government_general_1
+							has_idea = FRA_government_general_2
+						}
+					}
+					CHI = {
+						exists = yes
+						has_capitulated = no
+						is_subject = no
+					}
+				}
+				CHI = {
+					annex_country = {
+						target = VIN
+						transfer_troops = no
+					}
 				}
 			}
-			ITA = {
-				transfer_state = 775
+			if = {
+				limit = {
+					728 = { is_controlled_by = FRA }
+					JAP = {
+						exists = yes
+						has_capitulated = no
+						is_subject = no
+					}
+				}
+				728 = {
+					transfer_state_to = JAP
+				}
+			}
+			else_if = {
+				limit = {
+					728 = { is_controlled_by = FRA }
+					CHI = {
+						exists = yes
+						has_capitulated = no
+						is_subject = no
+					}
+				}
+				728 = {
+					transfer_state_to = CHI
+				}
+			}
+			if = {
+				limit = {
+					775 = { is_controlled_by = FRA }
+					ITA = {
+						exists = yes
+						has_capitulated = no
+						is_subject = no
+					}
+				}
+				775 = {
+					transfer_state_to = ITA
+				}
+			}
+			if = {
+				limit = {
+					1 = { is_controlled_by = FRA }
+					ITA = {
+						exists = yes
+						has_capitulated = no
+						is_subject = no
+					}
+				}
+				1 = {
+					transfer_state_to = ITA
+				}
 			}
 			#드골과 함께 신나는 자유프랑스
 			set_capital = {
 				state = 779
 			}
-			FRA = {
-				FRA_charles_de_gaulle = {
-					set_nationality = IVO
+			if = {
+				limit = {
+					event_target:BA_FRA_free_france_event_target = {
+						NOT = { tag = ROOT }
+					}
+				}
+				event_target:BA_FRA_free_france_event_target = {
+					save_global_event_target_as = BA_FRA_free_france_event_target
+	
+					annex_country = {
+						target = FRA
+						transfer_troops = no
+					}
+					every_possible_country = {
+						limit = { has_character = FRA_charles_de_gaulle }
+						FRA_charles_de_gaulle = {
+							set_nationality = PREV.PREV
+						}
+						transfer_units_fraction= {
+							target = PREV
+							size = 0.5
+							stockpile_ratio = 0.8
+							army_ratio = 0
+							navy_ratio = 0
+							air_ratio = 0
+						}
+					}
+					set_politics = {
+						ruling_party = neutrality
+					}
+					add_popularity = {
+						ideology = neutrality
+						popularity = 1.0
+					}
+					every_core_state = {
+						remove_core_of = PREV
+					}
+					retire_country_leader = yes
+					set_cosmetic_tag = FRA_free_france
+					load_focus_tree = {
+						tree = free_french_focus
+						keep_completed = no
+					}
+					set_capital = {
+						state = 779
+						remember_old_capital = no
+					}
+					add_manpower = 50000
+					division_template = {
+						name = "Forces françaises libres"
+						priority = 1
+						division_names_group = FRA_ARM_01
+		
+						regiments = {
+							infantry = { x = 0 y = 0 }
+							infantry = { x = 0 y = 1 }
+							infantry = { x = 0 y = 2 }
+						
+							infantry = { x = 1 y = 0 }
+							infantry = { x = 1 y = 1 }
+							infantry = { x = 1 y = 2 }
+						}
+						support = {
+							recon = { x = 0 y = 0 }
+						}
+					}
+				 
+					capital_scope  = {
+						create_unit = {
+							division = "name = \"I. Forces françaises libres\" division_template = \"Forces françaises libres\" start_experience_factor = 0.4 start_equipment_factor = 0.7" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"II. Forces françaises libres\" division_template = \"Forces françaises libres\" start_experience_factor = 0.3 start_equipment_factor = 0.7" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"III. Forces françaises libres\" division_template = \"Forces françaises libres\" start_experience_factor = 0.1 start_equipment_factor = 0.5" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"IV. Forces françaises libres\" division_template = \"Forces françaises libres\" start_experience_factor = 0.2 start_equipment_factor = 0.5" 
+							owner = PREV
+						}
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"V. Forces françaises libres\" division_template = \"Forces françaises libres\" start_experience_factor = 0.1 start_equipment_factor = 0.4" 
+							owner = PREV
+						}
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"VI. Forces françaises libres\" division_template = \"Forces françaises libres\" start_experience_factor = 0.1 start_equipment_factor = 0.4" 
+							owner = PREV
+						}
+					}
+					if = {
+						limit = {
+							OR = {
+								any_owned_state = { is_core_of = NGR }
+								any_owned_state = { is_core_of = CHA }
+							}
+						}
+						country_event = { id = FRA_free_france_event.1 days = 5 }
+					}
+					if = {
+						limit = { any_owned_state = { is_core_of = MLI } }
+						country_event = { id = FRA_free_france_event.2 days = 25 }
+					}
+					if = {
+						limit = { any_owned_state = { is_core_of = MRT } }
+						country_event = { id = FRA_free_france_event.3 days = 15 }
+					}
+					if = {
+						limit = {
+							OR = {
+								any_owned_state = { is_core_of = SEN }
+								any_owned_state = { is_core_of = VOL }
+								any_owned_state = { is_core_of = GNA }
+							}
+						}
+						country_event = { id = FRA_free_france_event.4 days = 25 }
+					}
+					change_tag_from = ROOT
 				}
 			}
-			IVO = {
-				set_politics = {
-					ruling_party = neutrality
+			else = {
+				create_dynamic_country = {
+					original_tag = FRA
+					copy_tag = FRA
+					reserve_dynamic_country = yes
+					save_global_event_target_as = BA_FRA_free_france_event_target
+	
+					annex_country = {
+						target = FRA
+						transfer_troops = no
+					}
+					every_possible_country = {
+						limit = { has_character = FRA_charles_de_gaulle }
+						FRA_charles_de_gaulle = {
+							set_nationality = PREV.PREV
+						}
+						transfer_units_fraction= {
+							target = PREV
+							size = 0.5
+							stockpile_ratio = 0.8
+							army_ratio = 0
+							navy_ratio = 0
+							air_ratio = 0
+						}
+					}
+					set_politics = {
+						ruling_party = neutrality
+					}
+					add_popularity = {
+						ideology = neutrality
+						popularity = 1.0
+					}
+					every_core_state = {
+						remove_core_of = PREV
+					}
+					retire_country_leader = yes
+					set_cosmetic_tag = FRA_free_france
+					load_focus_tree = {
+						tree = free_french_focus
+						keep_completed = no
+					}
+					set_capital = {
+						state = 779
+						remember_old_capital = no
+					}
+					add_manpower = 50000
+					division_template = {
+						name = "Forces françaises libres"
+						priority = 1
+						division_names_group = FRA_ARM_01
+		
+						regiments = {
+							infantry = { x = 0 y = 0 }
+							infantry = { x = 0 y = 1 }
+							infantry = { x = 0 y = 2 }
+						
+							infantry = { x = 1 y = 0 }
+							infantry = { x = 1 y = 1 }
+							infantry = { x = 1 y = 2 }
+						}
+						support = {
+							recon = { x = 0 y = 0 }
+						}
+					}
+				 
+					capital_scope  = {
+						create_unit = {
+							division = "name = \"I. Forces françaises libres\" division_template = \"Forces françaises libres\" start_experience_factor = 0.4 start_equipment_factor = 0.7" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"II. Forces françaises libres\" division_template = \"Forces françaises libres\" start_experience_factor = 0.3 start_equipment_factor = 0.7" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"III. Forces françaises libres\" division_template = \"Forces françaises libres\" start_experience_factor = 0.1 start_equipment_factor = 0.5" 
+							owner = PREV
+						}
+						create_unit = {
+							division = "name = \"IV. Forces françaises libres\" division_template = \"Forces françaises libres\" start_experience_factor = 0.2 start_equipment_factor = 0.5" 
+							owner = PREV
+						}
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"V. Forces françaises libres\" division_template = \"Forces françaises libres\" start_experience_factor = 0.1 start_equipment_factor = 0.4" 
+							owner = PREV
+						}
+					}
+					random_owned_controlled_state = {
+						create_unit = {
+							division = "name = \"VI. Forces françaises libres\" division_template = \"Forces françaises libres\" start_experience_factor = 0.1 start_equipment_factor = 0.4" 
+							owner = PREV
+						}
+					}
+					if = {
+						limit = {
+							OR = {
+								any_owned_state = { is_core_of = NGR }
+								any_owned_state = { is_core_of = CHA }
+							}
+						}
+						country_event = { id = FRA_free_france_event.1 days = 5 }
+					}
+					if = {
+						limit = { any_owned_state = { is_core_of = MLI } }
+						country_event = { id = FRA_free_france_event.2 days = 25 }
+					}
+					if = {
+						limit = { any_owned_state = { is_core_of = MRT } }
+						country_event = { id = FRA_free_france_event.3 days = 15 }
+					}
+					if = {
+						limit = {
+							OR = {
+								any_owned_state = { is_core_of = SEN }
+								any_owned_state = { is_core_of = VOL }
+								any_owned_state = { is_core_of = GNA }
+							}
+						}
+						country_event = { id = FRA_free_france_event.4 days = 25 }
+					}
+					change_tag_from = ROOT
 				}
-				retire_country_leader = yes
-				set_cosmetic_tag = IVO_fra
-				change_tag_from = FRA
 			}
 			###########
-			IVO = {
-				annex_country = {
-					target = FRA
-					transfer_troops = no
-				}
-			}
 			news_event = {
 				days = 5
 				id = FRA_prov_event.76
 			}
 		}
+	}
+}
+
+country_event = { #사막 행정력 상실
+	id = FRA_free_france_event.1
+	title = FRA_free_france_event.1.t
+	desc = FRA_free_france_event.1.d
+
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			any_owned_state = { is_core_of = NGR }
+			any_owned_state = { is_core_of = CHA }
+		}
+	}
+
+	option = {
+		name = FRA_free_france_event.1.a
+		release = NGR
+		release = CHA
+	}
+}
+
+country_event = { #말리 독립 선언
+	id = FRA_free_france_event.2
+	title = FRA_free_france_event.2.t
+	desc = FRA_free_france_event.2.d
+
+	trigger = {
+		any_owned_state = { is_core_of = MLI }
+	}
+
+	immediate = {
+		hidden_effect = {
+			release = MLI
+			MLI = {
+				division_template = {
+					name = "Independence Army"
+					priority = 1
+	
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+					
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+					}
+				}
+			 
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.7" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.3" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.2" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.1" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.1" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.1" 
+						owner = PREV
+					}
+				}
+			}
+		}
+	}
+
+	is_triggered_only = yes
+
+	option = {
+		name = FRA_free_france_event.2.a
+		ai_chance = {
+			factor = 0
+		}
+		add_war_support = -0.05
+		declare_war_on = {
+			target = MLI
+			type = annex_everything
+		}
+	}
+
+	option = {
+		name = FRA_free_france_event.2.b
+	}
+}
+
+country_event = { #모리타니 독립 선언
+	id = FRA_free_france_event.3
+	title = FRA_free_france_event.3.t
+	desc = FRA_free_france_event.3.d
+
+	trigger = {
+		any_owned_state = { is_core_of = MRT }
+	}
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			release = MRT
+			if = {
+				limit = {
+					782 = { is_controlled_by = ROOT }
+				}
+				782 = {
+					transfer_state_to = MRT
+				}
+			}
+			MRT = {
+				division_template = {
+					name = "Independence Army"
+					priority = 1
+	
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+					
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+					}
+				}
+			 
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.7" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.3" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.2" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.1" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.1" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.1" 
+						owner = PREV
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = FRA_free_france_event.3.a
+		ai_chance = {
+			factor = 0
+		}
+		add_war_support = -0.05
+		declare_war_on = {
+			target = MRT
+			type = annex_everything
+		}
+	}
+	option = {
+		name = FRA_free_france_event.3.b
+	}
+}
+
+country_event = { #서아프리카 해방
+	id = FRA_free_france_event.4
+	title = FRA_free_france_event.4.t
+	desc = FRA_free_france_event.4.d
+
+	trigger = {
+		OR = {
+			MRT = {
+				exists = yes
+				has_capitulated = no
+			}
+			MLI = {
+				exists = yes
+				has_capitulated = no
+			}
+		}
+		OR = {
+			any_owned_state = { is_core_of = SEN }
+			any_owned_state = { is_core_of = VOL }
+			any_owned_state = { is_core_of = GNA }
+		}
+	}
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			release = SEN
+			release = VOL
+			release = GNA
+			SEN = {
+				division_template = {
+					name = "Independence Army"
+					priority = 1
+	
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+					
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.3" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.1" 
+						owner = PREV
+					}
+				}
+			}
+			VOL = {
+				division_template = {
+					name = "Independence Army"
+					priority = 1
+	
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+					
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.3" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.1" 
+						owner = PREV
+					}
+				}
+			}
+			GNA = {
+				division_template = {
+					name = "Independence Army"
+					priority = 1
+	
+					regiments = {
+						infantry = { x = 0 y = 0 }
+						infantry = { x = 0 y = 1 }
+						infantry = { x = 0 y = 2 }
+					
+						infantry = { x = 1 y = 0 }
+						infantry = { x = 1 y = 1 }
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.3" 
+						owner = PREV
+					}
+				}
+				random_owned_controlled_state = {
+					create_unit = {
+						division = "name = \"Independence Army\" division_template = \"Independence Army\" start_experience_factor = 0.4 start_equipment_factor = 0.1" 
+						owner = PREV
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = FRA_free_france_event.3.a
+		trigger = {
+			OR = {
+				has_war_with = MRT
+				has_war_with = MLI
+			}
+		}
+		add_war_support = -0.05
+		declare_war_on = {
+			target = SEN
+			type = annex_everything
+		}
+		declare_war_on = {
+			target = VOL
+			type = annex_everything
+		}
+		declare_war_on = {
+			target = GNA
+			type = annex_everything
+		}
+	}
+	option = {
+		name = FRA_free_france_event.3.b
+		trigger = {
+			NOT = {
+				has_war_with = MRT
+				has_war_with = MLI
+			}
+		}
+		ai_chance = {
+			factor = 0
+		}
+		add_war_support = -0.05
+		declare_war_on = {
+			target = SEN
+			type = annex_everything
+		}
+		declare_war_on = {
+			target = VOL
+			type = annex_everything
+		}
+		declare_war_on = {
+			target = GNA
+			type = annex_everything
+		}
+	}
+	option = {
+		trigger = {
+			NOT = {
+				has_war_with = MRT
+				has_war_with = MLI
+			}
+		}
+		name = FRA_free_france_event.3.c
 	}
 }
 
