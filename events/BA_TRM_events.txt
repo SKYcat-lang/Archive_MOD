@@ -5277,7 +5277,7 @@ country_event = {
 				country_leader = {
 					ideology = marxism
 					traits = {
-						TRN_seia_trait_2
+						TRN_seia_trait
 					}
 				}
 			}
@@ -5331,7 +5331,7 @@ country_event = {
 					country_leader = {
 						ideology = marxism
 						traits = {
-							TRN_seia_trait_2
+							TRN_seia_trait
 						}
 					}
 				}
@@ -5635,6 +5635,218 @@ country_event = {
 				}
 				0.001 = {
 					#이건 효과가 아닙니다
+				}
+			}
+		}
+	}
+
+	hidden = yes
+	
+	option = { 
+		name = TRN_faction_event.1.a
+	}
+}
+country_event = {
+	id = TRN_faction_event.2
+	title = TRN_faction_event.2.t
+	desc = TRN_faction_event.2.desc
+	picture = GFX_event_TRN_event_1
+
+	trigger = {
+		tag = TRM
+		NOT = {
+			has_global_flag = TRN_faction_event_2_flag
+		}
+	}
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			set_global_flag = TRN_faction_event_2_flag
+			random_list = {
+				0 = { #특정 세력의 충성도가 -50 이하일 때 ( 매우 나쁨 )
+					modifier = {
+						OR = {
+							AND = { check_variable = { TRM_one_loyalty < -49 } NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } } }
+							AND = { check_variable = { TRM_two_loyalty < -49 } NOT = { check_variable = { TRM_internal_factions_slot_two_var = -1 } } }
+							AND = { check_variable = { TRM_three_loyalty < -49 } NOT = { check_variable = { TRM_internal_factions_slot_three_var = -1 } } }
+						}
+						add = 100
+					}
+					random_list = {
+						0 = {
+							modifier = {
+								check_variable = { TRM_one_loyalty < -49 }
+								NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } }
+								add = 100
+							}
+							set_variable = { TRN_faction_event_2_var = TRM_internal_factions_slot_one_var }
+							set_variable = { TRN_faction_event_2_popularity = TRM_one_popularity }
+							TRM_internal_factions_event_effect_1 = yes
+						}
+						0 = {
+							modifier = {
+								check_variable = { TRM_two_loyalty < -49 }
+								NOT = { check_variable = { TRM_internal_factions_slot_two_var = -1 } }
+								add = 100
+							}
+							set_variable = { TRN_faction_event_2_var = TRM_internal_factions_slot_two_var }
+							set_variable = { TRN_faction_event_2_popularity = TRM_two_popularity }
+							TRM_internal_factions_event_effect_1 = yes
+						}
+						0 = {
+							modifier = {
+								check_variable = { TRM_three_loyalty < -49 }
+								NOT = { check_variable = { TRM_internal_factions_slot_three_var = -1 } }
+								add = 100
+							}
+							set_variable = { TRN_faction_event_2_var = TRM_internal_factions_slot_three_var }
+							set_variable = { TRN_faction_event_2_popularity = TRM_three_popularity }
+							TRM_internal_factions_event_effect_1 = yes
+						}
+						0.001 = {
+
+						}
+					}
+				}
+				0 = { #특정 세력의 충성도가 -49 - -1 사이일 때 ( 나쁨 )
+					modifier = {
+						OR = {
+							AND = { check_variable = { TRM_one_loyalty > -50 } check_variable = { TRM_one_loyalty < 0 } NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } } }
+							AND = { check_variable = { TRM_two_loyalty > -50 } check_variable = { TRM_two_loyalty < 0 } NOT = { check_variable = { TRM_internal_factions_slot_two_var = -1 } } }
+							AND = { check_variable = { TRM_three_loyalty > -50 } check_variable = { TRM_three_loyalty < 0 } NOT = { check_variable = { TRM_internal_factions_slot_three_var = -1 } } }
+						}
+						add = 100
+					}
+					random_list = {
+						0 = {
+							modifier = {
+								check_variable = { TRM_one_loyalty > -50 } check_variable = { TRM_one_loyalty < 0 }
+								NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } }
+								add = 100
+							}
+							set_variable = { TRN_faction_event_2_var = TRM_internal_factions_slot_one_var }
+							set_variable = { TRN_faction_event_2_popularity = TRM_one_popularity }
+							TRM_internal_factions_event_effect_2 = yes
+						}
+						0 = {
+							modifier = {
+								check_variable = { TRM_two_loyalty > -50 } check_variable = { TRM_two_loyalty < 0 }
+								NOT = { check_variable = { TRM_internal_factions_slot_two_var = -1 } }
+								add = 100
+							}
+							set_variable = { TRN_faction_event_2_var = TRM_internal_factions_slot_two_var }
+							set_variable = { TRN_faction_event_2_popularity = TRM_two_popularity }
+							TRM_internal_factions_event_effect_2 = yes
+						}
+						0 = {
+							modifier = {
+								check_variable = { TRM_three_loyalty > -50 } check_variable = { TRM_three_loyalty < 0 }
+								NOT = { check_variable = { TRM_internal_factions_slot_three_var = -1 } }
+								add = 100
+							}
+							set_variable = { TRN_faction_event_2_var = TRM_internal_factions_slot_three_var }
+							set_variable = { TRN_faction_event_2_popularity = TRM_three_popularity }
+							TRM_internal_factions_event_effect_2 = yes
+						}
+						0.001 = {
+
+						}
+					}
+				}
+				0 = { #특정 세력의 충성도가 0 - 49 사이일 때 ( 일반 )
+					modifier = {
+						OR = {
+							AND = { check_variable = { TRM_one_loyalty > -1 } check_variable = { TRM_one_loyalty < 50 } NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } } }
+							AND = { check_variable = { TRM_two_loyalty > -1 } check_variable = { TRM_two_loyalty < 50 } NOT = { check_variable = { TRM_internal_factions_slot_two_var = -1 } } }
+							AND = { check_variable = { TRM_three_loyalty > -1 } check_variable = { TRM_three_loyalty < 50 } NOT = { check_variable = { TRM_internal_factions_slot_three_var = -1 } } }
+						}
+						add = 100
+					}
+					random_list = {
+						0 = {
+							modifier = {
+								check_variable = { TRM_one_loyalty > -1 } check_variable = { TRM_one_loyalty < 50 }
+								NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } }
+								add = 100
+							}
+							set_variable = { TRN_faction_event_2_var = TRM_internal_factions_slot_one_var }
+							set_variable = { TRN_faction_event_2_popularity = TRM_one_popularity }
+							TRM_internal_factions_event_effect_3 = yes
+						}
+						0 = {
+							modifier = {
+								check_variable = { TRM_two_loyalty > -1 } check_variable = { TRM_two_loyalty < 50 }
+								NOT = { check_variable = { TRM_internal_factions_slot_two_var = -1 } }
+								add = 100
+							}
+							set_variable = { TRN_faction_event_2_var = TRM_internal_factions_slot_two_var }
+							set_variable = { TRN_faction_event_2_popularity = TRM_two_popularity }
+							TRM_internal_factions_event_effect_3 = yes
+						}
+						0 = {
+							modifier = {
+								check_variable = { TRM_three_loyalty > -1 } check_variable = { TRM_three_loyalty < 50 }
+								NOT = { check_variable = { TRM_internal_factions_slot_three_var = -1 } }
+								add = 100
+							}
+							set_variable = { TRN_faction_event_2_var = TRM_internal_factions_slot_three_var }
+							set_variable = { TRN_faction_event_2_popularity = TRM_three_popularity }
+							TRM_internal_factions_event_effect_3 = yes
+						}
+						0.001 = {
+
+						}
+					}
+				}
+				0 = { #특정 세력의 충성도가 50 이상일 때 ( 높음 )
+					modifier = {
+						OR = {
+							AND = { check_variable = { TRM_one_loyalty > 49 } NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } } }
+							AND = { check_variable = { TRM_two_loyalty > 49 } NOT = { check_variable = { TRM_internal_factions_slot_two_var = -1 } } }
+							AND = { check_variable = { TRM_three_loyalty > 49 } NOT = { check_variable = { TRM_internal_factions_slot_three_var = -1 } } }
+						}
+						add = 100
+					}
+					random_list = {
+						0 = {
+							modifier = {
+								check_variable = { TRM_one_loyalty > 49 }
+								NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } }
+								add = 100
+							}
+							set_variable = { TRN_faction_event_2_var = TRM_internal_factions_slot_one_var }
+							set_variable = { TRN_faction_event_2_popularity = TRM_one_popularity }
+							TRM_internal_factions_event_effect_4 = yes
+						}
+						0 = {
+							modifier = {
+								check_variable = { TRM_two_loyalty > 49 }
+								NOT = { check_variable = { TRM_internal_factions_slot_two_var = -1 } }
+								add = 100
+							}
+							set_variable = { TRN_faction_event_2_var = TRM_internal_factions_slot_two_var }
+							set_variable = { TRN_faction_event_2_popularity = TRM_two_popularity }
+							TRM_internal_factions_event_effect_4 = yes
+						}
+						0 = {
+							modifier = {
+								check_variable = { TRM_three_loyalty > 49 }
+								NOT = { check_variable = { TRM_internal_factions_slot_three_var = -1 } }
+								add = 100
+							}
+							set_variable = { TRN_faction_event_2_var = TRM_internal_factions_slot_three_var }
+							set_variable = { TRN_faction_event_2_popularity = TRM_three_popularity }
+							TRM_internal_factions_event_effect_4 = yes
+						}
+						0.001 = {
+
+						}
+					}
+				}
+				0.001 = {
+					#이건 효과가 아닙니다.
 				}
 			}
 		}
