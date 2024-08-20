@@ -295,7 +295,12 @@ country_event = { #망명정부 승인
 				}
 			}
 		}
-		every_character = { set_nationality = ENG }
+		CAN = {
+			every_unit_leader = {
+				add_unit_leader_trait = ENG_canada_officer
+				set_nationality = ENG
+			}
+		}
 	}
 	option = { #그없
 		name = can.13.b
@@ -675,5 +680,131 @@ country_event = { #거절당함
 		declare_war_on = {
 			target = FROM
 		}
+	}
+}
+
+add_namespace = Canada
+
+country_event = { # 국왕의 연설 
+	id = Canada.1
+	title = Canada.1.t
+	desc = Canada.1.desc
+	picture = GFX_report_event_king_speech
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = Canada.1.a
+		set_country_flag = CAN_address_war
+		hidden_effect = { country_event = { id = Canada.2 days = 01 } }
+	}
+	option = {
+		name = Canada.1.b
+		set_country_flag = CAN_address_gov
+		hidden_effect = { country_event = { id = Canada.2 days = 01 } }
+	}
+	option = {
+		name = Canada.1.c
+		set_country_flag = CAN_address_neu
+		hidden_effect = { country_event = { id = Canada.2 days = 01 } }
+	}
+}
+country_event = { # 국왕의 연설 반응
+	id = Canada.2
+	title = { 
+		text = Canada.2.war.t
+		trigger = { has_country_flag = CAN_address_war }
+	}
+	title = { 
+		text = Canada.2.gov.t
+		trigger = { has_country_flag = CAN_address_gov }
+	}
+	title = { 
+		text = Canada.2.neu.t
+		trigger = { has_country_flag = CAN_address_neu }
+	}
+
+	desc = {
+		text = Canada.2.d.war
+		trigger = { has_country_flag = CAN_address_war }
+	}
+	desc = {
+		text = Canada.2.d.gov
+		trigger = { has_country_flag = CAN_address_gov }
+	}
+	desc = {
+		text = Canada.2.d.neu
+		trigger = { has_country_flag = CAN_address_neu }
+	}
+	picture = GFX_report_event_king_speech
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = Canada.2.a
+		if = {
+			limit = { has_idea = ENG_king_edward }
+			swap_ideas = {
+				add_idea = BA_ENG_king_edward
+				remove_idea = ENG_king_edward
+			}
+		}
+		if = {
+			limit = { has_country_flag = CAN_address_war }
+			custom_effect_tooltip = CAN_by_parliament
+			add_stability = -0.1
+			custom_effect_tooltip = CAN_by_uk_exile
+			add_war_support = 0.05
+			custom_effect_tooltip = tooltip_white_line
+			add_ideas = ENG_people_support_idea_1
+			add_idea = ENG_UK_exile_support_idea_3
+			add_ideas = ENG_Canada_Government_support_idea_1
+		}
+		if = {
+			limit = { has_country_flag = CAN_address_gov }
+			custom_effect_tooltip = CAN_by_parliament
+			add_stability = 0.05
+			custom_effect_tooltip = CAN_by_uk_exile
+			add_war_support = -0.1
+			custom_effect_tooltip = tooltip_white_line
+			add_ideas = ENG_people_support_idea_1
+			add_ideas = ENG_UK_exile_support_idea_2
+			add_ideas = ENG_Canada_Government_support_idea_3
+		}
+		if = {
+			limit = { has_country_flag = CAN_address_neu }
+			custom_effect_tooltip = CAN_by_parliament
+			custom_effect_tooltip = NO_EFFECT
+			custom_effect_tooltip = CAN_by_uk_exile
+			add_war_support = -0.05
+			custom_effect_tooltip = tooltip_white_line
+			add_ideas = ENG_people_support_idea_2
+			add_ideas = ENG_UK_exile_support_idea_2
+			add_ideas = ENG_Canada_Government_support_idea_2
+		}
+		else = {
+			custom_effect_tooltip = CAN_by_parliament
+			custom_effect_tooltip = NO_EFFECT
+			custom_effect_tooltip = CAN_by_uk_exile
+			custom_effect_tooltip = NO_EFFECT
+			add_ideas = ENG_people_support_idea_1
+			add_ideas = ENG_UK_exile_support_idea_2
+		}
+	}
+}
+country_event = {
+	id = Canada.3
+	title = Canada.3.t
+	desc = Canada.3.desc
+	picture = GFX_report_event_king_speech
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = Canada.1.a
+		 
 	}
 }

@@ -9,24 +9,42 @@ focus_tree = {
 	}
 	default = no
 	continuous_focus_position = { x = 50 y = 1700 }
+	shared_focus = CAN_kings_speech
+
+	focus = {
+		id = ENG_kings_speech # 국왕의 연설
+		icon = GFX_goal_TRN_Hug_students
+		cost = 10
+		allow_branch = { 
+			has_global_flag = ENG_lose_global_flag
+			has_country_flag = GAEBALJUNG
+		}
+
+		prerequisite = { }
+		
+		x = 13
+		y = 1
+
+		
+		completion_reward = {
+			add_political_power = 100
+			set_cosmetic_tag = ENG_imsi_gov
+		}
+	}
 
 	focus = {
 		id = CAN_focus_0 #영국 임시정부 수립
 		icon = GFX_focus_generic_improve_the_administration
 		cost = 10
-		allow_branch = {
-			has_global_flag = ENG_lose_global_flag
-		}
 
 		prerequisite = {
-			focus = CAN_focus_2
-			focus = CAN_focus_3
+			focus = ENG_kings_speech
 		}
 		
-		x = 21
+		x = 1
 		y = 1
 
-		
+		relative_position_id = ENG_kings_speech
 		completion_reward = {
 			add_political_power = 100
 			set_cosmetic_tag = ENG_imsi_gov
@@ -37,58 +55,32 @@ focus_tree = {
 		icon = GFX_focus_generic_support_the_left_right
 		cost = 10
 		prerequisite = {
-			focus = CAN_focus_0
+			focus = ENG_kings_speech
 		}
 		
-		x = 0
+		x = -1
 		y = 1
-		relative_position_id = CAN_focus_0
+		relative_position_id = ENG_kings_speech
 		completion_reward = {
 			add_political_power = 50
-			country_event = { id = can.23 days = 1 }
-		}
-	}
-	focus = {
-		id = CAN_focus_l_1 #제국 긴급대책법 초안 발의
-		icon = GFX_focus_eng_the_sun_never_sets
-		cost = 22.9
-		available = {
-			NOT = {
-				has_country_flag = ENG_great_depression_flag
-				has_idea = ENG_distorted_gov
-			}
-		}
-		prerequisite = {
-			focus = CAN_focus_1
-		}
-		
-		x = 0
-		y = 3
-		relative_position_id = CAN_focus_1
-
-		select_effect = {
-			country_event = { id = can.25 days = 1 }
-		}
-		completion_reward = {
-			custom_effect_tooltip = ENG_emergency_laws_uk_ns_tt
+			country_event = { id = CAN.23 days = 1 }
 		}
 	}
 	focus = {
 		id = CAN_focus_2 #정부 정상화
 		icon = GFX_goal_support_democracy
 		cost = 5
-		allow_branch = {
-			has_global_flag = ENG_lose_global_flag
-		}
 		
 		mutually_exclusive = {
 			focus = CAN_focus_3
 			focus = CAN_focus_5
 		}
+		prerequisite = { focus = CAN_focus_1 }
+		prerequisite = { focus = CAN_focus_0 }
 
-		x = 13
-		y = 0
-		
+		x = 0
+		y = 3
+		relative_position_id = ENG_kings_speech
 		completion_reward = {
 			add_political_power = 25
 			add_stability = 0.05
@@ -268,7 +260,7 @@ focus_tree = {
 			add_stability = -0.05
 			#이라크 괴뢰화 요구 이벤트 넣기
 			IRQ = {
-				country_event = { id = can.26 }
+				country_event = { id = CAN.26 }
 			}
 		}
 	}
@@ -319,9 +311,6 @@ focus_tree = {
 		id = CAN_focus_4 #영연방 결속
 		icon = GFX_goal_generic_national_unity
 		cost = 10
-		allow_branch = {
-			has_global_flag = ENG_lose_global_flag
-		}
 
 		available = {
 			NOT = {
@@ -2222,18 +2211,17 @@ focus_tree = {
 		bypass = {
 			has_country_flag = edward_viii_married_wallis_simpson
 		}
-		allow_branch = {
-			has_global_flag = ENG_lose_global_flag
-		}
+		prerequisite = { focus = CAN_focus_1 }
+		prerequisite = { focus = CAN_focus_0 }
 
 		mutually_exclusive = {
 			focus = CAN_focus_2
 			focus = CAN_focus_5
 		}
 
-		x = 29
+		x = 15
 		y = 0
-
+		relative_position_id = CAN_focus_2
 		completion_reward = {
 			add_stability = -0.05
 			add_ideas = ENG_edwards_power
@@ -3449,10 +3437,6 @@ focus_tree = {
 		id = CAN_focus_5 #혼란을 틈탄 암약
 		icon = GFX_focus_eng_concessions_to_the_trade_unions
 		cost = 10
-		
-		allow_branch = {
-			has_global_flag = ENG_lose_global_flag
-		}
 		available = {
 			has_country_flag = GAEBALJUNG
 		}
@@ -3460,9 +3444,12 @@ focus_tree = {
 			focus = CAN_focus_3
 			focus = CAN_focus_2
 		}
+		prerequisite = { focus = CAN_focus_1 }
+		prerequisite = { focus = CAN_focus_0 }
 
-		x = 44
+		x = -18
 		y = 0
+		relative_position_id = CAN_focus_2
 		
 		completion_reward = {
 			custom_effect_tooltip = CAN_com_tt
@@ -4005,6 +3992,11 @@ focus_tree = {
     	x = 0
     	y = 0
 		available = {
+			NOT = {
+				has_global_flag = ENG_lose_global_flag
+			}
+		}
+		allow_branch = {
 			NOT = {
 				has_global_flag = ENG_lose_global_flag
 			}
