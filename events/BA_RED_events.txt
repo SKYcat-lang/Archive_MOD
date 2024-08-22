@@ -3,6 +3,8 @@ add_namespace = RED_unite_kibotos
 add_namespace = RED_instability_system
 add_namespace = RED_military_government_occupation
 add_namespace = RED_minori_event
+add_namespace = RED_missions
+add_namespace = RED_missions_char
 
 country_event = { #용역부 가담
 	id = RED_minori_event.1
@@ -2408,5 +2410,140 @@ country_event = { #주 3일제
 	option = { #안바꿀건데?
 		name = RED_event.21.b
 		add_war_support = 0.05
+	}
+}
+
+country_event = { #주 3일제 실시 요구
+	id = RED_missions.1
+	title = RED_missions.1.t
+	desc = RED_missions.1.d
+	fire_only_once = yes
+	hidden = yes
+	trigger = {
+		tag = RED
+		has_completed_focus = RED_to_left
+	}
+	mean_time_to_happen = {
+		days = 150
+	}
+	immediate = {
+		add_to_variable = {
+			RED_public_mission_activated = 1
+		}
+	}
+	option = {
+		name = RED_missions.1.a
+		RED_the_public = {
+			unit_leader_event = RED_missions_char.1
+		}
+	}
+}
+unit_leader_event = {
+	id = RED_missions_char.1
+	title = RED_missions_char.1.t
+	desc = RED_missions_char.1.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = RED_missions_char.1.a
+		activate_mission = RED_demand_three_day_work
+	}
+}
+unit_leader_event = { #미션 실패
+	id = RED_missions_char.2
+	title = RED_missions_char.2.t
+	desc = RED_missions_char.2.d
+	is_triggered_only = yes
+	option = {
+		name = RED_missions_char.2.a
+		add_political_power = -20
+		add_war_support = -0.01
+		add_stability = -0.01
+		add_popularity = {
+			ideology = communism
+			popularity = -0.01
+		}
+		if = {
+			limit = {
+				check_variable = {
+					RED_public_mission_failed > 5
+				}
+			}
+			if = {
+				limit = {
+					has_idea = strikes_3
+				}
+				modify_timed_idea = {
+					idea = strikes_3
+					days = 120
+				}
+			}
+			else = {
+				add_timed_idea = {
+					idea = strikes_3
+					days = 120
+				}
+			}
+			hidden_effect = {
+				remove_ideas = { strikes_1 strikes_2 }
+			}
+			custom_effect_tooltip = RED_public_mission_failed_over_5
+		}
+		else_if = {
+			limit = {
+				check_variable = {
+					RED_public_mission_failed > 2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = strikes_2
+				}
+				modify_timed_idea = {
+					idea = strikes_2
+					days = 120
+				}
+			}
+			else = {
+				add_timed_idea = {
+					idea = strikes_2
+					days = 120
+				}
+			}
+			hidden_effect = {
+				remove_ideas = { strikes_1 }
+			}
+			custom_effect_tooltip = RED_public_mission_failed_over_2
+		}
+		else = {
+			if = {
+				limit = {
+					has_idea = strikes_1
+				}
+				modify_timed_idea = {
+					idea = strikes_1
+					days = 120
+				}
+			}
+			else = {
+				add_timed_idea = {
+					idea = strikes_1
+					days = 120
+				}
+			}
+		}
+	}
+}
+unit_leader_event = { #미션 성공
+	id = RED_missions_char.3
+	title = RED_missions_char.3.t
+	desc = RED_missions_char.3.d
+	is_triggered_only = yes
+	option = {
+		name = RED_missions_char.3.a
+		add_political_power = 10
+		add_to_variable = {
+			RED_public_mission_failed = 100
+		}
 	}
 }
