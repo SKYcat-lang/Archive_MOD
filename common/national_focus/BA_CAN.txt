@@ -11,15 +11,25 @@ shared_focus = {
 	prerequisite = { }
 	ai_will_do = { factor = 100 }
 	available_if_capitulated = yes
+	select_effect = {
+		country_event = { id = IMP.4 days = 10 }
+	}
 		
-	x = 3
+	x = 12
 	y = 0
 
 		
 	completion_reward = {
 		add_political_power = 100
-		set_cosmetic_tag = ENG_imsi_gov
-		country_event = { id = IMP.1 hours = 02}
+		if = {
+			limit = { 
+				has_country_leader = {
+					character = IMP_Edward_VIII
+					ruling_only = yes
+				}
+			}
+			country_event = { id = IMP.6 hours = 02}
+		}
 	}
 }
 shared_focus = {
@@ -30,7 +40,15 @@ shared_focus = {
 	relative_position_id = CAN_kings_speech
 	x = -2
 	y = 1
-	available = { is_subject = no }
+	available = { 
+		is_subject = no 
+		NOT = {
+			has_country_leader = {
+				character = IMP_Edward_VIII
+				ruling_only = yes
+			}
+		}
+	}
 
 	prerequisite = { focus = CAN_kings_speech }
 	ai_will_do = { factor = 100 }
@@ -49,10 +67,58 @@ shared_focus = {
 	relative_position_id = CAN_kings_speech
 	x = 0
 	y = 1
-	available = { is_subject = no }
+	available = { 
+		is_subject = no 
+		NOT = {
+			has_country_leader = {
+				character = IMP_Edward_VIII
+				ruling_only = yes
+			}
+		}
+	}
 
 	prerequisite = { focus = CAN_kings_speech }
 	ai_will_do = { factor = 100 }
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+		
+	}
+}
+shared_focus = {
+	id = CAN_create_iedc
+	icon = GFX_goal_CAN_iedc
+	cost = 5
+	
+	relative_position_id = CAN_imperial_conference
+	x = 1
+	y = 1
+	available = { }
+
+	prerequisite = { focus = CAN_imperial_conference }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+		
+	}
+}
+shared_focus = {
+	id = CAN_create_isac
+	icon = GFX_goal_CAN_isac
+	cost = 5
+	
+	relative_position_id = CAN_imperial_conference
+	x = -1
+	y = 1
+	available = { }
+
+	prerequisite = { focus = CAN_imperial_conference }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
 	available_if_capitulated = yes
 
 		
@@ -68,37 +134,489 @@ shared_focus = {
 	relative_position_id = CAN_kings_speech
 	x = 2
 	y = 1
-	available = { is_subject = no }
+	available = { 
+		is_subject = no 
+		NOT = {
+			has_country_leader = {
+				character = IMP_Edward_VIII
+				ruling_only = yes
+			}
+		}
+	}
 
 	prerequisite = { focus = CAN_kings_speech }
 	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_POLITICAL}
 	available_if_capitulated = yes
 
 		
 	completion_reward = {
 		remove_ideas = ENG_distorted_gov
-		custom_effect_tooltip = IMP_by_parliament
-		custom_effect_tooltip = NO_EFFECT
-		custom_effect_tooltip = IMP_by_uk_exile
-		add_political_power = 150
+		#country_event = { id = IMP.5 hours = 02 }
 	}
 }
+
+#####ECONOMIC
+
 shared_focus = {
-	id = CAN_establishment_crown_corporations # 왕립기업 설립
-	icon = GFX_focus_generic_industry_3
+	id = CAN_depression_recovery # 대공황 극복
+	icon = GFX_focus_DEN_limited_regulations
 	cost = 5
 	
-	relative_position_id = CAN_kings_speech
-	x = 7
+	relative_position_id = CAN_check_the_economy
+	x = -4
 	y = 1
 	available = { }
 
-	prerequisite = { focus = CAN_kings_speech }
+	prerequisite = { focus = CAN_check_the_economy }
 	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
 	available_if_capitulated = yes
 
 		
 	completion_reward = {
+		ENG_fuking_great_depression_down = yes
+	}
+	
+}
+
+shared_focus = {
+	id = IMP_crown_corporations # 왕실어쩌구
+	icon = GFX_goal_generic_construct_civ_factory
+	cost = 10
+	
+	relative_position_id = CAN_depression_recovery
+	x = -1
+	y = 1
+	available = { }
+
+	prerequisite = { focus = CAN_depression_recovery }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
 		
+	completion_reward = {
+		custom_effect_tooltip = available_political_advisor
+		show_ideas_tooltip = IMP_c_d_howe
 	}
 }
+
+shared_focus = {
+	id = CAN_infrastructure_effort # 대규모 철도사업
+	icon = GFX_goal_generic_construct_infrastructure
+	cost = 10
+	
+	relative_position_id = CAN_depression_recovery
+	x = -4
+	y = 1
+	available = { }
+
+	prerequisite = { focus = CAN_depression_recovery }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+
+	complete_tooltip = {
+		every_state = {
+			limit = { has_state_flag = ENG_infrastructure_effort_3Inf }
+			add_building_construction = {
+				type = infrastructure
+				level = 2
+				instant_build = yes
+			}
+		}
+	}
+		
+	completion_reward = {
+		ENG_fuking_great_depression_down = yes
+		682 = {
+			add_building_construction = {
+				type = supply_node
+				level = 1
+				province = 7899
+				instant_build = yes
+			}
+		}
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 3
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+				set_state_flag = ENG_infrastructure_effort_3Inf	
+			}
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 3
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+				set_state_flag = ENG_infrastructure_effort_3Inf	
+			}
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 3
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+				set_state_flag = ENG_infrastructure_effort_3Inf	
+			}
+			random_owned_controlled_state = {
+				limit = {
+					infrastructure < 3
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+				set_state_flag = ENG_infrastructure_effort_3Inf	
+			}	
+	}
+}
+
+shared_focus = { # id가 겹치면 IMP으로 대체
+		id = IMP_canada_pacific_railway
+		text = CAN_canada_pacific_railway
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = CAN_infrastructure_effort }
+		x = 0
+		y = 2
+		relative_position_id = CAN_infrastructure_effort
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 75
+		}
+
+		available = {
+
+		}
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+		ENG_fuking_great_depression_down = yes
+			random_owned_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+
+			random_owned_state = {
+				limit = {
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+						include_locked = yes
+					}
+				}
+
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			build_railway = { #Vancouver - NW Canada
+				path = {
+					1408 1858 10273 4870 10548
+				}
+			}
+
+			custom_effect_tooltip = available_industrial_concern
+			show_ideas_tooltip = IMP_canadian_pacific_railway
+		}
+}
+shared_focus = { # id가 겹치면 IMP으로 대체
+		id = IMP_maritime_colonial_railway
+		text = CAN_maritime_colonial_railway
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = IMP_canada_pacific_railway }
+		x = 0
+		y = 1
+		relative_position_id = IMP_canada_pacific_railway
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 75
+		}
+
+		available = {
+			controls_state = 464
+			controls_state = 465
+			controls_state = 468
+		}
+
+		available_if_capitulated = yes
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+		ENG_fuking_great_depression_down = yes
+			build_railway = { #Montreal - Halifax
+				path = {
+					4345 4417 10320 7433 1284 12291 4362 7379 4432 1424 7304 7644 7361
+				}
+			}
+			build_railway = {
+				path = {
+					1424 4285
+				}
+			} 
+			build_railway = {
+				path = { 7433 12149 }
+			}
+
+			random_owned_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+
+				add_extra_state_shared_building_slots = 2
+
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+}
+
+shared_focus = {
+	id = CAN_public_works
+	icon = GFX_focus_eng_concessions_to_the_trade_unions
+	cost = 10
+	
+	relative_position_id = IMP_crown_corporations
+	x = -1
+	y = 1
+	available = { }
+
+	prerequisite = { focus = IMP_crown_corporations }
+	prerequisite = { focus = CAN_infrastructure_effort }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+		add_tech_bonus = {
+			name = CAN_public_works
+			bonus = 1
+			uses = 1
+			category = construction_tech
+		}
+		custom_effect_tooltip = IMP_by_people
+		add_stability = 0.05
+	}
+}
+
+shared_focus = { # id가 겹칠 경우 CAN 를 IMP으로 대체
+	id = IMP_national_housing_act
+	icon = GFX_focus_SWE_hygienic_housing
+	cost = 10
+	
+	relative_position_id = CAN_public_works
+	x = 0
+	y = 1
+	available = {
+		NOT = {
+			has_country_leader = {
+				ruling_only = yes
+				character = IMP_winston_churchill
+			}
+		}
+	}
+
+	prerequisite = { focus = CAN_public_works }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+		random_owned_controlled_state = {
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+			}
+		}
+		random_owned_controlled_state = {
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+			}
+		}
+		custom_effect_tooltip = IMP_by_people
+		add_country_leader_trait = { trait = CAN_father_of_the_canadian_welfare_state }
+		ENG_peo_support_up = yes
+	}
+}
+
+shared_focus = { # id가 겹칠 경우 CAN 를 IMP으로 대체
+	id = IMP_department_of_munitions_and_supply
+	text = CAN_department_of_munitions_and_supply
+	icon = GFX_goal_generic_build_tank
+	cost = 10
+	
+	relative_position_id = IMP_crown_corporations
+	x = 2
+	y = 1
+	available = { }
+
+	prerequisite = { focus = IMP_crown_corporations }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+		add_one_random_military_factory = yes
+		add_one_random_military_factory = yes
+		add_one_random_military_factory = yes
+	}
+}
+shared_focus = {
+	id = IMP_bits_and_pieces_program
+	text = CAN_bits_and_pieces_program
+	icon = GFX_goal_generic_construct_mil_factory
+	cost = 10
+	
+	relative_position_id = IMP_department_of_munitions_and_supply
+	x = -1
+	y = 1
+	available = { }
+
+	prerequisite = { focus = IMP_department_of_munitions_and_supply }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+		add_ideas = CAN_bits_and_pieces_program
+	}
+}
+shared_focus = {
+	id = IMP_retool_angus_shops
+	text = CAN_retool_angus_shops
+	icon = GFX_goal_generic_construct_mil_factory
+	cost = 5
+	
+	relative_position_id = IMP_bits_and_pieces_program
+	x = -2
+	y = 1
+	available = { }
+
+	prerequisite = { focus = IMP_bits_and_pieces_program }
+	prerequisite = { focus = IMP_canada_pacific_railway }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 285 517 }
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+	}
+}
+shared_focus = {
+	id = IMP_victory_aircraft_limited
+	text = CAN_victory_aircraft_limited
+	icon = GFX_goal_generic_production2
+	cost = 10
+	
+	relative_position_id = IMP_department_of_munitions_and_supply
+	x = 1
+	y = 1
+	available = { }
+
+	prerequisite = { focus = IMP_department_of_munitions_and_supply }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+			random_owned_controlled_state = {
+				prioritize = { 276 682 }
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		random_owned_controlled_state = {
+			prioritize = { 276 682 }
+			limit = {
+				free_building_slots = {
+					building = arms_factory
+					size > 0
+					include_locked = yes
+				}
+			}
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = arms_factory
+				level = 1
+				instant_build = yes
+			}
+		}
+	}
+}
+
