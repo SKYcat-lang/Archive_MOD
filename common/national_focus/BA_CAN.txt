@@ -65,7 +65,7 @@ shared_focus = {
 	cost = 5
 	
 	relative_position_id = CAN_kings_speech
-	x = 0
+	x = 1
 	y = 1
 	available = { 
 		is_subject = no 
@@ -94,7 +94,9 @@ shared_focus = {
 	relative_position_id = CAN_imperial_conference
 	x = 1
 	y = 1
-	available = { }
+	available = {
+		is_faction_leader = yes
+	}
 
 	prerequisite = { focus = CAN_imperial_conference }
 	ai_will_do = { factor = 100 }
@@ -114,9 +116,32 @@ shared_focus = {
 	relative_position_id = CAN_imperial_conference
 	x = -1
 	y = 1
-	available = { }
+	available = {
+		is_faction_leader = yes
+	}
 
 	prerequisite = { focus = CAN_imperial_conference }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+		
+	}
+}
+shared_focus = {
+	id = CAN_Strengthen_cohesion
+	icon = GFX_focus_eng_the_sun_never_sets
+	cost = 10
+	
+	relative_position_id = CAN_create_iedc
+	x = -1
+	y = 1
+	available = { }
+
+	prerequisite = { focus = CAN_create_iedc }
+	prerequisite = { focus = CAN_create_isac }
 	ai_will_do = { factor = 100 }
 	search_filters = {FOCUS_FILTER_INDUSTRY}
 	available_if_capitulated = yes
@@ -132,7 +157,7 @@ shared_focus = {
 	cost = 5
 	
 	relative_position_id = CAN_kings_speech
-	x = 2
+	x = 4
 	y = 1
 	available = { 
 		is_subject = no 
@@ -152,7 +177,6 @@ shared_focus = {
 		
 	completion_reward = {
 		remove_ideas = ENG_distorted_gov
-		#country_event = { id = IMP.5 hours = 02 }
 	}
 }
 
@@ -179,6 +203,132 @@ shared_focus = {
 	}
 	
 }
+shared_focus = {
+	id = CAN_exile_industry_reorganization_committee
+	icon = GFX_goal_CAN_eirc
+	cost = 10
+	
+	relative_position_id = CAN_depression_recovery
+	x = 1
+	y = 1
+	available = { }
+	allow_branch = { 
+		NOT = { has_country_flag = winston_churchill_is_leader_flag  }
+	}
+	mutually_exclusive = {
+		focus = CAN_Canada_new_deal
+	}
+	prerequisite = { focus = CAN_depression_recovery }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+
+	}
+}
+shared_focus = {
+	id = CAN_Canada_new_deal
+	icon = GFX_focus_generic_hydroelectric_energy
+	cost = 10
+	
+	relative_position_id = CAN_exile_industry_reorganization_committee
+	x = 2
+	y = 0
+	available = { }
+	allow_branch = { 
+		NOT = { has_country_flag = winston_churchill_is_leader_flag  }
+	}
+	mutually_exclusive = {
+		focus = CAN_exile_industry_reorganization_committee
+	}
+	prerequisite = { focus = CAN_depression_recovery }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+
+	}
+}
+
+shared_focus = {
+	id = CAN_public_works
+	icon = GFX_focus_eng_concessions_to_the_trade_unions
+	cost = 10
+	
+	relative_position_id = CAN_exile_industry_reorganization_committee
+	x = 1
+	y = 1
+	available = { }
+
+	prerequisite = { 
+		focus = CAN_exile_industry_reorganization_committee 
+		focus = CAN_Canada_new_deal
+	}
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+		add_tech_bonus = {
+			name = CAN_public_works
+			bonus = 1
+			uses = 1
+			category = construction_tech
+		}
+		custom_effect_tooltip = IMP_by_people
+		ENG_fuking_great_depression_down = yes
+		add_stability = 0.05
+	}
+}
+
+shared_focus = { # id가 겹칠 경우 CAN 를 IMP으로 대체
+	id = IMP_national_housing_act
+	icon = GFX_focus_SWE_hygienic_housing
+	cost = 10
+	
+	relative_position_id = CAN_public_works
+	x = 1
+	y = 1
+	available = { }
+	allow_branch = { 
+		has_global_flag = ENG_lose_global_flag
+		has_country_flag = mackenzie_king_is_leader_falg
+	}
+
+	prerequisite = { focus = CAN_public_works }
+	prerequisite = { focus = CAN_Canada_new_deal }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+		random_owned_controlled_state = {
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+			}
+		}
+		random_owned_controlled_state = {
+			add_extra_state_shared_building_slots = 2
+			add_building_construction = {
+				type = industrial_complex
+				level = 2
+				instant_build = yes
+			}
+		}
+		custom_effect_tooltip = IMP_by_people
+		add_country_leader_trait = { trait = CAN_father_of_the_canadian_welfare_state }
+		ENG_peo_support_up = yes
+	}
+}
 
 shared_focus = {
 	id = IMP_crown_corporations # 왕실어쩌구
@@ -186,7 +336,7 @@ shared_focus = {
 	cost = 10
 	
 	relative_position_id = CAN_depression_recovery
-	x = -1
+	x = -4
 	y = 1
 	available = { }
 
@@ -203,16 +353,38 @@ shared_focus = {
 }
 
 shared_focus = {
-	id = CAN_infrastructure_effort # 대규모 철도사업
-	icon = GFX_goal_generic_construct_infrastructure
+	id = IMP_fund_the_national_research_council # 
+	text = CAN_fund_the_national_research_council
+	icon = GFX_focus_research
 	cost = 10
 	
-	relative_position_id = CAN_depression_recovery
-	x = -4
+	relative_position_id = IMP_crown_corporations
+	x = -1
 	y = 1
 	available = { }
 
-	prerequisite = { focus = CAN_depression_recovery }
+	prerequisite = { focus = IMP_crown_corporations }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+		add_research_slot = 1
+	}
+}
+
+shared_focus = {
+	id = CAN_infrastructure_effort # 대규모 철도사업
+	icon = GFX_goal_CAN_cn_rail
+	cost = 10
+	
+	relative_position_id = IMP_crown_corporations
+	x = -3
+	y = 1
+	available = { }
+
+	prerequisite = { focus = IMP_crown_corporations }
 	ai_will_do = { factor = 100 }
 	search_filters = {FOCUS_FILTER_INDUSTRY}
 	available_if_capitulated = yes
@@ -285,14 +457,62 @@ shared_focus = {
 			}	
 	}
 }
+shared_focus = {
+	id = IMP_imperial_oil # 제국 오일
+	text = CAN_imperial_oil
+	icon = GFX_goal_generic_oil_refinery
+	cost = 10
+	
+	relative_position_id = CAN_infrastructure_effort
+	x = -1
+	y = 1
+	available = {
+		controls_state = 470
+		controls_state = 471
+		controls_state = 472
+		controls_state = 683
+	}
+
+	prerequisite = { focus = CAN_infrastructure_effort }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+		
+	completion_reward = {
+		470 = {
+			add_resource = {
+				type = oil
+				amount = 2
+			}
+		}
+		471 = {
+			add_resource = {
+				type = oil
+				amount = 4
+			}
+		}
+		472 = {
+			add_resource = {
+				type = oil
+				amount = 4
+			}
+		}
+		683 = {
+			add_resource = {
+				type = oil
+				amount = 4
+			}
+		}
+	}
+}
 
 shared_focus = { # id가 겹치면 IMP으로 대체
 		id = IMP_canada_pacific_railway
 		text = CAN_canada_pacific_railway
-		icon = GFX_goal_generic_construct_infrastructure
+		icon = GFX_goal_CAN_cp_rail
 		prerequisite = { focus = CAN_infrastructure_effort }
-		x = 0
-		y = 2
+		x = 1
+		y = 1
 		relative_position_id = CAN_infrastructure_effort
 
 		cost = 10
@@ -356,7 +576,7 @@ shared_focus = { # id가 겹치면 IMP으로 대체
 		text = CAN_maritime_colonial_railway
 		icon = GFX_goal_generic_construct_infrastructure
 		prerequisite = { focus = IMP_canada_pacific_railway }
-		x = 0
+		x = -1
 		y = 1
 		relative_position_id = IMP_canada_pacific_railway
 
@@ -411,81 +631,6 @@ shared_focus = { # id가 겹치면 IMP으로 대체
 		}
 }
 
-shared_focus = {
-	id = CAN_public_works
-	icon = GFX_focus_eng_concessions_to_the_trade_unions
-	cost = 10
-	
-	relative_position_id = IMP_crown_corporations
-	x = -1
-	y = 1
-	available = { }
-
-	prerequisite = { focus = IMP_crown_corporations }
-	prerequisite = { focus = CAN_infrastructure_effort }
-	ai_will_do = { factor = 100 }
-	search_filters = {FOCUS_FILTER_INDUSTRY}
-	available_if_capitulated = yes
-
-		
-	completion_reward = {
-		add_tech_bonus = {
-			name = CAN_public_works
-			bonus = 1
-			uses = 1
-			category = construction_tech
-		}
-		custom_effect_tooltip = IMP_by_people
-		add_stability = 0.05
-	}
-}
-
-shared_focus = { # id가 겹칠 경우 CAN 를 IMP으로 대체
-	id = IMP_national_housing_act
-	icon = GFX_focus_SWE_hygienic_housing
-	cost = 10
-	
-	relative_position_id = CAN_public_works
-	x = 0
-	y = 1
-	available = {
-		NOT = {
-			has_country_leader = {
-				ruling_only = yes
-				character = IMP_winston_churchill
-			}
-		}
-	}
-
-	prerequisite = { focus = CAN_public_works }
-	ai_will_do = { factor = 100 }
-	search_filters = {FOCUS_FILTER_INDUSTRY}
-	available_if_capitulated = yes
-
-		
-	completion_reward = {
-		random_owned_controlled_state = {
-			add_extra_state_shared_building_slots = 2
-			add_building_construction = {
-				type = industrial_complex
-				level = 2
-				instant_build = yes
-			}
-		}
-		random_owned_controlled_state = {
-			add_extra_state_shared_building_slots = 2
-			add_building_construction = {
-				type = industrial_complex
-				level = 2
-				instant_build = yes
-			}
-		}
-		custom_effect_tooltip = IMP_by_people
-		add_country_leader_trait = { trait = CAN_father_of_the_canadian_welfare_state }
-		ENG_peo_support_up = yes
-	}
-}
-
 shared_focus = { # id가 겹칠 경우 CAN 를 IMP으로 대체
 	id = IMP_department_of_munitions_and_supply
 	text = CAN_department_of_munitions_and_supply
@@ -493,7 +638,7 @@ shared_focus = { # id가 겹칠 경우 CAN 를 IMP으로 대체
 	cost = 10
 	
 	relative_position_id = IMP_crown_corporations
-	x = 2
+	x = 1
 	y = 1
 	available = { }
 
@@ -537,12 +682,15 @@ shared_focus = {
 	cost = 5
 	
 	relative_position_id = IMP_bits_and_pieces_program
-	x = -2
+	x = -1
 	y = 1
 	available = { }
-
-	prerequisite = { focus = IMP_bits_and_pieces_program }
-	prerequisite = { focus = IMP_canada_pacific_railway }
+	prerequisite = {
+		focus = IMP_bits_and_pieces_program
+	}
+	prerequisite = {
+		focus = IMP_canada_pacific_railway
+	}
 	ai_will_do = { factor = 100 }
 	search_filters = {FOCUS_FILTER_INDUSTRY}
 	available_if_capitulated = yes
@@ -574,8 +722,8 @@ shared_focus = {
 	cost = 10
 	
 	relative_position_id = IMP_department_of_munitions_and_supply
-	x = 1
-	y = 1
+	x = 0
+	y = 2
 	available = { }
 
 	prerequisite = { focus = IMP_department_of_munitions_and_supply }
@@ -617,6 +765,31 @@ shared_focus = {
 				instant_build = yes
 			}
 		}
+	}
+}
+
+
+shared_focus = {
+	id = CAN_Quebec_problem
+	icon = GFX_goal_tfv_can_compromise_with_quebec
+	cost = 5
+	
+	relative_position_id = CAN_Strengthen_cohesion
+	x = 0
+	y = 2
+	available = { 
+		is_subject = no
+		has_country_flag = CAN_Quebec_problem_flag
+	}
+	allow_branch = { has_global_flag = ENG_lose_global_flag }
+
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_POLITICAL}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+
 	}
 }
 
