@@ -243,8 +243,13 @@ country_event = { #서늘한 영토
 			}
 		}
 		add_stability = -0.3
+		add_ideas = ENG_UK_exile_support_idea_3
+		add_ideas = ENG_Canada_Government_support_idea_1
+		add_ideas = ENG_people_support_idea_2
+		add_ideas = ENG_distorted_gov
 		add_ideas = ENG_exile_shock
 		add_ideas = CAN_british_disease
+		set_cosmetic_tag = ENG_imsi_gov
 	}
 }
 country_event = { #망명정부 승인
@@ -759,6 +764,7 @@ country_event = { # 국왕의 연설 반응
 			ENG_can_gov_support_up = yes
 			custom_effect_tooltip = IMP_by_uk_exile
 			add_war_support = -0.1
+			ENG_uk_support_down = yes
 		}
 		if = { #아무것도 지지 안함
 			limit = { has_country_flag = CAN_address_neu }
@@ -769,7 +775,7 @@ country_event = { # 국왕의 연설 반응
 		}
 	}
 }
-country_event = {
+country_event = { # 총리 지정
 	id = IMP.3
 	title = IMP.3.t
 	desc = IMP.3.desc
@@ -779,7 +785,115 @@ country_event = {
 	is_triggered_only = yes
 
 	option = {
-		name = IMP.1.a
-		 
+		name = IMP.3.a
+		set_country_flag = winston_churchill_is_leader_flag
+		clr_country_flag = mackenzie_king_is_leader_falg
+		hidden_effect = { country_event = { id = IMP.5 days = 07 } }
+	}
+	option = {
+		name = IMP.3.b
+		set_country_flag = mackenzie_king_is_leader_falg
+		clr_country_flag = winston_churchill_is_leader_flag
+		hidden_effect = { country_event = { id = IMP.5 days = 07 } }
+	}
+}
+country_event = { # 스탠리 볼드윈 사임 
+	id = IMP.4
+	title = britain.22.t
+	desc = IMP.4.desc
+	picture = GFX_report_event_royal_parade
+
+	fire_only_once = yes
+	is_triggered_only = yes 
+
+	option = {
+		name = IMP.4.a
+		remove_country_leader_role = {
+			character = ENG_stanley_baldwin
+			ideology = conservatism
+		}
+		hidden_effect = {
+			add_country_leader_role = {
+				character = IMP_Edward_VIII
+				country_leader = {
+					ideology = conservatism
+					traits = {  }
+					expire = 1965.1.1.1
+					id = -1
+				}
+				promote_leader = yes
+			}
+		}
+	}
+}
+country_event = { # 총리 취임 이벤트
+	id = IMP.5
+	title = IMP.3.t
+	desc = {
+		text = IMP.5.Churchill
+		trigger = { has_country_flag = winston_churchill_is_leader_flag }
+	}
+	desc = {
+		text = IMP.5.mackenzie
+		trigger = { has_country_flag = mackenzie_king_is_leader_falg }
+	}
+	picture = GFX_report_event_royal_parade
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = IMP.5.a
+		trigger = { has_country_flag = winston_churchill_is_leader_flag }
+		add_country_leader_role = {
+			character = IMP_winston_churchill
+			country_leader = {
+				ideology = conservatism
+				traits = { 
+					british_bulldog
+					hawk
+				}
+				expire = 1965.1.1.1
+				id = -1
+			}
+			promote_leader = yes
+		}
+	}
+	option = {
+		name = IMP.5.b
+		trigger = { has_country_flag = mackenzie_king_is_leader_falg }
+		add_country_leader_role = {
+			character = IMP_mackenzie_king
+			country_leader = {
+				ideology = liberalism
+				traits = { CAN_liberal_corporatist }
+				expire = 1965.1.1.1
+				id = -1
+			}
+			promote_leader = yes
+		}
+		custom_effect_tooltip = IMP_by_parliament
+		ENG_can_gov_support_up = yes
+		custom_effect_tooltip = IMP_by_uk_exile
+		ENG_uk_support_down = yes
+	}
+}
+country_event = { # 총리 임명을 요구하는 캐나다 의회
+	id = IMP.6
+	title = IMP.6.t
+	desc = IMP.6.desc
+	picture = GFX_report_event_king_speech
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = {
+		name = IMP.6.a
+		hidden_effect = { country_event = { id = IMP.3 days = 7} }
+	}
+	option = {
+		name = IMP.6.b
+		trigger = { is_debug = yes }
+		hidden_effect = { country_event = { id = IMP.3 days = 7} }
 	}
 }
