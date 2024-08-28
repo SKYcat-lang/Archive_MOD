@@ -2312,24 +2312,48 @@ country_event = { #노동자 공화국
 
 	is_triggered_only = yes
 	option = {
-		hidden_effect = {
-			remove_ideas = RED_struggle_at_production_2
-			remove_ideas = RED_mechanized_agri_1
-		}
 		if = {
 			limit = {
 				has_idea = RED_syndicalism
 			}
-			swap_ideas = {
-				remove_idea = RED_syndicalism
-				add_idea = RED_syndicalism_2
+			if = {
+				limit = {
+					has_idea = RED_HYUSIK_ideas
+				}
+				swap_ideas = {
+					remove_idea = RED_syndicalism
+					add_idea = RED_syndicalism_2
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_syndicalism
+					add_idea = RED_syndicalism_2_1
+				}
 			}
 		}
 		else = {
-			swap_ideas = {
-				remove_idea = RED_syndicalism_1
-				add_idea = RED_syndicalism_3
+			if = {
+				limit = {
+					has_idea = RED_HYUSIK_ideas
+				}
+				swap_ideas = {
+					remove_idea = RED_syndicalism_1
+					add_idea = RED_syndicalism_3
+				}
 			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_syndicalism_1
+					add_idea = RED_syndicalism_3_1
+				}
+			}
+		}
+		hidden_effect = {
+			remove_ideas = RED_struggle_at_production_2
+			remove_ideas = RED_mechanized_agri_1
+			remove_ideas = RED_HYUSIK_ideas
+			remove_ideas = RED_HYUSIK_ideas_1
 		}
 		custom_effect_tooltip = RED_worker_republic_tt
 		name = RED_event.16.a
@@ -2363,9 +2387,20 @@ country_event = { #노조 국민정신 합치기
 			}
 		}
 		else = {
-			swap_ideas = {
-				remove_idea = RED_syndicalism_2
-				add_idea = RED_syndicalism_3
+			if = {
+				limit = {
+					has_idea = RED_syndicalism_2
+				}
+				swap_ideas = {
+					remove_idea = RED_syndicalism_2
+					add_idea = RED_syndicalism_3
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_syndicalism_2_1
+					add_idea = RED_syndicalism_3_1
+				}
 			}
 		}
 		custom_effect_tooltip = RED_work_to_worker_tt
@@ -2730,5 +2765,117 @@ unit_leader_event = { #야전병원
 	option = {
 		name = RED_missions_char.7.a
 		activate_mission = RED_demand_hospital
+	}
+}
+country_event = { #혁명군사평의회 해산
+	id = RED_missions.6
+	title = RED_missions.4.t
+	desc = RED_missions.4.d
+	fire_only_once = yes
+	hidden = yes
+	trigger = {
+		tag = RED
+		has_completed_focus = RED_council_for_worker
+		has_idea = RED_RMC_idea
+		NOT = {
+			has_completed_focus = RED_soldier_union
+		}
+	}
+	mean_time_to_happen = {
+		days = 350
+	}
+	immediate = {
+		add_to_variable = {
+			RED_public_mission_activated = 1
+		}
+	}
+	option = {
+		name = RED_missions.1.a
+		RED_the_public = {
+			unit_leader_event = RED_missions_char.8
+		}
+	}
+}
+unit_leader_event = { #혁명군사평의회 해산
+	id = RED_missions_char.8
+	title = RED_missions_char.8.t
+	desc = RED_missions_char.8.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = RED_missions_char.8.a
+		activate_mission = RED_demand_RMC_cut
+	}
+}
+country_event = { #안정도 상승 요구
+	id = RED_missions.7
+	title = RED_missions.4.t
+	desc = RED_missions.4.d
+	fire_only_once = yes
+	hidden = yes
+	trigger = {
+		tag = RED
+		has_completed_focus = RED_mil-ind_complex
+	}
+	mean_time_to_happen = {
+		days = 350
+	}
+	immediate = {
+		add_to_variable = {
+			RED_public_mission_activated = 1
+		}
+	}
+	option = {
+		name = RED_missions.1.a
+		RED_the_public = {
+			unit_leader_event = RED_missions_char.9
+		}
+	}
+}
+unit_leader_event = { #사무노조 - 안정도
+	id = RED_missions_char.9
+	title = RED_missions_char.9.t
+	desc = RED_missions_char.9.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = RED_missions_char.9.a
+		activate_mission = RED_demand_stability
+	}
+}
+country_event = { #기반시설 확충
+	id = RED_missions.8
+	title = RED_missions.4.t
+	desc = RED_missions.4.d
+	fire_only_once = yes
+	hidden = yes
+	trigger = {
+		tag = RED
+		has_completed_focus = RED_infrastructure_union
+	}
+	mean_time_to_happen = {
+		days = 100
+	}
+	immediate = {
+		add_to_variable = {
+			RED_public_mission_activated = 1
+		}
+	}
+	option = {
+		name = RED_missions.1.a
+		RED_the_public = {
+			unit_leader_event = RED_missions_char.10
+		}
+	}
+}
+unit_leader_event = { #건설노조 - 기반시설
+	id = RED_missions_char.10
+	title = RED_missions_char.10.t
+	desc = RED_missions_char.10.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = RED_missions_char.10.a
+		activate_mission = RED_demand_infra
 	}
 }
