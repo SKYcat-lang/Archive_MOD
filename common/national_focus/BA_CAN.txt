@@ -4,7 +4,12 @@ shared_focus = {
 	cost = 4
 	allow_branch = { has_global_flag = ENG_lose_global_flag }
 	available = {
-		has_idea = ENG_king_edward
+        hidden_trigger = {
+			OR = {
+				has_idea = ENG_king_edward
+				has_idea = BA_ENG_king_edward
+			}
+		}
 		is_subject = no
 	}
 
@@ -34,7 +39,7 @@ shared_focus = {
 }
 shared_focus = {
 	id = CAN_check_the_economy # 경제 상황 살펴보기
-	icon = GFX_focus_SWI_dissolve_the_federal_council
+	icon = GFX_focus_BRA_rio_protocol
 	cost = 5
 	
 	relative_position_id = CAN_kings_speech
@@ -78,7 +83,7 @@ shared_focus = {
 	}
 
 	prerequisite = { focus = CAN_kings_speech }
-	ai_will_do = { factor = 100 }
+	ai_will_do = { factor = 50 }
 	available_if_capitulated = yes
 
 		
@@ -143,7 +148,7 @@ shared_focus = {
 	prerequisite = { focus = CAN_create_iedc }
 	prerequisite = { focus = CAN_create_isac }
 	ai_will_do = { factor = 100 }
-	search_filters = {FOCUS_FILTER_INDUSTRY}
+	search_filters = {FOCUS_FILTER_POLITICAL}
 	available_if_capitulated = yes
 
 		
@@ -170,7 +175,7 @@ shared_focus = {
 	}
 
 	prerequisite = { focus = CAN_kings_speech }
-	ai_will_do = { factor = 100 }
+	ai_will_do = { factor = 50 }
 	search_filters = {FOCUS_FILTER_POLITICAL}
 	available_if_capitulated = yes
 
@@ -184,7 +189,7 @@ shared_focus = {
 
 shared_focus = {
 	id = CAN_depression_recovery # 대공황 극복
-	icon = GFX_focus_DEN_limited_regulations
+	icon = GFX_focus_generic_public_works
 	cost = 5
 	
 	relative_position_id = CAN_check_the_economy
@@ -199,7 +204,13 @@ shared_focus = {
 
 		
 	completion_reward = {
-		ENG_fuking_great_depression_down = yes
+		effect_tooltip = {
+			swap_ideas = {
+				remove_idea = ENG_great_depression
+				add_idea = ENG_great_depression_1
+			}	
+		}
+		hidden_effect = { ENG_fuking_great_depression_down = yes }
 	}
 	
 }
@@ -214,7 +225,7 @@ shared_focus = {
 	available = { }
 	allow_branch = { 
 		has_global_flag = ENG_lose_global_flag
-		NOT = { has_country_flag = winston_churchill_is_leader_flag  }
+		NOT = { has_country_flag = mackenzie_king_is_leader_falg  }
 	}
 	mutually_exclusive = {
 		focus = CAN_Canada_new_deal
@@ -226,7 +237,7 @@ shared_focus = {
 
 		
 	completion_reward = {
-
+		add_ideas = ENG_industry_regroup_council
 	}
 }
 shared_focus = {
@@ -237,6 +248,11 @@ shared_focus = {
 	relative_position_id = CAN_exile_industry_reorganization_committee
 	x = 2
 	y = 0
+	offset = {
+		trigger = { has_country_flag = mackenzie_king_is_leader_falg }
+		x = -1
+		y = 0
+	}
 	available = { }
 	allow_branch = { 
 		has_global_flag = ENG_lose_global_flag
@@ -255,14 +271,98 @@ shared_focus = {
 
 	}
 }
+shared_focus = { # 국립 고용 위원회
+	id = CAN_create_national_employment_commission
+	icon = GFX_focus_BRA_reach_out_to_military_dem
+	cost = 10
+	
+	relative_position_id = CAN_Canada_new_deal
+	x = 1
+	y = 1
+	available = { }
+	allow_branch = {  }
+	prerequisite = { focus = CAN_Canada_new_deal }
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+	}
+}
+shared_focus = { # 연방-주 협력 프로그람
+	id = CAN_Federal_Provincial_Cooperative_Programs
+	icon = GFX_focus_BRA_reach_out_to_military_dem
+	cost = 5
+	
+	relative_position_id = CAN_Canada_new_deal
+	x = 3
+	y = 1
+	available = { }
+	allow_branch = {  }
+	prerequisite = { focus = CAN_Canada_new_deal }
+	ai_will_do = { factor = 100 }
+	search_filters = {
+		FOCUS_FILTER_INDUSTRY
+		FOCUS_FILTER_POLITICAL
+		FOCUS_FILTER_STABILITY
+		FOCUS_FILTER_WAR_SUPPORT
+	}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+
+	}
+}
+shared_focus = { # 사회 보장 제도
+	id = CAN_social_security_system
+	icon = GFX_focus_BRA_reach_out_to_military_dem
+	cost = 5
+	
+	relative_position_id = CAN_create_national_employment_commission
+	x = 1
+	y = 1
+	available = { }
+	allow_branch = {  }
+	prerequisite = { focus = CAN_create_national_employment_commission }
+	prerequisite = { focus = CAN_Federal_Provincial_Cooperative_Programs}
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+	}
+}
+shared_focus = { # 은행 개혁
+	id = CAN_banking_reform
+	icon = GFX_focus_BRA_reach_out_to_military_dem
+	cost = 10
+	
+	relative_position_id = CAN_Federal_Provincial_Cooperative_Programs
+	x = 1
+	y = 1
+	available = { }
+	allow_branch = {  }
+	prerequisite = { focus = CAN_create_national_employment_commission }
+	prerequisite = { focus = CAN_Federal_Provincial_Cooperative_Programs}
+	ai_will_do = { factor = 100 }
+	search_filters = {FOCUS_FILTER_INDUSTRY}
+	available_if_capitulated = yes
+
+		
+	completion_reward = {
+	}
+}
 
 shared_focus = {
 	id = CAN_public_works
 	icon = GFX_focus_eng_concessions_to_the_trade_unions
 	cost = 10
 	
-	relative_position_id = CAN_exile_industry_reorganization_committee
-	x = 1
+	relative_position_id = CAN_Canada_new_deal
+	x = -1
 	y = 1
 	available = { }
 
@@ -299,10 +399,9 @@ shared_focus = { # id가 겹칠 경우 CAN 를 IMP으로 대체
 	available = { }
 	allow_branch = { 
 		has_global_flag = ENG_lose_global_flag
-		has_country_flag = mackenzie_king_is_leader_falg
+		NOT = { has_country_flag = winston_churchill_is_leader_flag }
 	}
 
-	prerequisite = { focus = CAN_public_works }
 	prerequisite = { focus = CAN_Canada_new_deal }
 	ai_will_do = { factor = 100 }
 	search_filters = {FOCUS_FILTER_INDUSTRY}
@@ -334,12 +433,17 @@ shared_focus = { # id가 겹칠 경우 CAN 를 IMP으로 대체
 
 shared_focus = {
 	id = IMP_crown_corporations # 왕실어쩌구
-	icon = GFX_goal_generic_construct_civ_factory
+	icon = GFX_goal_tfv_strengthen_commonwealth_ties
 	cost = 10
 	
 	relative_position_id = CAN_depression_recovery
 	x = -4
 	y = 1
+	offset = {
+		trigger = { has_country_flag = mackenzie_king_is_leader_falg }
+		x = 2
+		y = 0
+	}
 	available = { }
 
 	prerequisite = { focus = CAN_depression_recovery }
@@ -660,7 +764,7 @@ shared_focus = {
 	id = IMP_bits_and_pieces_program
 	text = CAN_bits_and_pieces_program
 	icon = GFX_goal_generic_construct_mil_factory
-	cost = 10
+	cost = 5
 	
 	relative_position_id = IMP_department_of_munitions_and_supply
 	x = -1

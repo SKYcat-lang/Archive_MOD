@@ -703,11 +703,6 @@ country_event = { # 국왕의 연설
 		set_country_flag = CAN_address_gov
 		hidden_effect = { country_event = { id = IMP.2 days = 01 } }
 	}
-	option = {
-		name = IMP.1.c
-		set_country_flag = CAN_address_neu
-		hidden_effect = { country_event = { id = IMP.2 days = 01 } }
-	}
 }
 country_event = { # 국왕의 연설 반응
 	id = IMP.2
@@ -719,10 +714,6 @@ country_event = { # 국왕의 연설 반응
 		text = IMP.2.gov.t
 		trigger = { has_country_flag = CAN_address_gov }
 	}
-	title = { 
-		text = IMP.2.neu.t
-		trigger = { has_country_flag = CAN_address_neu }
-	}
 
 	desc = {
 		text = IMP.2.d.war
@@ -731,10 +722,6 @@ country_event = { # 국왕의 연설 반응
 	desc = {
 		text = IMP.2.d.gov
 		trigger = { has_country_flag = CAN_address_gov }
-	}
-	desc = {
-		text = IMP.2.d.neu
-		trigger = { has_country_flag = CAN_address_neu }
 	}
 	picture = GFX_report_event_king_speech
 
@@ -765,13 +752,6 @@ country_event = { # 국왕의 연설 반응
 			custom_effect_tooltip = IMP_by_uk_exile
 			add_war_support = -0.1
 			ENG_uk_support_down = yes
-		}
-		if = { #아무것도 지지 안함
-			limit = { has_country_flag = CAN_address_neu }
-			custom_effect_tooltip = IMP_by_parliament
-			custom_effect_tooltip = NO_EFFECT
-			custom_effect_tooltip = IMP_by_uk_exile
-			add_war_support = -0.05
 		}
 	}
 }
@@ -851,6 +831,7 @@ country_event = { # 총리 취임 이벤트
 	option = {
 		name = IMP.5.a
 		trigger = { has_country_flag = winston_churchill_is_leader_flag }
+		hidden_effect = { mark_focus_tree_layout_dirty = yes }
 		add_country_leader_role = {
 			character = IMP_winston_churchill
 			country_leader = {
@@ -864,10 +845,20 @@ country_event = { # 총리 취임 이벤트
 			}
 			promote_leader = yes
 		}
+		custom_effect_tooltip = IMP_by_uk_exile
+		add_stability = 0.05
+		custom_effect_tooltip = IMP_by_parliament
+		add_political_power = -25
 	}
 	option = {
 		name = IMP.5.b
 		trigger = { has_country_flag = mackenzie_king_is_leader_falg }
+		hidden_effect = { mark_focus_tree_layout_dirty = yes }
+		set_party_name = {
+			ideology = democratic
+			long_name = CAN_democratic_party_long
+			name = CAN_democratic_party
+		}
 		add_country_leader_role = {
 			character = IMP_mackenzie_king
 			country_leader = {
