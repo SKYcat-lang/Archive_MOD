@@ -1,7 +1,126 @@
 add_namespace = usa_event
+add_namespace = usa_chroma_event
 add_namespace = usa_new_event # 신질서 전쟁
 add_namespace = usa_old_event # 구질서 전쟁
 
+country_event = {
+
+	id = usa_chroma_event.1
+	title = usa_chroma_event.1.t
+	desc = usa_chroma_event.1.d
+	
+	picture = GFX_report_event_generic_read_write
+	
+	is_triggered_only = yes
+	
+	immediate = {
+		hidden_effect = {
+			set_global_flag = BA_shotdown_USA_congress
+			set_global_flag = USABA_resistance_to_mainland_invasion_flag
+
+			remove_country_leader_role = {
+				character = USA_franklin_delano_roosevelt
+				ideology = liberalism
+			}
+			remove_country_leader_role = {
+				character = USA_william_dudley_pelley
+				ideology = fascism_ideology
+			}
+			remove_country_leader_role = {
+				character = USA_carnot_wheeler
+				ideology = oligarchism
+			}
+			remove_country_leader_role = {
+				character = USA_earl_browder
+				ideology = marxism
+			}
+			set_country_flag = USABA_government_official_exile
+			set_country_flag = USABA_relocation_of_naval_headquarters
+
+			every_owned_state = {
+				limit = {
+					OR = {
+						state = 378
+						state = 379
+						
+						state = 385
+						state = 386
+
+						state = 463
+
+						state = 471
+
+						state = 473
+
+						state = 629
+
+						state = 739
+						
+						state = 740
+
+						state = 864
+					}
+				}
+				transfer_state_to = USP
+				add_core_of = USP
+			}
+			
+			transfer_navy = {
+				target = USP
+			}
+			add_opinion_modifier = {
+				target = USP
+				modifier = USABA_provisional_government
+			}
+			USP = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = USABA_provisional_government
+				}
+				inherit_technology = USA
+			}
+
+			add_country_leader_role = {
+				character = USA_douglas_macarthur
+				country_leader = {
+					ideology = emergency_military_government
+					
+					traits = {
+						USABA_commander_in_chief
+					}
+				}
+				promote_leader = yes
+			}
+			promote_character = USA_douglas_macarthur
+			set_politics = {
+				ruling_party = neutrality
+			}
+			add_popularity = {
+				ideology = neutrality
+				popularity = 1.00
+			}
+		}
+	}
+	
+	option = {
+		name = usa_chroma_event.1
+		set_cosmetic_tag = USA_military_government
+		add_war_support = 0.10
+		custom_effect_tooltip = usa_chroma_event_1_tt
+		mark_focus_tree_layout_dirty = yes
+	}
+	option = {
+		name = usa_chroma_event.2
+		set_cosmetic_tag = USA_military_government
+		add_war_support = 0.05
+		custom_effect_tooltip = usa_chroma_event_1_tt
+		mark_focus_tree_layout_dirty = yes
+
+		USP = {
+			change_tag_from = ROOT
+		}
+	}
+}
 
 # 구질서 수호
 country_event = {
@@ -69,11 +188,429 @@ country_event = {
 				play_song = "claustrophobic_march"
 			}
 	 }
-	}
+}
 
+#추가적인 경제 위기의 조짐
 
+country_event = {
+	
+	id = usa_event.2
+	title = usa_event.2.t
+	desc = usa_event.2.d
+	
+	picture = GFX_report_event_generic_read_write
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	 option = {
+		name = usa_event.2.a
+		add_ideas = second_great_depression_9
+		add_political_power = -25
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 2
+			}
+			prioritize = { 358 }
+			remove_building = {
+				type = industrial_complex
+				level = 1
+			}
+		}
+		custom_effect_tooltip = USA_2nd_great_depression_2nd_txt
+		hidden_effect = {
+			country_event = { id = usa_event.3 days = 10 }
+		}
+	 }
+}
 
+#경제 위기의 전조
 
+country_event = {
+	
+	id = usa_event.3
+	title = usa_event.3.t
+	desc = usa_event.3.d
+	
+	picture = GFX_report_event_generic_stock_traders
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	 option = {
+		name = usa_event.3.a
+		add_political_power = -25
+		add_stability = -0.05
+		swap_ideas = {
+			remove_idea = second_great_depression_9
+			add_idea = second_great_depression_8
+		}
+		custom_effect_tooltip = USA_2nd_great_depression_3rd_txt
+		hidden_effect = {
+			country_event = { id = usa_event.4 days = 10 }
+		}
+	 }
+}
+
+#2차 대공황
+
+country_event = {
+	
+	id = usa_event.4
+	title = usa_event.4.t
+	desc = usa_event.4.d
+	
+	picture = GFX_report_event_generic_read_write
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	 option = {
+		name = usa_event.4.a
+		add_political_power = -100
+		add_stability = -0.25
+		swap_ideas = {
+			remove_idea = second_great_depression_8
+			add_idea = second_great_depression_7
+		}
+		hidden_effect = {
+			activate_mission = USA_2nd_great_depression_4th
+		}
+	 }
+}
+
+#더 이상 빛나지 않는 거리
+
+country_event = {
+	
+	id = usa_event.5
+	title = usa_event.5.t
+	desc = usa_event.5.d
+	
+	picture = GFX_report_event_generic_factory
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	 option = {
+		name = usa_event.5.a
+		add_stability = -0.05
+		swap_ideas = {
+			remove_idea = second_great_depression_7
+			add_idea = second_great_depression_6
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 358 }
+			remove_building = {
+				type = industrial_complex
+				level = 1
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 360 }
+			remove_building = {
+				type = industrial_complex
+				level = 1
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 261 }
+			remove_building = {
+				type = industrial_complex
+				level = 1
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 395 }
+			remove_building = {
+				type = industrial_complex
+				level = 1
+			}
+		}
+		hidden_effect = {
+			activate_mission = USA_2nd_great_depression_4th
+		}
+	 }
+}
+
+#실업자로 가득한 도시
+
+country_event = {
+	
+	id = usa_event.6
+	title = usa_event.6.t
+	desc = usa_event.6.d
+	
+	picture = GFX_report_event_generic_strike
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	 option = {
+		name = usa_event.6.a
+		add_stability = -0.15
+		add_popularity = {
+			ideology = communism
+			popularity = 0.03
+		}
+		swap_ideas = {
+			remove_idea = second_great_depression_6
+			add_idea = second_great_depression_5
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 358 }
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 360 }
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 357 }
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 359 }
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 361 }
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 261 }
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 395 }
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+		}
+		hidden_effect = {
+			activate_mission = USA_2nd_great_depression_4th
+		}
+	 }
+}
+
+#파멸하는 미국 농업
+
+country_event = {
+	
+	id = usa_event.7
+	title = usa_event.7.t
+	desc = usa_event.7.d
+	
+	picture = GFX_report_event_generic_construction_site
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	 option = {
+		name = usa_event.7.a
+		swap_ideas = {
+			remove_idea = second_great_depression_5
+			add_idea = second_great_depression_4
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 383 }
+			remove_building = {
+				type = infrastructure
+				level = 2
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 384 }
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+			}
+			prioritize = { 382 }
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+		}
+		hidden_effect = {
+			activate_mission = USA_2nd_great_depression_4th
+		}
+	 }
+}
+
+#금융 시장의 몰락
+
+country_event = {
+	
+	id = usa_event.8
+	title = usa_event.8.t
+	desc = usa_event.8.d
+	
+	picture = GFX_report_event_generic_factory
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	 option = {
+		name = usa_event.8.a
+		add_stability = -0.10
+		swap_ideas = {
+			remove_idea = second_great_depression_4
+			add_idea = second_great_depression_3
+		}
+		hidden_effect = {
+			activate_mission = USA_2nd_great_depression_4th
+		}
+	 }
+}
+
+#은행들의 도산
+
+country_event = {
+	
+	id = usa_event.9
+	title = usa_event.9.t
+	desc = usa_event.9.d
+	
+	picture = GFX_report_event_generic_ruins
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	 option = {
+		name = usa_event.9.a
+		add_political_power = -150
+		add_stability = -0.05
+		swap_ideas = {
+			remove_idea = second_great_depression_3
+			add_idea = second_great_depression_2
+		}
+		hidden_effect = {
+			activate_mission = USA_2nd_great_depression_4th
+		}
+	 }
+}
+
+#반정부 시위대
+
+country_event = {
+	
+	id = usa_event.10
+	title = usa_event.10.t
+	desc = usa_event.10.d
+	
+	picture = GFX_report_event_generic_riot
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	 option = {
+		name = usa_event.10.a
+		add_manpower = -23
+		add_stability = -0.10
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = communism
+			popularity = 0.05
+		}
+		swap_ideas = {
+			remove_idea = second_great_depression_2
+			add_idea = second_great_depression_1
+		}
+		hidden_effect = {
+			activate_mission = USA_2nd_great_depression_4th
+		}
+	 }
+}
+
+#사형 선고
+
+country_event = {
+	
+	id = usa_event.11
+	title = usa_event.11.t
+	desc = usa_event.11.d
+	
+	picture = GFX_report_event_generic_conference
+	
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	 option = {
+		name = usa_event.11.a
+		add_stability = -0.20
+		swap_ideas = {
+			remove_idea = second_great_depression_1
+			add_idea = second_great_depression
+		}
+	 }
+}
 
 ########################
 #ANGEL FOLLOUT OPERATION#
