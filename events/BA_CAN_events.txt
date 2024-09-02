@@ -1287,3 +1287,166 @@ country_event = { #뱅골 대기근
 		}
 	}
 }
+country_event = { # 아대륙 방위 계획
+	id = IMP_india_event.12
+	title = IMP_india_event.12.t
+	desc = IMP_india_event.12.desc
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = { # 공통 반응 - 개입 ㄱㄱ
+		name = IMP_india_event.12.a
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_country_flag = mackenzie_king_is_leader_falg
+				factor = -3
+			}
+		}
+		declare_war_on = {
+			target = HND
+			type = annex_everything
+		}
+	}
+	option = { # 매켄지 킹 반응 - 협상 레츠고~~
+		name = IMP_india_event.12.b
+		trigger = { has_country_flag = mackenzie_king_is_leader_falg  }
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_country_flag = mackenzie_king_is_leader_falg
+				add = 4000
+			}
+		}
+		set_country_flag = IMP_we_cant_select_india_focus
+		HND = { country_event = IMP_india_event.13 }
+	}
+}
+country_event = { # 
+	id = IMP_india_event.13
+	title = IMP_india_event.13.t
+	desc = IMP_india_event.13.desc
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = { # 협상을 수락함
+		name = IMP_india_event.13.a
+		ai_chance = { base = 40 }
+		FROM = { country_event = { id = IMP_india_event.15 days = 03 } }
+	}
+	option = { # 협상을 거부함..
+		name = IMP_india_event.13.b
+		ai_chance = { base = 60 }
+		FROM = { country_event = { id = IMP_india_event.14 days = 03 } }
+	}
+}
+country_event = { # 
+	id = IMP_india_event.14
+	title = IMP_india_event.14.t
+	desc = IMP_india_event.14.desc
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = { # 협상을 거부함 -> 반응
+		name = IMP_india_event.14.a
+		clr_country_flag = IMP_we_cant_select_india_focus
+	}
+}
+country_event = { # 
+	id = IMP_india_event.15
+	title = IMP_india_event.15.t
+	desc = IMP_india_event.15.desc
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = { # 협상을 수락함 -> 반응
+		name = IMP_india_event.15.a
+		HND = {
+			country_event = { id = IMP_india_event.16 }
+		}
+	}
+}
+country_event = { # 
+	id = IMP_india_event.16
+	title = {
+		text = IMP_india_event.16.t
+		trigger = {
+			NOT = {
+				has_country_flag = HND_we_want_independence
+				has_country_flag = HND_we_want_status
+				has_country_flag = HND_we_want_industrialization
+				has_country_flag = HND_we_want_socialism
+			}
+		}
+	}
+	title = {
+		text = IMP_india_event.16.t.return
+		trigger = {
+			OR = {
+				has_country_flag = HND_we_want_independence
+				has_country_flag = HND_we_want_status
+				has_country_flag = HND_we_want_industrialization
+				has_country_flag = HND_we_want_socialism
+			}
+		}
+	}
+	desc = {
+		text = IMP_india_event.16.desc
+		trigger = {
+			NOT = {
+				has_country_flag = HND_we_want_independence
+				has_country_flag = HND_we_want_status
+				has_country_flag = HND_we_want_industrialization
+				has_country_flag = HND_we_want_socialism
+			}
+		}
+	}
+	desc = {
+		text = IMP_india_event.16.desc.return
+		trigger = {
+			OR = {
+				has_country_flag = HND_we_want_independence
+				has_country_flag = HND_we_want_status
+				has_country_flag = HND_we_want_industrialization
+				has_country_flag = HND_we_want_socialism
+			}
+		}
+	}
+
+	fire_only_once = yes
+	is_triggered_only = yes
+
+	option = { # 
+		name = IMP_india_event.16.a
+		trigger = { NOT = { has_country_flag = HND_we_want_independence} }
+		set_country_flag = HND_we_want_independence
+	}
+	option = { # 
+		name = IMP_india_event.16.b
+		trigger = { NOT = { has_country_flag = HND_we_want_status} }
+		set_country_flag = HND_we_want_status
+	}
+	option = { # 
+		name = IMP_india_event.16.c
+		trigger = { NOT = { has_country_flag = HND_we_want_industrialization} }
+		set_country_flag = HND_we_want_industrialization
+	}
+	option = { # 
+		name = IMP_india_event.16.d
+		trigger = { NOT = { has_country_flag = HND_we_want_socialism} }
+		set_country_flag = HND_we_want_socialism
+	}
+	option = { # 
+		name = IMP_india_event.16.d
+		OR = {
+			has_country_flag = HND_we_want_independence
+			has_country_flag = HND_we_want_status
+			has_country_flag = HND_we_want_industrialization
+			has_country_flag = HND_we_want_socialism
+		}
+	}
+}
