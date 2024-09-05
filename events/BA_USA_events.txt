@@ -16,44 +16,26 @@ country_event = {
 	immediate = {
 		hidden_effect = {
 			set_global_flag = BA_shotdown_USA_congress
+			set_global_flag = USABA_resistance_to_mainland_invasion_flag
 
-			retire_character = USA_franklin_delano_roosevelt
-			retire_character = USA_william_dudley_pelley
-			retire_character = USA_native_american_council
-			retire_character = USA_carnot_wheeler
-			retire_character = USA_earl_browder
-			retire_character = USA_harry_white
-			retire_character = USA_victor_perlo
-			retire_character = USA_whittaker_chambers
-			retire_character = USA_joseph_patterson
-			retire_character = USA_william_regnery
-			retire_character = USA_harold_ickes
-			retire_character = USA_charles_coughlin
-			retire_character = USA_robert_taft
-			retire_character = USA_joseph_mccarthy
-			retire_character = USA_john_winant
-			retire_character = USA_cordell_hull
-			retire_character = USA_henry_morgenthau
-			retire_character = USA_henry_stimson
-			retire_character = USA_donald_nelson
-			retire_character = USA_william_donovan
-			retire_character = USA_george_marshall
-			retire_character = USA_charles_lindbergh
-			retire_character = USA_dewitt_clinton_ramsey
-			retire_character = USA_marc_mitscher
-			retire_character = USA_curtis_lemay
-			retire_character = USA_harold_mcclelland
-			retire_character = USA_robert_oppenheimer
-			retire_character = USA_robert_goddard
-			retire_character = USA_henry_arnold
-			retire_character = USA_carl_spaatz
-			retire_character = USA_george_kenney
-
-			every_navy_leader = {
-				ROOT = {
-					retire_character = PREV
-				}
+			remove_country_leader_role = {
+				character = USA_franklin_delano_roosevelt
+				ideology = liberalism
 			}
+			remove_country_leader_role = {
+				character = USA_william_dudley_pelley
+				ideology = fascism_ideology
+			}
+			remove_country_leader_role = {
+				character = USA_carnot_wheeler
+				ideology = oligarchism
+			}
+			remove_country_leader_role = {
+				character = USA_earl_browder
+				ideology = marxism
+			}
+			set_country_flag = USABA_government_official_exile
+			set_country_flag = USABA_relocation_of_naval_headquarters
 
 			every_owned_state = {
 				limit = {
@@ -63,12 +45,38 @@ country_event = {
 						
 						state = 385
 						state = 386
+
+						state = 463
+
+						state = 471
+
+						state = 473
+
+						state = 629
+
+						state = 739
+						
+						state = 740
+
+						state = 864
 					}
 				}
 				transfer_state_to = USP
+				add_core_of = USP
 			}
-
+			
+			transfer_navy = {
+				target = USP
+			}
+			add_opinion_modifier = {
+				target = USP
+				modifier = USABA_provisional_government
+			}
 			USP = {
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = USABA_provisional_government
+				}
 				inherit_technology = USA
 			}
 
@@ -95,16 +103,18 @@ country_event = {
 	}
 	
 	option = {
-		name = usa_chroma_event.1
+		name = usa_chroma_event.1.a
 		set_cosmetic_tag = USA_military_government
 		add_war_support = 0.10
 		custom_effect_tooltip = usa_chroma_event_1_tt
+		mark_focus_tree_layout_dirty = yes
 	}
 	option = {
-		name = usa_chroma_event.2
+		name = usa_chroma_event.1.b
 		set_cosmetic_tag = USA_military_government
 		add_war_support = 0.05
 		custom_effect_tooltip = usa_chroma_event_1_tt
+		mark_focus_tree_layout_dirty = yes
 
 		USP = {
 			change_tag_from = ROOT
@@ -195,7 +205,6 @@ country_event = {
 	
 	 option = {
 		name = usa_event.2.a
-		add_ideas = second_great_depression_9
 		add_political_power = -25
 		random_owned_controlled_state = {
 			limit = {
@@ -232,10 +241,6 @@ country_event = {
 		name = usa_event.3.a
 		add_political_power = -25
 		add_stability = -0.05
-		swap_ideas = {
-			remove_idea = second_great_depression_9
-			add_idea = second_great_depression_8
-		}
 		custom_effect_tooltip = USA_2nd_great_depression_3rd_txt
 		hidden_effect = {
 			country_event = { id = usa_event.4 days = 10 }
@@ -256,18 +261,19 @@ country_event = {
 	fire_only_once = yes
 	is_triggered_only = yes
 	
-	 option = {
+	option = {
 		name = usa_event.4.a
 		add_political_power = -100
 		add_stability = -0.25
-		swap_ideas = {
-			remove_idea = second_great_depression_8
-			add_idea = second_great_depression_7
-		}
+		add_ideas = second_great_depression
 		hidden_effect = {
 			activate_mission = USA_2nd_great_depression_4th
 		}
-	 }
+		country_event = { id = usa_event.5 days = 15 }
+		country_event = { id = usa_event.7 days = 39 }
+		country_event = { id = usa_event.8 days = 67 }
+		country_event = { id = usa_event.10 days = 85 }
+	}
 }
 
 #더 이상 빛나지 않는 거리
@@ -286,10 +292,6 @@ country_event = {
 	 option = {
 		name = usa_event.5.a
 		add_stability = -0.05
-		swap_ideas = {
-			remove_idea = second_great_depression_7
-			add_idea = second_great_depression_6
-		}
 		random_owned_controlled_state = {
 			limit = {
 				is_core_of = ROOT
@@ -330,9 +332,8 @@ country_event = {
 				level = 1
 			}
 		}
-		hidden_effect = {
-			activate_mission = USA_2nd_great_depression_4th
-		}
+		set_country_flag = USA_2nd_great_depression_4th_mass_unemployment_flag
+		activate_mission = USA_2nd_great_depression_4th_mass_unemployment
 	 }
 }
 
@@ -354,79 +355,110 @@ country_event = {
 		add_stability = -0.15
 		add_popularity = {
 			ideology = communism
-			popularity = 0.03
-		}
-		swap_ideas = {
-			remove_idea = second_great_depression_6
-			add_idea = second_great_depression_5
+			popularity = 0.05
 		}
 		random_owned_controlled_state = {
 			limit = {
 				is_core_of = ROOT
+				industrial_complex > 1
 			}
 			prioritize = { 358 }
 			remove_building = {
 				type = infrastructure
 				level = 1
 			}
+			remove_building = {
+				type = industrial_complex
+				level = 2
+			}
 		}
 		random_owned_controlled_state = {
 			limit = {
 				is_core_of = ROOT
+				industrial_complex > 1
 			}
 			prioritize = { 360 }
 			remove_building = {
 				type = infrastructure
 				level = 1
 			}
+			remove_building = {
+				type = industrial_complex
+				level = 2
+			}
 		}
 		random_owned_controlled_state = {
 			limit = {
 				is_core_of = ROOT
+				industrial_complex > 0
 			}
 			prioritize = { 357 }
 			remove_building = {
 				type = infrastructure
 				level = 1
 			}
+			remove_building = {
+				type = industrial_complex
+				level = 1
+			}
 		}
 		random_owned_controlled_state = {
 			limit = {
 				is_core_of = ROOT
+				industrial_complex > 0
 			}
 			prioritize = { 359 }
 			remove_building = {
 				type = infrastructure
 				level = 1
 			}
+			remove_building = {
+				type = industrial_complex
+				level = 1
+			}
 		}
 		random_owned_controlled_state = {
 			limit = {
 				is_core_of = ROOT
+				industrial_complex > 0
 			}
 			prioritize = { 361 }
 			remove_building = {
 				type = infrastructure
 				level = 1
 			}
-		}
-		random_owned_controlled_state = {
-			limit = {
-				is_core_of = ROOT
-			}
-			prioritize = { 261 }
 			remove_building = {
-				type = infrastructure
+				type = industrial_complex
 				level = 1
 			}
 		}
 		random_owned_controlled_state = {
 			limit = {
 				is_core_of = ROOT
+				industrial_complex > 0
+			}
+			prioritize = { 261 }
+			remove_building = {
+				type = infrastructure
+				level = 1
+			}
+			remove_building = {
+				type = industrial_complex
+				level = 1
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 0
 			}
 			prioritize = { 395 }
 			remove_building = {
 				type = infrastructure
+				level = 1
+			}
+			remove_building = {
+				type = industrial_complex
 				level = 1
 			}
 		}
@@ -451,9 +483,25 @@ country_event = {
 	
 	 option = {
 		name = usa_event.7.a
-		swap_ideas = {
-			remove_idea = second_great_depression_5
-			add_idea = second_great_depression_4
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 0
+			}
+			remove_building = {
+				type = industrial_complex
+				level = 1
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 0
+			}
+			remove_building = {
+				type = industrial_complex
+				level = 1
+			}
 		}
 		random_owned_controlled_state = {
 			limit = {
@@ -485,13 +533,12 @@ country_event = {
 				level = 1
 			}
 		}
-		hidden_effect = {
-			activate_mission = USA_2nd_great_depression_4th
-		}
+		set_country_flag = USA_2nd_great_depression_4th_end_of_agriculture_flag
+		activate_mission = USA_2nd_great_depression_4th_end_of_agriculture
 	 }
 }
 
-#서부로 확산되는 경제 위기
+#금융 시장의 몰락
 
 country_event = {
 	
@@ -504,37 +551,12 @@ country_event = {
 	fire_only_once = yes
 	is_triggered_only = yes
 	
-	 option = {
+	option = {
 		name = usa_event.8.a
 		add_stability = -0.10
-		swap_ideas = {
-			remove_idea = second_great_depression_4
-			add_idea = second_great_depression_3
-		}
-		random_owned_controlled_state = {
-			limit = {
-				is_core_of = ROOT
-			}
-			prioritize = { 378 }
-			remove_building = {
-				type = dockyard
-				level = 1
-			}
-		}
-		random_owned_controlled_state = {
-			limit = {
-				is_core_of = ROOT
-			}
-			prioritize = { 386 }
-			remove_building = {
-				type = dockyard
-				level = 1
-			}
-		}
-		hidden_effect = {
-			activate_mission = USA_2nd_great_depression_4th
-		}
-	 }
+		set_country_flag = USA_2nd_great_depression_4th_collapse_of_the_financial_industry_flag
+		activate_mission = USA_2nd_great_depression_4th_collapse_of_the_financial_industry
+	}
 }
 
 #은행들의 도산
@@ -550,18 +572,63 @@ country_event = {
 	fire_only_once = yes
 	is_triggered_only = yes
 	
-	 option = {
+	option = {
 		name = usa_event.9.a
-		add_political_power = -150
-		add_stability = -0.05
-		swap_ideas = {
-			remove_idea = second_great_depression_3
-			add_idea = second_great_depression_2
+		add_political_power = -200
+		add_stability = -0.15
+		add_war_support = -0.25
+
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 1
+			}
+			remove_building = {
+				type = industrial_complex
+				level = 2
+			}
 		}
-		hidden_effect = {
-			activate_mission = USA_2nd_great_depression_4th
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 1
+			}
+			remove_building = {
+				type = industrial_complex
+				level = 2
+			}
 		}
-	 }
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 1
+			}
+			remove_building = {
+				type = industrial_complex
+				level = 2
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 1
+			}
+			remove_building = {
+				type = industrial_complex
+				level = 2
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 1
+			}
+			remove_building = {
+				type = industrial_complex
+				level = 2
+			}
+		}
+	}
 }
 
 #반정부 시위대
@@ -589,13 +656,7 @@ country_event = {
 			ideology = communism
 			popularity = 0.05
 		}
-		swap_ideas = {
-			remove_idea = second_great_depression_2
-			add_idea = second_great_depression_1
-		}
-		hidden_effect = {
-			activate_mission = USA_2nd_great_depression_4th
-		}
+		activate_mission = USA_2nd_great_depression_4th_anti_government_protesters
 	 }
 }
 
@@ -612,14 +673,60 @@ country_event = {
 	fire_only_once = yes
 	is_triggered_only = yes
 	
-	 option = {
+	option = {
 		name = usa_event.11.a
 		add_stability = -0.20
-		swap_ideas = {
-			remove_idea = second_great_depression_1
-			add_idea = second_great_depression
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 1
+			}
+			remove_building = {
+				type = industrial_complex
+				level = 2
+			}
 		}
-	 }
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 1
+			}
+			remove_building = {
+				type = industrial_complex
+				level = 2
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 1
+			}
+			remove_building = {
+				type = industrial_complex
+				level = 2
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 1
+			}
+			remove_building = {
+				type = industrial_complex
+				level = 2
+			}
+		}
+		random_owned_controlled_state = {
+			limit = {
+				is_core_of = ROOT
+				industrial_complex > 1
+			}
+			remove_building = {
+				type = industrial_complex
+				level = 2
+			}
+		}
+	}
 }
 
 ########################

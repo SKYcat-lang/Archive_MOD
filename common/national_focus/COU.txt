@@ -658,7 +658,6 @@ focus_tree = {
 				}
 				NOT = { has_completed_focus = COU_autonomous_legislation }
 				NOT = { has_completed_focus = COU_student_council_amendment }
-				NOT = { has_completed_focus = COU_impeachment_of_chief_executive }
 			}
 		}
 		x = 15
@@ -873,7 +872,7 @@ focus_tree = {
 			army_experience = 75
 		}
 	}
-	focus = { #공포정치
+	focus = { #엄격한 규울
 		id = COU_scare_admin
 		icon = GFX_focus_generic_total_war
 		prerequisite = { focus = COU_srt_wlwl_ghkrqh }
@@ -959,6 +958,10 @@ focus_tree = {
 				custom_effect_tooltip = HAINE_ARREST_TT
 				set_country_flag = HAINE_ARREST
 			}
+			retire_country_leader = yes
+			promote_character = COU_YUKINO
+			set_country_flag = COU_SRT
+			mark_focus_tree_layout_dirty = yes
 		}
 	}
 	focus = { #린 처형
@@ -1212,7 +1215,7 @@ focus_tree = {
 		cost = 8
 		search_filters = {
 			
-						FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_INDUSTRY
 					
 		}
 		completion_reward = {
@@ -1235,7 +1238,7 @@ focus_tree = {
 		cost = 8
 		search_filters = {
 			
-						FOCUS_FILTER_POLITICAL
+			FOCUS_FILTER_INDUSTRY
 					
 		}
 		completion_reward = {
@@ -1267,6 +1270,9 @@ focus_tree = {
 		id = COU_haesan
 		icon = GFX_focus_generic_treaty
 		prerequisite = { focus = COU_new_hangjung }
+		available = {
+			has_completed_focus = COU_daehang
+		}
 		x = -1
 		y = 1
 		relative_position_id = COU_new_hangjung
@@ -1298,6 +1304,7 @@ focus_tree = {
 			add_stability = 0.025
 			add_country_leader_trait = COU_blood_dictator
 			COU_cut_tower_down_effect = yes
+			set_cosmetic_tag = COU_SRT_cosmetic
 		}
 	}
 	focus = { #대전이 행정규칙 제정
@@ -1363,7 +1370,7 @@ focus_tree = {
 		cost = 10
 		search_filters = {
 			
-						FOCUS_FILTER_POLITICAL
+						FOCUS_FILTER_INDUSTRY
 
 		}
 		completion_reward = {
@@ -1438,6 +1445,815 @@ focus_tree = {
 			add_country_leader_trait = SHE_new_dictator
 			add_country_leader_trait = dictator
 			COU_cut_tower_down_effect = yes
+		}
+	}
+	focus = { #밖을 바라보다
+		id = COU_see_out
+		icon = GFX_COU_focus_offensive
+		prerequisite = { focus = COU_GSCP_KAYA focus = COU_daehang }
+		x = 4
+		y = 1
+		relative_position_id = COU_GSCP_KAYA
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_WAR_SUPPORT
+			FOCUS_FILTER_INDUSTRY
+			FOCUS_FILTER_POLITICAL
+
+		}
+		completion_reward = {
+			add_one_random_military_factory = yes
+			add_war_support = 0.05
+		}
+	}
+	focus = { #준비를 하다
+		id = COU_prepare
+		icon = GFX_focus_SWE_varnplikt
+		prerequisite = { focus = COU_see_out }
+		x = 0
+		y = 1
+		relative_position_id = COU_see_out
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			add_one_random_military_factory = yes
+			add_one_random_military_factory = yes
+			add_one_random_infrastructure = yes
+		}
+	}
+	focus = { #동원령선포 
+		id = COU_dongwon
+		icon = GFX_focus_generic_full_social_mobilization
+		prerequisite = { focus = COU_see_out }
+		x = -2
+		y = 1
+		relative_position_id = COU_see_out
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_MANPOWER
+
+		}
+		completion_reward = {
+			add_manpower = 50000
+		}
+	}
+	focus = { #발키리 통합
+		id = COU_balkiri_helprequest
+		icon = GFX_focus_chi_mission_to_the_KSP
+		prerequisite = { focus = COU_see_out }
+		x = 2
+		y = 1
+		relative_position_id = COU_see_out
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			annex_country = {
+				target = KSP
+				transfer_troops = yes
+
+			}
+		}
+	}
+	focus = { #발키리 통합
+		id = COU_godwjdtkqjqwkddkr
+		icon = GFX_SRT_focus_karbarlog
+		prerequisite = { focus = COU_dongwon }
+		prerequisite = { focus = COU_prepare }
+		prerequisite = { focus = COU_balkiri_helprequest}
+		allow_branch = {
+			has_country_flag = COU_SRT
+		}
+		x = 0
+		y = 1
+		relative_position_id = COU_prepare
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			add_ideas = COU_blood_admin
+			set_country_flag = COU_SRT_ON
+			custom_effect_tooltip = COU_KSP_SRT_tt
+			hidden_effect = {
+			create_dynamic_country = {
+				copy_tag = KSP
+				original_tag = KSP
+				transfer_state = 974
+				transfer_state = 34
+				transfer_state = 971
+				transfer_state = 977
+				set_cosmetic_tag = COUSRT_KSP
+				set_party_name = {
+					ideology = fascism
+					long_name = COU_SRT_party
+					name = COU_SRT_party
+				}
+				hidden_effect = {
+					create_country_leader = {
+						name = "COUSRT_Miyako"
+						desc = ""
+						picture = "gfx/leaders/SRT/SRT_pot_1.tga"
+						ideology = nazism
+						traits = {
+							}
+						}
+					}
+				BA_puppet_on_action_effect = yes
+				every_state = {
+                    limit = { is_controlled_by = PREV }
+                    add_core_of = PREV
+                }
+                every_core_state = {
+                    limit = {
+                        NOT = { is_controlled_by = PREV }
+                    }
+                    remove_core_of = PREV
+                }
+				COU = {
+					puppet = PREV
+				}
+				set_country_flag = SRT
+			}
+			}
+		}
+	}
+	focus = { #발키리 통합
+		id = COU_attack
+		icon = GFX_goal_kr_backstab
+		prerequisite = { focus = COU_dongwon }
+		prerequisite = { focus = COU_prepare }
+		prerequisite = { focus = COU_balkiri_helprequest focus = COU_godwjdtkqjqwkddkr }
+		x = 0
+		y = 1
+		relative_position_id = COU_prepare
+		cost = 5
+		allow_branch = {
+			NOT = { has_country_flag = COU_SRT }
+		}
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			add_war_support = 0.05
+		}
+	}
+	focus = { #흥신소 침공
+		id = COU_attack_TRM
+		icon = GFX_focus_attack_TRN
+		prerequisite = { focus = COU_attack focus = COU_godwjdtkqjqwkddkr }
+		x = -2
+		y = 2
+		relative_position_id = COU_prepare
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = TRM
+			}
+		}
+	}
+	focus = { #흥신소 침공
+		id = COU_attack_cze
+		icon = GFX_focus_attack_HYA
+		prerequisite = { focus = COU_attack_TRM }
+		x = -1
+		y = 1
+		relative_position_id = COU_attack_TRM
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			if = {
+				limit = { ABY = {
+					exists = yes
+				}
+			}
+			create_wargoal = {
+				type = annex_everything
+				target = ABY
+			}
+		}
+		create_wargoal = {
+			type = annex_everything
+			target = HYA
+		}	
+		}
+	}
+	focus = { #흥신소 침공
+		id = COU_attack_SHA
+		icon = GFX_focus_attack_SHA
+		prerequisite = { focus = COU_attack_cze }
+		prerequisite = {
+			focus = COU_attack_MIL
+		}
+		x = 0
+		y = 2
+		relative_position_id = COU_attack_TRM
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = SHA
+			}
+		}
+	}
+	focus = { #흥신소 침공
+		id = COU_attack_RED
+		icon = GFX_focus_attack_RED
+		prerequisite = { focus = COU_attack focus = COU_godwjdtkqjqwkddkr }
+		x = 2
+		y = 2
+		relative_position_id = COU_prepare
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = RED
+			}
+		}
+	}
+	focus = { #흥신소 침공
+		id = COU_attack_FIN
+		icon = GFX_focus_generic_attack_finland
+		prerequisite = { focus = COU_attack_RED }
+		x = 0
+		y = 2
+		relative_position_id = COU_attack_RED
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = FIN
+			}
+		}
+	}
+	focus = { #흥신소 침공
+		id = COU_attack_GEM
+		icon = GFX_focus_attack_GEH
+		prerequisite = { focus = COU_attack focus = COU_godwjdtkqjqwkddkr }
+		x = 0
+		y = 2
+		relative_position_id = COU_prepare
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = GEM
+			}
+		}
+	}
+	focus = { #흥신소 침공
+		id = COU_attack_MIL
+		icon = GFX_focus_attack_MIL
+		prerequisite = { focus = COU_attack_GEM }
+		prerequisite = {
+			focus = COU_attack_TRM
+		}
+		x = -1
+		y = 1
+		relative_position_id = COU_attack_GEM
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = MIL
+			}
+		}
+	}
+	focus = { #흥신소 침공
+		id = COU_attack_BLACK
+		icon = GFX_focus_attack_MIL
+		prerequisite = { focus = COU_attack_HEU }
+		prerequisite = {
+			focus = COU_attack_MIL
+		}
+		x = 1
+		y = 1
+		relative_position_id = COU_attack_MIL
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			hidden_effect = {
+				create_wargoal = {
+					type = annex_everything
+					target = BLM
+				}
+			}
+			custom_effect_tooltip = attack_BLM_tt
+		}
+	}
+	focus = { #만마전 공격
+		id = COU_attack_HEU
+		icon = GFX_focus_attack_HEU
+		prerequisite = { focus = COU_attack_GEM }
+		x = 1
+		y = 1
+		relative_position_id = COU_attack_GEM
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			create_wargoal = {
+				type = annex_everything
+				target = HEU
+			}
+		}
+	}
+	focus = { #승리
+		id = COU_victoria
+		icon = GFX_SRT_focus_we_are_srt
+		prerequisite = { focus = COU_attack_BLACK }
+		prerequisite = {
+			focus = COU_attack_FIN
+		}
+		prerequisite = {
+			focus = COU_attack_SHA
+		}
+		allow_branch = {
+			has_country_flag = COU_SRT
+		}
+		x = 0
+		y = 1
+		relative_position_id = COU_attack_BLACK
+		available = {
+			has_war = no
+			custom_trigger_tooltip = {
+				tooltip = COU_focus_last_tt
+				OR = {
+					controls_state = 64
+					any_country = {
+						controls_state = 7
+						is_subject_of = COU
+					}
+				}
+				OR = {
+					controls_state = 55
+					any_country = {
+						controls_state = 55
+						is_subject_of = COU
+					}
+				}
+				OR = {
+					controls_state = 141
+					any_country = {
+						controls_state = 141
+						is_subject_of = COU
+					}
+				}
+				OR = {
+					controls_state = 16
+					any_country = {
+						controls_state = 16
+						is_subject_of = COU
+					}
+				}
+				OR = {
+					controls_state = 14
+					any_country = {
+						controls_state = 14
+						is_subject_of = COU
+					}
+				}
+				OR = {
+					controls_state = 4
+					any_country = {
+						controls_state = 4
+						is_subject_of = COU
+					}
+				}
+				OR = {
+					controls_state = 985
+					any_country = {
+						controls_state = 985
+						is_subject_of = COU
+					}
+				}
+				OR = {
+					controls_state = 9
+					any_country = {
+						controls_state = 9
+						is_subject_of = COU
+					}
+				}
+			}
+		}
+		cost = 5
+		search_filters = {
+			
+			FOCUS_FILTER_INDUSTRY
+
+		}
+		completion_reward = {
+			hidden_effect = {
+				create_dynamic_country = {
+					copy_tag = MIL
+					original_tag = MIL
+					transfer_state = 16
+					transfer_state = 972
+					transfer_state = 973
+					transfer_state = 785
+					transfer_state = 18
+					transfer_state = 17
+					transfer_state = 27
+					transfer_state = 24
+					transfer_state = 33
+					transfer_state = 25
+					transfer_state = 20
+					transfer_state = 32
+					transfer_state = 21
+					transfer_state = 980
+					transfer_state = 851
+					transfer_state = 22
+					transfer_state = 31
+					transfer_state = 806
+					transfer_state = 26
+					transfer_state = 19
+					set_cosmetic_tag = COUSRT_MIL
+					set_party_name = {
+						ideology = fascism
+						long_name = COU_SRT_party
+						name = COU_SRT_party
+					}
+					hidden_effect = {
+						create_country_leader = {
+							name = "COUSRT_Niko"
+							desc = ""
+							picture = "gfx/leaders/SRT/SRT_pot_6.tga"
+							ideology = nazism
+							traits = {
+								}
+							}
+						}
+					BA_puppet_on_action_effect = yes
+					every_state = {
+						limit = { is_controlled_by = PREV }
+						add_core_of = PREV
+					}
+					every_core_state = {
+						limit = {
+							NOT = { is_controlled_by = PREV }
+						}
+						remove_core_of = PREV
+					}
+					COU = {
+						puppet = PREV
+					}
+				}
+				create_dynamic_country = {
+					copy_tag = BLM
+					original_tag = BLM
+					transfer_state = 14
+					transfer_state = 15
+					transfer_state = 30
+					transfer_state = 23
+					set_cosmetic_tag = COUSRT_BLM
+					set_party_name = {
+						ideology = fascism
+						long_name = COU_SRT_party
+						name = COU_SRT_party
+					}
+					hidden_effect = {
+						create_country_leader = {
+							name = "COUSRT_Saki"
+							desc = ""
+							picture = "gfx/leaders/SRT/SRT_pot_2.tga"
+							ideology = nazism
+							traits = {
+								}
+							}
+						}
+					BA_puppet_on_action_effect = yes
+					every_state = {
+						limit = { is_controlled_by = PREV }
+						add_core_of = PREV
+					}
+					every_core_state = {
+						limit = {
+							NOT = { is_controlled_by = PREV }
+						}
+						remove_core_of = PREV
+					}
+					COU = {
+						puppet = PREV
+					}
+				}
+				create_dynamic_country = {
+					original_tag = NOR
+					copy_tag = NOR
+					add_political_power = 100
+					set_cosmetic_tag = COUSRT_NOR
+					every_state = {
+						limit = { 
+							OR = {
+								is_core_of = NOR 
+								is_core_of = SWE
+								is_core_of = FIN
+							}
+							NOT = {
+								state = 138
+								state = 139
+								state = 140
+								state = 915
+								state = 919
+								state = 141
+								state = 913
+								state = 110
+								state = 920
+								state = 142
+								state = 921
+								state = 922
+								state = 916
+								state = 124
+							}
+						}
+						transfer_state_to = PREV
+					}
+					every_state = {
+						limit = { is_core_of = SWE }
+						add_core_of = PREV
+					}
+					load_focus_tree = {
+						tree = generic_focus
+					}
+					create_country_leader = {
+						name = "COUSRT_Moe"
+						desc = ""
+						picture = "gfx/leaders/SRT/SRT_pot_3.tga"
+						expire = "1965.1.1"
+						ideology = nazism
+						traits = { }
+					}
+					COU = { puppet = PREV }
+				}
+				create_dynamic_country = {
+					original_tag = RED
+					copy_tag = RED
+					add_political_power = 100
+					transfer_state = 141
+					transfer_state = 138
+					transfer_state = 139
+					transfer_state = 140
+					transfer_state = 915
+					transfer_state = 919
+					transfer_state = 141
+					transfer_state = 913
+					transfer_state = 110
+					transfer_state = 920
+					transfer_state = 142
+					transfer_state = 921
+					transfer_state = 922
+					transfer_state = 916
+					transfer_state = 911
+					transfer_state = 99
+					transfer_state = 37
+					transfer_state = 124
+					transfer_state = 912
+					set_cosmetic_tag = COUSRT_RED
+					BA_puppet_on_action_effect = yes
+					set_capital = { state = 37 }
+					set_party_name = {
+						ideology = fascism
+						long_name = "fascism_noun"
+						name = "fascism"
+					}
+					create_country_leader = {
+						name = "RED_minori"
+						desc = ""
+						picture = "gfx/leaders/RED/RED_Yasumori_Minori_Portrait.tga"
+						expire = "1965.1.1"
+						ideology = nazism
+						traits = { }
+					}
+					COU = { puppet = PREV }
+				}
+				create_dynamic_country = {
+					copy_tag = HYA
+					original_tag = HYA
+					transfer_state = 985
+					transfer_state = 9
+					transfer_state = 69
+					transfer_state = 75
+					transfer_state = 74
+					transfer_state = 72
+					transfer_state = 984
+					transfer_state = 4
+					transfer_state = 152
+					transfer_state = 153
+					transfer_state = 848
+					set_cosmetic_tag = COUSRT_HYA
+					set_party_name = {
+						ideology = fascism
+						long_name = COU_SRT_party
+						name = COU_SRT_party
+					}
+					hidden_effect = {
+						create_country_leader = {
+							name = "COUSRT_Miyu"
+							desc = ""
+							picture = "gfx/leaders/SRT/SRT_pot_4.tga"
+							ideology = nazism
+							traits = {
+								}
+							}
+						}
+					BA_puppet_on_action_effect = yes
+					every_state = {
+						limit = { is_controlled_by = PREV }
+						add_core_of = PREV
+					}
+					every_core_state = {
+						limit = {
+							NOT = { is_controlled_by = PREV }
+						}
+						remove_core_of = PREV
+					}
+					COU = {
+						puppet = PREV
+					}
+				}
+				create_dynamic_country = {
+					copy_tag = GEM
+					original_tag = GEM
+					transfer_state = 909
+					transfer_state = 58
+					transfer_state = 59
+					transfer_state = 56
+					transfer_state = 57
+					transfer_state = 55
+					transfer_state = 975
+					transfer_state = 978
+					transfer_state = 51
+					transfer_state = 42
+					transfer_state = 28
+					set_cosmetic_tag = COUSRT_GEM
+					set_party_name = {
+						ideology = fascism
+						long_name = COU_SRT_party
+						name = COU_SRT_party
+					}
+					hidden_effect = {
+						create_country_leader = {
+							name = "GEH_dlfhgk"
+							desc = ""
+							picture = "gfx/leaders/GEH/GEH_Natsume_Iroha_portrait.tga"
+							ideology = nazism
+							traits = {
+								}
+							}
+						}
+					BA_puppet_on_action_effect = yes
+					every_state = {
+						limit = { is_controlled_by = PREV }
+						add_core_of = PREV
+					}
+					every_core_state = {
+						limit = {
+							NOT = { is_controlled_by = PREV }
+						}
+						remove_core_of = PREV
+					}
+					COU = {
+						puppet = PREV
+					}
+				}
+				create_dynamic_country = {
+					copy_tag = GEH
+					original_tag = GEH
+					transfer_state = 53
+					transfer_state = 54
+					transfer_state = 52
+					transfer_state = 50
+					transfer_state = 976
+					set_cosmetic_tag = COUSRT_GEH
+					set_party_name = {
+						ideology = fascism
+						long_name = COU_SRT_party
+						name = COU_SRT_party
+					}
+					hidden_effect = {
+						create_country_leader = {
+							name = "COUSRT_Otogi"
+							desc = ""
+							picture = "gfx/leaders/SRT/SRT_pot_8.tga"
+							ideology = nazism
+							traits = {
+								}
+							}
+						}
+					BA_puppet_on_action_effect = yes
+					every_state = {
+						limit = { is_controlled_by = PREV }
+						add_core_of = PREV
+					}
+					every_core_state = {
+						limit = {
+							NOT = { is_controlled_by = PREV }
+						}
+						remove_core_of = PREV
+					}
+					COU = {
+						puppet = PREV
+					}
+				}
+				create_dynamic_country = {
+					copy_tag = TRM
+					original_tag = TRM
+					set_cosmetic_tag = COUSRT_TRM
+					every_state = {
+						limit = {
+							is_core_of = TRM
+						}
+						transfer_state_to = PREV
+					}
+					transfer_state = 85
+					set_party_name = {
+						ideology = fascism
+						long_name = COU_SRT_party
+						name = COU_SRT_party
+					}
+					hidden_effect = {
+						create_country_leader = {
+							name = "COUSRT_Kurumi"
+							desc = ""
+							picture = "gfx/leaders/SRT/SRT_pot_7.tga"
+							ideology = nazism
+							traits = {
+								}
+							}
+						}
+					BA_puppet_on_action_effect = yes
+					every_state = {
+						limit = { is_controlled_by = PREV }
+						add_core_of = PREV
+					}
+					every_core_state = {
+						limit = {
+							NOT = { is_controlled_by = PREV }
+						}
+						remove_core_of = PREV
+					}
+					COU = {
+						puppet = PREV
+					}
+				}
+				8 = {
+					transfer_state_to = KSP
+				}
+				}
 		}
 	}
 
