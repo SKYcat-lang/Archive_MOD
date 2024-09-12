@@ -243,9 +243,6 @@ country_event = { #서늘한 영토
 			}
 		}
 		add_stability = -0.3
-		add_ideas = ENG_UK_exile_support_idea_3
-		add_ideas = ENG_Canada_Government_support_idea_1
-		add_ideas = ENG_people_support_idea_2
 		add_ideas = ENG_distorted_gov
 		add_ideas = ENG_exile_shock
 		add_ideas = CAN_british_disease
@@ -684,6 +681,32 @@ country_event = { #거절당함
 
 add_namespace = IMP
 
+
+country_event = { # 국왕의 연설 
+	id = IMP.0
+	title = IMP.0.t
+	desc = IMP.0.desc
+	picture = GFX_report_event_king_speech
+
+	fire_only_once = yes
+	is_triggered_only = no
+	trigger = {
+		original_tag = ENG
+		OR = {
+			has_idea = BA_ENG_king_edward
+			has_idea = ENG_king_edward
+		}
+		has_global_flag = ENG_lose_global_flag
+	}
+	mean_time_to_happen = {
+		days = 02
+	}
+	option = {
+		name = IMP.0.a
+		news_event = { id = BA_news.102 }
+	}
+}
+
 country_event = { # 국왕의 연설 
 	id = IMP.1
 	title = IMP.1.t
@@ -725,11 +748,19 @@ country_event = { # 국왕의 연설 반응
 	}
 	picture = GFX_report_event_king_speech
 
-	fire_only_once = yes
 	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+
+		}
+	}
 
 	option = {
 		name = IMP.2.a
+		country_event = { id = IMP.6 days = 04 }
+		custom_effect_tooltip = you_can_see_ENG_gui
+		set_country_flag = you_can_see_ENG_gui
 		if = {
 			limit = { has_idea = ENG_king_edward }
 			swap_ideas = {
@@ -739,6 +770,11 @@ country_event = { # 국왕의 연설 반응
 		}
 		if = { # 국왕이 영국 망명자를 지지함
 			limit = { has_country_flag = CAN_address_war }
+			hidden_effect = {
+				add_ideas = ENG_UK_exile_support_idea_3
+				add_ideas = ENG_Canada_Government_support_idea_1
+				add_ideas = ENG_people_support_idea_2
+			}
 			custom_effect_tooltip = IMP_by_parliament
 			add_stability = -0.1
 			custom_effect_tooltip = IMP_by_uk_exile
@@ -746,6 +782,11 @@ country_event = { # 국왕의 연설 반응
 		}
 		if = { # 캐나다 정부 지지
 			limit = { has_country_flag = CAN_address_gov }
+			hidden_effect = {
+				add_ideas = ENG_UK_exile_support_idea_2
+				add_ideas = ENG_Canada_Government_support_idea_2
+				add_ideas = ENG_people_support_idea_2
+			}
 			custom_effect_tooltip = IMP_by_parliament
 			add_stability = 0.05
 			ENG_can_gov_support_up = yes

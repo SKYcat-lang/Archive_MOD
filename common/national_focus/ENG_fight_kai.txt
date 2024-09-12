@@ -4021,6 +4021,7 @@ focus_tree = {
     	icon = GFX_goal_generic_fortify_city
 		available = {
 			NOT = { has_global_flag = ENG_lose_global_flag }
+			controls_state = 132
 		}
 		mutually_exclusive = { focus = ENG_Accelerate_exile_planning }
     	x = -3
@@ -4071,7 +4072,7 @@ focus_tree = {
 		}
 	}
 	
-	focus = { # 충격군 창설
+	focus = { # 공군 활용
     	id = ENG_AirForceUtilization
     	icon = GFX_focus_generic_cas_aircraft
 		available = {
@@ -4086,7 +4087,19 @@ focus_tree = {
 			focus = ENG_Accelerate_exile_planning
 		}
     	completion_reward = {
-
+			air_experience = 50
+			add_tech_bonus = {
+				name = ENG_AirForceUtilization
+				bonus = 1.0
+				uses = 2
+				category = light_air
+			}
+			add_doctrine_cost_reduction = {
+				name = ENG_AirForceUtilization
+				cost_reduction = 0.5
+				uses = 2
+				category = air_doctrine
+			}
 		}
 	}
 	
@@ -4094,7 +4107,10 @@ focus_tree = {
     	id = ENG_Assault_Troops
     	icon = GFX_focus_eng_expose_the_belly_of_the_bear
 		available = {
-			NOT = { has_global_flag = ENG_lose_global_flag }
+			NOT = { 
+				has_global_flag = ENG_lose_global_flag 
+				has_completed_focus = ENG_Accelerate_exile_planning
+			}
 		}
     	x = 3
     	y = 2
@@ -4105,23 +4121,44 @@ focus_tree = {
 			focus = ENG_Accelerate_exile_planning
 		}
     	completion_reward = {
+			division_template = {
+				name = "Assault Troops"
+				priority = 1
+				division_names_group = ENG_INF_01
 
-		}
-	}
-	
-	focus = { # 망명 계획 가속
-    	id = ENG_Accelerate_exile_planning
-    	icon = GFX_focus_generic_copy_plane_designs
-		available = {
-			NOT = { has_global_flag = ENG_lose_global_flag }
-		}
-		mutually_exclusive = { focus = ENG_protect_liverpool }
-    	x = 3
-    	y = 1
-		Relative_position_id = ENG_focus_fire_at_the_britain
-    	cost = 3
-		prerequisite = { focus = ENG_focus_fire_at_the_britain }
-    	completion_reward = {
+				regiments = {
+					infantry = { x = 0 y = 0 }
+					infantry = { x = 0 y = 1 }
+					infantry = { x = 0 y = 2 }
+					infantry = { x = 1 y = 0 }
+					infantry = { x = 1 y = 1 }
+					infantry = { x = 1 y = 2 }
+					infantry = { x = 2 y = 0 }
+					infantry = { x = 2 y = 1 }
+					infantry = { x = 2 y = 2 }
+				}
+				support = {
+					artillery = { x = 0 y = 0 }
+					signal_company = { x = 0 y = 1 }
+					recon = { x = 0 y = 2 }
+				}
+			}
+			random_owned_controlled_state = {
+				limit = { ROOT = { has_full_control_of_state = PREV } }
+				prioritize = { 931 }
+				create_unit = {
+					division = "name = \"I. Assault Troops\" division_template = \"Assault Troops\" start_experience_factor = 0.1 start_equipment_factor = 0.3" 
+					owner = ENG
+				}
+				create_unit = {
+					division = "name = \"II. Assault Troops\" division_template = \"Assault Troops\" start_experience_factor = 0.1 start_equipment_factor = 0.3" 
+					owner = ENG
+				}
+				create_unit = {
+					division = "name = \"III. Assault Troops\" division_template = \"Assault Troops\" start_experience_factor = 0.1 start_equipment_factor = 0.2" 
+					owner = ENG
+				}
+			}
 
 		}
 	}
@@ -4185,6 +4222,7 @@ focus_tree = {
     	cost = 3
 		prerequisite = { 
 			focus = ENG_mercenary_recruitment 
+			focus = ENG_London_Industrial_Relocation
 		}
     	completion_reward = {
 			add_manpower = 50000
@@ -4239,6 +4277,100 @@ focus_tree = {
 		}
 	}
 	
+	focus = { # 망명 계획 가속
+    	id = ENG_Accelerate_exile_planning
+    	icon = GFX_focus_generic_copy_plane_designs
+		available = {
+			NOT = { has_global_flag = ENG_lose_global_flag }
+		}
+		mutually_exclusive = { focus = ENG_protect_liverpool }
+    	x = 3
+    	y = 1
+		Relative_position_id = ENG_focus_fire_at_the_britain
+    	cost = 3
+		prerequisite = { focus = ENG_focus_fire_at_the_britain }
+    	completion_reward = {
+
+		}
+	}
+	
+	focus = { # 산업 시설 이전
+    	id = ENG_Industrial_facility_Relocation
+    	icon = GFX_focus_generic_modernize_industry
+		available = {
+			NOT = { has_global_flag = ENG_lose_global_flag }
+		}
+    	x = 1
+    	y = 1
+		Relative_position_id = ENG_Accelerate_exile_planning
+    	cost = 3
+		prerequisite = { focus = ENG_Accelerate_exile_planning }
+    	completion_reward = {
+			random_owned_state = {
+				limit = { industrial_complex > 1 }
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			random_owned_state = {
+				limit = { arms_factory > 1 }
+				remove_building = {
+					type = arms_factory
+					level = 1
+				}
+			}
+		}
+	}
+
+	focus = { # 지하 작업장
+    	id = ENG_underground_workshop
+    	icon = GFX_focus_generic_reorient_production
+		available = {
+			NOT = { has_global_flag = ENG_lose_global_flag }
+		}
+    	x = -1
+    	y = 1
+		Relative_position_id = ENG_Accelerate_exile_planning
+    	cost = 3
+		prerequisite = { focus = ENG_Accelerate_exile_planning }
+    	completion_reward = {
+			add_offsite_building = {
+				type = arms_factory
+				level = 2
+			}
+			add_ideas = ENG_underground_workshop
+		}
+	}
+
+	focus = { # 런던 산업 이전
+    	id = ENG_London_Industrial_Relocation
+    	icon = GFX_focus_generic_full_employment
+		available = {
+			NOT = { has_global_flag = ENG_lose_global_flag }
+		}
+    	x = 1
+    	y = 1
+		Relative_position_id = ENG_underground_workshop
+    	cost = 3
+		prerequisite = { 
+			focus = ENG_underground_workshop 
+			focus = ENG_Industrial_facility_Relocation
+		}
+    	completion_reward = {
+			every_core_state = {
+				limit = { 
+					is_controlled_by = KAI 
+					industrial_complex > 2
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
+	}
+	
 	focus = { # 하늘 지배
     	id = ENG_Rule_the_Sky
     	icon = GFX_focus_generic_multi_role_aircraft
@@ -4249,10 +4381,11 @@ focus_tree = {
 		}
     	x = 1
     	y = 1
-		Relative_position_id = ENG_mercenary_recruitment
+		Relative_position_id = ENG_London_Industrial_Relocation
     	cost = 5
 		prerequisite = { 
 			focus = ENG_mercenary_recruitment 
+			focus = ENG_London_Industrial_Relocation
 		}
     	completion_reward = {
 
@@ -4276,6 +4409,7 @@ focus_tree = {
     	cost = 10
 		prerequisite = { 
 			focus = ENG_mercenary_recruitment 
+			focus = ENG_London_Industrial_Relocation
 		}
  		completion_reward = {
  			army_experience = 150
@@ -4283,33 +4417,6 @@ focus_tree = {
 			swap_ideas = {
 				add_idea = ENG_lessons_of_kaiser_war_idea
 				remove_idea = ENG_save_the_liverpool
-			}
-		}
-	}
-	  
-	# 우리는 승리하리라!
-	focus = {
-    	id = ENG_WeWillWin
-    	icon = GFX_focus_ETH_continuous_strengthen_the_black_lions
-		available = { controls_state = 126 }
-    	x = 0
-    	y = 1
-		Relative_position_id = ENG_lessons_of_kaiser_war
-    	cost = 5
-		prerequisite = { 
-			focus = ENG_lessons_of_kaiser_war 
-		}
- 		completion_reward = {
-			every_state = {
-				limit = { 
-					is_core_of = ENG
-					is_controlled_by = KAI
-				}
-				add_dynamic_modifier = {
-					modifier = ENG_we_will_win
-	 				scope = ENG
-	 				days = 31
-				}
 			}
 		}
 	}
