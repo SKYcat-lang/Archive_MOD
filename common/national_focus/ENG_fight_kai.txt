@@ -4633,6 +4633,66 @@ focus_tree = {
 			remove_ideas = ENG_distorted_gov
 		}
 	}
+	focus = {
+		id = CAN_concessions_to_workers # 노동자에 양보
+		icon = GFX_focus_generic_soviet_politics
+		cost = 5
+		
+		relative_position_id = CAN_government_unity
+		x = 2
+		y = 1
+		available = { 
+			is_subject = no 
+			NOT = {
+				has_country_leader = {
+					character = IMP_Edward_VIII
+					ruling_only = yes
+				}
+			}
+		}
+		mutually_exclusive = {
+			focus = CAN_collaboration_with_fascist_movement
+		}
+	
+		prerequisite = { focus = CAN_government_unity }
+		ai_will_do = { factor = 50 }
+		search_filters = {FOCUS_FILTER_POLITICAL}
+		available_if_capitulated = yes
+	
+			
+		completion_reward = {
+		}
+	}
+	focus = {
+		id = CAN_collaboration_with_fascist_movement # 파시즘 조직과 협력
+		icon = GFX_goal_support_fascism
+		cost = 5
+		
+		relative_position_id = CAN_government_unity
+		x = 4
+		y = 1
+		available = { 
+			is_subject = no 
+			NOT = {
+				has_country_leader = {
+					character = IMP_mackenzie_king
+					ruling_only = yes
+				}
+			}
+		}
+		mutually_exclusive = {
+			focus = CAN_concessions_to_workers
+		}
+	
+		prerequisite = { focus = CAN_government_unity }
+		ai_will_do = { factor = 50 }
+		search_filters = {FOCUS_FILTER_POLITICAL}
+		available_if_capitulated = yes
+	
+			
+		completion_reward = {
+		}
+	}
 	
 	#####ECONOMIC
 	
@@ -5599,15 +5659,46 @@ focus_tree = {
 	
 	
 	focus = {
+		id = IMP_collapse_of_imperial_hegemony
+		icon = GFX_focus_eng_decolonization
+		cost = 5
+		
+		relative_position_id = CAN_government_unity
+		x = 0
+		y = 2
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = BA_Auto_complete_tt
+				always = no
+			}
+		}
+		allow_branch = { has_global_flag = ENG_lose_global_flag }
+	
+		ai_will_do = { factor = 100 }
+		search_filters = {FOCUS_FILTER_POLITICAL}
+		available_if_capitulated = yes
+	
+			
+		completion_reward = {
+			add_stability = -0.05
+		}
+	}
+	
+	
+	focus = {
 		id = CAN_Quebec_problem
 		icon = GFX_goal_tfv_can_compromise_with_quebec
 		cost = 5
 		
-		relative_position_id = CAN_government_unity
-		x = 2
+		relative_position_id = IMP_collapse_of_imperial_hegemony
+		x = 0
 		y = 1
+		prerequisite = { focus = IMP_collapse_of_imperial_hegemony }
 		available = { 
-			is_subject = no
+			custom_trigger_tooltip = {
+				tooltip = BA_Auto_complete_tt
+				always = no
+			}
 			has_country_flag = CAN_Quebec_problem_flag
 		}
 		allow_branch = { has_global_flag = ENG_lose_global_flag }
@@ -5626,16 +5717,21 @@ focus_tree = {
 		id = IMP_india_focus_0
 		icon = GFX_focus_RAJ_british_investors
 		cost = 5
-		x = 6
+		relative_position_id = IMP_collapse_of_imperial_hegemony
+		x = 4
 		y = 1
+		prerequisite = { focus = IMP_collapse_of_imperial_hegemony }
 		available = {
+			custom_trigger_tooltip = {
+				tooltip = BA_Auto_complete_tt
+				always = no
+			}
 			RAJ = {
 				has_war_with = HND
 			}
 		}
 		allow_branch = { has_global_flag = ENG_lose_global_flag }
 
-		relative_position_id = CAN_government_unity
 		ai_will_do = { factor = 100 }
 		search_filters = { FOCUS_FILTER_ANNEXATION }
 		available_if_capitulated = yes
