@@ -2000,14 +2000,17 @@ USA_war_plans = {
 		}
 	}
 
-	USA_execute_war_plan_GEH = {
+	USA_execute_war_plan_GEM = {
 		icon = generic_operation
 		available = {
-			has_war_with = GEM
-			has_war_with = GEH
+			or = {
+				has_war_with = GEM
+				has_war_with = GEH
+
+			}
 		}
+
 		visible = {
-			has_completed_focus = USA_war_plan_GEM
 			has_completed_focus = USA_war_plan_GEH
 		}
 		ai_will_do = {
@@ -2020,12 +2023,8 @@ USA_war_plans = {
 			#research_speed_factor = 0.1
 		}
 		targeted_modifier = {
-			tag = GEH
-			attack_bonus_against = 0.1
-			defense_bonus_against = 0.1
-		}
-		targeted_modifier = {
 			tag = GEM
+			tag = GEH
 			attack_bonus_against = 0.1
 			defense_bonus_against = 0.1
 		}
@@ -3295,6 +3294,857 @@ operations = {
 			}
 			hidden_effect = {
 				set_global_flag = USA_occupied_DEN_greenland
+			}
+		}
+	}
+}
+
+USA_2nd_great_depression = {
+	
+	USA_2nd_great_depression_1st = {
+		allowed = { 
+			always = no
+		}
+		icon = GFX_decision_generic_wreckers
+		is_good = no
+		days_mission_timeout = 10
+		selectable_mission = no
+		available = {
+			always = no
+		}
+		timeout_effect = {
+			custom_effect_tooltip = USA_2nd_great_depression_1st_txt
+			hidden_effect = {
+				country_event = { id = usa_event.2 days = 1 }
+			}
+		}
+	}
+}
+
+USA_2nd_great_depression_activated_categorie = {
+
+	USA_2nd_great_depression_4th = {
+		allowed = { 
+			always = no
+		}
+		priority = 100
+		icon = GFX_decision_generic_wreckers
+		is_good = no
+		days_mission_timeout = 280
+		selectable_mission = no
+		available = {
+			always = no
+		}
+		cancel_trigger = {
+			NOT = {
+				has_idea = second_great_depression
+				has_idea = great_depression
+				has_idea = great_depression_2
+				has_idea = great_depression_3
+			}
+		}
+		timeout_effect = {
+			country_event = usa_event.11
+			set_country_flag = USA_2nd_great_depression_4th_flag
+		}
+	}
+	USA_2nd_great_depression_4th_mass_unemployment = {
+		priority = 91
+		allowed = { 
+			always = no
+		}
+		icon = GFX_decision_generic_wreckers
+		is_good = no
+		days_mission_timeout = 95
+		selectable_mission = no
+		available = {
+			has_country_flag = {
+				flag = USA_2nd_great_depression_4th_mass_unemployment_flag
+				days > 365
+			}
+		}
+		cancel_trigger = {
+			NOT = {
+				has_idea = second_great_depression
+				has_idea = great_depression
+				has_idea = great_depression_2
+				has_idea = great_depression_3
+			}
+		}
+		timeout_effect = {
+			country_event = usa_event.6
+			add_days_mission_timeout = {
+				mission = USA_2nd_great_depression_4th
+				days = -75
+			}
+		}
+	}
+	USA_2nd_great_depression_4th_mass_unemployment_dd = {
+		priority = 90
+		icon = generic_nationalism
+		available = {
+			
+		}
+		visible = {
+			has_active_mission = USA_2nd_great_depression_4th_mass_unemployment
+		}
+
+		days_re_enable = 25
+		
+		custom_cost_trigger = {
+			has_political_power > 14
+			num_of_civilian_factories > 0
+		}
+		custom_cost_text = USA_2nd_great_depression_4th_mass_unemployment_dd_TT
+		ai_will_do = {
+			factor = 1
+		}
+		complete_effect = {
+			hidden_effect = {
+				add_political_power = -15
+			}
+			random_owned_state = {
+				limit = { industrial_complex > 0 }
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			
+			add_days_mission_timeout = {
+				mission = USA_2nd_great_depression_4th_mass_unemployment
+				days = 50
+			}
+			add_days_mission_timeout = {
+				mission = USA_2nd_great_depression_4th
+				days = 25
+			}
+		}
+	}
+	USA_2nd_great_depression_4th_end_of_agriculture = {
+		priority = 81
+		allowed = { 
+			always = no
+		}
+		icon = GFX_decision_generic_wreckers
+		is_good = no
+		days_mission_timeout = 125
+		selectable_mission = no
+		available = {
+			has_country_flag = {
+				flag = USA_2nd_great_depression_4th_end_of_agriculture_flag
+				days > 485
+			}
+		}
+		cancel_trigger = {
+			NOT = {
+				has_idea = second_great_depression
+				has_idea = great_depression
+				has_idea = great_depression_2
+				has_idea = great_depression_3
+			}
+		}
+		timeout_effect = {
+			add_ideas = USABA_famine
+			add_days_mission_timeout = {
+				mission = USA_2nd_great_depression_4th
+				days = -75
+			}
+		}
+	}
+	USA_2nd_great_depression_4th_end_of_agriculture_dd = {
+		priority = 80
+		icon = generic_nationalism
+		available = {
+			
+		}
+		visible = {
+			has_active_mission = USA_2nd_great_depression_4th_end_of_agriculture
+		}
+
+		days_re_enable = 25
+		
+		custom_cost_trigger = {
+			has_political_power > 24
+			num_of_civilian_factories > 0
+		}
+		custom_cost_text = USA_2nd_great_depression_4th_end_of_agriculture_dd_TT
+		ai_will_do = {
+			factor = 1
+		}
+		complete_effect = {
+			hidden_effect = {
+				add_political_power = -25
+			}
+			random_owned_state = {
+				limit = { industrial_complex > 0 }
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			
+			add_days_mission_timeout = {
+				mission = USA_2nd_great_depression_4th_end_of_agriculture
+				days = 50
+			}
+			add_days_mission_timeout = {
+				mission = USA_2nd_great_depression_4th
+				days = 10
+			}
+		}
+	}
+	USA_2nd_great_depression_4th_collapse_of_the_financial_industry = {
+		priority = 71
+		allowed = { 
+			always = no
+		}
+		icon = GFX_decision_generic_wreckers
+		is_good = no
+		days_mission_timeout = 85
+		selectable_mission = no
+		available = {
+			NOT = {
+				has_idea = second_great_depression
+				has_idea = great_depression
+				has_idea = great_depression_2
+				has_idea = great_depression_3
+			}
+		}
+		timeout_effect = {
+			country_event = usa_event.9
+			add_days_mission_timeout = {
+				mission = USA_2nd_great_depression_4th
+				days = -75
+			}
+		}
+	}
+	USA_2nd_great_depression_4th_anti_government_protesters = {
+		priority = 61
+		allowed = { 
+			always = no
+		}
+		icon = GFX_decision_generic_wreckers
+		is_good = no
+		days_mission_timeout = 35
+		selectable_mission = no
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = USA_2nd_great_depression_4th_anti_government_protesters_tt
+				NOT = {
+					has_idea = second_great_depression
+					has_idea = great_depression
+					has_idea = great_depression_2
+					has_idea = great_depression_3
+				}
+			}
+		}
+		cancel_trigger = {
+			has_country_flag = USA_2nd_great_depression_4th_flag
+		}
+		cancel_effect = {
+			add_ideas = USABA_collapsed_government_authority
+		}
+		timeout_effect = {
+			add_stability = -0.10
+			add_war_support = -0.10
+			random_owned_state = {
+				limit = { industrial_complex > 0 }
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			activate_mission = USA_2nd_great_depression_4th_anti_government_protesters
+			add_days_mission_timeout = {
+				mission = USA_2nd_great_depression_4th
+				days = -35
+			}
+		}
+	}
+	USA_2nd_great_depression_4th_anti_government_protesters_dd1 = {
+		priority = 60
+		icon = generic_nationalism
+		available = {
+			
+		}
+		visible = {
+			has_active_mission = USA_2nd_great_depression_4th_anti_government_protesters
+		}
+
+		days_re_enable = 35
+		days_remove = 70
+
+		cost = 25
+
+		ai_will_do = {
+			factor = 1
+		}
+		modifier = {
+			consumer_goods_factor = 0.25
+		}
+		complete_effect = {
+			add_stability = -0.02
+			
+			add_days_mission_timeout = {
+				mission = USA_2nd_great_depression_4th_anti_government_protesters
+				days = 25
+			}
+			add_days_mission_timeout = {
+				mission = USA_2nd_great_depression_4th
+				days = 5
+			}
+		}
+	}
+	USA_2nd_great_depression_4th_anti_government_protesters_dd2 = {
+		priority = 60
+		icon = generic_nationalism
+		available = {
+			
+		}
+		visible = {
+			has_active_mission = USA_2nd_great_depression_4th_anti_government_protesters
+		}
+
+		days_re_enable = 120
+
+		ai_will_do = {
+			factor = 40
+		}
+		complete_effect = {
+			add_stability = -0.02
+			
+			add_days_mission_timeout = {
+				mission = USA_2nd_great_depression_4th_anti_government_protesters
+				days = 25
+			}
+		}
+	}
+}
+
+USA_recover_from_2nd_great_depression_categorie = {
+	USA_recover_from_2nd_great_depression_failure_mission = {
+		priority = 91
+		allowed = { 
+			always = no
+		}
+		icon = GFX_decision_generic_wreckers
+		is_good = no
+		days_mission_timeout = 1095
+		selectable_mission = no
+		available = {
+			num_of_civilian_factories > 150
+		}
+		complete_effect = {
+			add_stability = 0.10
+			add_political_power = 100
+			USA_congress_large_support = yes
+		}
+		timeout_effect = {
+			add_stability = -0.15
+			add_war_support = -0.15
+			remove_ideas = USABA_return_of_the_giant
+			USA_congress_large_opposition = yes
+			if = {
+				limit = { has_completed_focus = USA_reestablish_the_gold_standard }
+
+				if = {
+					limit = {
+						has_country_flag = mtg_usa_civil_war_democrats_1
+						not = { has_country_flag = mtg_usa_civil_war_democrats_2 }
+					}
+					country_event = mtg_usa_civil_war_democrats.2
+					custom_effect_tooltip = mtg_usa_civil_war_warning_tt
+				}
+				else_if = {
+					limit = { not = { has_country_flag = mtg_usa_civil_war_democrats_1 } }
+					country_event = mtg_usa_civil_war_democrats.1
+					custom_effect_tooltip = mtg_usa_civil_war_warning_tt
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						has_country_flag = mtg_usa_civil_war_fascists_1
+						not = { has_country_flag = mtg_usa_civil_war_fascists_2 }
+					}
+					country_event = mtg_usa_civil_war_fascists.2
+					custom_effect_tooltip = mtg_usa_civil_war_warning_tt
+				}
+				else_if = {
+					limit = { not = { has_country_flag = mtg_usa_civil_war_fascists_1 } }
+					country_event = mtg_usa_civil_war_fascists.1
+					custom_effect_tooltip = mtg_usa_civil_war_warning_tt
+				}
+			}
+			set_country_flag = USA_recover_from_2nd_great_depression_failure_mission
+		}
+	}
+	USA_recover_from_2nd_great_depression_east_coast_infra = {
+		priority = 90
+		icon = GFX_decision_generic_construction
+		available = {
+			NOT = { has_country_flag = USABA_recover_from_2nd_great_depression_ing_flag }
+			custom_trigger_tooltip = {
+				tooltip = USA_recover_from_2nd_great_depression_haswar_tt
+				NOT = { has_country_flag = USA_recover_from_2nd_great_depression_stop_flag }
+			}
+			NOT = { has_country_flag = USA_recover_from_2nd_great_depression_failure_mission }
+		}
+		visible = {
+			has_completed_focus = USABA_american_reindustrialization
+		}
+		cost = 100
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = USA_recover_from_2nd_great_depression_haswar_cancel_tt
+				hidden_trigger = {
+					has_war = yes
+					any_enemy_country = {
+						is_major = yes
+					}
+				}
+			}
+		}
+		cancel_effect = {
+			hidden_effect = {
+				set_country_flag = USA_recover_from_2nd_great_depression_stop_flag
+				country_event = usa_chroma_event.2
+			}
+		}
+		complete_effect = {
+			hidden_effect = {
+				set_country_flag = {
+					flag = USABA_recover_from_2nd_great_depression_ing_flag
+					days = 150
+					value = 1
+				}
+			}
+		}
+		fire_only_once = yes
+		days_remove = 150
+		modifier = {
+			political_power_cost = 0.50
+			consumer_goods_factor = 0.15
+			production_speed_infrastructure_factor = 0.15
+		}
+
+		remove_effect = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 358 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 360 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 357 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 359 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 361 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 261 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 395 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			set_country_flag = USABA_east_coast_infra_completed
+		}
+	}
+	USA_recover_from_2nd_great_depression_east_coast_civ = {
+		priority = 89
+		icon = GFX_decision_generic_industry
+		available = {
+			NOT = { has_country_flag = USABA_recover_from_2nd_great_depression_ing_flag }
+			custom_trigger_tooltip = {
+				tooltip = USA_recover_from_2nd_great_depression_haswar_tt
+				NOT = { has_country_flag = USA_recover_from_2nd_great_depression_stop_flag }
+			}
+			NOT = { has_country_flag = USA_recover_from_2nd_great_depression_failure_mission }
+			has_country_flag = USABA_east_coast_infra_completed
+		}
+		visible = {
+			has_completed_focus = USABA_american_reindustrialization
+		}
+		cost = 200
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = USA_recover_from_2nd_great_depression_haswar_cancel_tt
+				hidden_trigger = {
+					has_war = yes
+					any_enemy_country = {
+						is_major = yes
+					}
+				}
+			}
+		}
+		cancel_effect = {
+			hidden_effect = {
+				set_country_flag = USA_recover_from_2nd_great_depression_stop_flag
+				country_event = usa_chroma_event.2
+			}
+		}
+		complete_effect = {
+			hidden_effect = {
+				set_country_flag = {
+					flag = USABA_recover_from_2nd_great_depression_ing_flag
+					days = 150
+					value = 1
+				}
+			}
+		}
+		fire_only_once = yes
+		days_remove = 150
+		modifier = {
+			political_power_cost = 0.50
+			consumer_goods_factor = 0.15
+			production_speed_industrial_complex_factor = 0.15
+		}
+
+		remove_effect = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 358 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 360 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 359 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 359 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 361 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 261 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 395 }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			set_country_flag = USABA_east_coast_civ_completed
+		}
+	}
+	USA_recover_from_2nd_great_depression_rebuild_agriculture_1 = {
+		priority = 88
+		icon = GFX_decision_POL_looming_peasants_strike
+		available = {
+			NOT = { has_country_flag = USABA_recover_from_2nd_great_depression_ing_flag }
+			custom_trigger_tooltip = {
+				tooltip = USA_recover_from_2nd_great_depression_haswar_tt
+				NOT = { has_country_flag = USA_recover_from_2nd_great_depression_stop_flag }
+			}
+			NOT = { has_country_flag = USA_recover_from_2nd_great_depression_failure_mission }
+		}
+		visible = {
+			has_completed_focus = USABA_american_reindustrialization
+			OR = {
+				has_idea = USABA_famine
+				has_idea = USABA_famine_1
+				has_idea = USABA_famine_2
+			}
+		}
+		cost = 75
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = USA_recover_from_2nd_great_depression_haswar_cancel_tt
+				hidden_trigger = {
+					has_war = yes
+					any_enemy_country = {
+						is_major = yes
+					}
+				}
+			}
+		}
+		cancel_effect = {
+			hidden_effect = {
+				set_country_flag = USA_recover_from_2nd_great_depression_stop_flag
+				country_event = usa_chroma_event.2
+			}
+		}
+		complete_effect = {
+			hidden_effect = {
+				set_country_flag = {
+					flag = USABA_recover_from_2nd_great_depression_ing_flag
+					days = 100
+					value = 1
+				}
+			}
+		}
+		fire_only_once = yes
+		days_remove = 100
+		modifier = {
+			political_power_cost = 0.25
+			consumer_goods_factor = 0.15
+			production_speed_buildings_factor = -0.15
+		}
+
+		remove_effect = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 382 }
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 383 }
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 384 }
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = USABA_famine
+				add_idea = USABA_famine_1
+			}
+			set_country_flag = USABA_agriculture_rebuild_start
+		}
+	}
+	USA_recover_from_2nd_great_depression_rebuild_agriculture_2 = {
+		priority = 87
+		icon = GFX_decision_generic_consumer_goods
+		available = {
+			NOT = { has_country_flag = USABA_recover_from_2nd_great_depression_ing_flag }
+			custom_trigger_tooltip = {
+				tooltip = USA_recover_from_2nd_great_depression_haswar_tt
+				NOT = { has_country_flag = USA_recover_from_2nd_great_depression_stop_flag }
+			}
+			NOT = { has_country_flag = USA_recover_from_2nd_great_depression_failure_mission }
+			has_country_flag = USABA_agriculture_rebuild_start
+		}
+		visible = {
+			has_completed_focus = USABA_american_reindustrialization
+			OR = {
+				has_idea = USABA_famine
+				has_idea = USABA_famine_1
+				has_idea = USABA_famine_2
+			}
+		}
+		cost = 100
+		cancel_trigger = {
+			custom_trigger_tooltip = {
+				tooltip = USA_recover_from_2nd_great_depression_haswar_cancel_tt
+				hidden_trigger = {
+					has_war = yes
+					any_enemy_country = {
+						is_major = yes
+					}
+				}
+			}
+		}
+		cancel_effect = {
+			hidden_effect = {
+				set_country_flag = USA_recover_from_2nd_great_depression_stop_flag
+				country_event = usa_chroma_event.2
+			}
+		}
+		complete_effect = {
+			hidden_effect = {
+				set_country_flag = {
+					flag = USABA_recover_from_2nd_great_depression_ing_flag
+					days = 120
+					value = 1
+				}
+			}
+		}
+		fire_only_once = yes
+		days_remove = 120
+		modifier = {
+			political_power_cost = 0.25
+			consumer_goods_factor = 0.15
+			production_speed_buildings_factor = -0.15
+		}
+
+		remove_effect = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 382 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 383 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				prioritize = { 384 }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			swap_ideas = {
+				remove_idea = USABA_famine_1
+				add_idea = USABA_famine_2
 			}
 		}
 	}

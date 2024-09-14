@@ -40,8 +40,6 @@
 		icon = GFX_focus_generic_modernize_industry
 		cost = 5
 
-		text_icon = NORDIC_focus_style
-
 		cancelable = no
 		available = {
 			NOT = {
@@ -1152,8 +1150,6 @@
 			has_country_flag = TRN_Yurizono_Seia_dead
 		}
 
-		text_icon = NORDIC_focus_style
-
 		offset = {
 			x = 5
 			trigger = {
@@ -1249,8 +1245,6 @@
 		icon = GFX_goal_steel_reich
 		cost = 5.80
 		cancelable = no
-
-		text_icon = NORDIC_focus_style
 
 		ai_will_do = {
 			base = 100
@@ -1449,8 +1443,6 @@
 		id = TRM_newfocus_27 #강철의 라이히
 		icon = GFX_goal_TRN_TRM_newfocus_7
 
-		text_icon = NORDIC_focus_style
-
 		cost = 5.00
 		cancelable = no
 		prerequisite = {
@@ -1507,6 +1499,7 @@
 			}
 			TRN_country_collapse_down = yes
 			custom_effect_tooltip = TRM_pater_union_tt
+			remove_country_leader_trait = TRM_pater_faction
 			set_variable = { TRM_internal_factions_remove_var = 0 } #지울 세력 코드
 			TRM_internal_factions_slot_remove = yes #지우는 스크립티드이펙트
 			custom_effect_tooltip = TRN_tooltip_delete_powers
@@ -2308,8 +2301,6 @@
 		available = {
 			has_global_flag = TRINITY_WON_THE_GEHENNA
 		}
-
-		text_icon = NORDIC_focus_style
         prerequisite = {
             focus = TRM_war_with_gehenna
             focus = TRM_invasion_of_devils
@@ -2346,8 +2337,6 @@
 		icon = GFX_goal_tmr_united_germay
 		cost = 8.00
 
-		text_icon = NORDIC_focus_style
-
 		prerequisite = {
 			focus = TRM_anti_gehenna_focus_3
 		}
@@ -2375,8 +2364,6 @@
 		id = TMR_serious_situation
 		icon = GFX_goal_TRM_Kivotos_union
 		cost = 8.00
-
-		text_icon = NORDIC_focus_style
         prerequisite = {
             focus = TRM_newfocus_28
         }
@@ -4566,6 +4553,51 @@
 		}
 	}
 	focus = {
+		id = TRN_We_Need_Helicopter
+		icon = GFX_goal_Helicopter
+		cost = 8
+		available = { }
+		prerequisite = {
+			focus = TRN_Create_The_Airborne_Force
+		}
+		relative_position_id = TRN_Create_The_Airborne_Force
+		x = 0
+		y = 1
+        ai_will_do = {
+		    factor = 2
+		    modifier = {
+			    factor = 2
+			    is_in_faction = yes # = started foreign tree
+		    }
+		    modifier = {
+			    factor = 3
+    			has_war = yes
+		    }
+		    modifier = {
+			    factor = 1.5
+    			date > 1937.1.1
+		    }
+    		modifier = {
+			    factor = 1.5
+    			date > 1938.1.1
+		    }
+		    modifier = {
+			    factor = 1.5
+			    date > 1939.1.1
+    		}
+	    }
+		completion_reward = {
+			custom_effect_tooltip = kivotos_dron_research_on
+			set_country_flag = kivotos_dron_research_on
+			add_tech_bonus = {
+				name = TRN_We_Need_Helicopter
+				ahead_reduction = 1
+				bonus = 0.5
+				technology = kivotos_helicopter_tech
+			}
+		}
+	}
+	focus = {
 		id = TRN_Death_From_Above
 		icon = GFX_goal_generic_air_fighter2
 		cost = 8
@@ -4624,8 +4656,6 @@
 		icon = GFX_goal_TRN_nagisa_gyehek
 		cost = 8.00
 		cancelable = no
-
-		text_icon = NORDIC_focus_style
 
 		prerequisite = {
 			focus = TRM_newfocus_4
@@ -5189,24 +5219,42 @@
 		}
 	}
 
+	#에덴 조약기구
 	focus = {
-		id = TRN_eden_pact_first_step
-		icon = GFX_goal_TRN_eden_pacts_letsgo
-		x = -10
-		y = 13
-		cost = 5
+		id = TRM_imika_debug
+		icon = GFX_goal_TRN_end_of_long_bad_time
+		x = -6
+		y = 7
 		allow_branch = {
 			is_debug = yes
 		}
+		cost = 5
 		bypass = {
 			OR = {
 				has_war_with = GEH
 				has_war_with = GEM
 			}
 		}
-		relative_position_id = TRN_nagisa_gyehek
-		prerequisite = { focus = TRN_war_with_knight_templar }
-		prerequisite = { focus = TRN_sisterhood_army focus = TRN_relief_knights_army }
+		relative_position_id = TRN_reunited_eden_pact
+		completion_reward = {
+			
+		}
+	}
+
+	focus = {
+		id = TRN_eden_pact_first_step
+		icon = GFX_goal_TRN_eden_pacts_letsgo
+		x = 0
+		y = 1
+		cost = 5
+		bypass = {
+			OR = {
+				has_war_with = GEH
+				has_war_with = GEM
+			}
+		}
+		relative_position_id = TRM_imika_debug
+		prerequisite = { focus = TRM_imika_debug }
 		completion_reward = {
 			if = {
 				limit = { has_global_flag = Treaty_of_Eden_1 }
@@ -6100,8 +6148,7 @@
 		x = -1
 		y = 5
 		completion_reward = {
-			custom_effect_tooltip = TRN_tooltip_add_army_attack_and_speed
-			add_to_variable = { TRN_trinity_uber_alles_army_attack_factor = 0.05 }
+			custom_effect_tooltip = TRN_tooltip_add_army_speed
 			add_to_variable = { TRN_trinity_uber_alles_army_org_factor = 0.1 }
 
 			custom_effect_tooltip = TRM_filius_loyalty__10_tt
@@ -6129,8 +6176,7 @@
 		x = 1
 		y = 5
 		completion_reward = {
-			custom_effect_tooltip = TRN_tooltip_add_army_defence_and_morale
-			add_to_variable = { TRN_trinity_uber_alles_army_defence_factor = 0.05 }
+			custom_effect_tooltip = TRN_tooltip_add_army_morale
 			add_to_variable = { TRN_trinity_uber_alles_army_morale_factor = 0.1 }
 
 			custom_effect_tooltip = TRM_filius_loyalty__10_tt
@@ -6646,8 +6692,7 @@
 		prerequisite = { focus = TRN_support_for_the_sisterhood }
 		prerequisite = { focus = TRN_support_for_the_johannine_faction }
 		completion_reward = {
-			custom_effect_tooltip = TRN_tooltip_add_attdef
-			add_to_variable = { TRN_trinity_uber_alles_army_attack_factor = 0.1 }
+			custom_effect_tooltip = TRN_tooltip_add_def
 			add_to_variable = { TRN_trinity_uber_alles_army_defence_factor = 0.1 }
 			swap_ideas = {
                 add_idea = TRN_Knight_Templar_2_idea
@@ -6678,6 +6723,28 @@
 		relative_position_id = TRN_restoration_of_the_sanctus_faction
 		prerequisite = { focus = TRN_restoration_of_the_sanctus_faction }
 		completion_reward = {
+			custom_effect_tooltip = TRN_the_balance_tt
+			if = {
+				limit = { NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } } }
+				set_variable = { TRM_internal_factions_loyalty_target = TRM_internal_factions_slot_one_var }
+				set_variable = { TRM_internal_factions_loyalty_var = 5 }
+				TRM_internal_factions_loyalty_add = yes
+			}
+
+			if = {
+				limit = { NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } } }
+				set_variable = { TRM_internal_factions_loyalty_target = TRM_internal_factions_slot_two_var }
+				set_variable = { TRM_internal_factions_loyalty_var = 5 }
+				TRM_internal_factions_loyalty_add = yes
+			}
+
+			if = {
+				limit = { NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } } }
+				set_variable = { TRM_internal_factions_loyalty_target = TRM_internal_factions_slot_three_var }
+				set_variable = { TRM_internal_factions_loyalty_var = 5 }
+				TRM_internal_factions_loyalty_add = yes
+			}
+			TRN_country_collapse_down = yes
 		}
 	}
 
@@ -6719,7 +6786,7 @@
 			custom_effect_tooltip = TRN_restructuring_of_the_paters_tt
 
 			set_variable = { TRM_internal_factions_add_var = 0 } #넣을 세력 코드
-			set_variable = { TRM_pater_loyalty = 65 } #충성도 설정
+			set_variable = { TRM_pater_loyalty = 80 } #충성도 설정
 			set_variable = { TRM_pater_popularity = 20 } #영향력 설정
 			TRM_internal_factions_slot_add = yes #추가하는 스크립티드이펙트
 		}
@@ -6850,6 +6917,7 @@
 				idea = TRN_perceived_threats
 				days = 120
 			}
+			TRN_country_collapse_down = yes
 		}
 	}
 
@@ -7007,6 +7075,7 @@
 		x = -4
 		y = 1
 		completion_reward = {
+			add_political_power = 60
 		}
 
 	}
@@ -7034,7 +7103,7 @@
 		x = 3
 		y = 1
 		completion_reward = {
-			add_war_support = 0.05
+			add_war_support = 0.10
 		}
 
 	}
@@ -7046,7 +7115,7 @@
 		y = 1
 		cost = 5
 		select_effect = {
-			country_event = { id = TRM_event.358 hours = 3 }
+			country_event = { id = TRM_event.358 days = 12 }
 		}
 		available = {
 			NOT = { has_global_flag = TRM_Treaty_of_Eden_false }
@@ -7249,6 +7318,18 @@
 		relative_position_id = TRN_war_with_Gehenna
 		prerequisite = { focus = TRN_war_with_Gehenna }
 		completion_reward = {
+			add_political_power = 120
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.10
+			}
+			every_country = {
+				limit = { OR = { original_tag = GEM original_tag = GEH original_tag = HEU } }
+				add_opinion_modifier = {
+					target = TRM
+					modifier = large_decrease
+				}
+			}
 		}
 	}
 
@@ -7261,6 +7342,9 @@
 		relative_position_id = TRN_war_with_Gehenna
 		prerequisite = { focus = TRN_war_with_Gehenna }
 		completion_reward = {
+			custom_effect_tooltip = TRN_tooltip_start_efficiency_and_efficiency_gain
+			add_to_variable = { TRN_trinity_uber_alles_production_factory_efficiency_gain_factor = 0.1 }
+			add_to_variable = { TRN_trinity_uber_alles_production_factory_start_efficiency_factor = 0.1 }
 		}
 	}
 
@@ -7273,6 +7357,8 @@
 		relative_position_id = TRN_trinity_movement
 		prerequisite = { focus = TRN_trinity_movement }
 		completion_reward = {
+			army_experience = 25
+			add_ideas = TRN_pro_trinity_volunteer_corps
 		}
 	}
 
@@ -7286,18 +7372,63 @@
 		prerequisite = { focus = TRN_trinity_movement }
 		prerequisite = { focus = TRN_anti_german_anti_gehenna }
 		completion_reward = {
+			add_country_leader_trait = TRM_trinity_supremacy
 		}
 	}
 
 	focus = {
 		id = TRN_our_homeland
-		icon = GFX_goal_TRN_uber_alles
+		icon = {
+			value = GFX_goal_TRN_uber_alles
+			trigger = {
+				has_country_leader = {
+					character = TRN_skrltk
+					ruling_only = yes
+				}
+			}
+		}
+		icon = {
+			value = GFX_focus_ARG_develop_the_electricity_sector
+			trigger = {
+				NOT = {
+					has_country_leader = {
+						character = TRN_skrltk
+						ruling_only = yes
+					}
+				}
+			}
+		}
+		dynamic = yes
 		x = 0
 		y = 1
 		cost = 5
 		relative_position_id = TRN_the_dignity_of_the_empire
 		prerequisite = { focus = TRN_the_dignity_of_the_empire }
 		completion_reward = {
+			custom_effect_tooltip = TRN_the_balance_tt
+			if = {
+				limit = { NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } } }
+				set_variable = { TRM_internal_factions_loyalty_target = TRM_internal_factions_slot_one_var }
+				set_variable = { TRM_internal_factions_loyalty_var = 5 }
+				TRM_internal_factions_loyalty_add = yes
+			}
+
+			if = {
+				limit = { NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } } }
+				set_variable = { TRM_internal_factions_loyalty_target = TRM_internal_factions_slot_two_var }
+				set_variable = { TRM_internal_factions_loyalty_var = 5 }
+				TRM_internal_factions_loyalty_add = yes
+			}
+
+			if = {
+				limit = { NOT = { check_variable = { TRM_internal_factions_slot_one_var = -1 } } }
+				set_variable = { TRM_internal_factions_loyalty_target = TRM_internal_factions_slot_three_var }
+				set_variable = { TRM_internal_factions_loyalty_var = 5 }
+				TRM_internal_factions_loyalty_add = yes
+			}
+			TRN_country_collapse_down = yes
+
+			upgrade_economy_law = yes
 		}
 	}
 
@@ -7415,6 +7546,11 @@
 		relative_position_id = TRN_Treaty_of_Eden
 		prerequisite = { focus = TRN_Treaty_of_Eden }
 		completion_reward = {
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.05
+			}
+			add_country_leader_trait = TRM_international_mediator
 		}
 	}
 
@@ -7425,6 +7561,7 @@
 		y = 1
 		available = {
 			is_faction_leader = yes
+			NOT = { has_government = communism }
 		}
 		cost = 5
 		relative_position_id = TRN_international_coordinator
@@ -7433,6 +7570,14 @@
 			focus = TRN_pragmatic_diplomacy
 		}
 		completion_reward = {
+			add_ideas = communism_banned
+			every_country = {
+				limit = { OR = { has_government = communism } }
+				add_opinion_modifier = {
+					target = TRM
+					modifier = medium_decrease
+				}
+			}
 		}
 	}
 
@@ -7451,6 +7596,11 @@
 			focus = TRN_anti_communism
 		}
 		completion_reward = {
+			add_political_power = 120
+			add_popularity = {
+				ideology = ROOT
+				popularity = -0.05
+			}
 		}
 	}
 
@@ -7466,6 +7616,31 @@
 		relative_position_id = TRN_international_coordinator
 		prerequisite = { focus = TRN_anti_communism }
 		completion_reward = {
+			every_country = {
+				limit = { 
+					is_in_array = {
+						array = global.kivotos_alliance
+						value = THIS
+					}	
+					NOT = { tag = ROOT }
+				}
+				add_opinion_modifier = {
+					target = TRM
+					modifier = medium_increase
+				}
+				add_opinion_modifier = {
+					target = TRM
+					modifier = TRM_kivotos_trade
+				}
+				hidden_effect = {
+					TRM = {
+						add_opinion_modifier = {
+							target = PREV
+							modifier = medium_increase
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -7481,6 +7656,20 @@
 		relative_position_id = TRN_international_coordinator
 		prerequisite = { focus = TRN_pragmatic_diplomacy }
 		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.03
+			}
+			every_country = {
+				limit = { 
+					is_in_faction_with = SOV
+					NOT = { tag = ROOT }
+				}
+				add_opinion_modifier = {
+					target = TRM
+					modifier = TRM_red_trade
+				}
+			}
 		}
 	}
 

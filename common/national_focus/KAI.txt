@@ -1528,11 +1528,17 @@ focus_tree = {
 			factor = 2
 		}
 		completion_reward = {
-			add_stability = 0.15
+			add_popularity = {
+				ideology = neutrality
+				popularity = -0.05
+			}
 			add_popularity = {
 				ideology = fascism
 				popularity = -0.05
 			}
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = KAI_william_morris
+			show_ideas_tooltip = KAI_josiah_wedgwood_V
 		}
 	}
 	focus = { #카이저의료보험
@@ -1672,6 +1678,10 @@ focus_tree = {
 			}
 		}
 		completion_reward = { 
+			add_offsite_building = {
+				type = industrial_complex
+				level = 2
+			}
 			KAI_down_political_democracy_idea = yes
 		}
 	}
@@ -1876,9 +1886,18 @@ focus_tree = {
 		y = 2
 		relative_position_id = KAI_first_shareholders_meeting
 		completion_reward = {
+			add_political_power = 120
 			add_popularity = {
 				ideology = democratic
 				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = fascism
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = -0.05
 			}
 		}
 	}
@@ -1919,10 +1938,15 @@ focus_tree = {
 		prerequisite = {
 			focus = KAI_bussiness_hq
 		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
 		available = {
+			has_idea = KAI_corporate_state
 			KAI_political_democracy_is_free = yes
 			has_idea = kai_political_democracy_idea_0
 			KAI_political_fascism_is_suppressed = yes
+			KAI_political_communism_is_suppressed = yes
 		}
 		x = 0
 		y = 3
@@ -1944,6 +1968,7 @@ focus_tree = {
 			KAI_remove_all_political_fascism_idea = yes
 			KAI_remove_all_political_communism_idea = yes
 			KAI_remove_all_political_democracy_idea = yes
+			KAI_remove_neutrality = yes
 		}
 	}
 	focus = { #뛰어난 두뇌 고용
@@ -2021,7 +2046,7 @@ focus_tree = {
 		available = {
 			KAI_political_communism_is_free = yes
 		}
-		x = -4
+		x = -3
 		y = 1
 		relative_position_id = KAI_corp_convention
 		completion_reward = {
@@ -2049,6 +2074,7 @@ focus_tree = {
 		completion_reward = {
 			add_research_slot = 1
 			KAI_down_political_communism_idea = yes
+			KAI_political_ruler_buff_effect = yes
 		}
 	}
 	focus = { #주주총회 압박
@@ -2118,6 +2144,8 @@ focus_tree = {
 				days = 365
 			}
 			add_stability = -0.10
+			KAI_up_political_fascism_idea = yes
+			KAI_up_political_democracy_idea = yes
 		}
 	}
 	focus = { #사내 민주주의
@@ -2134,7 +2162,13 @@ focus_tree = {
 		relative_position_id = KAI_corp_democratic
 		completion_reward = {
 			add_stability = 0.10
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.10
+			}
 			remove_ideas = KAI_stockholder_pressure_idea
+			KAI_down_political_communism_idea = yes
+			KAI_up_political_democracy_idea = yes
 		}
 	}
 	focus = { #회장의 운명
@@ -2143,7 +2177,11 @@ focus_tree = {
 		prerequisite = {
 			focus = KAI_fire_president
 		}
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
 		available = {
+			has_idea = KAI_corporate_state
 			KAI_political_communism_is_free = yes
 			has_idea = kai_political_communism_idea_0
 			KAI_political_democracy_is_suppressed = yes
@@ -2154,7 +2192,17 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_fire_president
 		completion_reward = {
+			set_cosmetic_tag = KAI_kaiser_workers_cooperative
 			remove_ideas = KAI_corporate_state
+			set_character_name = {
+				character = KAI_shareholders_meeting
+				name = KAI_shareholders_meeting2
+			}
+			set_party_name = {
+				ideology = democratic
+				long_name = KAI_england_party
+				name = KAI_england_party
+			}
 			set_politics = {
 				ruling_party = communism
 			}
@@ -2164,6 +2212,11 @@ focus_tree = {
 				name = GeneralMeeting
 			}
 			country_event = { id = KAI_event.2 }
+			KAI_remove_all_political_rule_idea = yes
+			KAI_remove_all_political_fascism_idea = yes
+			KAI_remove_all_political_communism_idea = yes
+			KAI_remove_all_political_democracy_idea = yes
+			KAI_remove_neutrality = yes
 		}
 	}
 
@@ -2192,6 +2245,7 @@ focus_tree = {
 				add_ideas = war_economy
 			}
 			add_ideas = KAI_improvedA_labor_productivity
+			KAI_up_political_fascism_idea = yes
 		}
 	}
 
@@ -2529,11 +2583,9 @@ focus_tree = {
 				ideology = democratic
 				popularity = 0.05
 			}
-			add_popularity = {
-				ideology = fascism
-				popularity = 0.05
-			}
-			add_war_support = 0.10
+			add_war_support = 0.05
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = KAI_montagu_norman
 			KAI_political_ruler_buff_effect = yes
 		}
 	}
@@ -2736,6 +2788,9 @@ focus_tree = {
 		}
 		relative_position_id = KAI_kaiser_sphere_of_influence
 		completion_reward = {
+			TRM = {
+				country_event = { id = generic.2 hours = 8 }
+			}
 		}
 	}
 	focus = { #카이저 세력권
@@ -3128,8 +3183,12 @@ focus_tree = {
 		id = KAI_advance_president
 		icon = GFX_goal_generic_political_pressure
 		prerequisite = { focus = KAI_vertical_integration }
+		search_filters = {
+			FOCUS_FILTER_POLITICAL
+		}
 		cost = 10
 		available = {
+			has_idea = KAI_corporate_state
 			KAI_political_fascism_is_free = yes
 			has_idea = kai_political_fascism_idea_0
 			KAI_political_democracy_is_suppressed = yes
@@ -3149,6 +3208,11 @@ focus_tree = {
 			set_politics = {
 				ruling_party = fascism
 			}
+			KAI_remove_all_political_rule_idea = yes
+			KAI_remove_all_political_fascism_idea = yes
+			KAI_remove_all_political_communism_idea = yes
+			KAI_remove_all_political_democracy_idea = yes
+			KAI_remove_neutrality = yes
 		}
 	}
 	focus = { # 

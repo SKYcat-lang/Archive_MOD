@@ -458,7 +458,7 @@ country_event = { #출판부의 운명
 	option = { #높은 급여를 제시하고 언론을 정상화하자.
 		name = RED_minori_event.8.b
 		activate_advisor = RED_yakumo
-		add_political_power = -100
+		add_political_power = -150
 	}
 }
 country_event = { #아무 효과도 없지만 쓰이는 이벤트
@@ -1040,20 +1040,39 @@ country_event = { #민중소환제
 		add_political_power = 5
 	}
 }
-country_event = { #안 씀
+country_event = { #엔딩
 	id = RED_minori_event.29
 	title = RED_minori_event.29.t
 	desc = RED_minori_event.29.d
+	fire_only_once = yes
+	trigger = {
+		tag = RED
+		all_other_country = {
+			OR = {
+				is_ally_with = RED
+				exists = no
+			}
+		}
+		has_completed_focus = RED_minori_diplo_15
+	}
+	mean_time_to_happen = {
+		days = 1
+	}
+	option = { #그들을 도와주자
+		name = RED_minori_event.29.a
+		country_event = RED_minori_event.30
+	}
+}
+country_event = { #엔딩
+	id = RED_minori_event.30
+	title = RED_minori_event.30.t
+	desc = RED_minori_event.30.d
 	is_triggered_only = yes
 	fire_only_once = yes
 	
 	option = { #그들을 도와주자
-		name = RED_minori_event.29.a
-		add_tech_bonus = {
-			category = hospital_tech
-			bonus = 0.5
-			uses = 1
-		}
+		name = RED_minori_event.30.a
+		custom_effect_tooltip = RED_minori_event.30_tt
 	}
 }
 
@@ -2252,6 +2271,7 @@ country_event = { #반파시즘 노동자전선
 		has_war_with = TRM
 	}
 	option = {
+		unlock_national_focus = RED_revolution_war_focus_0
 		name = RED_event.15.a
 		add_war_support = 0.1
 		if = {
@@ -2312,24 +2332,48 @@ country_event = { #노동자 공화국
 
 	is_triggered_only = yes
 	option = {
-		hidden_effect = {
-			remove_ideas = RED_struggle_at_production_2
-			remove_ideas = RED_mechanized_agri_1
-		}
 		if = {
 			limit = {
-				has_idea = RED_syndicalism
+				has_idea = RED_syndicalism_idea
 			}
-			swap_ideas = {
-				remove_idea = RED_syndicalism
-				add_idea = RED_syndicalism_2
+			if = {
+				limit = {
+					has_idea = RED_HYUSIK_ideas
+				}
+				swap_ideas = {
+					remove_idea = RED_syndicalism_idea
+					add_idea = RED_syndicalism_2
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_syndicalism_idea
+					add_idea = RED_syndicalism_2_1
+				}
 			}
 		}
 		else = {
-			swap_ideas = {
-				remove_idea = RED_syndicalism_1
-				add_idea = RED_syndicalism_3
+			if = {
+				limit = {
+					has_idea = RED_HYUSIK_ideas
+				}
+				swap_ideas = {
+					remove_idea = RED_syndicalism_1
+					add_idea = RED_syndicalism_3
+				}
 			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_syndicalism_1
+					add_idea = RED_syndicalism_3_1
+				}
+			}
+		}
+		hidden_effect = {
+			remove_ideas = RED_struggle_at_production_2
+			remove_ideas = RED_mechanized_agri_1
+			remove_ideas = RED_HYUSIK_ideas
+			remove_ideas = RED_HYUSIK_ideas_1
 		}
 		custom_effect_tooltip = RED_worker_republic_tt
 		name = RED_event.16.a
@@ -2355,17 +2399,28 @@ country_event = { #노조 국민정신 합치기
 		}
 		if = {
 			limit = {
-				has_idea = RED_syndicalism
+				has_idea = RED_syndicalism_idea
 			}
 			swap_ideas = {
-				remove_idea = RED_syndicalism
+				remove_idea = RED_syndicalism_idea
 				add_idea = RED_syndicalism_1
 			}
 		}
 		else = {
-			swap_ideas = {
-				remove_idea = RED_syndicalism_2
-				add_idea = RED_syndicalism_3
+			if = {
+				limit = {
+					has_idea = RED_syndicalism_2
+				}
+				swap_ideas = {
+					remove_idea = RED_syndicalism_2
+					add_idea = RED_syndicalism_3
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_syndicalism_2_1
+					add_idea = RED_syndicalism_3_1
+				}
 			}
 		}
 		custom_effect_tooltip = RED_work_to_worker_tt
@@ -2443,7 +2498,7 @@ country_event = { #주 3일제 실시 요구
 		has_completed_focus = RED_to_left
 	}
 	mean_time_to_happen = {
-		days = 150
+		days = 250
 	}
 	immediate = {
 		add_to_variable = {
@@ -2577,7 +2632,7 @@ country_event = { #총체적 재무장 요구
 		}
 	}
 	mean_time_to_happen = {
-		days = 10
+		days = 30
 	}
 	immediate = {
 		add_to_variable = {
@@ -2613,7 +2668,7 @@ country_event = { #공업화 요구
 		has_completed_focus = RED_workerparty_upgrade
 	}
 	mean_time_to_happen = {
-		days = 100
+		days = 200
 	}
 	immediate = {
 		add_to_variable = {
@@ -2707,7 +2762,7 @@ country_event = { #병사노조 - 야전병원 연구
 		has_war = yes
 	}
 	mean_time_to_happen = {
-		days = 50
+		days = 150
 	}
 	immediate = {
 		add_to_variable = {
@@ -2730,5 +2785,264 @@ unit_leader_event = { #야전병원
 	option = {
 		name = RED_missions_char.7.a
 		activate_mission = RED_demand_hospital
+	}
+}
+country_event = { #혁명군사평의회 해산
+	id = RED_missions.6
+	title = RED_missions.4.t
+	desc = RED_missions.4.d
+	fire_only_once = yes
+	hidden = yes
+	trigger = {
+		tag = RED
+		has_completed_focus = RED_council_for_worker
+		has_idea = RED_RMC_idea
+		NOT = {
+			has_completed_focus = RED_soldier_union
+		}
+	}
+	mean_time_to_happen = {
+		days = 450
+	}
+	immediate = {
+		add_to_variable = {
+			RED_public_mission_activated = 1
+		}
+	}
+	option = {
+		name = RED_missions.1.a
+		RED_the_public = {
+			unit_leader_event = RED_missions_char.8
+		}
+	}
+}
+unit_leader_event = { #혁명군사평의회 해산
+	id = RED_missions_char.8
+	title = RED_missions_char.8.t
+	desc = RED_missions_char.8.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = RED_missions_char.8.a
+		activate_mission = RED_demand_RMC_cut
+	}
+}
+country_event = { #안정도 상승 요구
+	id = RED_missions.7
+	title = RED_missions.4.t
+	desc = RED_missions.4.d
+	fire_only_once = yes
+	hidden = yes
+	trigger = {
+		tag = RED
+		has_completed_focus = RED_mil-ind_complex
+	}
+	mean_time_to_happen = {
+		days = 450
+	}
+	immediate = {
+		add_to_variable = {
+			RED_public_mission_activated = 1
+		}
+	}
+	option = {
+		name = RED_missions.1.a
+		RED_the_public = {
+			unit_leader_event = RED_missions_char.9
+		}
+	}
+}
+unit_leader_event = { #사무노조 - 안정도
+	id = RED_missions_char.9
+	title = RED_missions_char.9.t
+	desc = RED_missions_char.9.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = RED_missions_char.9.a
+		activate_mission = RED_demand_stability
+	}
+}
+country_event = { #기반시설 확충
+	id = RED_missions.8
+	title = RED_missions.4.t
+	desc = RED_missions.4.d
+	fire_only_once = yes
+	hidden = yes
+	trigger = {
+		tag = RED
+		has_completed_focus = RED_infrastructure_union
+	}
+	mean_time_to_happen = {
+		days = 200
+	}
+	immediate = {
+		add_to_variable = {
+			RED_public_mission_activated = 1
+		}
+	}
+	option = {
+		name = RED_missions.1.a
+		RED_the_public = {
+			unit_leader_event = RED_missions_char.10
+		}
+	}
+}
+unit_leader_event = { #건설노조 - 기반시설
+	id = RED_missions_char.10
+	title = RED_missions_char.10.t
+	desc = RED_missions_char.10.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = RED_missions_char.10.a
+		activate_mission = RED_demand_infra
+	}
+}
+country_event = { #방산노조 - 군산복합체
+	id = RED_missions.9
+	title = RED_missions.4.t
+	desc = RED_missions.4.d
+	fire_only_once = yes
+	hidden = yes
+	trigger = {
+		tag = RED
+		has_completed_focus = RED_military_union
+	}
+	mean_time_to_happen = {
+		days = 330
+	}
+	immediate = {
+		add_to_variable = {
+			RED_public_mission_activated = 1
+		}
+	}
+	option = {
+		name = RED_missions.1.a
+		RED_the_public = {
+			unit_leader_event = RED_missions_char.11
+		}
+	}
+}
+unit_leader_event = { #
+	id = RED_missions_char.11
+	title = RED_missions_char.11.t
+	desc = RED_missions_char.11.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = RED_missions_char.11.a
+		activate_mission = RED_demand_arms
+	}
+}
+country_event = { #제조노조 - 화학산업
+	id = RED_missions.10
+	title = RED_missions.4.t
+	desc = RED_missions.4.d
+	fire_only_once = yes
+	hidden = yes
+	trigger = {
+		tag = RED
+		has_completed_focus = RED_industrial_union
+	}
+	mean_time_to_happen = {
+		days = 400
+	}
+	immediate = {
+		add_to_variable = {
+			RED_public_mission_activated = 1
+		}
+	}
+	option = {
+		name = RED_missions.1.a
+		RED_the_public = {
+			unit_leader_event = RED_missions_char.12
+		}
+	}
+}
+unit_leader_event = { #
+	id = RED_missions_char.12
+	title = RED_missions_char.12.t
+	desc = RED_missions_char.12.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = RED_missions_char.12.a
+		activate_mission = RED_demand_chemi
+	}
+}
+country_event = { #스칸디나비아 통합
+	id = RED_missions.11
+	title = RED_missions.4.t
+	desc = RED_missions.4.d
+	fire_only_once = yes
+	hidden = yes
+	trigger = {
+		tag = RED
+		has_completed_focus = RED_new_council
+	}
+	mean_time_to_happen = {
+		days = 110
+	}
+	immediate = {
+		add_to_variable = {
+			RED_public_mission_activated = 1
+		}
+	}
+	option = {
+		name = RED_missions.1.a
+		RED_the_public = {
+			unit_leader_event = RED_missions_char.13
+		}
+	}
+}
+unit_leader_event = { #
+	id = RED_missions_char.13
+	title = RED_missions_char.13.t
+	desc = RED_missions_char.13.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = RED_missions_char.13.a
+		activate_mission = RED_demand_core
+	}
+}
+country_event = { #동방 공세
+	id = RED_missions.12
+	title = RED_missions.4.t
+	desc = RED_missions.4.d
+	fire_only_once = yes
+	hidden = yes
+	trigger = {
+		tag = RED
+		has_completed_focus = RED_minori_diplo_3
+		FIN = {
+			exists = yes
+		}
+	}
+	mean_time_to_happen = {
+		days = 250
+	}
+	immediate = {
+		add_to_variable = {
+			RED_public_mission_activated = 1
+		}
+	}
+	option = {
+		name = RED_missions.1.a
+		RED_the_public = {
+			unit_leader_event = RED_missions_char.14
+		}
+	}
+}
+unit_leader_event = { #
+	id = RED_missions_char.14
+	title = RED_missions_char.14.t
+	desc = RED_missions_char.14.d
+	is_triggered_only = yes
+	fire_only_once = yes
+	option = {
+		name = RED_missions_char.14.a
+		activate_mission = RED_demand_fin
 	}
 }
