@@ -273,9 +273,6 @@ country_event = {
 			transfer_state = 288
 			transfer_state = 640
 		}
-		RAJ = {
-			set_cosmetic_tag = KR_RAJ_ENG
-		}
 		MAI = {
 			transfer_state = 982
 			every_owned_state = {
@@ -417,6 +414,12 @@ country_event = {
 			add_popularity = {
 				ideology = neutrality
 				popularity = 0.5
+			}
+		}
+		hidden_effect = {
+			country_event = {
+				id = IMP_india_event.20
+				days = 15
 			}
 		}
 	}
@@ -583,7 +586,7 @@ country_event = {
 }
 
 country_event = {
-	id = ENG_british_warning_event.12	#인도 휴전
+	id = ENG_british_warning_event.12	#안 슴
 	title = ENG_british_warning_event.11.t
 	desc = ENG_british_warning_event.11.d
 	picture = GFX_report_event_ast_navy
@@ -592,33 +595,12 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = ENG_british_warning_event.11.a
-		HND = {
-			transfer_state = 438
-			transfer_state = 439
-			white_peace = ENG
-			white_peace = CAN
-			white_peace = RAJ
-			complete_national_focus = HND_focus_deli_1
-		}
-		RJP = {
-			transfer_state = 428
-		}
-		MAI = {
-			transfer_state = 425
-		}
-		MDR = {
-			transfer_state = 423
-		}
-		ENG = {
-			hidden_effect = {
-				country_event = ENG_british_warning_event.14
-			}
-		}
+		
 	}
 }
 
 country_event = {
-	id = ENG_british_warning_event.13	#인도 공지 - 2
+	id = ENG_british_warning_event.13	#안 씀
 	title = ENG_british_warning_event.13.t
 	desc = ENG_british_warning_event.13.d
 	picture = GFX_report_event_ast_navy
@@ -631,7 +613,7 @@ country_event = {
 }
 
 country_event = {
-	id = ENG_british_warning_event.14	#패배
+	id = ENG_british_warning_event.14	#안 씀
 	title = ENG_british_warning_event.14.t
 	desc = ENG_british_warning_event.14.d
 	picture = GFX_report_event_ast_navy
@@ -640,54 +622,67 @@ country_event = {
 	is_triggered_only = yes
 	option = {
 		name = ENG_british_warning_event.14.a
-		RJP = {
-			transfer_state = 428
-		}
-		MDR = {
-			transfer_state = 423
-		}
-		MAI = {
-			transfer_state = 425
-		}
-		ENG = {
-			end_puppet = RJP
-			end_puppet = MDR
-			end_puppet = MAI
-			end_puppet = HDR
-			add_to_faction = RJP
-			add_to_faction = MAI
-			add_to_faction = MDR
-			add_to_faction = HDR
-		}
-		hidden_effect = {
-			428 = {
-				add_core_of = RJP
+		HND = {
+			every_country = {
+				limit = {
+					has_war_with = HND
+				}
+				white_peace = HND
 			}
-			423 = {
-				add_core_of = MDR
+			every_country = {
+				limit = {
+					has_war_with = PAK
+				}
+				white_peace = PAK
 			}
-			425 = {
-				add_core_of = MAI
+			white_peace = ENG
+			annex_country = {
+				target = RAJ
+				transfer_troops = yes
 			}
-			HND = {
-				every_core_state = {
-					random_list = {
-						1 = {
-							damage_building = {
-								type = arms_factory
-								damage = 0.3
-							}
-						}
-						1 = {
-							damage_building = {
-								type = industrial_complex
-								damage = 0.3
-							}
-						}
-						1 = {
-						}
+			country_event = ENG_british_warning_event.14
+		}
+		PAK = {
+			every_core_state = {
+				limit = {
+					NOT = {
+						is_core_of = HND
+					}
+					OR = {
+						is_owned_by = RAJ
+						is_owned_by = HND
 					}
 				}
+				transfer_state_to = PAK
+			}
+		}
+		MAI = {
+			set_cosmetic_tag = MAI_state_and_bun
+			transfer_state = 425
+			add_state_core = 425
+			create_country_leader = {
+				name = MAI_Cooperative_Governing_Committee
+				picture = GFX_portrait_POL_the_sejm
+				ideology = oligarchism
+			}
+		}
+		RAJ = {
+			remove_ideas = { RAJ_risk_of_famine }
+			remove_dynamic_modifier = {
+				modifier = RAJ_agrarian_society_dynamic
+			}
+			set_cosmetic_tag = RAJ_madras_government
+			transfer_state = 423
+			transfer_state = 424
+			load_focus_tree = generic_focus
+			add_popularity = {
+				ideology = neutrality
+				popularity = 1
+			}
+			create_country_leader = {
+				name = RAJ_provisional_committee
+				picture = GFX_portrait_Fallen_Government
+				ideology = oligarchism
 			}
 		}
 	}
