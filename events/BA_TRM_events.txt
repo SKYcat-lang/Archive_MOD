@@ -4455,6 +4455,7 @@ country_event = {
 				NOT = {
 					has_idea = BA_GER_defense
 					has_idea = BA_GER_defense_week
+					has_idea = BA_GER_defense_fail
 				}
 			}
 			country_event = { id = TRN_collapse_event.4 hours = 12 }
@@ -4474,6 +4475,7 @@ country_event = {
 				NOT = {
 					has_idea = BA_GER_defense
 					has_idea = BA_GER_defense_week
+					has_idea = BA_GER_defense_fail
 				}
 			}
 			country_event = { id = TRN_collapse_event.4 hours = 12 }
@@ -4556,6 +4558,7 @@ country_event = {
 				NOT = {
 					has_idea = BA_GER_defense
 					has_idea = BA_GER_defense_week
+					has_idea = BA_GER_defense_fail
 				}
 			}
 			country_event = { id = TRN_collapse_event.4 hours = 12 }
@@ -4574,6 +4577,7 @@ country_event = {
 				NOT = {
 					has_idea = BA_GER_defense
 					has_idea = BA_GER_defense_week
+					has_idea = BA_GER_defense_fail
 				}
 			}
 			country_event = { id = TRN_collapse_event.4 hours = 12 }
@@ -4619,6 +4623,7 @@ country_event = {
 				OR = {
 					has_idea = BA_GER_defense
 					has_idea = BA_GER_defense_week
+					has_idea = BA_GER_defense_fail
 				}
 			}
 			ROOT = {
@@ -4661,6 +4666,105 @@ country_event = {
 				target = ROOT
 				transfer_troops = yes
 			}
+		}
+	}
+}
+country_event = { 
+	id = TRN_collapse_event.6
+	title = TRN_collapse_event.6.t
+	desc = TRN_collapse_event.6.desc
+	picture = GFX_event_redemption
+
+	fire_only_once = no
+	is_triggered_only = yes
+	
+	option = { #
+		name = TRN_collapse_event.6.a
+		set_country_flag = {
+			flag = TRM_resistance_emerging_to_the_surface_flag
+			value = 1
+			days = 150
+		}
+		activate_mission = TRM_resistance_emerging_to_the_surface
+		random_owned_state = {
+			damage_building = {
+				type = industrial_complex
+				damage = 0.2
+			}
+			damage_building = {
+				type = arms_factory
+				damage = 0.1
+			}
+		}
+		random_owned_state = {
+			damage_building = {
+				type = industrial_complex
+				damage = 0.1
+			}
+			damage_building = {
+				type = arms_factory
+				damage = 0.3
+			}
+		}
+		random_owned_state = {
+			damage_building = {
+				type = industrial_complex
+				damage = 0.2
+			}
+			damage_building = {
+				type = arms_factory
+				damage = 0.2
+			}
+		}
+	}
+}
+country_event = { 
+	id = TRN_collapse_event.7
+	title = TRN_collapse_event.7.t
+	desc = TRN_collapse_event.7.desc
+	picture = GFX_event_redemption
+
+	fire_only_once = no 
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_global_flag = TRN_collapse_event_proceeding_flag }
+	}
+
+	immediate = {
+		set_global_flag = TRN_collapse_event_proceeding_flag
+		TRM_collapse_event_scripted_effect = yes
+	}
+
+	immediate = {
+		hidden_effect = {
+			TRM_collapse_event_appearance_effect = yes
+
+			if = { limit = { has_country_flag = TRN_collapse_event_none_flag } #더이상 봉기할 것이 없음.
+				#무언가 작업을 해야 함
+				clr_country_flag = TRN_collapse_event_none_flag
+			}
+
+			event_target:TRM_collapse_event_target = {
+				add_ideas = BA_GER_defense_fail
+			}
+		}
+	}
+	
+	option = { #
+		name = TRN_collapse_event.7.a
+		activate_mission = TRM_calm_storm
+		
+		every_country = {
+			limit = {
+				has_war_with = TRM
+				NOT = {
+					has_idea = BA_GER_defense
+					has_idea = BA_GER_defense_week
+					has_idea = BA_GER_defense_fail
+				}
+			}
+			country_event = { id = TRN_collapse_event.4 hours = 12 }
 		}
 	}
 }

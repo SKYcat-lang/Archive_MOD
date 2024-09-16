@@ -1,4 +1,314 @@
 TRN_country_collapse_decisions = {
+	TRM_resistance_emerging_to_the_surface = {
+		priority = 200
+		icon = GFX_decision_generic_prepare_civil_war
+    	available = {
+			has_country_flag = {
+				flag = TRM_resistance_emerging_to_the_surface_flag
+				days > 120
+			}
+    	}
+
+		cancel_trigger = {
+			has_global_flag = TRN_collapse_event_proceeding_flag
+		}
+		
+		activation = {
+			always = no
+		}
+		visible = {
+		}
+		
+		days_mission_timeout = 55
+		fire_only_once = yes
+		is_good = no
+
+		modifier = {
+		}
+		cancel_effect = {
+			hidden_effect = {
+				if = {
+					limit = { has_country_flag = TRM_resistance_emerging_to_the_surface_flag }
+					clr_country_flag = TRM_resistance_emerging_to_the_surface_flag
+				}
+				if = {
+					limit = { has_country_flag = declaration_of_martial_law_flag }
+					clr_country_flag = declaration_of_martial_law_flag
+				}
+			}
+		}
+		timeout_effect = {
+			hidden_effect = {
+				if = {
+					limit = { has_country_flag = TRM_resistance_emerging_to_the_surface_flag }
+					clr_country_flag = TRM_resistance_emerging_to_the_surface_flag
+				}
+				if = {
+					limit = { has_country_flag = declaration_of_martial_law_flag }
+					clr_country_flag = declaration_of_martial_law_flag
+				}
+			}
+			country_event = TRN_collapse_event.1
+		}
+		complete_effect = {
+			hidden_effect = {
+				if = {
+					limit = { has_country_flag = TRM_resistance_emerging_to_the_surface_flag }
+					clr_country_flag = TRM_resistance_emerging_to_the_surface_flag
+				}
+				if = {
+					limit = { has_country_flag = declaration_of_martial_law_flag }
+					clr_country_flag = declaration_of_martial_law_flag
+				}
+			}
+			country_event = TRN_collapse_event.7
+		}
+	}
+	TRM_rural_unrest = {
+		icon = GFX_decision_generic_scorched_earth
+    	available = {
+			NOT = { has_active_mission = TRM_resistance_emerging_to_the_surface }
+    	}
+
+		cancel_trigger = {
+			has_global_flag = TRN_collapse_event_proceeding_flag
+		}
+		
+		activation = {
+			has_active_mission = TRM_resistance_emerging_to_the_surface
+		}
+		visible = {
+		}
+		
+		days_mission_timeout = 25
+		fire_only_once = yes
+		is_good = no
+
+		modifier = {
+		}
+		cancel_effect = {
+		}
+		timeout_effect = {
+			if = {
+				limit = { is_ai = yes }
+				add_days_mission_timeout = {
+					mission = TRM_resistance_emerging_to_the_surface
+					days = -5
+				}
+			}
+			else = {
+				add_days_mission_timeout = {
+					mission = TRM_resistance_emerging_to_the_surface
+					days = -25
+				}
+			}
+			activate_mission = TRM_rural_unrest
+			hidden_effect = {
+				random_list = {
+					33 = {
+						modifier = {
+							is_ai = yes 
+							factor = 0.5
+						}
+						activate_mission = TRM_increase_in_student_dissatisfaction
+					}
+					33 = {
+
+					}
+				}
+			}
+		}
+		complete_effect = {
+		}
+	}
+	TRM_german_nationalist_unrest = {
+		icon = GFX_decision_eng_propaganda_campaigns
+    	available = {
+			NOT = { has_active_mission = TRM_resistance_emerging_to_the_surface }
+    	}
+
+		cancel_trigger = {
+			has_global_flag = TRN_collapse_event_proceeding_flag
+		}
+		
+		activation = {
+			has_active_mission = TRM_resistance_emerging_to_the_surface
+		}
+		visible = {
+		}
+		
+		days_mission_timeout = 45
+		fire_only_once = yes
+		is_good = no
+
+		modifier = {
+		}
+		cancel_effect = {
+		}
+		timeout_effect = {
+			add_days_mission_timeout = {
+				mission = TRM_resistance_emerging_to_the_surface
+				days = -15
+			}
+			activate_mission = TRM_german_nationalist_unrest
+		}
+		complete_effect = {
+		}
+	}
+	TRM_increase_in_student_dissatisfaction = {
+		icon = GFX_decision_eng_puppet_usa
+    	available = {
+			NOT = { has_active_mission = TRM_resistance_emerging_to_the_surface }
+    	}
+
+		cancel_trigger = {
+			has_global_flag = TRN_collapse_event_proceeding_flag
+		}
+		
+		activation = {
+			always = no
+		}
+		visible = {
+		}
+		
+		days_mission_timeout = 45
+		fire_only_once = yes
+		is_good = no
+
+		modifier = {
+		}
+		cancel_effect = {
+		}
+		timeout_effect = {
+			add_days_mission_timeout = {
+				mission = TRM_resistance_emerging_to_the_surface
+				days = -8
+			}
+		}
+		complete_effect = {
+		}
+	}
+	TRM_RETTS_city_search = {
+		icon = GFX_decision_generic_break_treaty
+		
+
+		allowed = {
+			original_tag = TRM
+		}
+		
+		visible = {
+			has_active_mission = TRM_resistance_emerging_to_the_surface
+		}
+		custom_cost_text = TRM_Iron_Sword_decision_search_up_cost
+		
+		fire_only_once = no
+
+		days_remove = 15
+		days_re_enable = 5
+		
+		custom_cost_trigger = {
+			has_political_power > 14
+			num_of_civilian_factories > 0
+		}
+
+		ai_will_do = {
+			base = 4000
+		}
+        modifier = { civilian_factory_use = 1 }
+        complete_effect = {
+			hidden_effect = { add_political_power = -14 }
+        }
+		
+		remove_effect = {
+            random_owned_state = {
+                limit = { industrial_complex > 0 }
+				remove_building = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			add_days_mission_timeout = {
+				mission = TRM_resistance_emerging_to_the_surface
+				days = 25
+			}
+		}
+	}
+	TRM_RETTS_expansion_of_checkpoints = {
+		icon = GFX_decision_generic_break_treaty
+		
+		allowed = {
+			original_tag = TRM
+		}
+		
+		visible = {
+			has_active_mission = TRM_resistance_emerging_to_the_surface
+		}
+		
+		fire_only_once = no
+
+		days_re_enable = 30
+		
+		cost = 100
+
+		ai_will_do = {
+			base = 4000
+		}
+		
+		complete_effect = {
+			add_days_mission_timeout = {
+				mission = TRM_resistance_emerging_to_the_surface
+				days = 25
+			}
+		}
+	}
+	TRM_RETTS_declaration_of_martial_law = {
+		icon = GFX_decision_generic_break_treaty
+		
+		allowed = {
+			original_tag = TRM
+		}
+
+		available = {
+			has_stability > 0.45
+		}
+		
+		visible = {
+			has_active_mission = TRM_resistance_emerging_to_the_surface
+			NOT = { has_country_flag = declaration_of_martial_law_flag }
+		}
+		
+		fire_only_once = no
+
+		custom_cost_text = TRM_RETTS_declaration_of_martial_law_tt
+		custom_cost_trigger = {
+			has_stability > 0.249
+		}
+
+		complete_effect = {
+			hidden_effect = {
+				add_stability = -0.25
+			}
+		}
+
+		ai_will_do = {
+			base = 4000
+		}
+
+		complete_effect = {
+			set_country_flag = {
+				flag = declaration_of_martial_law_flag
+				days = 125
+				value = 1
+			}
+		}
+		
+		remove_effect = {
+			add_days_mission_timeout = {
+				mission = TRM_resistance_emerging_to_the_surface
+				days = 50
+			}
+		}
+	}
 	TRN_country_collapse = {
 		icon = GFX_decision_generic_break_treaty
 
@@ -50,6 +360,7 @@ TRN_country_collapse_decisions = {
 						OR = {
 							has_idea = BA_GER_defense
 							has_idea = BA_GER_defense_week
+							has_idea = BA_GER_defense_fail
 						}
 					}
 				}
@@ -57,6 +368,7 @@ TRN_country_collapse_decisions = {
 					OR = {
 						has_idea = BA_GER_defense
 						has_idea = BA_GER_defense_week
+						has_idea = BA_GER_defense_fail
 					}
 					OR = {
 						exists = no
