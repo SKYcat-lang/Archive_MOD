@@ -1589,3 +1589,224 @@ country_event = { # 검은 월요일 - 대출 정상화
 		name = impblack.5.a
 	}
 }
+
+country_event = { # 연방-주 협력 프로그램 - 투자 어느정도 할꺼임?
+	id = impblack.10
+	title = impblack.10.t
+	desc = impblack.10.d
+	is_triggered_only = yes
+
+	option = {
+		name = impblack.10.a
+		hidden_effect = { country_event = impblack.11 }
+	}
+	option = {
+		name = impblack.10.b
+		trigger = { num_of_civilian_factories_available_for_projects > 0 }
+		add_ideas = CAN_increased_Federal_province_investment
+		hidden_effect = { country_event = impblack.11 }
+	}
+}
+
+country_event = { # 연방-주 협력 프로그램 - 투자 어디에 할거임?
+	id = impblack.11
+	title = impblack.11.t
+	desc = impblack.11.d
+
+	is_triggered_only = yes
+
+	option = { # 관료 문제 해결에 투자하자 ( 안정도, 전쟁 지지도, 정치력. )
+		name = impblack.11.a
+		hidden_effect = {
+			if = {
+				limit = { has_idea = CAN_increased_Federal_province_investment }
+				random_list = { # 무슨 보상을 받는가
+					30 = { set_country_flag = CAN_fedpro_hospital } # 안정도
+					30 = {set_country_flag = CAN_fedpro_school } # 정치력
+					30 = { set_country_flag = CAN_fedpro_housing } # 전쟁 지지도
+					10 = { # 실패
+						random_list = {
+							60 = { set_country_flag = CAN_fedpro_failure_1 }
+							40 = { set_country_flag = CAN_fedpro_failure_2 }
+						}
+					}
+				}
+				else = {
+					random_list = { # 무슨 보상을 받는가
+						25 = { set_country_flag = CAN_fedpro_hospital } # 안정도
+						25 = {set_country_flag = CAN_fedpro_school } # 정치력
+						25 = { set_country_flag = CAN_fedpro_housing } # 전쟁 지지도
+						25 = { # 실패 
+							random_list = {
+								60 = { set_country_flag = CAN_fedpro_failure_1 }
+								40 = { set_country_flag = CAN_fedpro_failure_2 }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	option = { # 지역 산업 발전에 투자하자 ( 민공, 군공 )
+		name = impblack.11.b
+		hidden_effect = {
+			if = {
+				limit = { has_idea = CAN_increased_Federal_province_investment }
+				random_list = { # 무슨 보상을 받는가
+					45 = { set_country_flag = CAN_fedpro_min }
+					45 = {set_country_flag = CAN_fedpro_gun }
+					10 = {
+						random_list = {
+							50 = { set_country_flag = CAN_fedpro_failure_1 }
+							50 = { set_country_flag = CAN_fedpro_failure_2 }
+						}
+					}
+				}
+				else = {
+					random_list = { # 무슨 보상을 받는가
+						33 = { set_country_flag = CAN_fedpro_min } # 민공
+						33 = { set_country_flag = CAN_fedpro_gun } # 군공
+						33 = { 
+							random_list = {
+								60 = { set_country_flag = CAN_fedpro_failure_1 }
+								40 = { set_country_flag = CAN_fedpro_failure_2 }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+country_event = { # 연방-주 협력 프로그램 - 협력의 결과
+	id = impblack.12
+	title = { # 병원 - 안정도
+		text = impblack.12.t.hospital
+		trigger = { has_country_flag = CAN_fedpro_hospital }
+	}
+	desc = { 
+		text = impblack.12.d.hospital
+		trigger = { has_country_flag = CAN_fedpro_hospital }
+	}
+	title = { # 학교 - 정치력
+		text = impblack.12.t.school
+		trigger = { has_country_flag = CAN_fedpro_school }
+	}
+	desc = { 
+		text = impblack.12.d.school
+		trigger = { has_country_flag = CAN_fedpro_school }
+	}
+	title = { # 주거 시설 - 전쟁 지지도
+		text = impblack.12.t.housing
+		trigger = { has_country_flag = CAN_fedpro_housing }
+	}
+	desc = { 
+		text = impblack.12.d.housing
+		trigger = { has_country_flag = CAN_fedpro_housing }
+	}
+	title = { # 군공 
+		text = impblack.12.t.gun
+		trigger = { has_country_flag = CAN_fedpro_gun }
+	}
+	desc = { 
+		text = impblack.12.d.gun
+		trigger = { has_country_flag = CAN_fedpro_gun }
+	}
+	title = { # 민공
+		text = impblack.12.t.min
+		trigger = { has_country_flag = CAN_fedpro_min }
+	}
+	desc = { 
+		text = impblack.12.d.min
+		trigger = { has_country_flag = CAN_fedpro_min }
+	}
+	title = { # 실패 반응 - 1
+		text = impblack.12.t.failure_1
+		trigger = { has_country_flag = CAN_fedpro_failure_1 }
+	}
+	desc = { 
+		text = impblack.12.d.failure_1
+		trigger = { has_country_flag = CAN_fedpro_failure_1 }
+	}
+	title = { # 실패 반응 - 2
+		text = impblack.12.t.failure_2
+		trigger = { has_country_flag = CAN_fedpro_failure_2 }
+	}
+	desc = { 
+		text = impblack.12.d.failure_2
+		trigger = { has_country_flag = CAN_fedpro_failure_2 }
+	}
+
+	immediate = {
+		hidden_effect = { remove_ideas = CAN_increased_Federal_province_investment }
+	}
+	is_triggered_only = yes
+
+	option = {
+		name = soviet.2.a
+		trigger = { has_country_flag = CAN_fedpro_hospital }
+		add_stability = 0.05
+		hidden_effect = { CAN_clr_all_flag = yes }
+	}
+
+	option = {
+		name = soviet.2.a
+		trigger = { has_country_flag = CAN_fedpro_school }
+		add_political_power = 30
+		hidden_effect = { CAN_clr_all_flag = yes }
+	}
+
+	option = {
+		name =soviet.2.a
+		trigger = { has_country_flag = CAN_fedpro_housing }
+		add_war_support = 0.05
+		hidden_effect = { CAN_clr_all_flag = yes }
+	}
+
+	option = {
+		name = soviet.2.a
+		trigger = { has_country_flag = CAN_fedpro_min }
+		every_owned_state = {
+			limit = { has_state_flag = CAN_industry_flag }
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+		}
+		hidden_effect = { CAN_clr_all_flag = yes }
+	}
+
+	option = {
+		name = soviet.2.a
+		trigger = { has_country_flag = CAN_fedpro_gun }
+		every_owned_state = {
+			limit = { has_state_flag = CAN_industry_flag }
+			add_extra_state_shared_building_slots = 1
+			add_building_construction = {
+				type = industrial_complex
+				level = 1
+				instant_build = yes
+			}
+		}
+		hidden_effect = { CAN_clr_all_flag = yes }
+	}
+
+	option = {
+		name = news.57.b
+		trigger = { 
+			OR = { 
+				has_country_flag = CAN_fedpro_failure_2 
+				has_country_flag = CAN_fedpro_failure_1
+			}
+		}
+		add_stability = -0.05
+		add_timed_idea = {
+			idea = CAN_State_Emergency_Relief
+			days = 31
+		}
+		hidden_effect = { CAN_clr_all_flag = yes }
+	}
+}
