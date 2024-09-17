@@ -842,4 +842,47 @@ on_actions = {
 			}
 		}
 	}
+	on_war_relation_added = {
+		effect = {
+			if = { ## 
+				limit = {
+					TRM = { 
+						has_country_leader = {
+							character = TRN_alzk
+							ruling_only = yes
+						}
+						NOT = { has_country_flag = TRM_focus_locked_flag } 
+					}
+				}
+				TRM = {
+					set_country_flag = TRM_industry_focus_locked_flag
+						if = { #
+						limit = {
+							has_war_with = GEM
+							GEM = { is_major = yes }
+						}
+						GEM = { set_country_flag = TRM_focus_locked_disruptor_flag }
+					}
+					else = { #If no pandemonium society, choose a random enemy major
+						random_enemy_country = {
+							limit = {
+								OR = {
+									is_major = yes
+									Kivotos_school_tag = yes
+								}
+							}
+							set_country_flag = TRM_focus_locked_disruptor_flag
+						}
+					}
+					random_country = {
+						limit = {
+							has_country_flag = TRM_focus_locked_disruptor_flag
+						}
+						log = "The disruptor is [THIS.GetName]"
+					}
+					country_event = TRM_diplomacy_event.16
+				}
+			}
+		}
+	}
 }
