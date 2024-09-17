@@ -1,0 +1,71 @@
+BLM_black_market = {
+	BLM_is_debug = {
+
+		complete_effect = {
+			add_to_array = {
+				array = BLM_expansion_of_the_black_market_arr
+				value = USA
+			}
+		}
+	}
+	BLM_expansion_of_the_black_market = {
+		icon = generic_operation
+		allowed = {
+			original_tag = BLM
+		}
+
+		target_trigger = {
+			FROM = {
+				exists = yes
+				NOT = { is_in_faction_with = ROOT }
+				NOT = { tag = ROOT }
+				NOT = { has_country_flag = BLM_expansion_of_the_black_market_stop_flag }
+			}
+			OR = {
+				AND = {
+					any_country = {
+						exists = yes
+						OR = {
+							tag = BLM
+							has_country_flag = BLM_expansion_of_the_black_market_flag
+						}
+						FROM = {
+							any_owned_state = {
+								any_neighbor_state = {
+									is_owned_by = PREV.PREV.PREV
+								}
+							}
+						}
+					}
+				}
+				AND = {
+					is_in_array = {
+						array = BLM_expansion_of_the_black_market_arr
+						value = FROM
+					}
+				}
+			}
+		}
+
+		available = {
+			has_stability < 0.25
+		}
+
+		fire_only_once = yes		
+
+		complete_effect = {
+			custom_effect_tooltip = BLM_expansion_of_the_black_market_tt
+			add_to_variable = { BLM_criminal_state_military_factory_donations = 1 }
+			hidden_effect = {
+				add_offsite_building = { type = arms_factory level = -10000 }
+				add_offsite_building = { type = arms_factory level = var:BLM_criminal_state_military_factory_donations }
+
+				FROM = { set_country_flag = BLM_expansion_of_the_black_market_flag }
+			}
+		}
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+	}
+}
