@@ -4,7 +4,7 @@ add_namespace = TRN_faction_event
 add_namespace = TRN_collapse_event
 add_namespace = TRM_diplomacy_event
 add_namespace = TRM_ironsword_event
-
+add_namespace = trnegg
 country_event = {
 	id = TRM_event.1
 	title = TRM_event.1.t
@@ -1778,10 +1778,16 @@ unit_leader_event = {
 	
 	option = { 
 		name = TRM_event.72.a
-        hidden_effect = {
-            news_event = { id = BA_news.68 }
-		    country_event = { id = TRM_event.59 days = 7 }
-        }
+		if = {
+			limit = { has_tech = advanced_computing_machine }
+			country_event = { id = trnegg.0 days = 07 }
+		}
+		else = {
+	        hidden_effect = {
+            	news_event = { id = BA_news.68 }
+			    country_event = { id = TRM_event.59 days = 7 }
+        	}
+		}
 	}
 }
 country_event = {
@@ -6939,5 +6945,42 @@ country_event = {
 		TRM_internal_factions_popularity_add = yes
 		
 		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = trnegg.0
+	title = trnegg.0.t
+	desc = trnegg.0.desc
+	picture = GFX_report_event_american_hunger_march
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = trnegg.0.a
+		country_event = { id = trnegg.1 }
+	}
+}
+country_event = {
+	id = trnegg.1
+	title = trnegg.1.t
+	desc = trnegg.1.desc
+	picture = GFX_report_event_american_hunger_march
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = trnegg.1.a
+		add_country_leader_trait = TRN_seiausesandevistan
+		set_country_flag = TRN_Seia_Sandevistan
+        load_focus_tree = {
+            tree = TRM_focus_tree
+            keep_completed = yes
+        }
+        mark_focus_tree_layout_dirty = yes
+		
+		set_portraits = {
+			character = TRN_tpdldk
+			civilian = { large = "gfx/leaders/TRN/TRN_Yurizono_Seia_sandevistan_Portrait.tga" }
+		}
 	}
 }
