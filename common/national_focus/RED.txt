@@ -822,7 +822,7 @@ focus_tree = {
 
 	focus = { #급양부
 		id = RED_meal_focus
-		icon = GFX_goal_support_fourth_int
+		icon = GFX_focus_generic_agricultural_subsidies
 		cost = 5
 		relative_position_id = RED_accept_trotskism
 		x = -3
@@ -842,7 +842,7 @@ focus_tree = {
 	}
 	focus = { #군대에 배식 우선
 		id = RED_meal_focus_arm
-		icon = GFX_goal_support_fourth_int
+		icon = GFX_focus_SWI_neutrality_on_the_move
 		cost = 5
 		relative_position_id = RED_accept_trotskism
 		x = -4
@@ -864,7 +864,7 @@ focus_tree = {
 	}
 	focus = { #대중 급식
 		id = RED_meal_focus_adv
-		icon = GFX_goal_support_fourth_int
+		icon = GFX_focus_prc_agrarian_socialism
 		cost = 5
 		relative_position_id = RED_accept_trotskism
 		x = -2
@@ -1202,7 +1202,7 @@ focus_tree = {
 	focus = { #경비국 강화
 		id = RED_advance_security
 		icon = GFX_goal_generic_defence
-		cost = 10
+		cost = 5
 
 		relative_position_id = RED_welcome_immigrate
 		x = -1
@@ -1214,12 +1214,6 @@ focus_tree = {
 		}
 
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = RED_advance_security_tt
-				check_variable = {
-					RED_locals_problem_stack > 4
-				}
-			}
 		}
 
 		ai_will_do = { base = 15 }
@@ -1256,9 +1250,17 @@ focus_tree = {
 		y = 2
 		relative_position_id = RED_advance_security
 		
-		cost = 10
+		cost = 5
 
 		completion_reward = {
+			remove_ideas = RED_threat_of_coup
+			add_timed_idea = {
+				idea = RED_threat_of_coup_CUT
+				days = 180
+			}
+			IF = { limit = { has_character = RED_minori } RED_minori = { retire = yes } }
+			IF = { limit = { has_character = RED_meru } RED_meru = { retire = yes } }
+			IF = { limit = { has_character = RED_marina } RED_marina = { retire = yes } }
 		}
 	}
 
@@ -1270,9 +1272,20 @@ focus_tree = {
 		y = 4
 		relative_position_id = RED_advance_security
 		
-		cost = 10
+		cost = 5
 
 		completion_reward = {
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = RED_advanced_security_idea
+					add_idea = RED_nkvd_security_idea
+				}
+			}
+			hidden_effect = {
+				if = { limit = { has_idea = RED_security_idea } remove_ideas = RED_security_idea }
+				if = { limit = { has_idea = RED_advanced_security_idea } remove_ideas = RED_advanced_security_idea }
+				add_ideas = RED_nkvd_security_idea
+			}
 		}
 	}
 
