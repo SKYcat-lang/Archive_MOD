@@ -3305,7 +3305,7 @@ focus_tree = {
 		}
 
 		x = 0
-		y = 1
+		y = 2
 
 		relative_position_id = KSP_valkyrie_task_force
 
@@ -4068,7 +4068,7 @@ focus_tree = {
 		}
 
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = KSP_valkyrie_federation
 
 		completion_reward = {
@@ -4098,20 +4098,27 @@ focus_tree = {
 			focus = KSP_independence_claim_1
 		}
 
+		bypass = {
+			is_subject = no
+		}
+
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = KSP_independence_claim_1
 
 		completion_reward = {
-			SHE = {
-				end_puppet = KSP
+			OVERLORD = {
+				end_puppet = ROOT
+				set_temp_variable = { KSP_independence_claim_2_var = THIS }
+			}
+			declare_war_on = {
+				target = var:KSP_independence_claim_2_var
+				type = independence_wargoal
 			}
 			create_faction = KSP_valkyrie_alliance
-			hidden_effect = {
-				news_event = {
-					id = BA_news.67
-					hours = 6
-				}				
+			news_event = {
+				id = BA_news.67
+				hours = 6
 			}
 		}
 
@@ -4249,8 +4256,12 @@ focus_tree = {
 				add_idea = KSP_police_nation_modifier
 			}
 			hidden_effect = {
-				mark_focus_tree_layout_dirty = yes
-			}
+                load_focus_tree = {
+                    tree = KSP_focus_tree
+                    keep_completed = yes
+                }
+                mark_focus_tree_layout_dirty = yes
+            } 
 			if = {
 				limit = {
 					has_country_leader = {

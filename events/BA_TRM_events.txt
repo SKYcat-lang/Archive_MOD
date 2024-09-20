@@ -4,7 +4,7 @@ add_namespace = TRN_faction_event
 add_namespace = TRN_collapse_event
 add_namespace = TRM_diplomacy_event
 add_namespace = TRM_ironsword_event
-
+add_namespace = trnstory
 country_event = {
 	id = TRM_event.1
 	title = TRM_event.1.t
@@ -1330,6 +1330,7 @@ country_event = {
 	option = { #
 		name = TRM_event.58.a
 		set_country_flag = TRN_arius_squad_smash_decision_visible
+		add_ideas = TRM_arius_problem_idea
 	}
 }
 country_event = { 
@@ -1772,16 +1773,21 @@ unit_leader_event = {
 				popularity = -0.52
 			}
 			set_politics = { ruling_party = communism }
-			TRN_tpdldk = { add_country_leader_trait = TRN_seia_trait }
 		}
 	}
 	
 	option = { 
 		name = TRM_event.72.a
-        hidden_effect = {
-            news_event = { id = BA_news.68 }
-		    country_event = { id = TRM_event.59 days = 7 }
-        }
+		if = {
+			limit = { has_tech = advanced_computing_machine }
+			country_event = { id = trnstory.0 days = 07 }
+		}
+		else = {
+	        hidden_effect = {
+            	news_event = { id = BA_news.68 }
+			    country_event = { id = TRM_event.59 days = 7 }
+        	}
+		}
 	}
 }
 country_event = {
@@ -3320,26 +3326,26 @@ country_event = { # 트리니티와 동맹을 맺은 독일계 국가는 이 이
 	desc = TRM_diplomacy_event.15.d
 	picture = GFX_report_event_vienna_award_hungary
 
-	is_triggered_only = no
+	is_triggered_only = yes
     fire_only_once = yes
     trigger = {
-        OR = {
-            tag = SHA
-            tag = ABY
-        }
-        is_in_faction_with = TRM
-        TRM = {
-            has_government = fascism
-            has_country_leader = {
-				character = TRN_alzk
-				ruling_only = yes 
-            }
-        }
-        ABY = {
-            NOT = {
-                is_puppet_of = TRM
-            }
-        }
+        #OR = {
+    	#    tag = SHA
+        #    tag = ABY
+        #}
+        #is_in_faction_with = TRM
+        #TRM = {
+         #   has_government = fascism
+         #   has_country_leader = {
+		#		character = TRN_alzk
+		#		ruling_only = yes 
+        #    }
+        #}
+        #ABY = {
+        #    NOT = {
+       #         is_puppet_of = TRM
+       #     }
+       # }
     }
 
 	option = { # 전쟁 목표 걸리기
@@ -3349,6 +3355,34 @@ country_event = { # 트리니티와 동맹을 맺은 독일계 국가는 이 이
 	option = { # 전쟁 목표 걸리기
 		name = TRM_diplomacy_event.15.b
         
+	}
+}
+country_event = { # 미카의 트리니티가 전쟁 하면 이 이벤트가 보임
+	id = TRM_diplomacy_event.16
+	title = TRM_diplomacy_event.16.t
+	desc = TRM_diplomacy_event.16.d
+	picture = GFX_report_event_chamberlain
+
+	is_triggered_only = yes
+    fire_only_once = yes
+
+	option = { # 중점 잠구기
+		name = TRM_diplomacy_event.16.a
+		custom_effect_tooltip = TRM_focus_locked_flag_tt
+	}
+}
+country_event = { # 게헨나가 트리니티 침공하면 이 이벤트가 보임
+	id = TRM_diplomacy_event.17
+	title = TRM_diplomacy_event.17.t
+	desc = TRM_diplomacy_event.17.d
+	picture = GFX_report_event_chinese_soldiers_running
+
+	is_triggered_only = yes
+    fire_only_once = yes
+
+	option = { # 트리니티여, 승리하라!
+		name = TRM_diplomacy_event.16.a
+		complete_national_focus = TRM_invasion_of_devils
 	}
 }
 ##############################
@@ -3500,6 +3534,7 @@ country_event = { # 작전 중지
 		name = TRN_opposition.200.a
 		add_political_power = 25
 		clr_country_flag = TRN_arius_squad_smash_decision_visible
+		remove_ideas = TRM_arius_problem_idea
 	}
 }
 country_event = { #  제거 방법
@@ -4456,6 +4491,7 @@ country_event = {
 				NOT = {
 					has_idea = BA_GER_defense
 					has_idea = BA_GER_defense_week
+					has_idea = BA_GER_defense_fail
 				}
 			}
 			country_event = { id = TRN_collapse_event.4 hours = 12 }
@@ -4475,6 +4511,7 @@ country_event = {
 				NOT = {
 					has_idea = BA_GER_defense
 					has_idea = BA_GER_defense_week
+					has_idea = BA_GER_defense_fail
 				}
 			}
 			country_event = { id = TRN_collapse_event.4 hours = 12 }
@@ -4557,6 +4594,7 @@ country_event = {
 				NOT = {
 					has_idea = BA_GER_defense
 					has_idea = BA_GER_defense_week
+					has_idea = BA_GER_defense_fail
 				}
 			}
 			country_event = { id = TRN_collapse_event.4 hours = 12 }
@@ -4575,6 +4613,7 @@ country_event = {
 				NOT = {
 					has_idea = BA_GER_defense
 					has_idea = BA_GER_defense_week
+					has_idea = BA_GER_defense_fail
 				}
 			}
 			country_event = { id = TRN_collapse_event.4 hours = 12 }
@@ -4620,6 +4659,7 @@ country_event = {
 				OR = {
 					has_idea = BA_GER_defense
 					has_idea = BA_GER_defense_week
+					has_idea = BA_GER_defense_fail
 				}
 			}
 			ROOT = {
@@ -4662,6 +4702,105 @@ country_event = {
 				target = ROOT
 				transfer_troops = yes
 			}
+		}
+	}
+}
+country_event = { 
+	id = TRN_collapse_event.6
+	title = TRN_collapse_event.6.t
+	desc = TRN_collapse_event.6.desc
+	picture = GFX_event_redemption
+
+	fire_only_once = no
+	is_triggered_only = yes
+	
+	option = { #
+		name = TRN_collapse_event.6.a
+		set_country_flag = {
+			flag = TRM_resistance_emerging_to_the_surface_flag
+			value = 1
+			days = 150
+		}
+		activate_mission = TRM_resistance_emerging_to_the_surface
+		random_owned_state = {
+			damage_building = {
+				type = industrial_complex
+				damage = 0.2
+			}
+			damage_building = {
+				type = arms_factory
+				damage = 0.1
+			}
+		}
+		random_owned_state = {
+			damage_building = {
+				type = industrial_complex
+				damage = 0.1
+			}
+			damage_building = {
+				type = arms_factory
+				damage = 0.3
+			}
+		}
+		random_owned_state = {
+			damage_building = {
+				type = industrial_complex
+				damage = 0.2
+			}
+			damage_building = {
+				type = arms_factory
+				damage = 0.2
+			}
+		}
+	}
+}
+country_event = { 
+	id = TRN_collapse_event.7
+	title = TRN_collapse_event.7.t
+	desc = TRN_collapse_event.7.desc
+	picture = GFX_event_redemption
+
+	fire_only_once = no 
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_global_flag = TRN_collapse_event_proceeding_flag }
+	}
+
+	immediate = {
+		set_global_flag = TRN_collapse_event_proceeding_flag
+		TRM_collapse_event_scripted_effect = yes
+	}
+
+	immediate = {
+		hidden_effect = {
+			TRM_collapse_event_appearance_effect = yes
+
+			if = { limit = { has_country_flag = TRN_collapse_event_none_flag } #더이상 봉기할 것이 없음.
+				#무언가 작업을 해야 함
+				clr_country_flag = TRN_collapse_event_none_flag
+			}
+
+			event_target:TRM_collapse_event_target = {
+				add_ideas = BA_GER_defense_fail
+			}
+		}
+	}
+	
+	option = { #
+		name = TRN_collapse_event.7.a
+		activate_mission = TRM_calm_storm
+		
+		every_country = {
+			limit = {
+				has_war_with = TRM
+				NOT = {
+					has_idea = BA_GER_defense
+					has_idea = BA_GER_defense_week
+					has_idea = BA_GER_defense_fail
+				}
+			}
+			country_event = { id = TRN_collapse_event.4 hours = 12 }
 		}
 	}
 }
@@ -5389,6 +5528,35 @@ country_event = {
 }
 
 country_event = { 
+	id = TRM_event.375
+	title = TRM_event.375.t
+	desc = TRM_event.375.desc
+	picture = GFX_event_TRM_event_374
+	fire_only_once = yes 
+	is_triggered_only = yes
+	
+	option = { #
+		name = TRM_event.375.a
+		add_political_power = 10
+	}
+}
+
+country_event = { 
+	id = TRM_event.376
+	title = TRM_event.376.t
+	desc = TRM_event.376.desc
+	picture = GFX_event_TRM_event_374
+	fire_only_once = yes 
+	is_triggered_only = yes
+	
+	option = { #
+		name = TRM_event.376.a
+		add_political_power = 10
+		add_stability = 0.05
+	}
+}
+
+country_event = { 
 	id = TRM_event.401
 	title = TRM_event.401.t
 	desc = TRM_event.401.desc
@@ -5529,6 +5697,7 @@ country_event = {
 
 	immediate = {
 		hidden_effect = {
+			country_event = { id = TRN_faction_event.2 days = 10 random_days = 10 }
 			random_list = {
 				100 = {
 					modifier = { 
@@ -5867,7 +6036,7 @@ country_event = {
 	id = TRN_faction_event.111
 	title = TRN_faction_event.111.t
 	desc = TRN_faction_event.111.desc
-	picture = GFX_event_TRN_event_1
+	picture = GFX_report_event_crowd_in_prague
 
 	trigger = {
 		tag = TRM
@@ -5882,10 +6051,34 @@ country_event = {
 	}
 }
 country_event = {
+	id = TRN_faction_event.112
+	title = TRN_faction_event.112.t
+	desc = TRN_faction_event.112.desc
+	picture = GFX_report_event_spr_civil_war_faction_defeated
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.112.a
+		add_war_support = -0.10
+		custom_effect_tooltip = TRN_tt_popularity_5_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = 5 }
+		TRM_internal_factions_popularity_add = yes
+		
+		activate_mission = TRN_boulevard_protest
+	}
+}
+country_event = {
 	id = TRN_faction_event.121
 	title = TRN_faction_event.121.t
 	desc = TRN_faction_event.121.desc
-	picture = GFX_event_TRN_event_1
+	picture = GFX_report_event_military_planning
 
 	trigger = {
 		tag = TRM
@@ -5933,7 +6126,7 @@ country_event = {
 	id = TRN_faction_event.122
 	title = TRN_faction_event.122.t
 	desc = TRN_faction_event.122.desc
-	picture = GFX_event_TRN_event_1
+	picture = GFX_report_event_ANZAC_day
 
 	trigger = {
 		tag = TRM
@@ -5951,7 +6144,7 @@ country_event = {
 	id = TRN_faction_event.123
 	title = TRN_faction_event.123.t
 	desc = TRN_faction_event.123.desc
-	picture = GFX_event_TRN_event_1
+	picture = GFX_report_event_ANZAC_day
 
 	trigger = {
 		tag = TRM
@@ -5969,7 +6162,7 @@ country_event = {
 	id = TRN_faction_event.131
 	title = TRN_faction_event.131.t
 	desc = TRN_faction_event.131.desc
-	picture = GFX_event_TRN_event_1
+	picture = GFX_report_event_generic_ruins
 
 	trigger = {
 		tag = TRM
@@ -6011,7 +6204,7 @@ country_event = {
 	id = TRN_faction_event.132
 	title = TRN_faction_event.132.t
 	desc = TRN_faction_event.132.desc
-	picture = GFX_event_TRN_event_1
+	picture = GFX_report_event_usa_election_generic
 
 	trigger = {
 		tag = TRM
@@ -6038,5 +6231,785 @@ country_event = {
 		}
 		
 		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.211
+	title = TRN_faction_event.211.t
+	desc = TRN_faction_event.211.desc
+	picture = GFX_report_event_long_march
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.211.a
+		custom_effect_tooltip = TRN_tt_popularity_10_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = 10 }
+		TRM_internal_factions_popularity_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.212
+	title = TRN_faction_event.212.t
+	desc = TRN_faction_event.212.desc
+	picture = GFX_report_event_generic_handshake
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.212.a
+		custom_effect_tooltip = TRN_tt_popularity_20_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = 20 }
+		TRM_internal_factions_popularity_add = yes
+		
+		custom_effect_tooltip = TRM_tt_loyalty_10_tt
+		set_variable = { TRM_internal_factions_loyalty_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_loyalty_var = 10 }
+		TRM_internal_factions_loyalty_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+	
+	option = { 
+		name = TRN_faction_event.212.b
+		custom_effect_tooltip = TRN_tt_popularity_10_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = 10 }
+		TRM_internal_factions_popularity_add = yes
+		
+		custom_effect_tooltip = TRM_tt_loyalty__10_tt
+		set_variable = { TRM_internal_factions_loyalty_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_loyalty_var = -10 }
+		TRM_internal_factions_loyalty_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.221
+	title = TRN_faction_event.221.t
+	desc = TRN_faction_event.221.desc
+	picture = GFX_report_event_generic_factory
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					free_building_slots = {
+						building = industrial_complex
+						size > 0
+						include_locked = no
+					}
+				}
+						
+				save_global_event_target_as = TRN_development_of_specific_state_event_target
+	
+				set_variable = { TRN_development_of_specific_state_factory_goal1 = industrial_complex_level }
+				set_variable = { TRN_development_of_specific_state_factory_goal2 = arms_factory_level }
+			}
+		}
+	}
+	
+	option = { 
+		name = TRN_faction_event.221.a
+		activate_mission = TRN_development_of_specific_state
+		if = {
+			limit = { is_ai = yes }
+			event_target:TRN_development_of_specific_state_event_target = {
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = no
+				}
+			}
+		}
+	}
+}
+country_event = {
+	id = TRN_faction_event.222
+	title = TRN_faction_event.222.t
+	desc = TRN_faction_event.222.desc
+	picture = GFX_event_TRN_event_1
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.222.a
+		add_political_power = -50
+		custom_effect_tooltip = TRN_tt_popularity_5_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = 5 }
+		TRM_internal_factions_popularity_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.231
+	title = TRN_faction_event.231.t
+	desc = TRN_faction_event.231.desc
+	picture = GFX_report_event_destroyers
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					NOT = {
+						has_dynamic_modifier = { modifier = TRM_government_plan_good }
+						has_dynamic_modifier = { modifier = TRM_government_plan_bad }
+					}
+				}
+				add_dynamic_modifier = { modifier = TRM_government_plan_good days = 240 }
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					NOT = {
+						has_dynamic_modifier = { modifier = TRM_government_plan_good }
+						has_dynamic_modifier = { modifier = TRM_government_plan_bad }
+					}
+				}
+				add_dynamic_modifier = { modifier = TRM_government_plan_good days = 240 }
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+					NOT = {
+						has_dynamic_modifier = { modifier = TRM_government_plan_good }
+						has_dynamic_modifier = { modifier = TRM_government_plan_bad }
+					}
+				}
+				add_dynamic_modifier = { modifier = TRM_government_plan_good days = 240 }
+			}
+			every_owned_state = {
+				limit = {
+					is_core_of = ROOT
+					is_controlled_by = ROOT
+					NOT = {
+						has_dynamic_modifier = { modifier = TRM_government_plan_good }
+						has_dynamic_modifier = { modifier = TRM_government_plan_bad }
+					}
+				}
+				add_dynamic_modifier = { modifier = TRM_government_plan_bad days = 240 }
+			}
+		}
+	}
+	
+	option = { 
+		name = TRN_faction_event.231.a
+		effect_tooltip = {
+			every_state = {
+				limit = {
+					has_dynamic_modifier = { modifier = TRM_government_plan_good }
+				}
+				add_dynamic_modifier = { modifier = TRM_government_plan_good days = 240 }
+			}
+			every_state = {
+				limit = {
+					has_dynamic_modifier = { modifier = TRM_government_plan_bad }
+				}
+				add_dynamic_modifier = { modifier = TRM_government_plan_bad days = 240 }
+			}
+		}
+
+		custom_effect_tooltip = TRN_tt_popularity__15_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = -15 }
+		TRM_internal_factions_popularity_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.232
+	title = TRN_faction_event.232.t
+	desc = TRN_faction_event.232.desc
+	picture = GFX_report_event_spr_carlists_franco
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+
+		OR = { 
+			NOT = {
+				check_variable = { TRM_one_loyalty < 30 }
+				check_variable = { TRM_internal_factions_slot_one_var = TRN_faction_event_2_var }
+				check_variable = { TRM_internal_factions_slot_one_var = -1 }
+			}
+			NOT = {
+				check_variable = { TRM_two_loyalty < 30 }
+				check_variable = { TRM_internal_factions_slot_two_var = TRN_faction_event_2_var }
+				check_variable = { TRM_internal_factions_slot_two_var = -1 }
+			}
+			NOT = {
+				check_variable = { TRM_three_loyalty < 30 }
+				check_variable = { TRM_internal_factions_slot_three_var = TRN_faction_event_2_var }
+				check_variable = { TRM_internal_factions_slot_three_var = -1 }
+			}
+		}
+	}
+
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			random_list = {
+				10 = { 
+					modifier = {
+						OR = {
+							check_variable = { TRM_internal_factions_slot_one_var = TRN_faction_event_2_var }
+							check_variable = { TRM_internal_factions_slot_one_var = -1 }
+							check_variable = { TRM_one_loyalty < 30 }
+						}
+						factor = 0
+					}
+					set_variable = { TRN_faction_event_3_var = TRM_internal_factions_slot_one_var }
+				}
+				10 = { 
+					modifier = {
+						OR = {
+							check_variable = { TRM_internal_factions_slot_two_var = TRN_faction_event_2_var }
+							check_variable = { TRM_internal_factions_slot_two_var = -1 }
+							check_variable = { TRM_two_loyalty < 30 }
+						}
+						factor = 0
+					}
+					set_variable = { TRN_faction_event_3_var = TRM_internal_factions_slot_two_var }
+				}
+				10 = { 
+					modifier = {
+						OR = {
+							check_variable = { TRM_internal_factions_slot_three_var = TRN_faction_event_2_var }
+							check_variable = { TRM_internal_factions_slot_three_var = -1 }
+							check_variable = { TRM_three_loyalty < 30 }
+						}
+						factor = 0
+					}
+					set_variable = { TRN_faction_event_3_var = TRM_internal_factions_slot_three_var }
+				}
+			}
+		}
+	}
+	
+	option = { 
+		name = TRN_faction_event.232.a
+
+		custom_effect_tooltip = TRN_tt3_popularity__15_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_3_var }
+		set_variable = { TRM_internal_factions_popularity_var = -15 }
+		TRM_internal_factions_popularity_add = yes
+		
+		custom_effect_tooltip = TRM_tt3_loyalty__10_tt
+		set_variable = { TRM_internal_factions_loyalty_target = TRN_faction_event_3_var }
+		set_variable = { TRM_internal_factions_loyalty_var = -10 }
+		TRM_internal_factions_loyalty_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+	
+	option = { 
+		name = TRN_faction_event.232.b
+		trigger = {
+			has_political_power > 60
+		}
+		add_political_power = -60
+
+		custom_effect_tooltip = TRN_tt3_popularity__5_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_3_var }
+		set_variable = { TRM_internal_factions_popularity_var = -5 }
+		TRM_internal_factions_popularity_add = yes
+		
+		custom_effect_tooltip = TRM_tt3_loyalty_5_tt
+		set_variable = { TRM_internal_factions_loyalty_target = TRN_faction_event_3_var }
+		set_variable = { TRM_internal_factions_loyalty_var = 5 }
+		TRM_internal_factions_loyalty_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.311
+	title = TRN_faction_event.311.t
+	desc = TRN_faction_event.311.desc
+	picture = GFX_event_TRN_event_1
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.311.a
+		add_stability = -0.05
+		custom_effect_tooltip = TRN_tt_popularity_5_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = 5 }
+		TRM_internal_factions_popularity_add = yes
+		
+		custom_effect_tooltip = TRM_tt_loyalty__15_tt
+		set_variable = { TRM_internal_factions_loyalty_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_loyalty_var = -15 }
+		TRM_internal_factions_loyalty_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.312
+	title = TRN_faction_event.312.t
+	desc = TRN_faction_event.312.desc
+	picture = GFX_event_TRN_event_1
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.312.a
+		add_stability = -0.05
+		custom_effect_tooltip = TRN_tt_popularity_5_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = 5 }
+		TRM_internal_factions_popularity_add = yes
+		
+		custom_effect_tooltip = TRM_tt_loyalty__15_tt
+		set_variable = { TRM_internal_factions_loyalty_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_loyalty_var = -15 }
+		TRM_internal_factions_loyalty_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.313
+	title = TRN_faction_event.313.t
+	desc = TRN_faction_event.313.desc
+	picture = GFX_event_TRN_event_1
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.313.a
+		custom_effect_tooltip = TRN_tt_popularity_5_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = 10 }
+		TRM_internal_factions_popularity_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.321
+	title = TRN_faction_event.321.t
+	desc = TRN_faction_event.321.desc
+	picture = GFX_event_TRN_event_1
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.321.a
+		custom_effect_tooltip = TRN_tt_popularity_10_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = 15 }
+		TRM_internal_factions_popularity_add = yes
+		
+		custom_effect_tooltip = TRM_tt_loyalty__15_tt
+		set_variable = { TRM_internal_factions_loyalty_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_loyalty_var = -15 }
+		TRM_internal_factions_loyalty_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.322
+	title = TRN_faction_event.322.t
+	desc = TRN_faction_event.322.desc
+	picture = GFX_event_TRN_event_1
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.322.a
+		if = {
+			limit = { check_variable = { TRN_faction_event_2_popularity < 50 } }
+			custom_effect_tooltip = TRN_tt_popularity_10_tt
+			set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+			set_variable = { TRM_internal_factions_popularity_var = 10 }
+			TRM_internal_factions_popularity_add = yes
+		}
+		else = {
+			custom_effect_tooltip = TRN_tt_popularity_10_tt
+			set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+			set_variable = { TRM_internal_factions_popularity_var = -10 }
+			TRM_internal_factions_popularity_add = yes
+		}
+		
+		custom_effect_tooltip = TRM_tt_loyalty__20_tt
+		set_variable = { TRM_internal_factions_loyalty_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_loyalty_var = -20 }
+		TRM_internal_factions_loyalty_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.323
+	title = TRN_faction_event.323.t
+	desc = TRN_faction_event.323.desc
+	picture = GFX_report_event_spr_civil_war_faction_defeated
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.323.a
+		add_war_support = -0.10
+		custom_effect_tooltip = TRN_tt_popularity_5_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = 5 }
+		TRM_internal_factions_popularity_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.331
+	title = TRN_faction_event.331.t
+	desc = TRN_faction_event.331.desc
+	picture = GFX_event_TRN_event_1
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.331.a
+		add_stability = -0.05
+		add_popularity = {
+			ideology = ROOT
+			popularity = -0.05
+		}
+		custom_effect_tooltip = TRN_tt_popularity__15_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = -15 }
+		TRM_internal_factions_popularity_add = yes
+		
+		custom_effect_tooltip = TRM_tt_loyalty__10_tt
+		set_variable = { TRM_internal_factions_loyalty_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_loyalty_var = -10 }
+		TRM_internal_factions_loyalty_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.411
+	title = TRN_faction_event.411.t
+	desc = TRN_faction_event.411.desc
+	picture = GFX_report_event_spr_franco_victory
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.411.a
+		add_war_support = 0.10
+		custom_effect_tooltip = TRN_tt_popularity_5_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = 5 }
+		TRM_internal_factions_popularity_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.412
+	title = TRN_faction_event.412.t
+	desc = TRN_faction_event.412.desc
+	picture = GFX_report_event_spr_franco_victory
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.412.a
+		trigger = {
+			has_political_power > 30
+		}
+		add_political_power = -30
+		custom_effect_tooltip = TRN_tt_popularity_10_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = 10 }
+		TRM_internal_factions_popularity_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+	
+	option = { 
+		name = TRN_faction_event.412.b
+		custom_effect_tooltip = TRM_tt_loyalty__10_tt
+		set_variable = { TRM_internal_factions_loyalty_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_loyalty_var = -10 }
+		TRM_internal_factions_loyalty_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.421
+	title = TRN_faction_event.421.t
+	desc = TRN_faction_event.421.desc
+	picture = GFX_report_event_spr_franco_victory
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.421.a
+		add_popularity = {
+			ideology = ROOT
+			popularity = -0.05
+		}
+		add_stability = -0.10
+		custom_effect_tooltip = TRN_tt_popularity_15_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = -15 }
+		TRM_internal_factions_popularity_add = yes
+		
+		custom_effect_tooltip = TRM_tt_loyalty__5_tt
+		set_variable = { TRM_internal_factions_loyalty_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_loyalty_var = -5 }
+		TRM_internal_factions_loyalty_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.422
+	title = TRN_faction_event.422.t
+	desc = TRN_faction_event.422.desc
+	picture = GFX_report_event_american_hunger_march
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.422.a
+		add_political_power = 30
+		add_popularity = {
+			ideology = ROOT
+			popularity = 0.05
+		}
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.431
+	title = TRN_faction_event.431.t
+	desc = TRN_faction_event.431.desc
+	picture = GFX_report_event_american_hunger_march
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.431.a
+		army_experience = 25
+		add_manpower = 15000
+		
+		custom_effect_tooltip = TRN_tt_popularity__5_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = -5 }
+		TRM_internal_factions_popularity_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = TRN_faction_event.432
+	title = TRN_faction_event.432.t
+	desc = TRN_faction_event.432.desc
+	picture = GFX_report_event_american_hunger_march
+
+	trigger = {
+		tag = TRM
+		has_global_flag = TRN_faction_event_2_flag
+	}
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = TRN_faction_event.432.a
+		
+		if = {
+			limit = { has_idea = TRN_faction_investment }
+			modify_timed_idea = {
+				idea = TRN_faction_investment
+				days = 85
+			}
+		}
+		else = { 
+			add_timed_idea = {
+				idea = TRN_faction_investment
+				days = 120
+			}
+		}
+		
+		custom_effect_tooltip = TRN_tt_popularity__15_tt
+		set_variable = { TRM_internal_factions_popularity_target = TRN_faction_event_2_var }
+		set_variable = { TRM_internal_factions_popularity_var = -15 }
+		TRM_internal_factions_popularity_add = yes
+		
+		clr_global_flag = TRN_faction_event_2_flag
+	}
+}
+country_event = {
+	id = trnstory.0
+	title = trnstory.0.t
+	desc = trnstory.0.desc
+	picture = GFX_report_event_american_hunger_march
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = trnstory.0.a
+		country_event = { id = trnstory.1 }
+	}
+}
+country_event = {
+	id = trnstory.1
+	title = trnstory.1.t
+	desc = trnstory.1.desc
+	picture = GFX_report_event_american_hunger_march
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = trnstory.1.a
+		add_country_leader_trait = TRN_seiausesandevistan
+		set_country_flag = TRN_Seia_Sandevistan
+        load_focus_tree = {
+            tree = TRM_focus_tree
+            keep_completed = yes
+        }
+        mark_focus_tree_layout_dirty = yes
+		
+		set_portraits = {
+			character = TRN_tpdldk
+			civilian = { large = "gfx/leaders/TRN/TRN_Yurizono_Seia_sandevistan_Portrait.tga" }
+		}
+	}
+}
+country_event = { # "타협점을 찾아서" - 1
+	id = trnstory.2
+	title = trnstory.2.t
+	desc = trnstory.2.desc
+	picture = GFX_event_none_picture
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = trnstory.2.a
+		hidden_effect = {
+			country_event = { id = trnstory.3 }
+		}
+		TRN_country_collapse_down = yes
+	}
+}
+country_event = { # "타협점을 찾아서" - 꽉막힌 수뇌부 그걸 타율하는 나기사
+	id = trnstory.3
+	title = trnstory.3.t
+	desc = trnstory.3.desc
+	picture = GFX_event_none_picture
+
+	is_triggered_only = yes
+	
+	option = { 
+		name = trnstory.3.a
+		add_stability = -0.05
 	}
 }

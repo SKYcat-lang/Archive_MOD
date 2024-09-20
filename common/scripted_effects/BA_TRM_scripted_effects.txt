@@ -54,7 +54,7 @@ TRN_country_collapse_up = {
 		custom_effect_tooltip = TRN_country_collapse_fali
 		remove_ideas = TRM_collapse_4
 		hidden_effect = {
-			country_event = { id = TRN_collapse_event.1 }
+			country_event = { id = TRN_collapse_event.6 }
 		}
 	}
 	else_if = {
@@ -494,6 +494,33 @@ TRM_internal_factions_loyalty_add = {
 			max = 100
 		}
 	}
+
+	#트레잇 제어
+	if = {
+		limit = {
+			has_country_leader_with_trait = TRM_pater_faction
+            check_variable = { TRM_internal_factions_loyalty_target = 0 }
+			check_variable = { TRM_pater_loyalty < 30 }
+		}
+		set_variable = { TRM_pater_loyalty = 30 }
+	}
+	if = {
+		limit = {
+			has_country_leader_with_trait = TRM_sanctus_faction
+            check_variable = { TRM_internal_factions_loyalty_target = 1 }
+			check_variable = { TRM_sanctus_loyalty < 30 }
+		}
+		set_variable = { TRM_sanctus_loyalty = 30 }
+	}
+	if = {
+		limit = {
+			has_country_leader_with_trait = TRM_filius_faction
+            check_variable = { TRM_internal_factions_loyalty_target = 2 }
+			check_variable = { TRM_filius_loyalty < 30 }
+		}
+		set_variable = { TRM_filius_loyalty = 30 }
+	}
+
 	set_variable = { TRM_internal_factions_loyalty_target = -1 }
 	set_variable = { TRM_internal_factions_loyalty_var = 0 }
 	TRM_internal_factions_loyalty_change = yes
@@ -639,6 +666,13 @@ TRM_internal_factions_event_effect_1 = { #충성도 ~ -50
 			10 = { # 파벌 시위
 				country_event = TRN_faction_event.111
 			}
+			10 = {
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.112
+			}
 		}
 	}
 	else_if = { # 30 ~ 70
@@ -649,7 +683,7 @@ TRM_internal_factions_event_effect_1 = { #충성도 ~ -50
 					ROOT = { country_event = TRN_faction_event.121 }
 				}
 			}
-			10 = {
+			20 = { # 경제법 완화
 				modifier = {
 					NOT = {
 						has_idea = low_economic_mobilisation
@@ -661,7 +695,7 @@ TRM_internal_factions_event_effect_1 = { #충성도 ~ -50
 				}
 				country_event = TRN_faction_event.122
 			}
-			10 = {
+			20 = { # 징병법 완화
 				modifier = {
 					NOT = {
 						has_idea = limited_conscription
@@ -682,7 +716,7 @@ TRM_internal_factions_event_effect_1 = { #충성도 ~ -50
 			10 = { # 주 정부 점거
 				country_event = TRN_faction_event.131
 			}
-			10 = {
+			10 = { # 장관 해임
 				modifier = {
 					NOT = {
 						any_character = {
@@ -696,47 +730,326 @@ TRM_internal_factions_event_effect_1 = { #충성도 ~ -50
 			}
 		}
 	}
-	set_variable = { TRN_faction_event_2_var = -1 }
-	set_variable = { TRN_faction_event_2_popularity = -1 }
 }
 TRM_internal_factions_event_effect_2 = { #충성도 -49 ~ -1
 	if = { # ~29
 		limit = { check_variable = { TRN_faction_event_2_popularity < 30 } }
+		random_list = {
+			10 = { # 집회
+				country_event = TRN_faction_event.211
+			}
+			10 = { # 타협
+				country_event = TRN_faction_event.212
+			}
+			5 = {
+				modifier = {
+					has_war_support > 0.60
+					factor = 0
+				}
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.323
+			}
+			5 = {
+				modifier = {
+					has_war_support < 0.60
+					factor = 0
+				}
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.411
+			}
+		}
 	}
 	else_if = { # 30 ~ 70
 		limit = { check_variable = { TRN_faction_event_2_popularity > 29 } check_variable = { TRN_faction_event_2_popularity < 71 } }
+		random_list = {
+			10 = { # 주 개발 요구
+				country_event = TRN_faction_event.221
+			}
+			10 = { # 파벌의 정부 로비
+				country_event = TRN_faction_event.222
+			}
+			5 = {
+				modifier = {
+					has_war_support > 0.70
+					factor = 0
+				}
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.323
+			}
+			5 = {
+				modifier = {
+					has_war_support < 0.60
+					factor = 0
+				}
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.411
+			}
+		}
 	}
 	else_if = { # 70 ~
 		limit = { check_variable = { TRN_faction_event_2_popularity > 70 } }
+		random_list = {
+			10 = { # 경제 계획 주도
+				country_event = TRN_faction_event.231
+			}
+			10 = { # 파벌 공격
+				modifier = {
+					OR = {
+						check_variable = { TRM_one_loyalty < 30 }
+						check_variable = { TRM_internal_factions_slot_one_var = TRN_faction_event_2_var }
+						check_variable = { TRM_internal_factions_slot_one_var = -1 }
+					}
+					OR = {
+						check_variable = { TRM_two_loyalty < 30 }
+						check_variable = { TRM_internal_factions_slot_two_var = TRN_faction_event_2_var }
+						check_variable = { TRM_internal_factions_slot_two_var = -1 }
+					}
+					OR = {
+						check_variable = { TRM_three_loyalty < 30 }
+						check_variable = { TRM_internal_factions_slot_three_var = TRN_faction_event_2_var }
+						check_variable = { TRM_internal_factions_slot_three_var = -1 }
+					}
+					factor = 0
+				}
+				country_event = TRN_faction_event.232
+			}
+			5 = {
+				modifier = {
+					has_war_support > 0.60
+					factor = 0
+				}
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.323
+			}
+			5 = {
+				modifier = {
+					has_war_support < 0.60
+					factor = 0
+				}
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.411
+			}
+		}
 	}
-	set_variable = { TRN_faction_event_2_var = -1 }
-	set_variable = { TRN_faction_event_2_popularity = -1 }
 }
 TRM_internal_factions_event_effect_3 = { #충성도 0 ~ 50
 	if = { # ~29
 		limit = { check_variable = { TRN_faction_event_2_popularity < 30 } }
+		random_list = {
+			20 = { # 경제법 이벤트
+				modifier = {
+					NOT = {
+						has_idea = partial_economic_mobilisation
+						has_idea = war_economy
+						has_idea = tot_economic_mobilisation
+					}
+					factor = 0
+				}
+				country_event = TRN_faction_event.311
+			}
+			20 = { # 징병법 이벤트
+				modifier = {
+					NOT = {
+						has_idea = extensive_conscription
+						has_idea = service_by_requirement
+						has_idea = all_adults_serve
+						has_idea = scraping_the_barrel
+					}
+					factor = 0
+				}
+				country_event = TRN_faction_event.312
+			}
+			10 = { # 파벌의 집회
+				country_event = TRN_faction_event.313
+			}
+			5 = {
+				modifier = {
+					has_war_support < 0.30
+					factor = 0
+				}
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.411
+			}
+		}
 	}
 	else_if = { # 30 ~ 70
 		limit = { check_variable = { TRN_faction_event_2_popularity > 29 } check_variable = { TRN_faction_event_2_popularity < 71 } }
+		random_list = {
+			20 = { # 경제법 이벤트
+				modifier = {
+					NOT = {
+						has_idea = partial_economic_mobilisation
+						has_idea = war_economy
+						has_idea = tot_economic_mobilisation
+					}
+					factor = 0
+				}
+				country_event = TRN_faction_event.311
+			}
+			20 = { # 징병법 이벤트
+				modifier = {
+					NOT = {
+						has_idea = extensive_conscription
+						has_idea = service_by_requirement
+						has_idea = all_adults_serve
+						has_idea = scraping_the_barrel
+					}
+					factor = 0
+				}
+				country_event = TRN_faction_event.312
+			}
+			10 = { # 주 개발 요구
+				country_event = TRN_faction_event.221
+			}
+			10 = { # 파벌 대중화
+				modifier = {
+					has_stability < 0.4
+					factor = 0
+				}
+				country_event = TRN_faction_event.321
+			}
+			10 = { # 파벌 급진화
+				modifier = {
+					has_stability > 0.6
+					factor = 0
+				}
+				country_event = TRN_faction_event.322
+			}
+			5 = {
+				modifier = {
+					has_war_support > 0.70
+					factor = 0
+				}
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.323
+			}
+			5 = {
+				modifier = {
+					has_war_support < 0.40
+					factor = 0
+				}
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.411
+			}
+		}
 	}
 	else_if = { # 70 ~
 		limit = { check_variable = { TRN_faction_event_2_popularity > 70 } }
+		random_list = {
+			15 = { # 파벌 급진화
+				modifier = {
+					has_stability > 0.4
+					factor = 0
+				}
+				country_event = TRN_faction_event.322
+			}
+			10 = {
+				country_event = TRN_faction_event.331
+			}
+			5 = {
+				modifier = {
+					has_war_support > 0.40
+					factor = 0
+				}
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.323
+			}
+			5 = {
+				modifier = {
+					has_war_support < 0.40
+					factor = 0
+				}
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.411
+			}
+		}
 	}
-	set_variable = { TRN_faction_event_2_var = -1 }
-	set_variable = { TRN_faction_event_2_popularity = -1 }
 }
 TRM_internal_factions_event_effect_4 = { #충성도 50 ~ 
 	if = { # ~29
 		limit = { check_variable = { TRN_faction_event_2_popularity < 30 } }
+		random_list = {
+			5 = {
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.411
+			}
+			10 = {
+				country_event = TRN_faction_event.412
+			}
+		}
 	}
 	else_if = { # 30 ~ 70
 		limit = { check_variable = { TRN_faction_event_2_popularity > 29 } check_variable = { TRN_faction_event_2_popularity < 71 } }
+		random_list = {
+			5 = {
+				modifier = {
+					has_war = no
+					factor = 0
+				}
+				country_event = TRN_faction_event.411
+			}
+			10 = {
+				modifier = {
+					has_stability > 0.1
+					factor = 0
+				}
+				country_event = TRN_faction_event.421
+			}
+			10 = {
+				country_event = TRN_faction_event.422
+			}
+			10 = { 
+				country_event = TRN_faction_event.431 
+			}
+		}
 	}
 	else_if = { # 70 ~
 		limit = { check_variable = { TRN_faction_event_2_popularity > 70 } }
+		random_list = {
+			10 = { 
+				country_event = TRN_faction_event.431 
+			}
+			10 = { 
+				country_event = TRN_faction_event.432 
+			}
+		}
 	}
-	set_variable = { TRN_faction_event_2_var = -1 }
-	set_variable = { TRN_faction_event_2_popularity = -1 }
 }
 TRM_UKRINE_RK = {
             create_dynamic_country = {

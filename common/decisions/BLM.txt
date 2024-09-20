@@ -1,0 +1,70 @@
+BLM_black_market = {
+	BLM_is_debug = {
+
+		complete_effect = {
+			add_to_array = {
+				array = BLM_expansion_of_the_black_market_arr
+				value = USA
+			}
+		}
+	}
+	BLM_expansion_of_the_black_market = {
+		icon = generic_operation
+		allowed = {
+			original_tag = BLM
+		}
+
+		target_trigger = {
+			FROM = {
+				exists = yes
+				NOT = { is_in_faction_with = ROOT }
+				NOT = { tag = ROOT }
+				NOT = { has_country_flag = BLM_expansion_of_the_black_market_stop_flag }
+			}
+			OR = {
+				AND = {
+					any_country = {
+						exists = yes
+						OR = {
+							tag = BLM
+							has_country_flag = BLM_expansion_of_the_black_market_flag
+						}
+						FROM = {
+							any_owned_state = {
+								any_neighbor_state = {
+									is_owned_by = PREV.PREV.PREV
+								}
+							}
+						}
+					}
+				}
+				AND = {
+					is_in_array = {
+						array = BLM_expansion_of_the_black_market_arr
+						value = FROM
+					}
+				}
+			}
+		}
+
+		available = {
+			FROM = {
+				has_stability < 0.25
+			}
+		}
+
+		visible = {
+			has_idea = BLM_criminal_state
+		}
+
+		fire_only_once = yes		
+
+		complete_effect = {
+			custom_effect_tooltip = BLM_expansion_of_the_black_market_tt
+		}
+		cost = 10
+		ai_will_do = {
+			factor = 10
+		}
+	}
+}

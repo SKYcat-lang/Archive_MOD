@@ -820,6 +820,71 @@ focus_tree = {
 		}
 	}
 
+	focus = { #급양부
+		id = RED_meal_focus
+		icon = GFX_focus_generic_agricultural_subsidies
+		cost = 5
+		relative_position_id = RED_accept_trotskism
+		x = -3
+		y = 2
+		prerequisite = {
+			focus = RED_the_fourth_international
+		}
+		prerequisite = {
+			focus = RED_redbear_editorial
+		}
+		ai_will_do = { base = 15 }
+		available = {
+			
+		}
+		completion_reward = {
+		}
+	}
+	focus = { #군대에 배식 우선
+		id = RED_meal_focus_arm
+		icon = GFX_focus_SWI_neutrality_on_the_move
+		cost = 5
+		relative_position_id = RED_accept_trotskism
+		x = -4
+		y = 3
+		prerequisite = {
+			focus = RED_meal_focus
+		}
+		mutually_exclusive = {
+			focus = RED_meal_focus_adv
+		}
+		ai_will_do = { base = 15 }
+		available = {
+			
+		}
+		completion_reward = {
+			custom_effect_tooltip = available_military_high_command
+			show_ideas_tooltip = RED_meal_department_arm_ideas
+		}
+	}
+	focus = { #대중 급식
+		id = RED_meal_focus_adv
+		icon = GFX_focus_prc_agrarian_socialism
+		cost = 5
+		relative_position_id = RED_accept_trotskism
+		x = -2
+		y = 3
+		prerequisite = {
+			focus = RED_meal_focus
+		}
+		mutually_exclusive = {
+			focus = RED_meal_focus_arm
+		}
+		ai_will_do = { base = 15 }
+		available = {
+			
+		}
+		completion_reward = {
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = RED_meal_department_adv_ideas
+		}
+	}
+
 	focus = { #사무국
 		id = RED_redwinter_office
 		icon = GFX_focus_NORDIC_com_form_alliance
@@ -851,12 +916,12 @@ focus_tree = {
 		id = RED_new_inteligence_agency
 		icon = GFX_focus_generic_secret_service_agency
 		cost = 5
-		x = 5
+		x = 3
 		y = 1
-		relative_position_id = RED_redwinter_office
+		relative_position_id = RED_the_fourth_international
 
 		prerequisite = {
-			focus = RED_redwinter_office
+			focus = RED_the_fourth_international
 		}
 
 		available = {
@@ -929,12 +994,16 @@ focus_tree = {
 		icon = GFX_focus_SOV_organize_wreckers
 		cost = 10
 
-		relative_position_id = RED_redwinter_office
-		x = -5
+		relative_position_id = RED_the_fourth_international
+		x = -7
 		y = 1
 
 		prerequisite = {
-			focus = RED_redwinter_office
+			focus = RED_the_fourth_international
+		}
+
+		prerequisite = {
+			focus = RED_redbear_editorial
 		}
 		
 		ai_will_do = { base = 15 }
@@ -993,6 +1062,55 @@ focus_tree = {
 				ideology = communism
 				popularity = 0.10
 			}
+			if = {
+				limit = {
+					RE1 = {
+						exists = yes
+						is_subject_of = ROOT
+					}
+				}
+				annex_country = {
+					target = RE1
+					transfer_troops = yes
+				}
+			}
+			if = {
+				limit = {
+					RE2 = {
+						exists = yes
+						is_subject_of = ROOT
+					}
+				}
+				annex_country = {
+					target = RE2
+					transfer_troops = yes
+				}
+			}
+			if = {
+				limit = {
+					RE3 = {
+						exists = yes
+						is_subject_of = ROOT
+					}
+				}
+				annex_country = {
+					target = RE3
+					transfer_troops = yes
+				}
+			}
+			if = {
+				limit = {
+					RE4 = {
+						exists = yes
+						is_subject_of = ROOT
+					}
+				}
+				annex_country = {
+					target = RE4
+					transfer_troops = yes
+				}
+			}
+			unlock_decision_category_tooltip = RED_forced_relocation_policy
 		}
 	}
 
@@ -1021,6 +1139,10 @@ focus_tree = {
 			}
 			add_stability = 0.05
 			add_war_support = -0.05
+			unlock_decision_tooltip = RED_establishment_of_autonomous_state_RE1
+			unlock_decision_tooltip = RED_establishment_of_autonomous_state_RE2
+			unlock_decision_tooltip = RED_establishment_of_autonomous_state_RE3
+			unlock_decision_tooltip = RED_establishment_of_autonomous_state_RE4
 		}
 	}
 
@@ -1080,23 +1202,18 @@ focus_tree = {
 	focus = { #경비국 강화
 		id = RED_advance_security
 		icon = GFX_goal_generic_defence
-		cost = 10
+		cost = 5
 
 		relative_position_id = RED_welcome_immigrate
 		x = -1
 		y = 1
 
+		mutually_exclusive = { focus = RED_all_power_to_redwinter }
 		prerequisite = {
 			focus = RED_welcome_immigrate focus = RED_welcome_thugs
 		}
 
 		available = {
-			custom_trigger_tooltip = {
-				tooltip = RED_advance_security_tt
-				check_variable = {
-					RED_locals_problem_stack > 4
-				}
-			}
 		}
 
 		ai_will_do = { base = 15 }
@@ -1125,11 +1242,58 @@ focus_tree = {
 		}
 	}
 
+	focus = { #반혁명의 종식
+		id = RED_end_of_counter_revolution
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		prerequisite = { focus = RED_advance_security }
+		x = -1
+		y = 2
+		relative_position_id = RED_advance_security
+		
+		cost = 5
+
+		completion_reward = {
+			remove_ideas = RED_threat_of_coup
+			add_timed_idea = {
+				idea = RED_threat_of_coup_CUT
+				days = 180
+			}
+			IF = { limit = { has_character = RED_minori } RED_minori = { retire = yes } }
+			IF = { limit = { has_character = RED_meru } RED_meru = { retire = yes } }
+			IF = { limit = { has_character = RED_marina } RED_marina = { retire = yes } }
+		}
+	}
+
+	focus = { #경비국의 내무부 승격
+		id = RED_elevation_of_the_security_bureau_to_the_ministry_of_internal_affairs
+		icon = GFX_SOV_nkvd_primacy_ccp_2d_sov_compatibility
+		prerequisite = { focus = RED_end_of_counter_revolution }
+		x = -1
+		y = 4
+		relative_position_id = RED_advance_security
+		
+		cost = 5
+
+		completion_reward = {
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = RED_advanced_security_idea
+					add_idea = RED_nkvd_security_idea
+				}
+			}
+			hidden_effect = {
+				if = { limit = { has_idea = RED_security_idea } remove_ideas = RED_security_idea }
+				if = { limit = { has_idea = RED_advanced_security_idea } remove_ideas = RED_advanced_security_idea }
+				add_ideas = RED_nkvd_security_idea
+			}
+		}
+	}
+
 	focus = { #출판부 확대
 		id = RED_expand_publishing_dep
 		icon = GFX_SOV_expand_the_agitprop_ccp_2d_sov_compatibility
 		prerequisite = { focus = RED_redbear_editorial }
-		x = -9
+		x = -10
 		y = 1
 		relative_position_id = RED_redbear_editorial
 		cost = 5
@@ -1316,12 +1480,12 @@ focus_tree = {
 		icon = GFX_goal_tripartite_pact
 		cost = 5
 
-		relative_position_id = RED_redwinter_office
-		x = 3
+		relative_position_id = RED_the_fourth_international
+		x = 1
 		y = 1
 
 		prerequisite = {
-			focus = RED_redwinter_office
+			focus = RED_the_fourth_international
 		}
 
 		ai_will_do = { base = 15 }
@@ -1612,6 +1776,7 @@ focus_tree = {
 		icon = GFX_goal_support_communism
 		prerequisite = { focus = RED_international_frontline }
 		prerequisite = { focus = RED_strengthen_the_trade_unions }
+		mutually_exclusive = { focus = RED_advance_security }
 		x = 0
 		y = 1
 		relative_position_id = RED_strengthen_heavy_industry
@@ -1640,6 +1805,9 @@ focus_tree = {
 		icon = GFX_focus_fra_loyalty_trotzky
 		prerequisite = { focus = RED_all_power_to_redwinter }
 		mutually_exclusive = { focus = RED_cherino_s_systemic_revolution }
+		available = {
+			NOT = { has_global_flag = flag_trotsky_dead }
+		}
 		x = -2
 		y = 1
 		relative_position_id = RED_all_power_to_redwinter
@@ -3598,7 +3766,6 @@ focus_tree = {
 		}
 		cost = 6
 		completion_reward = {
-			add_stability = 0.1
 			unlock_decision_category_tooltip = RED_demand_cat
 		}
 		search_filters = {FOCUS_FILTER_POLITICAL}
@@ -3859,6 +4026,13 @@ focus_tree = {
 			}
 			unlock_decision_tooltip = RED_red_fin_plan
 			unlock_decision_tooltip = RED_annex_FIN_decision
+			every_state = {
+				limit = {
+					is_core_of = FIN
+					is_owned_by = FIN
+				}
+				add_claim_by = RED
+			}
 		}
 	}
 	focus = { #세계혁명
@@ -4247,7 +4421,7 @@ focus_tree = {
 		completion_reward = {
 			swap_ideas = {
 				remove_idea = RED_fire_of_revolution_1
-				add_idea = RED_syndicalism
+				add_idea = RED_syndicalism_idea
 			}
 		}
 
@@ -4555,9 +4729,9 @@ focus_tree = {
 
 		}
 	}
-	focus = { #총기 개발
+	focus = { #급양노조
 		id = RED_gun_gaebal
-		icon = GFX_goal_panzerwaffe
+		icon = GFX_focus_prc_agrarian_socialism
 		prerequisite = {
 			focus = RED_military_union
 		}
@@ -4566,12 +4740,7 @@ focus_tree = {
 		x = -2
 		y = 2
 		completion_reward = {
-			add_tech_bonus = {
-				bonus = 0.75
-				category = infantry_weapons 
-				uses = 1
-				ahead_reduction = 1
-			}
+			add_ideas = RED_meal_union
 		}	
 	}
 	focus = { #노동해방을 향해서
@@ -4670,7 +4839,7 @@ focus_tree = {
 		y = 3
 		completion_reward = {
 			random_owned_state = {
-				add_extra_state_shared_building_slots = 1
+				BA_increase_state_category_by_one_level = yes
 				add_building_construction = {
 					type = infrastructure
 					level = 1
@@ -4678,6 +4847,22 @@ focus_tree = {
 				}
 			}
 			random_owned_state = {
+				BA_increase_state_category_by_one_level = yes
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			913 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			919 = {
 				add_extra_state_shared_building_slots = 1
 				add_building_construction = {
 					type = infrastructure
@@ -4779,7 +4964,7 @@ focus_tree = {
 			focus = RED_asdfdd
 		}
 		relative_position_id = RED_HYUSIK
-		cost = 5
+		cost = 2
 		completion_reward = {
 			country_event = {
 				id = RED_event.16
@@ -6501,6 +6686,689 @@ focus_tree = {
 			}
 			else = {
 				add_ideas = RED_redwinter_airforce_idea_2
+			}
+		}
+	}
+
+	#겨 울 대 전 ❄️
+
+	focus = { #반파시즘 성전
+		id = RED_revolution_war_focus_0
+		icon = GFX_focus_spr_the_anti_fascist_workers_revolution
+		cost = 4
+		available = {
+			has_war_with = TRM
+		}
+		x = 30
+		y = 7
+
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+			add_war_support = 0.15
+		}
+	}
+	focus = { #전시 동원
+		id = RED_revolution_war_focus_1
+		icon = GFX_goal_fra_total
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = -5
+		y = 1
+		available = {
+			has_completed_focus = RED_strengthen_the_mobilization_plan
+		}
+		prerequisite = {
+			focus = RED_revolution_war_focus_0
+		}
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+			add_political_power = 50
+			add_manpower = 50000
+			every_state = {
+				limit = {
+					OR = {
+						state = 141
+						state = 140
+						state = 913
+					}
+				}
+				remove_building = {
+					type = industrial_complex
+					level = 2
+				}
+			}
+			917 = {
+				add_extra_state_shared_building_slots = 6
+				add_building_construction = {
+					type = arms_factory
+					level = 6
+				}
+			}
+			add_ideas = RED_war_mobil
+		}
+	}
+	focus = { #효율적인 교통
+		id = RED_revolution_war_focus_2
+		icon = GFX_goal_seize_railway
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = -6
+		y = 2
+		prerequisite = {
+			focus = RED_revolution_war_focus_1
+		}
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+			custom_effect_tooltip = RED_winterarmy_advance_tt
+			custom_effect_tooltip = RED_revolution_war_focus_2_tt
+			add_to_variable = { RED_modifier_army_sub_unit_infantry_speed_factor = 0.05 }
+			add_to_variable = { RED_supply_consumption_factor = -0.05 }
+			add_stability = -0.05
+			add_equipment_to_stockpile = {
+				type = train_equipment
+				amount = 30
+			}
+			add_equipment_to_stockpile = {
+				type = motorized_equipment
+				amount = 1000
+			}
+			build_railway = {
+				level = 2
+				start_province = 3022
+				target_province = 11164
+			}
+			build_railway = {
+				level = 2
+				start_province = 11148
+				target_province = 6115
+			}
+			build_railway = {
+				level = 2
+				start_province = 156
+				target_province = 53
+			}
+			917 = {
+				add_building_construction = {
+					type = supply_node
+					level = 1
+					province = 11148
+				}
+			}
+			916 = {
+				add_building_construction = {
+					type = supply_node
+					level = 1
+					province = 156
+				}
+			}
+			every_controlled_state = {
+				limit = {
+					is_owned_by = RED
+					infrastructure < 3
+				}
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+				}				
+			}
+		}
+	}
+	focus = { #자립경제
+		id = RED_revolution_war_focus_3
+		icon = GFX_goal_MIL_make_own_skill
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = -5
+		y = 3
+		prerequisite = {
+			focus = RED_revolution_war_focus_1
+		}
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = RED_war_mobil
+				add_idea = RED_war_mobil_1
+			}
+			random_controlled_state = {
+				limit = {
+					is_owned_by = RED
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+				}
+			}
+			random_controlled_state = {
+				limit = {
+					is_owned_by = RED
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+				}
+			}
+		}
+	}
+	focus = { #전선의 정치장교
+		id = RED_revolution_war_focus_4
+		icon = GFX_focus_ETH_ecole_militaire_haile_selassie_1er
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = -4
+		y = 2
+		prerequisite = {
+			focus = RED_revolution_war_focus_1
+		}
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+			custom_effect_tooltip = RED_winterarmy_advance_tt
+			custom_effect_tooltip = RED_shock_troops_tt
+			add_to_variable = { RED_army_org_factor = 0.05 }
+			add_to_variable = { RED_army_morale_factor = 0.05 }
+		}
+	}
+	focus = { #민중으로 이뤄진 방파제
+		id = RED_revolution_war_focus_5
+		icon = GFX_focus_generic_limited_social_mobilization
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = -1
+		y = 1
+		mutually_exclusive = {
+			focus = RED_revolution_war_focus_10
+		}
+		prerequisite = {
+			focus = RED_revolution_war_focus_0
+		}
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+			add_ideas = RED_seawall
+			division_template = {
+				is_locked = yes
+				name = "Regional Defense Division"
+				regiments = { 
+					militia = {
+						x = 0
+						y = 0
+					}
+					militia = {
+						x = 0
+						y = 1
+					}
+					militia = {
+						x = 0
+						y = 2
+					}
+					militia = {
+						x = 1
+						y = 0
+					}
+					militia = {
+						x = 1
+						y = 1
+					}
+					militia = {
+						x = 1
+						y = 2
+					}
+				}
+			}
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.35
+				uses = 2
+				category = cat_mass_assault
+			}
+		}
+	}
+	focus = { #지역 훈련소
+		id = RED_revolution_war_focus_6
+		icon = GFX_focus_SMB_tierra_del_fuego_training
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = -2
+		y = 2
+		prerequisite = {
+			focus = RED_revolution_war_focus_5
+		}
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = RED_seawall_2
+				}
+				swap_ideas = {
+					remove_idea = RED_seawall_2
+					add_idea = RED_seawall_3
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_seawall
+					add_idea = RED_seawall_1
+				}
+			}
+			every_controlled_state = {
+				limit = {
+					is_owned_by = RED
+					NOT = {
+						state = 914
+					}
+				}
+				create_unit = {
+					division = "name = \"Regional Defense Division\" division_template = \"Regional Defense Division\" start_experience_factor = 0.1 start_equipment_factor = 1"
+					owner = RED
+				}
+				create_unit = {
+					division = "name = \"Regional Defense Division\" division_template = \"Regional Defense Division\" start_experience_factor = 0.1 start_equipment_factor = 1"
+					owner = RED
+				}
+			}
+		}
+	}
+	focus = { #가내수공업을 통한 소총생산
+		id = RED_revolution_war_focus_7
+		icon = GFX_focus_generic_population_growth
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = 0
+		y = 2
+		prerequisite = {
+			focus = RED_revolution_war_focus_5
+		}
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = RED_seawall_1
+				}
+				swap_ideas = {
+					remove_idea = RED_seawall_1
+					add_idea = RED_seawall_3
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_seawall
+					add_idea = RED_seawall_2
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = infantry_equipment
+				amount = 5000
+			}
+		}
+	}
+	focus = { #대규모 동원
+		id = RED_revolution_war_focus_8
+		icon = GFX_focus_generic_full_social_mobilization
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = -3
+		y = 3
+		prerequisite = {
+			focus = RED_revolution_war_focus_6
+		}
+		prerequisite = {
+			focus = RED_revolution_war_focus_4
+		}
+		prerequisite = {
+			focus = RED_revolution_war_focus_7
+		}
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = RED_seawall_3
+				add_idea = RED_seawall_4
+			}
+			every_controlled_state = {
+				limit = {
+					is_owned_by = RED
+					NOT = {
+						state = 914
+					}
+				}
+				create_unit = {
+					division = "name = \"Regional Defense Division\" division_template = \"Regional Defense Division\" start_experience_factor = 0.1 start_equipment_factor = 1"
+					owner = RED
+				}
+				create_unit = {
+					division = "name = \"Regional Defense Division\" division_template = \"Regional Defense Division\" start_experience_factor = 0.1 start_equipment_factor = 1"
+					owner = RED
+				}
+				create_unit = {
+					division = "name = \"Regional Defense Division\" division_template = \"Regional Defense Division\" start_experience_factor = 0.1 start_equipment_factor = 1"
+					owner = RED
+				}
+			}
+		}
+	}
+	focus = { #점령지 봉기
+		id = RED_revolution_war_focus_9
+		icon = GFX_focus_spr_crush_the_revolution
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = -1
+		y = 3
+		available = {
+			surrender_progress > 0.2
+		}
+		prerequisite = {
+			focus = RED_revolution_war_focus_6
+		}
+		prerequisite = {
+			focus = RED_revolution_war_focus_7
+		}
+		ai_will_do = { factor = 1 }
+
+		completion_reward = {
+			random_owned_state = {
+				limit = {
+					is_controlled_by_ROOT_or_ally = no
+				}
+				create_unit = {
+					division = "name = \"Regional Defense Division\" division_template = \"Regional Defense Division\" start_experience_factor = 0.1 start_equipment_factor = 1"
+					owner = RED
+				}
+				create_unit = {
+					division = "name = \"Regional Defense Division\" division_template = \"Regional Defense Division\" start_experience_factor = 0.1 start_equipment_factor = 1"
+					owner = RED
+				}
+				create_unit = {
+					division = "name = \"Regional Defense Division\" division_template = \"Regional Defense Division\" start_experience_factor = 0.1 start_equipment_factor = 1"
+					owner = RED
+				}
+				create_unit = {
+					division = "name = \"Regional Defense Division\" division_template = \"Regional Defense Division\" start_experience_factor = 0.1 start_equipment_factor = 1"
+					owner = RED
+				}
+				create_unit = {
+					division = "name = \"Regional Defense Division\" division_template = \"Regional Defense Division\" start_experience_factor = 0.1 start_equipment_factor = 1"
+					owner = RED
+				}
+			}
+			uncomplete_national_focus = {
+				focus = RED_revolution_war_focus_9
+			}
+		}
+	}
+	focus = { #기동 방어
+		id = RED_revolution_war_focus_10
+		icon = GFX_focus_SOV_restore_cossack_units
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = 3
+		y = 1
+		mutually_exclusive = {
+			focus = RED_revolution_war_focus_5
+		}
+		prerequisite = {
+			focus = RED_revolution_war_focus_0
+		}
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.35
+				uses = 2
+				category = cat_mobile_warfare
+			}
+			add_ideas = RED_mobile_defense
+		}
+	}
+	focus = { #산악 엽병
+		id = RED_revolution_war_focus_11
+		icon = GFX_focus_GRE_a_land_of_mountains
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = 2
+		y = 2
+		prerequisite = {
+			focus = RED_revolution_war_focus_10
+		}
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = RED_mobile_defense_2
+				}
+				swap_ideas = {
+					remove_idea = RED_mobile_defense_2
+					add_idea = RED_mobile_defense_3
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_mobile_defense
+					add_idea = RED_mobile_defense_1
+				}
+			}
+			add_doctrine_cost_reduction = {
+				cost_reduction = 0.35
+				uses = 2
+				category = cat_mountaineers_doctrine
+			}
+			division_template = {
+				name = x
+				regiments = { }
+			}
+			division_template = {
+				name = "Mountain Ranger"
+				is_locked = yes
+				regiments = {
+					mountaineers = {
+						x = 0
+						y = 0
+					}
+					mountaineers = {
+						x = 0
+						y = 1
+					}
+					mountaineers = {
+						x = 0
+						y = 2
+					}
+					mountaineers = {
+						x = 1
+						y = 0
+					}
+					mountaineers = {
+						x = 1
+						y = 1
+					}
+					mountaineers = {
+						x = 1
+						y = 2
+					}
+					mountaineers = {
+						x = 1
+						y = 3
+					}
+					artillery_brigade = {
+						x = 2
+						y = 0
+					}
+					artillery_brigade = {
+						x = 2
+						y = 1
+					}
+					artillery_brigade = {
+						x = 2
+						y = 2
+					}
+					artillery_brigade = {
+						x = 3
+						y = 0
+					}
+					artillery_brigade = {
+						x = 3
+						y = 1
+					}
+					artillery_brigade = {
+						x = 3
+						y = 2
+					}
+					artillery_brigade = {
+						x = 3
+						y = 3
+					}
+				}
+				support = {
+					artillery = {
+						x = 0
+						y = 0
+					}
+					recon = {
+						x = 0
+						y = 1
+					}
+				}
+			}
+			random_controlled_state = {
+				limit = {
+					is_owned_by = RED
+					NOT = {
+						state = 914
+					}
+				}
+				create_unit = {
+					division = "name = \"Mountain Ranger\" division_template = \"Mountain Ranger\" start_experience_factor = 1 start_equipment_factor = 1"
+					owner = RED
+				}
+				create_unit = {
+					division = "name = \"Mountain Ranger\" division_template = \"Mountain Ranger\" start_experience_factor = 1 start_equipment_factor = 1"
+					owner = RED
+				}
+				create_unit = {
+					division = "name = \"Mountain Ranger\" division_template = \"Mountain Ranger\" start_experience_factor = 1 start_equipment_factor = 1"
+					owner = RED
+				}
+				create_unit = {
+					division = "name = \"Mountain Ranger\" division_template = \"Mountain Ranger\" start_experience_factor = 1 start_equipment_factor = 1"
+					owner = RED
+				}
+				create_unit = {
+					division = "name = \"Mountain Ranger\" division_template = \"Mountain Ranger\" start_experience_factor = 1 start_equipment_factor = 1"
+					owner = RED
+				}
+				create_unit = {
+					division = "name = \"Mountain Ranger\" division_template = \"Mountain Ranger\" start_experience_factor = 1 start_equipment_factor = 1"
+					owner = RED
+				}
+			}
+		}
+	}
+	focus = { #추가적인 엽병 모집
+		id = RED_revolution_war_focus_12
+		icon = GFX_focus_SMB_mountain_guns
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = 1
+		y = 3
+		available = {
+			surrender_progress > 0.2
+		}
+		prerequisite = {
+			focus = RED_revolution_war_focus_11
+		}
+		ai_will_do = { factor = 1 }
+
+		completion_reward = {
+			random_controlled_state = {
+				limit = {
+					is_owned_by = RED
+					NOT = {
+						state = 914
+					}
+				}
+				create_unit = {
+					division = "name = \"Mountain Ranger\" division_template = \"Mountain Ranger\" start_experience_factor = 1 start_equipment_factor = 1"
+					owner = RED
+				}
+			}
+			uncomplete_national_focus = {
+				focus = RED_revolution_war_focus_12
+			}
+		}
+	}
+	focus = { #모든 작업장 가동
+		id = RED_revolution_war_focus_13
+		icon = GFX_focus_SOV_merge_plants
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = 4
+		y = 2
+		prerequisite = {
+			focus = RED_revolution_war_focus_10
+		}
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+		}
+	}
+	focus = { #전군 차량화
+		id = RED_revolution_war_focus_14
+		icon = GFX_focus_SOV_the_road_of_life
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = 3
+		y = 3
+		prerequisite = {
+			focus = RED_revolution_war_focus_13
+		}
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = RED_mobile_defense_1
+				}
+				swap_ideas = {
+					remove_idea = RED_mobile_defense_1
+					add_idea = RED_mobile_defense_3
+				}
+			}
+			else = {
+				swap_ideas = {
+					remove_idea = RED_mobile_defense
+					add_idea = RED_mobile_defense_2
+				}
+			}
+			add_equipment_to_stockpile = {
+				type = motorized_equipment
+				amount = 1000
+			}
+		}
+	}
+	focus = { #반격
+		id = RED_revolution_war_focus_15
+		icon = GFX_focus_SOV_builder_of_the_red_army
+		cost = 4
+		relative_position_id = RED_revolution_war_focus_0
+		x = 0
+		y = 4
+		prerequisite = {
+			focus = RED_revolution_war_focus_3
+		}
+		prerequisite = {
+			focus = RED_revolution_war_focus_8
+			focus = RED_revolution_war_focus_14
+		}
+		ai_will_do = { factor = 100 }
+
+		completion_reward = {
+			add_timed_idea = {
+				idea = RED_counterattack
+				days = 200
 			}
 		}
 	}
