@@ -377,7 +377,7 @@ focus_tree = {
 		available = { 
 			KAI_political_fascism_is_free = yes
 			NOT = {
-				has_idea = kai_political_fascism_idea_1
+				KAI_political_fascism_hostile_trigger = yes
 			}
 		}
 		x = 15
@@ -1441,7 +1441,7 @@ focus_tree = {
 	focus = { #카이저 시큐리티
 		id = KAI_kaiser_security
 		icon = GFX_goal_generic_defence
-		cost = 10
+		cost = 5
 		prerequisite = {
 			focus = KAI_business_reorganization
 		}
@@ -1452,6 +1452,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_business_reorganization
 		completion_reward = {
+			add_ideas = KAI_kaiser_security
 			add_popularity = {
 				ideology = ROOT
 				popularity = 0.05
@@ -1461,7 +1462,7 @@ focus_tree = {
 	focus = { #카이저 시큐리티
 		id = KAI_suppression_of_opposition
 		icon = GFX_focus_spr_crush_the_revolution
-		cost = 10
+		cost = 5
 		prerequisite = {
 			focus = KAI_kaiser_security
 		}
@@ -1477,7 +1478,7 @@ focus_tree = {
 		completion_reward = {
 			add_popularity = {
 				ideology = ROOT
-				popularity = 0.05
+				popularity = 0.10
 			}
 		}
 	}
@@ -1495,6 +1496,10 @@ focus_tree = {
 		y = 5
 		relative_position_id = KAI_kaiser_security
 		completion_reward = {
+			swap_ideas = {
+				remove_idea = KAI_kaiser_security
+				add_idea = KAI_kaiser_security_2
+			}
 			add_popularity = {
 				ideology = ROOT
 				popularity = 0.05
@@ -1552,7 +1557,8 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_corp_convention
 		completion_reward = { 
-			add_stability = 0.20
+			add_stability = 0.15
+			KAI_political_ruler_buff_effect = yes
 		}
 	}
 	focus = { #전교 사립화
@@ -1566,6 +1572,7 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_kaiser_health_insurance
 		completion_reward = { 
+			KAI_political_ruler_buff_effect = yes
 			#이벤트 발생
 		}
 	}
@@ -1613,7 +1620,9 @@ focus_tree = {
 		}
 		available = {
 			KAI_political_democracy_is_free = yes
-			NOT = { has_idea = kai_political_democracy_idea_1 }
+			NOT = {
+				KAI_political_democracy_hostile_trigger = yes
+			}
 		}
 		x = 3
 		y = 0
@@ -1701,7 +1710,7 @@ focus_tree = {
 		available = {
 			KAI_political_democracy_is_free = yes
 			NOT = {
-				has_idea = kai_political_democracy_idea_1
+				KAI_political_democracy_hostile_trigger = yes
 			}
 		}
 		x = 0
@@ -1755,10 +1764,7 @@ focus_tree = {
 		}
 		available = {
 			KAI_political_democracy_is_free = yes
-			OR = {
-				has_idea = kai_political_democracy_idea_0
-				has_idea = kai_political_democracy_idea_3
-			}
+			KAI_political_democracy_loyal_or_ruler_trigger = yes
 		}
 		cost = 5
 		x = 2
@@ -1879,7 +1885,7 @@ focus_tree = {
 		}
 		available = {
 			KAI_political_democracy_is_free = yes
-			has_idea = kai_political_democracy_idea_0
+			KAI_political_democracy_ruling_trigger = yes
 		}
 		cost = 10
 		x = -1
@@ -1910,10 +1916,7 @@ focus_tree = {
 		}
 		available = {
 			KAI_political_democracy_is_free = yes
-			OR = {
-				has_idea = kai_political_democracy_idea_0
-				has_idea = kai_political_democracy_idea_3
-			}
+			KAI_political_democracy_loyal_or_ruler_trigger = yes
 		}
 		x = 1
 		y = 2
@@ -1944,7 +1947,7 @@ focus_tree = {
 		available = {
 			has_idea = KAI_corporate_state
 			KAI_political_democracy_is_free = yes
-			has_idea = kai_political_democracy_idea_0
+			KAI_political_democracy_ruling_trigger = yes
 			KAI_political_fascism_is_suppressed = yes
 			KAI_political_communism_is_suppressed = yes
 		}
@@ -2072,8 +2075,37 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_corp_democratic
 		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = -0.05
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.10
+			}
 			add_research_slot = 1
 			KAI_down_political_communism_idea = yes
+			KAI_political_ruler_buff_effect = yes
+		}
+	}
+	focus = { #미래의 기업형 인재
+		id = KAI_future_corporate_talent
+		icon = GFX_focus_research2
+		prerequisite = {
+			focus = KAI_no_more_torture
+		}
+		prerequisite = {
+			focus = KAI_privateize_all_school
+		}
+		available = {
+			num_of_factories > 80
+		}
+		cost = 5
+		x = 1
+		y = 1
+		relative_position_id = KAI_no_more_torture
+		completion_reward = { 
+			add_research_slot = 1
 			KAI_political_ruler_buff_effect = yes
 		}
 	}
@@ -2118,7 +2150,7 @@ focus_tree = {
 
 		available = {
 			KAI_political_communism_is_free = yes
-			has_idea = kai_political_communism_idea_0
+			KAI_political_communism_ruling_trigger = yes
 		}
 
 		cost = 10
@@ -2155,6 +2187,7 @@ focus_tree = {
 			focus = KAI_corp_democratic
 		}
 		available = {
+			KAI_political_communism_is_free = yes
 		}
 		cost = 10
 		x = -4
@@ -2183,7 +2216,7 @@ focus_tree = {
 		available = {
 			has_idea = KAI_corporate_state
 			KAI_political_communism_is_free = yes
-			has_idea = kai_political_communism_idea_0
+			KAI_political_communism_ruling_trigger = yes
 			KAI_political_democracy_is_suppressed = yes
 			KAI_political_fascism_is_suppressed = yes
 		}
@@ -2227,14 +2260,17 @@ focus_tree = {
 			focus = KAI_redistribution_of_sovereignty
 			focus = KAI_president_fate
 		}
+		prerequisite = {
+			focus = KAI_no_more_torture
+		}
 		available = {
 			KAI_political_communism_is_free = yes
-			has_idea = kai_political_communism_idea_0
+			KAI_political_communism_ruling_trigger = yes
 			KAI_political_democracy_is_suppressed = yes
 			fascism < 0.10
 		}
 		cost = 10
-		x = -2
+		x = -1
 		y = 3
 		relative_position_id = KAI_corp_democratic
 		completion_reward = {
@@ -2260,7 +2296,7 @@ focus_tree = {
 		available = { 
 			KAI_political_fascism_is_free = yes
 			NOT = {
-				has_idea = kai_political_fascism_idea_1
+				KAI_political_fascism_hostile_trigger = yes
 			}
 		}
 		x = 25
@@ -2296,7 +2332,7 @@ focus_tree = {
 			KAI_political_fascism_is_free = yes
 			KAI_political_communism_is_free = yes
 			NOT = {
-				has_idea = kai_political_communism_idea_0
+				KAI_political_communism_ruling_trigger = yes
 			}
 		}
 		bypass = {
@@ -2341,7 +2377,7 @@ focus_tree = {
 		cost = 5
 		available = { 
 			KAI_political_fascism_is_free = yes
-			has_idea = kai_political_fascism_idea_0
+			KAI_political_fascism_ruling_trigger = yes
 		}
 		x = -1
 		y = 1
@@ -2358,7 +2394,7 @@ focus_tree = {
 		cost = 5
 		available = { 
 			KAI_political_fascism_is_free = yes
-			has_idea = kai_political_fascism_idea_0
+			KAI_political_fascism_ruling_trigger = yes
 		}
 		x = -1
 		y = 2
@@ -2393,7 +2429,7 @@ focus_tree = {
 		cost = 5
 		available = { 
 			KAI_political_fascism_is_free = yes
-			has_idea = kai_political_fascism_idea_0
+			KAI_political_fascism_ruling_trigger = yes
 		}
 		x = 1
 		y = 2
@@ -2464,7 +2500,7 @@ focus_tree = {
 		cost = 5
 		available = { 
 			KAI_political_fascism_is_free = yes
-			has_idea = kai_political_fascism_idea_0
+			KAI_political_fascism_ruling_trigger = yes
 		}
 		x = 0
 		y = 2
@@ -2483,7 +2519,36 @@ focus_tree = {
 		y = 1
 		relative_position_id = KAI_chairman_rights_expansion
 		completion_reward = {
-
+			random_owned_controlled_state = {
+				limit = {
+					is_coastal = yes
+					free_building_slots = {
+						building = dockyard
+						size = 2
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_coastal = yes
+					free_building_slots = {
+						building = dockyard
+						size = 2
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = dockyard
+					level = 2
+					instant_build = yes
+				}
+			}
 		}
 	}
 	focus = { # 
@@ -2600,10 +2665,7 @@ focus_tree = {
         }
 		available = { 
 			KAI_political_fascism_is_free = yes
-			OR = {
-				has_idea = kai_political_fascism_idea_0
-				has_idea = kai_political_fascism_idea_3
-			}
+			KAI_political_fascism_loyal_or_ruler_trigger = yes
 		}
 		x = 1
 		y = 1
@@ -2629,10 +2691,7 @@ focus_tree = {
 		y = 2
 		available = {
 			KAI_political_fascism_is_free = yes
-			OR = {
-				has_idea = kai_political_fascism_idea_0
-				has_idea = kai_political_fascism_idea_3
-			}
+			KAI_political_fascism_loyal_or_ruler_trigger = yes
 		}
         bypass = {
             has_dynamic_modifier = {
@@ -2658,10 +2717,7 @@ focus_tree = {
 		y = 1
 		available = {
 			KAI_political_fascism_is_free = yes
-			OR = {
-				has_idea = kai_political_fascism_idea_0
-				has_idea = kai_political_fascism_idea_3
-			}
+			KAI_political_fascism_loyal_or_ruler_trigger = yes
 		}
 		relative_position_id = KAI_buy_stocks
 		complete_tooltip = {
@@ -2738,7 +2794,7 @@ focus_tree = {
 		y = 1
 		available = {
 			KAI_political_fascism_is_free = yes
-			has_idea = kai_political_fascism_idea_0
+			KAI_political_fascism_ruling_trigger = yes
 		}
 		relative_position_id = KAI_corporate_militarism
 		completion_reward = {
@@ -2755,7 +2811,7 @@ focus_tree = {
 		y = 1
 		available = {
 			KAI_political_fascism_is_free = yes
-			has_idea = kai_political_fascism_idea_0
+			KAI_political_fascism_ruling_trigger = yes
 		}
 		relative_position_id = KAI_kivotos_operations
 		completion_reward = {
@@ -2774,7 +2830,7 @@ focus_tree = {
 		y = 1
 		available = {
 			KAI_political_fascism_is_free = yes
-			has_idea = kai_political_fascism_idea_0
+			KAI_political_fascism_ruling_trigger = yes
 			TRM = {
 				exists = yes
 				has_capitulated = no
@@ -2806,7 +2862,7 @@ focus_tree = {
 		y = 1
 		available = {
 			KAI_political_fascism_is_free = yes
-			has_idea = kai_political_fascism_idea_0
+			KAI_political_fascism_ruling_trigger = yes
 			MIL = {
 				exists = yes
 				has_capitulated = no
@@ -2834,7 +2890,7 @@ focus_tree = {
 		y = 1
 		available = {
 			KAI_political_fascism_is_free = yes
-			has_idea = kai_political_fascism_idea_0
+			KAI_political_fascism_ruling_trigger = yes
 			RED = {
 				exists = yes
 				has_capitulated = no
@@ -2858,7 +2914,7 @@ focus_tree = {
 		y = 1
 		available = {
 			KAI_political_fascism_is_free = yes
-			has_idea = kai_political_fascism_idea_0
+			KAI_political_fascism_ruling_trigger = yes
 		}
 		relative_position_id = KAI_kivotos_operations
 		completion_reward = {
@@ -2873,7 +2929,7 @@ focus_tree = {
 		y = 1
 		available = {
 			KAI_political_fascism_is_free = yes
-			has_idea = kai_political_fascism_idea_0
+			KAI_political_fascism_ruling_trigger = yes
 		}
 		relative_position_id = KAI_collaborator_recruitment
 		completion_reward = {
@@ -2888,7 +2944,7 @@ focus_tree = {
 		y = 3
 		available = {
 			KAI_political_fascism_is_free = yes
-			has_idea = kai_political_fascism_idea_0
+			KAI_political_fascism_ruling_trigger = yes
 		}
 		relative_position_id = KAI_kivotos_operations
 		completion_reward = {
@@ -3190,7 +3246,7 @@ focus_tree = {
 		available = {
 			has_idea = KAI_corporate_state
 			KAI_political_fascism_is_free = yes
-			has_idea = kai_political_fascism_idea_0
+			KAI_political_fascism_ruling_trigger = yes
 			KAI_political_democracy_is_suppressed = yes
 			KAI_political_communism_is_suppressed = yes
 		}
