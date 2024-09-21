@@ -1242,6 +1242,45 @@ focus_tree = {
 		}	
 	}
 		
+	focus = { #금융자본주의 고도화
+		id = MIL_advancement_of_financial_capitalism
+		icon = GFX_focus_DEN_no_regulations
+		cost = 5.00
+		prerequisite = { focus = MIL_economic_plan }
+		x = 1
+		y = 1
+		relative_position_id = MIL_economic_plan
+		completion_reward = {
+			swap_ideas = {
+				remove_idea = MIL_expansion_of_financial_industry_idea
+				add_idea = MIL_financial_collective_industry_idea
+			}
+		}	
+	}
+		
+	focus = { #투자 설계국
+		id = MIL_investment_planning_bureau
+		icon = GFX_focus_ARG_develop_the_electricity_sector
+		cost = 5.00
+		prerequisite = { focus = MIL_economic_plan }
+		x = -1
+		y = 1
+		relative_position_id = MIL_economic_plan
+		completion_reward = {
+			every_character = {
+				limit = { has_trait = MIL_economist_noa }
+				remove_trait = {
+					slot = political_advisor
+					trait = MIL_economist_noa
+				}
+				add_trait = {
+					slot = political_advisor
+					trait = MIL_economist_2
+				}
+			}
+		}	
+	}
+		
 	focus = { #소련과의 외교 조약
 		id = MIL_diplomatic_with_SOV
 		icon = GFX_focus_chi_mission_to_the_soviet_union
@@ -1645,7 +1684,10 @@ focus_tree = {
 			SHE = {
 				country_event = generic.2
 			}
-			custom_effect_tooltip = MIL_with_SHE_tt
+			if = {
+				limit = { SHE = { NOT = { has_completed_focus = SHE_yeonbangchodae } } }
+				custom_effect_tooltip = MIL_with_SHE_tt
+			}
 		}	
 	}
 		
@@ -1707,15 +1749,21 @@ focus_tree = {
 		cost = 5.00
 		prerequisite = { focus = MIL_with_SHE }
 		available = {
+			is_in_faction_with = SHE
 			OR = {
 				is_subject = no
 				is_subject_of = SHE
 			}
+			SHE = { NOT = { has_completed_focus = SHE_yeonbangchodae } }
+		}
+		bypass = {
+			SHE = { has_completed_focus = SHE_yeonbangchodae }
 		}
 		x = 0
 		y = 2
 		relative_position_id = MIL_with_SHE
 		completion_reward = {
+			SHE = { country_event = { id = MIL_event.65 hours = 8 } }
 		}	
 	}
 		
@@ -1766,7 +1814,7 @@ focus_tree = {
 		mutually_exclusive = { focus = MIL_promoting_african_uprising }
 		available = {
 			FRA = {
-				has_completed_focus = FRA_focus_par_7
+				has_government = communism
 				exists = yes
 				has_capitulated = no
 				NOT = { has_war_with = ROOT }
@@ -2080,6 +2128,51 @@ focus_tree = {
 			add_to_variable = { MIL_NEP_idea_production_factory_max_efficiency_factor = 0.05 }
 			add_to_variable = { MIL_NEP_idea_production_factory_efficiency_gain_factor = 0.05 }
 			add_to_variable = { MIL_NEP_idea_research_speed_factor = -0.05 }
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
 		}	
 	}
 		
@@ -2171,12 +2264,20 @@ focus_tree = {
 	focus = { #시장 해방
 		id = MIL_market_liberation
 		icon = GFX_focus_ITA_devaluate_the_lire
-		cost = 10.00
+		cost = 5.00
 		prerequisite = { focus = MIL_megacorp }
 		x = 1
 		y = 1
 		relative_position_id = MIL_megacorp
 		completion_reward = {
+			add_offsite_building = {
+				type = industrial_complex
+				level = 2
+			}
+			if = {
+				limit = { has_idea = MIL_economy_of_control }
+				remove_ideas = MIL_economy_of_control
+			}
 		}	
 	}
 		
@@ -2408,7 +2509,8 @@ focus_tree = {
 		icon = GFX_goal_generic_trade
 		cost = 10.00
 		prerequisite = { focus = MIL_market_liberation }
-		x = 0
+		prerequisite = { focus = MIL_economic_plan }
+		x = 1
 		y = 2
 		relative_position_id = MIL_market_liberation
 		completion_reward = {
@@ -2416,14 +2518,14 @@ focus_tree = {
 				limit = {
 					free_building_slots = {
 						building = industrial_complex
-						size > 0
+						size > 1
 						include_locked = yes
 					}
 				}
-				add_extra_state_shared_building_slots = 1
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = industrial_complex
-					level = 1
+					level = 2
 					instant_build = yes
 				}
 			}
@@ -2431,17 +2533,30 @@ focus_tree = {
 				limit = {
 					free_building_slots = {
 						building = industrial_complex
-						size > 0
+						size > 1
 						include_locked = yes
 					}
 				}
-				add_extra_state_shared_building_slots = 1
+				add_extra_state_shared_building_slots = 2
 				add_building_construction = {
 					type = industrial_complex
-					level = 1
+					level = 2
 					instant_build = yes
 				}
 			}
+		}	
+	}
+		
+	focus = { #거대 금융 국가
+		id = MIL_giant_financial_state
+		icon = GFX_focus_BRA_ethical_internationalism
+		cost = 5.00
+		prerequisite = { focus = MIL_millennium_economy }
+		prerequisite = { focus = MIL_investment_planning_bureau focus = MIL_advancement_of_financial_capitalism }
+		x = 0
+		y = 3
+		relative_position_id = MIL_economic_plan
+		completion_reward = {
 		}	
 	}
 
