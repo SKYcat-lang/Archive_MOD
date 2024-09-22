@@ -230,6 +230,20 @@ country_event = { #전쟁 남
 
 	option = { 
 		name = COU_event.3.a
+		trigger = {
+			any_country = {
+				OR = {
+					original_tag = GEM
+					original_tag = GEH
+				}
+				exists = yes
+				NOT = {
+					has_war_with = ROOT
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
+				}
+			}
+		}
 		ai_chance = {
 			base = 10
 			modifier = {
@@ -245,12 +259,19 @@ country_event = { #전쟁 남
 				factor = 0.8
 			}
 		}
-		add_political_power = -60
+		add_political_power = -50
+		add_war_support = 0.05
 		every_country = {
 			limit = {
 				OR = {
 					original_tag = GEM
 					original_tag = GEH
+				}
+				exists = yes
+				NOT = {
+					has_war_with = ROOT
+					is_in_faction_with = ROOT
+					is_subject_of = ROOT
 				}
 			}
 			ROOT = {
@@ -264,6 +285,20 @@ country_event = { #전쟁 남
 			base = 10
 		}
 		add_political_power = 20
+		if = {
+			limit = {
+				TRM = { has_government = fascism }
+				OR = {
+					has_government = fascism
+					has_government = neutrality
+				}
+			}
+			add_ai_strategy = {
+				type = alliance
+				id = TRM
+				value = 100
+			}
+		}
 	}
 	
 }
