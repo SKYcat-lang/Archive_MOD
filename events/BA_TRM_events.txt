@@ -775,7 +775,7 @@ country_event = {
 	
 	option = { #
 		name = TRM_event.36.a
-		add_ideas = GEH_Greater_War
+		add_war_support = 0.1
 		if = {
 			limit = { tag = GEH }
 			complete_national_focus = GEH_Trinity_war
@@ -824,10 +824,9 @@ country_event = {
 		name = TRM_event.39.a
 		add_stability = 0.15
 		add_political_power = 120
-		#country_event = { id = TRM_event.40 }
 	}
 }
-country_event = {  # 안씀
+country_event = {  # 독일 국방군 재입대
 	id = TRM_event.40
 	title = TRM_event.40.t
 	desc = TRM_event.40.desc
@@ -837,6 +836,63 @@ country_event = {  # 안씀
 	
 	option = { #
 		name = TRM_event.40.a
+		division_template = {
+			name = "Infanterie-Division"
+			division_names_group = GER_Inf_01
+			regiments = {
+				infantry = { x = 0 y = 0 }
+				infantry = { x = 0 y = 1 }
+				infantry = { x = 0 y = 2 }
+  				infantry = { x = 1 y = 0 }
+				infantry = { x = 1 y = 1 }
+				infantry = { x = 1 y = 2 }
+  				infantry = { x = 2 y = 0 }
+				infantry = { x = 2 y = 1 }
+				infantry = { x = 2 y = 2 }
+			}
+			support = {
+				engineer = { x = 0 y = 0 }
+				artillery = { x = 0 y = 1 }
+			}
+		}
+		random_owned_controlled_state = {
+			limit = { ROOT = { has_full_control_of_state = PREV } }
+			create_unit = {
+				division = "name = \"I. Germany Heer\" division_template = \"Infanterie-Division\" start_experience_factor = 0.10 start_equipment_factor = 0.8" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"II. Germany Heer\" division_template = \"Infanterie-Division\" start_experience_factor = 0.10 start_equipment_factor = 0.8" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"III. Germany Heer\" division_template = \"Infanterie-Division\" start_experience_factor = 0.10 start_equipment_factor = 0.8" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"VI. Germany Heer\" division_template = \"Infanterie-Division\" start_experience_factor = 0.10 start_equipment_factor = 0.8" 
+				owner = ROOT
+			}
+		}
+		random_owned_controlled_state = {
+			limit = { ROOT = { has_full_control_of_state = PREV } }
+			create_unit = {
+				division = "name = \"V. Germany Heer\" division_template = \"Infanterie-Division\" start_experience_factor = 0.10 start_equipment_factor = 0.8" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"VI. Germany Heer\" division_template = \"Infanterie-Division\" start_experience_factor = 0.10 start_equipment_factor = 0.8" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"VII. Germany Heer\" division_template = \"Infanterie-Division\" start_experience_factor = 0.10 start_equipment_factor = 0.8" 
+				owner = ROOT
+			}
+			create_unit = {
+				division = "name = \"VIII. Germany Heer\" division_template = \"Infanterie-Division\" start_experience_factor = 0.10 start_equipment_factor = 0.8" 
+				owner = ROOT
+			}
+		}
 	}
 }
 country_event = { 
@@ -855,18 +911,21 @@ country_event = {
 				    GEH_country_tag = yes
     				has_war_with = TRM
 			    }
-    			add_ideas = GEH_Greater_War
+    			add_war_support = 0.1
+				country_event = { id = TRM_event.36 hours = 8 }
 		    }
         }
-		every_country = {
-			limit = {
-				has_war_with = TRM
-				OR = {
-					original_tag = GEM
-					original_tag = GEH
+		hidden_effect = {
+			every_country = {
+				limit = {
+					has_war_with = TRM
+					OR = {
+						original_tag = GEM
+						original_tag = GEH
+					}
 				}
+				country_event = { id = TRM_event.36 hours = 8 }
 			}
-			country_event = { id = TRM_event.36 hours = 8 }
 		}
 	}
 }
@@ -3402,6 +3461,7 @@ country_event = { # 철검 작전 개시
 
 	option = { # 
 		name = TRM_ironsword_event.1.a
+		add_political_power = 100
         effect_tooltip = {
             set_country_flag = TRM_Iron_Sword_Operations_flag
 			#set_country_flag = GEI_Secure_Royal_Blood_decision_search_run_flag
@@ -3538,7 +3598,9 @@ country_event = { # 작전 중지
 		name = TRN_opposition.200.a
 		add_political_power = 25
 		clr_country_flag = TRN_arius_squad_smash_decision_visible
-		remove_ideas = TRM_arius_problem_idea
+		hidden_effect = {
+			remove_ideas = TRM_arius_problem_idea
+		}
 	}
 }
 country_event = { #  제거 방법
