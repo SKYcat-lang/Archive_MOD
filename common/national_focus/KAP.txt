@@ -1,0 +1,1697 @@
+﻿### search_filters = {FOCUS_FILTER_POLITICAL}
+### search_filters = {FOCUS_FILTER_RESEARCH}
+### search_filters = {FOCUS_FILTER_INDUSTRY}
+### search_filters = {FOCUS_FILTER_STABILITY}
+### search_filters = {FOCUS_FILTER_WAR_SUPPORT}
+### search_filters = {FOCUS_FILTER_MANPOWER}
+### search_filters = {FOCUS_FILTER_ANNEXATION}
+
+focus_tree = {
+	id = KAPna_communist_focus
+	
+	country = {
+		factor = 0
+		modifier = {
+			add = 10
+			tag = KAP
+			has_dlc = "Waking the Tiger"
+		}
+	}
+	
+
+	default = no
+
+	continuous_focus_position = { x = 20 y = 1000 }
+
+	
+
+#	focus = {
+#		id = KAP_
+#		icon = GFX_
+#		prerequisite = { focus = }
+#		mutually_exclusive = { focus =  }
+#		x = -3
+#		y = 0
+#		relative_position_id = 
+#
+#		cost = 10
+#
+#		ai_will_do = {
+#			factor = 1
+#		}
+#
+#		available = {
+#
+#		}
+#		
+#		bypass = {
+#
+#		}
+#
+#		cancel_if_invalid = yes
+#		continue_if_invalid = no
+#		available_if_capitulated = no
+#
+#		complete_tooltip = {
+#
+#		}
+#
+#		completion_reward = {
+#
+#		}
+#	}
+	
+
+	focus = {
+		id = KAP_strengthen_the_central_secretariat
+		icon = GFX_goal_focus_KAP_kv1
+		x = 2
+		y = 0
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			add_political_power = 120
+		}
+	}
+
+	focus = {
+		id = KAP_marxist_orthodoxy
+		icon = GFX_goal_focus_KAP_kv3
+		prerequisite = { focus = KAP_strengthen_the_central_secretariat }
+		mutually_exclusive = { focus = KAP_agrarian_socialism focus = KAP_social_democracy }
+		x = -2
+		y = 1
+		relative_position_id = KAP_strengthen_the_central_secretariat
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				has_war_with = SOV
+				factor = 0
+			}
+		}
+
+		available = {
+			has_government = communism
+			SOV = { has_government = communism }
+			OR = {
+				is_subject = no
+				is_subject_of = SOV
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = {
+					original_tag = KAP
+				}
+				create_country_leader = {
+					name = "아시하라츠모리 코이토"
+					desc = "POLITICS_WANG_MING_DESC"
+					picture = "GFX_portrait_KAP_wang_ming"
+					expire = "1965.1.1"
+					ideology = marxism
+					traits = {
+						
+					}
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = KAP_soviet_leadership
+		icon = GFX_goal_focus_KAP_kv9
+		prerequisite = { focus = KAP_marxist_orthodoxy }
+		x = 0
+		y = 1
+		relative_position_id = KAP_marxist_orthodoxy
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			NOT = {
+				has_war_with = SOV
+			}
+			SOV = { has_government = ROOT }
+			OR = {
+				is_subject = no
+				is_subject_of = SOV
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_soviet_economic_aid
+		icon = GFX_goal_focus_KAP_kv10
+		prerequisite = { focus = KAP_soviet_leadership }
+		x = 0
+		y = 2
+		relative_position_id = KAP_marxist_orthodoxy
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			NOT = { has_war_with = SOV }
+			SOV = { has_government = ROOT }
+			OR = {
+				is_subject = no
+				is_subject_of = SOV
+				is_in_faction_with = SOV
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_internationalism
+		icon = GFX_goal_focus_KAP_kv11
+		prerequisite = { focus = KAP_soviet_economic_aid }
+		x = 0
+		y = 3
+		relative_position_id = KAP_marxist_orthodoxy
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			SOV = { has_government = ROOT }
+			NOT = {
+				has_war_with = SOV
+			}
+			OR = {
+				is_subject = no
+				is_subject_of = SOV
+			}
+			is_in_faction = no
+		}
+
+		bypass = {
+			is_in_faction_with = SOV
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			SOV = { country_event = generic.2 }
+		}
+	}
+
+	focus = {
+		id = KAP_agrarian_socialism
+		icon = GFX_goal_focus_KAP_kv2
+		prerequisite = { focus = KAP_strengthen_the_central_secretariat }
+		mutually_exclusive = { focus = KAP_marxist_orthodoxy focus = KAP_social_democracy }
+		x = 0
+		y = 1
+		relative_position_id = KAP_strengthen_the_central_secretariat
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+			NOT = {
+
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_rectification_campaign
+		icon = GFX_goal_focus_KAP_kv5
+		prerequisite = { focus = KAP_agrarian_socialism }
+		x = 0
+		y = 1
+		relative_position_id = KAP_agrarian_socialism
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_maoism
+		icon = GFX_goal_focus_KAP_kv6
+		prerequisite = { focus = KAP_rectification_campaign}
+		x = 0
+		y = 2
+		relative_position_id = KAP_agrarian_socialism
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.1
+
+		}
+	}
+
+	focus = {
+		id = KAP_socialism_with_KAPnese_characteristics
+		icon = GFX_goal_focus_KAP_kv7
+		prerequisite = { focus = KAP_maoism }
+		x = 0
+		y = 3
+		relative_position_id = KAP_agrarian_socialism
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+			modifier = {
+				is_faction_leader = yes
+				factor = 0
+			}
+		}
+
+		available = {
+			is_subject = no
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_rule = { can_create_factions = yes }
+			if = {
+				limit = {
+					is_in_faction = no
+				}
+				create_faction = KAP_mao_faction
+			}
+		}
+	}
+
+	focus = {
+		id = KAP_proclaim_the_peoples_republic
+		icon = GFX_goal_focus_KAP_kv8 
+		prerequisite = { focus = KAP_socialism_with_KAPnese_characteristics focus = KAP_internationalism }
+		x = -1
+		y = 4
+		relative_position_id = KAP_agrarian_socialism
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+			strength_ratio = {
+				tag = event_target:WTT_current_KAPna_leader
+				ratio > 0.5
+			}
+			num_of_factories > 49
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			set_cosmetic_tag = KAP_proclaimed
+			hidden_effect = {
+				news_event = { id = wtt_news.37 days = 3 random_days = 3 }
+			}
+		}
+	}
+
+	focus = {
+		id = KAP_socialist_market_economy
+		icon = GFX_goal_focus_KAP_kv16
+		prerequisite = { focus = KAP_proclaim_the_peoples_republic focus = KAP_remove_KAPang_kai_shek }
+		x = 2
+		y = 5
+		relative_position_id = KAP_agrarian_socialism
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_social_democracy
+		icon = GFX_goal_focus_KAP_kv4
+		prerequisite = { focus = KAP_strengthen_the_central_secretariat }
+		mutually_exclusive = { focus = KAP_agrarian_socialism focus = KAP_marxist_orthodoxy }
+		x = 2
+		y = 1
+		relative_position_id = KAP_strengthen_the_central_secretariat
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 2
+			modifier = {
+				has_war_with = event_target:WTT_current_KAPna_leader
+				factor = 0
+			} 
+		}
+
+		available = {
+			has_government = communism
+			OR = {
+				is_subject = no
+				is_subject_of = event_target:WTT_current_KAPna_leader
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+			if = {
+				limit = {
+					original_tag = KAP
+				}
+				create_country_leader = {
+					name = "이토코노우에 카오루"
+					desc = "POLITICS_ZHANG_LAN_DESC"
+					picture = "GFX_portrait_KAP_zhang_lan"
+					expire = "1965.1.1"
+					ideology = marxism
+					traits = {
+						
+					}
+				}
+			}
+			set_politics = {
+				ruling_party = communism
+				elections_allowed = yes
+			}
+		}
+	}
+
+	focus = {
+		id = KAP_coalition_government
+		icon = GFX_goal_focus_KAP_kv12
+		prerequisite = { focus = KAP_social_democracy }
+		x = 0
+		y = 1
+		relative_position_id = KAP_social_democracy
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			if = {
+				limit = {
+					WTT_not_taking_over_national_leadership = no				
+				}
+				WTT_not_taking_over_national_leadership = yes
+			}
+			
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			custom_effect_tooltip = enable_power_struggle
+			hidden_effect = {
+				WTT_setup_political_struggle = yes
+				WTT_add_ROOT_to_political_struggle = yes
+			}
+		}
+	}
+
+	focus = {
+		id = KAP_purge_the_radicals
+		icon = GFX_goal_focus_KAP_kv13
+		prerequisite = { focus = KAP_coalition_government }
+		x = 0
+		y = 2
+		relative_position_id = KAP_social_democracy
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = {
+		id = KAP_strengthen_the_left_wing_of_the_kmt
+		icon = GFX_goal_focus_KAP_kv14
+		prerequisite = { focus = KAP_coalition_government }
+		x = 2
+		y = 2
+		relative_position_id = KAP_social_democracy
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			KAP = { add_stability = -0.05 } 
+		}
+	}
+
+	focus = {
+		id = KAP_remove_KAPang_kai_shek
+		icon = GFX_goal_focus_KAP_kv15
+		prerequisite = { focus = KAP_strengthen_the_left_wing_of_the_kmt }
+		prerequisite = { focus = KAP_purge_the_radicals }
+		x = 0
+		y = 3
+		relative_position_id = KAP_social_democracy
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			WTT_has_politcal_support_points_30 = yes
+			not = { is_subject_of = event_target:WTT_current_KAPna_leader }
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = no
+		continue_if_invalid = yes
+		available_if_capitulated = no
+
+		completion_reward = {
+			KAP = {
+				kill_country_leader = yes
+				custom_effect_tooltip = loses_political_support_points_15
+				subtract_from_variable = { other_political_support = 15 }
+			}
+			WTT_political_struggle_recalculate_support = yes			
+		}
+	}
+
+	focus = {
+		id = KAP_land_redistribution
+		icon = GFX_goal_generic_construction
+		x = 10
+		y = 0
+		relative_position_id = KAP_strengthen_the_central_secretariat
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+			
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = {
+		id = KAP_the_yanan_base_area
+		icon = GFX_goal_generic_construct_infrastructure
+		prerequisite = { focus = KAP_land_redistribution }
+		x = 6
+		y = 1
+		relative_position_id = KAP_land_redistribution
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+			622 = { is_fully_controlled_by = ROOT }
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		complete_tooltip = {
+			622 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+
+		completion_reward = {
+			622 = {
+				add_building_construction = {
+					type = infrastructure
+					level = 2
+					instant_build = yes
+				}
+				add_extra_state_shared_building_slots = 1
+			}
+		}
+	}
+
+	focus = {
+		id = KAP_prepare_for_war_with_japan
+		icon = GFX_goal_generic_major_war
+		prerequisite = { focus = KAP_the_yanan_base_area }
+		x = -1
+		y = 1
+		relative_position_id = KAP_the_yanan_base_area
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+			modifier = {
+				JAP = {
+					has_government = communism
+				}
+				factor = 0
+			}
+		}
+
+		available = {
+			not = {
+				is_subject_of = JAP
+			}
+		}
+
+		bypass = {
+			has_war_with = JAP
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+			add_war_support = 0.1
+		}
+	}
+
+	focus = {
+		id = KAP_government_of_national_defense
+		icon = GFX_focus_CHI_united_front
+		prerequisite = { focus = KAP_prepare_for_war_with_japan }
+		x = 0
+		y = 1
+		relative_position_id = KAP_prepare_for_war_with_japan
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			NOT = {
+				has_war_with = KAP
+			}
+			is_subject = no
+		}
+
+		bypass = {
+			is_in_faction = yes
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = {
+		id = KAP_confrontation_with_the_warlords
+		icon = GFX_goal_generic_more_territorial_claims
+		prerequisite = { focus = KAP_government_of_national_defense }
+		x = 0
+		y = 2
+		relative_position_id = KAP_prepare_for_war_with_japan
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			is_subject = no
+		}
+
+		bypass = {
+			OR = {
+				AND = {
+					is_in_faction = yes
+					not = { is_in_faction_with = KAP } #in any other faction that doesn't include KAP
+				}
+				AND = {
+					YUN = {
+						OR = {
+							exists = no
+							is_in_faction_with = ROOT
+						}
+					}
+					GXC = {
+						OR = {
+							exists = no
+							is_in_faction_with = ROOT
+						}
+					}
+					SHX = {
+						OR = {
+							exists = no
+							is_in_faction_with = ROOT
+						}
+					}
+					XSM = {
+						OR = {
+							exists = no
+							is_in_faction_with = ROOT
+						}
+					}
+					SIK = {
+						OR = {
+							exists = no
+							is_in_faction_with = ROOT
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		completion_reward = {
+		
+		}
+	}
+
+	focus = {
+		id = KAP_anti_japanese_expedition
+		icon = GFX_focus_AST_war_japan
+		prerequisite = { focus = KAP_prepare_for_war_with_japan}
+		x = -3
+		y = 1
+		relative_position_id = KAP_prepare_for_war_with_japan
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+			modifier = {
+				JAP = {
+					has_government = communism
+				}
+				factor = 0
+			}
+		}
+
+		available = {
+			OR = {
+				MAN = {
+					OR = {
+						is_subject_of = JAP
+						has_cosmetic_tag = MAN_kwantung_army
+					}
+				}
+				AND = {
+					MAN = {
+						exists = no
+					}
+					JAP = {
+						owns_state = 612
+						owns_state = 611
+						owns_state = 610
+					}
+				}
+			}
+			NOT = {
+				is_subject_of = JAP
+			}
+		}
+
+		bypass = {
+			has_war_with = JAP
+			OR = {
+				has_war_with = JAP
+				AND = {
+					MAN = {
+						is_subject = no
+					}
+					JAP = {
+						NOT = {
+							owns_state = 525
+							owns_state = 527
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = {
+		id = KAP_revolutionary_military_commission
+		icon = GFX_goal_generic_occupy_states_ongoing_war
+		prerequisite = { focus = KAP_confrontation_with_the_warlords focus = KAP_infiltration }
+		x = 0
+		y = 1
+		relative_position_id = KAP_confrontation_with_the_warlords
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = {
+		id = KAP_provoke_japan
+		icon = GFX_goal_generic_position_armies
+		prerequisite = { focus = KAP_revolutionary_military_commission }
+		prerequisite = { focus = KAP_anti_japanese_expedition }
+		x = -3
+		y = 1
+		relative_position_id = KAP_revolutionary_military_commission
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+			modifier = {
+				JAP = {
+					has_government = communism
+				}
+				factor = 0
+			}
+		}
+
+		available = {
+			NOT = {
+				is_subject_of = JAP #was fun while it lasted
+			}
+		}
+
+		bypass = {
+			OR = {
+				has_war_with = JAP
+				AND = {
+					MAN = {
+						is_subject = no
+					}
+					JAP = {
+						NOT = {
+							owns_state = 525
+							owns_state = 527
+						}
+					}
+				}
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			
+		}
+	}
+
+	focus = {
+		id = KAP_protracted_warfare
+		icon = GFX_goal_generic_army_doctrines
+		prerequisite = { focus = KAP_provoke_japan }
+		mutually_exclusive = { focus = KAP_mobile_warfare }
+		x = -1
+		y = 1
+		relative_position_id = KAP_provoke_japan
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+			
+		}
+	}
+
+	focus = {
+		id = KAP_mobile_warfare
+		icon = GFX_goal_generic_cavalry
+		prerequisite = { focus = KAP_provoke_japan }
+		mutually_exclusive = { focus = KAP_protracted_warfare }
+		x = 1
+		y = 1
+		relative_position_id = KAP_provoke_japan
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_peoples_war
+		icon = GFX_focus_generic_support_the_left_right
+		prerequisite = { focus = KAP_protracted_warfare }
+		x = -1
+		y = 2
+		relative_position_id = KAP_provoke_japan
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_100_regiments_campaign
+		icon = GFX_goal_generic_territory_or_war
+		prerequisite = { focus = KAP_mobile_warfare }
+		x = 1
+		y = 2
+		relative_position_id = KAP_provoke_japan
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_central_military_commission
+		icon = GFX_goal_generic_defence
+		prerequisite = { focus = KAP_revolutionary_military_commission }
+		x = 0
+		y = 1
+		relative_position_id = KAP_revolutionary_military_commission
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_peoples_liberation_army
+		icon = GFX_goal_generic_attack_allies
+		prerequisite = { focus = KAP_central_military_commission }
+		x = 0
+		y = 1
+		relative_position_id = KAP_central_military_commission
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_peoples_volunteer_army
+		icon = GFX_goal_generic_special_forces
+		prerequisite = { focus = KAP_central_military_commission }
+		x = 2
+		y = 1
+		relative_position_id = KAP_central_military_commission
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_military_intelligence_department
+		icon = GFX_goal_generic_intelligence_exchange
+		prerequisite = { focus = KAP_revolutionary_military_commission }
+		x = 4
+		y = 1
+		relative_position_id = KAP_revolutionary_military_commission
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		search_filters = { FOCUS_FILTER_MANPOWER }
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_central_security_bureau
+		icon = GFX_goal_generic_political_pressure
+		prerequisite = { focus = KAP_military_intelligence_department }
+		x = 0
+		y = 1
+		relative_position_id = KAP_military_intelligence_department
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.1
+		}
+	}
+
+	focus = {
+		id = KAP_focus_on_KAPna
+		icon = GFX_goal_generic_major_war
+		prerequisite = { focus = KAP_the_yanan_base_area }
+		x = 1
+		y = 1
+		relative_position_id = KAP_the_yanan_base_area
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+			not = {
+				is_subject_of = event_target:WTT_current_KAPna_leader
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_exploit_the_weak_neighbours
+		icon = GFX_goal_generic_territory_or_war
+		prerequisite = { focus = KAP_focus_on_KAPna }
+		x = 1
+		y = 1
+		relative_position_id = KAP_focus_on_KAPna
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			OR = {
+				SHX = { can_ROOT_get_wargoal_on_THIS = yes }
+				XSM = { can_ROOT_get_wargoal_on_THIS = yes }
+			}
+		}
+
+		bypass = {
+			OR = {
+				has_war_with = SHX
+				has_war_with = XSM
+			}
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+			if = {
+				limit = {
+					SHX = { can_ROOT_get_wargoal_on_THIS = yes }
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = SHX
+				}
+			}
+			if = {
+				limit = {
+					XSM = { can_ROOT_get_wargoal_on_THIS = yes }
+				}
+				create_wargoal = {
+					type = annex_everything
+					target = XSM
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = KAP_infiltration
+		icon = GFX_focus_PRC_infiltration
+		prerequisite = { focus = KAP_focus_on_KAPna }
+		x = 0
+		y = 2
+		relative_position_id = KAP_focus_on_KAPna
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+			event_target:WTT_current_KAPna_leader = {
+				exists = yes
+				NOT = {
+					has_subject = ROOT
+				}
+			}
+		}
+
+		bypass = {
+			event_target:WTT_current_KAPna_leader = { tag = ROOT }
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_ANNEXATION }
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_enforce_the_three_rules
+		icon = GFX_goal_generic_national_unity
+		prerequisite = { focus = KAP_land_redistribution }
+		x = 0
+		y = 1
+		relative_position_id = KAP_land_redistribution
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_permit_opium_trade
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = KAP_enforce_the_three_rules}
+		mutually_exclusive = { focus = KAP_ban_the_opium_trade }
+		x = -1
+		y = 1
+		relative_position_id = KAP_enforce_the_three_rules
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_ban_the_opium_trade
+		icon = GFX_goal_generic_political_pressure
+		mutually_exclusive = { focus = KAP_permit_opium_trade }
+		prerequisite = { focus = KAP_enforce_the_three_rules }
+		x = 1
+		y = 1
+		relative_position_id = KAP_enforce_the_three_rules
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_STABILITY }
+		completion_reward = {
+			add_stability = 0.05
+		}
+	}
+
+	focus = {
+		id = KAP_abolish_the_land_rent
+		icon = GFX_focus_generic_support_the_left_right
+		prerequisite = { focus = KAP_permit_opium_trade focus = KAP_ban_the_opium_trade }
+		x = 0
+		y = 2
+		relative_position_id = KAP_enforce_the_three_rules
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_STABILITY FOCUS_FILTER_WAR_SUPPORT }
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = KAP_literacy_programs
+		icon = GFX_focus_generic_socialist_science
+		prerequisite = { focus = KAP_land_redistribution }
+		x = -4
+		y = 1
+		relative_position_id = KAP_land_redistribution
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = KAP_KAPna_medical_university
+		icon = GFX_focus_research
+		prerequisite = { focus = KAP_literacy_programs }
+		x = 0
+		y = 1
+		relative_position_id = KAP_literacy_programs
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			num_of_factories > 34
+			amount_research_slots < 5
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+
+	focus = {
+		id = KAP_form_the_academy_of_sciences
+		icon = GFX_goal_generic_scientific_exchange
+		prerequisite = { focus = KAP_KAPna_medical_university }
+		x = 0
+		y = 2
+		relative_position_id = KAP_literacy_programs
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 1
+		}
+
+		available = {
+			num_of_factories > 69
+			amount_research_slots < 5
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = yes
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+		completion_reward = {
+			add_research_slot = 1
+
+		}
+	}
+}

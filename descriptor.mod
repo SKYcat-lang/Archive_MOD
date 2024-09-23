@@ -1,4 +1,4 @@
-name="Blue Archive MOD"
+name="Blue Archive MOD git"
 replace_path="gfx/loadingscreens"
 replace_path="common/national_focus/france.txt"
 replace_path="common/national_focus/hungary.txt"
@@ -17,8 +17,7 @@ tags={
 dependencies={
 	"Korean Language"
 }
-user_dir="BlueArchive"
+user_dir="BlueArchive git"
 version="0.6.8"
 picture="thumbnail.png"
 supported_version="1.14.*"
-remote_file_id="2927583473"
