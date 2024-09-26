@@ -642,6 +642,13 @@ country_event = { # 협상 끝
 		else = {
 			country_event = GEH_event.45
 		}
+		every_country = {
+			limit = {
+				tag = GEH 
+				exists = yes
+			}
+			country_event = { id = GEH_event.50 hours = 8 }
+		}
 	}
 }
 country_event = { # 전쟁해군의 협상 개입
@@ -1272,31 +1279,40 @@ country_event = { # 쟤네 협상 끝남
 			}
 		}
 		ai_chance = {
-			factor = 0.5
+			base = 20
 			modifier = {
 				GEM = {
 					has_country_flag = HINA_DISAGREE_CONTROLLED
 				}
-				factor = 10
+				factor = 1.5
 			}
 			modifier = {
 				GEM = {
-					has_country_flag = GEH_federal_unification_flag
+					OR = {
+						has_country_flag = GEH_federal_unification_flag
+						has_country_flag = GEH_transfer_to_gehenna_academy_flag
+					}
 				}
-				factor = 20
-			}
-			modifier = {
-				GEM = {
-					has_country_flag = GEH_transfer_to_gehenna_academy_flag
-				}
-				factor = 20
+				factor = 3
 			}
 		}
-		custom_effect_tooltip = GEH_discipline_enforcement_tt
-		add_political_power = 20
-		set_country_flag = GEH_discipline_enforcement_flag
-		GEM = {
-			country_event = { id = GEH_event.13 hours = 12}
+		complete_national_focus = GEH_get_legitimacy
+		if = {
+			limit = { 
+				GEM = {
+					NOT = {
+						has_country_flag = HINA_DISAGREE_CONTROLLED
+						has_country_flag = GEH_federal_unification_flag
+						has_country_flag = GEH_transfer_to_gehenna_academy_flag
+					}
+				}
+			}
+			add_stability = -0.10
+			add_war_support = -0.10
+			add_political_power = -100
+		}
+		else = {
+			add_political_power = 20
 		}
 	}
 	
@@ -1309,7 +1325,15 @@ country_event = { # 쟤네 협상 끝남
 				}
 			}
 		}
-        custom_effect_tooltip = GEH_discipline_enforcement_2_tt
+		ai_chance = {
+			base = 40
+			modifier = {
+				GEM = {
+					has_country_flag = GEH_federal_unification_flag
+				}
+				factor = 0.001
+			}
+		}
 		add_stability = -0.05
 		add_war_support = -0.05
         set_country_flag = GEH_submit_to_pandemonium_society
@@ -1323,7 +1347,7 @@ country_event = { # 쟤네 협상 끝남
 			}
 		}
 		add_war_support = 0.05
-        set_country_flag = GEH_punggi
+		GEH_popular_support_up_effect = yes
 	}
 }
 country_event = { # 마코토 재신임투표 탈락
