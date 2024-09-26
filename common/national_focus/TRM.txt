@@ -2548,6 +2548,8 @@
             is_subject = no
             is_faction_leader = yes
             SHA = {
+				exists = yes
+				has_capitulated = no
                 has_government = fascism
                 NOT = {
                     is_in_faction = yes
@@ -2557,7 +2559,10 @@
         }
         bypass = {
             SHA = {
-                exists = no
+				OR = {
+					exists = no
+					has_capitulated = yes
+				}
             }
         }
 		ai_will_do = {
@@ -2594,16 +2599,20 @@
             is_subject = no
             is_faction_leader = yes
 			has_army_manpower = { size > 749999 }
-			TRM = {
-				any_neighbor_country = {
-					tag = SHA
-				}
+			NOT = { 
+				owns_state = 4
+				owns_state = 984
+				owns_state = 152
+				owns_state = 153
+				owns_state = 848
 			}
         }
         bypass = {
-            SHA = {
-                exists = no
-            }
+			controls_state = 4
+			controls_state = 984
+			controls_state = 152
+			controls_state = 153
+			controls_state = 848
         }
 		ai_will_do = {
 			base = 500
@@ -2620,12 +2629,49 @@
 		x = -3
 		y = 0
 		completion_reward = {
-            SHA = {
-                country_event = { 
-                    id = TRM_event.48 
-                    days = 1
-                }
-            }
+			if = {
+				limit = {
+					SHA = {
+						exists = yes
+						has_capitulated = no
+						OR = {
+							owns_state = 4
+							owns_state = 984
+							owns_state = 152
+							owns_state = 153
+							owns_state = 848
+						}
+					}
+				}
+				SHA = {
+					country_event = { 
+						id = TRM_event.48 
+						days = 1
+					}
+				}
+			}
+			
+			every_country = {
+				limit = { 
+					NOT = { tag = SHA }
+					OR = {
+						owns_state = 4
+						owns_state = 984
+						owns_state = 152
+						owns_state = 153
+						owns_state = 848
+					}
+				}
+				TRM = { 
+					create_wargoal = {
+						target = PREV
+						type = take_state
+						generator = {
+							4 984 152 153 848
+						}
+					}
+				}
+			}
 
 		}
 	}
