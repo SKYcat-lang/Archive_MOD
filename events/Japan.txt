@@ -1109,3 +1109,241 @@ country_event = { # 중국이 조계, 조차지 뜯어감 ㅇㅇ
 			}
 	}
 }
+country_event = { # 통제파 육군대신 경질
+	id = BA_japan.18
+	title = BA_japan.18.t
+	desc = BA_japan.18.d
+	picture = GFX_report_event_worker_protests
+	
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	option = {
+		name = BA_japan.18.a
+		add_days_mission_timeout = {
+			mission = JAP_discontent_of_the_kodoha
+			days = 25
+		}
+	}
+}
+country_event = { # 청년 장교단의 쿠데타 1
+	id = BA_japan.19
+	title = BA_japan.19.t
+	desc = BA_japan.19.d
+	picture = GFX_report_event_japan_army_mountainside
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = BA_japan.19.a
+		trigger = {
+			has_completed_focus = JAP_purge_the_kodoha_faction
+		}
+		add_political_power = 20
+		hidden_effect = {
+			country_event = { id = BA_japan.20 days = 2 }
+		}
+	}
+	
+	option = {
+		name = BA_japan.19.b
+		trigger = {
+			NOT = { has_completed_focus = JAP_liaison_conference }
+			OR = {
+				has_completed_focus = JAP_purge_the_kodoha_faction
+				has_completed_focus = JAP_opposition_to_the_army
+			}
+		}
+		complete_national_focus = JAP_support_the_kodoha_faction
+	}
+	
+	option = {
+		name = BA_japan.19.c
+		trigger = {
+			NOT = { has_completed_focus = JAP_purge_the_kodoha_faction }
+		}
+		add_popularity = {
+			ideology = ROOT
+			popularity = -0.05
+		}
+		hidden_effect = {
+			country_event = { id = BA_japan.20 days = 2 }
+		}
+	}
+}
+country_event = { # 청년 장교단의 쿠데타 3
+	id = BA_japan.20
+	title = BA_japan.20.t
+	desc = BA_japan.20.d
+	picture = GFX_report_event_japanese_transport_soldiers
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = BA_japan.20.a
+		add_political_power = 20
+		add_stability = -0.02
+		hidden_effect = {
+			country_event = { id = BA_japan.21 days = 25 }
+		}
+	}
+}
+country_event = { # 총리 사임 1 오카다 게이스케의 2.26 이후 사임
+	id = BA_japan.21
+	title = BA_japan.21.t
+	desc = BA_japan.21.d
+	picture = GFX_report_event_japanese_transport_soldiers
+	
+	is_triggered_only = yes
+	
+	option = { # 히로타 고키
+		name = BA_japan.21.a
+		add_stability = 0.05
+		#총리 임명 아직 안만듬
+		set_country_flag = JAP_prime_minister_is_hirota_koki
+
+		hidden_effect = {
+			country_event = { id = BA_japan.22 days = 310 }
+		}
+	}
+	
+	option = { # 우가키 가즈시게
+		name = BA_japan.21.b
+		trigger = {
+			has_completed_focus = JAP_opposition_to_the_army
+		}
+		add_popularity = {
+			ideology = ROOT
+			popularity = -0.05
+		}
+		#총리 임명 아직 안만듬
+		set_country_flag = JAP_prime_minister_is_ugaki_kazushige
+
+		if = {
+			limit = {  
+				has_power_balance = {
+					id = JAP_power_balance
+				}
+			}
+			add_power_balance_value = {
+				id = JAP_power_balance
+				value = 0.10
+			}
+		}
+
+		hidden_effect = {
+			country_event = { id = BA_japan.25 days = 490 }
+		}
+	}
+	
+	option = { # 하야시 센주로
+		name = BA_japan.21.c
+		trigger = {
+			has_completed_focus = JAP_purge_the_kodoha_faction
+		}
+		add_stability = -0.10
+		#추후 만들어질 시위대 시스템에서 반정부 시위대가 강해져야 함
+		#총리 임명 아직 안만듬
+		set_country_flag = JAP_prime_minister_is_hayashi_senjuro
+		hidden_effect = {
+			country_event = { id = BA_japan.24 days = 240 }
+		}
+	}
+}
+country_event = { # 총리 사임 2 히로타 고키의 사임 이후 하야시 센주로 집권
+	id = BA_japan.22
+	title = BA_japan.22.t
+	desc = BA_japan.22.d
+	picture = GFX_report_event_generic_handshake
+	
+	is_triggered_only = yes
+
+	trigger = {
+		tag = JAP
+		has_country_flag = JAP_prime_minister_is_hirota_koki
+	}
+
+	immediate = {
+		clr_country_flag = JAP_prime_minister_is_hirota_koki
+	}
+	
+	option = {
+		name = BA_japan.22.a
+		set_country_flag = JAP_prime_minister_is_hayashi_senjuro
+		if = {
+			limit = {  
+				has_power_balance = {
+					id = JAP_power_balance
+				}
+			}
+			add_power_balance_value = {
+				id = JAP_power_balance
+				value = -0.05
+			}
+		}
+		else = {
+			add_political_power = 20
+		}
+		hidden_effect = {
+			country_event = { id = BA_japan.24 days = 120 }
+		}
+	}
+}
+country_event = { # 총리 사임 3 황도파 쿠데타 X -> 고노에 후미마로 내각 출범
+	id = BA_japan.23
+	title = BA_japan.23.t
+	desc = BA_japan.23.d
+	picture = GFX_report_event_generic_handshake
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = BA_japan.23.a
+	}
+}
+country_event = { # 총리 사임 4 히로타 센주로 사임 후 고노에 집권
+	id = BA_japan.24
+	title = BA_japan.24.t
+	desc = BA_japan.24.d
+	picture = GFX_report_event_generic_handshake
+	
+	is_triggered_only = yes
+
+	trigger = {
+		tag = JAP
+		has_country_flag = JAP_prime_minister_is_hayashi_senjuro
+	}
+
+	immediate = {
+		clr_country_flag = JAP_prime_minister_is_hayashi_senjuro
+	}
+	
+	option = {
+		name = BA_japan.24.a
+		set_country_flag = JAP_prime_minister_is_fumimaro_konoe
+		add_stability = -0.05
+	}
+}
+country_event = { # 총리 사임 5 우가키 가즈시게 사임 후 고노에 집권
+	id = BA_japan.25
+	title = BA_japan.25.t
+	desc = BA_japan.25.d
+	picture = GFX_report_event_generic_handshake
+	
+	is_triggered_only = yes
+
+	trigger = {
+		tag = JAP
+		has_country_flag = JAP_prime_minister_is_ugaki_kazushige
+	}
+
+	immediate = {
+		clr_country_flag = JAP_prime_minister_is_ugaki_kazushige
+	}
+	
+	option = {
+		name = BA_japan.25.a
+		set_country_flag = JAP_prime_minister_is_fumimaro_konoe
+		add_stability = -0.05
+	}
+}
