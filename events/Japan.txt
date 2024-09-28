@@ -1133,6 +1133,10 @@ country_event = { # 청년 장교단의 쿠데타 1
 	picture = GFX_report_event_japan_army_mountainside
 	
 	is_triggered_only = yes
+
+	trigger = {
+		NOT = { has_completed_focus = JAP_support_the_kodoha_faction }
+	}
 	
 	option = {
 		name = BA_japan.19.a
@@ -1140,6 +1144,10 @@ country_event = { # 청년 장교단의 쿠데타 1
 			has_completed_focus = JAP_purge_the_kodoha_faction
 		}
 		add_political_power = 20
+		add_popularity = {
+			ideology = fascism
+			popularity = -0.05
+		}
 		hidden_effect = {
 			country_event = { id = BA_japan.20 days = 2 }
 		}
@@ -1148,8 +1156,8 @@ country_event = { # 청년 장교단의 쿠데타 1
 	option = {
 		name = BA_japan.19.b
 		trigger = {
-			NOT = { has_completed_focus = JAP_liaison_conference }
-			OR = {
+			has_completed_focus = JAP_nation_of_the_rising_sun
+			NOT = {
 				has_completed_focus = JAP_purge_the_kodoha_faction
 				has_completed_focus = JAP_opposition_to_the_army
 			}
@@ -1160,11 +1168,31 @@ country_event = { # 청년 장교단의 쿠데타 1
 	option = {
 		name = BA_japan.19.c
 		trigger = {
-			NOT = { has_completed_focus = JAP_purge_the_kodoha_faction }
+			OR = {
+				has_completed_focus = JAP_opposition_to_the_army
+				AND = {
+					NOT = {
+						has_completed_focus = JAP_nation_of_the_rising_sun
+						has_completed_focus = JAP_purge_the_kodoha_faction
+						has_completed_focus = JAP_opposition_to_the_army
+					}
+				}
+			}
 		}
 		add_popularity = {
-			ideology = ROOT
-			popularity = -0.05
+			ideology = fascism
+			popularity = -0.03
+		}
+		if = {
+			limit = {
+				has_power_balance = {
+					id = JAP_power_balance
+				}
+			}
+			add_power_balance_value = {
+				id = JAP_power_balance
+				value = -0.10
+			}
 		}
 		hidden_effect = {
 			country_event = { id = BA_japan.20 days = 2 }
@@ -1345,5 +1373,173 @@ country_event = { # 총리 사임 5 우가키 가즈시게 사임 후 고노에 
 		name = BA_japan.25.a
 		set_country_flag = JAP_prime_minister_is_fumimaro_konoe
 		add_stability = -0.05
+	}
+}
+
+
+# 황도파 이벤트 (수정됨)
+country_event = {
+	id = BA_japan.26
+	title = wtt_japan.108.t
+	desc = wtt_japan.108.desc
+	picture = GFX_report_event_japanese_parade
+
+	is_triggered_only = yes
+	
+	option = {
+		name = wtt_japan.108.a
+		set_politics = { ruling_party = fascism elections_allowed = no }
+		add_popularity = { ideology = fascism popularity = 0.3 }
+		add_timed_idea = { idea = BA_JAP_military_purges days = 90 }
+
+		hidden_effect = { news_event = { id = wtt_news.27 hours = 6 } }
+	}
+}
+
+country_event = { # 대정익찬회
+	id = BA_japan.27
+	title = BA_japan.27.t
+	desc = BA_japan.27.d
+	picture = GFX_report_event_generic_handshake
+
+	mean_time_to_happen = {
+		days = 15
+	}
+
+	trigger = {
+		tag = JAP
+		has_country_flag = JAP_prime_minister_is_fumimaro_konoe
+		date > 1940.10.1
+		NOT = { has_global_flag = BA_japan_27_flag }
+		OR = {
+			has_completed_focus = JAP_purge_the_kodoha_faction
+			has_completed_focus = JAP_opposition_to_the_army
+		}
+	}
+
+	immediate = {
+		set_global_flag = BA_japan_27_flag
+	}
+	
+	option = {
+		name = BA_japan.27.a
+		trigger = {
+			has_completed_focus = JAP_purge_the_kodoha_faction
+			has_government = neutrality
+		}
+		add_political_power = 100
+		add_stability = 0.05
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.05
+		}
+		add_popularity = {
+			ideology = fascism
+			popularity = -0.05
+		}
+		set_party_name = {
+			ideology = neutrality
+			long_name = imperial_rule_assistance_association
+			name = imperial_rule_assistance_association
+		}
+		set_country_leader_ideology = imperial_rule_assistance_association_neutrality
+	}
+	
+	option = {
+		name = BA_japan.27.b
+		trigger = {
+			has_completed_focus = JAP_opposition_to_the_army
+			has_government = fascism
+		}
+		add_political_power = 100
+		add_stability = -0.05
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.10
+		}
+		set_party_name = {
+			ideology = fascism
+			long_name = imperial_rule_assistance_association
+			name = imperial_rule_assistance_association
+		}
+		set_country_leader_ideology = imperial_rule_assistance_association
+	}
+	
+	option = {
+		name = BA_japan.27.c
+		trigger = {
+			NOT = {
+				has_completed_focus = JAP_purge_the_kodoha_faction
+				has_completed_focus = JAP_opposition_to_the_army
+			}
+		}
+		ai_chance = {
+			factor = 0
+		}
+		add_stability = -0.03
+	}
+}
+
+country_event = { # 대정익찬회
+	id = BA_japan.28
+	title = BA_japan.28.t
+	desc = BA_japan.28.d
+	picture = GFX_report_event_generic_handshake
+	
+	is_triggered_only = yes
+
+	immediate = {
+		set_global_flag = BA_japan_27_flag
+	}
+	
+	option = {
+		name = BA_japan.28.a
+		add_stability = -0.05
+		add_popularity = {
+			ideology = fascism
+			popularity = 0.05
+		}
+		promote_character = JAP_fumimaro_konoe
+	}
+}
+
+country_event = { # 대본영 설치
+	id = BA_japan.29
+	title = BA_japan.29.t
+	desc = BA_japan.29.d
+	picture = GFX_report_event_generic_handshake
+
+	is_triggered_only = yes
+	
+	trigger = {
+		has_government = neutrality
+		has_war = yes
+		NOT = { has_global_flag = BA_japan_28_flag }
+		has_character = JAP_the_control_faction
+	}
+
+	immediate = {
+		set_global_flag = BA_japan_28_flag
+	}
+	
+	option = {
+		name = BA_japan.29.a
+		add_war_support = 0.10
+		add_popularity = {
+			ideology = neutrality
+			popularity = 0.05
+		}
+		promote_character = JAP_the_control_faction
+		if = {
+			limit = {  
+				has_power_balance = {
+					id = JAP_power_balance
+				}
+			}
+			add_power_balance_value = {
+				id = JAP_power_balance
+				value = -0.10
+			}
+		}
 	}
 }
