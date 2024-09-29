@@ -1,21 +1,11 @@
 **우리들의 기적 같은 이야기, 블루 아카이브**
 =============
-**\[미완성 버전입니다! (현재 버전 : v0.6.6)]**   
+**\[미완성 버전입니다! (현재 버전 : v0.6.7)]**   
 **모든 DLC를 소유하고 있어야 정상적으로 작동합니다!**
 
 이 모드는 넥슨게임즈의 서브컬쳐 게임, "[블루 아카이브](https://bluearchive.nexon.com/home)" 를 토대로 만든 모드입니다.
 
 ## v0.6.6 패치노트
-- 붉은겨울 군정청과 총파업 루트
-- 아리우스 대규모 루트 추가
-- 프랑스 승전 이후 컨텐츠
-
-- 헝가리 중점 소규모 리워크
-- 트리니티 중점도 조정 및 붕괴 시스템 재작업
-
-(작업 중)
-- 아비도스 중점 2차 리워크 시작
-- 하이랜더 철도학원 관련 컨텐츠 추가
 
 ## 주요 국가 | 키보토스
 - 샬레(SHE)   
@@ -50,12 +40,6 @@
 ## 모드
 **필수 적용 모드** : [한국어 모드](https://steamcommunity.com/sharedfiles/filedetails/?id=2743487021)   
 **추천 적용 모드** : [블루 아카이브 OST 모드](https://steamcommunity.com/sharedfiles/filedetails/?id=3012479903), [FPS MAP](https://steamcommunity.com/sharedfiles/filedetails/?id=2404689961)   
-**사용 불가능한 모드** : 프로빈스와 주를 수정하는 모드, 기타 대형모드
-
-## 지원하는 언어 | Supported languages
-- 한국어 | Korean
-- 일본어 | Japanese | 진행 중
-- 중국어 | Chinese | 진행 중
 
 ## 언어 패치 | Language patch
 **영어 | English** : [English translation](https://steamcommunity.com/sharedfiles/filedetails/?id=3069377398)
