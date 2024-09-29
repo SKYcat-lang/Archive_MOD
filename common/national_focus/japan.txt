@@ -1777,16 +1777,6 @@
 					mark_focus_tree_layout_dirty = yes
 				}
 			}
-			if = {
-				limit = {  
-					has_power_balance = {
-						id = JAP_power_balance
-					}
-				}
-				remove_power_balance = {
-					id = JAP_power_balance
-				}
-			}
 			remove_ideas = BA_JAP_unstable_political_structure
 		}
 	}
@@ -3582,13 +3572,230 @@
 #######################황도파
 	
 
+
+#
+
+###########################군부 축출
+
+	focus = {
+		id = JAP_disarmament_for_the_economy
+		icon = GFX_goal_generic_construct_civ_factory
+		prerequisite = { focus = JAP_opposition_to_the_army }
+		x = 3
+		y = 1
+		relative_position_id = JAP_opposition_to_the_army
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+			NOT = { has_completed_focus = JAP_support_the_kodoha_faction }
+			is_power_balance_in_range = {
+				id = JAP_power_balance
+				range > JAP_army_3
+			}
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		complete_tooltip = {
+			random_state = {
+				limit = {
+					has_state_flag = JAP_disarmament_for_the_economy_IC
+				}
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		completion_reward = {
+			add_stability = -0.05
+			add_power_balance_value = {
+				id = JAP_power_balance
+				value = 0.05
+			}
+			random_owned_controlled_state = {
+				limit = {
+					ROOT = { has_full_control_of_state = PREV }
+					is_core_of = ROOT
+					not = {
+						OR = {
+							state = 646
+							state = 645
+							state = 555
+						}
+					}
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = JAP_disarmament_for_the_economy_IC
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_purge_of_pro_military_officials
+		icon = GFX_goal_demand_sudetenland
+		prerequisite = { focus = JAP_opposition_to_the_army }
+		x = 0
+		y = 1
+		relative_position_id = JAP_opposition_to_the_army
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+			is_power_balance_in_range = {
+				id = JAP_power_balance
+				range > JAP_army_3
+			}
+		}
+
+		bypass = {
+			has_completed_focus = JAP_support_the_kodoha_faction
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			add_stability = -0.05
+			add_power_balance_value = {
+				id = JAP_power_balance
+				value = 0.10
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_protection_of_the_kodoha
+		icon = GFX_goal_generic_forceful_treaty
+		prerequisite = { focus = JAP_opposition_to_the_army }
+		x = -2
+		y = 1
+		relative_position_id = JAP_opposition_to_the_army
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+			OR = {
+				is_power_balance_in_range = {
+					id = JAP_power_balance
+					range > JAP_army_3
+				}
+				NOT = {
+					has_power_balance = {
+						id = JAP_power_balance
+					}
+				}
+			}
+		}
+
+		bypass = {
+			has_completed_focus = JAP_support_the_kodoha_faction
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			add_stability = -0.05
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = 0.05
+			}
+			add_power_balance_value = {
+				id = JAP_power_balance
+				value = -0.05
+			}
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = kita_ikki
+		}
+	}
+
+	focus = {
+		id = JAP_way_of_japanese_fascism
+		icon = GFX_focus_generic_fascist_troops
+		prerequisite = { focus = JAP_opposition_to_the_army focus = JAP_support_the_kodoha_faction }
+		x = -5
+		y = 1
+		relative_position_id = JAP_opposition_to_the_army
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+			NOT = { has_idea = BA_JAP_unstable_political_structure }
+		}
+
+		bypass = {
+			has_completed_focus = JAP_support_the_kodoha_faction
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			add_political_power = 120
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.05
+			}
+		}
+	}
+
 	focus = {
 		id = JAP_challenge_the_zaibatsus
 		icon = GFX_focus_jap_zaibatsu
-		prerequisite = { focus = JAP_support_the_kodoha_faction }
-		x = -2
+		prerequisite = { focus = JAP_way_of_japanese_fascism }
+		x = -1
 		y = 1
-		relative_position_id = JAP_support_the_kodoha_faction
+		relative_position_id = JAP_way_of_japanese_fascism
 
 		cost = 10
 
@@ -3674,7 +3881,7 @@
 		icon = GFX_goal_generic_construct_mil_factory
 		prerequisite = { focus = JAP_challenge_the_zaibatsus }
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = JAP_challenge_the_zaibatsus
 
 		cost = 10
@@ -3775,17 +3982,13 @@
 		}
 	}
 
-#
-
-###########################군부 축출
-
 	focus = {
-		id = JAP_disarmament_for_the_economy
-		icon = GFX_goal_generic_construct_civ_factory
-		prerequisite = { focus = JAP_opposition_to_the_army }
-		x = 3
+		id = JAP_suppression_of_the_military
+		icon = GFX_focus_generic_support_the_left_right
+		prerequisite = { focus = JAP_protection_of_the_kodoha }
+		x = 0
 		y = 1
-		relative_position_id = JAP_opposition_to_the_army
+		relative_position_id = JAP_protection_of_the_kodoha
 
 		cost = 5
 
@@ -3794,124 +3997,9 @@
 		}
 
 		available = {
-			NOT = { has_completed_focus = JAP_support_the_kodoha_faction }
-			is_power_balance_in_range = {
+			has_power_balance = {
 				id = JAP_power_balance
-				range > JAP_army_3
 			}
-		}
-
-		bypass = {
-
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		search_filters = { FOCUS_FILTER_POLITICAL }
-		complete_tooltip = {
-			random_state = {
-				limit = {
-					has_state_flag = JAP_disarmament_for_the_economy_IC
-				}
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-			}
-		}
-
-		completion_reward = {
-			add_stability = -0.05
-			add_power_balance_value = {
-				id = JAP_power_balance
-				value = 0.05
-			}
-			random_owned_controlled_state = {
-				limit = {
-					ROOT = { has_full_control_of_state = PREV }
-					is_core_of = ROOT
-					not = {
-						OR = {
-							state = 646
-							state = 645
-							state = 555
-						}
-					}
-					free_building_slots = {
-						building = industrial_complex
-						size > 1
-						include_locked = yes
-					}
-				}
-				add_extra_state_shared_building_slots = 1
-				add_building_construction = {
-					type = industrial_complex
-					level = 1
-					instant_build = yes
-				}
-				set_state_flag = JAP_disarmament_for_the_economy_IC
-			}
-		}
-	}
-
-	focus = {
-		id = JAP_purge_of_pro_military_officials
-		icon = GFX_goal_demand_sudetenland
-		prerequisite = { focus = JAP_opposition_to_the_army }
-		x = 1
-		y = 1
-		relative_position_id = JAP_opposition_to_the_army
-
-		cost = 5
-
-		ai_will_do = {
-			factor = 3
-		}
-
-		available = {
-			is_power_balance_in_range = {
-				id = JAP_power_balance
-				range > JAP_army_3
-			}
-		}
-
-		bypass = {
-			has_completed_focus = JAP_support_the_kodoha_faction
-		}
-
-		cancel_if_invalid = yes
-		continue_if_invalid = no
-		available_if_capitulated = no
-
-		search_filters = { FOCUS_FILTER_POLITICAL }
-
-		completion_reward = {
-			add_stability = -0.05
-			add_power_balance_value = {
-				id = JAP_power_balance
-				value = 0.10
-			}
-		}
-	}
-
-	focus = {
-		id = JAP_protection_of_the_kodoha
-		icon = GFX_goal_generic_forceful_treaty
-		prerequisite = { focus = JAP_opposition_to_the_army }
-		x = -3
-		y = 1
-		relative_position_id = JAP_opposition_to_the_army
-
-		cost = 5
-
-		ai_will_do = {
-			factor = 3
-		}
-
-		available = {
 			is_power_balance_in_range = {
 				id = JAP_power_balance
 				range > JAP_army_2
@@ -3929,13 +4017,104 @@
 		search_filters = { FOCUS_FILTER_POLITICAL }
 
 		completion_reward = {
-			add_stability = -0.05
+			add_political_power = 80
+			swap_ideas = {
+				remove_idea = JAP_militarism
+				add_idea = BA_JAP_militarism_week
+			}
 			add_power_balance_value = {
 				id = JAP_power_balance
-				value = -0.05
+				value = 0.05
 			}
-			custom_effect_tooltip = available_political_advisor
-			show_ideas_tooltip = kita_ikki
+		}
+	}
+
+	focus = {
+		id = JAP_conciliation_of_the_control_faction
+		icon = GFX_goal_generic_propaganda
+		prerequisite = { focus = JAP_suppression_of_the_military }
+		x = 0
+		y = 1
+		relative_position_id = JAP_suppression_of_the_military
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+			has_power_balance = {
+				id = JAP_power_balance
+			}
+			is_power_balance_in_range = {
+				id = JAP_power_balance
+				range > JAP_army_1
+			}
+		}
+
+		bypass = {
+			has_completed_focus = JAP_support_the_kodoha_faction
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			add_political_power = 120
+			add_power_balance_value = {
+				id = JAP_power_balance
+				value = 0.10
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_control_of_the_military
+		icon = GFX_goal_tfv_saf_anti_colonialist_crusade
+		prerequisite = { focus = JAP_conciliation_of_the_control_faction }
+		mutually_exclusive = { focus = JAP_establishment_of_the_imperial_rule_assistance_association }
+		x = 0
+		y = 1
+		relative_position_id = JAP_conciliation_of_the_control_faction
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+			has_power_balance = {
+				id = JAP_power_balance
+			}
+			is_power_balance_in_range = {
+				id = JAP_power_balance
+				range > JAP_army_0
+			}
+		}
+
+		bypass = {
+			has_completed_focus = JAP_support_the_kodoha_faction
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			add_stability = -0.05
+			country_event = { id = BA_japan.28 hours = 8 }
+			set_party_name = {
+				ideology = fascism
+				long_name = JAP_control_of_the_military_fascism
+				name = JAP_control_of_the_military_fascism
+			}
 		}
 	}
 
@@ -3991,8 +4170,9 @@
 		id = JAP_establishment_of_the_imperial_rule_assistance_association
 		icon = GFX_goal_unknown
 		prerequisite = { focus = JAP_formation_of_fumimaro_konoe_cabinet }
+		mutually_exclusive = { focus = JAP_control_of_the_military }
 		x = 0
-		y = 1
+		y = 2
 		relative_position_id = JAP_formation_of_fumimaro_konoe_cabinet
 
 		cost = 10
@@ -4006,10 +4186,10 @@
 				id = JAP_power_balance
 				range > JAP_army_1
 			}
+			has_country_flag = JAP_prime_minister_is_fumimaro_konoe
 		}
 
 		bypass = {
-			has_country_flag = JAP_prime_minister_is_fumimaro_konoe
 		}
 
 		cancel_if_invalid = yes
@@ -4029,6 +4209,59 @@
 			add_power_balance_value = {
 				id = JAP_power_balance
 				value = 0.10
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_peoples_state
+		icon = GFX_focus_eng_special_air_service
+		prerequisite = { focus = JAP_control_of_the_military focus = JAP_establishment_of_the_imperial_rule_assistance_association }
+		x = 0
+		y = 5
+		relative_position_id = JAP_opposition_to_the_army
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+			OR = {
+				is_power_balance_in_range = {
+					id = JAP_power_balance
+					range > JAP_government_2
+				}
+				has_government = fascism
+			}
+		}
+
+		bypass = {
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			add_political_power = 60
+			set_politics = {
+				ruling_party = fascism
+				elections_allowed = no
+			}
+			remove_ideas = BA_JAP_unstable_political_structure
+			if = {
+				limit = {  
+					has_power_balance = {
+						id = JAP_power_balance
+					}
+				}
+				remove_power_balance = {
+					id = JAP_power_balance
+				}
 			}
 		}
 	}
@@ -5819,7 +6052,7 @@
 	focus = {
 		id = JAP_army_expansion_law
 		icon = GFX_goal_generic_army_doctrines
-		x = 13
+		x = 6
 		y = 0
 		relative_position_id = JAP_the_manchurian_project 
 
