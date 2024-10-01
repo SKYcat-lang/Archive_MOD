@@ -1,5 +1,105 @@
 
 add_namespace = HND
+add_namespace = hndcan
+country_event = {
+	# 혁명이다~
+	id = hndcan.1
+	title = hndcan.1.t
+	desc = hndcan.1.d
+
+	fire_only_once = yes
+	is_triggered_only = yes
+	
+	option = {
+		name = hndcan.1.a
+		ai_chance = { base = 999 }
+		load_oob = "HND"
+		every_country = {
+			limit = {
+				OR = {
+					tag = RAJ
+					tag = HDR
+					tag = BAR
+					tag = RJP
+				}
+			}
+			declare_war_on = {
+				target = PREV
+				type = annex_everything
+			}
+		}
+		hidden_effect = {
+			RAJ = { country_event = { id = hndcan.2 } }
+			ENG = { country_event = { id = hndcan.2 } }
+		}
+	}
+}
+country_event = {
+	# 파키스탄 독립 띠발 
+	id = hndcan.2
+	title = hndcan.2.t
+	desc = hndcan.2.d
+
+	fire_only_once = no
+	is_triggered_only = yes
+	
+	option = {
+		name = hndcan.2.a
+		trigger = { tag = RAJ }
+		ai_chance = { base = 999 }
+		PAK = {
+			transfer_state = 440
+			transfer_state = 442
+			load_oob = "PAK_rise"
+			every_country = {
+				limit = {
+					OR = {
+						tag = RAJ
+						tag = KAS
+						tag = BAL
+					}
+				}
+				declare_war_on = {
+					target = PREV
+					type = annex_everything
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = hndcan.2.a
+		trigger = { tag = ENG}
+		ai_chance = { base = 999 } 
+	}
+}
+country_event = {
+	# 인도랑 평협하기
+	id = hndcan.3
+	title = hndcan.3.t
+	desc = hndcan.3.d
+
+	fire_only_once = yes
+	is_triggered_only = no
+
+	trigger = {
+		tag = PAK
+		controls_state = 787
+		controls_state = 441
+		controls_state = 445
+	}
+	mean_time_to_happen = {
+		days = 2
+	}
+	
+	option = {
+		name = hndcan.3.a
+		ai_chance = { base = 999 }
+		transfer_state = 445
+		transfer_state = 443
+		white_peace = RAJ
+	}
+}
 country_event = {
 	#바라트에 고문단 파견
 	id = HND.1
