@@ -427,7 +427,7 @@ country_event = { # 선도부의 쿠데타
 		add_war_support = -0.05
 	}
 }
-country_event = { # 국방군과 전쟁
+country_event = { # 트리니티를 막아라 - 평화 협정
 	id = GEH_event.16
 	title = GEH_event.16.t
 	desc = GEH_event.16.desc
@@ -437,7 +437,8 @@ country_event = { # 국방군과 전쟁
 	
 	option = { 
 		name = GEH_event.16.a
-		country_event = { id = GEH_event.22 days = 35 }
+		remove_civil_war_target = FROM
+		white_peace = FROM
 	}
 }
 country_event = { # 만마전의 끝
@@ -675,21 +676,13 @@ country_event = { # 트리니티를 막아라!
 	option = { 
 		name = GEH_event.22.a
 		add_stability = -0.10
-		if = {
+		every_country = {
 			limit = {
-				NOT = {
-					OR = {
-						has_global_flag = GEH_win_global_flag
-						has_global_flag = GEM_win_global_flag
-					}
-				}
+				NOT = { tag = ROOT }
+				has_country_flag = GEH_GEM_armistice_flag
+				has_war_with = ROOT
 			}
-			create_faction = GEH_Federation
-			GEH = {
-				remove_civil_war_target = GEM
-				add_to_faction = GEM
-				white_peace = GEM
-			}
+			country_event = { id = GEH_event.16 hours = 8 }
 		}
 	}
 }
