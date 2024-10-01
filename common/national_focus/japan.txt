@@ -1641,7 +1641,7 @@
 
 	focus = {
 		id = JAP_nation_of_the_rising_sun
-		icon = GFX_focus_ETH_an_empire_in_the_shade_of_the_sun
+		icon = GFX_JAP_nation_of_the_rising_sun
 		mutually_exclusive = { focus = JAP_strengthen_civilian_government }
 		x = 12
 		y = 0
@@ -3592,9 +3592,16 @@
 		}
 
 		available = {
-			is_power_balance_in_range = {
-				id = JAP_power_balance
-				range > JAP_army_3
+			if = {
+				limit = {
+					has_power_balance = {
+						id = JAP_power_balance
+					}
+				}
+				is_power_balance_in_range = {
+					id = JAP_power_balance
+					range > JAP_army_3
+				}
 			}
 		}
 
@@ -3709,15 +3716,15 @@
 		}
 
 		available = {
-			OR = {
-				is_power_balance_in_range = {
-					id = JAP_power_balance
-					range > JAP_army_3
-				}
-				NOT = {
+			if = {
+				limit = {
 					has_power_balance = {
 						id = JAP_power_balance
 					}
+				}
+				is_power_balance_in_range = {
+					id = JAP_power_balance
+					range > JAP_army_3
 				}
 			}
 		}
@@ -4086,6 +4093,10 @@
 			factor = 3
 		}
 
+		allow_branch = {
+			has_global_flag = BA_japan_27_flag
+		}
+
 		available = {
 			has_power_balance = {
 				id = JAP_power_balance
@@ -4094,6 +4105,7 @@
 				id = JAP_power_balance
 				range > JAP_army_0
 			}
+			has_global_flag = BA_japan_27_flag
 		}
 
 		bypass = {
@@ -4108,7 +4120,7 @@
 
 		completion_reward = {
 			add_stability = -0.05
-			country_event = { id = BA_japan.28 hours = 8 }
+			country_event = { id = BA_japan.30 hours = 8 }
 			set_party_name = {
 				ideology = fascism
 				long_name = JAP_control_of_the_military_fascism
@@ -4217,9 +4229,17 @@
 		id = JAP_peoples_state
 		icon = GFX_focus_eng_special_air_service
 		prerequisite = { focus = JAP_control_of_the_military focus = JAP_establishment_of_the_imperial_rule_assistance_association }
-		x = -1
+		x = 0
 		y = 5
 		relative_position_id = JAP_opposition_to_the_army
+
+		offset = {
+			trigger = {
+				has_global_flag = BA_japan_27_flag
+			}
+			x = -1
+			y = 0
+		}
 
 		cost = 10
 
@@ -4254,14 +4274,20 @@
 			}
 			remove_ideas = BA_JAP_unstable_political_structure
 			if = {
-				limit = {  
-					has_power_balance = {
-						id = JAP_power_balance
+				limit = {
+					OR = {
+						has_completed_focus = JAP_control_of_the_military
+						has_completed_focus = JAP_establishment_of_the_imperial_rule_assistance_association
 					}
+					has_idea = JAP_militarism
 				}
-				remove_power_balance = {
-					id = JAP_power_balance
+				swap_ideas = {
+					remove_idea = JAP_militarism
+					add_idea = BA_JAP_militarism_week
 				}
+			}
+			remove_power_balance = {
+				id = JAP_power_balance
 			}
 		}
 	}
