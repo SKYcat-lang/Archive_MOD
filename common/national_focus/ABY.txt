@@ -26,7 +26,7 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 29      #좌표
+		x = 32      #좌표
 		y = 0
 		bypass = {
 			#중점 통과 조건
@@ -57,7 +57,7 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = -12      #좌표
+		x = -13      #좌표
 		y = 1
 		relative_position_id = ABY_focus_call_eocordnldnjsghl
 		bypass = {
@@ -75,9 +75,7 @@ focus_tree = {
 			country_event = {
 				id = ABY_new_event.100
 			}
-			add_ideas = {
-				ABY_idea_neptis_group1
-			}
+			custom_effect_tooltip = ABY_industrial_concern_allow
 			custom_effect_tooltip = BA_highlander_invest_big_tt
 			add_to_variable = {
 				BA_highlander_invest = 4
@@ -104,7 +102,7 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = -7      #좌표
+		x = -10      #좌표
 		y = 1
 		relative_position_id = ABY_focus_call_eocordnldnjsghl
 		bypass = {
@@ -149,7 +147,7 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 11     #좌표
+		x = 8     #좌표
 		y = 1
 		relative_position_id = ABY_focus_call_eocordnldnjsghl
 		bypass = {
@@ -461,7 +459,7 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 5    #좌표
+		x = 2    #좌표
 		y = 1
 		relative_position_id = ABY_focus_call_eocordnldnjsghl
 		bypass = {
@@ -783,7 +781,7 @@ focus_tree = {
 	focus = {
 		id = ABY_focus_cldks_propblem_improve    #중점명
 		icon = GFX_goal_demand_sudetenland
- 		cost = 5.00          #중점 일수(주)
+ 		cost = 2.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
 		}
@@ -831,7 +829,7 @@ focus_tree = {
 	focus = {
 		id = ABY_focus_no_helmet    #중점명
 		icon = GFX_focus_helmet      #아이콘
- 		cost = 10.00          #중점 일수(주)
+ 		cost = 2.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
 		}
@@ -857,6 +855,24 @@ focus_tree = {
 		completion_reward = {
 			remove_ideas = {
 				ABY_idea_katakata3
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first
+					add_idea = ABY_idea_eocordnldnjsghl_first_improved
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_improved
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_improved
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin
+				}
 			}
 			country_event = {
 				id = ABY_new_event.22
@@ -918,8 +934,23 @@ focus_tree = {
 		completion_reward = {
 			add_stability = 0.1
 			add_political_power = 75
-			add_ideas = {
-				ABY_idea_abydos_student_council
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first
+					add_idea = ABY_idea_eocordnldnjsghl_first_improved
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_improved
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_improved
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin
+				}
 			}
 			custom_effect_tooltip = ABY_flag_abydos_army_tt
 			set_country_flag = ABY_flag_abydos_army
@@ -1037,14 +1068,27 @@ focus_tree = {
 				id = ABY_power_balance
 				value = 0.05
 			}
-			swap_ideas = {
-				remove_idea = ABY_idea_neptis_group1
-				add_idea = ABY_idea_neptis_group2
-			}
 			if = { limit = { has_idea = BA_railway_gauge_issue }
 				modify_timed_idea = {
 					idea = BA_railway_gauge_issue
 					days = -240
+				}
+			}
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ABY_idea_neptis_group1
+					add_idea = ABY_idea_neptis_group2
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = ABY_industrial_concern_neptis_group
+					}
+					swap_ideas = {
+						remove_idea = ABY_industrial_concern_neptis_group
+						add_idea = ABY_industrial_concern_neptis_group_2
+					}
 				}
 			}
 			#중점 완료시 얻는 보상
@@ -1063,8 +1107,8 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 2     #좌표
-		y = 2
+		x = 1     #좌표
+		y = 1
 		relative_position_id = ABY_focus_neptis_rebuild_council
 		bypass = {
 			#중점 통과 조건
@@ -1112,7 +1156,9 @@ focus_tree = {
 			#중점 통과 조건
 		}
 		available = {
-
+			NOT = {
+				has_completed_focus = ABY_focus_descision
+			}
 			#중점 선행조건
 		}
 
@@ -1222,12 +1268,18 @@ focus_tree = {
 	focus = {
 		id = ABY_focus_ehfhryxhdqn    #중점명
 		# icon = GFX_goal_generic_intelligence_exchange       #아이콘
- 		cost = 5.00          #중점 일수(주)
+ 		cost = 2.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
 		}
 		prerequisite = {
 			focus = ABY_focus_expend_school    #이전 중점
+		}
+		prerequisite = {
+			focus = ABY_focus_no_helmet   #이전 중점
+		}
+		prerequisite = {
+			focus = ABY_focus_secure  #이전 중점
 		}
 		mutually_exclusive = {
 			    #반대되는 중점
@@ -1257,8 +1309,59 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			add_ideas = {
-				ABY_idea_road
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_3
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_3
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_4
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_improved
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_improved
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_improved_2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_improved_3
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_improved_3
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_improved_4
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council_2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council_3
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council_3
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council_4
+				}
 			}
 			if = {
 				limit = {
@@ -1277,12 +1380,18 @@ focus_tree = {
 	focus = {
 		id = ABY_focus_rnstktkfudqn    #중점명
 		# icon = GFX_goal_generic_intelligence_exchange       #아이콘
- 		cost = 5.00          #중점 일수(주)
+ 		cost = 2.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
 		}
 		prerequisite = {
 			focus = ABY_focus_expend_school    #이전 중점
+		}
+		prerequisite = {
+			focus = ABY_focus_no_helmet   #이전 중점
+		}
+		prerequisite = {
+			focus = ABY_focus_secure  #이전 중점
 		}
 		mutually_exclusive = {
 			    #반대되는 중점
@@ -1312,8 +1421,59 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			add_ideas = {
-				ABY_idea_abydos_army_control_center
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_3
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_2
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_2
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_4
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_improved
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_improved
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_improved_3
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_improved_2
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_improved_2
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_improved_4
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council_3
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council_2
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council_2
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council_4
+				}
 			}
 			if = {
 				limit = {
@@ -1688,6 +1848,9 @@ focus_tree = {
 		prerequisite = {
 			focus = ABY_focus_secure    #이전 중점
 		}
+		prerequisite = {
+			focus = ABY_focus_no_helmet   #이전 중점
+		}
 		mutually_exclusive = {
 			focus = ABY_focus_student_council_main    #반대되는 중점
 		}
@@ -1717,9 +1880,41 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = ABY_idea_eocordnldnjsghl_first
-				add_idea = ABY_idea_eocordnldnjsghl_first_1
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_improved
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_2
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_2
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_improved_2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_3
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_3
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_improved_3
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_4
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_4
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_improved_4
+				}
 			}
 			if = {
 				limit = {
@@ -1744,6 +1939,9 @@ focus_tree = {
 		}
 		prerequisite = {
 			focus = ABY_focus_secure    #이전 중점
+		}
+		prerequisite = {
+			focus = ABY_focus_no_helmet   #이전 중점
 		}
 		mutually_exclusive = {
 			focus = ABY_focus_eocordnldnjsghl_improve    #반대되는 중점
@@ -1774,12 +1972,41 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			remove_ideas = {
-				ABY_idea_eocordnldnjsghl_first
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council
+				}
 			}
-			swap_ideas = {
-				remove_idea = ABY_idea_abydos_student_council
-				add_idea = ABY_idea_abydos_student_council_2
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_2
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_2
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council_2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_3
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_3
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council_3
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_eocordnldnjsghl_first_fin_4
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_eocordnldnjsghl_first_fin_4
+					add_idea = ABY_idea_eocordnldnjsghl_first_fin_student_council_4
+				}
 			}
 			if = {
 				limit = {
@@ -1851,29 +2078,6 @@ focus_tree = {
 			remove_power_balance = {
 				id = ABY_power_balance
 			}
-			custom_effect_tooltip = ABY_make_one_tt
-			hidden_effect = {
-				remove_ideas = {
-					ABY_idea_road
-					ABY_idea_abydos_army_control_center
-					ABY_idea_no_command_6
-				}
-				if = {
-					limit = {
-						has_idea = ABY_idea_abydos_student_council_2
-					}
-					remove_ideas = ABY_idea_abydos_student_council_2
-					add_ideas = ABY_idea_abydos_highschool_1
-				}
-				if = {
-					limit = {
-						has_idea = ABY_idea_eocordnldnjsghl_first_1
-					}
-					remove_ideas = ABY_idea_eocordnldnjsghl_first_1
-					remove_ideas = ABY_idea_abydos_student_council
-					add_ideas = ABY_idea_abydos_highschool_2
-				}
-			}
 			custom_effect_tooltip = kivotos_halo_add12_tt
 			hidden_effect = {
 				set_variable = { BA_halo_infantry_cap_edit_var = 12 }
@@ -1917,6 +2121,12 @@ focus_tree = {
 			}
 			GEH = {
 				exists = no
+			}
+			RED = {
+				exists = yes
+			}
+			MIL = {
+				exists = yes
 			}
 			ABY = {
 				is_puppet = no
@@ -2316,6 +2526,9 @@ focus_tree = {
 			remove_power_balance = {
 				id = ABY_power_balance
 			}
+			remove_ideas = {
+				ABY_idea_economy_recuit
+			}
 			retire_character = ABY_HYA
 			if = {
 				limit = {
@@ -2325,14 +2538,10 @@ focus_tree = {
 							fascism < 0.3
 						}
 						AND = {
-							has_government = neutrality
-							democratic > 0.4
+							has_government = democratic
 						}
 						AND = {
 							has_government = neutrality
-							neutrality > 0.4
-							fascism < 0.4
-							democratic < 0.4
 						}
 					}
 				}
@@ -2348,8 +2557,7 @@ focus_tree = {
 							fascism > 0.3
 						}
 						AND = {
-							has_government = neutrality
-							fascism > 0.4 
+							has_government = fascism
 						}
 					}
 				}
@@ -2392,50 +2600,27 @@ focus_tree = {
 				id = ABY_power_balance
 				value = 0.15
 			}
-			swap_ideas = {
-				remove_idea = ABY_idea_neptis_group2
-				add_idea = ABY_idea_neptis_group3
-			}
 			if = { limit = { has_idea = BA_railway_gauge_issue }
 				modify_timed_idea = {
 					idea = BA_railway_gauge_issue
 					days = -240
 				}
 			}
-			#중점 완료시 얻는 보상
-		}
-	}
-	focus = {
-		id = ABY_focus_cornjs_ghltn    #중점명
-		icon = GFX_focus_renounce_the_treaty_of_trianon
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_neptis_rebuild_council    #이전 중점
-		}
-		mutually_exclusive = {
-			    #반대되는 중점
-		}
-		x = 1     #좌표
-		y = 1
-		relative_position_id = ABY_focus_neptis_rebuild_council
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-			#중점 선행조건
-		}
-
-		select_effect = {
-			#중점 시작시 얻는 보상
-		}
-		completion_reward = {
-			KAI = {
-				country_event = {
-					id = ABY_new_event.114
-					hours = 12
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ABY_idea_neptis_group2
+					add_idea = ABY_idea_neptis_group3
+				}
+			}
+			hidden_effect = {
+				if = {
+					limit = {
+						has_idea = ABY_industrial_concern_neptis_group_2
+					}
+					swap_ideas = {
+						remove_idea = ABY_industrial_concern_neptis_group_2
+						add_idea = ABY_industrial_concern_neptis_group_3
+					}
 				}
 			}
 			#중점 완료시 얻는 보상
@@ -2512,12 +2697,13 @@ focus_tree = {
 			#중점 통과 조건
 		}
 		available = {#중점 선행조건
+			NOT = {
+				has_idea = ABY_idea_no_army
+			}
 		}
 
 		completion_reward = {
-			army_experience = 25
-			navy_experience = 25
-			air_experience = 25
+			add_dynamic_modifier = { modifier = ABY_army_dynamic_modifier }
 		}
 	}
 	focus = {
@@ -2544,13 +2730,11 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			air_experience = 25
 			add_doctrine_cost_reduction = {
 				cost_reduction = 0.5
 				uses = 1
 				category = air_doctrine
-			}
-			add_ideas = {
-				ABY_idea_air_1
 			}
 		}
 	}
@@ -2578,9 +2762,22 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = ABY_idea_air_1
-				add_idea = ABY_idea_air_2
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ABY_idea_air_1
+					add_idea = ABY_idea_air_2
+				}
+			}
+			hidden_effect = {
+				add_to_variable = {
+					ABY_var_air_mission_xp_gain_factor = 0.1
+				}
+				add_to_variable = {
+				    ABY_var_air_mission_efficiency = 0.1
+				}
+				add_to_variable = {
+			        ABY_var_air_agility_factor = 0.1
+				}
 			}
 		}
 	}
@@ -2608,9 +2805,22 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = ABY_idea_air_1
-				add_idea = ABY_idea_air_3
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ABY_idea_air_1
+					add_idea = ABY_idea_air_3
+				}
+			}
+			hidden_effect = {
+				add_to_variable = {
+					ABY_var_air_cas_present_factor = 0.1
+				}
+				add_to_variable = {
+			    	ABY_var_air_mission_efficiency = 0.1
+				}
+				add_to_variable = {
+					ABY_var_air_mission_xp_gain_factor = 0.1
+				}
 			}
 		}
 	}
@@ -2719,40 +2929,24 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			if = {
-				limit = {
-					has_idea = ABY_idea_air_2
-				}
+			effect_tooltip = {
 				swap_ideas = {
 					remove_idea = ABY_idea_air_2
 					add_idea = ABY_idea_air_2_1
 				}
 			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_air_2_2
+			hidden_effect = {
+				add_to_variable = {
+					ABY_var_air_night_penalty = -0.05
 				}
-				swap_ideas = {
-					remove_idea = ABY_idea_air_2_2
-					add_idea = ABY_idea_air_2_3
+				add_to_variable = {
+			    	ABY_var_air_accidents_factor = -0.05
 				}
-			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_air_3
+				add_to_variable = {
+			    	ABY_var_air_weather_penalty = -0.05
 				}
-				swap_ideas = {
-					remove_idea = ABY_idea_air_3
-					add_idea = ABY_idea_air_3_1
-				}
-			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_air_3_2
-				}
-				swap_ideas = {
-					remove_idea = ABY_idea_air_3_2
-					add_idea = ABY_idea_air_3_3
+				add_to_variable = {
+			    	ABY_var_air_range_factor = 0.05
 				}
 			}
 		}
@@ -2781,40 +2975,18 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			if = {
-				limit = {
-					has_idea = ABY_idea_air_2
-				}
+			effect_tooltip = {
 				swap_ideas = {
 					remove_idea = ABY_idea_air_2
 					add_idea = ABY_idea_air_2_2
 				}
 			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_air_2_1
+			hidden_effect = {
+				add_to_variable = {
+			    	ABY_var_air_agility_factor = 0.1
 				}
-				swap_ideas = {
-					remove_idea = ABY_idea_air_2_1
-					add_idea = ABY_idea_air_2_3
-				}
-			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_air_3
-				}
-				swap_ideas = {
-					remove_idea = ABY_idea_air_3
-					add_idea = ABY_idea_air_3_2
-				}
-			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_air_3_1
-				}
-				swap_ideas = {
-					remove_idea = ABY_idea_air_3_1
-					add_idea = ABY_idea_air_3_3
+				add_to_variable = {
+			    	ABY_var_air_mission_efficiency = 0.1
 				}
 			}
 		}
@@ -2941,6 +3113,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			navy_experience = 25
 			random_owned_state = {
 				limit = {
 					any_state = {
@@ -2954,9 +3127,6 @@ focus_tree = {
 					level = 2
 					instant_build = yes
 				}
-			}
-			add_ideas = {
-				ABY_idea_navy_1
 			}
 		}
 	}
@@ -2994,9 +3164,22 @@ focus_tree = {
 				uses = 1
 				category = cl_tech
 			}
-			swap_ideas = {
-				remove_idea = ABY_idea_navy_1
-				add_idea = ABY_idea_navy_2
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ABY_idea_navy_1
+					add_idea = ABY_idea_navy_2
+				}
+			}
+			hidden_effect = {
+				add_to_variable = {
+					ABY_var_NAVAL_DEFENSE_FACTOR = 0.1
+				}
+				add_to_variable = {
+					ABY_var_NAVY_ORG_FACTOR = 0.1
+				}
+				add_to_variable = {
+					ABY_var_NAVAL_DAMAGE_FACTOR = 0.1
+				}
 			}
 		}
 	}
@@ -3039,9 +3222,22 @@ focus_tree = {
 				uses = 1
 				category = cv_tech
 			}
-			swap_ideas = {
-				remove_idea = ABY_idea_navy_1
-				add_idea = ABY_idea_navy_3
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ABY_idea_navy_1
+					add_idea = ABY_idea_navy_3
+				}
+			}
+			hidden_effect = {
+				add_to_variable = {
+					ABY_var_NAVAL_DEFENSE_FACTOR = 0.05
+				}
+				add_to_variable = {
+					ABY_var_NAVAL_DAMAGE_FACTOR = 0.05
+				}
+				add_to_variable = {
+					ABY_var_NAVY_MAX_RANGE_FACTOR = 0.15
+				}
 			}
 		}
 	}
@@ -3070,22 +3266,24 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			if = {
-				limit = {
-					has_idea = ABY_idea_navy_2
-				}
+			effect_tooltip = {
 				swap_ideas = {
 					remove_idea = ABY_idea_navy_2
 					add_idea = ABY_idea_navy_4
 				}
 			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_navy_3
+			hidden_effect = {
+				add_to_variable = {
+					ABY_var_NAVY_SCREEN_DEFENCE_FACTOR = 0.1
 				}
-				swap_ideas = {
-					remove_idea = ABY_idea_navy_3
-					add_idea = ABY_idea_navy_5
+				add_to_variable = {
+					ABY_var_NAVY_SCREEN_ATTACK_FACTOR = 0.1
+				}
+				add_to_variable = {
+					ABY_var_NAVY_SUBMARINE_DEFENCE_FACTOR = 0.1
+				}
+				add_to_variable = {
+					ABY_var_NAVY_SUBMARINE_ATTACK_FACTOR = 0.1
 				}
 			}
 		}
@@ -3167,7 +3365,7 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = -3      #좌표
+		x = 1      #좌표
 		y = 1
 		relative_position_id = ABY_focus_small_ship_produce
 		bypass = {
@@ -3212,68 +3410,6 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = ABY_focus_more_convoy_produce   #중점명
-		icon = GFX_focus_SWE_varnplikt      #아이콘
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_small_ship_produce   #이전 중점
-		}
-		mutually_exclusive = {
-			    #반대되는 중점
-		}
-		x = -1      #좌표
-		y = 1
-		relative_position_id = ABY_focus_small_ship_produce
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-			#중점 선행조건
-		}
-
-		completion_reward = {
-			if = {
-				limit = {
-					has_idea = ABY_idea_navy_4
-				}
-				swap_ideas = {
-					remove_idea = ABY_idea_navy_4
-					add_idea = ABY_idea_navy_4_1
-				}
-			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_navy_5
-				}
-				swap_ideas = {
-					remove_idea = ABY_idea_navy_5
-					add_idea = ABY_idea_navy_5_1
-				}
-			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_navy_4_2
-				}
-				swap_ideas = {
-					remove_idea = ABY_idea_navy_4_2
-					add_idea = ABY_idea_navy_4_3
-				}
-			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_navy_5_2
-				}
-				swap_ideas = {
-					remove_idea = ABY_idea_navy_5_2
-					add_idea = ABY_idea_navy_5_3
-				}
-			}
-		}
-	}
-	focus = {
 		id = ABY_focus_yamato   #중점명
 		icon = GFX_focus_SWE_Vasa_II      #아이콘
  		cost = 5.00          #중점 일수(주)
@@ -3286,7 +3422,7 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 1      #좌표
+		x = -1      #좌표
 		y = 1
 		relative_position_id = ABY_focus_small_ship_produce
 		bypass = {
@@ -3340,68 +3476,6 @@ focus_tree = {
 						progress = 0.75
 						amount = 1
 					}
-				}
-			}
-		}
-	}
-	focus = {
-		id = ABY_focus_battleship_dock   #중점명
-		icon = GFX_goal_generic_construct_naval_dockyard      #아이콘
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_small_ship_produce   #이전 중점
-		}
-		mutually_exclusive = {
-			    #반대되는 중점
-		}
-		x = 3      #좌표
-		y = 1
-		relative_position_id = ABY_focus_small_ship_produce
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-			#중점 선행조건
-		}
-
-		completion_reward = {
-			if = {
-				limit = {
-					has_idea = ABY_idea_navy_4
-				}
-				swap_ideas = {
-					remove_idea = ABY_idea_navy_4
-					add_idea = ABY_idea_navy_4_2
-				}
-			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_navy_5
-				}
-				swap_ideas = {
-					remove_idea = ABY_idea_navy_5
-					add_idea = ABY_idea_navy_5_2
-				}
-			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_navy_4_1
-				}
-				swap_ideas = {
-					remove_idea = ABY_idea_navy_4_1
-					add_idea = ABY_idea_navy_4_3
-				}
-			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_navy_5_1
-				}
-				swap_ideas = {
-					remove_idea = ABY_idea_navy_5_1
-					add_idea = ABY_idea_navy_5_3
 				}
 			}
 		}
@@ -3468,16 +3542,20 @@ focus_tree = {
 			#중점 통과 조건
 		}
 		available = {
+			has_completed_focus = ABY_focus_rebuild_army
+			
 			#중점 선행조건
 		}
 
 		completion_reward = {
-			add_ideas = {
-				ABY_idea_abydos_army_manual_1
-			}
-			custom_effect_tooltip = ABY_army_CD_tt
 			hidden_effect = {
-				set_country_flag = ABY_flag_army_CD
+				remove_dynamic_modifier = { modifier = ABY_army_dynamic_modifier }
+				add_dynamic_modifier = { modifier = ABY_army_dynamic_modifier_manual }
+			}
+			effect_tooltip = {
+				add_ideas = {
+					ABY_idea_abydos_army_manual_5
+				}
 			}
 		}
 	}
@@ -3593,13 +3671,11 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			army_experience = 25
 			add_doctrine_cost_reduction = {
 				cost_reduction = 0.35
 				uses = 1
 				category = land_doctrine
-			}
-			add_ideas = {
-				ABY_idea_army_1
 			}
 		}
 	}
@@ -3628,9 +3704,16 @@ focus_tree = {
 
 		completion_reward = {
 			army_experience = 25
-			swap_ideas = {
-				remove_idea = ABY_idea_army_1
-				add_idea = ABY_idea_army_2_1
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ABY_idea_army_1
+					add_idea = ABY_idea_army_2_1
+				}
+			}
+			hidden_effect = {
+				add_to_variable = {
+					ABY_var_army_attack_factor = 0.1
+				}
 			}
 		}
 	}
@@ -3686,9 +3769,16 @@ focus_tree = {
 
 		completion_reward = {
 			army_experience = 25
-			swap_ideas = {
-				remove_idea = ABY_idea_army_1
-				add_idea = ABY_idea_army_2_2
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ABY_idea_army_1
+					add_idea = ABY_idea_army_2_2
+				}
+			}
+			hidden_effect = {
+				add_to_variable = {
+					ABY_var_army_defence_factor = 0.1
+				}
 			}
 		}
 	}
@@ -3721,9 +3811,16 @@ focus_tree = {
 				uses = 1
 				category = cat_mobile_warfare
 			}
-			swap_ideas = {
-				remove_idea = ABY_idea_army_2_1
-				add_idea = ABY_idea_army_2_1_2
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ABY_idea_army_2_1
+					add_idea = ABY_idea_army_2_1_2
+				}
+			}
+			hidden_effect = {
+				add_to_variable = {
+					ABY_var_army_speed_factor = 0.1
+				}
 			}
 		}
 	}
@@ -3788,23 +3885,11 @@ focus_tree = {
 				}
 			}
 			hidden_effect = {
-				if = {
-					limit = {
-						has_idea = ABY_idea_army_2_1_2_1
-					}
-					swap_ideas = {
-						remove_idea = ABY_idea_army_2_1_2_1
-						add_idea = ABY_idea_army_2_1_2_3
-					}
+				add_to_variable = {
+					ABY_var_ARMY_ARMOR_DEFENCE_FACTOR = 0.1
 				}
-				if = {
-					limit = {
-						has_idea = ABY_idea_army_2_1_2
-					}
-					swap_ideas = {
-						remove_idea = ABY_idea_army_2_1_2
-						add_idea = ABY_idea_army_2_1_2_2
-					}
+				add_to_variable = {
+					ABY_var_ARMY_ARMOR_ATTACK_FACTOR = 0.1
 				}
 			}
 		}
@@ -3969,23 +4054,8 @@ focus_tree = {
 				}
 			}
 			hidden_effect = {
-				if = {
-					limit = {
-						has_idea = ABY_idea_army_2_1_2_2
-					}
-					swap_ideas = {
-						remove_idea = ABY_idea_army_2_1_2_2
-						add_idea = ABY_idea_army_2_1_2_3
-					}
-				}
-				if = {
-					limit = {
-						has_idea = ABY_idea_army_2_1_2
-					}
-					swap_ideas = {
-						remove_idea = ABY_idea_army_2_1_2
-						add_idea = ABY_idea_army_2_1_2_1
-					}
+				add_to_variable = {
+					ABY_var_army_armor_speed_factor = 0.1
 				}
 			}
 		}
@@ -4019,9 +4089,16 @@ focus_tree = {
 				uses = 1
 				category = cat_superior_firepower
 			}
-			swap_ideas = {
-				remove_idea = ABY_idea_army_2_1
-				add_idea = ABY_idea_army_2_1_1
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ABY_idea_army_2_1
+					add_idea = ABY_idea_army_2_1_1
+				}
+			}
+			hidden_effect = {
+				add_to_variable = {
+					ABY_var_army_artillery_attack_factor = 0.15
+				}
 			}
 		}
 	}
@@ -4054,9 +4131,16 @@ focus_tree = {
 				uses = 2
 				category = cat_superior_firepower
 			}
-			swap_ideas = {
-				remove_idea = ABY_idea_army_2_1_1
-				add_idea = ABY_idea_army_2_1_1_1
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ABY_idea_army_2_1_1
+					add_idea = ABY_idea_army_2_1_1_1
+				}
+			}
+			hidden_effect = {
+				add_to_variable = {
+					ABY_var_army_artillery_defence_factor = 0.15
+				}
 			}
 		}
 	}
@@ -4145,9 +4229,19 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = ABY_idea_army_2_1_1_1
-				add_idea = ABY_idea_army_2_1_1_2
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = ABY_idea_army_2_1_1_1
+					add_idea = ABY_idea_army_2_1_1_2
+				}
+			}
+			hidden_effect = {
+				add_to_variable = {
+					ABY_var_army_artillery_attack_factor = 0.1
+				}
+				add_to_variable = {
+					ABY_var_army_artillery_defence_factor = 0.1
+				}
 			}
 		}
 	}
@@ -4215,23 +4309,11 @@ focus_tree = {
 				}
 			}
 			hidden_effect = {
-				if = {
-					limit = {
-						has_idea = ABY_idea_army_2_1_1_3
-					}
-					swap_ideas = {
-						remove_idea = ABY_idea_army_2_1_1_3
-						add_idea = ABY_idea_army_2_1_1_5
-					}
+				add_to_variable = {
+					ABY_var_army_artillery_attack_factor = 0.1
 				}
-				if = {
-					limit = {
-						has_idea = ABY_idea_army_2_1_1_2
-					}
-					swap_ideas = {
-						remove_idea = ABY_idea_army_2_1_1_2
-						add_idea = ABY_idea_army_2_1_1_4
-					}
+				add_to_variable = {
+					ABY_var_army_artillery_defence_factor = 0.1
 				}
 			}
 		}
@@ -4360,40 +4442,24 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			if = {
-				limit = {
-					has_idea = ABY_idea_army_2_2_3
-				}
+			effect_tooltip = {
 				swap_ideas = {
 					remove_idea = ABY_idea_army_2_2_3
 					add_idea = ABY_idea_army_2_2_3_2
 				}
 			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_army_2_2_3_1
+			hidden_effect = {
+				add_to_variable = {
+					ABY_var_MOTORIZED_ATTACK_FACTOR = 0.05
 				}
-				swap_ideas = {
-					remove_idea = ABY_idea_army_2_2_3_1
-					add_idea = ABY_idea_army_2_2_3_3
+				add_to_variable = {
+					ABY_var_MOTORIZED_DEFENCE_FACTOR = 0.05
 				}
-			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_army_2_1_1_2
+				add_to_variable = {
+					ABY_var_MECHANIZED_ATTACK_FACTOR = 0.05
 				}
-				swap_ideas = {
-					remove_idea = ABY_idea_army_2_1_1_2
-					add_idea = ABY_idea_army_2_1_1_3
-				}
-			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_army_2_1_1_4
-				}
-				swap_ideas = {
-					remove_idea = ABY_idea_army_2_1_1_4
-					add_idea = ABY_idea_army_2_1_1_5
+				add_to_variable = {
+					ABY_var_MECHANIZED_DEFENCE_FACTOR = 0.05
 				}
 			}
 		}
@@ -4431,23 +4497,11 @@ focus_tree = {
 				}
 			}
 			hidden_effect = {
-				if = {
-					limit = {
-						has_idea = ABY_idea_army_2_2
-					}
-					swap_ideas = {
-						remove_idea = ABY_idea_army_2_2
-						add_idea = ABY_idea_army_2_2_1
-					}
+				add_to_variable = {
+					ABY_var_dig_in_speed_factor = 0.1
 				}
-				if = {
-					limit = {
-						has_idea = ABY_idea_army_2_2_2
-					}
-					swap_ideas = {
-						remove_idea = ABY_idea_army_2_2_2
-						add_idea = ABY_idea_army_2_2_3
-					}
+				add_to_variable = {
+					ABY_var_max_dig_in = 5
 				}
 			}
 		}
@@ -4574,23 +4628,19 @@ focus_tree = {
 				}
 			}
 			hidden_effect = {
-				if = {
-					limit = {
-						has_idea = ABY_idea_army_2_2
-					}
-					swap_ideas = {
-						remove_idea = ABY_idea_army_2_2
-						add_idea = ABY_idea_army_2_2_2
-					}
+				add_to_variable = {
+					ABY_var_max_dig_in_factor = 0.1
+					
 				}
-				if = {
-					limit = {
-						has_idea = ABY_idea_army_2_2_1
-					}
-					swap_ideas = {
-						remove_idea = ABY_idea_army_2_2_1
-						add_idea = ABY_idea_army_2_2_3
-					}
+				add_to_variable = {
+					ABY_var_production_speed_bunker_factor = 0.25
+					
+				}
+				add_to_variable = {
+					ABY_var_production_speed_coastal_bunker_factor = 0.25
+				}
+				add_to_variable = {
+					ABY_var_max_dig_in = 5
 				}
 			}
 		}
@@ -4626,23 +4676,11 @@ focus_tree = {
 				}
 			}
 			hidden_effect = {
-				if = {
-					limit = {
-						has_idea = ABY_idea_army_2_2_3
-					}
-					swap_ideas = {
-						remove_idea = ABY_idea_army_2_2_3
-						add_idea = ABY_idea_army_2_2_3_1
-					}
+				add_to_variable = {
+					ABY_var_max_planning_factor = 0.15
 				}
-				if = {
-					limit = {
-						has_idea = ABY_idea_army_2_2_3_2
-					}
-					swap_ideas = {
-						remove_idea = ABY_idea_army_2_2_3_2
-						add_idea = ABY_idea_army_2_2_3_3
-					}
+				add_to_variable = {
+					ABY_var_planning_speed = 0.05
 				}
 			}
 		}
@@ -4734,7 +4772,7 @@ focus_tree = {
 			    #반대되는 중점
 		}
 		x = -1      #좌표
-		y = 1
+		y = 2
 		relative_position_id = ABY_focus_saint_neptis
 		bypass = {
 			#중점 통과 조건
@@ -4880,35 +4918,6 @@ focus_tree = {
 			}
 		}
 	}
-	focus = {
-		id = ABY_focus_road_of_life    #중점명
-		icon = GFX_focus_SOV_the_road_of_life
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_rail_expend   #이전 중점
-		}
-		mutually_exclusive = {
-			    #반대되는 중점
-		}
-		x = 0      #좌표
-		y = 1
-		relative_position_id = ABY_focus_rail_expend
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-			#중점 선행조건
-		}
-
-		completion_reward = {
-			add_ideas = {
-				SOV_the_road_of_life_ns
-			}
-		}
-	}
 	
 	focus = {
 		id = ABY_focus_syemmata    #중점명
@@ -4921,7 +4930,7 @@ focus_tree = {
 			focus = ABY_focus_get_abydos_economy   #이전 중점
 		}
 		prerequisite = {
-			focus = ABY_focus_road_of_life   #이전 중점
+			focus = ABY_focus_rail_expend   #이전 중점
 		}
 		prerequisite = {
 			focus = ABY_focus_war_support   #이전 중점
@@ -5071,35 +5080,6 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = ABY_focus_ultimate_weapon    #중점명
-		icon = GFX_goal_generic_CAS
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_nuclear_research   #이전 중점
-		}
-		mutually_exclusive = {
-			    #반대되는 중점
-		}
-		x = -1      #좌표
-		y = 1
-		relative_position_id = ABY_focus_nuclear_research
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-			#중점 선행조건
-		}
-
-		completion_reward = {
-			add_ideas = {
-				ABY_idea_ultimate_weapon
-			}
-		}
-	}
-	focus = {
 		id = ABY_focus_death_meteor    #중점명
 		icon = GFX_focus_rocketry
  		cost = 5.00          #중점 일수(주)
@@ -5112,7 +5092,7 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 1      #좌표
+		x = 0      #좌표
 		y = 1
 		relative_position_id = ABY_focus_nuclear_research
 		bypass = {
@@ -5194,39 +5174,6 @@ focus_tree = {
 #		}
 #	}
 	focus = {
-		id = ABY_focus_skoda    #중점명
-		icon = GFX_focus_NORDIC_com_capstone_materiel
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_intact_czech_governmant   #이전 중점
-		}
-		mutually_exclusive = {
-			    #반대되는 중점
-		}
-		x = 1      #좌표
-		y = 1
-		relative_position_id = ABY_focus_intact_czech_governmant
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-			#중점 선행조건
-		}
-
-		completion_reward = {
-			add_popularity = {
-				ideology = democratic
-				popularity = 0.05
-			}
-			add_ideas = {
-				CZE_skoda_works
-			}
-		}
-	}
-	focus = {
 		id = ABY_focus_support_native_geeup    #중점명
 		icon = GFX_goal_generic_intelligence_exchange
  		cost = 5.00          #중점 일수(주)
@@ -5268,7 +5215,7 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = ABY_focus_support_native_geeup    #반대되는 중점
 		}
-		x = 19      #좌표
+		x = 16      #좌표
 		y = 2
 		relative_position_id = ABY_focus_call_eocordnldnjsghl
 		bypass = {
@@ -5282,9 +5229,9 @@ focus_tree = {
 			add_ideas = {
 				ABY_idea_new_geeup1
 			}
-			add_popularity = {
-				ideology = communism
-				popularity = 0.1
+			add_power_balance_value = {
+				id = ABY_power_balance
+				value = 0.25
 			}
 		}
 	}
@@ -5724,7 +5671,7 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = ABY_focus_nation_lead_industry    #반대되는 중점
 		}
-		x = 16      #좌표
+		x = 13      #좌표
 		y = 1
 		relative_position_id = ABY_focus_call_eocordnldnjsghl
 		bypass = {
@@ -5755,7 +5702,7 @@ focus_tree = {
 		mutually_exclusive = {
 			focus = ABY_focus_civil_lead_industry    #반대되는 중점
 		}
-		x = 18      #좌표
+		x = 15      #좌표
 		y = 1
 		relative_position_id = ABY_focus_call_eocordnldnjsghl
 		bypass = {
@@ -5821,20 +5768,21 @@ focus_tree = {
 			add_stability = 0.15
 			if = {
 				limit = {
-					has_idea = ABY_idea_eocordnldnjsghl_first_1
+					AND = {
+						has_government = fascism
+						TRM = {
+							NOT = {has_government = fascism}
+						}
+					}
 				}
-				swap_ideas = {
-					remove_idea = ABY_idea_eocordnldnjsghl_first_1
-					add_idea = ABY_idea_eocordnldnjsghl
-				}
-			}
-			if = {
-				limit = {
-					has_idea = ABY_idea_abydos_student_council_2
-				}
-				swap_ideas = {
-					remove_idea = ABY_idea_abydos_student_council_2
-					add_idea = ABY_idea_abydos_student_council_3
+				add_stability = -0.1
+				start_civil_war = {
+					ideology = fascism
+					size = 0.5
+					states = {
+						69 74
+					}
+					keep_all_characters = yes
 				}
 			}
 			set_party_name = {
@@ -6356,7 +6304,7 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 22     #좌표
+		x = 20     #좌표
 		y = 1
 		relative_position_id = ABY_focus_call_eocordnldnjsghl
 		bypass = {
@@ -6394,7 +6342,7 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 1     #좌표
+		x = 0     #좌표
 		y = 1
 		relative_position_id = ABY_focus_labor_negotiate
 		bypass = {
@@ -6452,46 +6400,24 @@ focus_tree = {
 				ideology = communism
 				popularity = 0.05
 			}
-			swap_ideas = {
-				remove_idea = ABY_idea_labor_front_2
-				add_idea = ABY_idea_labor_front_3
+			if = {
+				limit = {
+					has_idea = ABY_idea_labor_front_2
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_labor_front_2
+					add_idea = ABY_idea_labor_front_3
+				}
 			}
-			#중점 완료시 얻는 보상
-		}
-	}
-	focus = {
-		id = ABY_focus_snwjrqndbtp    #중점명
-		#icon = GFX_goal_molotov_ribbentrop_pact
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_labor_main    #이전 중점
-		}
-		mutually_exclusive = {
-			    #반대되는 중점
-		}
-		x = -1     #좌표
-		y = 1
-		relative_position_id = ABY_focus_labor_main
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-
-			#중점 선행조건
-		}
-
-		select_effect = {
-			#중점 시작시 얻는 보상
-		}
-		completion_reward = {
-			add_popularity = {
-				ideology = communism
-				popularity = 0.05
+			if = {
+				limit = {
+					has_idea = ABY_idea_labor_front_2_2
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_labor_front_2_2
+					add_idea = ABY_idea_labor_front_3_2
+				}
 			}
-			add_ideas = USA_accumulated_wealth_tax_act
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -6503,23 +6429,23 @@ focus_tree = {
 			#중점의 타입
 		}
 		prerequisite = {
-			focus = ABY_focus_get_labor    #이전 중점
+			focus = ABY_focus_descision    #이전 중점
 		}
-		prerequisite = {
-			focus = ABY_focus_snwjrqndbtp    #이전 중점
-		}
-		x = 0      #좌표
-		y = 4
-		relative_position_id = ABY_focus_snwjrqndbtp
+		x = 11      #좌표
+		y = 1
+		relative_position_id = ABY_focus_descision
 		bypass = {
 			#중점 통과 조건
 		}
 		available = {
-			communism > 0.4
-			NOT = {
-				has_completed_focus = ABY_focus_descision
-			}
 			#중점 선행조건
+		}
+
+		allow_branch = {
+			OR = {
+				has_completed_focus = ABY_focus_civil_war_debug
+				has_completed_focus = ABY_focus_civil_war
+			}
 		}
 
 		completion_reward = {
@@ -6620,8 +6546,10 @@ focus_tree = {
 			if = {
 				limit = {
 					AND = {
-						has_government = neutrality
-						fascism > 0.4
+						has_government = fascism
+						TRM = {
+							has_government = fascism
+						}
 					}
 				}
 				set_politics = {
@@ -6696,12 +6624,12 @@ focus_tree = {
 			#중점 선행조건
 		}
 
-		allow_branch = {
-			OR = {
-				has_completed_focus = ABY_focus_civil_war_debug
-				has_completed_focus = ABY_focus_civil_war
-			}
-		}
+		#allow_branch = {
+		#	OR = {
+		#		has_completed_focus = ABY_focus_civil_war_debug
+		#		has_completed_focus = ABY_focus_civil_war
+		#	}
+		#}
 
 		select_effect = {
 			#중점 시작시 얻는 보상
@@ -6925,12 +6853,12 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 
-		allow_branch = {
-			OR = {
-				has_completed_focus = ABY_focus_civil_war_debug
-				has_completed_focus = ABY_focus_civil_war
-			}
-		}
+		#allow_branch = {
+		#	OR = {
+		#		has_completed_focus = ABY_focus_civil_war_debug
+		#		has_completed_focus = ABY_focus_civil_war
+		#	}
+		#}
 		completion_reward = {
 			add_stability = 0.05
 			add_war_support = 0.1
@@ -7960,9 +7888,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_ideas = {
-				ABY_idea_kivotos_nationalism
-			}
+			add_country_leader_trait = ABY_idea_kivotos_nationalism
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -8079,7 +8005,7 @@ focus_tree = {
 			}
 			create_wargoal = {
 				type = topple_government
-				target = BLM
+				target = BLM 
 			}
 			#중점 완료시 얻는 보상
 		}
@@ -8459,8 +8385,20 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			add_ideas = {
-				ABY_idea_wkfurrjstjfwndml
+			if = {
+				limit = {
+					NOT = {has_idea = ABY_idea_abydos_armycountry}
+				}
+				add_ideas = {ABY_idea_wkfurrjstjfwndml}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_abydos_armycountry
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_abydos_armycountry
+					add_idea = ABY_idea_abydos_armycountry_2
+				}
 			}
 			delete_unit_template_and_units = { division_template = "Security Guard" }
 			delete_unit_template_and_units = { division_template = "Czechoslovakia Border Guards" }
@@ -8564,8 +8502,20 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			add_ideas = {
-				ABY_idea_abydos_armycountry
+			if = {
+				limit = {
+					NOT = {has_idea = ABY_idea_wkfurrjstjfwndml}
+				}
+				add_ideas = {ABY_idea_abydos_armycountry}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_wkfurrjstjfwndml
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_wkfurrjstjfwndml
+					add_idea = ABY_idea_abydos_armycountry_2
+				}
 			}
 			#중점 완료시 얻는 보상
 		}
@@ -12158,18 +12108,20 @@ focus_tree = {
 			}
 			hidden_effect = {
 				remove_ideas = {
-					ABY_idea_abydos_student_council
-					ABY_idea_abydos_student_council_2
 					ABY_idea_eocordnldnjsghl_first
-					ABY_idea_eocordnldnjsghl_first_1
-					ABY_idea_abydos_army_control_center
-					ABY_idea_road
-					ABY_idea_no_command
-					ABY_idea_no_command_2
-					ABY_idea_no_command_3
-					ABY_idea_no_command_4
-					ABY_idea_no_command_5
-					ABY_idea_no_command_6
+					ABY_idea_eocordnldnjsghl_first_improved
+					ABY_idea_eocordnldnjsghl_first_fin
+					ABY_idea_eocordnldnjsghl_first_fin_2
+					ABY_idea_eocordnldnjsghl_first_fin_3
+					ABY_idea_eocordnldnjsghl_first_fin_4
+					ABY_idea_eocordnldnjsghl_first_fin_improved
+					ABY_idea_eocordnldnjsghl_first_fin_improved_2
+					ABY_idea_eocordnldnjsghl_first_fin_improved_3
+					ABY_idea_eocordnldnjsghl_first_fin_improved_4
+					ABY_idea_eocordnldnjsghl_first_fin_student_council
+					ABY_idea_eocordnldnjsghl_first_fin_student_council_2
+					ABY_idea_eocordnldnjsghl_first_fin_student_council_3
+					ABY_idea_eocordnldnjsghl_first_fin_student_council_4
 				}
 			}
 			if = {
@@ -13217,110 +13169,6 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = ABY_focus_state_soviet    #중점명
-		#icon = GFX_goal_molotov_ribbentrop_pact
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_labor_negotiate    #이전 중점
-		}
-		mutually_exclusive = {
-			    #반대되는 중점
-		}
-		x = -1     #좌표
-		y = 1
-		relative_position_id = ABY_focus_labor_negotiate
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-
-			#중점 선행조건
-		}
-
-		select_effect = {
-			#중점 시작시 얻는 보상
-		}
-		completion_reward = {
-			add_ideas = {
-				ABY_idea_ansghkxhdgkqekd_1
-			}
-			#중점 완료시 얻는 보상
-		}
-	}
-	focus = {
-		id = ABY_focus_labor_party    #중점명
-		#icon = GFX_goal_molotov_ribbentrop_pact
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_state_soviet    #이전 중점
-		}
-		mutually_exclusive = {
-			    #반대되는 중점
-		}
-		x = 0     #좌표
-		y = 3
-		relative_position_id = ABY_focus_state_soviet
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-
-			#중점 선행조건
-		}
-
-		select_effect = {
-			#중점 시작시 얻는 보상
-		}
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = ABY_idea_ansghkxhdgkqekd_1
-				add_idea = ABY_idea_ansghkxhdgkqekd_2
-			}
-			#중점 완료시 얻는 보상
-		}
-	}
-	focus = {
-		id = ABY_focus_get_labor    #중점명
-		#icon = GFX_goal_molotov_ribbentrop_pact
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_labor_party    #이전 중점
-		}
-		mutually_exclusive = {
-			    #반대되는 중점
-		}
-		x = 0     #좌표
-		y = 1
-		relative_position_id = ABY_focus_labor_party
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-
-			#중점 선행조건
-		}
-
-		select_effect = {
-			#중점 시작시 얻는 보상
-		}
-		completion_reward = {
-			swap_ideas = {
-				remove_idea = ABY_idea_ansghkxhdgkqekd_2
-				add_idea = ABY_idea_ansghkxhdgkqekd_3
-			}
-			#중점 완료시 얻는 보상
-		}
-	}
-	focus = {
 		id = ABY_focus_5_days_in_week    #중점명
 		#icon = GFX_goal_molotov_ribbentrop_pact
  		cost = 5.00          #중점 일수(주)
@@ -13348,8 +13196,32 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			add_ideas = {
-				ABY_idea_5_days
+			if = {
+				limit = {
+					has_idea = ABY_idea_labor_front_2
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_labor_front_2
+					add_idea = ABY_idea_labor_front_2_2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_labor_front_3
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_labor_front_3
+					add_idea = ABY_idea_labor_front_3_2
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_labor_front_4
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_labor_front_4
+					add_idea = ABY_idea_labor_front_4_2
+				}
 			}
 			#중점 완료시 얻는 보상
 		}
@@ -13367,7 +13239,7 @@ focus_tree = {
 		mutually_exclusive = {
 			    #반대되는 중점
 		}
-		x = 1     #좌표
+		x = -1     #좌표
 		y = 1
 		relative_position_id = ABY_focus_labor_main
 		bypass = {
@@ -13428,9 +13300,23 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			swap_ideas = {
-				remove_idea = ABY_idea_labor_front_3
-				add_idea = ABY_idea_labor_front_4
+			if = {
+				limit = {
+					has_idea = ABY_idea_labor_front_3
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_labor_front_3
+					add_idea = ABY_idea_labor_front_4
+				}
+			}
+			if = {
+				limit = {
+					has_idea = ABY_idea_labor_front_3_2
+				}
+				swap_ideas = {
+					remove_idea = ABY_idea_labor_front_3_2
+					add_idea = ABY_idea_labor_front_4_2
+				}
 			}
 			#중점 완료시 얻는 보상
 		}

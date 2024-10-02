@@ -747,6 +747,18 @@ on_actions = {
 			}
 			if = {
 				limit = {
+					original_tag = JAP
+					has_government = neutrality
+					NOT = { has_global_flag = BA_japan_28_flag }
+					has_character = JAP_the_control_faction
+				}
+				add_war_support = 0.05
+				hidden_effect = {
+					country_event = { id = BA_japan.29 days = 15 }
+				}
+			}
+			if = {
+				limit = {
 					OR = {
 						tag = GEM
 						tag = GEH
@@ -859,43 +871,75 @@ on_actions = {
 	}
 	on_war_relation_added = {
 		effect = {
-			if = { ## 
+			if = {
 				limit = {
-					TRM = { 
-						has_country_leader = {
-							character = TRN_alzk
-							ruling_only = yes
-						}
-						NOT = { has_country_flag = TRM_focus_locked_flag } 
-					}
-				}
-				TRM = {
-					set_country_flag = TRM_industry_focus_locked_flag
-						if = { #
-						limit = {
-							has_war_with = GEM
-							GEM = { is_major = yes }
-						}
-						GEM = { set_country_flag = TRM_focus_locked_disruptor_flag }
-					}
-					else = { #If no pandemonium society, choose a random enemy major
-						random_enemy_country = {
-							limit = {
-								OR = {
-									is_major = yes
-									Kivotos_school_tag = yes
+					OR = {
+						AND = {
+							ROOT = { original_tag = TRM }
+							FROM = {
+								is_major = yes
+								NOT = {
+									original_tag = TRM
+									original_tag = ARI
+									original_tag = KPD
+									original_tag = NSD
+									original_tag = POL
 								}
 							}
-							set_country_flag = TRM_focus_locked_disruptor_flag
+						}
+						AND = {
+							FROM = { original_tag = TRM }
+							ROOT = {
+								is_major = yes
+								NOT = {
+									original_tag = TRM
+									original_tag = ARI
+									original_tag = KPD
+									original_tag = NSD
+									original_tag = POL
+								}
+							}
 						}
 					}
-					random_country = {
-						limit = {
-							has_country_flag = TRM_focus_locked_disruptor_flag
+				}
+				if = { ## 
+					limit = {
+						TRM = { 
+							has_country_leader = {
+								character = TRN_alzk
+								ruling_only = yes
+							}
+							NOT = { has_country_flag = TRM_focus_locked_flag } 
 						}
-						log = "The disruptor is [THIS.GetName]"
 					}
-					country_event = TRM_diplomacy_event.16
+					TRM = {
+						set_country_flag = TRM_industry_focus_locked_flag
+							if = { #
+							limit = {
+								has_war_with = GEM
+								GEM = { is_major = yes }
+							}
+							GEM = { set_country_flag = TRM_focus_locked_disruptor_flag }
+						}
+						else = { #If no pandemonium society, choose a random enemy major
+							random_enemy_country = {
+								limit = {
+									OR = {
+										is_major = yes
+										Kivotos_school_tag = yes
+									}
+								}
+								set_country_flag = TRM_focus_locked_disruptor_flag
+							}
+						}
+						random_country = {
+							limit = {
+								has_country_flag = TRM_focus_locked_disruptor_flag
+							}
+							log = "The disruptor is [THIS.GetName]"
+						}
+						country_event = TRM_diplomacy_event.16
+					}
 				}
 			}
 		}

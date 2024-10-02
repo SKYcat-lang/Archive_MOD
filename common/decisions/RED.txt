@@ -1,301 +1,141 @@
-
-
-
-RED_redbear_dec_cat = { #붉은곰 편집부 디시전
-	RED_propaganda_fight_to_the_last = { # ID = 3
+RED_redbear_dec_cat = {
+	#붉은곰 편집부 디시전
+	RED_propaganda_fight_to_the_last = {
+		# ID = 3
 		priority = 3
-
 		icon = eng_propaganda_campaigns
-
 		allowed = {
 			tag = RED
 		}
-
 		available = {
 			has_war = yes
 			surrender_progress > 0.1
-			check_variable = { RED_propaganda_empty_slot_index > 0 }
+			check_variable = {
+				RED_propaganda_empty_slot_index > 0
+			}
 		}
-
 		visible = {
 			has_completed_focus = RED_redbear_editorial
 		}
-
 		days_remove = 180
-
 		days_re_enable = 90
-
 		cost = RED_propaganda_fight_to_the_last_cost
-
 		modifier = {
 			army_org_factor = 0.05
 			out_of_supply_factor = -0.1
 			no_supply_grace = 70
 		}
-
 		complete_effect = {
-			subtract_from_variable = { RED_propaganda_empty_slot_index = 1 }
-			set_variable = { RED_new_propaganda_campaign = 3 }
+			subtract_from_variable = {
+				RED_propaganda_empty_slot_index = 1
+			}
+			set_variable = {
+				RED_new_propaganda_campaign = 3
+			}
 			RED_pick_propaganda_campaign_slot_effect = yes
 		}
-
 		remove_effect = {
-			multiply_variable = { RED_propaganda_fight_to_the_last_cost = 2 }
-			add_to_variable = { RED_propaganda_empty_slot_index = 1 }
-			add_to_variable = { RED_num_of_propaganda = 1 }
-			set_variable = { RED_propaganda_campaign_to_remove = 3 }
+			multiply_variable = {
+				RED_propaganda_fight_to_the_last_cost = 2
+			}
+			add_to_variable = {
+				RED_propaganda_empty_slot_index = 1
+			}
+			add_to_variable = {
+				RED_num_of_propaganda = 1
+			}
+			set_variable = {
+				RED_propaganda_campaign_to_remove = 3
+			}
 			RED_reset_propaganda_campaign_slot_effect = yes
 		}
 	}
-	
 }
 
-RED_locals_problem_dec_cat = { #현지인 문제
-	RED_rally_public_support = { #대중 지지 확보
+RED_seek_allies_dec_cat = {
+	#동맹 모색
+	RED_seek_allies_dec = {
+		#공산주의 동맹
 		icon = generic_civil_support
-
-		available = {
-			has_stability < 1.0
-			OR = {
-				political_power_daily > 0.25
-				has_political_power > 30
-			}
-			check_variable = { RED_locals_problem_in_progress = 0 }
-			check_variable = { RED_locals_problem_stack < 10 }
-		}
-
-		remove_trigger = {
-			has_political_power < 30
-		}
-
-		fire_only_once = no
-
-		modifier = {
-			stability_weekly = 0.005
-			political_power_cost = 0.30
-		}
-
-		days_remove = 30
-		days_re_enable = 60
-
-		cost = 75
-
-		complete_effect = {
-			set_variable = { RED_locals_problem_in_progress = 1 }
-		}
-		
-		remove_effect = {
-			add_to_variable = { RED_locals_problem_stack = 1 }
-			set_variable = { RED_locals_problem_in_progress = 0 }
-		}
-	}
-	RED_promise_peace = { #평화 약속
-		icon = generic_decision
-
-		available = {
-			has_war = no
-			has_war_support > 0.20
-			has_stability < 1
-			check_variable = { RED_locals_problem_in_progress = 0 }
-			check_variable = { RED_locals_problem_stack < 10 }
-		}
-
-		visible = {
-			has_completed_focus = RED_locals_problem
-		}
-
-		remove_trigger = {
-			has_war = yes
-			has_war_support < 0.05
-		}
-
-		fire_only_once = no
-
-		modifier = {
-			stability_weekly = 0.005
-			war_support_weekly = -0.01
-			political_power_gain = -0.5
-		}
-
-		days_remove = 30
-		days_re_enable = 60
-
-		cost = 75
-
-		complete_effect = {
-			set_variable = { RED_locals_problem_in_progress = 1 }
-		}
-		
-		remove_effect = {
-			add_to_variable = { RED_locals_problem_stack = 1 }
-			set_variable = { RED_locals_problem_in_progress = 0 }
-		}
-	}
-	RED_suppress_protest = { #시위 진압
-		icon = oppression
-
-		available = {
-			has_stability > 0.05
-			has_war_support < 1
-			check_variable = { RED_locals_problem_in_progress = 0 }
-			check_variable = { RED_locals_problem_stack < 10 }
-		}
-
-		visible = { 
-			has_completed_focus = RED_locals_problem
-		}
-
-		remove_trigger = {
-			has_stability < 0.05
-		}
-
-		fire_only_once = no
-
-		modifier = {
-			stability_weekly = -0.005
-			war_support_weekly = 0.005
-		}
-
-		days_remove = 30
-		days_re_enable = 60
-
-		cost = 15
-
-		complete_effect = {
-			set_variable = { RED_locals_problem_in_progress = 1 }
-		}
-		
-		remove_effect = {
-			add_to_variable = { RED_locals_problem_stack = 1 }
-			set_variable = { RED_locals_problem_in_progress = 0 }
-		}
-	}
-	RED_mobilize_military_force = { #군사 동원
-		icon = generic_army_support
-
-		available = {
-			has_stability > 0.05
-			command_power > 10
-			has_war_support < 1
-			check_variable = { RED_locals_problem_in_progress = 0 }
-			check_variable = { RED_locals_problem_stack < 10 }
-		}
-
-		visible = {
-			has_completed_focus = RED_locals_problem
-		}
-
-		remove_trigger = {
-			has_stability < 0.05
-			command_power < 3
-		}
-
-		fire_only_once = no
-
-		modifier = {
-			political_power_gain = 0.5
-			war_support_weekly = 0.005
-			stability_weekly = -0.01
-			command_power_gain = -0.5
-		}
-
-		days_remove = 30
-		days_re_enable = 60
-
-		cost = 15
-
-		complete_effect = {
-			set_variable = { RED_locals_problem_in_progress = 1 }
-		}
-		
-		remove_effect = {
-			add_to_variable = { RED_locals_problem_stack = 1 }
-			set_variable = { RED_locals_problem_in_progress = 0 }
-		}
-	}
-}
-
-RED_seek_allies_dec_cat = { #동맹 모색
-	RED_seek_allies_dec = { #공산주의 동맹
-		icon = generic_civil_support
-
 		target_trigger = {
 			FROM = {
 				communism > 30
 			}
 		}
-
 		available = {
 			FROM = {
 				is_subject = no
 				is_in_faction = no
-				NOT = { has_war_with = RED }
+				NOT = {
+					has_war_with = RED
+				}
 			}
 		}
-
 		fire_only_once = yes
-
 		cost = 25
-
 		complete_effect = {
 			FROM = {
-				country_event = { id = RED_event.7 days = 2 }
+				country_event = {
+					id = RED_event.7
+					days = 2
+				}
 			}
 		}
 	}
-	RED_anti_sov_diplo_dec = { #반소비에트 동맹
+	RED_anti_sov_diplo_dec = {
+		#반소비에트 동맹
 		icon = generic_civil_support
-
 		target_trigger = {
 			FROM = {
 				is_neighbor_of = SOV
 			}
 		}
-
 		available = {
 			FROM = {
 				is_subject = no
 				is_in_faction = no
-				NOT = { has_war_with = RED }
+				NOT = {
+					has_war_with = RED
+				}
 			}
 		}
-
 		fire_only_once = yes
-
 		cost = 25
-
 		complete_effect = {
 			FROM = {
-				country_event = { id = RED_event.7 days = 2 }
+				country_event = {
+					id = RED_event.7
+					days = 2
+				}
 			}
 		}
 	}
 }
 
-RED_invite_trotskists_dec_cat = { #트로츠키 주의자 초청
+RED_invite_trotskists_dec_cat = {
+	#트로츠키 주의자 초청
 	RED_invite_ivan_smirnov_dec = {
 		icon = GFX_decision_SOV_left_opposition_state
-
 		available = {
-			NOT = { has_war_with = SOV }
+			NOT = {
+				has_war_with = SOV
+			}
 			SOV = {
 				SOV_ivan_smirnov = {
-					NOT = { has_character_flag = SOV_character_purged_flag }
+					NOT = {
+						has_character_flag = SOV_character_purged_flag
+					}
 				}
 			}
 			has_equipment = {
 				infantry_equipment > 100
 			}
 		}
-
 		fire_only_once = yes
-
 		days_remove = 35
-
 		modifier = {
 			civilian_factory_use = 3
 		}
-		
 		complete_effect = {
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
@@ -306,7 +146,9 @@ RED_invite_trotskists_dec_cat = { #트로츠키 주의자 초청
 					limit = {
 						SOV_ivan_smirnov = {
 							has_character_flag = SOV_targeted_for_purge_flag
-							NOT = { has_character_flag = SOV_safe_from_purge_flag }
+							NOT = {
+								has_character_flag = SOV_safe_from_purge_flag
+							}
 						}
 					}
 					SOV_ivan_smirnov = {
@@ -315,7 +157,6 @@ RED_invite_trotskists_dec_cat = { #트로츠키 주의자 초청
 				}
 			}
 		}
-
 		remove_effect = {
 			effect_tooltip = {
 				SOV = {
@@ -328,34 +169,37 @@ RED_invite_trotskists_dec_cat = { #트로츠키 주의자 초청
 				SOV_paranoia_low_increase_effect = yes
 				hidden_effect = {
 					retire_character = SOV_ivan_smirnov
-					ROOT = { RED_ivan_smirnov = { set_character_flag = RED_invited_trotskist } }
+					ROOT = {
+						RED_ivan_smirnov = {
+							set_character_flag = RED_invited_trotskist
+						}
+					}
 				}
 			}
 		}
 	}
 	RED_invite_ivar_smilga_dec = {
 		icon = GFX_decision_SOV_left_opposition_state
-
 		available = {
-			NOT = { has_war_with = SOV }
-			SOV ={
+			NOT = {
+				has_war_with = SOV
+			}
+			SOV = {
 				SOV_ivar_smilga = {
-					NOT = { has_character_flag = SOV_character_purged_flag }
-				}	
+					NOT = {
+						has_character_flag = SOV_character_purged_flag
+					}
+				}
 			}
 			has_equipment = {
 				infantry_equipment > 100
 			}
 		}
-
 		fire_only_once = yes
-
 		days_remove = 35
-
 		modifier = {
 			civilian_factory_use = 3
 		}
-		
 		complete_effect = {
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
@@ -374,7 +218,6 @@ RED_invite_trotskists_dec_cat = { #트로츠키 주의자 초청
 				}
 			}
 		}
-
 		remove_effect = {
 			effect_tooltip = {
 				SOV = {
@@ -390,34 +233,37 @@ RED_invite_trotskists_dec_cat = { #트로츠키 주의자 초청
 				SOV_paranoia_low_increase_effect = yes
 				hidden_effect = {
 					retire_character = SOV_ivar_smilga
-					ROOT = { RED_ivar_smilga = { set_character_flag = RED_invited_trotskist } }
+					ROOT = {
+						RED_ivar_smilga = {
+							set_character_flag = RED_invited_trotskist
+						}
+					}
 				}
 			}
 		}
 	}
 	RED_invite_karl_radek_dec = {
 		icon = GFX_decision_SOV_left_opposition_state
-
 		available = {
-			NOT = { has_war_with = SOV }
+			NOT = {
+				has_war_with = SOV
+			}
 			SOV = {
 				SOV_karl_radek = {
-					NOT = { has_character_flag = SOV_character_purged_flag }
+					NOT = {
+						has_character_flag = SOV_character_purged_flag
+					}
 				}
 			}
 			has_equipment = {
 				infantry_equipment > 100
 			}
 		}
-
 		fire_only_once = yes
-
 		days_remove = 35
-
 		modifier = {
 			civilian_factory_use = 3
 		}
-		
 		complete_effect = {
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
@@ -436,7 +282,6 @@ RED_invite_trotskists_dec_cat = { #트로츠키 주의자 초청
 				}
 			}
 		}
-
 		remove_effect = {
 			effect_tooltip = {
 				SOV = {
@@ -452,34 +297,37 @@ RED_invite_trotskists_dec_cat = { #트로츠키 주의자 초청
 				SOV_paranoia_low_increase_effect = yes
 				hidden_effect = {
 					retire_character = SOV_karl_radek
-					ROOT = { RED_karl_radek = { set_character_flag = RED_invited_trotskist } }
+					ROOT = {
+						RED_karl_radek = {
+							set_character_flag = RED_invited_trotskist
+						}
+					}
 				}
 			}
 		}
 	}
 	RED_invite_yevgeny_preobrazhensky_dec = {
 		icon = GFX_decision_SOV_left_opposition_state
-
 		available = {
 			SOV = {
-				NOT = { has_war_with = SOV }
+				NOT = {
+					has_war_with = SOV
+				}
 				SOV_yevgeny_preobrazhensky = {
-					NOT = { has_character_flag = SOV_character_purged_flag }
+					NOT = {
+						has_character_flag = SOV_character_purged_flag
+					}
 				}
 			}
 			has_equipment = {
 				infantry_equipment > 100
 			}
 		}
-
 		fire_only_once = yes
-
 		days_remove = 35
-
 		modifier = {
 			civilian_factory_use = 3
 		}
-		
 		complete_effect = {
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
@@ -498,7 +346,6 @@ RED_invite_trotskists_dec_cat = { #트로츠키 주의자 초청
 				}
 			}
 		}
-
 		remove_effect = {
 			effect_tooltip = {
 				SOV = {
@@ -514,34 +361,37 @@ RED_invite_trotskists_dec_cat = { #트로츠키 주의자 초청
 				SOV_paranoia_low_increase_effect = yes
 				hidden_effect = {
 					retire_character = SOV_yevgeny_preobrazhensky
-					ROOT = { RED_yevgeny_preobrazhensky = { set_character_flag = RED_invited_trotskist } }
+					ROOT = {
+						RED_yevgeny_preobrazhensky = {
+							set_character_flag = RED_invited_trotskist
+						}
+					}
 				}
 			}
 		}
 	}
 	RED_invite_aleksandr_shlyapnikov_dec = {
 		icon = GFX_decision_SOV_left_opposition_state
-
 		available = {
-			NOT = { has_war_with = SOV }
+			NOT = {
+				has_war_with = SOV
+			}
 			SOV = {
 				SOV_aleksandr_shlyapnikov = {
-					NOT = { has_character_flag = SOV_character_purged_flag }
+					NOT = {
+						has_character_flag = SOV_character_purged_flag
+					}
 				}
 			}
 			has_equipment = {
 				infantry_equipment > 100
 			}
 		}
-
 		fire_only_once = yes
-
 		days_remove = 35
-
 		modifier = {
 			civilian_factory_use = 3
 		}
-		
 		complete_effect = {
 			add_equipment_to_stockpile = {
 				type = infantry_equipment
@@ -560,7 +410,6 @@ RED_invite_trotskists_dec_cat = { #트로츠키 주의자 초청
 				}
 			}
 		}
-
 		remove_effect = {
 			effect_tooltip = {
 				SOV = {
@@ -576,12 +425,17 @@ RED_invite_trotskists_dec_cat = { #트로츠키 주의자 초청
 				SOV_paranoia_low_increase_effect = yes
 				hidden_effect = {
 					retire_character = SOV_aleksandr_shlyapnikov
-					ROOT = { RED_aleksandr_shlyapnikov = { set_character_flag = RED_invited_trotskist } }
+					ROOT = {
+						RED_aleksandr_shlyapnikov = {
+							set_character_flag = RED_invited_trotskist
+						}
+					}
 				}
 			}
 		}
 	}
 }
+
 RED_military_government_administration = {
 	RED_military_government_occupation_DEN = {
 		icon = GFX_decision_generic_tank
@@ -589,7 +443,7 @@ RED_military_government_administration = {
 		activation = {
 			always = no
 		}
-    	available = {
+		available = {
 			DEN = {
 				OR = {
 					has_capitulated = yes
@@ -598,11 +452,9 @@ RED_military_government_administration = {
 					is_in_faction_with = ROOT
 				}
 			}
-    	}
-
+		}
 		is_good = no
 		fire_only_once = no
-
 		days_mission_timeout = 120
 		complete_effect = {
 			country_event = RED_military_government_occupation.1
@@ -617,7 +469,7 @@ RED_military_government_administration = {
 		activation = {
 			always = no
 		}
-    	available = {
+		available = {
 			NOR = {
 				OR = {
 					has_capitulated = yes
@@ -626,11 +478,9 @@ RED_military_government_administration = {
 					is_in_faction_with = ROOT
 				}
 			}
-    	}
-
+		}
 		is_good = no
 		fire_only_once = no
-
 		days_mission_timeout = 120
 		complete_effect = {
 			country_event = RED_military_government_occupation.2
@@ -645,7 +495,7 @@ RED_military_government_administration = {
 		activation = {
 			always = no
 		}
-    	available = {
+		available = {
 			SWE = {
 				OR = {
 					has_capitulated = yes
@@ -654,11 +504,9 @@ RED_military_government_administration = {
 					is_in_faction_with = ROOT
 				}
 			}
-    	}
-
+		}
 		is_good = no
 		fire_only_once = no
-
 		days_mission_timeout = 120
 		complete_effect = {
 			country_event = RED_military_government_occupation.3
@@ -673,7 +521,7 @@ RED_military_government_administration = {
 		activation = {
 			always = no
 		}
-    	available = {
+		available = {
 			FIN = {
 				OR = {
 					has_capitulated = yes
@@ -682,11 +530,9 @@ RED_military_government_administration = {
 					is_in_faction_with = ROOT
 				}
 			}
-    	}
-
+		}
 		is_good = no
 		fire_only_once = no
-
 		days_mission_timeout = 120
 		complete_effect = {
 			country_event = RED_military_government_occupation.4
@@ -701,7 +547,7 @@ RED_military_government_administration = {
 		activation = {
 			always = no
 		}
-    	available = {
+		available = {
 			DEN = {
 				OR = {
 					has_capitulated = yes
@@ -709,12 +555,10 @@ RED_military_government_administration = {
 					is_in_faction_with = RED
 				}
 			}
-    	}
-
+		}
 		is_good = yes
 		fire_only_once = no
 		war_with_on_timeout = DEN
-
 		days_mission_timeout = 80
 		timeout_effect = {
 			declare_war_on = {
@@ -730,7 +574,7 @@ RED_military_government_administration = {
 		activation = {
 			always = no
 		}
-    	available = {
+		available = {
 			NOR = {
 				OR = {
 					has_capitulated = yes
@@ -738,12 +582,10 @@ RED_military_government_administration = {
 					is_in_faction_with = RED
 				}
 			}
-    	}
-
+		}
 		is_good = yes
 		fire_only_once = no
 		war_with_on_timeout = NOR
-
 		days_mission_timeout = 80
 		timeout_effect = {
 			declare_war_on = {
@@ -759,7 +601,7 @@ RED_military_government_administration = {
 		activation = {
 			always = no
 		}
-    	available = {
+		available = {
 			SWE = {
 				OR = {
 					has_capitulated = yes
@@ -767,12 +609,10 @@ RED_military_government_administration = {
 					is_in_faction_with = RED
 				}
 			}
-    	}
-
+		}
 		is_good = yes
 		fire_only_once = no
 		war_with_on_timeout = SWE
-
 		days_mission_timeout = 80
 		timeout_effect = {
 			declare_war_on = {
@@ -788,7 +628,7 @@ RED_military_government_administration = {
 		activation = {
 			always = no
 		}
-    	available = {
+		available = {
 			FIN = {
 				OR = {
 					has_capitulated = yes
@@ -796,12 +636,10 @@ RED_military_government_administration = {
 					is_in_faction_with = RED
 				}
 			}
-    	}
-
+		}
 		is_good = yes
 		fire_only_once = no
 		war_with_on_timeout = FIN
-
 		days_mission_timeout = 80
 		timeout_effect = {
 			declare_war_on = {
@@ -818,14 +656,16 @@ RED_military_government_administration = {
 				exists = yes
 				has_capitulated = no
 				is_subject_of = RED
-				has_government = communism 
+				has_government = communism
 			}
 		}
 		ai_will_do = {
 			factor = 0
 			modifier = {
 				add = 200
-				RE1 = { democratic > 0.3 }
+				RE1 = {
+					democratic > 0.3
+				}
 			}
 		}
 		fire_only_once = no
@@ -856,14 +696,16 @@ RED_military_government_administration = {
 				exists = yes
 				has_capitulated = no
 				is_subject_of = RED
-				has_government = communism 
+				has_government = communism
 			}
 		}
 		ai_will_do = {
 			factor = 0
 			modifier = {
 				add = 200
-				RE2 = { democratic > 0.3 }
+				RE2 = {
+					democratic > 0.3
+				}
 			}
 		}
 		fire_only_once = no
@@ -894,14 +736,16 @@ RED_military_government_administration = {
 				exists = yes
 				has_capitulated = no
 				is_subject_of = RED
-				has_government = communism 
+				has_government = communism
 			}
 		}
 		ai_will_do = {
 			factor = 0
 			modifier = {
 				add = 200
-				RE3 = { democratic > 0.3 }
+				RE3 = {
+					democratic > 0.3
+				}
 			}
 		}
 		fire_only_once = no
@@ -932,14 +776,16 @@ RED_military_government_administration = {
 				exists = yes
 				has_capitulated = no
 				is_subject_of = RED
-				has_government = communism 
+				has_government = communism
 			}
 		}
 		ai_will_do = {
 			factor = 0
 			modifier = {
 				add = 200
-				RE4 = { democratic > 0.3 }
+				RE4 = {
+					democratic > 0.3
+				}
 			}
 		}
 		fire_only_once = no
@@ -970,7 +816,7 @@ RED_military_government_administration = {
 				exists = yes
 				has_capitulated = no
 				is_subject_of = RED
-				has_government = communism 
+				has_government = communism
 				OR = {
 					has_idea = RED_military_government_idea_3
 					has_idea = RED_military_government_idea_4
@@ -995,7 +841,7 @@ RED_military_government_administration = {
 			hidden_effect = {
 				add_command_power = -30
 				add_political_power = -70
-				add_equipment_to_stockpile = { 
+				add_equipment_to_stockpile = {
 					type = infantry_equipment
 					amount = -1500
 				}
@@ -1012,7 +858,7 @@ RED_military_government_administration = {
 				exists = yes
 				has_capitulated = no
 				is_subject_of = RED
-				has_government = communism 
+				has_government = communism
 				OR = {
 					has_idea = RED_military_government_idea_3
 					has_idea = RED_military_government_idea_4
@@ -1037,7 +883,7 @@ RED_military_government_administration = {
 			hidden_effect = {
 				add_command_power = -30
 				add_political_power = -70
-				add_equipment_to_stockpile = { 
+				add_equipment_to_stockpile = {
 					type = infantry_equipment
 					amount = -1500
 				}
@@ -1054,7 +900,7 @@ RED_military_government_administration = {
 				exists = yes
 				has_capitulated = no
 				is_subject_of = RED
-				has_government = communism 
+				has_government = communism
 				OR = {
 					has_idea = RED_military_government_idea_3
 					has_idea = RED_military_government_idea_4
@@ -1079,7 +925,7 @@ RED_military_government_administration = {
 			hidden_effect = {
 				add_command_power = -30
 				add_political_power = -70
-				add_equipment_to_stockpile = { 
+				add_equipment_to_stockpile = {
 					type = infantry_equipment
 					amount = -1500
 				}
@@ -1096,7 +942,7 @@ RED_military_government_administration = {
 				exists = yes
 				has_capitulated = no
 				is_subject_of = RED
-				has_government = communism 
+				has_government = communism
 				OR = {
 					has_idea = RED_military_government_idea_3
 					has_idea = RED_military_government_idea_4
@@ -1121,7 +967,7 @@ RED_military_government_administration = {
 			hidden_effect = {
 				add_command_power = -30
 				add_political_power = -70
-				add_equipment_to_stockpile = { 
+				add_equipment_to_stockpile = {
 					type = infantry_equipment
 					amount = -1500
 				}
@@ -1140,7 +986,9 @@ RED_military_government_administration = {
 				has_capitulated = no
 				is_subject_of = RED
 				has_government = communism
-				NOT = { has_country_flag = RED_establishment_of_autonomous_state_flag }
+				NOT = {
+					has_country_flag = RED_establishment_of_autonomous_state_flag
+				}
 			}
 		}
 		ai_will_do = {
@@ -1161,7 +1009,7 @@ RED_military_government_administration = {
 				}
 				add_popularity = {
 					ideology = communism
-					popularity = 0.10
+					popularity = 0.1
 				}
 				set_country_flag = RED_establishment_of_autonomous_state_flag
 			}
@@ -1176,7 +1024,9 @@ RED_military_government_administration = {
 				has_capitulated = no
 				is_subject_of = RED
 				has_government = communism
-				NOT = { has_country_flag = RED_establishment_of_autonomous_state_flag }
+				NOT = {
+					has_country_flag = RED_establishment_of_autonomous_state_flag
+				}
 			}
 		}
 		ai_will_do = {
@@ -1197,7 +1047,7 @@ RED_military_government_administration = {
 				}
 				add_popularity = {
 					ideology = communism
-					popularity = 0.10
+					popularity = 0.1
 				}
 				set_country_flag = RED_establishment_of_autonomous_state_flag
 			}
@@ -1212,7 +1062,9 @@ RED_military_government_administration = {
 				has_capitulated = no
 				is_subject_of = RED
 				has_government = communism
-				NOT = { has_country_flag = RED_establishment_of_autonomous_state_flag }
+				NOT = {
+					has_country_flag = RED_establishment_of_autonomous_state_flag
+				}
 			}
 		}
 		ai_will_do = {
@@ -1233,7 +1085,7 @@ RED_military_government_administration = {
 				}
 				add_popularity = {
 					ideology = communism
-					popularity = 0.10
+					popularity = 0.1
 				}
 				set_country_flag = RED_establishment_of_autonomous_state_flag
 			}
@@ -1248,7 +1100,9 @@ RED_military_government_administration = {
 				has_capitulated = no
 				is_subject_of = RED
 				has_government = communism
-				NOT = { has_country_flag = RED_establishment_of_autonomous_state_flag }
+				NOT = {
+					has_country_flag = RED_establishment_of_autonomous_state_flag
+				}
 			}
 		}
 		ai_will_do = {
@@ -1269,13 +1123,14 @@ RED_military_government_administration = {
 				}
 				add_popularity = {
 					ideology = communism
-					popularity = 0.10
+					popularity = 0.1
 				}
 				set_country_flag = RED_establishment_of_autonomous_state_flag
 			}
 		}
 	}
 }
+
 RED_forced_relocation_policy = {
 	RED_forced_relocation_policy_decision = {
 		icon = GFX_decision_eng_trade_unions_support
@@ -1292,7 +1147,9 @@ RED_forced_relocation_policy = {
 					is_core_of = RE4
 				}
 				is_owned_and_controlled_by = ROOT
-				NOT = { is_core_of = ROOT }
+				NOT = {
+					is_core_of = ROOT
+				}
 			}
 		}
 		available = {
@@ -1303,8 +1160,8 @@ RED_forced_relocation_policy = {
 			factor = 400
 		}
 		fire_only_once = no
-		cost = 75
-		days_remove = 125
+		cost = 35
+		days_remove = 70
 		modifier = {
 			political_power_cost = 0.25
 			consumer_goods_factor = 0.15
@@ -1317,58 +1174,53 @@ RED_forced_relocation_policy = {
 		}
 	}
 }
+
 RED_snake_game_decision = {
 	snake_turn = {
 		icon = GFX_decision_generic_operation
 		activation = {
 			is_ai = no
-			NOT = { has_country_flag = RED_snake_game_end }
+			NOT = {
+				has_country_flag = RED_snake_game_end
+			}
 			has_completed_focus = RED_accept_trotskism
 		}
-    	available = {
+		available = {
 			has_global_flag = flag_trotsky_dead
-    	}
-
+		}
 		allowed = {
 			original_tag = RED
 		}
-
 		days_mission_timeout = 8
 		priority = 100
-
 		timeout_effect = {
 			snake_turn_end_effect = yes
 			activate_mission = snake_turn
 		}
 	}
-	snake_strengthen_security_measures = { #보안 조치 강화
+	snake_strengthen_security_measures = {
+		#보안 조치 강화
 		priority = 99
 		icon = GFX_decision_generic_arrest
-
-		remove_trigger = { has_global_flag = flag_trotsky_dead }
-
+		remove_trigger = {
+			has_global_flag = flag_trotsky_dead
+		}
 		allowed = {
 			original_tag = RED
 		}
-
 		fire_only_once = no
-
 		modifier = {
 			consumer_goods_factor = 0.05
 		}
-
 		days_re_enable = snake_strengthen_security_measures_var
 		days_remove = 90
-
 		cost = 30
-
 		complete_effect = {
 			custom_effect_tooltip = snake_strengthen_security_measures_tt
 			RED_snake_summon_apple = yes
 		}
 	}
 	snake_debug = {
-
 		allowed = {
 			original_tag = RED
 		}
@@ -1376,14 +1228,19 @@ RED_snake_game_decision = {
 			is_debug = yes
 		}
 		complete_effect = {
-			set_variable = { red_game_snake_tail = 6 }
-			set_variable = { red_game_snake_movex = 1 }
-			set_variable = { red_game_snake_movey = 1 }
+			set_variable = {
+				red_game_snake_tail = 6
+			}
+			set_variable = {
+				red_game_snake_movex = 1
+			}
+			set_variable = {
+				red_game_snake_movey = 1
+			}
 			RED_snake_game_snake_move = yes
 		}
 	}
 	snake_debug_tailup = {
-
 		allowed = {
 			original_tag = RED
 		}
@@ -1391,11 +1248,12 @@ RED_snake_game_decision = {
 			is_debug = yes
 		}
 		complete_effect = {
-			add_to_variable = { red_game_snake_tail = 10 }
+			add_to_variable = {
+				red_game_snake_tail = 10
+			}
 		}
 	}
 	snake_debug_r = {
-
 		allowed = {
 			original_tag = RED
 		}
@@ -1403,14 +1261,17 @@ RED_snake_game_decision = {
 			is_debug = yes
 		}
 		complete_effect = {
-			set_variable = { red_game_snake_movex = red_game_snake_x }
-			add_to_variable = { red_game_snake_movex = 1 }
+			set_variable = {
+				red_game_snake_movex = red_game_snake_x
+			}
+			add_to_variable = {
+				red_game_snake_movex = 1
+			}
 			RED_snake_game_snake_move = yes
 			set_country_flag = RED_snake_game_RIGHT_move
 		}
 	}
 	snake_debug_l = {
-
 		allowed = {
 			original_tag = RED
 		}
@@ -1418,14 +1279,17 @@ RED_snake_game_decision = {
 			is_debug = yes
 		}
 		complete_effect = {
-			set_variable = { red_game_snake_movex = red_game_snake_x }
-			add_to_variable = { red_game_snake_movex = -1 }
+			set_variable = {
+				red_game_snake_movex = red_game_snake_x
+			}
+			add_to_variable = {
+				red_game_snake_movex = -1
+			}
 			RED_snake_game_snake_move = yes
 			set_country_flag = RED_snake_game_LEFT_move
 		}
 	}
 	snake_debug_u = {
-
 		allowed = {
 			original_tag = RED
 		}
@@ -1433,14 +1297,17 @@ RED_snake_game_decision = {
 			is_debug = yes
 		}
 		complete_effect = {
-			set_variable = { red_game_snake_movey = red_game_snake_y }
-			add_to_variable = { red_game_snake_movey = -1 }
+			set_variable = {
+				red_game_snake_movey = red_game_snake_y
+			}
+			add_to_variable = {
+				red_game_snake_movey = -1
+			}
 			RED_snake_game_snake_move = yes
 			set_country_flag = RED_snake_game_UP_move
 		}
 	}
 	snake_debug_d = {
-
 		allowed = {
 			original_tag = RED
 		}
@@ -1448,35 +1315,36 @@ RED_snake_game_decision = {
 			is_debug = yes
 		}
 		complete_effect = {
-			set_variable = { red_game_snake_movey = red_game_snake_y }
-			add_to_variable = { red_game_snake_movey = 1 }
+			set_variable = {
+				red_game_snake_movey = red_game_snake_y
+			}
+			add_to_variable = {
+				red_game_snake_movey = 1
+			}
 			RED_snake_game_snake_move = yes
 			set_country_flag = RED_snake_game_DOWN_move
 		}
 	}
 }
+
 SOV_snake_game_decision = {
-	SOV_snake_killtry = { #지원 확대
+	SOV_snake_killtry = {
+		#지원 확대
 		priority = 99
 		icon = GFX_decision_generic_assassination
-
-		remove_trigger = { has_global_flag = flag_trotsky_dead }
-
+		remove_trigger = {
+			has_global_flag = flag_trotsky_dead
+		}
 		allowed = {
 			original_tag = SOV
 		}
-		
 		ai_will_do = {
 			factor = 200
 		}
-
 		fire_only_once = no
-
 		days_re_enable = 30
 		days_remove = 40
-
 		cost = 75
-
 		complete_effect = {
 			custom_effect_tooltip = SOV_snake_killtry_tt
 			RED = {
@@ -1485,8 +1353,11 @@ SOV_snake_game_decision = {
 		}
 	}
 }
-RED_minori_revolution_decision = { #투쟁이라는 길 위에서
-	RED_feburary_strike_1 = { #악화되는 파업
+
+RED_minori_revolution_decision = {
+	#투쟁이라는 길 위에서
+	RED_feburary_strike_1 = {
+		#악화되는 파업
 		icon = GFX_decision_POL_organize_strike_two
 		days_mission_timeout = 15
 		activation = {
@@ -1503,7 +1374,8 @@ RED_minori_revolution_decision = { #투쟁이라는 길 위에서
 			activate_mission = RED_feburary_strike_2
 		}
 	}
-	RED_feburary_strike_2 = { #악화되는 파업
+	RED_feburary_strike_2 = {
+		#악화되는 파업
 		name = RED_feburary_strike_1
 		icon = GFX_decision_POL_organize_strike_two
 		days_mission_timeout = 15
@@ -1521,8 +1393,9 @@ RED_minori_revolution_decision = { #투쟁이라는 길 위에서
 			activate_mission = RED_feburary_strike_3
 		}
 	}
-	RED_feburary_strike_3 = { #악화되는 파업
-	name = RED_feburary_strike_1
+	RED_feburary_strike_3 = {
+		#악화되는 파업
+		name = RED_feburary_strike_1
 		icon = GFX_decision_POL_organize_strike_two
 		days_mission_timeout = 15
 		activation = {
@@ -1538,7 +1411,8 @@ RED_minori_revolution_decision = { #투쟁이라는 길 위에서
 			}
 		}
 	}
-	RED_aproaching_anti_revolution = { #다가오는 반혁명
+	RED_aproaching_anti_revolution = {
+		#다가오는 반혁명
 		icon = GFX_decision_generic_ignite_civil_war
 		days_mission_timeout = 120
 		available = {
@@ -1576,7 +1450,8 @@ RED_minori_revolution_decision = { #투쟁이라는 길 위에서
 			news_event = BA_news.79
 		}
 	}
-	RED_ousting_office = { #사무국 축출
+	RED_ousting_office = {
+		#사무국 축출
 		icon = GFX_decision_hol_draw_up_staff_plans
 		state_target = yes
 		on_map_mode = map_only
@@ -1633,7 +1508,8 @@ RED_minori_revolution_decision = { #투쟁이라는 길 위에서
 			}
 		}
 	}
-	RED_annex_NOR_decision = { #노르웨이 통합
+	RED_annex_NOR_decision = {
+		#노르웨이 통합
 		icon = GFX_decision_generic_nationalism
 		days_remove = 20
 		cost = 30
@@ -1668,7 +1544,8 @@ RED_minori_revolution_decision = { #투쟁이라는 길 위에서
 			}
 		}
 	}
-	RED_annex_SWE_decision = { #스웨덴 통합
+	RED_annex_SWE_decision = {
+		#스웨덴 통합
 		icon = GFX_decision_generic_nationalism
 		days_remove = 20
 		cost = 30
@@ -1698,7 +1575,8 @@ RED_minori_revolution_decision = { #투쟁이라는 길 위에서
 			}
 		}
 	}
-	RED_annex_DEN_decision = { #덴마크
+	RED_annex_DEN_decision = {
+		#덴마크
 		icon = GFX_decision_generic_nationalism
 		days_remove = 20
 		cost = 30
@@ -1730,7 +1608,8 @@ RED_minori_revolution_decision = { #투쟁이라는 길 위에서
 			}
 		}
 	}
-	RED_annex_FIN_decision = { #핀란드
+	RED_annex_FIN_decision = {
+		#핀란드
 		icon = GFX_decision_generic_nationalism
 		days_remove = 60
 		cost = 50
@@ -1763,8 +1642,11 @@ RED_minori_revolution_decision = { #투쟁이라는 길 위에서
 		}
 	}
 }
-RED_minori_revolutionary_isolationism = { #혁명적 고립주의
-	RED_prepare_revolutionary_war_1 = { #혁명전쟁 준비 - 덴마크 요새화
+
+RED_minori_revolutionary_isolationism = {
+	#혁명적 고립주의
+	RED_prepare_revolutionary_war_1 = {
+		#혁명전쟁 준비 - 덴마크 요새화
 		fire_only_once = yes
 		icon = GFX_decision_generic_operation
 		visible = {
@@ -1782,6 +1664,7 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 				state = 912
 				state = 911
 				state = 37
+				state = 99
 			}
 		}
 		on_map_mode = map_only
@@ -1790,15 +1673,32 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			add_to_variable = {
 				RED_revolutionary_war_prepare_degree = 1
 			}
+			99 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 394
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 399
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 6364
+				}
+			}
 			912 = {
 				add_building_construction = {
 					type = bunker
-					level = 3
+					level = 4
 					province = 332
 				}
 				add_building_construction = {
 					type = bunker
-					level = 3
+					level = 4
 					province = 11251
 				}
 			}
@@ -1818,7 +1718,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			}
 		}
 	}
-	RED_prepare_revolutionary_war_2 = { #혁명전쟁 준비 - 쾨벤하운 - 말뫼 방어선
+	RED_prepare_revolutionary_war_2 = {
+		#혁명전쟁 준비 - 쾨벤하운 - 말뫼 방어선
 		fire_only_once = yes
 		icon = GFX_decision_generic_operation
 		visible = {
@@ -1856,11 +1757,22 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 					level = 3
 					province = 6345
 				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 9279
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 11215
+				}
 			}
 		}
 	}
-	RED_prepare_revolutionary_war_3 = { #혁명전쟁 준비 - 붉은 함대 건설
-	fire_only_once = yes
+	RED_prepare_revolutionary_war_3 = {
+		#혁명전쟁 준비 - 붉은 함대 건설
+		fire_only_once = yes
 		icon = GFX_decision_generic_naval
 		visible = {
 			has_completed_focus = RED_minori_diplo_6
@@ -1900,7 +1812,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			}
 		}
 	}
-	RED_prepare_revolutionary_war_4 = { #공중전 대비
+	RED_prepare_revolutionary_war_4 = {
+		#공중전 대비
 		fire_only_once = yes
 		icon = GFX_decision_SWE_set_air_budget
 		visible = {
@@ -1934,7 +1847,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			}
 		}
 	}
-	RED_prepare_revolutionary_war_5 = { #전투적인 노동자 양성
+	RED_prepare_revolutionary_war_5 = {
+		#전투적인 노동자 양성
 		fire_only_once = yes
 		icon = GFX_decision_generic_reorganize_irregulars
 		visible = {
@@ -1955,7 +1869,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			recruitable_population_factor = 0.1
 		}
 	}
-	RED_prepare_revolutionary_war_6 = { #지역방위위원회
+	RED_prepare_revolutionary_war_6 = {
+		#지역방위위원회
 		fire_only_once = yes
 		icon = GFX_decision_generic_military
 		visible = {
@@ -1976,7 +1891,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			training_time_army_factor = -0.1
 		}
 	}
-	RED_prepare_revolutionary_war_7 = { #선전
+	RED_prepare_revolutionary_war_7 = {
+		#선전
 		fire_only_once = yes
 		icon = GFX_decision_eng_propaganda_campaigns
 		visible = {
@@ -2007,7 +1923,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			}
 		}
 	}
-	RED_prepare_revolutionary_war_8 = { #중앙정보위원회
+	RED_prepare_revolutionary_war_8 = {
+		#중앙정보위원회
 		fire_only_once = yes
 		icon = GFX_decision_onmap_recruit_operative
 		visible = {
@@ -2031,7 +1948,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			}
 		}
 	}
-	RED_prepare_revolutionary_war_9 = { #혁명방위연구실
+	RED_prepare_revolutionary_war_9 = {
+		#혁명방위연구실
 		fire_only_once = yes
 		icon = GFX_decision_SOV_academy_of_sciences
 		visible = {
@@ -2051,7 +1969,150 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			}
 		}
 	}
-	RED_red_fin_plan = { #적핀란드 계획
+	RED_prepare_revolutionary_war_10 = {
+		#국방기획
+		fire_only_once = yes
+		icon = GFX_decision_generic_army_support
+		visible = {
+			has_completed_focus = RED_minori_diplo_6
+		}
+		days_remove = -1
+		cost = 50
+		complete_effect = {
+			add_to_variable = {
+				RED_revolutionary_war_prepare_degree = 1
+			}
+			set_country_flag = RED_Central_Defense_Planning_Committee_tt
+			custom_effect_tooltip = available_chief_of_army
+			show_ideas_tooltip = RED_Central_Defense_Planning_Committee_ideas
+		}
+	}
+	RED_prepare_revolutionary_war_11 = {
+		#동부해안요새
+		fire_only_once = yes
+		icon = GFX_decision_generic_operation
+		visible = {
+			has_completed_focus = RED_minori_diplo_6
+		}
+		available = {
+			has_war = no
+		}
+		days_remove = 30
+		modifier = {
+			civilian_factory_use = 1
+		}
+		highlight_states = {
+			highlight_state_targets = {
+				state = 913
+				state = 141
+				state = 38
+				state = 139
+			}
+		}
+		on_map_mode = map_only
+		cost = 30
+		remove_effect = {
+			add_to_variable = {
+				RED_revolutionary_war_prepare_degree = 1
+			}
+			141 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 6050
+				}
+			}
+			913 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 11380
+				}
+			}
+			38 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 130
+				}
+			}
+		}
+	}
+	RED_prepare_revolutionary_war_12 = {
+		#서부해안요새
+		fire_only_once = yes
+		icon = GFX_decision_generic_operation
+		visible = {
+			has_completed_focus = RED_minori_diplo_6
+		}
+		available = {
+			has_war = no
+		}
+		days_remove = 30
+		modifier = {
+			civilian_factory_use = 1
+		}
+		highlight_states = {
+			highlight_state_targets = {
+				state = 110
+				state = 921
+				state = 922
+				state = 142
+				state = 143
+				state = 923
+				state = 144
+			}
+		}
+		on_map_mode = map_only
+		cost = 60
+		remove_effect = {
+			add_to_variable = {
+				RED_revolutionary_war_prepare_degree = 1
+			}
+			110 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 6115
+				}
+			}
+			922 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 9296
+				}
+			}
+			142 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 53
+				}
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 122
+				}
+			}
+			143 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 3022
+				}
+			}
+			144 = {
+				add_building_construction = {
+					type = coastal_bunker
+					level = 3
+					province = 3034
+				}
+			}
+		}
+	}
+	RED_red_fin_plan = {
+		#적핀란드 계획
 		fire_only_once = yes
 		icon = GFX_decision_POL_organize_strike_two
 		visible = {
@@ -2072,7 +2133,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			}
 		}
 	}
-	RED_minori_ally_with_KAI = { #브리튼 제도의 생디칼리스트 동지
+	RED_minori_ally_with_KAI = {
+		#브리튼 제도의 생디칼리스트 동지
 		fire_only_once = yes
 		icon = GFX_decision_generic_political_rally
 		visible = {
@@ -2081,8 +2143,14 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 				exists = yes
 			}
 			OR = {
-				KAI = { has_government = communism }
-				KAI = { KAI_shareholders_meeting = { is_country_leader = yes } }
+				KAI = {
+					has_government = communism
+				}
+				KAI = {
+					KAI_shareholders_meeting = {
+						is_country_leader = yes
+					}
+				}
 			}
 		}
 		available = {
@@ -2099,7 +2167,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			}
 		}
 	}
-	RED_minori_ally_with_IRE = { #아일랜드의 동지들
+	RED_minori_ally_with_IRE = {
+		#아일랜드의 동지들
 		fire_only_once = yes
 		icon = GFX_decision_generic_political_rally
 		visible = {
@@ -2122,14 +2191,21 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			}
 		}
 	}
-	RED_minori_ally_with_SHE = { #저지대의 동지들
+	RED_minori_ally_with_SHE = {
+		#저지대의 동지들
 		icon = GFX_decision_generic_political_rally
 		fire_only_once = yes
 		visible = {
 			has_completed_focus = RED_minori_diplo_8
 			OR = {
-				SHE = {has_government = communism exists = yes}
-				COU = {has_government = communism exists = yes}
+				SHE = {
+					has_government = communism
+					exists = yes
+				}
+				COU = {
+					has_government = communism
+					exists = yes
+				}
 			}
 		}
 		available = {
@@ -2163,7 +2239,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			}
 		}
 	}
-	RED_minori_ally_with_MIL = { #갈리아의 동지들
+	RED_minori_ally_with_MIL = {
+		#갈리아의 동지들
 		icon = GFX_decision_generic_political_rally
 		fire_only_once = yes
 		visible = {
@@ -2187,7 +2264,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			}
 		}
 	}
-	RED_minori_build_MIL = { #밀레니엄 사회주의 재건정부
+	RED_minori_build_MIL = {
+		#밀레니엄 사회주의 재건정부
 		icon = GFX_decision_SOV_the_stalin_constitution
 		fire_only_once = yes
 		visible = {
@@ -2206,7 +2284,9 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 				transfer_state_to = MIL
 			}
 			MIL = {
-				set_variable = { collaboration_formed_by = ROOT }
+				set_variable = {
+					collaboration_formed_by = ROOT
+				}
 			}
 			set_autonomy = {
 				target = MIL
@@ -2215,7 +2295,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			set_country_flag = RED_minori_build_MIL_flag
 		}
 	}
-	RED_minori_build_GER = { #북독일 연합 해방구
+	RED_minori_build_GER = {
+		#북독일 연합 해방구
 		icon = GFX_decision_SOV_the_stalin_constitution
 		fire_only_once = yes
 		visible = {
@@ -2243,7 +2324,9 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 				transfer_state_to = SAX
 			}
 			SAX = {
-				set_variable = { collaboration_formed_by = ROOT }
+				set_variable = {
+					collaboration_formed_by = ROOT
+				}
 			}
 			set_autonomy = {
 				target = SAX
@@ -2252,7 +2335,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			set_country_flag = RED_minori_build_GER_flag
 		}
 	}
-	RED_minori_build_BAY = { #남키보토스 사회주의 보편공화국
+	RED_minori_build_BAY = {
+		#남키보토스 사회주의 보편공화국
 		icon = GFX_decision_SOV_the_stalin_constitution
 		fire_only_once = yes
 		visible = {
@@ -2282,7 +2366,9 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 				transfer_state_to = BAY
 			}
 			BAY = {
-				set_variable = { collaboration_formed_by = ROOT }
+				set_variable = {
+					collaboration_formed_by = ROOT
+				}
 			}
 			set_autonomy = {
 				target = BAY
@@ -2300,7 +2386,8 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			}
 		}
 	}
-	red_form_european_union = { #유럽 사회주의
+	red_form_european_union = {
+		#유럽 사회주의
 		name = form_european_union
 		icon = generic_form_nation
 		fire_only_once = yes
@@ -2310,7 +2397,6 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 				has_dlc = "Man the Guns"
 			}
 		}
-
 		available = {
 			is_subject = no
 			7 = {
@@ -2320,15 +2406,15 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 			has_country_flag = RED_minori_build_GER_flag
 			has_country_flag = RED_minori_build_BAY_flag
 		}
-
 		visible = {
 			has_completed_focus = RED_minori_diplo_15
 		}
-
 		complete_effect = {
 			if = {
 				limit = {
-					NOT = { original_tag = ENG }
+					NOT = {
+						original_tag = ENG
+					}
 				}
 				set_cosmetic_tag = RED_EUR_UNIFIED
 			}
@@ -2346,105 +2432,251 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 					}
 				}
 			}
-			8 = { add_core_of = ROOT }
+			8 = {
+				add_core_of = ROOT
+			}
 			# Netherlands
-			custom_effect_tooltip = form_eu_netherlands_coring_states_tt 
+			custom_effect_tooltip = form_eu_netherlands_coring_states_tt
 			hidden_effect = {
-				7 = { add_core_of = ROOT }
-				35 = { add_core_of = ROOT }
-				36 = { add_core_of = ROOT }
+				7 = {
+					add_core_of = ROOT
+				}
+				35 = {
+					add_core_of = ROOT
+				}
+				36 = {
+					add_core_of = ROOT
+				}
 			}
 			# Belgium
 			custom_effect_tooltip = form_eu_belgium_coring_states_tt
 			hidden_effect = {
-				6 = { add_core_of = ROOT }
-				34 = { add_core_of = ROOT }
+				6 = {
+					add_core_of = ROOT
+				}
+				34 = {
+					add_core_of = ROOT
+				}
 			}
 			# France
 			custom_effect_tooltip = form_eu_france_coring_states_tt
 			hidden_effect = {
-				29 = { add_core_of = ROOT }
-				18 = { add_core_of = ROOT }
-				17 = { add_core_of = ROOT }
-				28 = { add_core_of = ROOT }
-				15 = { add_core_of = ROOT }
-				16 = { add_core_of = ROOT }
-				27 = { add_core_of = ROOT }
-				14 = { add_core_of = ROOT }
-				30 = { add_core_of = ROOT }
-				24 = { add_core_of = ROOT }
-				23 = { add_core_of = ROOT }
-				33 = { add_core_of = ROOT }
-				26 = { add_core_of = ROOT }
-				20 = { add_core_of = ROOT }
-				32 = { add_core_of = ROOT }
-				735 = { add_core_of = ROOT }
-				25 = { add_core_of = ROOT }
-				22 = { add_core_of = ROOT }
-				21 = { add_core_of = ROOT }
-				851 = { add_core_of = ROOT }
-				19 = { add_core_of = ROOT }
-				20 = { add_core_of = ROOT }
-				1 = { add_core_of = ROOT }
-				785 = { add_core_of = ROOT }
-				31 = { add_core_of = ROOT }
-				806 = { add_core_of = ROOT }
+				29 = {
+					add_core_of = ROOT
+				}
+				18 = {
+					add_core_of = ROOT
+				}
+				17 = {
+					add_core_of = ROOT
+				}
+				28 = {
+					add_core_of = ROOT
+				}
+				15 = {
+					add_core_of = ROOT
+				}
+				16 = {
+					add_core_of = ROOT
+				}
+				27 = {
+					add_core_of = ROOT
+				}
+				14 = {
+					add_core_of = ROOT
+				}
+				30 = {
+					add_core_of = ROOT
+				}
+				24 = {
+					add_core_of = ROOT
+				}
+				23 = {
+					add_core_of = ROOT
+				}
+				33 = {
+					add_core_of = ROOT
+				}
+				26 = {
+					add_core_of = ROOT
+				}
+				20 = {
+					add_core_of = ROOT
+				}
+				32 = {
+					add_core_of = ROOT
+				}
+				735 = {
+					add_core_of = ROOT
+				}
+				25 = {
+					add_core_of = ROOT
+				}
+				22 = {
+					add_core_of = ROOT
+				}
+				21 = {
+					add_core_of = ROOT
+				}
+				851 = {
+					add_core_of = ROOT
+				}
+				19 = {
+					add_core_of = ROOT
+				}
+				20 = {
+					add_core_of = ROOT
+				}
+				1 = {
+					add_core_of = ROOT
+				}
+				785 = {
+					add_core_of = ROOT
+				}
+				31 = {
+					add_core_of = ROOT
+				}
+				806 = {
+					add_core_of = ROOT
+				}
 			}
 			# Italy
 			custom_effect_tooltip = form_eu_italy_coring_states_tt
 			hidden_effect = {
-				158 = { add_core_of = ROOT }
-				159 = { add_core_of = ROOT }
-				39 = { add_core_of = ROOT }
-				160 = { add_core_of = ROOT }
-				161 = { add_core_of = ROOT }
-				162 = { add_core_of = ROOT }
-				157 = { add_core_of = ROOT }
-				2 = { add_core_of = ROOT }
-				117 = { add_core_of = ROOT }
-				156 = { add_core_of = ROOT }
-				115 = { add_core_of = ROOT }
-				114 = { add_core_of = ROOT }
-				736 = { add_core_of = ROOT }
-				163 = { add_core_of = ROOT }
-				849 = { add_core_of = ROOT }
-				850 = { add_core_of = ROOT }
-				852 = { add_core_of = ROOT }
+				158 = {
+					add_core_of = ROOT
+				}
+				159 = {
+					add_core_of = ROOT
+				}
+				39 = {
+					add_core_of = ROOT
+				}
+				160 = {
+					add_core_of = ROOT
+				}
+				161 = {
+					add_core_of = ROOT
+				}
+				162 = {
+					add_core_of = ROOT
+				}
+				157 = {
+					add_core_of = ROOT
+				}
+				2 = {
+					add_core_of = ROOT
+				}
+				117 = {
+					add_core_of = ROOT
+				}
+				156 = {
+					add_core_of = ROOT
+				}
+				115 = {
+					add_core_of = ROOT
+				}
+				114 = {
+					add_core_of = ROOT
+				}
+				736 = {
+					add_core_of = ROOT
+				}
+				163 = {
+					add_core_of = ROOT
+				}
+				849 = {
+					add_core_of = ROOT
+				}
+				850 = {
+					add_core_of = ROOT
+				}
+				852 = {
+					add_core_of = ROOT
+				}
 			}
 			# Germany
 			custom_effect_tooltip = form_country_germany_coring_states_tt
 			hidden_effect = {
-				51 = { add_core_of = ROOT }
-				42 = { add_core_of = ROOT }
-				56 = { add_core_of = ROOT }
-				57 = { add_core_of = ROOT }
-				55 = { add_core_of = ROOT }
-				50 = { add_core_of = ROOT }
-				59 = { add_core_of = ROOT }
-				58 = { add_core_of = ROOT }
-				909 = { add_core_of = ROOT } #New state of SCHLESWIG
-				60 = { add_core_of = ROOT }
-				54 = { add_core_of = ROOT }
-				52 = { add_core_of = ROOT }
-				53 = { add_core_of = ROOT }
-				61 = { add_core_of = ROOT }
-				64 = { add_core_of = ROOT }
-				65 = { add_core_of = ROOT }
-				62 = { add_core_of = ROOT }
-				68 = { add_core_of = ROOT }
-				66 = { add_core_of = ROOT }
-				67 = { add_core_of = ROOT }
-				63 = { add_core_of = ROOT }
-				5 = { add_core_of = ROOT }
-				763 = { add_core_of = ROOT }
+				51 = {
+					add_core_of = ROOT
+				}
+				42 = {
+					add_core_of = ROOT
+				}
+				56 = {
+					add_core_of = ROOT
+				}
+				57 = {
+					add_core_of = ROOT
+				}
+				55 = {
+					add_core_of = ROOT
+				}
+				50 = {
+					add_core_of = ROOT
+				}
+				59 = {
+					add_core_of = ROOT
+				}
+				58 = {
+					add_core_of = ROOT
+				}
+				909 = {
+					add_core_of = ROOT
+				}				#New state of SCHLESWIG
+				60 = {
+					add_core_of = ROOT
+				}
+				54 = {
+					add_core_of = ROOT
+				}
+				52 = {
+					add_core_of = ROOT
+				}
+				53 = {
+					add_core_of = ROOT
+				}
+				61 = {
+					add_core_of = ROOT
+				}
+				64 = {
+					add_core_of = ROOT
+				}
+				65 = {
+					add_core_of = ROOT
+				}
+				62 = {
+					add_core_of = ROOT
+				}
+				68 = {
+					add_core_of = ROOT
+				}
+				66 = {
+					add_core_of = ROOT
+				}
+				67 = {
+					add_core_of = ROOT
+				}
+				63 = {
+					add_core_of = ROOT
+				}
+				5 = {
+					add_core_of = ROOT
+				}
+				763 = {
+					add_core_of = ROOT
+				}
 			}
 			hidden_effect = {
-				news_event = { id = wtt_news.62 hours = 6 }
+				news_event = {
+					id = wtt_news.62
+					hours = 6
+				}
 				set_global_flag = form_european_union_flag
 				set_country_flag = form_european_union_flag
 			}
 		}
-
 		ai_will_do = {
 			factor = 200
 			modifier = {
@@ -2454,8 +2686,10 @@ RED_minori_revolutionary_isolationism = { #혁명적 고립주의
 		}
 	}
 }
+
 RED_demand_cat = {
-	RED_demand_three_day_work = { #주3일제
+	RED_demand_three_day_work = {
+		#주3일제
 		icon = GFX_decision_generic_political_discourse
 		days_mission_timeout = 120
 		available = {
@@ -2488,9 +2722,11 @@ RED_demand_cat = {
 			}
 		}
 		timeout_effect = {
-			hidden_effect={RED_the_public = {
-				unit_leader_event = RED_missions_char.2
-			}}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
 			add_to_variable = {
 				RED_public_mission_activated = -1
 			}
@@ -2499,13 +2735,16 @@ RED_demand_cat = {
 			}
 		}
 	}
-	RED_demand_rearm = { #총체적인 재무장 요구
+	RED_demand_rearm = {
+		#총체적인 재무장 요구
 		icon = GFX_decision_generic_prepare_civil_war
 		days_mission_timeout = 240
 		available = {
 			has_completed_focus = RED_minori_diplo_6
 			has_completed_focus = RED_rehabilitated_military
-			has_army_manpower = { size > 399999 }
+			has_army_manpower = {
+				size > 399999
+			}
 		}
 		activation = {
 			always = no
@@ -2515,8 +2754,12 @@ RED_demand_cat = {
 			add_war_support = 0.1
 			custom_effect_tooltip = RED_winterarmy_advance_tt
 			custom_effect_tooltip = RED_restore_cossack_units_tt
-			add_to_variable = { RED_modifier_army_sub_unit_infantry_speed_factor = 0.05 }
-			add_to_variable = { RED_army_infantry_attack_factor = 0.05 }
+			add_to_variable = {
+				RED_winter_army_modifier_army_sub_unit_infantry_speed_factor = 0.05
+			}
+			add_to_variable = {
+				RED_winter_army_army_infantry_attack_factor = 0.05
+			}
 			hidden_effect = {
 				RED_the_public = {
 					unit_leader_event = RED_missions_char.3
@@ -2530,9 +2773,11 @@ RED_demand_cat = {
 			}
 		}
 		timeout_effect = {
-			hidden_effect={RED_the_public = {
-				unit_leader_event = RED_missions_char.2
-			}}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
 			add_to_variable = {
 				RED_public_mission_activated = -1
 			}
@@ -2541,9 +2786,10 @@ RED_demand_cat = {
 			}
 		}
 	}
-	RED_demand_industrialization = { #공업화 요구
+	RED_demand_industrialization = {
+		#공업화 요구
 		icon = GFX_decision_generic_merge_plant_materiel
-		days_mission_timeout = 240
+		days_mission_timeout = 360
 		available = {
 			num_of_factories > 99
 		}
@@ -2564,32 +2810,32 @@ RED_demand_cat = {
 							type = arms_factory
 							level = 1
 						}
-					}	
+					}
 					1 = {
 						add_extra_state_shared_building_slots = 1
 						add_building_construction = {
 							type = industrial_complex
 							level = 1
 						}
-					}	
+					}
 					1 = {
 						add_building_construction = {
 							type = infrastructure
 							level = 1
 						}
-					}	
+					}
 					1 = {
 						BA_increase_state_category_by_one_level = yes
-					}	
+					}
 					1 = {
 						add_extra_state_shared_building_slots = 1
 						add_building_construction = {
 							type = dockyard
 							level = 1
 						}
-					}	
+					}
 					10 = {
-					}	
+					}
 				}
 			}
 			every_owned_state = {
@@ -2604,25 +2850,25 @@ RED_demand_cat = {
 							type = arms_factory
 							level = 1
 						}
-					}	
+					}
 					1 = {
 						add_extra_state_shared_building_slots = 1
 						add_building_construction = {
 							type = industrial_complex
 							level = 1
 						}
-					}	
+					}
 					1 = {
 						add_building_construction = {
 							type = infrastructure
 							level = 1
 						}
-					}	
+					}
 					1 = {
 						BA_increase_state_category_by_one_level = yes
-					}	
+					}
 					8 = {
-					}	
+					}
 				}
 			}
 			hidden_effect = {
@@ -2638,9 +2884,11 @@ RED_demand_cat = {
 			}
 		}
 		timeout_effect = {
-			hidden_effect={RED_the_public = {
-				unit_leader_event = RED_missions_char.2
-			}}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
 			add_to_variable = {
 				RED_public_mission_activated = -1
 			}
@@ -2649,7 +2897,8 @@ RED_demand_cat = {
 			}
 		}
 	}
-	RED_demand_quit = { #탈퇴 요구
+	RED_demand_quit = {
+		#탈퇴 요구
 		icon = GFX_decision_generic_political_rally
 		days_mission_timeout = 120
 		available = {
@@ -2679,9 +2928,11 @@ RED_demand_cat = {
 			}
 		}
 		timeout_effect = {
-			hidden_effect={RED_the_public = {
-				unit_leader_event = RED_missions_char.2
-			}}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
 			add_to_variable = {
 				RED_public_mission_activated = -1
 			}
@@ -2690,7 +2941,8 @@ RED_demand_cat = {
 			}
 		}
 	}
-	RED_demand_hospital = { #야전병원 요구
+	RED_demand_hospital = {
+		#야전병원 요구
 		icon = GFX_decision_SWI_no_elected_president
 		days_mission_timeout = 150
 		available = {
@@ -2717,9 +2969,11 @@ RED_demand_cat = {
 			}
 		}
 		timeout_effect = {
-			hidden_effect={RED_the_public = {
-				unit_leader_event = RED_missions_char.2
-			}}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
 			add_to_variable = {
 				RED_public_mission_activated = -1
 			}
@@ -2728,7 +2982,8 @@ RED_demand_cat = {
 			}
 		}
 	}
-	RED_demand_RMC_cut = { #혁명군사평의회 해산
+	RED_demand_RMC_cut = {
+		#혁명군사평의회 해산
 		icon = GFX_decision_generic_army_support
 		days_mission_timeout = 120
 		available = {
@@ -2754,9 +3009,11 @@ RED_demand_cat = {
 			}
 		}
 		timeout_effect = {
-			hidden_effect={RED_the_public = {
-				unit_leader_event = RED_missions_char.2
-			}}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
 			add_to_variable = {
 				RED_public_mission_activated = -1
 			}
@@ -2765,7 +3022,8 @@ RED_demand_cat = {
 			}
 		}
 	}
-	RED_demand_stability = { #안정도 100
+	RED_demand_stability = {
+		#안정도 100
 		icon = GFX_decision_generic_army_support
 		days_mission_timeout = 180
 		available = {
@@ -2791,9 +3049,11 @@ RED_demand_cat = {
 			}
 		}
 		timeout_effect = {
-			hidden_effect={RED_the_public = {
-				unit_leader_event = RED_missions_char.2
-			}}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
 			add_to_variable = {
 				RED_public_mission_activated = -1
 			}
@@ -2802,7 +3062,8 @@ RED_demand_cat = {
 			}
 		}
 	}
-	RED_demand_infra = { #기반시설
+	RED_demand_infra = {
+		#기반시설
 		icon = GFX_decision_generic_motorized
 		days_mission_timeout = 240
 		available = {
@@ -2852,9 +3113,11 @@ RED_demand_cat = {
 			}
 		}
 		timeout_effect = {
-			hidden_effect={RED_the_public = {
-				unit_leader_event = RED_missions_char.2
-			}}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
 			add_to_variable = {
 				RED_public_mission_activated = -1
 			}
@@ -2863,7 +3126,8 @@ RED_demand_cat = {
 			}
 		}
 	}
-	RED_demand_arms = { #군산복합체 설립
+	RED_demand_arms = {
+		#군산복합체 설립
 		icon = GFX_decision_generic_factory
 		days_mission_timeout = 250
 		available = {
@@ -2872,7 +3136,7 @@ RED_demand_cat = {
 		}
 		activation = {
 			always = no
-		}	
+		}
 		is_good = no
 		complete_effect = {
 			add_offsite_building = {
@@ -2892,9 +3156,11 @@ RED_demand_cat = {
 			}
 		}
 		timeout_effect = {
-			hidden_effect={RED_the_public = {
-				unit_leader_event = RED_missions_char.2
-			}}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
 			add_to_variable = {
 				RED_public_mission_activated = -1
 			}
@@ -2903,7 +3169,8 @@ RED_demand_cat = {
 			}
 		}
 	}
-	RED_demand_chemi = { #중화학산업 양성
+	RED_demand_chemi = {
+		#중화학산업 양성
 		icon = GFX_decision_oil
 		days_mission_timeout = 280
 		available = {
@@ -2911,7 +3178,7 @@ RED_demand_cat = {
 		}
 		activation = {
 			always = no
-		}	
+		}
 		is_good = no
 		complete_effect = {
 			add_tech_bonus = {
@@ -2923,6 +3190,26 @@ RED_demand_cat = {
 				category = cat_synth_oil
 				bonus = 0.5
 				uses = 2
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = RED
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = synthetic_refinery
+					level = 1
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = RED
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = synthetic_refinery
+					level = 1
+				}
 			}
 			hidden_effect = {
 				RED_the_public = {
@@ -2937,9 +3224,11 @@ RED_demand_cat = {
 			}
 		}
 		timeout_effect = {
-			hidden_effect={RED_the_public = {
-				unit_leader_event = RED_missions_char.2
-			}}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
 			add_to_variable = {
 				RED_public_mission_activated = -1
 			}
@@ -2948,7 +3237,8 @@ RED_demand_cat = {
 			}
 		}
 	}
-	RED_demand_core = { #스칸디나비아 통합
+	RED_demand_core = {
+		#스칸디나비아 통합
 		icon = GFX_decision_generic_political_discourse
 		days_mission_timeout = 480
 		available = {
@@ -2964,18 +3254,48 @@ RED_demand_cat = {
 		}
 		activation = {
 			always = no
-		}	
+		}
 		is_good = no
 		complete_effect = {
 			every_owned_state = {
 				limit = {
 					OR = {
-						is_core_of = SAF
+						is_core_of = SMI
 						is_core_of = DEN
 						is_core_of = NOR
 					}
 				}
 				add_manpower = 100
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = NOR
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = DEN
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+				}
+			}
+			random_owned_state = {
+				limit = {
+					is_core_of = SMI
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+				}
 			}
 			hidden_effect = {
 				RED_the_public = {
@@ -2990,9 +3310,11 @@ RED_demand_cat = {
 			}
 		}
 		timeout_effect = {
-			hidden_effect={RED_the_public = {
-				unit_leader_event = RED_missions_char.2
-			}}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
 			add_to_variable = {
 				RED_public_mission_activated = -1
 			}
@@ -3001,7 +3323,8 @@ RED_demand_cat = {
 			}
 		}
 	}
-	RED_demand_fin = { #동방 공세
+	RED_demand_fin = {
+		#동방 공세
 		icon = GFX_decision_hol_draw_up_staff_plans
 		days_mission_timeout = 90
 		available = {
@@ -3009,7 +3332,7 @@ RED_demand_cat = {
 		}
 		activation = {
 			always = no
-		}	
+		}
 		is_good = no
 		complete_effect = {
 			add_manpower = 50000
@@ -3026,9 +3349,198 @@ RED_demand_cat = {
 			}
 		}
 		timeout_effect = {
-			hidden_effect={RED_the_public = {
-				unit_leader_event = RED_missions_char.2
-			}}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
+			add_to_variable = {
+				RED_public_mission_activated = -1
+			}
+			add_to_variable = {
+				RED_public_mission_failed = 1
+			}
+		}
+	}
+	RED_demand_defense_capital = {
+		#체리노그라드 수호
+		icon = GFX_decision_generic_fortification
+		days_mission_timeout = 240
+		available = {
+			NOT = {
+				controls_state = 141
+			}
+		}
+		highlight_states = {
+			highlight_state_targets = {
+				state = 141
+			}
+		}
+		activation = {
+			always = no
+		}
+		is_good = yes
+		complete_effect = {
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
+			add_to_variable = {
+				RED_public_mission_activated = -1
+			}
+			add_to_variable = {
+				RED_public_mission_failed = 1
+			}
+		}
+		timeout_effect = {
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.3
+				}
+			}
+			add_to_variable = {
+				RED_public_mission_activated = -1
+			}
+			add_to_variable = {
+				RED_public_mission_completed = 1
+			}
+			custom_effect_tooltip = RED_winterarmy_advance_tt
+			custom_effect_tooltip = RED_trench_exp_tt
+		}
+	}
+	RED_demand_system = {
+		#체제 완성
+		icon = GFX_decision_SOV_the_workers_dictatorship
+		days_mission_timeout = 250
+		available = {
+			has_completed_focus = RED_work_for_worker
+		}
+		activation = {
+			always = no
+		}
+		is_good = no
+		complete_effect = {
+			random_owned_state = {
+				limit = {
+					is_core_of = RED
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.3
+				}
+			}
+			add_to_variable = {
+				RED_public_mission_activated = -1
+			}
+			add_to_variable = {
+				RED_public_mission_completed = 1
+			}
+		}
+		timeout_effect = {
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
+			add_to_variable = {
+				RED_public_mission_activated = -1
+			}
+			add_to_variable = {
+				RED_public_mission_failed = 1
+			}
+		}
+	}
+	RED_demand_industry = {
+		#산업 재구조화
+		icon = GFX_decision_SOV_secure_the_administration
+		days_mission_timeout = 250
+		available = {
+			has_completed_focus = RED_worker_republic
+		}
+		activation = {
+			always = no
+		}
+		is_good = no
+		complete_effect = {
+			random_owned_state = {
+				limit = {
+					is_core_of = RED
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.3
+				}
+			}
+			add_to_variable = {
+				RED_public_mission_activated = -1
+			}
+			add_to_variable = {
+				RED_public_mission_completed = 1
+			}
+		}
+		timeout_effect = {
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
+			add_to_variable = {
+				RED_public_mission_activated = -1
+			}
+			add_to_variable = {
+				RED_public_mission_failed = 1
+			}
+		}
+	}
+	RED_demand_europe = {
+		#유럽 해방
+		icon = GFX_decision_SOV_socialism_in_one_country
+		days_mission_timeout = 720
+		available = {
+			has_country_flag = form_european_union_flag
+		}
+		activation = {
+			always = no
+		}
+		is_good = no
+		complete_effect = {
+			every_owned_state = {
+				limit = {
+					has_resistance = yes
+				}
+				add_compliance = 5
+			}
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.3
+				}
+			}
+			add_to_variable = {
+				RED_public_mission_activated = -1
+			}
+			add_to_variable = {
+				RED_public_mission_completed = 1
+			}
+		}
+		timeout_effect = {
+			hidden_effect = {
+				RED_the_public = {
+					unit_leader_event = RED_missions_char.2
+				}
+			}
 			add_to_variable = {
 				RED_public_mission_activated = -1
 			}
