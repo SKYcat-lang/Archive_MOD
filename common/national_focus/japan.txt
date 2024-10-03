@@ -1641,7 +1641,7 @@
 
 	focus = {
 		id = JAP_nation_of_the_rising_sun
-		icon = GFX_focus_ETH_an_empire_in_the_shade_of_the_sun
+		icon = GFX_focus_JAP_nation_of_the_rising_sun
 		mutually_exclusive = { focus = JAP_strengthen_civilian_government }
 		x = 12
 		y = 0
@@ -1712,7 +1712,7 @@
 		completion_reward = {
 			add_stability = 0.1
 			add_popularity = {
-				ideology = fascism
+				ideology = neutrality
 				popularity = 0.15
 			}
 			remove_ideas = BA_JAP_unstable_political_structure
@@ -1797,7 +1797,10 @@
 		}
 
 		available = {
-
+			custom_trigger_tooltip = {
+				tooltip = THIS_IS_WIP_TT
+				has_country_flag = GAEBALJUNG
+			}
 		}
 
 		bypass = {
@@ -2010,7 +2013,7 @@
 		icon = GFX_goal_generic_oil_refinery
 		prerequisite = { focus = JAP_nationalize_war_industry }
 		x = 0
-		y = 6
+		y = 3
 		relative_position_id = JAP_guide_the_zaibatsus
 
 		cost = 10
@@ -3592,9 +3595,16 @@
 		}
 
 		available = {
-			is_power_balance_in_range = {
-				id = JAP_power_balance
-				range > JAP_army_3
+			if = {
+				limit = {
+					has_power_balance = {
+						id = JAP_power_balance
+					}
+				}
+				is_power_balance_in_range = {
+					id = JAP_power_balance
+					range > JAP_army_3
+				}
 			}
 		}
 
@@ -3669,9 +3679,9 @@
 		}
 
 		available = {
-			is_power_balance_in_range = {
-				id = JAP_power_balance
-				range > JAP_army_3
+			OR = {
+				has_country_flag = JAP_prime_minister_is_ugaki_kazushige
+				has_country_flag = JAP_prime_minister_is_fumimaro_konoe
 			}
 		}
 
@@ -3709,15 +3719,15 @@
 		}
 
 		available = {
-			OR = {
-				is_power_balance_in_range = {
-					id = JAP_power_balance
-					range > JAP_army_3
-				}
-				NOT = {
+			if = {
+				limit = {
 					has_power_balance = {
 						id = JAP_power_balance
 					}
+				}
+				is_power_balance_in_range = {
+					id = JAP_power_balance
+					range > JAP_army_3
 				}
 			}
 		}
@@ -3753,9 +3763,9 @@
 
 	focus = {
 		id = JAP_way_of_japanese_fascism
-		icon = GFX_focus_generic_fascist_troops
+		icon = GFX_focus_JAP_way_of_japanese_fascism
 		prerequisite = { focus = JAP_opposition_to_the_army focus = JAP_support_the_kodoha_faction }
-		x = -5
+		x = -7
 		y = 1
 		relative_position_id = JAP_opposition_to_the_army
 
@@ -3982,6 +3992,369 @@
 	}
 
 	focus = {
+		id = JAP_national_industrial_general_alliance
+		icon = GFX_goal_generic_union_agreement
+		prerequisite = { focus = JAP_way_of_japanese_fascism }
+		x = 1
+		y = 1
+		relative_position_id = JAP_way_of_japanese_fascism
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		complete_tooltip = {
+			random_state = {
+				limit = {
+					has_state_flag = JAP_imperial_arsenals1
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_state = {
+				limit = {
+					has_state_flag = JAP_imperial_arsenals2
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_fully_controlled_by = PREV
+					is_core_of = ROOT	
+					not = {
+						OR = {
+							state = 282
+							state = 533
+							state = 531
+						}
+					}					
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = JAP_imperial_arsenals1
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_fully_controlled_by = PREV
+					is_core_of = ROOT	
+					not = {
+						OR = {
+							state = 282
+							state = 533
+							state = 531
+						}
+					}					
+					free_building_slots = {
+						building = industrial_complex
+						size > 1
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = JAP_imperial_arsenals2
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_promotion_of_kodo_education
+		icon = GFX_focus_ARG_fascist_researchers
+		prerequisite = { focus = JAP_national_industrial_general_alliance }
+		x = 0
+		y = 1
+		relative_position_id = JAP_national_industrial_general_alliance
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+			add_political_power = 120
+		}
+	}
+
+	focus = {
+		id = JAP_rural_revival_movement
+		icon = GFX_focus_generic_self_management
+		prerequisite = { focus = JAP_way_of_japanese_fascism }
+		x = 3
+		y = 2
+		relative_position_id = JAP_way_of_japanese_fascism
+
+		cost = 5
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+		complete_tooltip = {
+			random_state = {
+				limit = {
+					has_state_flag = JAP_rural_revival_movement1
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_state = {
+				limit = {
+					has_state_flag = JAP_rural_revival_movement2
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_state = {
+				limit = {
+					has_state_flag = JAP_rural_revival_movement3
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+			random_state = {
+				limit = {
+					has_state_flag = JAP_rural_revival_movement4
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_fully_controlled_by = PREV
+					is_core_of = ROOT	
+					not = {
+						OR = {
+							state = 282
+							state = 533
+							state = 531
+						}
+					}					
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = JAP_rural_revival_movement1
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_fully_controlled_by = PREV
+					is_core_of = ROOT	
+					not = {
+						OR = {
+							state = 282
+							state = 533
+							state = 531
+						}
+					}					
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = JAP_rural_revival_movement2
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_fully_controlled_by = PREV
+					is_core_of = ROOT	
+					not = {
+						OR = {
+							state = 282
+							state = 533
+							state = 531
+						}
+					}					
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = JAP_rural_revival_movement3
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_fully_controlled_by = PREV
+					is_core_of = ROOT	
+					not = {
+						OR = {
+							state = 282
+							state = 533
+							state = 531
+						}
+					}					
+					free_building_slots = {
+						building = infrastructure
+						size > 0
+						include_locked = yes
+					}
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+					instant_build = yes
+				}
+				set_state_flag = JAP_rural_revival_movement4
+			}
+		}
+	}
+
+	focus = {
+		id = JAP_establishment_of_new_national_order
+		icon = GFX_focus_JAP_establishment_of_new_national_order
+		prerequisite = { focus = JAP_rural_revival_movement }
+		prerequisite = { focus = JAP_promotion_of_kodo_education }
+		x = 2
+		y = 3
+		relative_position_id = JAP_way_of_japanese_fascism
+
+		cost = 10
+
+		ai_will_do = {
+			factor = 3
+		}
+
+		available = {
+
+		}
+
+		bypass = {
+
+		}
+
+		cancel_if_invalid = yes
+		continue_if_invalid = no
+		available_if_capitulated = no
+
+		search_filters = { FOCUS_FILTER_INDUSTRY }
+
+		completion_reward = {
+			add_stability = 0.10
+			add_popularity = {
+				ideology = neutrality
+				popularity = -0.10
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = -0.10
+			}
+			add_popularity = {
+				ideology = communism
+				popularity = -0.10
+			}
+		}
+	}
+
+	focus = {
 		id = JAP_suppression_of_the_military
 		icon = GFX_focus_generic_support_the_left_right
 		prerequisite = { focus = JAP_protection_of_the_kodoha }
@@ -4086,6 +4459,10 @@
 			factor = 3
 		}
 
+		allow_branch = {
+			has_global_flag = BA_japan_27_flag
+		}
+
 		available = {
 			has_power_balance = {
 				id = JAP_power_balance
@@ -4094,6 +4471,7 @@
 				id = JAP_power_balance
 				range > JAP_army_0
 			}
+			has_global_flag = BA_japan_27_flag
 		}
 
 		bypass = {
@@ -4108,7 +4486,7 @@
 
 		completion_reward = {
 			add_stability = -0.05
-			country_event = { id = BA_japan.28 hours = 8 }
+			country_event = { id = BA_japan.30 hours = 8 }
 			set_party_name = {
 				ideology = fascism
 				long_name = JAP_control_of_the_military_fascism
@@ -4186,6 +4564,7 @@
 				range > JAP_army_1
 			}
 			has_country_flag = JAP_prime_minister_is_fumimaro_konoe
+			NOT = { has_global_flag = BA_japan_27_flag }
 		}
 
 		bypass = {
@@ -4220,6 +4599,14 @@
 		y = 5
 		relative_position_id = JAP_opposition_to_the_army
 
+		offset = {
+			trigger = {
+				has_global_flag = BA_japan_27_flag
+			}
+			x = -1
+			y = 0
+		}
+
 		cost = 10
 
 		ai_will_do = {
@@ -4253,14 +4640,20 @@
 			}
 			remove_ideas = BA_JAP_unstable_political_structure
 			if = {
-				limit = {  
-					has_power_balance = {
-						id = JAP_power_balance
+				limit = {
+					OR = {
+						has_completed_focus = JAP_control_of_the_military
+						has_completed_focus = JAP_establishment_of_the_imperial_rule_assistance_association
 					}
+					has_idea = JAP_militarism
 				}
-				remove_power_balance = {
-					id = JAP_power_balance
+				swap_ideas = {
+					remove_idea = JAP_militarism
+					add_idea = BA_JAP_militarism_week
 				}
+			}
+			remove_power_balance = {
+				id = JAP_power_balance
 			}
 		}
 	}
@@ -5665,7 +6058,7 @@
 		y = 0
 		relative_position_id = JAP_strengthen_civilian_government
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 1
@@ -6055,7 +6448,7 @@
 		y = 0
 		relative_position_id = JAP_the_manchurian_project 
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 1
@@ -6699,7 +7092,7 @@
 		y = 0
 		relative_position_id = JAP_army_expansion_law
 
-		cost = 10
+		cost = 5
 
 		ai_will_do = {
 			factor = 1

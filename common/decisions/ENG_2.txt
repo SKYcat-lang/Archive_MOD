@@ -949,6 +949,76 @@ CAN_HND_war = { #아대륙 문제
 			}
 		}
 	}
+	CAN_HND_bad_event_roop = { # 대중 집회 (반복)
+		icon = GFX_decision_revolt
+		days_mission_timeout = 14
+		fire_only_once = yes
+		available = {
+			OR = {
+				has_country_flag = IMP_we_cant_select_india_focus
+				HND = {
+					has_war_with = RAJ
+				}
+			}
+		}
+		activation = {
+			always = no
+		}
+		timeout_effect = {
+			if = {
+				limit = { check_variable  = { HND_independence_var = 10 } }
+				custom_effect_tooltip = CAN_start_india_civil_war_tt
+				hidden_effect = {
+					HND = {
+						country_event = hndcan.1
+					}
+				}
+				else_if = {
+					limit = { check_variable = { HND_independence_var < 5 } }
+					country_event = impindia.21
+				}
+				else_if = {
+					limit = { check_variable = { HND_independence_var < 7 } }
+					country_event = impindia.22
+				}
+				else_if = {
+					limit = { check_variable = { HND_independence_var < 9 } }
+					country_event = impindia.23
+				}
+				else_if = {
+					limit = { check_variable = { HND_independence_var = 9} }
+					set_country_flag = CAN_we_cant_do_nothing # 이 플래그가 꽃히면 다른 인도 문제 결정 못찍게 ㄱㄱ
+					custom_effect_tooltip = CAN_we_cant_do_nothing
+					country_event = impindia.25 
+				}
+			}
+			custom_effect_tooltip = CAN_HND_going_bad_tt
+			add_to_variable = {
+				HND_independence_var = 1
+			}
+			clamp_variable = {
+				var = HND_independence_var
+				min = 0 max = 10
+			}
+			activate_mission = CAN_HND_bad_event_roop
+		}
+	}
+	CAN_india_problem = {
+		allowed = { original_tag = ENG }
+		icon = GFX_decision_eng_trade_unions_support
+	 	priority = 9999
+	 	ai_will_do = { base = 40 }
+		fire_only_once = yes
+		available = {
+			RAJ = { has_war_with = HND}
+		}
+		visible = { }
+		complete_effect = {
+			ENG = {
+				complete_national_focus = IMP_india_focus_0
+			}
+		}
+	}
 }
 CAN_fed_pro_copperative_categories = {
 	CAN_from_federal_proincial_coop = {
@@ -994,6 +1064,41 @@ CAN_fed_pro_copperative_categories = {
 		}
 	}
 }
+political_actions = {
+	CAN_let_go_british = {
+		allowed = { tag = ENG}
+		available = {
+			date > 1940.1.1 
+			has_army_manpower = { size > 449999 }
+			has_war_support > 0.4
+			check_variable = { num_equipment_in_armies_k@infantry_equipment > 16 }
+			custom_trigger_tooltip = {
+				tooltip = TRN_gehenna_eq_trigger_tt
+				check_variable = { num_equipment_in_armies_k@infantry_equipment > 16 }
+			}
+		}
+		visible = {
+			NOT = {
+				has_idea = ENG_exile_shock
+				has_idea = ENG_great_depression_1
+				has_idea = ENG_great_depression_2
+				has_idea = ENG_great_depression_3
+				has_idea = ENG_great_depression_4
+				has_idea = ENG_great_depression_5
+				has_idea = ENG_great_depression_6
+				has_idea = ENG_great_depression_7
+				has_idea = ENG_great_depression_8
+				has_idea = ENG_great_depression_9
+			}
+		}
+		complete_effect = {
+			create_wargoal = {
+				type = annex_everything
+				target = KAI
+			}
+		}
+	}
+}
 debug_decisions = {
     CAN_Federal_Provinc_debug = {
 		priority = 80
@@ -1028,63 +1133,50 @@ debug_decisions = {
             tag = ENG
 		}
 		complete_effect = {
-			division_template = {
-				name = "Assault Troops"
-				priority = 1
-				division_names_group = ENG_INF_01
+			set_variable = { HND_independence_var = 9 }
+			activate_mission = CAN_HND_bad_event_roop
+		}
+    }
+    CAN_letsgocanada_debug = {
+		priority = 80
+		allowed = {
+			always = yes
+		}
+		available = {
+			is_ai = no
+		}
 
-				regiments = {
-					infantry = { x = 0 y = 0 }
-					infantry = { x = 0 y = 1 }
-					infantry = { x = 0 y = 2 }
-		
-					infantry = { x = 1 y = 0 }
-					infantry = { x = 1 y = 1 }
-					infantry = { x = 1 y = 2 }
-		
-					infantry = { x = 2 y = 0 }
-					infantry = { x = 2 y = 1 }
-					infantry = { x = 2 y = 2 }
+		visible = {
+			is_ai = no
+			is_debug = yes
+            tag = ENG
+		}
+		complete_effect = {
+            ENG_lose_effect = yes
+			ENG_lose_effect_other_country = yes
+		}
+    }
+    intro_event_debug = {
+		priority = 80
+		allowed = {
+			always = yes
+		}
+		available = {
+			is_ai = no
+		}
 
-					artillery_brigade = { x = 3 y = 0 }
-					artillery_brigade = { x = 3 y = 1 }
-					artillery_brigade = { x = 3 y = 2 }
-				}
-				support = {
-					artillery = { x = 0 y = 0 }
-					signal_company = { x = 0 y = 1 }
-					recon = { x = 0 y = 2 }
-				}
+		visible = {
+			is_ai = no
+			is_debug = yes
+		}
+		complete_effect = {
+			if = {
+				limit = { tag_has_country_intro = yes }
+				set_variable = { KR_welcome_splash_variable = 1 }
 			}
-			random_owned_controlled_state = {
-				limit = { ROOT = { has_full_control_of_state = PREV } }
-				prioritize = { 931 }
-				create_unit = {
-					division = "name = \"I. Assault Troops\" division_template = \"Assault Troops\" start_experience_factor = 1 start_equipment_factor = 1" 
-					owner = ENG
-				}
-				create_unit = {
-					division = "name = \"II. Assault Troops\" division_template = \"Assault Troops\" start_experience_factor = 1 start_equipment_factor = 1" 
-					owner = ENG
-				}
-				create_unit = {
-					division = "name = \"III. Assault Troops\" division_template = \"Assault Troops\" start_experience_factor = 1 start_equipment_factor = 1"  
-					owner = ENG
-				}
-				create_unit = {
-					division = "name = \"IV. Assault Troops\" division_template = \"Assault Troops\" start_experience_factor = 1 start_equipment_factor = 1"  
-					owner = ENG
-				}
-				create_unit = {
-					division = "name = \"V. Assault Troops\" division_template = \"Assault Troops\" start_experience_factor = 1 start_equipment_factor = 1"  
-					owner = ENG
-				}
-				create_unit = {
-					division = "name = \"VI. Assault Troops\" division_template = \"Assault Troops\" start_experience_factor = 1 start_equipment_factor = 1"  
-					owner = ENG
-				}
+			else = {
+				set_variable = { KR_welcome_splash_variable = 4 }
 			}
 		}
     }
-
 }
