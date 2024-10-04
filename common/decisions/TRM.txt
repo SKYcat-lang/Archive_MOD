@@ -61,7 +61,13 @@ TRN_country_collapse_decisions = {
 					clr_country_flag = declaration_of_martial_law_flag
 				}
 			}
-			country_event = TRN_collapse_event.7
+			if = {
+				limit = { check_variable = { TRM_RETTS_strike_the_base_var > 7 } }
+				country_event = TRN_collapse_event.8
+			}
+			else = {
+				country_event = TRN_collapse_event.7
+			}
 		}
 	}
 	TRM_rural_unrest = {
@@ -226,6 +232,55 @@ TRN_country_collapse_decisions = {
 					type = industrial_complex
 					level = 1
 				}
+			}
+			add_days_mission_timeout = {
+				mission = TRM_resistance_emerging_to_the_surface
+				days = 50
+			}
+		}
+	}
+	TRM_RETTS_strike_the_base = {
+		icon = GFX_decision_generic_break_treaty
+		
+
+		allowed = {
+			original_tag = TRM
+		}
+		
+		visible = {
+			has_active_mission = TRM_resistance_emerging_to_the_surface
+		}
+		custom_cost_text = decision_cost_ie_1000
+		
+		fire_only_once = no
+
+		days_re_enable = 7
+		
+		custom_cost_trigger = {
+			has_equipment = { infantry_equipment > 999 }
+		}
+
+		ai_will_do = {
+			base = 4000
+			modifier = {
+				check_variable = { TRM_RETTS_strike_the_base_var > 7 }
+				factor = 0
+			}
+		}
+
+		complete_effect = {
+			hidden_effect = {
+				add_equipment_to_stockpile = {
+					type = infantry_equipment
+					amount = -1000
+				}
+			}
+        }
+		
+		remove_effect = {
+			custom_effect_tooltip = TRM_RETTS_strike_the_base_tt
+			add_to_variable = {
+				TRM_RETTS_strike_the_base_var = 1
 			}
 			add_days_mission_timeout = {
 				mission = TRM_resistance_emerging_to_the_surface
