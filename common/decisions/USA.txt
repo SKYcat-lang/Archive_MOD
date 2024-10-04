@@ -3965,6 +3965,7 @@ USA_recover_from_2nd_great_depression_categorie = {
 				NOT = { has_country_flag = USA_recover_from_2nd_great_depression_stop_flag }
 			}
 			NOT = { has_country_flag = USA_recover_from_2nd_great_depression_failure_mission }
+			NOT = { has_country_flag = USA_recover_from_2nd_great_depression_rebuild_war_flan_flag }
 		}
 		visible = {
 			has_completed_focus = USABA_american_reindustrialization
@@ -4061,6 +4062,7 @@ USA_recover_from_2nd_great_depression_categorie = {
 			}
 			NOT = { has_country_flag = USA_recover_from_2nd_great_depression_failure_mission }
 			has_country_flag = USABA_agriculture_rebuild_start
+			NOT = { has_country_flag = USA_recover_from_2nd_great_depression_rebuild_war_flan_flag }
 		}
 		visible = {
 			has_completed_focus = USABA_american_reindustrialization
@@ -4145,6 +4147,55 @@ USA_recover_from_2nd_great_depression_categorie = {
 			swap_ideas = {
 				remove_idea = USABA_famine_1
 				add_idea = USABA_famine_2
+			}
+		}
+	}
+	USA_recover_from_2nd_great_depression_rebuild_war_flan = {
+		priority = 86
+		icon = GFX_decision_generic_consumer_goods
+		available = {
+			has_war_with_major = yes
+			OR = {
+				has_idea = USABA_famine
+				has_idea = USABA_famine_1
+			}
+		}
+		visible = {
+			has_completed_focus = USABA_american_reindustrialization
+			OR = {
+				has_idea = USABA_famine
+				has_idea = USABA_famine_1
+			}
+		}
+		cost = 75
+		complete_effect = {
+			set_country_flag = USA_recover_from_2nd_great_depression_rebuild_war_flan_flag
+		}
+		fire_only_once = yes
+		days_remove = 75
+		modifier = {
+			political_power_cost = 0.75
+			consumer_goods_factor = 0.15
+			production_speed_buildings_factor = -0.15
+		}
+
+		remove_effect = {
+			add_ideas = USABA_famine_3
+			if = {
+				limit = { has_idea = USABA_famine }
+				remove_ideas = USABA_famine
+				add_timed_idea = {
+					idea = USABA_famine_4
+					days = 420
+				}
+			}
+			if = {
+				limit = { has_idea = USABA_famine_1 }
+				remove_ideas = USABA_famine_1
+				add_timed_idea = {
+					idea = USABA_famine_4
+					days = 210
+				}
 			}
 		}
 	}
