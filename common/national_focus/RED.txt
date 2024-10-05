@@ -18,7 +18,7 @@ focus_tree = {
 	focus = { # 남부 도로 재정비
 		id = RED_road_to_south
 		icon = GFX_goal_generic_construction
-		x = 2
+		x = 1
 		y = 0
 		cost = 5
 
@@ -93,7 +93,7 @@ focus_tree = {
 
 		icon = GFX_focus_generic_industry_2
 		prerequisite = { focus = RED_land_research }
-		x = 0
+		x = -5
 		y = 1
 		relative_position_id = RED_land_research
 		cost = 5
@@ -131,7 +131,7 @@ focus_tree = {
 
 		icon = GFX_goal_generic_construct_infrastructure
 		prerequisite = { focus = RED_economy_dev_plan }
-		x = -2
+		x = -1
 		y = 1
 		relative_position_id = RED_economy_dev_plan
 		cost = 5
@@ -182,7 +182,7 @@ focus_tree = {
 
 		icon = GFX_goal_generic_construction2
 		prerequisite = { focus = RED_economy_dev_plan }
-		x = 0
+		x = 1
 		y = 1
 		relative_position_id = RED_economy_dev_plan
 		cost = 5
@@ -207,7 +207,7 @@ focus_tree = {
 		icon = GFX_goal_generic_construct_civ_factory
 
 		prerequisite = { focus = RED_entice_publicworks }
-		x = -2
+		x = -3
 		y = 1
 		relative_position_id = RED_entice_publicworks
 		cost = 5
@@ -252,13 +252,48 @@ focus_tree = {
 			}
 		}
 	}
+	focus = { # 툰드라 지방 개발
+		id = RED_economy_focus_1
+
+		icon = GFX_goal_generic_production2
+
+		prerequisite = { focus = RED_entice_publicworks }
+		x = -1
+		y = 1
+		relative_position_id = RED_entice_publicworks
+		cost = 5
+
+		completion_reward = {
+			916 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+				}
+			}
+			917 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+				}
+			}
+			38 = {
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = infrastructure
+					level = 1
+				}
+			}
+		}
+	}
 	focus = { # 군수공업 확장
 		id = RED_upgrade_army_industry
 
 		icon = GFX_goal_generic_construct_mil_factory
 
 		prerequisite = { focus = RED_entice_publicworks }
-		x = 2
+		x = 1
 		y = 1
 		relative_position_id = RED_entice_publicworks
 		cost = 5
@@ -311,7 +346,7 @@ focus_tree = {
 		x = 2
 		y = 1
 		relative_position_id = RED_upgrade_heavy_industry
-		cost = 10
+		cost = 5
 
 		available = {
 			any_owned_state = {
@@ -397,10 +432,10 @@ focus_tree = {
 			}
 		}
 	}
-	focus = { #석유 생산
+	focus = { #유전 개발
 		id = RED_oil_production
 
-		icon = GFX_goal_generic_oil_refinery
+		icon = GFX_focus_generic_resource_extraction
 		prerequisite = { focus = RED_steel_casting_industry }
 		x = 1
 		y = 1
@@ -443,6 +478,28 @@ focus_tree = {
 					type = fuel_silo
 					level = 1
 				}
+			}
+		}
+	}
+	focus = { #알루미늄 광산 확장
+		id = RED_economy_focus_2
+
+		icon = GFX_focus_generic_aluminum
+		prerequisite = { focus = RED_steel_casting_industry }
+		x = 0
+		y = 2
+		relative_position_id = RED_steel_casting_industry
+		cost = 5
+
+		available = {
+			has_full_control_of_state = 142
+		}
+
+		completion_reward = {
+			add_resource = {
+				type = aluminium
+				amount = 20
+				state = 142
 			}
 		}
 	}
@@ -537,61 +594,353 @@ focus_tree = {
 			remove_ideas = RED_economy_recover_idea_1
 		}
 	}
-	focus = { # 현지 지식인 지원
-		id = RED_native_intellect
+	focus = { # 현지 산업 개발안
+		id = RED_economy_focus_3
 
-		icon = GFX_focus_NORDIC_dem_research
-		prerequisite = { focus = RED_economy_dev_plan }
-		x = 3
+		icon = GFX_focus_generic_treaty
+		prerequisite = { focus = RED_land_research }
+		x = -1
 		y = 1
-		relative_position_id = RED_economy_dev_plan
+		relative_position_id = RED_land_research
 		cost = 5
 
 		available = {
 		}
-		mutually_exclusive = {
-			focus = RED_national_specialists
-		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 
 		completion_reward = {
-			add_tech_bonus = {
-				category = electronics
-				bonus = 0.2
-			}
-			add_stability = -0.05
 		}
 	}
-	focus = { # 지식해방전선에 투자
-		id = RED_national_specialists
+	focus = { # 현지 기술관료 등용
+		id = RED_economy_focus_4
 
-		icon = GFX_focus_NORDIC_com_research
-		prerequisite = { focus = RED_economy_dev_plan }
-		x = 5
+		icon = GFX_goal_TRM_class_collaboration
+		prerequisite = { focus = RED_land_research }
+		x = 1
 		y = 1
-		relative_position_id = RED_economy_dev_plan
+		relative_position_id = RED_land_research
 		cost = 5
 
 		available = {
 		}
-		mutually_exclusive = {
-			focus = RED_native_intellect
-		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
 
 		completion_reward = {
-			add_timed_idea = { 
-				idea = RED_invest_frontline_idea
-				days = 365
-			}
+		}
+	}
+	focus = { #농촌 계획
+		id = RED_economy_focus_5
+
+		icon = GFX_focus_generic_farmland
+		prerequisite = { focus = RED_economy_focus_3 }
+		x = -1
+		y = 1
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #농업 기계화 지원
+		id = RED_economy_focus_6
+
+		icon = GFX_focus_NZL_bob_semple_tank
+		prerequisite = { focus = RED_economy_focus_5 }
+		x = 0
+		y = 2
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #농촌 진흥 운동
+		id = RED_economy_focus_7
+
+		icon = GFX_focus_generic_workers_and_farmers_rise
+		prerequisite = { focus = RED_economy_focus_5 }
+		x = -1
+		y = 3
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #소비재 산업 계획
+		id = RED_economy_focus_8
+
+		icon = GFX_goal_generic_consumer_goods
+		prerequisite = { focus = RED_economy_focus_3 }
+		x = 1
+		y = 1
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #제1차 대안경제계획
+		id = RED_economy_focus_9
+
+		icon = GFX_goal_CAN_banking_legislation
+		prerequisite = { focus = RED_economy_focus_8 }
+		prerequisite = { focus = RED_economy_focus_11 }
+		x = 2
+		y = 2
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #민간 사업체 지원
+		id = RED_economy_focus_10
+
+		icon = GFX_focus_DEN_no_regulations
+		prerequisite = { focus = RED_economy_focus_9 }
+		x = 1
+		y = 3
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #해양 계획
+		id = RED_economy_focus_11
+
+		icon = GFX_focus_POL_develop_polish_shipbuilding
+		prerequisite = { focus = RED_economy_focus_3 }
+		x = 3
+		y = 1
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #노르웨이 해운업 회복
+		id = RED_economy_focus_12
+
+		icon = GFX_goal_generic_construct_naval_dockyard
+		prerequisite = { focus = RED_economy_focus_11 }
+		x = 4
+		y = 2
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #무역업 활성화
+		id = RED_economy_focus_13
+
+		icon = GFX_goal_generic_positive_trade_relations
+		prerequisite = { focus = RED_economy_focus_11 }
+		x = 3
+		y = 3
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #제2차 대안경제정책
+		id = RED_economy_focus_14
+
+		icon = GFX_focus_CHL_enlarge_the_textile_industries
+		prerequisite = { focus = RED_economy_focus_9 }
+		x = 2
+		y = 4
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #화폐개혁
+		id = RED_economy_focus_15
+
+		icon = GFX_focus_hol_abandon_the_gold_standard
+		prerequisite = { focus = RED_economy_focus_14 }
+		x = 1
+		y = 5
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #선별적 복지
+		id = RED_economy_focus_16
+
+		icon = GFX_focus_FIN_socialist_welfare
+		prerequisite = { focus = RED_economy_focus_14 }
+		x = 3
+		y = 5
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #시장사회주의
+		id = RED_economy_focus_17
+
+		icon = GFX_focus_generic_communist_industry
+		prerequisite = { focus = RED_economy_focus_15 }
+		prerequisite = { focus = RED_economy_focus_16 }
+		x = 2
+		y = 6
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #상품작물 재배
+		id = RED_economy_focus_18
+
+		icon = GFX_focus_generic_supply_line
+		prerequisite = { focus = RED_economy_focus_7 }
+		prerequisite = { focus = RED_economy_focus_10 }
+		x = 0
+		y = 4
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #상업적 농업
+		id = RED_economy_focus_19
+
+		icon = GFX_focus_generic_agricultural_subsidies
+		prerequisite = { focus = RED_economy_focus_18 }
+		prerequisite = { focus = RED_economy_focus_14 }
+		x = -1
+		y = 6
+		relative_position_id = RED_economy_focus_3
+		cost = 5
+
+		available = {
+		}
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { # 동아리 정책
+		id = RED_club_focus_0
+
+		icon = GFX_focus_generic_self_management
+		prerequisite = { focus = RED_land_research }
+		x = 5
+		y = 1
+		relative_position_id = RED_land_research
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { # 이공계열 동아리 확대
+		id = RED_economy_focus_0
+
+		icon = GFX_focus_generic_university_3
+		prerequisite = { focus = RED_club_focus_0 }
+		x = -1
+		y = 1
+		relative_position_id = RED_club_focus_0
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
 		}
 	}
 	focus = { # 지식의 해방
 		id = RED_knowledge_liberation
 
 		icon = GFX_focus_research
-		prerequisite = { focus = RED_national_specialists focus = RED_native_intellect}
-		x = -1
-		y = 1
-		relative_position_id = RED_national_specialists
+		prerequisite = { focus = RED_economy_focus_0}
+		x = 0
+		y = 2
+		relative_position_id = RED_economy_focus_0
 		cost = 5
 
 		available = {
@@ -601,38 +950,15 @@ focus_tree = {
 			add_research_slot = 1
 		}
 	}
-	focus = { #	지식을 위해!
-		id = RED_for_knowledge
-
-		icon = GFX_focus_research2
-		prerequisite = { focus = RED_knowledge_liberation }
-		x = 0
-		y = 3
-		relative_position_id = RED_knowledge_liberation
-		cost = 10
-
-		available = {
-		}
-
-		completion_reward = {
-			add_ideas = RED_for_knowledge_idea
-			if = {
-				limit = { 
-					has_idea = RED_invest_frontline_idea
-				}
-				remove_ideas = RED_invest_frontline_idea
-			}
-		}
-	}
 	focus = { # 강력한 한방
 		id = RED_great_punch
 
 		icon = GFX_focus_wonderweapons
-		prerequisite = { focus = RED_for_knowledge }
+		prerequisite = { focus = RED_knowledge_liberation }
 		x = -1
 		y = 1
-		cost = 20
-		relative_position_id = RED_for_knowledge
+		cost = 5
+		relative_position_id = RED_knowledge_liberation
 
 		available = {
 		}
@@ -643,16 +969,18 @@ focus_tree = {
 				uses = 2
 				category = nuclear
 			}
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = DEN_niels_bohr
 		}
 	}
 	focus = { # 라케트니 라만티크
 		id = RED_rocket_romance
 		icon = GFX_focus_rocketry
-		prerequisite = { focus = RED_for_knowledge }
+		prerequisite = { focus = RED_knowledge_liberation }
 		x = 1
 		y = 1
-		relative_position_id = RED_for_knowledge
-		cost = 20
+		relative_position_id = RED_knowledge_liberation
+		cost = 5
 
 		available = {
 		}
@@ -663,6 +991,193 @@ focus_tree = {
 				uses = 2
 				category = rocketry
 			}
+		}
+	}
+	focus = { # 문과대학 확대
+		id = RED_club_focus_5
+		icon = GFX_focus_hol_the_foundations_of_defense
+		prerequisite = { focus = RED_knowledge_liberation }
+		x = 0
+		y = 2
+		relative_position_id = RED_knowledge_liberation
+		cost = 5
+
+		available = {
+		}
+
+		completion_reward = {
+		}
+	}
+	focus = { # 전위사조
+		id = RED_club_focus_6
+		icon = GFX_focus_SOV_third_rome
+		prerequisite = { focus = RED_club_focus_5 }
+		x = -1
+		y = 1
+		relative_position_id = RED_club_focus_5
+		cost = 5
+		mutually_exclusive = {
+			focus = RED_club_focus_7
+			focus = RED_club_focus_8
+		}
+
+		available = {
+		}
+
+		completion_reward = {
+		}
+	}
+	focus = { # 리얼리즘
+		id = RED_club_focus_7
+		icon = GFX_focus_generic_population_growth
+		prerequisite = { focus = RED_club_focus_5 }
+		x = 1
+		y = 1
+		relative_position_id = RED_club_focus_5
+		cost = 5
+		mutually_exclusive = {
+			focus = RED_club_focus_8
+			focus = RED_club_focus_6
+		}
+
+		available = {
+		}
+
+		completion_reward = {
+		}
+	}
+	focus = { # 상업문학
+		id = RED_club_focus_8
+		icon = GFX_focus_mex_privatisation
+		prerequisite = { focus = RED_club_focus_5 }
+		x = 3
+		y = 1
+		relative_position_id = RED_club_focus_5
+		cost = 5
+		mutually_exclusive = {
+			focus = RED_club_focus_7
+			focus = RED_club_focus_6
+		}
+		available = {
+		}
+
+		completion_reward = {
+		}
+	}
+	focus = { # 동아리 통제권 회복
+		id = RED_club_focus_2
+
+		icon = GFX_goal_generic_neutrality_focus
+		prerequisite = { focus = RED_club_focus_0 }
+		x = 1
+		y = 1
+		relative_position_id = RED_club_focus_0
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { # 구교사 재건축
+		id = RED_club_focus_3
+
+		icon = GFX_goal_generic_air_production
+		prerequisite = { focus = RED_club_focus_2 }
+		x = 0
+		y = 2
+		relative_position_id = RED_club_focus_0
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { # 227호 특별반 회유
+		id = RED_club_focus_4
+
+		icon = GFX_focus_generic_concessions
+		prerequisite = { focus = RED_club_focus_3 }
+		x = 1
+		y = 3
+		relative_position_id = RED_club_focus_0
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { # 급양부 재건
+		id = RED_club_focus_1
+
+		icon = GFX_focus_generic_agricultural_subsidies
+		prerequisite = { focus = RED_club_focus_2 }
+		x = 2
+		y = 4
+		relative_position_id = RED_club_focus_0
+		cost = 5
+
+		available = {
+		}
+		
+		search_filters = {FOCUS_FILTER_INDUSTRY}
+
+		completion_reward = {
+		}
+	}
+	focus = { #군대에 배식 우선
+		id = RED_meal_focus_arm
+		icon = GFX_focus_SWI_neutrality_on_the_move
+		cost = 5
+		relative_position_id = RED_club_focus_1
+		x = -1
+		y = 1
+		prerequisite = {
+			focus = RED_club_focus_1
+		}
+		mutually_exclusive = {
+			focus = RED_meal_focus_adv
+		}
+		ai_will_do = { base = 15 }
+		available = {
+			
+		}
+		completion_reward = {
+			custom_effect_tooltip = available_military_high_command
+			show_ideas_tooltip = RED_meal_department_arm_ideas
+		}
+	}
+	focus = { #대중 급식
+		id = RED_meal_focus_adv
+		icon = GFX_focus_prc_agrarian_socialism
+		cost = 5
+		relative_position_id = RED_club_focus_1
+		x = 1
+		y = 1
+		prerequisite = {
+			focus = RED_club_focus_1
+		}
+		mutually_exclusive = {
+			focus = RED_meal_focus_arm
+		}
+		ai_will_do = { base = 15 }
+		available = {
+			
+		}
+		completion_reward = {
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = RED_meal_department_adv_ideas
 		}
 	}
 
@@ -819,56 +1334,6 @@ focus_tree = {
 			news_event = { id = BA_news.30 random_hours = 12 }
 		}
 	}
-	focus = { #군대에 배식 우선
-		id = RED_meal_focus_arm
-		icon = GFX_focus_SWI_neutrality_on_the_move
-		cost = 5
-		relative_position_id = RED_accept_trotskism
-		x = -4
-		y = 2
-		prerequisite = {
-			focus = RED_the_fourth_international
-		}
-		prerequisite = {
-			focus = RED_redbear_editorial
-		}
-		mutually_exclusive = {
-			focus = RED_meal_focus_adv
-		}
-		ai_will_do = { base = 15 }
-		available = {
-			
-		}
-		completion_reward = {
-			custom_effect_tooltip = available_military_high_command
-			show_ideas_tooltip = RED_meal_department_arm_ideas
-		}
-	}
-	focus = { #대중 급식
-		id = RED_meal_focus_adv
-		icon = GFX_focus_prc_agrarian_socialism
-		cost = 5
-		relative_position_id = RED_accept_trotskism
-		x = -2
-		y = 2
-		prerequisite = {
-			focus = RED_the_fourth_international
-		}
-		prerequisite = {
-			focus = RED_redbear_editorial
-		}
-		mutually_exclusive = {
-			focus = RED_meal_focus_arm
-		}
-		ai_will_do = { base = 15 }
-		available = {
-			
-		}
-		completion_reward = {
-			custom_effect_tooltip = available_political_advisor
-			show_ideas_tooltip = RED_meal_department_adv_ideas
-		}
-	}
 
 	focus = { #사무국
 		id = RED_redwinter_office
@@ -982,7 +1447,7 @@ focus_tree = {
 		cost = 10
 
 		relative_position_id = RED_the_fourth_international
-		x = -7
+		x = -6
 		y = 1
 
 		prerequisite = {
@@ -1280,7 +1745,7 @@ focus_tree = {
 		id = RED_expand_publishing_dep
 		icon = GFX_SOV_expand_the_agitprop_ccp_2d_sov_compatibility
 		prerequisite = { focus = RED_redbear_editorial }
-		x = -10
+		x = -9
 		y = 1
 		relative_position_id = RED_redbear_editorial
 		cost = 5
