@@ -69,6 +69,13 @@ focus_tree = {
 				amount = 500
 			}
 			activate_advisor = KPD_richard_sorge_idea
+			SOV = {
+				add_ai_strategy = {
+					type = send_volunteers_desire
+					id = "KPD"
+					value = 1000
+				}
+			}
 		}
 	}
 	focus = {
@@ -291,7 +298,6 @@ focus_tree = {
 				popularity = 0.10
 			}
 			62 = {
-				
 				create_unit = {
 					division = "name = \"Militia\" division_template = \"Peoples Militia\" start_experience_factor = 0.1 start_equipment_factor = 0.3"
 					owner = KPD
@@ -670,6 +676,10 @@ focus_tree = {
 						is_character = KPD_elected_officer_4
 						is_character = KPD_elected_officer_5
 					}
+					if = {
+						limit = { ROOT = { has_character = KPD_wilhelm_leuschner } }
+						is_character = KPD_wilhelm_leuschner
+					}
 				}
 				gain_xp = 25
 				add_unit_leader_trait = career_officer
@@ -685,6 +695,10 @@ focus_tree = {
 						is_character = KPD_elected_officer_3
 						is_character = KPD_elected_officer_4
 						is_character = KPD_elected_officer_5
+					}
+					if = {
+						limit = { ROOT = { has_character = KPD_alexander_schwab } }
+						is_character = KPD_alexander_schwab
 					}
 				}
 				gain_xp = 25
@@ -1094,6 +1108,7 @@ focus_tree = {
 					}
 				}
 			}
+			democratic > 0.30
 		}
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
@@ -1103,6 +1118,10 @@ focus_tree = {
 				ruling_party = democratic
 				election_frequency = 48
 				elections_allowed = yes
+			}
+			add_popularity = {
+				ideology = democratic
+				popularity = 0.15
 			}
 		}
 	}
@@ -1518,6 +1537,17 @@ focus_tree = {
 		bypass = {
 		}
 		relative_position_id = KPD_right_wing_purge
+		complete_tooltip = {
+			every_state = {
+				limit = { has_state_flag = KPD_construction_of_a_communist_society_2AF }
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
 		completion_reward = {
 			if = {
 				limit = {
@@ -1532,6 +1562,40 @@ focus_tree = {
 			}
 			else = {
 				add_stability = 0.15
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+					NOT = { has_state_flag = KPD_construction_of_a_communist_society_2AF }
+				}
+				set_state_flag = KPD_construction_of_a_communist_society_2AF
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					free_building_slots = {
+						building = arms_factory
+						size > 1
+						include_locked = yes
+					}
+					NOT = { has_state_flag = KPD_construction_of_a_communist_society_2AF }
+				}
+				set_state_flag = KPD_construction_of_a_communist_society_2AF
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = arms_factory
+					level = 2
+					instant_build = yes
+				}
 			}
 		}
 	}
@@ -1564,6 +1628,17 @@ focus_tree = {
 		}
 		completion_reward = {
 			SOV = {
+				add_opinion_modifier = {
+					target = KPD
+					modifier = medium_decrease
+				}
+				add_ai_strategy = {
+					type = befriend
+					id = ROOT
+					value = -50
+				}
+			}
+			RED = {
 				add_opinion_modifier = {
 					target = KPD
 					modifier = medium_decrease
@@ -2252,6 +2327,13 @@ focus_tree = {
 			FOCUS_FILTER_POLITICAL
 		}
 		completion_reward = {
+			country_event = KPD_event.12
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = KPD_bernhard_goring_idea
+
+			custom_effect_tooltip = KPD_free_german_trade_union_tt
+			custom_effect_tooltip = available_political_advisor
+			show_ideas_tooltip = KPD_hans_jendretzky_idea
 		}
 	}
 	focus = { #노동조합의 주도적 역할
@@ -2442,6 +2524,24 @@ focus_tree = {
 		search_filters = {
 			FOCUS_FILTER_POLITICAL
 		}
+		complete_tooltip = {
+			every_state = {
+				limit = {
+					has_state_flag = KPD_building_the_new_soviet_union_1IC1AF
+				}
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}
+				add_building_construction = {
+					type = arms_factory
+					level = 1
+					instant_build = yes
+				}
+			}
+		}
 		completion_reward = {
 			add_stability = -0.05
 			set_cosmetic_tag = KPD_soviets
@@ -2464,8 +2564,9 @@ focus_tree = {
 							size > 1
 							include_locked = yes
 						}
-						NOT = { has_state_flag = KPD_development_of_heavy_industry_1IC }
+						NOT = { has_state_flag = KPD_building_the_new_soviet_union_1IC1AF }
 					}
+					set_state_flag = KPD_building_the_new_soviet_union_1IC1AF
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
 						type = industrial_complex
@@ -2485,8 +2586,9 @@ focus_tree = {
 							size > 1
 							include_locked = yes
 						}
-						NOT = { has_state_flag = KPD_development_of_heavy_industry_1IC }
+						NOT = { has_state_flag = KPD_building_the_new_soviet_union_1IC1AF }
 					}
+					set_state_flag = KPD_building_the_new_soviet_union_1IC1AF
 					add_extra_state_shared_building_slots = 1
 					add_building_construction = {
 						type = industrial_complex

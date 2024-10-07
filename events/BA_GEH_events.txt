@@ -31,8 +31,6 @@ country_event = { # 선도부 소집
 			}
 		}
         custom_effect_tooltip = NextPhase_1_tt
-			custom_effect_tooltip = GEH_discipline_enforcement_tt
-			set_country_flag = GEH_discipline_enforcement_flag
 	}
 	option = {
 		name = NextPhase.0.b
@@ -172,7 +170,7 @@ country_event = { # 독일 공업의 심장
         add_stability = 0.01
 	}
 }
-country_event = { # 2차 총회 개막
+country_event = { # 1차 총회 개막
 	id = hina.4
 	title = hina.4.t
 	desc = hina.4.desc
@@ -183,13 +181,49 @@ country_event = { # 2차 총회 개막
 	option = { 
 		name = hina.4.a
         add_war_support = 0.05
-        country_event = {
-            id = hina_assembly.4
-            days = 20
+        hidden_effect = {
+			country_event = {
+				id = hina_assembly.4
+				days = 11
+			}
+            country_event = { 
+                id = hina_assembly.5 
+                days = 33
+            }
+            country_event = { 
+                id = hina_assembly.6
+                days = 55
+            }
+            country_event = { 
+                id = hina_assembly.7
+                days = 77
+            }
+
+			
+			country_event = {
+				id = hina_assembly.8
+				days = 22
+			}
+            country_event = { 
+                id = hina_assembly.9
+                days = 44
+            }
+            country_event = { 
+                id = hina_assembly.10
+                days = 66
+            }
+            country_event = { 
+                id = hina_assembly.11
+                days = 88
+            }
+            country_event = { 
+                id = hina_assembly.12
+                days = 99
+            }
         }
 	}
 }
-country_event = { # 2차 총회 폐막
+country_event = { # 1차 총회 폐막
 	id = hina.5
 	title = hina.2.t
 	desc = hina.5.desc
@@ -199,6 +233,26 @@ country_event = { # 2차 총회 폐막
 	
 	option = { 
 		name = hina.4.a
+		if = { #히나독재
+			limit = { has_country_flag = hina_assembly_12_flag }
+			add_stability = 0.05
+		}
+		else_if = { #아코
+			limit = { check_variable = { GEH_hina_a_var > 3 } }
+			add_stability = -0.03
+			set_country_flag = hina_assembly_a_flag
+		}
+		else_if = { #이오리
+			limit = { check_variable = { GEH_hina_c_var > 3 } }
+			add_stability = -0.05
+			set_country_flag = hina_assembly_c_flag
+		}
+		else = { #노멀
+			add_stability = 0.03
+			set_country_flag = hina_assembly_normal_flag
+		}
+		set_country_flag = hina_assembly_12_flag
+		mark_focus_tree_layout_dirty = yes
 	}
 }
 country_event = { # 돌아온 안정
@@ -284,12 +338,6 @@ country_event = { # 민간인 피해 복구, 근데 너무 많이 지원하지 �
 		name = hina_assembly.4.a
         add_political_power = 5
         add_stability = 0.005
-        hidden_effect = {
-            country_event = { 
-                id = hina_assembly.5 
-                days = 20
-            }
-        }
 	}
 }
 country_event = { # 국방군은 과연 괴멸 됐나?
@@ -305,12 +353,6 @@ country_event = { # 국방군은 과연 괴멸 됐나?
 		name = hina_assembly.5.a
         add_political_power = 5
         add_war_support = 0.005
-        hidden_effect = {
-            country_event = { 
-                id = hina_assembly.6
-                days = 20
-            }
-        }
 	}
 }
 country_event = { # 사라진 총학생회장
@@ -326,12 +368,6 @@ country_event = { # 사라진 총학생회장
 		name = hina_assembly.6.a
         add_political_power = 5
         add_war_support = 0.005
-        hidden_effect = {
-            country_event = { 
-                id = hina_assembly.7
-                days = 20
-            }
-        }
 	}
 }
 country_event = { # 수상한 만마전의 행동
@@ -346,6 +382,184 @@ country_event = { # 수상한 만마전의 행동
 	option = { 
 		name = hina_assembly.7.a
         add_political_power = 15
+	}
+}
+country_event = { # 1차 총회 - 1 
+# a-a-X-a-b > 아코 루트
+# c-c-X-c-b > 이오리 루트
+# c-b-a-b-c > 히나 루트
+# 그 외 > 일반 선도부 루트
+	id = hina_assembly.8
+	title = hina_assembly.8.t
+	desc = hina_assembly.8.desc
+	picture = GFX_report_event_hitler_parade
+	
+    is_triggered_only = yes
+	
+	immediate = {
+		set_variable = { GEH_hina_a_var = 0 }
+		set_variable = { GEH_hina_c_var = 0 }
+	}
+
+	option = { 
+		name = hina_assembly.8.a
+		add_to_variable = { GEH_hina_a_var = 1 }
+
+		custom_effect_tooltip = hina_assembly_9_tta
+		add_to_variable = { GEH_PL_consumer_goods_factor = -0.05 }
+		add_to_variable = { GEH_PL_factory_max_efficiency_factor = 0.05 }
+	}
+	
+	option = { 
+		name = hina_assembly.8.b
+		set_country_flag = GEH_event_hina_route_flag1
+		add_stability = 0.05
+	}
+	
+	option = { 
+		name = hina_assembly.8.c
+		add_to_variable = { GEH_hina_c_var = 1 }
+
+		custom_effect_tooltip = hina_assembly_9_ttc
+		add_to_variable = { GEH_RU_army_org_factor = 0.05 }
+	}
+}
+country_event = { # 1차 총회 - 2
+	id = hina_assembly.9
+	title = hina_assembly.9.t
+	desc = hina_assembly.9.desc
+	picture = GFX_report_event_hitler_parade
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = hina_assembly.9.a
+		add_to_variable = { GEH_hina_a_var = 1 }
+
+		add_political_power = 25
+		add_stability = -0.05
+	}
+	
+	option = {
+		name = hina_assembly.9.b
+		set_country_flag = GEH_event_hina_route_flag2
+	}
+	
+	option = {
+		name = hina_assembly.9.c
+		set_country_flag = hina_assembly_9_flag
+		add_to_variable = { GEH_hina_c_var = 1 }
+
+		add_ideas = GEH_forced_conscription_of_germans
+	}
+}
+country_event = { # 1차 총회 - 3
+	id = hina_assembly.10
+	title = hina_assembly.10.t
+	desc = {
+		text = hina_assembly.10.desc1
+		trigger = {
+			has_country_flag = hina_assembly_9_flag
+		}
+	}
+	desc = {
+		text = hina_assembly.10.desc2
+		trigger = {
+			NOT = { has_country_flag = hina_assembly_9_flag }
+		}
+	}
+	picture = GFX_report_event_hitler_parade
+	
+    is_triggered_only = yes
+	
+	option = {
+		name = hina_assembly.10.a
+		set_country_flag = GEH_event_hina_route_flag3
+
+		add_stability = 0.05
+		add_ideas = GEH_administrative_personnel_shortage
+		set_country_flag = GEH_administrative_personnel_shortage_flag
+
+		effect_tooltip = {
+			unlock_national_focus = GEH_additional_leadership_personnel_employment
+		}
+	}
+	
+	option = {
+		name = hina_assembly.10.b
+		add_stability = -0.15
+		add_war_support = -0.05
+	}
+	
+	option = {
+		trigger = {
+			NOT = { has_country_flag = hina_assembly_9_flag }
+		}
+		name = hina_assembly.10.c
+
+		add_stability = -0.20
+		set_country_flag = GEH_establishment_of_german_autonomous_government_flag_flag
+
+		effect_tooltip = {
+			unlock_national_focus = GEH_establishment_of_german_autonomous_government
+		}
+	}
+}
+country_event = { # 1차 총회 - 4
+	id = hina_assembly.11
+	title = hina_assembly.11.t
+	desc = hina_assembly.11.desc
+	picture = GFX_report_event_hitler_parade
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = hina_assembly.11.a
+		add_to_variable = { GEH_hina_a_var = 1 }
+	}
+	
+	option = { 
+		name = hina_assembly.11.b
+		set_country_flag = GEH_event_hina_route_flag4
+	}
+	
+	option = { 
+		name = hina_assembly.11.c
+		add_to_variable = { GEH_hina_c_var = 1 }
+	}
+}
+country_event = { # 1차 총회 - 5
+	id = hina_assembly.12
+	title = hina_assembly.12.t
+	desc = hina_assembly.12.desc
+	picture = GFX_report_event_hitler_parade
+	
+    is_triggered_only = yes
+	
+	option = { 
+		name = hina_assembly.12.a
+	}
+	
+	option = { 
+		name = hina_assembly.12.b
+		add_to_variable = { GEH_hina_a_var = 1 }
+		add_to_variable = { GEH_hina_c_var = 1 }
+	}
+	
+	option = { 
+		name = hina_assembly.12.a
+		trigger = {
+			has_country_flag = GEH_event_hina_route_flag1
+			has_country_flag = GEH_event_hina_route_flag2
+			has_country_flag = GEH_event_hina_route_flag3
+			has_country_flag = GEH_event_hina_route_flag4
+		}
+		clr_country_flag = GEH_event_hina_route_flag1
+		clr_country_flag = GEH_event_hina_route_flag2
+		clr_country_flag = GEH_event_hina_route_flag3
+		clr_country_flag = GEH_event_hina_route_flag4
+
+		set_country_flag = hina_assembly_12_flag
 	}
 }
 country_event = { # 디버그용

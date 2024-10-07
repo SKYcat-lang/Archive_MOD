@@ -70,6 +70,18 @@ country_event = { #노동절 집회
 		}
 		set_cosmetic_tag = RED_revolution
 		complete_national_focus = RED_the_threats_abound
+		RED_cherino = {
+			set_nationality = RE2
+		}
+		RED_tomoe = {
+			set_nationality = RE2
+		}
+		RED_marina = {
+			set_nationality = RE2
+		}
+		RED_lev_trotsky = {
+			set_nationality = RE2
+		}
 		hidden_effect = {
 			country_event = {
 				id = RED_minori_event.5
@@ -90,18 +102,6 @@ country_event = { #엄습하는 반혁명
 	fire_only_once = yes
 	option = {
 		name = RED_minori_event.5.a
-		RED_cherino = {
-			set_nationality = RE2
-		}
-		RED_tomoe = {
-			set_nationality = RE2
-		}
-		RED_marina = {
-			set_nationality = RE2
-		}
-		RED_lev_trotsky = {
-			set_nationality = RE2
-		}
 		RE2 = {
 			promote_character = RED_cherino
 			puppet = RE1
@@ -134,11 +134,7 @@ country_event = { #빈농
 	desc = RED_minori_event.6.d
 	trigger = {
 		has_completed_focus = RED_labor_world
-		RE2 = {
-			RED_cherino = {
-				is_country_leader = yes
-			}
-		}
+		date > 1936.6.1
 		919 = {
 			is_demilitarized_zone = no
 		}
@@ -2340,6 +2336,9 @@ country_event = { #반파시즘 노동자전선
 			add_ideas = RED_anti_fascism
 			custom_effect_tooltip = RED_event.15_tt
 		}
+		hidden_effect = {
+			scoped_play_song = march_of_the_defenders
+		}
 	}
 }
 country_event = { #노동자 공화국
@@ -2503,6 +2502,152 @@ country_event = { #주 3일제
 	option = { #안바꿀건데?
 		name = RED_event.21.b
 		add_war_support = 0.05
+	}
+}
+country_event = { #대안경제정책에 대한 평가
+	id = RED_event.22
+	title = RED_event.22.t
+	desc = RED_event.22.d
+	fire_only_once = yes
+	is_triggered_only = yes
+	option = {
+		name = RED_event.22.a
+		swap_ideas = {
+			remove_idea = RED_second_AEP_3
+			add_idea = RED_market_socialism
+		}
+		if = {
+			limit = {
+				num_of_factories > 200
+				has_stability > 0.7
+			}
+		}
+		else = {
+			add_political_power = -200
+			custom_effect_tooltip = RED_event.22_tt_1
+		}
+	}
+	option = {
+		name = RED_event.22.b
+		remove_ideas = RED_second_AEP_3
+		if = {
+			limit = {
+				num_of_factories > 200
+				has_stability > 0.7
+			}
+			add_political_power = -200
+			custom_effect_tooltip = RED_event.22_tt_2
+		}
+		else = {
+		}
+	}
+}
+country_event = { #쿠데타를 위한 무한반복 디시전
+	id = RED_event.23
+	title = RED_event.23.t
+	desc = RED_event.23.d
+	hidden = yes
+	is_triggered_only = yes
+	option = {
+		name = RED_event.22.a
+		if = {
+			limit = {
+				has_idea = RED_threat_of_coup
+			}
+			country_event = {
+				id = RED_event.23
+				days = 100
+				random_days = 100
+			}
+			random_list = {
+				1 = {
+					country_event = {
+						id = RED_event.24
+					}
+					modifier = {
+						
+					}
+				}
+				1 = {
+					country_event = {
+						id = RED_event.25
+					}
+				}
+				1 = {
+					country_event = {
+						id = RED_event.26
+					}
+				}
+			}
+		}
+		else = {
+
+		}
+	}
+}
+country_event = { #민트초코해방전선의 쿠데타
+	id = RED_event.24
+	title = RED_event.24.t
+	desc = RED_event.24.d
+	is_triggered_only = yes
+	option = {
+		name = RED_event.24.a
+		add_political_power = -10
+		add_stability = -0.03
+		set_country_flag = RED_there_is_coup_flag
+		hidden_effect = {
+			country_event = {
+				id = RED_event.27
+				days = 3
+			}
+		}
+	}
+}
+country_event = { #가라아게에 레몬을 반대하는 혁명가들의 모임 쿠데타
+	id = RED_event.25
+	title = RED_event.25.t
+	desc = RED_event.25.d
+	is_triggered_only = yes
+	option = {
+		name = RED_event.25.a
+		add_political_power = -10
+		add_stability = -0.03
+		set_country_flag = RED_there_is_coup_flag
+		hidden_effect = {
+			country_event = {
+				id = RED_event.27
+				days = 3
+			}
+		}
+	}
+}
+country_event = { #한겨울냉수마찰총연맹 쿠데타
+	id = RED_event.26
+	title = RED_event.26.t
+	desc = RED_event.26.d
+	is_triggered_only = yes
+	option = {
+		name = RED_event.26.a
+		add_political_power = -10
+		add_stability = -0.03
+		set_country_flag = RED_there_is_coup_flag
+		hidden_effect = {
+			country_event = {
+				id = RED_event.27
+				days = 3
+			}
+		}
+	}
+}
+country_event = { #진압
+	id = RED_event.27
+	title = RED_event.27.t
+	desc = RED_event.27.d
+	is_triggered_only = yes
+	option = {
+		name = RED_event.27.a
+		add_political_power = 10
+		clr_country_flag = RED_there_is_coup_flag
 	}
 }
 
