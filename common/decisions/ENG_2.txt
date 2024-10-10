@@ -952,6 +952,7 @@ CAN_HND_war = { #아대륙 문제
 	CAN_HND_bad_event_roop = { # 대중 집회 (반복)
 		icon = GFX_decision_revolt
 		days_mission_timeout = 14
+	 	priority = 9999
 		fire_only_once = yes
 		available = {
 			OR = {
@@ -1006,7 +1007,7 @@ CAN_HND_war = { #아대륙 문제
 	CAN_india_problem = {
 		allowed = { original_tag = ENG }
 		icon = GFX_decision_eng_trade_unions_support
-	 	priority = 9999
+	 	priority = 300
 	 	ai_will_do = { base = 40 }
 		fire_only_once = yes
 		available = {
@@ -1014,9 +1015,58 @@ CAN_HND_war = { #아대륙 문제
 		}
 		visible = { }
 		complete_effect = {
-			ENG = {
-				complete_national_focus = IMP_india_focus_0
+			ENG = { complete_national_focus = IMP_india_focus_0 }
+		}
+	}
+	CAN_india_problem_2 = {
+		allowed = { original_tag = ENG }
+		icon = GFX_decision_generic_merge_plant_materiel
+	 	priority = 1
+	 	ai_will_do = { base = 40 }
+		fire_only_once = yes
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = CAN_india_problem_2_tt
+				check_variable = { HND_independence_var > 2 } 
 			}
+			has_country_flag = mackenzie_king_is_leader_falg
+		}
+		visible = {
+			has_country_flag = mackenzie_king_is_leader_falg
+		}
+		complete_effect = {
+			custom_effect_tooltip = CAN_HND_going_notbad_tt
+			add_to_variable = { HND_independence_var = 1 }
+			add_timed_idea = {
+				idea = CAN_support_economic_independence
+				days = 120
+			}
+		}
+	}
+	CAN_india_problem_3 = {
+		allowed = { original_tag = ENG }
+		icon = GFX_decision_generic_civil_support
+	 	priority = 1
+	 	ai_will_do = { base = 40 }
+		fire_only_once = yes
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = CAN_india_problem_2_tt
+				check_variable = { HND_independence_var > 2 } 
+			}
+			has_country_flag = mackenzie_king_is_leader_falg
+		}
+		visible = {
+			has_country_flag = mackenzie_king_is_leader_falg
+		}
+		days_remove = 120
+		complete_effect = { }
+		modifier = {
+			political_power_factor = -0.1
+		}
+		remove_effect = {
+			custom_effect_tooltip = CAN_HND_going_notbad_tt
+			add_to_variable = { HND_independence_var = 1 }
 		}
 	}
 }
@@ -1060,6 +1110,68 @@ CAN_fed_pro_copperative_categories = {
 			custom_effect_tooltip = completed_CAN_from_federal_proincial_coop_tt
 			hidden_effect = {
 				country_event = impblack.12
+			}
+		}
+	}
+}
+CAN_current_situation_categories = {
+	CAN_decision_test = {
+		allowed = { tag = ENG}
+		available = { 
+			hidden_trigger = { always = no }
+		}
+		visible = {
+			OR = {
+				AND = {
+					tag = ENG
+					check_variable = { ENG_exile_gover_tap = 1 }
+				}
+				is_ai = yes
+			}
+		}
+	}
+	CAN_decision_test = {
+		allowed = { tag = ENG}
+		available = { 
+			hidden_trigger = { always = no }
+		}
+		visible = {
+			OR = {
+				AND = {
+					tag = ENG
+					check_variable = { ENG_exile_gover_tap = 1 }
+				}
+				is_ai = yes
+			}
+		}
+	}
+	CAN_decision_test_2 = {
+		allowed = { tag = ENG}
+		available = { 
+			hidden_trigger = { always = no }
+		}
+		visible = {
+			OR = {
+				AND = {
+					tag = ENG
+					check_variable = { ENG_exile_gover_tap = 2 }
+				}
+				is_ai = yes
+			}
+		}
+	}
+	CAN_decision_test_3 = {
+		allowed = { tag = ENG}
+		available = { 
+			hidden_trigger = { always = no }
+		}
+		visible = {
+			OR = {
+				AND = {
+					tag = ENG
+					check_variable = { ENG_exile_gover_tap = 3 }
+				}
+				is_ai = yes
 			}
 		}
 	}
@@ -1133,7 +1245,7 @@ debug_decisions = {
             tag = ENG
 		}
 		complete_effect = {
-			set_variable = { HND_independence_var = 9 }
+			set_variable = { HND_independence_var = 3 }
 			activate_mission = CAN_HND_bad_event_roop
 		}
     }
