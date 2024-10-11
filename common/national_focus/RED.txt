@@ -5198,6 +5198,14 @@ focus_tree = {
 				amount = 100
 			}
 			add_war_support = 0.10
+			if = {
+				limit = {
+					ROOT = {
+						is_ai = yes
+					}
+				}
+				hidden_effect = {add_command_power = 1000}
+			}
 		}
 	}
 	focus = { #자율적인 지역 평의회
@@ -5220,6 +5228,14 @@ focus_tree = {
 			swap_ideas = {
 				remove_idea = RED_fire_of_revolution
 				add_idea = RED_fire_of_revolution_1
+			}
+			if = {
+				limit = {
+					ROOT = {
+						is_ai = yes
+					}
+				}
+				hidden_effect = {add_command_power = 1000}
 			}
 		}
 	}
@@ -6880,7 +6896,7 @@ focus_tree = {
 		}
 	}
 
-	focus = {
+	focus = { #전쟁공학
 		id = RED_military_engineering
 		icon = GFX_focus_generic_socialist_science
 		prerequisite = { focus = RED_army_production_improve }
@@ -6899,13 +6915,141 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_to_variable = { RED_labor_party_dynamic_modifier_production_speed_coastal_bunker_factor = 0.05 }
-			add_to_variable = { RED_labor_party_dynamic_modifier_production_speed_bunker_factor = 0.05 }
-			add_to_variable = { RED_winter_army_max_dig_in_factor = 0.05 }
+			add_dynamic_modifier = {
+				modifier = RED_war_engineering_modifier
+			}
 		}
 	}
 
-	focus = {
+	focus = { #전술 기계화
+		id = RED_baltic_forts
+		icon = GFX_focus_SWE_lynx_armored_car
+		prerequisite = { focus = RED_military_engineering }
+		x = -3
+		y = 1
+		relative_position_id = RED_military_engineering
+		cost = 5
+
+		available = {
+			NOT = {
+				has_country_flag = RED_there_is_coup_flag
+			}
+		}
+		
+		completion_reward = {
+			add_tech_bonus = {
+				category = cat_mechanized_equipment
+				uses = 2
+				bonus = 0.5
+			}
+			add_tech_bonus = {
+				category = motorized_equipment
+				uses = 2
+				bonus = 0.5
+			}
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = RED_war_engineering
+					add_idea = RED_war_engineering_1
+				}
+			}
+			army_experience = 30
+			add_to_variable = {
+				RED_war_mechanized_attack_factor = 0.05
+			}
+			add_to_variable = {
+				RED_war_mechanized_attack_factor = 0.05
+			}
+			add_to_variable = {
+				RED_war_unit_mechanized_design_cost_factor = -0.5
+			}
+			add_to_variable = {
+				RED_war_motorized_attack_factor = 0.05
+			}
+			add_to_variable = {
+				RED_war_motorized_defence_factor = 0.05
+			}
+			add_to_variable = {
+				RED_warunit_motorized_design_cost_factor = -0.5
+			}
+		}
+	}
+
+	focus = { #항공함 기술
+		id = RED_defend_the_east_line
+		icon = GFX_goal_generic_navy_carrier
+		prerequisite = { focus = RED_military_engineering }
+		x = -1
+		y = 1
+		relative_position_id = RED_military_engineering
+		cost = 5
+
+		available = {
+			NOT = {
+				has_country_flag = RED_there_is_coup_flag
+			}
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				category = mio_cat_tech_all_carrier_and_modules
+				uses = 5
+				bonus = 0.5
+			}
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = RED_war_engineering
+					add_idea = RED_war_engineering_2
+				}
+			}
+			navy_experience = 30	
+			add_to_variable = {
+				RED_war_carrier_capacity_penalty_reduction = -0.05
+			}	
+			add_to_variable = {
+				RED_war_carrier_night_traffic = 0.05
+			}	
+			add_to_variable = {
+				RED_war_carrier_traffic = 0.05
+			}
+		}
+	}
+
+	focus = { #제트 엔진
+		id = RED_improve_the_south_line
+		icon = GFX_focus_generic_jet_planes
+		prerequisite = { focus = RED_military_engineering }
+		x = 1
+		y = 1
+		relative_position_id = RED_military_engineering
+		cost = 5
+
+		available = {
+			NOT = {
+				has_country_flag = RED_there_is_coup_flag
+			}
+		}
+
+		completion_reward = {	
+			add_tech_bonus = {
+				category = jet_technology
+				uses = 3
+				bonus = 0.5
+			}
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = RED_war_engineering
+					add_idea = RED_war_engineering_3
+				}
+			}
+			air_experience = 30
+			add_to_variable = {
+				RED_war_fighter_sortie_efficiency = 0.05
+			}
+		}
+	}
+
+	focus = { #눈길을 지나서
 		id = RED_through_the_road_of_snow
 		icon = GFX_focus_SOV_the_road_of_life
 		prerequisite = { focus = RED_military_engineering }
@@ -6922,167 +7066,20 @@ focus_tree = {
 		}
 
 		completion_reward = {
-			add_ideas = RED_through_the_road_of_snow_idea
-		}
-	}
-
-	focus = {
-		id = RED_defend_the_east_line
-		icon = GFX_goal_fortify_the_westwall
-		prerequisite = { focus = RED_military_engineering }
-		x = -1
-		y = 1
-		relative_position_id = RED_military_engineering
-		cost = 5
-
-		available = {
-			NOT = {
-				has_country_flag = RED_there_is_coup_flag
-			}
-		
-			OR = {
-				has_full_control_of_state = 666
-				has_full_control_of_state = 144
-			}
-		}
-
-		completion_reward = {
-			every_owned_state = {
-				limit = {
-					is_fully_controlled_by = ROOT
-					OR = {
-						any_neighbor_state = {
-							is_controlled_by = FIN
-						}
-						any_neighbor_state = {
-							is_controlled_by = SOV
-						}
-					}
-				}
-				set_building_level = {
-					type = bunker
-					level = 2
-					province = {
-						all_provinces = yes
-						limit_to_border = yes
-					}
-				}
-			}	
-		}
-	}
-
-	focus = {
-		id = RED_improve_the_south_line
-		icon = GFX_goal_fortify_the_westwall
-		prerequisite = { focus = RED_military_engineering }
-		x = 1
-		y = 1
-		relative_position_id = RED_military_engineering
-		cost = 5
-
-		available = {
-			NOT = {
-				has_country_flag = RED_there_is_coup_flag
-			}
-		
-			OR = {
-				has_full_control_of_state = 99
-			}
-		}
-
-		completion_reward = {
-			every_owned_state = {
-				limit = {
-					is_fully_controlled_by = ROOT
-					OR = {
-						any_neighbor_state = {
-							is_controlled_by = GEM
-						}
-						any_neighbor_state = {
-							is_controlled_by = GEH
-						}
-					}
-				}
-				set_building_level = {
-					type = bunker
-					level = 4
-					province = {
-						all_provinces = yes
-						limit_to_border = yes
-					}
+			effect_tooltip = {
+				swap_ideas = {
+					remove_idea = RED_war_engineering
+					add_idea = RED_through_the_road_of_snow_idea
 				}
 			}
-		}
-	}
-
-	focus = {
-		id = RED_baltic_forts
-		icon = GFX_goal_generic_fortify_city
-		prerequisite = { focus = RED_military_engineering }
-		x = -3
-		y = 1
-		relative_position_id = RED_military_engineering
-		cost = 5
-
-		available = {
-			NOT = {
-				has_country_flag = RED_there_is_coup_flag
+			add_to_variable = {
+				RED_war_winter_attrition_factor = -0.15
 			}
-		
-			has_full_control_of_state = 141 #스베알란드
-			has_full_control_of_state = 139 #스몰란드
-			has_full_control_of_state = 138 #스코네
-		}
-		
-		completion_reward = {
-			141 = { #스베알란드
-				add_building_construction = {
-					type = anti_air_building
-					level = 1
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = coastal_bunker
-					level = 3
-					province = {
-						all_provinces = yes
-						limit_to_naval_base = yes
-					}
-					instant_build = yes
-				}
+			add_to_variable = {
+				RED_war_out_of_supply_factor = -0.1
 			}
-			139 = { #스몰란드
-				add_building_construction = {
-					type = anti_air_building
-					level = 1
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = coastal_bunker
-					level = 3
-					province = {
-						all_provinces = yes
-						limit_to_naval_base = yes
-					}
-					instant_build = yes
-				}
-			}
-
-			138 = { #스코네
-				add_building_construction = {
-					type = anti_air_building
-					level = 1
-					instant_build = yes
-				}
-				add_building_construction = {
-					type = coastal_bunker
-					level = 3
-					province = {
-						all_provinces = yes
-						limit_to_naval_base = yes
-					}
-					instant_build = yes
-				}
+			add_to_variable = {
+				RED_war_supply_node_range = 0.1
 			}
 		}
 	}
