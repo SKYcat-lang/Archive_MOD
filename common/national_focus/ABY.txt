@@ -349,10 +349,8 @@ focus_tree = {
 				ideology = democratic
 				popularity = 0.05
 			}
-			9 = { add_core_of = ABY }
 			72 = { add_core_of = ABY }
-			74 = { add_core_of = ABY }
-			75 = { add_core_of = ABY }
+			74 = { add_core_of = ABY } 
 			69 = { add_core_of = ABY }
 			HYA = {
 				country_event = {
@@ -2093,110 +2091,6 @@ focus_tree = {
 		}
 	}
 	focus = {
-		id = ABY_focus_new_3_school    #중점명
-		# icon = GFX_goal_generic_intelligence_exchange       #아이콘
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_school_rebuild    #이전 중점
-		}
-		mutually_exclusive = {
-			focus = ABY_focus_to_kivotos    #반대되는 중점
-		}
-		x = 1     #좌표
-		y = 1
-		relative_position_id = ABY_focus_school_rebuild
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-			NOT = {has_government = fascism}
-			check_variable = {
-                var = ABY_num_of_students_var
-                value = 25000
-                compare = greater_than_or_equals
-                tooltip = ABY_num_of_students_25000_tooltip
-            }
-			TRM = {
-				exists = no
-			}
-			GEM = {
-				exists = no
-			}
-			GEH = {
-				exists = no
-			}
-			RED = {
-				exists = yes
-			}
-			MIL = {
-				exists = yes
-			}
-			ABY = {
-				is_puppet = no
-			}
-
-			#중점 선행조건
-		}
-
-		select_effect = {
-			#중점 시작시 얻는 보상
-		}
-		completion_reward = {
-			RED = {
-				add_ideas = {
-					BA_three_major_academies
-				}
-			}
-			ABY = {
-				add_ideas = {
-					BA_three_major_academies
-				}
-			}
-			#중점 완료시 얻는 보상
-		}
-	}
-	focus = {
-		id = ABY_focus_to_kivotos   #중점명
-		icon = GFX_focus_unknown_2
- 		cost = 5.00          #중점 일수(주)
-		search_filters = {
-			#중점의 타입
-		}
-		prerequisite = {
-			focus = ABY_focus_school_rebuild    #이전 중점
-		}
-		mutually_exclusive = {
-			focus = ABY_focus_new_3_school    #반대되는 중점
-		}
-		x = -1     #좌표
-		y = 1
-		relative_position_id = ABY_focus_school_rebuild
-		bypass = {
-			#중점 통과 조건
-		}
-		available = {
-			has_government = fascism
-			ABY = {
-				is_puppet = no
-			}
-			#중점 선행조건
-		}
-
-		select_effect = {
-			#중점 시작시 얻는 보상
-		}
-		completion_reward = {
-			add_ideas = {
-				ABY_idea_only_school_1
-			}
-			set_country_flag = ABY_flag_only_school
-			#중점 완료시 얻는 보상
-		}
-	}
-	focus = {
 		id = ABY_focus_hya_problem    #중점명
 		icon = GFX_goal_generic_forceful_treaty       #아이콘
  		cost = 5.00          #중점 일수(주)
@@ -2240,10 +2134,13 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_sha_war    #중점명
-		icon = GFX_goal_road_to_austria
- 		cost = 10.00          #중점 일수(주)
+		#icon = GFX_goal_road_to_austria
+ 		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
+		}
+		prerequisite = {
+			focus = ABY_focus_intact_czech_governmant    #이전 중점
 		}
 		prerequisite = {
 			focus = ABY_focus_german_resistance_make    #이전 중점
@@ -2255,24 +2152,10 @@ focus_tree = {
 		y = 2
 		relative_position_id = ABY_focus_german_resistance_make
 		bypass = {
-			NOT = { SHA = { exists = yes } }
 			#중점 통과 조건
 		}
 		available = {
-			NOT = {
-				is_in_faction_with = SHA
-			}
-			SHA = {
-				any_controlled_state = {
-					is_in_home_area = yes
-					any_neighbor_state = {
-						is_controlled_by = ABY
-					}
-				}
-			}
-			has_army_manpower = {
-				size > 250000
-			}
+			controls_state = 9
 			#중점 선행조건
 		}
 
@@ -2280,16 +2163,17 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			create_wargoal = {
-				target = SHA
-				type = liberate_wargoal
+			set_country_flag = ABY_flag_provisional_government
+			country_event = {
+				id = ABY_new_event.14
 			}
+			custom_effect_tooltip = ABY_provisional_government_tt
 			#중점 완료시 얻는 보상
 		}
 	}
 	focus = {
 		id = ABY_focus_sha_annex    #중점명
-		icon = GFX_focus_eng_move_to_secure_the_dominions       #아이콘
+		#icon = GFX_focus_eng_move_to_secure_the_dominions       #아이콘
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -2307,17 +2191,7 @@ focus_tree = {
 			#중점 통과 조건
 		}
 		available = {
-			has_completed_focus = ABY_focus_unite_school
-			has_full_control_of_state = 152
-			has_full_control_of_state = 153
-			has_full_control_of_state = 848
-			has_full_control_of_state = 984
-			has_full_control_of_state = 4
-			152 = { compliance > 35 }
-			153 = { compliance > 35 }
-			848 = { compliance > 35 }
-			984 = { compliance > 35 }
-			4 = { compliance > 35 }
+			has_country_flag = ABY_autofocus_flag
 			#중점 선행조건
 		}
 
@@ -2325,47 +2199,8 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			4 = { add_core_of = ABY }
-			984 = { add_core_of = ABY }
-			153 = { add_core_of = ABY }
-			152 = { add_core_of = ABY }
-			848 = { add_core_of = ABY }
-			custom_effect_tooltip = ABY_general_tt
-			hidden_effect = {
-				every_possible_country = {
-					limit = { original_tag = SHA }
-					random_character = {
-						limit = {
-							is_unit_leader = yes
-							NOT = {
-								has_character_flag = traitor_to_ABY
-							}
-						}
-						set_nationality = ABY
-						set_character_flag = traitor_to_ABY 
-					}
-					random_character = {
-						limit = {
-							is_unit_leader = yes
-							NOT = {
-								has_character_flag = traitor_to_ABY
-							}
-						}
-						set_nationality = ABY
-						set_character_flag = traitor_to_ABY 
-					}
-					random_character = {
-						limit = {
-							is_unit_leader = yes
-							NOT = {
-								has_character_flag = traitor_to_ABY
-							}
-						}
-						set_nationality = ABY
-						set_character_flag = traitor_to_ABY 
-					}
-				}
-			}
+			set_country_flag = ABY_flag_austria_provisional_government
+			custom_effect_tooltip = ABY_austria_provisional_government_tt
 			#중점 완료시 얻는 보상
 		}
 	}
@@ -12183,7 +12018,7 @@ focus_tree = {
 	}
 	focus = {
 		id = ABY_focus_free_austria   #중점명
-		icon = GFX_focus_ETH_freedom_at_gunpoint
+		#icon = GFX_focus_ETH_freedom_at_gunpoint
  		cost = 5.00          #중점 일수(주)
 		search_filters = {
 			#중점의 타입
@@ -12201,15 +12036,7 @@ focus_tree = {
 			#중점 통과 조건
 		}
 		available = {
-			has_completed_focus = ABY_focus_with_czech
-			NOT = {
-				is_in_faction_with = SHA
-			}
-			has_full_control_of_state = 152
-			has_full_control_of_state = 153
-			has_full_control_of_state = 848
-			has_full_control_of_state = 984
-			has_full_control_of_state = 4
+			has_country_flag = ABY_autofocus_flag
 			#중점 선행조건
 		}
 
@@ -12217,41 +12044,23 @@ focus_tree = {
 			#중점 시작시 얻는 보상
 		}
 		completion_reward = {
-			152 = { transfer_state_to = AUS }
-			153 = { transfer_state_to = AUS }
-			848 = { transfer_state_to = AUS }
-			984 = { transfer_state_to = AUS }
-			4 = { transfer_state_to = AUS }
-			AUS = {
-				set_politics = { ruling_party = democratic elections_allowed = no }
+			set_country_flag = ABY_flag_expended_provisional_government
+			custom_effect_tooltip = ABY_expended_provisional_government_tt
+			#중점 완료시 얻는 보상
+			every_state = {
+				limit = {
+					OR = {
+						state = 39
+						state = 850
+						state = 102
+						state = 736
+						state = 852
+						state = 970
+						state = 853
+					}
+				}
+				add_core_of = AUS
 			}
-			ABY = {
-				add_to_faction = AUS
-			}
-			set_province_name = {
-				id = 11666
-				name = ABY_vienna
-			}
-			set_province_name = {
-				id = 688
-				name = ABY_linz
-			}
-			set_province_name = {
-				id = 732
-				name = ABY_zalzburg
-			}
-			set_province_name = {
-				id = 9665
-				name = ABY_vells
-			}
-			set_province_name = {
-				id = 3673
-				name = ABY_klakenfurt
-			}
-			set_province_name = {
-				id = 9648
-				name = ABY_graz
-			}#중점 완료시 얻는 보상
 		}
 	}
 	focus = {

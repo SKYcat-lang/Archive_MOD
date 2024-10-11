@@ -15912,7 +15912,9 @@ ABY_descision_category_pay_dept = {
 		                 
         allowed = {
             tag = ABY
-        }        
+        }     
+
+		ai_will_do = { factor = 1000 }
 
 		available = {
 		}    
@@ -15941,6 +15943,540 @@ ABY_descision_category_pay_dept = {
 					ABY_idea_cornjs_get
 				}
 			}
+		}
+	}
+}
+ABY_descision_category_provisional_government = { 
+	ABY_descision_annex_bohemia_morava = {
+		days_mission_timeout = 730
+		fire_only_once = yes
+		priority = 1
+		activation = {
+			has_country_flag = ABY_flag_provisional_government
+			controls_state = 9
+			NOT = {
+				9 = {
+					is_core_of = ABY
+				}
+			}  
+		}
+
+		visible = {
+			tag = ABY
+			has_country_flag = ABY_flag_provisional_government
+		}
+
+        allowed = {
+            tag = ABY
+        }
+		available = {
+			NOT = {
+				controls_state = 9
+			}
+    	}
+		timeout_effect = {
+			9 = { add_core_of = ABY }
+			75 = { add_core_of = ABY }
+		}
+	} 
+	
+	ABY_descision_move_czech = {
+		priority = 1
+		days_remove = 30
+
+		cost = 0
+		
+		visible = {  
+			NOT = {
+				9 = {
+					is_core_of = ABY
+				}
+			}     
+			tag = ABY
+		}
+		                 
+        allowed = {
+            tag = ABY
+        }     
+
+		ai_will_do = { factor = 1000 }
+
+		available = {
+			has_manpower > 10000
+			controls_state = 9
+		}    
+
+		modifier = {
+		}      
+
+		complete_effect = {
+			add_manpower = -10000
+		}      
+
+		remove_effect = {
+			add_manpower = 9000
+			add_days_mission_timeout = {
+				mission = ABY_descision_annex_bohemia_morava
+				days = -30
+			}
+			9 = {
+				add_manpower = 1000
+				add_compliance = 5
+			}
+		}
+	}
+	
+	ABY_descision_you_are_abydosian = {
+		priority = 1
+		days_remove = 60
+
+		cost = 50
+		
+		visible = {  
+			NOT = {
+				9 = {
+					is_core_of = ABY
+				}
+			}     
+			tag = ABY
+		}
+		                 
+        allowed = {
+            tag = ABY
+        }     
+
+		ai_will_do = { factor = 1000 }
+
+		available = {
+			controls_state = 9
+		}    
+
+		modifier = {
+		}      
+
+		complete_effect = {
+		}      
+
+		remove_effect = {
+			add_manpower = 1000
+			add_days_mission_timeout = {
+				mission = ABY_descision_annex_bohemia_morava
+				days = -30
+			}
+			9 = {
+				add_compliance = 5
+			}
+		}
+	}
+	ABY_descision_follow_agreement = {
+		days_mission_timeout = 100
+		fire_only_once = yes
+		priority = 1
+		activation = {
+			has_country_flag = ABY_flag_provisional_government
+			controls_state = 9
+			HYA = {
+				exists = no
+			}
+			NOT = {
+				controls_state = 4
+			}
+			has_war = no
+		}
+
+		visible = {
+			tag = ABY
+			has_country_flag = ABY_flag_provisional_government
+		}
+
+        allowed = {
+            tag = ABY
+        }
+		available = {
+			any_country = {
+				controls_state = 4
+				has_war_with = ABY
+			}
+			
+    	}
+		complete_effect = {
+			country_event = {
+				id = ABY_new_event.15
+			}
+		}
+		timeout_effect = {
+			remove_ideas = {
+				ABY_idea_bohemia_and_austria
+			}
+			add_stability = -0.25
+			start_civil_war = {
+				ideology = fascism
+				size = 0.5
+				states = {
+					69 74
+				}
+				keep_all_characters = yes
+			}
+		}
+	} 
+	
+	ABY_descision_free_austria = {
+		priority = 1
+		days_remove = 0
+
+		cost = 0
+		
+		visible = {  
+			OR = {
+				has_country_flag = ABY_flag_expended_provisional_government
+				has_country_flag = ABY_flag_austria_provisional_government
+			}  
+			tag = ABY
+		}
+		                 
+        allowed = {
+            tag = ABY
+        }     
+
+		ai_will_do = { factor = 1000 }
+
+		available = {
+			controls_state = 4
+			SHA = {
+				exists = no
+			}
+		}    
+
+		modifier = {
+		}      
+
+		complete_effect = {
+			every_state = {
+				limit = {
+					is_controlled_by = ABY
+					is_core_of = AUS
+				}
+				transfer_state_to = AUS
+			}
+			AUS = {
+				set_variable = {
+					collaboration_formed_by = ABY
+				}
+			}
+			ABY = {
+				set_autonomy = {
+					target = AUS
+					autonomy_state = autonomy_collaboration_government
+				}
+			}
+		}      
+
+		remove_effect = {
+		}
+	}
+	
+	ABY_descision_annex_austria = {
+		priority = 1
+		days_remove = 180
+
+		cost = 250
+		
+		visible = {  
+			OR = {
+				has_country_flag = ABY_flag_expended_provisional_government
+				has_country_flag = ABY_flag_austria_provisional_government
+			}  
+			OR = {
+				has_completed_focus = ABY_focus_abydos_schoolcountry
+				has_completed_focus = ABY_focus_civil_war
+			}
+			tag = ABY
+		}
+		                 
+        allowed = {
+            tag = ABY
+        }     
+
+		ai_will_do = { factor = 1000 }
+
+		available = {
+			AUS = {
+				is_puppet_of = ABY
+			}
+		}    
+
+		modifier = {
+		}      
+
+		complete_effect = {
+		}      
+
+		remove_effect = {
+			every_state = {
+				limit = {
+					is_core_of = AUS
+				}
+				add_core_of = ABY
+			}
+			AUS = {
+				every_unit_leader = {
+					set_nationality = ABY
+				}
+			}
+			annex_country = { target = AUS transfer_troops = yes }
+		}
+	}
+	
+	ABY_descision_democratic_austria = {
+		priority = 1
+		days_remove = 180
+
+		cost = 0
+		
+		visible = {  
+			OR = {
+				has_country_flag = ABY_flag_expended_provisional_government
+				has_country_flag = ABY_flag_austria_provisional_government
+			}  
+			OR = {
+				has_completed_focus = ABY_focus_with_czech
+			}
+			tag = ABY
+		}
+		                 
+        allowed = {
+            tag = ABY
+        }     
+
+		ai_will_do = { factor = 1000 }
+
+		available = {
+			AUS = {
+				is_puppet_of = ABY
+			}
+		}    
+
+		modifier = {
+		}      
+
+		complete_effect = {
+		}      
+
+		remove_effect = {
+			ABY = {
+				end_puppet = AUS
+				add_to_faction = AUS
+			}
+			AUS = {
+				set_politics = {
+					ruling_party = democratic
+				}
+				set_popularities = {
+					democratic = 50
+					neutrality = 25
+					fascism = 25
+					communism = 0
+				}
+			}
+		}
+	}
+	
+	ABY_demend_slovakia = {
+		priority = 1
+		days_remove = 0
+
+		cost = 75
+		
+		visible = {  
+			OR = {
+				has_country_flag = ABY_flag_expended_provisional_government
+				
+			}  
+			tag = ABY
+			HUN = {
+				exists = yes
+			}
+		}
+		                 
+        allowed = {
+            tag = ABY
+        }     
+
+		ai_will_do = { factor = 1000 }
+
+		available = {
+			OR = {
+				has_completed_focus = ABY_focus_believe
+				has_completed_focus = ABY_focus_annex_slovakia
+			}
+		}    
+
+		modifier = {
+		}      
+
+		complete_effect = {
+			HUN = {
+				country_event = {
+					id = ABY_new_event.69
+				}
+			}
+		}      
+
+		remove_effect = {
+		}
+	}
+	
+	ABY_demend_tirol = {
+		priority = 1
+		days_remove = 0
+
+		cost = 75
+		
+		visible = {  
+			OR = {
+				has_country_flag = ABY_flag_expended_provisional_government
+				
+			}  
+			tag = ABY
+			39 = {
+				is_controlled_by_ROOT_or_ally = no
+			}
+			850 = {
+				is_controlled_by_ROOT_or_ally = no
+			}
+		}
+		                 
+        allowed = {
+            tag = ABY
+        }     
+
+		ai_will_do = { factor = 1000 }
+
+		available = {
+		}    
+
+		modifier = {
+		}      
+
+		complete_effect = {
+			every_country = {
+				limit = {
+					OR = {
+						controls_state = 39
+						controls_state = 850
+					}
+				}
+				country_event = {
+					id = ABY_new_event.16
+				}
+			}
+		}      
+
+		remove_effect = {
+		}
+	}
+	
+	ABY_demend_istria = {
+		priority = 1
+		days_remove = 0
+
+		cost = 75
+		
+		visible = {  
+			OR = {
+				has_country_flag = ABY_flag_expended_provisional_government
+				
+			}  
+			tag = ABY
+			736 = {
+				is_controlled_by_ROOT_or_ally = no
+			}
+			852 = {
+				is_controlled_by_ROOT_or_ally = no
+			}
+		}
+		                 
+        allowed = {
+            tag = ABY
+        }     
+
+		ai_will_do = { factor = 1000 }
+
+		available = {
+		}    
+
+		modifier = {
+		}      
+
+		complete_effect = {
+			every_country = {
+				limit = {
+					OR = {
+						controls_state = 736
+						controls_state = 852
+					}
+				}
+				country_event = {
+					id = ABY_new_event.17
+				}
+			}
+		}     
+
+		remove_effect = {
+		}
+	}
+	
+	ABY_demend_slovenia = {
+		priority = 1
+		days_remove = 0
+
+		cost = 75
+		
+		visible = {  
+			OR = {
+				has_country_flag = ABY_flag_expended_provisional_government
+				
+			}  
+			tag = ABY
+			102 = {
+				is_controlled_by_ROOT_or_ally = no
+			}
+			853 = {
+				is_controlled_by_ROOT_or_ally = no
+			}
+			970 = {
+				is_controlled_by_ROOT_or_ally = no
+			}
+		}
+		                 
+        allowed = {
+            tag = ABY
+        }     
+
+		ai_will_do = { factor = 1000 }
+
+		available = {
+		}    
+
+		modifier = {
+		}      
+
+		complete_effect = {
+			every_country = {
+				limit = {
+					OR = {
+						controls_state = 102
+						controls_state = 853
+						controls_state = 970
+					}
+				}
+				country_event = {
+					id = ABY_new_event.18
+				}
+			}
+		}     
+
+		remove_effect = {
 		}
 	}
 }
