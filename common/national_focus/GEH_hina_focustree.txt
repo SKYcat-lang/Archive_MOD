@@ -1243,6 +1243,22 @@ focus_tree = {
 			focus = GEH_main_route_focus
 		}
 		completion_reward = {
+			random_owned_state = {
+				limit = { 
+					any_neighbor_state = {
+						is_owned_by = TRM
+					} 
+				}
+				add_building_construction = {
+					type = bunker
+					level = 2
+					instant_build = yes
+					province = {
+						all_provinces = yes
+						limit_to_border = yes
+					}
+				}
+			}
 		}
 		ai_will_do = {
 			factor = 1
@@ -1259,6 +1275,133 @@ focus_tree = {
 			focus = GEH_main_route_focus
 		}
 		completion_reward = {
+			add_political_power = 100
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = GEH_bavaria_governance_method
+		icon = GFX_goal_generic_defence
+		relative_position_id = GEH_continuing_rule
+		x = 1
+		y = 1
+		cost = 5
+		prerequisite = {
+			focus = GEH_continuing_rule
+		}
+		prerequisite = {
+			focus = GEH_fortress_preparing_for_war
+		}
+		completion_reward = {
+			if = {
+				limit = { has_country_leader_with_trait = GEH_military_chairman }
+				swap_ruler_traits = {
+					remove = GEH_military_chairman
+					add = GEH_military_chairman_2
+				}
+			}
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = GEH_negotiation_with_german_delegation
+		icon = GFX_focus_generic_treaty
+		relative_position_id = GEH_bavaria_governance_method
+		x = -3
+		y = 1
+		cost = 5
+		prerequisite = {
+			focus = GEH_bavaria_governance_method
+		}
+		completion_reward = {
+			add_stability = -0.05
+			add_ideas = GEH_negotiation_with_german_delegation_idea
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = GEH_institutional_stabilization
+		icon = GFX_goal_generic_improve_relations
+		relative_position_id = GEH_bavaria_governance_method
+		x = -1
+		y = 1
+		cost = 5
+		prerequisite = {
+			focus = GEH_bavaria_governance_method
+		}
+		completion_reward = {
+			add_stability = 0.15
+		}
+		ai_will_do = {
+			factor = 1
+		}
+	}
+	focus = {
+		id = GEH_industrial_development
+		icon = GFX_goal_generic_construct_civ_factory
+		relative_position_id = GEH_bavaria_governance_method
+		x = 1
+		y = 1
+		cost = 5
+		prerequisite = {
+			focus = GEH_bavaria_governance_method
+		}
+		complete_tooltip = {
+			every_state = {
+				limit = { has_state_flag = GEH_industrial_development_1IC }
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+		}
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = GEH
+					NOT = { has_state_flag = GEH_industrial_development_1IC }
+				}
+				prioritize = { 54 }
+				set_state_flag = GEH_industrial_development_1IC
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = GEH
+					NOT = { has_state_flag = GEH_industrial_development_1IC }
+				}
+				prioritize = { 53 }
+				set_state_flag = GEH_industrial_development_1IC
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = GEH
+					NOT = { has_state_flag = GEH_industrial_development_1IC }
+				}
+				prioritize = { 52 }
+				set_state_flag = GEH_industrial_development_1IC
+				add_extra_state_shared_building_slots = 1
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+				}
+			}
 		}
 		ai_will_do = {
 			factor = 1
@@ -1275,6 +1418,21 @@ focus_tree = {
 			focus = GEH_main_route_focus
 		}
 		completion_reward = {
+			every_country = {
+				limit = { original_tag = GEM }
+				add_opinion_modifier = {
+					target = ROOT
+					modifier = medium_increase
+				}
+				hidden_effect = {
+					ROOT = {
+						add_opinion_modifier = {
+							target = PREV
+							modifier = medium_increase
+						}
+					}
+				}
+			}
 		}
 		ai_will_do = {
 			factor = 1
@@ -1287,6 +1445,16 @@ focus_tree = {
 		x = 0
 		y = 1
 		cost = 5
+		available = {
+			OR = {
+				is_faction_leader = yes
+				GEM = { is_faction_leader = yes }
+				AND = {
+					is_in_faction = no
+					GEM =  { is_in_faction = no }
+				}
+			}
+		}
 		prerequisite = {
 			focus = GEH_improving_relationships_with_manmajeon
 		}
@@ -1294,6 +1462,47 @@ focus_tree = {
 			focus = GEH_preparing_for_civil_war
 		}
 		completion_reward = {
+			add_ai_strategy = {
+				type = alliance
+				id = GEM
+				value = 100
+			}
+			if = {
+				limit = { is_faction_leader = yes }
+				GEM = {
+					add_ai_strategy = {
+						type = alliance
+						id = ROOT
+						value = 100
+					}
+					country_event = generic.5
+				}
+			}
+			else_if = {
+				limit = { GEM = { is_faction_leader = yes } }
+				GEM = {
+					add_ai_strategy = {
+						type = alliance
+						id = ROOT
+						value = 100
+					}
+					country_event = generic.2
+				}
+			}
+			else = {
+				set_rule = {
+					can_create_factions = yes
+				}
+				create_faction = GEH_Federation
+				GEM = {
+					add_ai_strategy = {
+						type = alliance
+						id = ROOT
+						value = 100
+					}
+					country_event = generic.5
+				}
+			}
 		}
 		ai_will_do = {
 			factor = 1
@@ -1313,6 +1522,14 @@ focus_tree = {
 			focus = GEH_pursuing_peaceful_unification
 		}
 		completion_reward = {
+			add_popularity = {
+				ideology = neutrality
+				popularity = 0.05
+			}
+			add_offsite_building = {
+				type = arms_factory
+				level = 2
+			}
 		}
 		ai_will_do = {
 			factor = 1
