@@ -439,6 +439,27 @@ country_event = { # 트리니티를 막아라 - 평화 협정
 		name = GEH_event.16.a
 		remove_civil_war_target = FROM
 		white_peace = FROM
+		if = {
+			limit = {
+				is_in_faction = yes
+				is_faction_leader = no
+			}
+			if = {
+				limit = {
+					var:faction_leader = {
+						has_war_with = FROM
+					}
+				}
+				leave_faction = yes
+				var:faction_leader = {
+					add_ai_strategy = {
+						type = alliance
+						id = ROOT
+						value = -200
+					}
+				}
+			}
+		}
 	}
 }
 country_event = { # 만마전의 끝
@@ -680,6 +701,29 @@ country_event = { # 트리니티를 막아라!
 				NOT = { tag = ROOT }
 				has_country_flag = GEH_GEM_armistice_flag
 				has_war_with = ROOT
+			}
+			ROOT = {
+				if = {
+					limit = {
+						is_in_faction = yes
+						is_faction_leader = no
+					}
+					if = {
+						limit = {
+							var:faction_leader = {
+								has_war_with = PREV.PREV
+							}
+						}
+						leave_faction = yes
+						var:faction_leader = {
+							add_ai_strategy = {
+								type = alliance
+								id = ROOT
+								value = -200
+							}
+						}
+					}
+				}
 			}
 			country_event = { id = GEH_event.16 hours = 8 }
 		}
