@@ -1116,6 +1116,53 @@ CAN_fed_pro_copperative_categories = {
 	}
 }
 CAN_current_situation_categories = {
+	CAN_crown_cop = {
+		priority = 50
+		allowed = { tag = ENG }
+		highlight_states = {
+			highlight_state_targets = {
+				state = FROM
+			}
+			highlight_color_while_active = 3
+			highlight_color_before_active = 2
+		}
+		icon = generic_construction
+		target_array = CAN.core_states
+		state_target = yes
+		target_trigger = {
+			FROM = {
+				OR = {
+					state = 276
+					state = 468
+					state = 473
+				}
+				NOT = { has_state_flag = CAN_crown_cop_established }
+			}
+		}
+		on_map_mode = map_and_decisions_view
+
+		days_remove = 70
+
+		available = {
+			has_completed_focus = IMP_crown_corporations
+			controls_state = 276
+			controls_state = 468
+			controls_state = 473
+		}
+		modifier = { civilian_factory_use = 2 }
+		remove_effect = {
+			add_to_variable = { ENG_crwon_cop_var = 1 }
+			FROM = { 
+				set_state_flag = CAN_crown_cop_established
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
 	CAN_decision_test = {
 		allowed = { tag = ENG}
 		available = { 
@@ -1196,6 +1243,8 @@ political_actions = {
 			}
 		}
 	}
+}
+economy_decisions = {
 }
 debug_decisions = {
     CAN_asdasdasdasdasdasdasd_debug = {

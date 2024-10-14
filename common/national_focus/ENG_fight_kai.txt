@@ -4513,7 +4513,7 @@ focus_tree = {
 	}
 	focus = {
 		id = CAN_government_unity # 캐나다 의회의 운명
-		icon = GFX_focus_generic_monarchy_1
+		icon = GFX_goal_CAN_parliament
 		cost = 5
 		
 		relative_position_id = CAN_kings_speech
@@ -4550,6 +4550,15 @@ focus_tree = {
 		relative_position_id = CAN_government_unity
 		x = -3
 		y = 1
+		offset = {
+			x = -1
+			trigger = {
+				NOT = {
+					has_country_flag = winston_churchill_is_leader_flag
+					has_country_flag = mackenzie_king_is_leader_falg
+				}
+			}
+		}
 		available = { 
 			is_subject = no 
 		}
@@ -4566,18 +4575,29 @@ focus_tree = {
 		}
 	}
 	
-	focus = { #영국 망명자 지도
+	focus = { # 영국 망명자 지도 - 매켄지 킹
 		id = CAN_control_uk_exile
-		icon = GFX_focus_ARG_strengthening_the_concordancia
+		icon = GFX_goal_generic_parliament
 		cost = 5
 
 		relative_position_id = CAN_government_unity
 		x = -1
 		y = 1
+		offset = {
+			x = 1
+			trigger = {
+				has_country_flag = mackenzie_king_is_leader_falg
+			}
+		}
 		available = { 
 			is_subject = no 
 		}
-	
+		allow_branch = {
+			NOT = { has_country_flag = winston_churchill_is_leader_flag }
+		}
+		mutually_exclusive = {
+			focus = CAN_control_canada_parliament
+		}
 		prerequisite = { focus = CAN_government_unity }
 		ai_will_do = { factor = 50 }
 		search_filters = {FOCUS_FILTER_POLITICAL}
@@ -4585,20 +4605,68 @@ focus_tree = {
 	
 			
 		completion_reward = {
-			#coun
+			
 		}
 	}
 	
-	focus = { #영국 망명자 지도
-		id = CAN_dealing_with_the_king
-		icon = GFX_focus_rom_handle_king
+	focus = { # 캐나다 의회 제압
+		id = CAN_control_canada_parliament
+		icon = GFX_focus_SWE_organize_a_putsch
 		cost = 5
 
 		relative_position_id = CAN_government_unity
 		x = 1
 		y = 1
+		offset = {
+			x = -1
+			trigger = {
+				has_country_flag = winston_churchill_is_leader_flag
+			}
+		}
 		available = { 
 			is_subject = no 
+		}
+		allow_branch = {
+			NOT = { has_country_flag = mackenzie_king_is_leader_falg }
+		}
+	
+		mutually_exclusive = {
+			focus = CAN_control_uk_exile
+		}
+		prerequisite = { focus = CAN_government_unity }
+		ai_will_do = { factor = 50 }
+		search_filters = {FOCUS_FILTER_POLITICAL}
+		available_if_capitulated = yes
+	
+			
+		completion_reward = {
+			
+		}
+	}
+	
+	focus = { # 국왕 다루기 - 공용
+		id = CAN_dealing_with_the_king
+		icon = GFX_focus_SWE_the_lion_of_the_north
+		cost = 5
+
+		relative_position_id = CAN_government_unity
+		x = 2
+		y = 1
+		offset = {
+			x = 2
+			trigger = {
+				NOT = {
+					has_country_flag = winston_churchill_is_leader_flag
+					has_country_flag = mackenzie_king_is_leader_falg
+				}
+			}
+		}
+		available = { 
+			is_subject = no
+			OR = {
+				has_idea = BA_ENG_king_edward
+				has_idea = ENG_george_VI
+			}
 		}
 	
 		prerequisite = { focus = CAN_government_unity }
@@ -4608,7 +4676,54 @@ focus_tree = {
 	
 			
 		completion_reward = {
-			#coun
+
+		}
+	}
+	
+	focus = { # 국왕과 타협 ( 타협의 주 내용은 정치권에 과도하게 개입하는 국왕을 막을려고 할거임.. )
+		id = CAN_compromise_with_king
+		icon = GFX_goal_tfv_strengthen_commonwealth_ties
+		cost = 5
+
+		relative_position_id = CAN_dealing_with_the_king
+		x = -1
+		y = 1
+		available = { 
+			is_subject = no 
+		}
+		mutually_exclusive = { focus = CAN_kings_servants }
+		prerequisite = { focus = CAN_dealing_with_the_king }
+		ai_will_do = { factor = 50 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		available_if_capitulated = yes
+	
+			
+		completion_reward = {
+			
+		}
+	}
+	
+	focus = { # 국왕의 충복들 (국왕과 이권 갈라먹기!!)
+		id = CAN_kings_servants
+		icon = GFX_focus_generic_workers
+		cost = 5
+
+		relative_position_id = CAN_dealing_with_the_king
+		x = 1
+		y = 1
+		available = { 
+			is_subject = no 
+		}
+		mutually_exclusive = { focus = CAN_compromise_with_king }
+	
+		prerequisite = { focus = CAN_dealing_with_the_king }
+		ai_will_do = { factor = 50 }
+		search_filters = { FOCUS_FILTER_POLITICAL }
+		available_if_capitulated = yes
+	
+			
+		completion_reward = {
+			
 		}
 	}
 	
@@ -4620,6 +4735,15 @@ focus_tree = {
 		relative_position_id = CAN_government_unity
 		x = 5
 		y = 1
+		offset = {
+			x = 2
+			trigger = {
+				NOT = {
+					has_country_flag = winston_churchill_is_leader_flag
+					has_country_flag = mackenzie_king_is_leader_falg
+				}
+			}
+		}
 		available = { 
 			is_subject = no 
 			NOT = {
@@ -4678,6 +4802,15 @@ focus_tree = {
 		relative_position_id = CAN_government_unity
 		x = 7
 		y = 1
+		offset = {
+			x = 2
+			trigger = {
+				NOT = {
+					has_country_flag = winston_churchill_is_leader_flag
+					has_country_flag = mackenzie_king_is_leader_falg
+				}
+			}
+		}
 		available = { 
 			is_subject = no 
 			NOT = {
@@ -5015,7 +5148,7 @@ focus_tree = {
 	}
 	focus = { # 국립 고용 위원회
 		id = CAN_create_national_employment_commission
-		icon = GFX_focus_DEN_no_regulations
+		icon = GFX_focus_generic_full_employment
 		cost = 10
 		
 		relative_position_id = CAN_Canada_new_deal
@@ -5300,6 +5433,8 @@ focus_tree = {
 		completion_reward = {
 			custom_effect_tooltip = available_political_advisor
 			show_ideas_tooltip = IMP_c_d_howe
+			set_variable = { ENG_crwon_cop_var = 0 }
+			unlock_decision_tooltip = CAN_crown_cop
 		}
 	}
 	
