@@ -5605,7 +5605,14 @@ focus_tree = {
 
 		completion_reward = {
 			custom_effect_tooltip = GEH_legitimate_dominion_completed_tt
-			show_ideas_tooltip = GEH_dlfhgk3
+			GEM = {
+				if = {
+					limit = { NOT = { ROOT = { tag = HEU } } }
+					show_ideas_tooltip = GEH_dlfhgk1
+					show_ideas_tooltip = GEH_dlqnzl
+				}
+				show_ideas_tooltip = GEH_dlfhgk3
+			}
 		}
 	}
 	
@@ -5781,8 +5788,17 @@ focus_tree = {
 			is_debug = yes
 		}
 
-		completion_reward = {
+		ai_will_do = {
+			factor = 4
+		}
 
+		completion_reward = {
+			add_cic = 2000
+
+			add_timed_idea = {
+				idea = HEU_end_of_holding_act_idea
+				days = 365
+			}
 		}
 	}
 
@@ -5791,10 +5807,14 @@ focus_tree = {
 		
 		relative_position_id = HEU_end_of_holding_act
 
-		icon = GFX_goal_generic_construct_civ_factory
+		icon = GFX_focus_generic_university_3
 
 		prerequisite = { 
 			focus = HEU_end_of_holding_act 
+		}
+
+		ai_will_do = {
+			factor = 7
 		}
 
 		cost = 5.00
@@ -5815,7 +5835,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
-
+			add_ideas = HEU_titanium_idea
 		}
 	}
 	focus = {
@@ -5827,6 +5847,10 @@ focus_tree = {
 
 		prerequisite = { 
 			focus = HEU_end_of_holding_act 
+		}
+
+		ai_will_do = {
+			factor = 4
 		}
 
 		cost = 5.00
@@ -5854,17 +5878,41 @@ focus_tree = {
 				}
 			}
 			# 고유 기업 ARBED 추가
+
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 2
+				add_building_construction = {
+					type = industrial_complex
+					level = 1
+					instant_build = yes
+				}	
+			}
+
+			add_tech_bonus = {
+				name = HEU_nationalisation_of_ARBED
+				bonus = 0.5
+				uses = 2
+				category = industry
+			}
 		}
 	}
+
 	focus = {
 		id = HEU_CLR_reconstruction
 		
 		relative_position_id = HEU_end_of_holding_act
 
-		icon = GFX_focus_spa_the_spanish_miracle
+		icon = GFX_focus_SWE_radiotjanst
 
 		prerequisite = { 
 			focus = HEU_end_of_holding_act 
+		}
+
+		ai_will_do = {
+			factor = 4
 		}
 
 		cost = 5.00
@@ -5881,6 +5929,1033 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_tech_bonus = {
+				name = HEU_CLR_reconstruction
+				bonus = 0.5
+				uses = 1
+				category = electronics
+			}
+			IF = {
+				limit = { NOT = { has_tech = radio } }
+				set_technology = { radio = 1 }
+			}
 		}
 	}
+	
+	focus = {
+		id = HEU_BLEU_left
+		
+		relative_position_id = HEU_end_of_holding_act
+
+		icon = GFX_focus_BRA_ethical_internationalism
+
+		prerequisite = { 
+			focus = HEU_nationalisation_of_ARBED 
+		}
+
+		prerequisite = { 
+			focus = HEU_CLR_reconstruction 
+		}
+		
+		mutually_exclusive = {
+			focus = HEU_BLEU_right
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		cost = 10.00
+
+		x = -1
+		y = 2
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = HEU_BLEU_right
+		
+		relative_position_id = HEU_end_of_holding_act
+
+		icon = GFX_goal_generic_positive_trade_relations
+
+		prerequisite = { 
+			focus = HEU_nationalisation_of_ARBED 
+		}
+
+		prerequisite = { 
+			focus = HEU_CLR_reconstruction 
+		}
+		
+		mutually_exclusive = {
+			focus = HEU_BLEU_left
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		cost = 10.00
+
+		x = 1
+		y = 2
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+
+	### 친 현지인 산업 하위 중점 ###
+
+	focus = {
+		id = HEU_national_labour_council
+		
+		relative_position_id = HEU_end_of_holding_act
+
+		icon = GFX_focus_SWE_socialist_reforms
+
+		prerequisite = { 
+			focus = HEU_BLEU_left 
+			focus = HEU_BLEU_right 
+		}
+
+		mutually_exclusive = {
+			focus = HEU_gehenna_labour_council
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		cost = 5.00
+
+		x = -5
+		y = 3
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = HEU_ban_quadragesimo_anno
+		
+		relative_position_id = HEU_national_labour_council
+
+		icon = GFX_focus_BRA_socialist_theologians
+
+		prerequisite = { 
+			focus = HEU_national_labour_council 
+		}
+
+		cost = 5.00
+
+		x = -1
+		y = 1
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = HEU_aru_persona_resolution_need_20_tt
+				check_variable = { Global.aru_stat_point_array^2 > 19 } #결의 19 초과
+			}
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = communism
+				popularity = 0.1
+			}
+		}
+	}
+
+	focus = {
+		id = HEU_dairy_farming
+		
+		relative_position_id = HEU_ban_quadragesimo_anno
+
+		icon = GFX_focus_ARG_capitalize_the_beef_industry
+
+		prerequisite = { 
+			focus = HEU_ban_quadragesimo_anno 
+		}
+
+		cost = 5.00
+
+		x = -1
+		y = 1
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = HEU_trade_union_permission
+		
+		relative_position_id = HEU_ban_quadragesimo_anno
+
+		icon = GFX_focus_eng_concessions_to_the_trade_unions
+
+		prerequisite = { 
+			focus = HEU_ban_quadragesimo_anno 
+		}
+
+		cost = 5.00
+
+		x = 1
+		y = 1
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+
+
+	focus = {
+		id = HEU_laicism
+		
+		relative_position_id = HEU_ban_quadragesimo_anno
+
+		icon = GFX_focus_ARG_liberation_theology
+
+		prerequisite = { 
+			focus = HEU_ban_quadragesimo_anno 
+		}
+
+		cost = 5.00
+
+		x = 0
+		y = 2
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = HEU_aru_persona_resolution_need_50_tt
+				check_variable = { Global.aru_stat_point_array^2 > 49 } #결의 49 초과
+			}
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = HEU_steel_support
+		
+		relative_position_id = HEU_national_labour_council
+
+		icon = GFX_focus_SOV_organize_wreckers
+
+		prerequisite = { 
+			focus = HEU_national_labour_council 
+		}
+
+		cost = 10.00
+
+		x = 3
+		y = 1
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}	
+			}
+		}
+	}
+	
+	focus = {
+		id = HEU_nationalization_of_railways
+		
+		relative_position_id = HEU_steel_support
+
+		icon = GFX_focus_generic_railroad
+
+		prerequisite = { 
+			focus = HEU_steel_support 
+		}
+
+		cost = 5.00
+
+		x = -1
+		y = 1
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = HEU_iron_ore_mining
+		
+		relative_position_id = HEU_steel_support
+
+		icon = GFX_focus_generic_mining_industry
+
+		prerequisite = { 
+			focus = HEU_steel_support 
+		}
+
+		cost = 5.00
+
+		x = 1
+		y = 1
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+			add_tech_bonus = {
+				name = HEU_iron_ore_mining
+				bonus = 0.50
+				uses = 2
+				category = excavation_tech
+			}
+		}
+	}
+	
+	focus = {
+		id = HEU_german_school
+		
+		relative_position_id = HEU_national_labour_council
+
+		icon = GFX_focus_generic_socialist_science
+
+		prerequisite = { 
+			focus = HEU_national_labour_council 
+		}
+
+		cost = 10.00
+
+		x = 7
+		y = 1
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+
+		completion_reward = {
+			add_research_slot = 1
+			add_popularity = {
+				ideology = communism
+				popularity = 0.1
+			}
+		}
+	}
+	
+	focus = {
+		id = HEU_RTL_kayoko_2
+		
+		relative_position_id = HEU_german_school
+
+		icon = GFX_goal_HEU_zkdyzh
+
+		prerequisite = { 
+			focus = HEU_german_school 
+		}
+
+		cost = 5.00
+
+		x = -1
+		y = 1
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = HEU_aru_persona_charisma_need_20_tt
+				check_variable = { Global.aru_stat_point_array^3 > 19 } #카리스마 19 초과
+			}
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = HEU_basic_housing
+		
+		relative_position_id = HEU_german_school
+
+		icon = GFX_focus_ARG_the_buenos_aires_conference
+
+		prerequisite = { 
+			focus = HEU_german_school 
+		}
+
+		cost = 5.00
+
+		x = 1
+		y = 1
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = HEU_gehenna_german_culture
+		
+		relative_position_id = HEU_national_labour_council
+
+		icon = GFX_focus_SWE_refuge_for_revolutionaries
+
+		prerequisite = { 
+			focus = HEU_nationalization_of_railways 
+		}
+
+		prerequisite = { 
+			focus = HEU_iron_ore_mining 
+		}
+
+		prerequisite = { 
+			focus = HEU_RTL_kayoko_2 
+		}
+
+		prerequisite = { 
+			focus = HEU_basic_housing 
+		}
+
+		cost = 5.00
+
+		x = 5
+		y = 3
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+
+	### 친 키보토스 산업 하위 중점 ###
+
+	focus = {
+		id = HEU_gehenna_labour_council
+		
+		relative_position_id = HEU_end_of_holding_act
+
+		icon = GFX_goal_GEH_flag
+
+		prerequisite = { 
+			focus = HEU_BLEU_left 
+			focus = HEU_BLEU_right 
+		}
+
+		mutually_exclusive = {
+			focus = HEU_national_labour_council
+		}
+
+		ai_will_do = {
+			factor = 4
+		}
+
+		cost = 5.00
+
+		x = 5
+		y = 3
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = HEU_gehenna_people
+		
+		relative_position_id = HEU_gehenna_labour_council
+
+		icon = GFX_focus_BRA_rio_protocol
+
+		prerequisite = { 
+			focus = HEU_gehenna_labour_council 
+		}
+
+		cost = 5.00
+
+		x = 0
+		y = 1
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = HEU_aru_persona_charisma_need_20_tt
+				check_variable = { Global.aru_stat_point_array^3 > 19 } #카리스마 19 초과
+			}
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+			add_manpower = 50000
+			add_political_power = 100
+		}
+	}
+
+	focus = {
+		id = HEU_gehenna_tourism
+		
+		relative_position_id = HEU_gehenna_labour_council
+
+		icon = GFX_goal_generic_air_fighter2
+
+		prerequisite = { 
+			focus = HEU_gehenna_labour_council 
+		}
+
+		cost = 5.00
+
+		x = 2
+		y = 1
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = HEU_gehenna_labour_council_2
+		
+		relative_position_id = HEU_gehenna_labour_council
+
+		icon = GFX_focus_ITA_corpo_volontari_della_liberta
+
+		prerequisite = { 
+			focus = HEU_gehenna_people 
+		}
+
+		prerequisite = { 
+			focus = HEU_gehenna_tourism 
+		}
+
+		cost = 5.00
+
+		x = 4
+		y = 2
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = HEU_gehenna_labour_council_3
+		
+		relative_position_id = HEU_gehenna_labour_council
+
+		icon = GFX_focus_ARG_the_war_machine
+
+		prerequisite = { 
+			focus = HEU_gehenna_labour_council_2 
+		}
+
+		cost = 5.00
+
+		x = 5
+		y = 3
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+			mio:generic_kivotos_infantry_equipment_organization = {
+				add_mio_size = 2
+			}
+
+			add_tech_bonus = {
+				name = mystic_engineering_bonus
+				bonus = 1.0
+				uses = 2
+				category = mystic_engineering
+			}
+			
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = arms_factory
+					level = 3
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = HEU_land_reform
+		
+		relative_position_id = HEU_gehenna_labour_council
+
+		icon = GFX_focus_BRA_support_sugar_barons
+
+		prerequisite = { 
+			focus = HEU_gehenna_people 
+		}
+
+		cost = 5.00
+
+		x = 0
+		y = 2
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
+		}
+	}
+	
+	focus = {
+		id = HEU_association_of_school_institutes
+		
+		relative_position_id = HEU_gehenna_labour_council
+
+		icon = GFX_focus_ARG_fascist_researchers
+
+		prerequisite = { 
+			focus = HEU_land_reform 
+		}
+
+		prerequisite = { 
+			focus = HEU_gehenna_tourism 
+		}
+
+		cost = 10.00
+
+		x = -1
+		y = 3
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		search_filters = { FOCUS_FILTER_RESEARCH }
+
+		completion_reward = {
+			add_research_slot = 1
+		}
+	}
+	
+	focus = {
+		id = HEU_repression_for_local_capitalists
+		
+		relative_position_id = HEU_gehenna_labour_council
+
+		icon = GFX_focus_DEN_heavy_regulations
+
+		prerequisite = { 
+			focus = HEU_gehenna_people 
+		}
+
+		prerequisite = { 
+			focus = HEU_gehenna_tourism 
+		}
+
+		cost = 10.00
+
+		x = 2
+		y = 2
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+		
+		completion_reward = {
+			random_owned_controlled_state = {
+				limit = {
+					is_core_of = ROOT
+				}
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = industrial_complex
+					level = 3
+					instant_build = yes
+				}	
+			}
+
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+
+			add_tech_bonus = {
+				name = HEU_repression_for_local_capitalists
+				bonus = 0.5
+				uses = 1
+				category = construction_tech
+			}
+		}
+	}
+	
+	focus = {
+		id = HEU_RTL_kayoko
+		
+		relative_position_id = HEU_gehenna_labour_council
+
+		icon = GFX_goal_HEU_zkdyzh
+
+		prerequisite = { 
+			focus = HEU_repression_for_local_capitalists 
+		}
+
+		cost = 5.00
+
+		x = 3
+		y = 3
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = HEU_aru_persona_charisma_need_40_tt
+				check_variable = { Global.aru_stat_point_array^3 > 39 } #카리스마 39 초과
+			}
+		}
+
+		bypass = {
+
+		}
+		
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = HEU_school_of_culture
+		
+		relative_position_id = HEU_gehenna_labour_council
+
+		icon = GFX_focus_generic_university_1 #GFX_focus_ARG_the_buenos_aires_conference
+
+		prerequisite = { 
+			focus = HEU_repression_for_local_capitalists 
+		}
+
+		cost = 5.00
+
+		x = 1
+		y = 3
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+		
+		completion_reward = {
+		}
+	}
+	
+	focus = {
+		id = HEU_school_of_atheism
+		
+		relative_position_id = HEU_gehenna_labour_council
+
+		icon = GFX_focus_ARG_state_atheism
+
+		prerequisite = { 
+			focus = HEU_association_of_school_institutes 
+		}
+
+		prerequisite = { 
+			focus = HEU_school_of_culture 
+		}
+
+		cost = 5.00
+
+		x = 0
+		y = 4
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = HEU_aru_persona_resolution_need_75_tt
+				check_variable = { Global.aru_stat_point_array^2 > 74 } #결의 74 초과
+			}
+		}
+
+		bypass = {
+
+		}
+		
+		completion_reward = {
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+		}
+	}
+	
+	focus = {
+		id = HEU_civil_partnership
+		
+		relative_position_id = HEU_gehenna_labour_council
+
+		icon = GFX_focus_generic_court
+
+		prerequisite = { 
+			focus = HEU_RTL_kayoko 
+		}
+
+		prerequisite = { 
+			focus = HEU_gehenna_labour_council_3 
+		}
+
+		cost = 5.00
+
+		x = 4
+		y = 4
+
+		available = { 
+			custom_trigger_tooltip = {
+				tooltip = HEU_aru_persona_resolution_need_85_tt
+				check_variable = { Global.aru_stat_point_array^2 > 84 } #결의 84 초과
+			}
+			custom_trigger_tooltip = {
+				tooltip = HEU_aru_persona_charisma_need_50_tt
+				check_variable = { Global.aru_stat_point_array^3 > 49 } #카리스마 49 초과
+			}
+		}
+
+		bypass = {
+
+		}
+		
+		completion_reward = {
+		}
+	}
+	
+	###############
+	#
+	# 흥신소 중점
+	#
+	###############
+
+	focus = { 
+		id = HEU_luxembourg_benriya_68
+		icon = GFX_goal_HEU_wjddnjfdkfn
+
+		cost = 5.00
+		x = 62
+		y = 16
+
+		available = {
+		}
+
+		bypass = {
+		}
+
+		allow_branch = {
+			is_debug = yes
+		}
+
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = HEU_benriya_construction
+		
+		relative_position_id = HEU_luxembourg_benriya_68
+
+		icon = GFX_focus_generic_resource_extraction
+
+		prerequisite = { 
+			focus = HEU_luxembourg_benriya_68 
+		}
+
+		cost = 5.00
+
+		x = 2
+		y = 1
+
+		available = { 
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = HEU_benriya_local
+		
+		relative_position_id = HEU_luxembourg_benriya_68
+
+		icon = GFX_focus_generic_road_investment
+
+		prerequisite = { 
+			focus = HEU_luxembourg_benriya_68 
+		}
+
+		cost = 5.00
+
+		x = 0
+		y = 1
+
+		available = { 
+			controls_state = 8
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+
+	focus = {
+		id = HEU_benriya_warfare
+		
+		relative_position_id = HEU_luxembourg_benriya_68
+
+		icon = GFX_focus_SWE_bicycle
+
+		prerequisite = { 
+			focus = HEU_luxembourg_benriya_68 
+		}
+
+		cost = 5.00
+
+		x = -2
+		y = 1
+
+		available = { 
+			controls_state = 8
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+		}
+	}
+
 }
