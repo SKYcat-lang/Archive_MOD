@@ -1012,6 +1012,76 @@ on_actions = {
 					}
 				}
 			}
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							ROOT = { original_tag = USA }
+							FROM = {
+								is_major = yes
+								NOT = {
+									original_tag = USA
+									original_tag = USP
+									original_tag = CSA
+									original_tag = CSB
+								}
+							}
+						}
+						AND = {
+							FROM = { original_tag = USA }
+							ROOT = {
+								is_major = yes
+								NOT = {
+									original_tag = USA
+									original_tag = USP
+									original_tag = CSA
+									original_tag = CSB
+								}
+							}
+						}
+					}
+				}
+				if = { ## 
+					limit = {
+						USA = { 
+							has_active_mission = USA_recover_from_2nd_great_depression_failure_mission
+							NOT = { has_country_flag = USA_recover_from_2nd_great_depression_stop_flag } 
+						}
+					}
+					USA = {
+						set_country_flag = USA_recover_from_2nd_great_depression_stop_flag
+						if = { #
+							limit = {
+								has_war_with = JAP
+								JAP = { is_major = yes }
+							}
+							JAP = { set_country_flag = USA_recover_from_2nd_great_depression_disruptor_flag }
+						}
+						else_if = { #
+							limit = {
+								has_war_with = ENG
+								ENG = { is_major = yes }
+							}
+							ENG = { set_country_flag = USA_recover_from_2nd_great_depression_disruptor_flag }
+						}
+						else = { #If no pandemonium society, choose a random enemy major
+							random_enemy_country = {
+								limit = {
+									is_major = yes
+								}
+								set_country_flag = USA_recover_from_2nd_great_depression_disruptor_flag
+							}
+						}
+						random_country = {
+							limit = {
+								has_country_flag = USA_recover_from_2nd_great_depression_disruptor_flag
+							}
+							log = "USA 2nd Great Deperssion The disruptor is [THIS.GetName]"
+						}
+						country_event = usa_chroma_event.2
+					}
+				}
+			}
 		}
 	}
 }
