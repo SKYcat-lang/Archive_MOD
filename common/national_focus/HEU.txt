@@ -4825,6 +4825,295 @@ focus_tree = {
 		}
 	}
 
+	###############
+	#
+	# 흥신소 정치
+	#
+	###############
+
+	focus = { 
+		id = HEU_road_to_regency
+		icon = GFX_goal_HEU_aru_rikuhachima_1
+
+		cost = 10.00
+		x = 15
+		y = 19
+
+		available = {
+		}
+
+		bypass = {
+		}
+
+		allow_branch = {
+			is_debug = yes
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		select_effect = {
+			country_event = { id = HEU_event.102 days = 14 }
+			country_event = { id = HEU.flavor_event.1 days = 28 }
+			country_event = { id = HEU.flavor_event.2 days = 36 }
+			country_event = { id = HEU.flavor_event.5 days = 48 }
+			country_event = { id = HEU.flavor_event.6 days = 56 }
+		}
+
+		completion_reward = {
+			country_event = { id = HEU_event.101 }
+		}
+	}
+
+	focus = {
+		id = HEU_watch_gehenna
+		
+		relative_position_id = HEU_road_to_regency
+
+		icon = GFX_goal_GEH_army_flag
+
+		prerequisite = { 
+			focus = HEU_road_to_regency 
+		}
+
+		mutually_exclusive = {
+			focus = HEU_watch_right_wing_party
+		}
+
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		cost = 5.00
+
+		x = -6
+		y = 1
+
+		available = { 
+
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+
+		}
+	}
+
+	focus = {
+		id = HEU_watch_right_wing_party
+		
+		relative_position_id = HEU_road_to_regency
+
+		icon = GFX_focus_BRA_tribunal
+
+		prerequisite = { 
+			focus = HEU_road_to_regency 
+		}
+
+		mutually_exclusive = {
+			focus = HEU_watch_gehenna
+		}
+
+		ai_will_do = {
+			factor = 10
+
+		}
+
+		search_filters = { FOCUS_FILTER_HISTORICAL }
+
+		cost = 5.00
+
+		x = 6
+		y = 1
+
+		available = { 
+
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+
+		}
+	}
+	focus = {
+		id = HEU_remove_right_wing_party
+		
+		relative_position_id = HEU_watch_right_wing_party
+
+		icon = GFX_focus_usa_voter_registration_act
+
+		prerequisite = { 
+			focus = HEU_watch_right_wing_party 
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = {  }
+
+		cost = 2.00
+
+		x = -2
+		y = 1
+
+		available = { 
+
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+			add_political_power = 120
+			add_stability = -0.05
+			HEU_bop_medium_decrease_effect = yes
+			hidden_effect = {
+				BA_ban_democratic_effect = yes
+				
+				set_party_name = {
+					ideology = neutrality
+					long_name = HEU_benriya_party
+					name = HEU_benriya_party
+				}
+
+				swap_ideas = {
+					remove_idea = HEU_grand_duchy_of_luxembourg
+					add_idea = HEU_grand_duchy_of_luxembourg_benriya
+				}
+				remove_ideas = HEU_grand_duchy_of_luxembourg_alt
+			}
+
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+		}
+	}
+
+	focus = {
+		id = HEU_remove_nazi_party
+		
+		relative_position_id = HEU_watch_right_wing_party
+
+		icon = GFX_focus_attack_germany
+
+		prerequisite = { 
+			focus = HEU_watch_right_wing_party 
+		}
+
+		ai_will_do = {
+			factor = 10
+		}
+
+		search_filters = {  }
+
+		cost = 2.00
+
+		x = 2
+		y = 1
+
+		available = { 
+
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+			HEU_bop_medium_decrease_effect = yes
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.1
+			}
+
+			effect_tooltip = {
+				HEU_pierre_prum = { retire = yes }
+			}
+
+			set_country_flag = HEU_remove_pro_nazi
+			
+			add_country_leader_role = {
+				character = HEU_aru
+				promote_leader = yes
+				country_leader = {
+					ideology = hardboiled_noir
+					desc = "HEU_aru_fascist_leader_desc"
+					traits = { 
+						HEU_ARU_T1
+						HEU_regent_of_luxembourg
+					}
+				}
+			}
+			
+			hidden_effect = {
+				set_party_name = {
+					ideology = fascism
+					long_name = HEU_benriya_party
+					name = HEU_benriya_party
+				}
+			}
+		}
+	}
+
+	focus = {
+		id = HEU_rikuhachima_governemnt
+		
+		relative_position_id = HEU_watch_right_wing_party
+
+		icon = GFX_focus_generic_strike_at_democracy1
+
+		prerequisite = { 
+			focus = HEU_remove_right_wing_party 
+		}
+
+		prerequisite = { 
+			focus = HEU_remove_nazi_party 
+		}
+
+		ai_will_do = {
+			factor = 100
+		}
+
+		search_filters = {  }
+
+		cost = 3.00
+
+		x = 0
+		y = 2
+
+		available = { 
+
+		}
+
+		bypass = {
+
+		}
+
+		completion_reward = {
+			HEU_bop_absurdly_high_decrease_effect = yes
+			add_popularity = {
+				ideology = fascism
+				popularity = 0.4
+			}
+
+			set_politics = {
+				ruling_party = fascism
+				elections_allowed = no
+			}
+		}
+	}
+
 	##################
 	#
 	# 흥신소 전용 게헨나 통일
@@ -5947,7 +6236,7 @@ focus_tree = {
 		
 		relative_position_id = HEU_end_of_holding_act
 
-		icon = GFX_focus_BRA_ethical_internationalism
+		icon = GFX_focus_ETH_adopt_the_lira #GFX_focus_BRA_ethical_internationalism
 
 		prerequisite = { 
 			focus = HEU_nationalisation_of_ARBED 
@@ -5964,6 +6253,8 @@ focus_tree = {
 		ai_will_do = {
 			factor = 4
 		}
+		
+		search_filters = { FOCUS_FILTER_HISTORICAL }
 
 		cost = 10.00
 
@@ -6009,7 +6300,10 @@ focus_tree = {
 		x = 1
 		y = 2
 
-		available = { 
+		available = {
+			NOT = { has_idea = BA_isolation }
+			country_exists = KSP
+			NOT = { has_war_with = KSP }
 		}
 
 		bypass = {
@@ -6055,6 +6349,17 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_dynamic_modifier = {
+				modifier = HEU_national_labour_council_idea
+			}
+			add_to_variable = {
+				HEU_var_dynamic_production_factory_efficiency_gain_factor = 0.1
+				tooltip = production_factory_efficiency_gain_factor_tt
+			}
+			add_to_variable = {
+				HEU_var_dynamic_consumer_goods_factor = -0.1
+				tooltip = consumer_goods_factor_tt
+			}
 		}
 	}
 
@@ -6090,6 +6395,20 @@ focus_tree = {
 				ideology = communism
 				popularity = 0.1
 			}
+			
+			custom_effect_tooltip = HEU_modify_economy_left_intro
+			add_to_variable = {
+				HEU_var_industrial_capacity_factory = 0.05
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				HEU_var_dynamic_production_factory_efficiency_gain_factor = 0.05
+				tooltip = production_factory_efficiency_gain_factor_tt
+			}
+			add_to_variable = {
+				HEU_var_dynamic_production_factory_max_efficiency_factor = 0.05
+				tooltip = production_factory_max_efficiency_factor_tt
+			}
 		}
 	}
 
@@ -6117,6 +6436,20 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = HEU_modify_economy_left_intro
+			add_to_variable = {
+				HEU_var_dynamic_consumer_goods_factor = -0.1
+				tooltip = consumer_goods_factor_tt
+			}
+			
+			random_owned_state = {
+				add_extra_state_shared_building_slots = 3
+				add_building_construction = {
+					type = industrial_complex
+					level = 2
+					instant_build = yes
+				}
+			}
 		}
 	}
 
@@ -6144,6 +6477,15 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = HEU_modify_economy_left_intro
+			add_to_variable = {
+				HEU_var_industrial_capacity_factory = 0.1
+				tooltip = industrial_capacity_factory_tt
+			}
+			add_to_variable = {
+				HEU_var_dynamic_consumer_goods_factor = -0.05
+				tooltip = consumer_goods_factor_tt
+			}
 		}
 	}
 
@@ -6241,6 +6583,8 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_ideas = HEU_nationalization_of_railways_idea
+
 		}
 	}
 	
@@ -6273,6 +6617,12 @@ focus_tree = {
 				bonus = 0.50
 				uses = 2
 				category = excavation_tech
+			}
+
+			custom_effect_tooltip = HEU_modify_economy_left_intro
+			add_to_variable = {
+				HEU_var_dynamic_production_factory_max_efficiency_factor = 0.1
+				tooltip = production_factory_max_efficiency_factor_tt
 			}
 		}
 	}
@@ -6339,6 +6689,7 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			add_ideas = HEU_RTL_idea_2
 		}
 	}
 	
@@ -6366,6 +6717,11 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = HEU_modify_economy_left_intro
+			add_to_variable = {
+				HEU_var_dynamic_production_speed_industrial_complex_factor = 0.1
+				tooltip = production_speed_industrial_complex_factor_tt
+			}
 		}
 	}
 	
@@ -6442,7 +6798,20 @@ focus_tree = {
 
 		}
 
+		search_filters = { FOCUS_FILTER_HISTORICAL }
+
 		completion_reward = {
+			add_dynamic_modifier = {
+				modifier = HEU_gehenna_labour_council_idea
+			}
+			add_to_variable = {
+				HEU_var_dynamic_production_lack_of_resource_penalty_factor = -0.1
+				tooltip = production_lack_of_resource_penalty_factor_tt
+			}
+			add_to_variable = {
+				HEU_var_dynamic_consumer_goods_factor = -0.1
+				tooltip = consumer_goods_factor_tt
+			}
 		}
 	}
 
@@ -6479,7 +6848,10 @@ focus_tree = {
 				popularity = 0.1
 			}
 			add_manpower = 50000
-			add_political_power = 100
+			add_timed_idea = {
+				idea = HEU_gehenna_immigration
+				days = 1095
+			}
 		}
 	}
 
@@ -6500,6 +6872,7 @@ focus_tree = {
 		y = 1
 
 		available = { 
+			controls_state = 8
 		}
 
 		bypass = {
@@ -6507,6 +6880,12 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			8 = {
+				add_building_construction = {
+					type = air_base
+					level = 2
+				}
+			}
 		}
 	}
 	
@@ -6538,6 +6917,15 @@ focus_tree = {
 		}
 
 		completion_reward = {
+			custom_effect_tooltip = HEU_modify_economy_right_intro
+			add_to_variable = {
+				HEU_var_dynamic_production_lack_of_resource_penalty_factor = -0.1
+				tooltip = production_lack_of_resource_penalty_factor_tt
+			}
+			add_to_variable = {
+				HEU_var_dynamic_consumer_goods_factor = -0.05
+				tooltip = consumer_goods_factor_tt
+			}
 		}
 	}
 	
@@ -6584,6 +6972,7 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
+			
 		}
 	}
 	
@@ -6618,6 +7007,16 @@ focus_tree = {
 					level = 2
 					instant_build = yes
 				}
+			}
+			
+			custom_effect_tooltip = HEU_modify_economy_right_intro
+			add_to_variable = {
+				HEU_var_dynamic_production_lack_of_resource_penalty_factor = -0.05
+				tooltip = production_lack_of_resource_penalty_factor_tt
+			}
+			add_to_variable = {
+				HEU_var_dynamic_production_speed_industrial_complex_factor = 0.05
+				tooltip = production_speed_industrial_complex_factor_tt
 			}
 		}
 	}
@@ -6707,6 +7106,12 @@ focus_tree = {
 				uses = 1
 				category = construction_tech
 			}
+			
+			custom_effect_tooltip = HEU_modify_economy_right_intro
+			add_to_variable = {
+				HEU_var_dynamic_production_speed_arms_factory_factor = 0.05
+				tooltip = production_speed_arms_factory_factor_tt
+			}
 		}
 	}
 	
@@ -6738,6 +7143,7 @@ focus_tree = {
 		}
 		
 		completion_reward = {
+			add_ideas = HEU_RTL_idea_1
 		}
 	}
 	
@@ -6765,6 +7171,15 @@ focus_tree = {
 		}
 		
 		completion_reward = {
+			custom_effect_tooltip = HEU_modify_economy_right_intro
+			add_to_variable = {
+				HEU_var_dynamic_production_speed_arms_factory_factor = 0.1
+				tooltip = production_speed_arms_factory_factor_tt
+			}
+			add_to_variable = {
+				HEU_var_dynamic_production_speed_industrial_complex_factor = 0.1
+				tooltip = production_speed_industrial_complex_factor_tt
+			}
 		}
 	}
 	
@@ -6843,6 +7258,7 @@ focus_tree = {
 		}
 		
 		completion_reward = {
+			custom_effect_tooltip = HEU_civil_partnership_tt
 		}
 	}
 	
@@ -6856,7 +7272,7 @@ focus_tree = {
 		id = HEU_luxembourg_benriya_68
 		icon = GFX_goal_HEU_wjddnjfdkfn
 
-		cost = 5.00
+		cost = 2.00
 		x = 62
 		y = 16
 
@@ -6886,7 +7302,7 @@ focus_tree = {
 			focus = HEU_luxembourg_benriya_68 
 		}
 
-		cost = 5.00
+		cost = 3.00
 
 		x = 2
 		y = 1
@@ -6913,7 +7329,7 @@ focus_tree = {
 			focus = HEU_luxembourg_benriya_68 
 		}
 
-		cost = 5.00
+		cost = 3.00
 
 		x = 0
 		y = 1
@@ -6941,7 +7357,7 @@ focus_tree = {
 			focus = HEU_luxembourg_benriya_68 
 		}
 
-		cost = 5.00
+		cost = 3.00
 
 		x = -2
 		y = 1
