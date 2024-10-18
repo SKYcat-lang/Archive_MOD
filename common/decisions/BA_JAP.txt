@@ -9,7 +9,6 @@ political_actions = {
 		}
 
 		available = {
-			has_stability > 0.50
 			has_political_power > 120
 			JAP_hayashi_senjuro = { is_hired_as_advisor = no }
 			has_completed_focus = JAP_opposition_to_the_army
@@ -27,6 +26,145 @@ political_actions = {
 		timeout_effect = {
 			country_event = BA_japan.19
 			set_country_flag = february_26_incident_flag
+		}
+	}
+	JAP_control_faction_expulsion = {
+		
+		priority = 200
+		icon = GFX_decision_SWI_consolidate_council_power
+
+		visible = {
+			has_completed_focus = JAP_protection_of_the_kodoha
+		}
+
+		available = {
+			fascism > 0.59
+		}
+		cost = 200
+
+		complete_effect = {
+			start_civil_war = {
+				ruling_party = fascism
+				ideology = neutrality
+				size = 0.3
+				keep_all_characters = yes
+				PREV = {  # Original country
+					if = { limit = { has_character = JAP_the_control_faction } JAP_the_control_faction = { set_nationality = PREV.PREV } }
+					if = { limit = { has_character = JAP_hideki_tojo } JAP_hideki_tojo = { set_nationality = PREV.PREV } }
+					if = { limit = { has_character = JAP_hajime_sugiyama } JAP_hajime_sugiyama = { set_nationality = PREV.PREV } }
+					if = { limit = { has_character = JAP_shunroku_hata } JAP_shunroku_hata = { set_nationality = PREV.PREV } }
+					if = { limit = { has_character = JAP_hisaichi_terauchi } JAP_hisaichi_terauchi = { set_nationality = PREV.PREV } }
+					if = { limit = { has_character = JAP_akira_muto } JAP_akira_muto = { set_nationality = PREV.PREV } }
+				}
+				if = {
+					limit = { has_character = JAP_the_control_faction }
+					promote_character = {
+						character = JAP_the_control_faction
+						ideology = oligarchism
+					}
+				}
+			}
+		}
+	}
+}
+JAP_balance_of_power_category = {
+	JBP_weakening_of_control_faction = {
+		icon = GFX_decision_onmap_recruit_operative
+
+		cost = 25
+
+		available = {
+			political_power_daily > 0
+		}
+		
+		days_remove = 35
+
+		modifier = {
+			political_power_cost = 0.01
+		}
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		complete_effect = {
+			add_power_balance_value = {
+				id = JAP_power_balance
+				value = 0.10
+			}
+		}
+	}
+	JBP_support_of_his_imperial_highness = {
+		icon = GFX_decision_generic_military
+
+		cost = 100
+		
+		fire_only_once = yes
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		complete_effect = {
+			add_stability = -0.02
+			add_popularity = {
+				ideology = neutrality
+				popularity = -0.05
+			}
+			add_power_balance_value = {
+				id = JAP_power_balance
+				value = 0.20
+			}
+		}
+	}
+	JBP_continuing_disarmament = {
+		icon = GFX_decision_generic_merge_plant_materiel
+
+		cost = 25
+
+		available = {
+			has_completed_focus = JAP_disarmament_for_the_economy
+		}
+
+		days_re_enable = 45
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		complete_effect = {
+			add_power_balance_value = {
+				id = JAP_power_balance
+				value = 0.10
+			}
+		}
+	}
+	JBP_release_of_political_prisoners = {
+		icon = GFX_decision_generic_arrest
+
+		cost = 50
+
+		available = {
+			has_completed_focus = JAP_protection_of_the_kodoha
+		}
+
+		days_re_enable = 20
+
+		ai_will_do = {
+			factor = 20
+		}
+
+		complete_effect = {
+			add_stability = -0.02
+			add_popularity = {
+				ideology = neutrality
+				popularity = -0.005
+			}
+			add_manpower = 25
+			add_power_balance_value = {
+				id = JAP_power_balance
+				value = 0.10
+			}
 		}
 	}
 }
