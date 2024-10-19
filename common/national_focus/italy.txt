@@ -2813,7 +2813,7 @@ focus_tree = {
 		completion_reward = {
 			add_tech_bonus = {
 				name = ITA_industria_della_gomma_sintetica
-				bonus = 0.75
+				bonus = 0.5
 				uses = 2
 				category = cat_synth_oil
 			}
@@ -3919,7 +3919,7 @@ focus_tree = {
 
 			add_tech_bonus = {
 				name = ITA_increase_artillery_production
-				bonus = 0.75
+				bonus = 0.5
 				uses = 2
 				category = artillery
 			}
@@ -4114,6 +4114,8 @@ focus_tree = {
 		icon = GFX_focus_ITA_moschettieri_del_duce
 		prerequisite = { focus = ITA_preserve_army_traditions }
 
+		dynamic = yes
+
 		x = 0
 		y = 2
 		relative_position_id = ITA_preserve_army_traditions
@@ -4154,7 +4156,7 @@ focus_tree = {
 
 			add_doctrine_cost_reduction = {
 				name = ITA_a_bandits_war
-				cost_reduction = 0.75
+				cost_reduction = 0.5
 				uses = 2
 				category = cat_mobile_warfare
 			}
@@ -4162,7 +4164,7 @@ focus_tree = {
 			add_tech_bonus = {
 				name = ITA_a_bandits_war
 				uses = 2
-				bonus = 0.75
+				bonus = 0.5
 				category = motorized_equipment
 				category = recon_tech
 			}
@@ -4173,7 +4175,7 @@ focus_tree = {
 				}
 				add_tech_bonus = {
 					name = ITA_a_bandits_war
-					bonus = 1.5
+					bonus = 1
 					uses = 1
 					category = cat_armored_cars
 				}
@@ -4335,7 +4337,7 @@ focus_tree = {
 
 			add_tech_bonus = {
 				name = ITA_italian_tankettes
-				bonus = 1.5
+				bonus = 1
 				uses = 1
 				category = cat_light_armor
 			}
@@ -4475,7 +4477,7 @@ focus_tree = {
 
 			add_tech_bonus = {
 				name = ITA_divisioni_alpine
-				bonus = 1.5
+				bonus = 1
 				uses = 1
 				category = mountaineers_tech
 			}
@@ -4589,7 +4591,7 @@ focus_tree = {
 
 			add_tech_bonus = {
 				name = ITA_fanti_dell_aria
-				bonus = 1.5
+				bonus = 1
 				uses = 1
 				category = para_tech
 			}
@@ -4625,7 +4627,7 @@ focus_tree = {
 
 			add_tech_bonus = {
 				name = ITA_self_propelled_guns
-				bonus = 1
+				bonus = 0.5
 				uses = 3
 				category = artillery
 			}
@@ -5710,11 +5712,24 @@ focus_tree = {
 			add_to_variable = { ITA_rm_navy_submarine_attack_factor = 0.05 }
 			custom_effect_tooltip = ITA_intensify_torpedo_manufacturing_rm_tt
 
-			add_tech_bonus = {
-				name = ITA_intensify_torpedo_manufacturing
-				bonus = 1.0
-				uses = 2
-				category = cat_torpedoes
+			if = {
+				limit = {
+					has_dlc = "Man the Guns"
+				}
+				add_tech_bonus = {
+					name = ITA_intensify_torpedo_manufacturing
+					bonus = 1.0
+					uses = 1
+					category = cat_torpedoes
+				}
+			}
+			else = {
+				add_doctrine_cost_reduction = {
+					name = ITA_intensify_torpedo_manufacturing
+					cost_reduction = 0.5
+					uses = 2
+					category = cat_trade_interdiction
+				}
 			}
 		}
 	}
@@ -6528,7 +6543,7 @@ focus_tree = {
 			add_tech_bonus = {
 				name = ITA_forza_navale_especiale
 				bonus = 1.0
-				uses = 2
+				uses = 1
 				category = marine_tech
 				category = tp_tech
 			}
@@ -6662,7 +6677,7 @@ focus_tree = {
 
 			add_tech_bonus = {
 				name = ITA_incrociatori_leggeri
-				bonus = 1.5
+				bonus = 1
 				uses = 1
 				category = cl_tech
 			}
@@ -6707,7 +6722,7 @@ focus_tree = {
 
 			add_tech_bonus = {
 				name = ITA_incrociatori_pesanti
-				bonus = 1.5
+				bonus = 1
 				uses = 1
 				category = ca_tech
 			}
@@ -6852,7 +6867,11 @@ focus_tree = {
 					amount = 2
 				}
 			}
-			
+			else = {
+				custom_effect_tooltip = ITA_modify_regia_marina_dynamic_modifier_ns_intro
+				add_to_variable = { ITA_rm_navy_submarine_attack_factor = 0.05 tooltip = navy_submarine_attack_factor_tt }
+			}
+
 			random_owned_controlled_state = {
 				limit = {
 					is_fully_controlled_by = ROOT
@@ -6932,6 +6951,10 @@ focus_tree = {
 					progress = 0.35
 					amount = 2
 				}
+			}
+			else = {
+				custom_effect_tooltip = ITA_modify_regia_marina_dynamic_modifier_ns_intro
+				add_to_variable = { ITA_rm_sub_retreat_speed = 0.05 tooltip = sub_retreat_speed_tt }
 			}
 
 			random_owned_controlled_state = {
@@ -7295,7 +7318,7 @@ focus_tree = {
 
 			add_tech_bonus = {
 				name = ITA_navi_da_battaglia
-				bonus = 1.5
+				bonus = 1
 				uses = 1
 				category = bb_tech
 			}
@@ -9689,7 +9712,11 @@ focus_tree = {
 		id = ITA_towards_a_greater_italy
 		icon = GFX_focus_ITA_greater_italy
 		prerequisite = { focus = ITA_strengthen_the_regime focus = ITA_blackshirt_loyalty focus = ITA_setting_course }
-		mutually_exclusive = { focus = ITA_mare_nostrum_bba }
+		#/BA_MOD_FIX
+			mutually_exclusive = {
+				focus = ITA_mare_nostrum_bba
+				focus = ITA_rise_of_pan_europeanism
+			}
 
 		x = 0
 		y = 1
@@ -12724,7 +12751,7 @@ focus_tree = {
 					parent_version = 0
 					allow_without_tech = yes #Makes no difference since appropriate tech is already researched, but it improves tooltip
 					modules = {
-						front_1_custom_slot = ship_anti_air_1
+						mid_1_custom_slot = ship_anti_air_1
 						rear_1_custom_slot = ship_mine_layer_1
 						fixed_ship_battery_slot = ship_light_battery_1
 						fixed_ship_anti_air_slot = ship_anti_air_1
@@ -12772,7 +12799,7 @@ focus_tree = {
 						fixed_ship_anti_air_slot = ship_anti_air_1
 						fixed_ship_fire_control_system_slot = ship_fire_control_system_0
 						fixed_ship_radar_slot = empty
-						fixed_ship_engine_slot = heavy_ship_engine_2
+						fixed_ship_engine_slot = cruiser_ship_engine_2
 						fixed_ship_secondaries_slot = ship_secondaries_1
 						fixed_ship_armor_slot = ship_armor_cruiser_1
 					}
@@ -12918,7 +12945,7 @@ focus_tree = {
 			}
 			add_tech_bonus = {
 				name = ITA_new_forms_of_weaponry
-				bonus = 1.5
+				bonus = 1
 				uses = 1
 				category = nuclear
 			}
@@ -13674,7 +13701,12 @@ focus_tree = {
 		id = ITA_mare_nostrum_bba
 		icon = GFX_focus_ITA_mare_nostrum
 		prerequisite = { focus = ITA_setting_course focus = ITA_strengthen_the_regime focus = ITA_blackshirt_loyalty }
-		mutually_exclusive = { focus = ITA_towards_a_greater_italy }
+		#/BA_MOD_FIX
+			mutually_exclusive = {
+				focus = ITA_towards_a_greater_italy
+				focus = ITA_rise_of_pan_europeanism
+			}
+		#BA_MOD_FIX/
 		x = 31
 		y = 0
 		offset = {
@@ -15009,7 +15041,7 @@ focus_tree = {
 				}
 				if = {
 					limit = {
-				 		has_character = ITA_vittorio_emanuele_iii
+						has_character = ITA_vittorio_emanuele_iii
 					}
 					ITA_vittorio_emanuele_iii = { add_country_leader_trait = king_of_albania }
 				}
@@ -15218,6 +15250,7 @@ focus_tree = {
 		relative_position_id = ITA_potential_allies_in_the_balkans
 		cost = 5
 		available = {
+			has_idea = PASTA_shock_to_daejeon
 			country_exists = SHA
 			NOT = { has_war_with = SHA }
 		}		 
@@ -15321,7 +15354,7 @@ focus_tree = {
 				country_event = {
 					id = PASTA_event.1
 					hours = 8
-				    random = 6
+					random = 6
 				}
 			}
 		}
@@ -15521,6 +15554,7 @@ focus_tree = {
 		}
 
 		available = {
+			has_idea = PASTA_shock_to_daejeon
 			NOT = { has_war_with = HUN }
 			custom_trigger_tooltip = {
 				tooltip = ITA_HUN_italy_same_tt
@@ -16029,9 +16063,9 @@ focus_tree = {
 
 			SWI = {
 				country_event = {
-				    id = BBA_italy_interaction_events.1
-				    days = 2
-				    random = 6
+					id = BBA_italy_interaction_events.1
+					days = 2
+					random = 6
 				}
 			}
 
@@ -16607,9 +16641,118 @@ focus_tree = {
 		}
 	}
 
+	focus = {
+		id = ITA_human_fascism
+		icon = GFX_focus_spr_masters_of_our_own_fate
+		prerequisite = { 
+			focus = ITA_italys_destiny
+			focus = ITA_war_with_france
+			focus = ITA_request_control_of_french_territories 
+		}
+		available = {
+			has_government = fascism
+			custom_trigger_tooltip = {
+				tooltip = ITA_human_fascism_tt
+				NOT = { has_country_flag = ITA_human_fascism_lock_trigger_flag }
+			}
+		}
 
+		x = -5
+		y = 7
+		relative_position_id = ITA_foreign_affairs
+		cost = 5
 
- ######  #### ##     ## #### ##          ##      ##    ###    ########         ######   #######          ########  ######## ##       ##       ####  ######   ######## ########  ######## ##    ## ######## 
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			if = {
+				limit = {
+					has_idea = PASTA_shock_to_daejeon
+				}
+				swap_ideas = {
+					remove_idea = PASTA_shock_to_daejeon
+					add_idea = PASTA_human_fascism_idea
+				}
+			}
+			else = {
+				add_ideas = PASTA_human_fascism_idea
+			}
+			custom_effect_tooltip = PASTA_human_fascism_idea_tt
+		}
+	}
+
+	focus = {
+		id = ITA_rise_of_pan_europeanism
+		icon = GFX_focus_ITA_rise_of_pan_europeanism
+		prerequisite = { 
+			focus = ITA_human_fascism 
+		}
+		mutually_exclusive = {
+			focus = ITA_towards_a_greater_italy
+			focus = ITA_mare_nostrum_bba
+		}
+		available = {
+			has_government = fascism
+			custom_trigger_tooltip = {
+				tooltip = ITA_human_fascism_tt
+				NOT = { has_country_flag = ITA_human_fascism_lock_trigger_flag }
+			}
+		}
+
+		x = 0
+		y = 3
+		relative_position_id = ITA_human_fascism
+		cost = 5
+
+		search_filters = { FOCUS_FILTER_POLITICAL }
+
+		completion_reward = {
+			if = {
+				limit = {
+					NOT = { has_rule = can_create_factions }
+				}
+				set_rule = { can_create_factions = yes }
+			}
+			if = {
+				limit = {
+					is_in_faction = no
+				}
+				create_faction = "italy_pan_europeanism"
+			}
+			unlock_decision_tooltip = form_pan_europea
+		}
+	}
+	
+	focus = {
+		id = ITA_europea_citizens
+		icon = GFX_focus_ETH_invite_italian_settlers
+		prerequisite = { focus = ITA_rise_of_pan_europeanism }
+
+		x = 2
+		y = 1
+		relative_position_id = ITA_rise_of_pan_europeanism
+		cost = 5
+		available = {
+		}
+
+		search_filters = {}
+
+		completion_reward = {
+			every_controlled_state = {
+				limit = {
+					is_on_continent = europe
+					is_fully_controlled_by = ROOT
+					NOT = { is_core_of = ROOT }
+				}
+				add_compliance = 10
+				add_resistance_target = -10
+			}
+		}
+	}
+
+##############################
+
+######  #### ##     ## #### ##          ##      ##    ###    ########         ######   #######          ########  ######## ##       ##       ####  ######   ######## ########  ######## ##    ## ######## 
 ##    ##  ##  ##     ##  ##  ##          ##  ##  ##   ## ##   ##     ##       ##    ## ##     ##         ##     ## ##       ##       ##        ##  ##    ##  ##       ##     ## ##       ###   ##    ##    
 ##        ##  ##     ##  ##  ##          ##  ##  ##  ##   ##  ##     ##       ##       ##     ##         ##     ## ##       ##       ##        ##  ##        ##       ##     ## ##       ####  ##    ##    
 ##        ##  ##     ##  ##  ##          ##  ##  ## ##     ## ########        ##       ##     ## ####### ########  ######   ##       ##        ##  ##   #### ######   ########  ######   ## ## ##    ##    
@@ -20493,7 +20636,7 @@ focus_tree = {
 
 			add_tech_bonus = {
 				name = ITA_bring_back_exiled_intellectuals
-				bonus = 1
+				bonus = 0.5
 				uses = 2
 				category = industry
 				category = electronics
@@ -20813,7 +20956,7 @@ focus_tree = {
 		completion_reward = {
 			hidden_effect = { #GUARANTEES
 				set_variable = { ITA_num_of_countries_guaranteed = 0 }
-				set_variable = { ITA_peace_keepers_consumer_goods_factor = 0.01 }
+				set_variable = { ITA_peace_keepers_consumer_goods_factor = 0.02 }
 				set_variable = { ITA_peace_keepers_war_support_factor = 0.01 }
 				set_variable = { ITA_peace_keepers_weekly_manpower = 100 }
 				every_other_country = {
@@ -21201,7 +21344,7 @@ focus_tree = {
 
 			add_tech_bonus = {
 				name = ITA_military_agreements
-				bonus = 0.75
+				bonus = 0.5
 				uses = 2
 				category = armor 
 				category = artillery
