@@ -16699,6 +16699,10 @@ focus_tree = {
 			}
 		}
 
+		allow_branch = {
+			NOT = { has_country_flag = ITA_pope_took_over_italy_flag }
+		}
+
 		x = 0
 		y = 3
 		relative_position_id = ITA_human_fascism
@@ -16722,13 +16726,113 @@ focus_tree = {
 			unlock_decision_tooltip = form_pan_europea
 		}
 	}
+
+	focus = {
+		id = ITA_comfort_more_comfort
+		icon = GFX_focus_ITA_bend_the_bars
+		prerequisite = { focus = ITA_rise_of_pan_europeanism }
+
+		x = -1
+		y = 1
+		relative_position_id = ITA_rise_of_pan_europeanism
+		cost = 5
+		available = {
+		}
+
+		search_filters = {}
+
+		completion_reward = {
+			if = {
+				limit = {
+					153 = { NOT = { is_claimed_by = ROOT } }
+				}
+				add_state_claim = 153
+				if = {
+					limit = {
+						153 = {
+							controller = {
+								ROOT = { NOT = { has_wargoal_against = PREV } } #Didn't get wargoal from Corsica script above
+								NOT = { has_war_with = ROOT }
+								NOT = { is_in_faction_with = ROOT }
+								NOT = { has_non_aggression_pact_with = ROOT }
+								NOT = { is_guaranteed_by = ROOT }
+							}
+						}
+					}
+					if = { #Same controller for Corsica and Tunisian states
+						limit = {
+							153 = {
+								controller = {
+									controls_state = 152
+									controls_state = 4
+								}
+							}
+						}
+						create_wargoal = {
+							type = take_state_focus
+							target = 153.controller
+							generator = { 153 152 4 }
+						}
+					}
+					else = { #Corsica and Tunisian states have different controllers
+						create_wargoal = {
+							type = take_state_focus
+							target = 153.controller
+							generator = { 153 }
+						}
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					32 = { NOT = { is_claimed_by = ROOT } }
+				}
+				add_state_claim = 32
+				if = {
+					limit = {
+						32 = {
+							controller = {
+								ROOT = { NOT = { has_wargoal_against = PREV } } #Didn't get wargoal from Corsica script above
+								NOT = { has_war_with = ROOT }
+								NOT = { is_in_faction_with = ROOT }
+								NOT = { has_non_aggression_pact_with = ROOT }
+								NOT = { is_guaranteed_by = ROOT }
+							}
+						}
+					}
+					if = { #Same controller for both Tunisian states
+						limit = {
+							32 = {
+								controller = {
+									controls_state = 21
+								}
+							}
+						}
+						create_wargoal = {
+							type = take_state_focus
+							target = 32.controller
+							generator = { 32 21 }
+						}
+					}
+					else = { #Each Tunisian states have different controllers
+						create_wargoal = {
+							type = take_state_focus
+							target = 32.controller
+							generator = { 32 }
+						}
+					}
+				}
+			}
+		}
+	}
 	
 	focus = {
 		id = ITA_europea_citizens
-		icon = GFX_focus_ETH_invite_italian_settlers
+		icon = GFX_focus_ITA_europea_citizens
 		prerequisite = { focus = ITA_rise_of_pan_europeanism }
 
-		x = 2
+		x = 1
 		y = 1
 		relative_position_id = ITA_rise_of_pan_europeanism
 		cost = 5
@@ -16746,6 +16850,83 @@ focus_tree = {
 				}
 				add_compliance = 10
 				add_resistance_target = -10
+			}
+		}
+	}
+	
+	focus = {
+		id = ITA_europea_army
+		icon = GFX_focus_generic_fascist_troops
+		prerequisite = { focus = ITA_comfort_more_comfort }
+		prerequisite = { focus = ITA_europea_citizens }
+
+		x = 0
+		y = 2
+		relative_position_id = ITA_rise_of_pan_europeanism
+		cost = 5
+		available = {
+		}
+
+		search_filters = {}
+
+		completion_reward = {
+			custom_effect_tooltip = ITA_europea_army_tt
+			add_to_variable = { ITA_re_army_attack_factor = 0.10 }
+			add_to_variable = { army_morale_factor = 0.10 }
+		}
+	}
+	
+	focus = {
+		id = ITA_one_europea
+		icon = GFX_focus_ITA_one_europea
+		prerequisite = { focus = ITA_europea_army }
+
+		x = 0
+		y = 1
+		relative_position_id = ITA_europea_army
+		cost = 5
+		available = {
+		}
+
+		search_filters = {}
+
+		completion_reward = {
+			custom_effect_tooltip = ITA_all_roads_lead_to_rome_wargoals_tt
+			if = {
+				limit = {
+					any_other_country = {
+						capital_scope = { is_on_continent = europe }
+						NOT = {
+							is_in_faction_with = ROOT
+							has_guaranteed = ROOT
+							is_guaranteed_by = ROOT
+							has_non_aggression_pact_with = ROOT
+							has_war_with = ROOT
+						}
+					}
+				}
+				custom_effect_tooltip = generic_current_effects
+				custom_effect_tooltip = generic_ROOT_gains_wargoal_tt
+				every_neighbor_country = {
+					limit = {
+						capital_scope = { is_on_continent = europe }
+						NOT = {
+							is_in_faction_with = ROOT
+							has_guaranteed = ROOT
+							is_guaranteed_by = ROOT
+							has_non_aggression_pact_with = ROOT
+							has_war_with = ROOT
+						}
+					}
+					hidden_effect = {
+						ROOT = {
+							create_wargoal = {
+								type = annex_everything
+								target = PREV
+							}
+						}
+					}
+				}
 			}
 		}
 	}
