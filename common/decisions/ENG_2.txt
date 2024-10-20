@@ -1164,7 +1164,7 @@ CAN_current_situation_categories = {
 			}
 		}
 	}
-	CAN_decision_test = {
+	CAN_decision_test = { # 망명자 집단의 요구
 		allowed = { tag = ENG}
 		available = { 
 			hidden_trigger = { always = no }
@@ -1179,7 +1179,7 @@ CAN_current_situation_categories = {
 			}
 		}
 	}
-	CAN_decision_test_2 = {
+	CAN_decision_test_2 = { # 의회의 요구
 		allowed = { tag = ENG}
 		available = { 
 			hidden_trigger = { always = no }
@@ -1194,7 +1194,53 @@ CAN_current_situation_categories = {
 			}
 		}
 	}
-	CAN_decision_test_3 = {
+	CAN_canada_request_1 = { # 캐나다 의회 요구 - 국왕의 캐나다 정부 지지 요구
+		allowed = { tag = ENG }
+		icon = GFX_decision_eng_abdication_crisis
+		available = { }
+		visible = {
+			tag = ENG
+			check_variable = { ENG_exile_gover_tap = 2 }
+		}
+		
+		fire_only_once = no
+		
+		days_remove = 70
+
+		complete_effect = {
+			ENG_uk_support_down = yes
+		}
+		remove_effect = {
+			ENG_can_gov_support_up = yes
+		}
+	}
+	CAN_canada_request_2 = { # 캐나다 의회 요구 - 정책 통과
+		allowed = { tag = ENG }
+		icon = eng_trade_unions_support
+		available = { }
+		visible = {
+			tag = ENG
+			check_variable = { ENG_exile_gover_tap = 2 }
+		}
+		
+		fire_only_once = no
+		
+		days_remove = 60
+		days_re_enable = 210
+		cost = 75
+
+		modifier = {
+			political_power_gain = -0.01
+		}
+
+		remove_effect = {
+			add_popularity = {
+				ideology = ROOT
+				popularity = 0.03
+			}
+		}
+	}
+	CAN_decision_test_3 = { # 대중의 요구
 		allowed = { tag = ENG}
 		available = { 
 			hidden_trigger = { always = no }
@@ -1206,6 +1252,134 @@ CAN_current_situation_categories = {
 					check_variable = { ENG_exile_gover_tap = 3 }
 				}
 				is_ai = yes
+			}
+		}
+	}
+	CAN_public_request_1 = { # 공통 요구 - 대공황을 해결 해보세요.
+		allowed = { tag = ENG }
+		icon = GFX_decision_generic_construction
+		available = {
+			custom_trigger_tooltip = {
+				tooltip = ENG_we_have_not_great_depression
+				NOT = {
+					has_idea = ENG_exile_shock
+					has_idea = ENG_great_depression
+					has_idea = ENG_great_depression_1
+					has_idea = ENG_great_depression_2
+					has_idea = ENG_great_depression_3
+					has_idea = ENG_great_depression_4
+					has_idea = ENG_great_depression_5
+					has_idea = ENG_great_depression_6
+					has_idea = ENG_great_depression_7
+					has_idea = ENG_great_depression_8
+					has_idea = ENG_great_depression_9
+				}
+			}
+		}
+		visible = {
+			tag = ENG
+			OR = {
+				check_variable = { ENG_exile_gover_tap = 3 }
+				check_variable = { ENG_exile_gover_tap = 2 }
+				check_variable = { ENG_exile_gover_tap = 1 }
+			}
+		}
+		fire_only_once = yes
+		complete_effect = {
+			custom_effect_tooltip = IMP_by_people
+			add_political_power = 120
+			add_stability = 0.15
+		}
+	}
+	CAN_public_request_2 = { # 공통 요구 - 영국병 치료
+		allowed = { tag = ENG }
+		icon = GFX_decision_generic_research
+		available = { 
+			has_completed_focus = CAN_vaccination
+		}
+		visible = {
+			tag = ENG
+			OR = {
+				check_variable = { ENG_exile_gover_tap = 3 }
+				check_variable = { ENG_exile_gover_tap = 2 }
+				check_variable = { ENG_exile_gover_tap = 1 }
+			}
+		}
+		fire_only_once = yes
+		complete_effect = {
+			custom_effect_tooltip = IMP_by_people
+			add_stability = 0.05
+			add_manpower = 10000
+			custom_effect_tooltip = IMP_by_uk_exile
+			add_war_support = 0.05
+			custom_effect_tooltip = IMP_by_parliament 
+			add_political_power = 120
+		}
+	}
+	CAN_public_request_3 = { # 공통 요구 - 본토 수복
+		allowed = { tag = ENG }
+		icon = GFX_decision_generic_nationalism
+		available = {
+			owns_state = 126
+			owns_state = 127
+			owns_state = 123
+			owns_state = 338
+			owns_state = 122
+			owns_state = 128
+			owns_state = 129
+			owns_state = 125
+			owns_state = 130
+			owns_state = 132
+			owns_state = 931
+			owns_state = 131
+			owns_state = 133
+			owns_state = 121
+			owns_state = 120
+			owns_state = 136
+		}
+		highlight_states = {
+			highlight_state_targets = {
+				state = 126
+				state = 127
+				state = 123
+				state = 338
+				state = 122
+				state = 128
+				state = 129
+				state = 125
+				state = 130
+				state = 132
+				state = 931
+				state = 131
+				state = 133
+				state = 121
+				state = 120
+				state = 136
+			}
+		}
+		visible = {
+			tag = ENG
+			OR = {
+				check_variable = { ENG_exile_gover_tap = 3 }
+				check_variable = { ENG_exile_gover_tap = 2 }
+				check_variable = { ENG_exile_gover_tap = 1 }
+			}
+		}
+		fire_only_once = yes
+		complete_effect = {
+			custom_effect_tooltip = IMP_by_people
+			add_stability = 0.05
+			add_manpower = 10000
+		}
+	}
+	CAN_decision_guide = {
+		allowed = { tag = ENG }
+		available = { hidden_trigger = { always = no } }
+		visible = {
+			NOT = {
+				check_variable = { ENG_exile_gover_tap = 3 }
+				check_variable = { ENG_exile_gover_tap = 2 }
+				check_variable = { ENG_exile_gover_tap = 1 }
 			}
 		}
 	}
