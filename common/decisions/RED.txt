@@ -3566,6 +3566,9 @@ RED_zenkyoutou_cat = {
 }
 RED_winter_war_cat = {
 	RED_winter_war_fake_money = { #위조지폐 발행
+		ai_will_do = {
+			base = 100
+		}
 		icon = GFX_decision_hol_attract_foreign_investors
 		cost = 200
 		available = {
@@ -3622,16 +3625,19 @@ RED_winter_war_cat = {
 			}
 		}
 	}
-	RED_winter_war_naval_isolate= { #해양 봉쇄
-		icon = GFX_decision_SWE_set_navy_budget
+	RED_winter_war_biochemical = { #생화학 무기
+		ai_will_do = {
+			base = 100
+		}
+		icon = GFX_decision_SWE_paid_holidays_policy
 		cost = 200
 		available = {
 			NOT = {
 				TRM = {
-					has_idea = RED_fake_money
+					has_idea = RED_biochemical
 				}
 				RED = {
-					has_idea = RED_fake_money
+					has_idea = RED_biochemical
 				}
 			}
 		}
@@ -3639,6 +3645,12 @@ RED_winter_war_cat = {
 			OR = {
 				has_war_with = RED
 				has_war_with = TRM
+			}
+			custom_trigger_tooltip = {
+				tooltip = RED_winter_war_biochemical_tt
+				NOT = {
+					has_global_flag = did_biochemical_flag
+				}
 			}
 		}
 		allowed = {
@@ -3649,6 +3661,28 @@ RED_winter_war_cat = {
 		}
 		fire_only_once = yes
 		complete_effect = {
+			set_global_flag = did_biochemical_flag
+			if = {
+				limit = {
+					ROOT = {
+						tag = RED
+					}
+				}
+				TRM = {
+					hidden_effect = {
+						country_event = RED_event.31
+					}
+					add_ideas = RED_biochemical
+				}
+			}
+			else = {
+				RED = {
+					hidden_effect = {
+						country_event = RED_event.31
+					}
+					add_ideas = RED_biochemical
+				}
+			}
 		}
 	}
 }
