@@ -63,7 +63,7 @@ focus_tree = {
 					instant_build = yes
 				}
 			}
-			140 = { 
+			919 = { 
 				add_building_construction = {
 					type = infrastructure
 					level = 1
@@ -91,6 +91,7 @@ focus_tree = {
 				remove_idea = RED_doomed_economy_idea
 				add_idea = RED_doomed_economy_idea_1
 			}
+			unlock_decision_category_tooltip = RED_population_issue_cat
 		}
 	}
 	focus = { # 경제 발전 계획
@@ -1778,14 +1779,17 @@ focus_tree = {
 		available = {
 			NOT = {
 				has_country_flag = RED_there_is_coup_flag
-				has_idea = RED_threat_of_coup
 			}
 		}
-		
+		bypass = {
+			NOT = {
+				has_idea = RED_threat_of_coup
+			}
+		}		
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 
 		completion_reward = {
-			add_stability = 0.05
+			remove_ideas = RED_threat_of_coup
 		}
 	}
 	focus = { # 구교사 재건축
@@ -1872,7 +1876,17 @@ focus_tree = {
 		search_filters = {FOCUS_FILTER_INDUSTRY}
 
 		completion_reward = {
-			add_political_power = 15
+			if = {
+				limit = {
+					NOT = {
+						has_country_flag = RED_population_issue_solved_flag
+					}
+				}
+				RED_population_solve = yes
+				every_owned_state = {
+					add_manpower = 200000
+				}
+			}
 		}
 	}
 	focus = { #군대에 배식 우선
@@ -2522,7 +2536,12 @@ focus_tree = {
 		cost = 5
 
 		completion_reward = {
-			remove_ideas = RED_threat_of_coup
+			if = {
+				limit = {
+					has_idea = RED_threat_of_coup
+				}
+				remove_ideas = RED_threat_of_coup
+			}
 			add_timed_idea = {
 				idea = RED_threat_of_coup_CUT
 				days = 180
@@ -3426,7 +3445,12 @@ focus_tree = {
 		cost = 5
 
 		completion_reward = {
-			remove_ideas = RED_threat_of_coup
+			if = {
+				limit = {
+					has_idea = RED_threat_of_coup
+				}
+				remove_ideas = RED_threat_of_coup
+			}
 		}
 	}
 	focus = { #체리노의 체제혁명
@@ -3445,7 +3469,12 @@ focus_tree = {
 			}
 		}
 		completion_reward = {
-			remove_ideas = RED_threat_of_coup
+			if = {
+				limit = {
+					has_idea = RED_threat_of_coup
+				}
+				remove_ideas = RED_threat_of_coup
+			}
 			custom_effect_tooltip = RED_cherino_s_systemic_revolution_tt
 			add_to_variable = {
 				RED_the_politburo_production_speed_buildings_factor = 0.10
